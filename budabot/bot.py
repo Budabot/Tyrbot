@@ -6,7 +6,10 @@ from budabot.crypt import generate_login_key
 
 
 class Bot:
-    def __init__(self, host, port):
+    def __init__(self):
+        self.socket = None
+
+    def connect(self, host, port):
         self.socket = socket.create_connection((host, port), 10)
 
     def login(self, username, password, character):
@@ -28,14 +31,13 @@ class Bot:
 
     def read_packet(self):
         """
-        Wait packet from server.
+        Wait for packet from server.
         """
 
         # Read data from server
         head = self.read_bytes(4)
         packet_type, packet_length = struct.unpack(">2H", head)
         data = self.read_bytes(packet_length)
-        print(packet_type)
 
         packet = ServerPacket.get_instance(packet_type, data)
         return packet

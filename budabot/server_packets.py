@@ -2,6 +2,17 @@ from budabot.packets import *
 
 
 class ServerPacket(Packet):
+    def __init__(self, packet_id, types, args):
+        self.id = packet_id
+        self.types = types
+        self.args = args
+
+    def to_bytes(self):
+        return encode_args(self.types, self.args)
+
+    def __str__(self):
+        return "ServerPacket(%d): %s" % (self.id, self.args)
+
     @classmethod
     def get_instance(cls, packet_id, data):
         if packet_id == LoginSeed.id:
@@ -64,14 +75,12 @@ class LoginSeed(ServerPacket):
 
     def __init__(self, seed):
         self.seed = seed
+        super().__init__(self.id, self.types, [self.seed])
 
     @classmethod
     def from_bytes(cls, data):
         args = decode_args(cls.types, data)
         return cls(*args)
-
-    def to_bytes(self):
-        return encode_args(self.types, [self.seed])
 
 
 class LoginOK(ServerPacket):
@@ -79,14 +88,11 @@ class LoginOK(ServerPacket):
     types = ""
 
     def __init__(self):
-        pass
+        super().__init__(self.id, self.types, [])
 
     @classmethod
     def from_bytes(cls, data):
         return cls()
-
-    def to_bytes(self):
-        return encode_args(self.types, [])
 
 
 class LoginError(ServerPacket):
@@ -95,14 +101,12 @@ class LoginError(ServerPacket):
 
     def __init__(self, message):
         self.message = message
+        super().__init__(self.id, self.types, [self.message])
 
     @classmethod
     def from_bytes(cls, data):
         args = decode_args(cls.types, data)
         return cls(*args)
-
-    def to_bytes(self):
-        return encode_args(self.types, [self.message])
 
 
 class LoginCharacterList(ServerPacket):
@@ -114,14 +118,12 @@ class LoginCharacterList(ServerPacket):
         self.names = names
         self.levels = levels
         self.online_statuses = online_statuses
+        super().__init__(self.id, self.types, [self.character_ids, self.names, self.levels, self.online_statuses])
 
     @classmethod
     def from_bytes(cls, data):
         args = decode_args(cls.types, data)
         return cls(*args)
-
-    def to_bytes(self):
-        return encode_args(self.types, [self.character_ids, self.names, self.levels, self.online_statuses])
 
 
 class CharacterUnknown(ServerPacket):
@@ -130,14 +132,12 @@ class CharacterUnknown(ServerPacket):
 
     def __init__(self, character_id):
         self.character_id = character_id
+        super().__init__(self.id, self.types, [self.character_id])
 
     @classmethod
     def from_bytes(cls, data):
         args = decode_args(cls.types, data)
         return cls(*args)
-
-    def to_bytes(self):
-        return encode_args(self.types, [self.character_id])
 
 
 class CharacterName(ServerPacket):
@@ -147,14 +147,12 @@ class CharacterName(ServerPacket):
     def __init__(self, character_id, name):
         self.character_id = character_id
         self.name = name
+        super().__init__(self.id, self.types, [self.character_id, self.name])
 
     @classmethod
     def from_bytes(cls, data):
         args = decode_args(cls.types, data)
         return cls(*args)
-
-    def to_bytes(self):
-        return encode_args(self.types, [self.character_id, self.name])
 
 
 class CharacterLookup(ServerPacket):
@@ -164,14 +162,12 @@ class CharacterLookup(ServerPacket):
     def __init__(self, character_id, name):
         self.character_id = character_id
         self.name = name
+        super().__init__(self.id, self.types, [self.character_id, self.name])
 
     @classmethod
     def from_bytes(cls, data):
         args = decode_args(cls.types, data)
         return cls(*args)
-
-    def to_bytes(self):
-        return encode_args(self.types, [self.character_id, self.name])
 
 
 class PrivateMessage(ServerPacket):
@@ -182,14 +178,12 @@ class PrivateMessage(ServerPacket):
         self.character_id = character_id
         self.message = message
         self.blob = blob
+        super().__init__(self.id, self.types, [self.character_id, self.message, self.blob])
 
     @classmethod
     def from_bytes(cls, data):
         args = decode_args(cls.types, data)
         return cls(*args)
-
-    def to_bytes(self):
-        return encode_args(self.types, [self.character_id, self.message, self.blob])
 
 
 class VicinityMessage(ServerPacket):
@@ -200,14 +194,12 @@ class VicinityMessage(ServerPacket):
         self.character_id = character_id
         self.message = message
         self.blob = blob
+        super().__init__(self.id, self.types, [self.character_id, self.message, self.blob])
 
     @classmethod
     def from_bytes(cls, data):
         args = decode_args(cls.types, data)
         return cls(*args)
-
-    def to_bytes(self):
-        return encode_args(self.types, [self.character_id, self.message, self.blob])
 
 
 class BroadcastMessage(ServerPacket):
@@ -218,14 +210,12 @@ class BroadcastMessage(ServerPacket):
         self.text = text
         self.message = message
         self.blob = blob
+        super().__init__(self.id, self.types, [self.text, self.message, self.blob])
 
     @classmethod
     def from_bytes(cls, data):
         args = decode_args(cls.types, data)
         return cls(*args)
-
-    def to_bytes(self):
-        return encode_args(self.types, [self.text, self.message, self.blob])
 
 
 class SimpleSystemMessage(ServerPacket):
@@ -234,14 +224,12 @@ class SimpleSystemMessage(ServerPacket):
 
     def __init__(self, message):
         self.message = message
+        super().__init__(self.id, self.types, [self.message])
 
     @classmethod
     def from_bytes(cls, data):
         args = decode_args(cls.types, data)
         return cls(*args)
-
-    def to_bytes(self):
-        return encode_args(self.types, [self.message])
 
 
 class SystemMessage(ServerPacket):
@@ -253,14 +241,12 @@ class SystemMessage(ServerPacket):
         self.window_id = window_id
         self.message_id = message_id
         self.message_args = message_args
+        super().__init__(self.id, self.types, [self.client_id, self.window_id, self.message_id, self.message_args])
 
     @classmethod
     def from_bytes(cls, data):
         args = decode_args(cls.types, data)
         return cls(*args)
-
-    def to_bytes(self):
-        return encode_args(self.types, [self.client_id, self.window_id, self.message_id, self.message_args])
 
 
 class BuddyAdded(ServerPacket):
@@ -271,14 +257,12 @@ class BuddyAdded(ServerPacket):
         self.character_id = character_id
         self.online = online
         self.status = status
+        super().__init__(self.id, self.types, [self.character_id, self.online, self.status])
 
     @classmethod
     def from_bytes(cls, data):
         args = decode_args(cls.types, data)
         return cls(*args)
-
-    def to_bytes(self):
-        return encode_args(self.types, [self.character_id, self.online, self.status])
 
 
 class BuddyRemoved(ServerPacket):
@@ -287,14 +271,12 @@ class BuddyRemoved(ServerPacket):
 
     def __init__(self, character_id):
         self.character_id = character_id
+        super().__init__(self.id, self.types, [self.character_id])
 
     @classmethod
     def from_bytes(cls, data):
         args = decode_args(cls.types, data)
         return cls(*args)
-
-    def to_bytes(self):
-        return encode_args(self.types, [self.character_id])
 
 
 class PrivateChannelInvited(ServerPacket):
@@ -303,14 +285,12 @@ class PrivateChannelInvited(ServerPacket):
 
     def __init__(self, private_channel_id):
         self.private_channel_id = private_channel_id
+        super().__init__(self.id, self.types, [self.private_channel_id])
 
     @classmethod
     def from_bytes(cls, data):
         args = decode_args(cls.types, data)
         return cls(*args)
-
-    def to_bytes(self):
-        return encode_args(self.types, [self.private_channel_id])
 
 
 class PrivateChannelKicked(ServerPacket):
@@ -319,14 +299,12 @@ class PrivateChannelKicked(ServerPacket):
 
     def __init__(self, private_channel_id):
         self.private_channel_id = private_channel_id
+        super().__init__(self.id, self.types, [self.private_channel_id])
 
     @classmethod
     def from_bytes(cls, data):
         args = decode_args(cls.types, data)
         return cls(*args)
-
-    def to_bytes(self):
-        return encode_args(self.types, [self.private_channel_id])
 
 
 class PrivateChannelLeft(ServerPacket):
@@ -335,14 +313,12 @@ class PrivateChannelLeft(ServerPacket):
 
     def __init__(self, private_channel_id):
         self.private_channel_id = private_channel_id
+        super().__init__(self.id, self.types, [self.private_channel_id])
 
     @classmethod
     def from_bytes(cls, data):
         args = decode_args(cls.types, data)
         return cls(*args)
-
-    def to_bytes(self):
-        return encode_args(self.types, [self.private_channel_id])
 
 
 class PrivateChannelClientJoined(ServerPacket):
@@ -352,14 +328,12 @@ class PrivateChannelClientJoined(ServerPacket):
     def __init__(self, private_channel_id, character_id):
         self.private_channel_id = private_channel_id
         self.character_id = character_id
+        super().__init__(self.id, self.types, [self.private_channel_id, self.character_id])
 
     @classmethod
     def from_bytes(cls, data):
         args = decode_args(cls.types, data)
         return cls(*args)
-
-    def to_bytes(self):
-        return encode_args(self.types, [self.private_channel_id, self.character_id])
 
 
 class PrivateChannelClientLeft(ServerPacket):
@@ -369,14 +343,12 @@ class PrivateChannelClientLeft(ServerPacket):
     def __init__(self, private_channel_id, character_id):
         self.private_channel_id = private_channel_id
         self.character_id = character_id
+        super().__init__(self.id, self.types, [self.private_channel_id, self.character_id])
 
     @classmethod
     def from_bytes(cls, data):
         args = decode_args(cls.types, data)
         return cls(*args)
-
-    def to_bytes(self):
-        return encode_args(self.types, [self.private_channel_id, self.character_id])
 
 
 class PrivateChannelMessage(ServerPacket):
@@ -388,14 +360,12 @@ class PrivateChannelMessage(ServerPacket):
         self.character_id = character_id
         self.message = message
         self.blob = blob
+        super().__init__(self.id, self.types, [self.private_channel_id, self.character_id, self.message, self.blob])
 
     @classmethod
     def from_bytes(cls, data):
         args = decode_args(cls.types, data)
         return cls(*args)
-
-    def to_bytes(self):
-        return encode_args(self.types, [self.private_channel_id, self.character_id, self.message, self.blob])
 
 
 class PrivateChannelInviteRefused(ServerPacket):
@@ -405,14 +375,12 @@ class PrivateChannelInviteRefused(ServerPacket):
     def __init__(self, private_channel_id, character_id):
         self.private_channel_id = private_channel_id
         self.character_id = character_id
+        super().__init__(self.id, self.types, [self.private_channel_id, self.character_id])
 
     @classmethod
     def from_bytes(cls, data):
         args = decode_args(cls.types, data)
         return cls(*args)
-
-    def to_bytes(self):
-        return encode_args(self.types, [self.private_channel_id, self.character_id])
 
 
 class PublicChannelJoined(ServerPacket):
@@ -424,14 +392,12 @@ class PublicChannelJoined(ServerPacket):
         self.name = name
         self.unknown = unknown
         self.flags = flags
+        super().__init__(self.id, self.types, [self.channel_id, self.name, self.unknown, self.flags])
 
     @classmethod
     def from_bytes(cls, data):
         args = decode_args(cls.types, data)
         return cls(*args)
-
-    def to_bytes(self):
-        return encode_args(self.types, [self.channel_id, self.name, self.unknown, self.flags])
 
 
 class PublicChannelLeft(ServerPacket):
@@ -440,14 +406,12 @@ class PublicChannelLeft(ServerPacket):
 
     def __init__(self, channel_id):
         self.channel_id = channel_id
+        super().__init__(self.id, self.types, [self.channel_id])
 
     @classmethod
     def from_bytes(cls, data):
         args = decode_args(cls.types, data)
         return cls(*args)
-
-    def to_bytes(self):
-        return encode_args(self.types, [self.channel_id])
 
 
 class PublicChannelMessage(ServerPacket):
@@ -459,14 +423,12 @@ class PublicChannelMessage(ServerPacket):
         self.character_id = character_id
         self.message = message
         self.blob = blob
+        super().__init__(self.id, self.types, [self.channel_id, self.character_id, self.message, self.blob])
 
     @classmethod
     def from_bytes(cls, data):
         args = decode_args(cls.types, data)
         return cls(*args)
-
-    def to_bytes(self):
-        return encode_args(self.types, [self.channel_id, self.character_id, self.message, self.blob])
 
 
 class Pong(ServerPacket):
@@ -475,11 +437,9 @@ class Pong(ServerPacket):
 
     def __init__(self, blob):
         self.blob = blob
+        super().__init__(self.id, self.types, [self.blob])
 
     @classmethod
     def from_bytes(cls, data):
         args = decode_args(cls.types, data)
         return cls(*args)
-
-    def to_bytes(self):
-        return encode_args(self.types, [self.blob])
