@@ -1,9 +1,9 @@
 import json
-from bot import Bot
+from budabot import Budabot
 
 config = json.load(open("./conf/config.json", "r"))
 
-bot = Bot()
+bot = Budabot()
 bot.connect("chat.d1.funcom.com", 7105)
 bot.login(config["username"], config["password"], config["character"])
 bot.run()

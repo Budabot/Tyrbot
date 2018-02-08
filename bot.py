@@ -30,12 +30,6 @@ class Bot:
         packet = self.read_packet()
         return packet.id == LoginOK.id
 
-    def run(self):
-        while True:
-            packet = self.read_packet()
-            if packet is not None:
-                print(packet)
-
     def read_packet(self, time=1):
         """
         Wait for packet from server.
