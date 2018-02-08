@@ -1,4 +1,4 @@
-from budabot.bot import Bot
+from bot import Bot
 
 bot = Bot()
 bot.connect("chat.d1.funcom.com", 7105)

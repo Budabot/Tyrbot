@@ -1,8 +1,8 @@
 import socket
 import struct
-from budabot.server_packets import ServerPacket, LoginOK
-from budabot.client_packets import LoginRequest, LoginSelect
-from budabot.crypt import generate_login_key
+from server_packets import ServerPacket, LoginOK
+from client_packets import LoginRequest, LoginSelect
+from crypt import generate_login_key
 
 
 class Bot:

@@ -1,4 +1,4 @@
-from budabot.packets import *
+from packets import *
 
 
 class ClientPacket(Packet):
