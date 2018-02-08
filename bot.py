@@ -1,5 +1,6 @@
 import socket
 import struct
+import select
 from server_packets import ServerPacket, LoginOK
 from client_packets import LoginRequest, LoginSelect
 from crypt import generate_login_key
@@ -29,18 +30,27 @@ class Bot:
         packet = self.read_packet()
         return packet.id == LoginOK.id
 
-    def read_packet(self):
+    def run(self):
+        while True:
+            packet = self.read_packet()
+            if packet is not None:
+                print(packet)
+
+    def read_packet(self, time=1):
         """
         Wait for packet from server.
         """
 
-        # Read data from server
-        head = self.read_bytes(4)
-        packet_type, packet_length = struct.unpack(">2H", head)
-        data = self.read_bytes(packet_length)
+        if not select.select([self.socket], [], [], time)[0]:
+            return None
+        else:
+            # Read data from server
+            head = self.read_bytes(4)
+            packet_type, packet_length = struct.unpack(">2H", head)
+            data = self.read_bytes(packet_length)
 
-        packet = ServerPacket.get_instance(packet_type, data)
-        return packet
+            packet = ServerPacket.get_instance(packet_type, data)
+            return packet
 
     def send_packet(self, packet):
         data = packet.to_bytes()
