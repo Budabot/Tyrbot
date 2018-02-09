@@ -1,45 +1,63 @@
 from bot import Bot
 from buddy_manager import BuddyManager
 from character_manager import CharacterManager
+from registry import instance
+import logging
 import server_packets
 import client_packets
 
 
+@instance
 class Budabot(Bot):
+    logger = logging.getLogger("Budabot")
+
     def __init__(self):
         self.public_channels = {}
         self.ready = False
         self.buddy_list_size = 1000
-        self.buddy_manager = BuddyManager()
-        self.character_manager = CharacterManager()
         super().__init__()
 
+    def inject(self, get_instance):
+        self.buddy_manager: BuddyManager = get_instance("buddymanager")
+        self.character_manager: CharacterManager = get_instance("charactermanager")
+
     def run(self):
+        while None is not self.iterate():
+            pass
+
+        self.ready = True
+
         while True:
-            packet = self.read_packet()
-            if packet is not None:
-                print(packet)
-                if isinstance(packet, server_packets.PrivateMessage):
-                    self.handle_private_message(packet)
-                elif isinstance(packet, server_packets.CharacterLookup) or isinstance(packet, server_packets.CharacterName):
-                    self.handle_character_lookup(packet)
-                elif isinstance(packet, server_packets.PublicChannelJoined):
-                    self.handle_public_channel_joined(packet)
-                elif isinstance(packet, server_packets.LoginOK):
-                    self.buddy_list_size += 1000
-                elif isinstance(packet, server_packets.BuddyAdded):
-                    self.handle_buddy_added(packet)
-            else:
-                self.ready = True
+            self.iterate()
+
+    def iterate(self):
+        packet = self.read_packet()
+        if packet is not None:
+            print(packet)
+            if isinstance(packet, server_packets.PrivateMessage):
+                self.handle_private_message(packet)
+            elif isinstance(packet, server_packets.CharacterLookup) or isinstance(packet, server_packets.CharacterName):
+                self.handle_character_lookup(packet)
+            elif isinstance(packet, server_packets.PublicChannelJoined):
+                self.handle_public_channel_joined(packet)
+            elif isinstance(packet, server_packets.LoginOK):
+                self.buddy_list_size += 1000
+            elif isinstance(packet, server_packets.BuddyAdded):
+                self.handle_buddy_added(packet)
+            return packet
+        else:
+            return None
 
     def send_org_message(self, message):
         pass
 
-    def send_private_message(self, character_name, message):
-        # TODO
-        character_id = self.character_manager.get_character_id(character_name)
-        packet = client_packets.PrivateMessage(character_id, message, "")
-        self.send_packet(packet)
+    def send_private_message(self, char, message):
+        char_id = self.character_manager.resolve_char_to_id(char)
+        if char_id is None:
+            self.logger.warning("Could not send message to %s, could not find char id" % char)
+        else:
+            packet = client_packets.PrivateMessage(char_id, message, "")
+            self.send_packet(packet)
 
     def send_private_channel_message(self, char, message, private_channel=None):
         pass
