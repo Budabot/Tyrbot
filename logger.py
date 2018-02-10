@@ -20,3 +20,9 @@ class Logger:
 
     def error(self, msg):
         self.logger.error(msg)
+
+    def log_chat(self, channel, sender, msg):
+        self.info("[%s] %s: %s" % (channel, sender, msg))
+
+    def log_tell(self, direction, sender, msg):
+        self.info("%s %s: %s" % (direction.capitalize(), sender, msg))
