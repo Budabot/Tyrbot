@@ -20,10 +20,7 @@ class Registry:
 
     @classmethod
     def get_instance(cls, name):
-        if name.lower() in cls._registry:
-            return cls._registry[name.lower()]
-        else:
-            return None
+        return cls._registry.get(name.lower(), None)
 
     @classmethod
     def add_instance(cls, name, inst):

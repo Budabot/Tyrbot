@@ -14,10 +14,7 @@ class PublicChannelManager:
         pass
 
     def get_channel_id(self, channel_name):
-        if channel_name in self.name_to_id:
-            return self.name_to_id[channel_name]
-        else:
-            return None
+        return self.name_to_id.get(channel_name, None)
 
     def get_channel_name(self, channel_id):
         return self.id_to_name[channel_id]

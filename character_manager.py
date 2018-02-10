@@ -23,10 +23,7 @@ class CharacterManager:
             while char_name not in self.name_to_id:
                 self.bot.iterate()
 
-            if char_name in self.name_to_id:
-                return self.name_to_id[char_name]
-            else:
-                return None
+            return self.name_to_id.get(char_name, None)
 
     def resolve_char_to_id(self, char):
         if isinstance(char, int):
@@ -35,7 +32,7 @@ class CharacterManager:
             return self.get_char_id(char)
 
     def get_char_name(self, char_id):
-        return self.id_to_name[char_id]
+        return self.id_to_name.get(char_id, None)
 
     def update(self, packet):
         self.id_to_name[packet.character_id] = packet.name

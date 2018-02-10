@@ -19,10 +19,7 @@ class BuddyManager:
 
     def get_buddy(self, char):
         char_id = self.character_manager.resolve_char_to_id(char)
-        if char_id in self.buddy_list:
-            return self.buddy_list[char_id]
-        else:
-            return None
+        return self.buddy_list.get(char_id, None)
 
     def is_online(self, char):
         char_id = self.character_manager.resolve_char_to_id(char)
