@@ -1,18 +1,24 @@
-_registry = {}
-
-
 def instance(cls):
-    _registry[cls.__name__.lower()] = cls()
+    Registry.add_instance(cls.__name__, cls())
     return cls
 
 
-def inject_all():
-    for key in _registry:
-        _registry[key].inject(get_instance)
+class Registry:
+    _registry = {}
 
+    @classmethod
+    def inject_all(cls):
+        from budabot import Budabot  # needed to load budabot class
+        for key in cls._registry:
+            cls._registry[key].inject(cls)
 
-def get_instance(name):
-    if name.lower() in _registry:
-        return _registry[name.lower()]
-    else:
-        return None
+    @classmethod
+    def get_instance(cls, name):
+        if name.lower() in cls._registry:
+            return cls._registry[name.lower()]
+        else:
+            return None
+
+    @classmethod
+    def add_instance(cls, name, inst):
+        cls._registry[name.lower()] = inst

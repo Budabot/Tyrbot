@@ -13,9 +13,9 @@ class Budabot(Bot):
         self.ready = False
         super().__init__()
 
-    def inject(self, get_instance):
-        self.buddy_manager: BuddyManager = get_instance("buddymanager")
-        self.character_manager: CharacterManager = get_instance("charactermanager")
+    def inject(self, registry):
+        self.buddy_manager: BuddyManager = registry.get_instance("buddymanager")
+        self.character_manager: CharacterManager = registry.get_instance("charactermanager")
 
     def run(self):
         while None is not self.iterate():

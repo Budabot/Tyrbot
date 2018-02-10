@@ -8,8 +8,8 @@ class BuddyManager:
         self.buddy_list = {}
         self.buddy_list_size = 1000
 
-    def inject(self, get_instance):
-        self.character_manager: CharacterManager = get_instance("charactermanager")
+    def inject(self, registry):
+        self.character_manager: CharacterManager = registry.get_instance("charactermanager")
 
     def update(self, packet):
         self.buddy_list[packet.character_id] = {"online": packet.online}

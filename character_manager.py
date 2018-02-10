@@ -8,8 +8,8 @@ class CharacterManager:
         self.name_to_id = {}
         self.id_to_name = {}
 
-    def inject(self, get_instance):
-        self.bot = get_instance("budabot")
+    def inject(self, registry):
+        self.bot = registry.get_instance("budabot")
 
     def get_char_id(self, char_name):
         char_name = char_name.capitalize()
