@@ -11,6 +11,9 @@ class CharacterManager:
     def inject(self, registry):
         self.bot = registry.get_instance("budabot")
 
+    def start(self):
+        pass
+
     def get_char_id(self, char_name):
         char_name = char_name.capitalize()
         if char_name in self.name_to_id:

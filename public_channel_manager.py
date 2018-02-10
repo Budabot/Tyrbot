@@ -10,6 +10,9 @@ class PublicChannelManager:
     def inject(self, registry):
         self.bot = registry.get_instance("budabot")
 
+    def start(self):
+        pass
+
     def get_channel_id(self, channel_name):
         if channel_name in self.name_to_id:
             return self.name_to_id[channel_name]

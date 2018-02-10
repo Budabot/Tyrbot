@@ -11,6 +11,9 @@ class BuddyManager:
     def inject(self, registry):
         self.character_manager: CharacterManager = registry.get_instance("charactermanager")
 
+    def start(self):
+        pass
+
     def update(self, packet):
         self.buddy_list[packet.character_id] = {"online": packet.online}
 

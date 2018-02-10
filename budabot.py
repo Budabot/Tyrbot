@@ -18,6 +18,9 @@ class Budabot(Bot):
         self.character_manager: CharacterManager = registry.get_instance("charactermanager")
         self.public_channel_manager: PublicChannelManager = registry.get_instance("publicchannelmanager")
 
+    def start(self):
+        pass
+
     def run(self):
         while None is not self.iterate():
             pass
