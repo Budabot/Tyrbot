@@ -2,19 +2,15 @@ from bot import Bot
 from buddy_manager import BuddyManager
 from character_manager import CharacterManager
 from registry import instance
-import logging
 import server_packets
 import client_packets
 
 
 @instance
 class Budabot(Bot):
-    logger = logging.getLogger("Budabot")
-
     def __init__(self):
         self.public_channels = {}
         self.ready = False
-        self.buddy_list_size = 1000
         super().__init__()
 
     def inject(self, get_instance):
@@ -33,7 +29,6 @@ class Budabot(Bot):
     def iterate(self):
         packet = self.read_packet()
         if packet is not None:
-            print(packet)
             if isinstance(packet, server_packets.PrivateMessage):
                 self.handle_private_message(packet)
             elif isinstance(packet, server_packets.CharacterLookup) or isinstance(packet, server_packets.CharacterName):
@@ -41,7 +36,7 @@ class Budabot(Bot):
             elif isinstance(packet, server_packets.PublicChannelJoined):
                 self.handle_public_channel_joined(packet)
             elif isinstance(packet, server_packets.LoginOK):
-                self.buddy_list_size += 1000
+                self.buddy_manager.buddy_list_size += 1000
             elif isinstance(packet, server_packets.BuddyAdded):
                 self.handle_buddy_added(packet)
             return packet

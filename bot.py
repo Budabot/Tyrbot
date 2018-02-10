@@ -3,17 +3,21 @@ import struct
 import select
 from server_packets import ServerPacket, LoginOK
 from client_packets import LoginRequest, LoginSelect
+from logger import Logger
 from crypt import generate_login_key
 
 
 class Bot:
     def __init__(self):
         self.socket = None
+        self.logger = Logger("Budabot")
 
     def connect(self, host, port):
+        self.logger.info("Connecting to %s:%d" % (host, port))
         self.socket = socket.create_connection((host, port), 10)
 
     def login(self, username, password, character):
+        self.logger.info(("Logging in as %s" % character))
         seed_packet = self.read_packet()
         seed = seed_packet.seed
 
@@ -28,7 +32,12 @@ class Bot:
         self.send_packet(login_select_packet)
 
         packet = self.read_packet()
-        return packet.id == LoginOK.id
+        if packet.id == LoginOK.id:
+            self.logger.info("Connected!")
+        else:
+            self.logger.error("Error logging in: %s" % packet.message)
+
+        return packet
 
     def read_packet(self, time=1):
         """

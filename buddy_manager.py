@@ -6,6 +6,7 @@ from character_manager import CharacterManager
 class BuddyManager:
     def __init__(self):
         self.buddy_list = {}
+        self.buddy_list_size = 1000
 
     def inject(self, get_instance):
         self.character_manager: CharacterManager = get_instance("charactermanager")
