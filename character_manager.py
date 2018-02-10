@@ -1,5 +1,6 @@
 from registry import instance
 from client_packets import CharacterLookup
+import server_packets
 
 
 @instance
@@ -12,7 +13,8 @@ class CharacterManager:
         self.bot = registry.get_instance("budabot")
 
     def start(self):
-        pass
+        self.bot.add_packet_handler(server_packets.CharacterLookup.id, self.update)
+        self.bot.add_packet_handler(server_packets.CharacterName.id, self.update)
 
     def get_char_id(self, char_name):
         char_name = char_name.capitalize()

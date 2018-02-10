@@ -1,5 +1,6 @@
 from registry import instance
 from character_manager import CharacterManager
+import server_packets
 
 
 @instance
@@ -10,12 +11,21 @@ class BuddyManager:
 
     def inject(self, registry):
         self.character_manager: CharacterManager = registry.get_instance("charactermanager")
+        self.bot = registry.get_instance("budabot")
 
     def start(self):
-        pass
+        self.bot.add_packet_handler(server_packets.BuddyAdded.id, self.add)
+        self.bot.add_packet_handler(server_packets.BuddyRemoved.id, self.remove)
+        self.bot.add_packet_handler(server_packets.LoginOK.id, self.buddy_list_size)
 
-    def update(self, packet):
+    def add(self, packet):
         self.buddy_list[packet.character_id] = {"online": packet.online}
+
+    def remove(self, packet):
+        del self.buddy_list[packet.character_id]
+
+    def buddy_list_size(self):
+        self.buddy_list_size += 1000
 
     def get_buddy(self, char):
         char_id = self.character_manager.resolve_char_to_id(char)

@@ -1,4 +1,5 @@
 from registry import instance
+import server_packets
 
 
 @instance
@@ -11,7 +12,8 @@ class PublicChannelManager:
         self.bot = registry.get_instance("budabot")
 
     def start(self):
-        pass
+        self.bot.add_packet_handler(server_packets.PublicChannelJoined, self.add)
+        self.bot.add_packet_handler(server_packets.PublicChannelLeft, self.remove)
 
     def get_channel_id(self, channel_name):
         return self.name_to_id.get(channel_name, None)

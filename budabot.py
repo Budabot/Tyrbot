@@ -10,8 +10,9 @@ import client_packets
 @instance
 class Budabot(Bot):
     def __init__(self):
-        self.ready = False
         super().__init__()
+        self.ready = False
+        self.packet_handlers = {}
 
     def inject(self, registry):
         self.buddy_manager: BuddyManager = registry.get_instance("buddymanager")
@@ -30,26 +31,19 @@ class Budabot(Bot):
         while True:
             self.iterate()
 
+    def add_packet_handler(self, packet_id, handler):
+        handlers = self.packet_handlers.get(packet_id, [])
+        handlers.append(handler)
+        self.packet_handlers[packet_id] = handlers
+
     def iterate(self):
         packet = self.read_packet()
         if packet is not None:
+            for handler in self.packet_handlers.get(packet.id, []):
+                handler(packet)
+
             if isinstance(packet, server_packets.PrivateMessage):
                 self.handle_private_message(packet)
-
-            elif isinstance(packet, server_packets.CharacterLookup) or isinstance(packet, server_packets.CharacterName):
-                self.handle_character_lookup(packet)
-
-            elif isinstance(packet, server_packets.PublicChannelJoined):
-                self.handle_public_channel_joined(packet)
-
-            elif isinstance(packet, server_packets.PublicChannelLeft):
-                self.handle_public_channel_left(packet)
-
-            elif isinstance(packet, server_packets.LoginOK):
-                self.buddy_manager.buddy_list_size += 1000
-
-            elif isinstance(packet, server_packets.BuddyAdded):
-                self.handle_buddy_added(packet)
 
             return packet
         else:
@@ -69,12 +63,6 @@ class Budabot(Bot):
     def send_private_channel_message(self, char, message, private_channel=None):
         pass
 
-    def add_buddy(self, char):
-        pass
-
-    def remove_buddy(self, char):
-        pass
-
     def handle_private_message(self, packet: server_packets.PrivateMessage):
         self.logger.log_tell("From", self.character_manager.get_char_name(packet.character_id), packet.message)
         pass
@@ -84,18 +72,6 @@ class Budabot(Bot):
             self.public_channel_manager.get_channel_name(packet.channel_id),
             self.character_manager.get_char_name(packet.character_id),
             packet.message)
-
-    def handle_character_lookup(self, packet):
-        self.character_manager.update(packet)
-
-    def handle_public_channel_joined(self, packet: server_packets.PublicChannelJoined):
-        self.public_channel_manager.add(packet)
-
-    def handle_public_channel_left(self, packet: server_packets.PublicChannelLeft):
-        self.public_channel_manager.remove(packet)
-
-    def handle_buddy_added(self, packet):
-        self.buddy_manager.update(packet)
 
     def is_ready(self):
         return self.ready
