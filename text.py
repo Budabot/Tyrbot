@@ -1,4 +1,5 @@
 from decorators import instance
+from setting_manager import SettingManager
 
 
 @instance
@@ -7,7 +8,7 @@ class Text:
         pass
 
     def inject(self, registry):
-        pass
+        self.setting_manager: SettingManager = registry.get_instance("settingmanager")
 
     def start(self):
         pass
@@ -88,9 +89,9 @@ class Text:
 
     def format_message(self, msg):
         return msg\
-            .replace("<header>", "TODO",)\
-            .replace("<header2>", "TODO")\
-            .replace("<highlight>", "TODO")\
+            .replace("<header>", self.setting_manager.get("header_color"))\
+            .replace("<header2>", self.setting_manager.get("header2_color"))\
+            .replace("<highlight>", self.setting_manager.get("highlight_color"))\
             \
             .replace("<black>", "<font color='#000000'>") \
             .replace("<white>", "<font color='#FFFFFF'>")\
@@ -103,14 +104,14 @@ class Text:
             .replace("<cyan>", "<font color='#00FFFF'>")\
             .replace("<violet>", "<font color='#8F00FF'>")\
             \
-            .replace("<neutral>", "TODO")\
-            .replace("<omni>", "TODO")\
-            .replace("<clan>", "TODO")\
-            .replace("<unknown>", "TODO")\
+            .replace("<neutral>", self.setting_manager.get("neutral_color"))\
+            .replace("<omni>", self.setting_manager.get("omni_color"))\
+            .replace("<clan>", self.setting_manager.get("clan_color"))\
+            .replace("<unknown>", self.setting_manager.get("unknown_color"))\
             \
             .replace("<myname>", "TODO")\
             .replace("<myorg>", "TODO")\
             .replace("<tab>", "    ")\
             .replace("<end>", "</font>")\
-            .replace("<symbol>", "TODO")\
+            .replace("<symbol>", self.setting_manager.get("symbol"))\
             .replace("<br>", "\n")
