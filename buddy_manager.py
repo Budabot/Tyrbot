@@ -1,4 +1,4 @@
-from registry import instance
+from decorators import instance
 from character_manager import CharacterManager
 import server_packets
 

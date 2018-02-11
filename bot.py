@@ -10,6 +10,7 @@ from crypt import generate_login_key
 class Bot:
     def __init__(self):
         self.socket = None
+        self.char_id = None
         self.logger = Logger("Budabot")
 
     def connect(self, host, port):
@@ -28,7 +29,8 @@ class Bot:
         character_list_packet = self.read_packet()
         index = character_list_packet.names.index(character.capitalize())
 
-        login_select_packet = LoginSelect(character_list_packet.character_ids[index])
+        self.char_id = character_list_packet.character_ids[index]
+        login_select_packet = LoginSelect(self.char_id)
         self.send_packet(login_select_packet)
 
         packet = self.read_packet()

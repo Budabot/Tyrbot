@@ -1,4 +1,4 @@
-from registry import instance
+from decorators import instance
 from client_packets import CharacterLookup
 import server_packets
 

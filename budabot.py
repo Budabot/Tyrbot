@@ -2,7 +2,8 @@ from bot import Bot
 from buddy_manager import BuddyManager
 from character_manager import CharacterManager
 from public_channel_manager import PublicChannelManager
-from registry import instance
+from decorators import instance
+from chat_blob import ChatBlob
 import server_packets
 import client_packets
 
@@ -18,6 +19,7 @@ class Budabot(Bot):
         self.buddy_manager: BuddyManager = registry.get_instance("buddymanager")
         self.character_manager: CharacterManager = registry.get_instance("charactermanager")
         self.public_channel_manager: PublicChannelManager = registry.get_instance("publicchannelmanager")
+        self.text = registry.get_instance("text")
 
     def start(self):
         pass
@@ -52,16 +54,23 @@ class Budabot(Bot):
     def send_org_message(self, message):
         pass
 
-    def send_private_message(self, char, message):
+    def send_private_message(self, char, msg):
         char_id = self.character_manager.resolve_char_to_id(char)
         if char_id is None:
             self.logger.warning("Could not send message to %s, could not find char id" % char)
         else:
-            packet = client_packets.PrivateMessage(char_id, message, "")
-            self.send_packet(packet)
+            for page in self.get_text_pages(msg):
+                packet = client_packets.PrivateMessage(char_id, page, "")
+                self.send_packet(packet)
 
-    def send_private_channel_message(self, char, message, private_channel=None):
-        pass
+    def send_private_channel_message(self, msg, private_channel=None):
+        private_channel_id = self.private_channel_manager.resolve_char_to_id(private_channel)
+        if private_channel_id is None:
+            self.logger.warning("Could not send message to private channel %s, could not find private channel" % private_channel)
+        else:
+            for page in self.get_text_pages(msg):
+                packet = client_packets.PrivateChannelMessage(private_channel_id, page, "")
+                self.send_packet(packet)
 
     def handle_private_message(self, packet: server_packets.PrivateMessage):
         self.logger.log_tell("From", self.character_manager.get_char_name(packet.character_id), packet.message)
@@ -72,6 +81,12 @@ class Budabot(Bot):
             self.public_channel_manager.get_channel_name(packet.channel_id),
             self.character_manager.get_char_name(packet.character_id),
             packet.message)
+
+    def get_text_pages(self, msg):
+        if isinstance(msg, ChatBlob):
+            return self.text.paginate(msg.title, msg.msg)
+        else:
+            return [self.text.format_message(msg)]
 
     def is_ready(self):
         return self.ready

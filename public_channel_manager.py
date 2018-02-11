@@ -1,4 +1,4 @@
-from registry import instance
+from decorators import instance
 import server_packets
 
 
