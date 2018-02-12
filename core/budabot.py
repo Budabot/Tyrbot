@@ -17,10 +17,11 @@ class Budabot(Bot):
         self.org_name = None
 
     def inject(self, registry):
-        self.buddy_manager: BuddyManager = registry.get_instance("buddymanager")
-        self.character_manager: CharacterManager = registry.get_instance("charactermanager")
-        self.public_channel_manager: PublicChannelManager = registry.get_instance("publicchannelmanager")
+        self.buddy_manager: BuddyManager = registry.get_instance("buddy_manager")
+        self.character_manager: CharacterManager = registry.get_instance("character_manager")
+        self.public_channel_manager: PublicChannelManager = registry.get_instance("public_channel_manager")
         self.text = registry.get_instance("text")
+        self.setting_manager = registry.get_instance("setting_manager")
 
     def start(self):
         pass
@@ -97,9 +98,9 @@ class Budabot(Bot):
             self.character_manager.get_char_name(packet.character_id),
             packet.message)
 
-    def get_text_pages(self, msg):
+    def get_text_pages(self, msg, max_page_length):
         if isinstance(msg, ChatBlob):
-            return self.text.paginate(msg.title, msg.msg)
+            return self.text.paginate(msg.title, msg.msg, max_page_length)
         else:
             return [self.text.format_message(msg)]
 

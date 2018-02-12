@@ -8,7 +8,7 @@ class Text:
         pass
 
     def inject(self, registry):
-        self.setting_manager: SettingManager = registry.get_instance("settingmanager")
+        self.setting_manager: SettingManager = registry.get_instance("setting_manager")
 
     def start(self):
         pass

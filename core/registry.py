@@ -1,3 +1,5 @@
+import re
+
 class Registry:
     _registry = {}
 
@@ -15,11 +17,17 @@ class Registry:
 
     @classmethod
     def get_instance(cls, name):
-        return cls._registry.get(name.lower(), None)
+        return cls._registry.get(name, None)
 
     @classmethod
     def add_instance(cls, name, inst):
-        cls._registry[name.lower()] = inst
+        name = cls.format_name(name)
+        cls._registry[name] = inst
+
+    @classmethod
+    def format_name(cls, name):
+        s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
+        return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
 
     @classmethod
     def load_instances(cls):
