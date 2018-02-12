@@ -1,4 +1,4 @@
-from packets import *
+from core.aochat.packets import *
 
 
 class ServerPacket(Packet):

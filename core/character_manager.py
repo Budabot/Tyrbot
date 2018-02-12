@@ -1,6 +1,6 @@
-from decorators import instance
-from client_packets import CharacterLookup
-import server_packets
+from core.decorators import instance
+from core.aochat.client_packets import CharacterLookup
+from core.aochat import server_packets
 
 
 @instance

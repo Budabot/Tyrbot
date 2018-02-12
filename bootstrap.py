@@ -1,5 +1,5 @@
 import json
-from registry import Registry
+from core.registry import Registry
 
 config = json.load(open("./conf/config.json", "r"))
 

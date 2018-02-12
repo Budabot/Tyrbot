@@ -1,5 +1,5 @@
-from decorators import instance
-from setting_manager import SettingManager
+from core.decorators import instance
+from core.setting_manager import SettingManager
 
 
 @instance

@@ -1,11 +1,10 @@
-from bot import Bot
-from buddy_manager import BuddyManager
-from character_manager import CharacterManager
-from public_channel_manager import PublicChannelManager
-from decorators import instance
-from chat_blob import ChatBlob
-import server_packets
-import client_packets
+from core.aochat.bot import Bot
+from core.buddy_manager import BuddyManager
+from core.character_manager import CharacterManager
+from core.public_channel_manager import PublicChannelManager
+from core.decorators import instance
+from core.chat_blob import ChatBlob
+from core.aochat import server_packets, client_packets
 
 
 @instance
@@ -14,6 +13,8 @@ class Budabot(Bot):
         super().__init__()
         self.ready = False
         self.packet_handlers = {}
+        self.org_id = None
+        self.org_name = None
 
     def inject(self, registry):
         self.buddy_manager: BuddyManager = registry.get_instance("buddymanager")
@@ -46,13 +47,25 @@ class Budabot(Bot):
 
             if isinstance(packet, server_packets.PrivateMessage):
                 self.handle_private_message(packet)
+            elif isinstance(packet, server_packets.PublicChannelJoined):
+                # set org id and org name
+                if packet.channel_id >> 32 == 3:
+                    self.org_id = 0x00ffffffff & packet.channel_id
+                    if packet.name != "Clan (name unknown)":
+                        self.org_name = packet.name
 
             return packet
         else:
             return None
 
-    def send_org_message(self, message):
-        pass
+    def send_org_message(self, msg):
+        org_channel_id = self.public_channel_manager.org_channel_id
+        if org_channel_id is None:
+            self.logger.warning("Could not send message to org channel, unknown org id")
+        else:
+            for page in self.get_text_pages(msg):
+                packet = client_packets.PublicChannelMessage(org_channel_id, page, "")
+                self.send_packet(packet)
 
     def send_private_message(self, char, msg):
         char_id = self.character_manager.resolve_char_to_id(char)
@@ -74,7 +87,6 @@ class Budabot(Bot):
 
     def handle_private_message(self, packet: server_packets.PrivateMessage):
         self.logger.log_tell("From", self.character_manager.get_char_name(packet.character_id), packet.message)
-        pass
 
     def handle_public_channel_message(self, packet: server_packets.PublicChannelMessage):
         self.logger.log_chat(

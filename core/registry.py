@@ -23,4 +23,6 @@ class Registry:
 
     @classmethod
     def load_instances(cls):
-        from budabot import Budabot  # needed to load budabot class
+        # needed to load instances
+        import core.budabot
+        import core.text

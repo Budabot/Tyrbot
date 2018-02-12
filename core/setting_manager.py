@@ -1,4 +1,4 @@
-from decorators import instance
+from core.decorators import instance
 
 
 @instance

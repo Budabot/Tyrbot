@@ -1,4 +1,4 @@
-from registry import Registry
+from core.registry import Registry
 
 
 def instance(cls):

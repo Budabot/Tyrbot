@@ -1,10 +1,10 @@
 import socket
 import struct
 import select
-from server_packets import ServerPacket, LoginOK
-from client_packets import LoginRequest, LoginSelect
-from logger import Logger
-from crypt import generate_login_key
+from core.aochat.server_packets import ServerPacket, LoginOK
+from core.aochat.client_packets import LoginRequest, LoginSelect
+from core.logger import Logger
+from core.aochat.crypt import generate_login_key
 
 
 class Bot:

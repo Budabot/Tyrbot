@@ -1,6 +1,6 @@
-from decorators import instance
-from character_manager import CharacterManager
-import server_packets
+from core.decorators import instance
+from core.character_manager import CharacterManager
+from core.aochat import server_packets
 
 
 @instance
