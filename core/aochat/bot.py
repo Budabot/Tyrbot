@@ -17,29 +17,42 @@ class Bot:
         self.logger.info("Connecting to %s:%d" % (host, port))
         self.socket = socket.create_connection((host, port), 10)
 
+    def disconnect(self):
+        if self.socket:
+            self.socket.shutdown(socket.SHUT_RDWR)
+            self.socket.close()
+            self.socket = None
+
     def login(self, username, password, character):
+        character = character.capitalize()
+
+        # read seed packet
         self.logger.info(("Logging in as %s" % character))
         seed_packet = self.read_packet()
         seed = seed_packet.seed
 
+        # send back challenge
         key = generate_login_key(seed, username, password)
         login_request_packet = LoginRequest(0, username, key)
         self.send_packet(login_request_packet)
 
+        # read character list
         character_list_packet = self.read_packet()
-        index = character_list_packet.names.index(character.capitalize())
+        index = character_list_packet.names.index(character)
 
+        # select character
         self.char_id = character_list_packet.character_ids[index]
         login_select_packet = LoginSelect(self.char_id)
         self.send_packet(login_select_packet)
 
+        # wait for OK
         packet = self.read_packet()
         if packet.id == LoginOK.id:
             self.logger.info("Connected!")
+            return True
         else:
             self.logger.error("Error logging in: %s" % packet.message)
-
-        return packet
+            return False
 
     def read_packet(self, time=1):
         """
