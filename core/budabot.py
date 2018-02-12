@@ -77,7 +77,10 @@ class Budabot(Bot):
                 self.send_packet(packet)
 
     def send_private_channel_message(self, msg, private_channel=None):
-        private_channel_id = self.private_channel_manager.resolve_char_to_id(private_channel)
+        if private_channel is None:
+            private_channel = self.char_id
+
+        private_channel_id = self.character_manager.resolve_char_to_id(private_channel)
         if private_channel_id is None:
             self.logger.warning("Could not send message to private channel %s, could not find private channel" % private_channel)
         else:
