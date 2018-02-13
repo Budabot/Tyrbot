@@ -1,5 +1,6 @@
 import re
 
+
 class Registry:
     _registry = {}
 
@@ -26,11 +27,20 @@ class Registry:
 
     @classmethod
     def format_name(cls, name):
+        # camel-case to snake-case
         s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
         return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
 
     @classmethod
     def load_instances(cls):
-        # needed to load instances
-        import core.budabot
-        import core.text
+        cls.load_modules_from_dir("core")
+
+    @classmethod
+    def load_modules_from_dir(cls, directory):
+        import os
+        import importlib
+        for name in os.listdir(directory):
+            if name.endswith(".py") and name != "__init__.py":
+                # strip the extension
+                module = name[:-3]
+                importlib.import_module(directory + "." + module)
