@@ -2,36 +2,10 @@ import sqlite3
 from core.decorators import instance
 
 
-class DBRow:
-    def __init__(self, row):
-        self.row = row
-
-    def get_row_value(self, name):
-        return self.row[name]
-
-    def __getitem__(self, name):
-        return self.row[name]
-
-    def __getattr__(self, name):
-        return self.get_row_value(name)
-
-    def __repr__(self):
-        return self.__str__()
-
-    def __str__(self):
-        return self.row.__str__()
-
-
 @instance
 class DB:
     def __init__(self):
         self.conn = None
-
-    def inject(self, registry):
-        pass
-
-    def start(self):
-        pass
 
     def row_factory(self, cursor: sqlite3.Cursor, row):
         d = {}
@@ -67,3 +41,23 @@ class DB:
 
     def load_sql(self, sql_script):
         self.conn.executescript(sql_script)
+
+
+class DBRow:
+    def __init__(self, row):
+        self.row = row
+
+    def get_row_value(self, name):
+        return self.row[name]
+
+    def __getitem__(self, name):
+        return self.row[name]
+
+    def __getattr__(self, name):
+        return self.get_row_value(name)
+
+    def __repr__(self):
+        return self.__str__()
+
+    def __str__(self):
+        return self.row.__str__()

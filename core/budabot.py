@@ -23,9 +23,6 @@ class Budabot(Bot):
         self.text = registry.get_instance("text")
         self.setting_manager = registry.get_instance("setting_manager")
 
-    def start(self):
-        pass
-
     def run(self):
         while None is not self.iterate():
             pass

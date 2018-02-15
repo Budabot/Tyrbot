@@ -10,11 +10,21 @@ class Registry:
 
         # inject registry so instance can get references to other instances
         for key in cls._registry:
-            cls._registry[key].inject(cls)
+            try:
+                cls._registry[key].inject
+            except AttributeError:
+                pass
+            else:
+                cls._registry[key].inject(cls)
 
         # call start() on instances so they can finish any init() processes
         for key in cls._registry:
-            cls._registry[key].start()
+            try:
+                cls._registry[key].start
+            except AttributeError:
+                pass
+            else:
+                cls._registry[key].start()
 
     @classmethod
     def get_instance(cls, name):

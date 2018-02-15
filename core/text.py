@@ -10,9 +10,6 @@ class Text:
     def inject(self, registry):
         self.setting_manager: SettingManager = registry.get_instance("setting_manager")
 
-    def start(self):
-        pass
-
     def make_chatcmd(self, name, msg, style=""):
         msg = msg.strip()
         msg = msg.replace("'", "&#39;")
