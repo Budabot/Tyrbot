@@ -7,6 +7,9 @@ config = json.load(open("./conf/config.json", "r"))
 Registry.inject_all()
 
 while True:
+    db = Registry.get_instance("db")
+    db.connect(config["database"]["name"])
+
     bot = Registry.get_instance("budabot")
     bot.connect("chat.d1.funcom.com", 7105)
 

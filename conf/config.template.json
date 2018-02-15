@@ -1,5 +1,8 @@
 {
   "username":"",
   "password":"",
-  "character":""
+  "character":"",
+  "database": {
+    "name":"budabot.db"
+  }
 }
