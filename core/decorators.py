@@ -1,6 +1,7 @@
 from core.registry import Registry
 
 
+# taken from: https://stackoverflow.com/a/26151604/280574
 def parametrized(dec):
     def layer(*args, **kwargs):
         def repl(f):
