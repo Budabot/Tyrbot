@@ -7,7 +7,7 @@ from core.chat_blob import ChatBlob
 from core.aochat import server_packets, client_packets
 
 
-@instance
+@instance()
 class Budabot(Bot):
     def __init__(self):
         super().__init__()

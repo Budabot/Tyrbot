@@ -3,7 +3,7 @@ from core.aochat.client_packets import CharacterLookup
 from core.aochat import server_packets
 
 
-@instance
+@instance()
 class CharacterManager:
     def __init__(self):
         self.name_to_id = {}

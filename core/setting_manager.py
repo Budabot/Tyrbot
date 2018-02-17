@@ -1,7 +1,7 @@
 from core.decorators import instance
 
 
-@instance
+@instance()
 class SettingManager:
     def __init__(self):
         pass

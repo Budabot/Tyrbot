@@ -2,7 +2,7 @@ from core.decorators import instance
 from core.setting_manager import SettingManager
 
 
-@instance
+@instance()
 class Text:
     def __init__(self):
         pass

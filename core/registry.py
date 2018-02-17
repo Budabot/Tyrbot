@@ -1,4 +1,6 @@
 import re
+import os
+import importlib
 
 
 class Registry:
@@ -43,12 +45,11 @@ class Registry:
 
     @classmethod
     def load_instances(cls):
-        cls.load_modules_from_dir("core")
+        for directory in ["core"]:
+            cls.load_modules_from_dir(directory)
 
     @classmethod
     def load_modules_from_dir(cls, directory):
-        import os
-        import importlib
         for name in os.listdir(directory):
             if name.endswith(".py") and name != "__init__.py":
                 # strip the extension

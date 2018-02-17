@@ -2,7 +2,7 @@ from core.decorators import instance
 from core.aochat import server_packets
 
 
-@instance
+@instance()
 class PublicChannelManager:
     def __init__(self):
         self.name_to_id = {}

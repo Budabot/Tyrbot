@@ -2,7 +2,7 @@ import sqlite3
 from core.decorators import instance
 
 
-@instance
+@instance()
 class DB:
     def __init__(self):
         self.conn = None
@@ -34,6 +34,9 @@ class DB:
 
     def format_sql(self, sql):
         # TODO
+        sql = sql.replace("<dim>", "")
+        sql = sql.replace("<myname>", "")
+        sql = sql.replace("<myguild>", "")
         return sql
 
     def get_connection(self):
