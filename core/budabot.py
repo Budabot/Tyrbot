@@ -2,6 +2,9 @@ from core.aochat.bot import Bot
 from core.buddy_manager import BuddyManager
 from core.character_manager import CharacterManager
 from core.public_channel_manager import PublicChannelManager
+from core.text import Text
+from core.setting_manager import SettingManager
+from core.access_manager import AccessManager
 from core.decorators import instance
 from core.chat_blob import ChatBlob
 from core.aochat import server_packets, client_packets
@@ -15,13 +18,21 @@ class Budabot(Bot):
         self.packet_handlers = {}
         self.org_id = None
         self.org_name = None
+        self.superadmin = None
 
     def inject(self, registry):
         self.buddy_manager: BuddyManager = registry.get_instance("buddy_manager")
         self.character_manager: CharacterManager = registry.get_instance("character_manager")
         self.public_channel_manager: PublicChannelManager = registry.get_instance("public_channel_manager")
-        self.text = registry.get_instance("text")
-        self.setting_manager = registry.get_instance("setting_manager")
+        self.text: Text = registry.get_instance("text")
+        self.setting_manager: SettingManager = registry.get_instance("setting_manager")
+        self.access_manager: AccessManager = registry.get_instance("access_manager")
+
+    def start(self):
+        self.access_manager.register_access_level("superadmin", 1, self.check_superadmin)
+
+    def check_superadmin(self, char_name):
+        return char_name.capitalize() == self.superadmin
 
     def run(self):
         while None is not self.iterate():

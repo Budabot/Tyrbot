@@ -11,6 +11,7 @@ while True:
     db.connect(config["database"]["name"])
 
     bot = Registry.get_instance("budabot")
+    bot.superadmin = config["superadmin"].capitalize()
     bot.connect("chat.d1.funcom.com", 7105)
 
     if not bot.login(config["username"], config["password"], config["character"]):

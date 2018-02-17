@@ -2,6 +2,7 @@
   "username":"",
   "password":"",
   "character":"",
+  "superadmin":"",
   "database": {
     "name":"budabot.db"
   }
