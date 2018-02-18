@@ -30,6 +30,17 @@ class Budabot(Bot):
 
     def start(self):
         self.access_manager.register_access_level("superadmin", 1, self.check_superadmin)
+        self.setting_manager.register("org_channel_max_page_length", 7500, "")
+        self.setting_manager.register("private_message_max_page_length", 7500, "")
+        self.setting_manager.register("private_channel_max_page_length", 7500, "")
+        self.setting_manager.register("header_color", "", "")
+        self.setting_manager.register("header2_color", "", "")
+        self.setting_manager.register("highlight_color", "", "")
+        self.setting_manager.register("neutral_color", "", "")
+        self.setting_manager.register("omni_color", "", "")
+        self.setting_manager.register("clan_color", "", "")
+        self.setting_manager.register("unknown_color", "", "")
+        self.setting_manager.register("symbol", "!", "")
 
     def check_superadmin(self, char_name):
         return char_name.capitalize() == self.superadmin

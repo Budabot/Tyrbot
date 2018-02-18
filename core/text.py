@@ -86,9 +86,9 @@ class Text:
 
     def format_message(self, msg):
         return msg\
-            .replace("<header>", self.setting_manager.get("header_color"))\
-            .replace("<header2>", self.setting_manager.get("header2_color"))\
-            .replace("<highlight>", self.setting_manager.get("highlight_color"))\
+            .replace("<header>", "<font color='%s'>" % self.setting_manager.get("header_color"))\
+            .replace("<header2>", "<font color='%s'>" % self.setting_manager.get("header2_color"))\
+            .replace("<highlight>", "<font color='%s'>" % self.setting_manager.get("highlight_color"))\
             \
             .replace("<black>", "<font color='#000000'>") \
             .replace("<white>", "<font color='#FFFFFF'>")\
@@ -101,10 +101,10 @@ class Text:
             .replace("<cyan>", "<font color='#00FFFF'>")\
             .replace("<violet>", "<font color='#8F00FF'>")\
             \
-            .replace("<neutral>", self.setting_manager.get("neutral_color"))\
-            .replace("<omni>", self.setting_manager.get("omni_color"))\
-            .replace("<clan>", self.setting_manager.get("clan_color"))\
-            .replace("<unknown>", self.setting_manager.get("unknown_color"))\
+            .replace("<neutral>", "<font color='%s'>" % self.setting_manager.get("neutral_color"))\
+            .replace("<omni>", "<font color='%s'>" % self.setting_manager.get("omni_color"))\
+            .replace("<clan>", "<font color='%s'>" % self.setting_manager.get("clan_color"))\
+            .replace("<unknown>", "<font color='%s'>" % self.setting_manager.get("unknown_color"))\
             \
             .replace("<myname>", "TODO")\
             .replace("<myorg>", "TODO")\
