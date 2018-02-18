@@ -14,6 +14,8 @@ while True:
     bot.superadmin = config["superadmin"].capitalize()
     bot.connect("chat.d1.funcom.com", 7105)
 
+    Registry.start_all()
+
     if not bot.login(config["username"], config["password"], config["character"]):
         bot.disconnect()
         time.sleep(5)

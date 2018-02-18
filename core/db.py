@@ -37,13 +37,15 @@ class DB:
         sql = sql.replace("<dim>", "")
         sql = sql.replace("<myname>", "")
         sql = sql.replace("<myguild>", "")
+        sql = sql.replace("AUTO_INCREMENT", "AUTOINCREMENT")
+        sql = sql.replace(" INT ", " INTEGER ")
         return sql
 
     def get_connection(self):
         return self.conn
 
     def load_sql(self, sql_script):
-        self.conn.executescript(sql_script)
+        self.conn.executescript(self.format_sql(sql_script))
 
 
 class DBRow:

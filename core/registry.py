@@ -19,6 +19,8 @@ class Registry:
             else:
                 cls._registry[key].inject(cls)
 
+    @classmethod
+    def start_all(cls):
         # call start() on instances so they can finish any init() processes
         for key in cls._registry:
             try:
@@ -45,7 +47,7 @@ class Registry:
 
     @classmethod
     def load_instances(cls):
-        for directory in ["core"]:
+        for directory in ["core", "modules\\whereis"]:
             cls.load_modules_from_dir(directory)
 
     @classmethod
@@ -54,4 +56,4 @@ class Registry:
             if name.endswith(".py") and name != "__init__.py":
                 # strip the extension
                 module = name[:-3]
-                importlib.import_module(directory + "." + module)
+                importlib.import_module(directory.replace("\\", ".") + "." + module)

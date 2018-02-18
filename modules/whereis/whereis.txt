@@ -1,0 +1,5 @@
+To show the location of NPCs or places:
+<highlight><tab><symbol>whereis 'place or NPC'<end>
+
+<header2>Example:<end>
+<highlight><tab><symbol>whereis elmer ragg<end>

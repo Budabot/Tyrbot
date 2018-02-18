@@ -21,13 +21,14 @@ class CommandManager:
         self.bot.add_packet_handler(server_packets.PrivateMessage.id, self.handle_private_message)
 
     def register(self, handler, command, access_level):
-        self.commands[command] = [{"handler": handler, "access_level": self.access_manager.get_access_level_by_level(access_level)}]
+        self.commands[command] = {"handler": handler, "access_level": self.access_manager.get_access_level_by_label(access_level)}
 
     def process_command(self, message: str, channel: str, char_name, reply):
         command_str, command_args = message.split(" ", 2)
         command = self.get_command(command_str)
         if command:
-            if self.access_manager.get_access_level(char_name) >= command["access_level"]:
+            # higher access levels have lower values
+            if self.access_manager.get_access_level(char_name) <= command["access_level"]:
                 command["handler"](message, channel, char_name, reply, command_args)
             else:
                 reply("Error! Access denied.")
