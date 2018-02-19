@@ -26,4 +26,5 @@ class WhereisController:
         return False
 
     def whereis_search(self, command, channel, sender, reply, args):
-        reply("This is SPARTA!")
+        data = self.db.query("SELECT * FROM whereis WHERE name LIKE ?", [args[1]])
+        reply(data[0]["answer"])
