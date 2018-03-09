@@ -13,8 +13,7 @@ class WhereisController:
         self.command_manager: CommandManager = registry.get_instance("command_manager")
 
     def start(self):
-        with open("./modules/whereis/whereis.sql", "r") as f:
-            self.db.load_sql(f.read())
+        self.db.load_sql_file("./modules/whereis/whereis.sql")
         self.command_manager.register(self.handle_whereis, "whereis", "all", "^(.+)$")
 
     # @command("whereis", "^(.+)$")

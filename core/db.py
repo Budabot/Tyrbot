@@ -44,8 +44,11 @@ class DB:
     def get_connection(self):
         return self.conn
 
-    def load_sql(self, sql_script):
-        self.conn.executescript(self.format_sql(sql_script))
+    def load_sql_file(self, filename):
+        with open(filename, "r") as f:
+            c = self.conn.cursor()
+            for line in f.readlines():
+                c.execute(self.format_sql(line))
 
 
 class DBRow:
