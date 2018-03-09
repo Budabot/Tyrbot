@@ -62,9 +62,6 @@ class Budabot(Bot):
     def iterate(self):
         packet = self.read_packet()
         if packet is not None:
-            for handler in self.packet_handlers.get(packet.id, []):
-                handler(packet)
-
             if isinstance(packet, server_packets.PrivateMessage):
                 self.handle_private_message(packet)
             elif isinstance(packet, server_packets.PublicChannelJoined):
@@ -73,6 +70,9 @@ class Budabot(Bot):
                     self.org_id = 0x00ffffffff & packet.channel_id
                     if packet.name != "Clan (name unknown)":
                         self.org_name = packet.name
+
+            for handler in self.packet_handlers.get(packet.id, []):
+                handler(packet)
 
             return packet
         else:
@@ -93,6 +93,7 @@ class Budabot(Bot):
             self.logger.warning("Could not send message to %s, could not find char id" % char)
         else:
             for page in self.get_text_pages(msg, self.setting_manager.get("private_message_max_page_length")):
+                self.logger.log_tell("To", self.character_manager.get_char_name(char_id), page)
                 packet = client_packets.PrivateMessage(char_id, page, "")
                 self.send_packet(packet)
 
