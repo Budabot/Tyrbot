@@ -3,12 +3,15 @@ from core.access_manager import AccessManager
 from core.aochat import server_packets
 from core.budabot import Budabot
 from core.character_manager import CharacterManager
+import collections
+import re
 
 
 @instance()
 class CommandManager:
     def __init__(self):
         self.db = None
+        self.handlers = collections.defaultdict(list)
         self.commands = {}
 
     def inject(self, registry):
@@ -20,23 +23,42 @@ class CommandManager:
     def start(self):
         self.bot.add_packet_handler(server_packets.PrivateMessage.id, self.handle_private_message)
 
-    def register(self, handler, command, access_level):
-        self.commands[command] = {"handler": handler, "access_level": self.access_manager.get_access_level_by_label(access_level)}
+    def register(self, handler, command, access_level, regex, sub_command=None):
+        r = re.compile(regex, re.IGNORECASE)
+        self.handlers[command].append({"handler": handler, "regex": r, "sub_command": sub_command or command})
+
+        # TODO save to database
+        self.commands[sub_command or command] = {
+            "access_level": self.access_manager.get_access_level_by_label(access_level)
+        }
 
     def process_command(self, message: str, channel: str, char_name, reply):
-        command_str, command_args = message.split(" ", 2)
-        command = self.get_command(command_str)
-        if command:
+        command_str, command_args = self.get_command_parts(message)
+        matches, handler = self.get_handler(command_str, command_args)
+        if handler:
             # higher access levels have lower values
-            if self.access_manager.get_access_level(char_name) <= command["access_level"]:
-                command["handler"](message, channel, char_name, reply, command_args)
+            if self.access_manager.get_access_level(char_name) <= self.commands[handler["sub_command"]]["access_level"]:
+                handler["handler"](message, channel, char_name, reply, matches)
             else:
                 reply("Error! Access denied.")
         else:
             reply("Error! Unknown command.")
 
-    def get_command(self, command):
-        return self.commands.get(command, None)
+    def get_command_parts(self, message):
+        parts = message.split(" ", 2)
+        if len(parts) == 2:
+            return parts[0], parts[1]
+        else:
+            return parts[0], ""
+
+    def get_handler(self, command, command_args):
+        handlers = self.handlers.get(command, None)
+        if handlers:
+            for handler in handlers:
+                matches = handler["regex"].match(command_args)
+                if matches:
+                    return matches, handler
+        return None, None
 
     def handle_private_message(self, packet: server_packets.PrivateMessage):
         if len(packet.message) < 2:
@@ -50,19 +72,3 @@ class CommandManager:
                 "private_message",
                 self.character_manager.get_char_name(packet.character_id),
                 lambda msg: self.bot.send_private_message(packet.character_id, msg))
-
-    # def register(self, module, handler, channels, command, access_levels, description, help_topic, default_status):
-    #    for (channel, access_level) in zip(channels, access_levels):
-    #        row = self.db.query_single("SELECT 1 FROM command WHERE cmd = ? AND channel = ?", command, channel)
-    #        if row:
-    #            sql = """
-    #                UPDATE command_<myname> SET module = ?, handler = ?, description = ?, help = ?
-    #                WHERE cmd = ? AND channel = ?
-    #            """
-    #            self.db.exec(sql, [module, handler, description, help_topic, command, channel])
-    #        else:
-    #            sql = """
-    #                INSERT INTO command_<myname> (module, handler, cmd, channel, access_level, description, help, status)
-    #                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-    #            """
-    #            self.db.exec(sql, [module, handler, command, channel, access_level, description, help_topic, default_status])
