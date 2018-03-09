@@ -1,6 +1,5 @@
 from core.decorators import instance, command
 from core.db import DB
-from core.command_manager import CommandManager
 
 
 @instance()
@@ -10,13 +9,11 @@ class WhereisController:
 
     def inject(self, registry):
         self.db: DB = registry.get_instance("db")
-        self.command_manager: CommandManager = registry.get_instance("command_manager")
 
     def start(self):
         self.db.load_sql_file("./modules/whereis/whereis.sql")
-        self.command_manager.register(self.handle_whereis, "whereis", "all", "^(.+)$")
 
-    # @command("whereis", "^(.+)$")
+    @command("whereis", "^(.+)$", "all")
     def handle_whereis(self, command, channel, sender, reply, args):
         data = self.db.query("SELECT * FROM whereis WHERE name LIKE ?", [args[1]])
         if len(data) > 0:

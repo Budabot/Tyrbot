@@ -27,6 +27,7 @@ class Budabot(Bot):
         self.text: Text = registry.get_instance("text")
         self.setting_manager: SettingManager = registry.get_instance("setting_manager")
         self.access_manager: AccessManager = registry.get_instance("access_manager")
+        self.command_manager: AccessManager = registry.get_instance("command_manager")
 
     def start(self):
         self.access_manager.register_access_level("superadmin", 1, self.check_superadmin)
@@ -41,6 +42,9 @@ class Budabot(Bot):
         self.setting_manager.register("clan_color", "", "")
         self.setting_manager.register("unknown_color", "", "")
         self.setting_manager.register("symbol", "!", "")
+
+    def post_start(self):
+        self.command_manager.post_start()
 
     def check_superadmin(self, char_name):
         return char_name.capitalize() == self.superadmin

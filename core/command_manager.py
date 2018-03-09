@@ -3,6 +3,7 @@ from core.access_manager import AccessManager
 from core.aochat import server_packets
 from core.budabot import Budabot
 from core.character_manager import CharacterManager
+from core.registry import Registry
 import collections
 import re
 
@@ -23,12 +24,21 @@ class CommandManager:
     def start(self):
         self.bot.add_packet_handler(server_packets.PrivateMessage.id, self.handle_private_message)
 
-    def register(self, handler, command, access_level, regex, sub_command=None):
+    def post_start(self):
+        for _, inst in Registry.get_all_instances().items():
+            for name, method in inst.__class__.__dict__.items():
+                if hasattr(method, "command"):
+                    args = getattr(method, "command")
+                    command_manager = Registry.get_instance("command_manager")
+                    command_manager.register(getattr(inst, name), *args)
+
+    def register(self, handler, command, regex, access_level, sub_command):
+        sub_cmd = sub_command or command
         r = re.compile(regex, re.IGNORECASE)
-        self.handlers[command].append({"handler": handler, "regex": r, "sub_command": sub_command or command})
+        self.handlers[command].append({"handler": handler, "regex": r, "sub_command": sub_cmd})
 
         # TODO save to database
-        self.commands[sub_command or command] = {
+        self.commands[sub_cmd] = {
             "access_level": self.access_manager.get_access_level_by_label(access_level)
         }
 

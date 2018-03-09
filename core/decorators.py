@@ -15,3 +15,9 @@ def instance(cls, name=None):
     instance_name = cls.__name__ if name is None else name
     Registry.add_instance(instance_name, cls())
     return cls
+
+
+@parametrized
+def command(handler, cmd_name, regex, access_level, sub_command=None):
+    handler.command = [cmd_name, regex, access_level, sub_command]
+    return handler

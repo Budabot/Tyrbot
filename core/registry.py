@@ -35,6 +35,10 @@ class Registry:
         return cls._registry.get(name, None)
 
     @classmethod
+    def get_all_instances(cls):
+        return cls._registry
+
+    @classmethod
     def add_instance(cls, name, inst):
         name = cls.format_name(name)
         cls._registry[name] = inst

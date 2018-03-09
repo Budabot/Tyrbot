@@ -16,6 +16,8 @@ while True:
 
     Registry.start_all()
 
+    bot.post_start()
+
     if not bot.login(config["username"], config["password"], config["character"]):
         bot.disconnect()
         time.sleep(5)
