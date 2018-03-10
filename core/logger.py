@@ -21,6 +21,9 @@ class Logger:
     def error(self, msg):
         self.logger.error(msg)
 
+    def debug(self, msg):
+        self.logger.debug(msg)
+
     def log_chat(self, channel, sender, msg):
         self.info("[%s] %s: %s" % (channel, sender, msg))
 
