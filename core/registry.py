@@ -51,7 +51,7 @@ class Registry:
 
     @classmethod
     def load_instances(cls):
-        for directory in ["core", "modules\\whereis"]:
+        for directory in ["core", "core\\config", "modules\\whereis"]:
             cls.load_modules_from_dir(directory)
 
     @classmethod
