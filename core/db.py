@@ -22,21 +22,27 @@ class DB:
             params = []
         sql = self.format_sql(sql)
         cur = self.conn.execute(sql, params)
-        return cur.fetchone()
+        row = cur.fetchone()
+        self.conn.commit()
+        return row
 
     def query(self, sql, params=None):
         if params is None:
             params = []
         sql = self.format_sql(sql)
         cur = self.conn.execute(sql, params)
-        return cur.fetchall()
+        data = cur.fetchall()
+        self.conn.commit()
+        return data
 
     def exec(self, sql, params=None):
         if params is None:
             params = []
         sql = self.format_sql(sql)
         cur = self.conn.execute(sql, params)
-        return cur.rowcount
+        rowcount = cur.rowcount
+        self.conn.commit()
+        return rowcount
 
     def format_sql(self, sql):
         # TODO
@@ -55,6 +61,7 @@ class DB:
             c = self.conn.cursor()
             for line in f.readlines():
                 c.execute(self.format_sql(line))
+            self.conn.commit()
 
 
 class DBRow:
