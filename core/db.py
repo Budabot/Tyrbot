@@ -17,17 +17,23 @@ class DB:
         self.conn = sqlite3.connect("./data/" + name)
         self.conn.row_factory = self.row_factory
 
-    def query_single(self, sql, params):
+    def query_single(self, sql, params=None):
+        if params is None:
+            params = []
         sql = self.format_sql(sql)
         cur = self.conn.execute(sql, params)
         return cur.fetchone()
 
-    def query(self, sql, params):
+    def query(self, sql, params=None):
+        if params is None:
+            params = []
         sql = self.format_sql(sql)
         cur = self.conn.execute(sql, params)
         return cur.fetchall()
 
-    def exec(self, sql, params):
+    def exec(self, sql, params=None):
+        if params is None:
+            params = []
         sql = self.format_sql(sql)
         cur = self.conn.execute(sql, params)
         return cur.rowcount
