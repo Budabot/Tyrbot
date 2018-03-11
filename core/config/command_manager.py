@@ -26,11 +26,9 @@ class CommandManager:
     def start(self):
         self.bot.add_packet_handler(server_packets.PrivateMessage.id, self.handle_private_message)
         self.db.load_sql_file("./core/config/command_config.sql")
-
-    def post_start(self):
-        # load saved command config
         self.db.exec("UPDATE command_config SET verified = 0")
 
+    def post_start(self):
         # process decorators
         for _, inst in Registry.get_all_instances().items():
             for name, method in inst.__class__.__dict__.items():
@@ -52,9 +50,9 @@ class CommandManager:
             self.db.exec(
                 "INSERT INTO command_config (sub_command, access_level, enabled, verified) VALUES (?, ?, ?, ?)",
                 [sub_command, access_level, 1, 1])
-
-        # mark command as verified
-        self.db.exec("UPDATE command_config SET verified = ? WHERE sub_command = ?", [1, sub_command])
+        else:
+            # mark command as verified
+            self.db.exec("UPDATE command_config SET verified = ? WHERE sub_command = ?", [1, sub_command])
 
         # load command handler
         r = re.compile(regex, re.IGNORECASE)
