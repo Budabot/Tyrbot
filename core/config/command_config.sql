@@ -1,1 +1,1 @@
-CREATE TABLE IF NOT EXISTS command_config (sub_command VARCHAR(50) NOT NULL, access_level VARCHAR(50) NOT NULL, enabled TINYINT NOT NULL, verified TINYINT NOT NULL);
+CREATE TABLE IF NOT EXISTS command_config (command VARCHAR(50) NOT NULL, sub_command VARCHAR(50) NOT NULL, access_level VARCHAR(50) NOT NULL, enabled TINYINT NOT NULL, verified TINYINT NOT NULL);

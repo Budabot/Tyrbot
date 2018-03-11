@@ -42,17 +42,18 @@ class CommandManager:
         sub_command = sub_command or command
 
         row = self.db.query_single("SELECT sub_command, access_level, enabled, verified "
-                                   "FROM command_config WHERE sub_command = ?",
-                                   [sub_command])
+                                   "FROM command_config WHERE command = ? AND sub_command = ?",
+                                   [command, sub_command])
 
         if row is None:
             # add new command config
             self.db.exec(
-                "INSERT INTO command_config (sub_command, access_level, enabled, verified) VALUES (?, ?, ?, ?)",
-                [sub_command, access_level, 1, 1])
+                "INSERT INTO command_config (command, sub_command, access_level, enabled, verified) VALUES (?, ?, ?, ?, ?)",
+                [command, sub_command, access_level, 1, 1])
         else:
             # mark command as verified
-            self.db.exec("UPDATE command_config SET verified = ? WHERE sub_command = ?", [1, sub_command])
+            self.db.exec("UPDATE command_config SET verified = ? WHERE command = ? AND sub_command = ?",
+                         [1, command, sub_command])
 
         # load command handler
         r = re.compile(regex, re.IGNORECASE)
@@ -90,10 +91,10 @@ class CommandManager:
                 sub_command = handler["sub_command"]
                 matches = handler["regex"].match(command_args)
                 if matches:
-                    row = self.db.query_single("SELECT sub_command, access_level, enabled FROM command_config WHERE sub_command = ?",
-                                               [sub_command])
+                    row = self.db.query_single("SELECT sub_command, access_level, enabled FROM command_config WHERE command = ? AND sub_command = ?",
+                                               [command, sub_command])
                     if row is None:
-                        raise Exception("Could not find sub_command '%s'" % sub_command)
+                        raise Exception("Could not find command '%s' and sub_command '%s'" % command, sub_command)
                     elif row.enabled == 1:
                         return matches, handler, row
 
