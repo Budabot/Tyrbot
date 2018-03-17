@@ -3,6 +3,7 @@ from core.access_manager import AccessManager
 from core.aochat import server_packets
 from core.budabot import Budabot
 from core.character_manager import CharacterManager
+from core.setting_manager import SettingManager
 from core.registry import Registry
 from core.logger import Logger
 import collections
@@ -22,6 +23,7 @@ class CommandManager:
         self.access_manager: AccessManager = registry.get_instance("access_manager")
         self.bot: Budabot = registry.get_instance("budabot")
         self.character_manager: CharacterManager = registry.get_instance("character_manager")
+        self.setting_manager: SettingManager = registry.get_instance("setting_manager")
 
     def start(self):
         self.bot.add_packet_handler(server_packets.PrivateMessage.id, self.handle_private_message)
@@ -105,7 +107,7 @@ class CommandManager:
         if len(packet.message) < 1:
             return
 
-        if packet.message[:1] == "!":
+        if packet.message[:1] == self.setting_manager.get("symbol"):
             command_str = packet.message[1:]
         else:
             command_str = packet.message
@@ -122,7 +124,7 @@ class CommandManager:
 
         symbol = packet.message[:1]
         command_str = packet.message[1:]
-        if symbol == "!" and packet.character_id == self.bot.char_id:
+        if symbol == self.setting_manager.get("symbol") and packet.character_id == self.bot.char_id:
             self.process_command(
                 command_str,
                 "private_channel_message",
