@@ -25,6 +25,7 @@ class CommandManager:
 
     def start(self):
         self.bot.add_packet_handler(server_packets.PrivateMessage.id, self.handle_private_message)
+        self.bot.add_packet_handler(server_packets.PrivateChannelMessage.id, self.handle_private_channel_message)
         self.db.load_sql_file("./core/config/command_config.sql")
         self.db.exec("UPDATE command_config SET verified = 0")
 
@@ -112,3 +113,16 @@ class CommandManager:
                 "private_message",
                 self.character_manager.get_char_name(packet.character_id),
                 lambda msg: self.bot.send_private_message(packet.character_id, msg))
+
+    def handle_private_channel_message(self, packet: server_packets.PrivateChannelMessage):
+        if len(packet.message) < 2:
+            return
+
+        symbol = packet.message[:1]
+        command_str = packet.message[1:]
+        if symbol == "!" and packet.character_id == self.bot.char_id:
+            self.process_command(
+                command_str,
+                "private_channel_message",
+                self.character_manager.get_char_name(packet.character_id),
+                lambda msg: self.bot.send_private_channel_message(msg))
