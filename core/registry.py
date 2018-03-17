@@ -1,6 +1,7 @@
 import re
 import os
 import importlib
+import itertools
 
 
 class Registry:
@@ -51,13 +52,29 @@ class Registry:
 
     @classmethod
     def load_instances(cls):
-        for directory in ["core", "core\\config", "modules\\whereis"]:
-            cls.load_modules_from_dir(directory)
+        parent_dirs = ["core", "modules"]
+
+        # get all subdirectories
+        dirs = cls.flatmap(lambda x: os.walk(x), parent_dirs)
+        dirs = filter(lambda y: not y[0].endswith("__pycache__"), dirs)
+
+        def get_files(tup):
+            return map(lambda x: tup[0] + "\\" + x, tup[2])
+
+        # get files from subdirectories
+        files = cls.flatmap(get_files, dirs)
+        files = filter(lambda z: z.endswith(".py") and not z.endswith("__init__.py"), files)
+
+        # load files as modules
+        for file in files:
+            cls.load_module(file)
 
     @classmethod
-    def load_modules_from_dir(cls, directory):
-        for name in os.listdir(directory):
-            if name.endswith(".py") and name != "__init__.py":
-                # strip the extension
-                module = name[:-3]
-                importlib.import_module(directory.replace("\\", ".") + "." + module)
+    def load_module(cls, file):
+        # strip the extension
+        file = file[:-3]
+        importlib.import_module(file.replace("\\", "."))
+
+    @classmethod
+    def flatmap(cls, func, *iterable):
+        return itertools.chain.from_iterable(map(func, *iterable))
