@@ -9,8 +9,6 @@ class Registry:
 
     @classmethod
     def inject_all(cls):
-        cls.load_instances()
-
         # inject registry so instance can get references to other instances
         for key in cls._registry:
             try:
@@ -51,9 +49,7 @@ class Registry:
         return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
 
     @classmethod
-    def load_instances(cls):
-        parent_dirs = ["core", "modules"]
-
+    def load_instances(cls, parent_dirs):
         # get all subdirectories
         dirs = cls.flatmap(lambda x: os.walk(x), parent_dirs)
         dirs = filter(lambda y: not y[0].endswith("__pycache__"), dirs)

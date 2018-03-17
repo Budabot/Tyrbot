@@ -4,6 +4,7 @@ from core.registry import Registry
 
 config = json.load(open("./conf/config.json", "r"))
 
+Registry.load_instances(["core", "modules"])
 Registry.inject_all()
 
 while True:
