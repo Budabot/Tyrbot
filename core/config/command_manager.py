@@ -102,17 +102,19 @@ class CommandManager:
         return None, None, None
 
     def handle_private_message(self, packet: server_packets.PrivateMessage):
-        if len(packet.message) < 2:
+        if len(packet.message) < 1:
             return
 
-        symbol = packet.message[:1]
-        command_str = packet.message[1:]
-        if symbol == "!":
-            self.process_command(
-                command_str,
-                "private_message",
-                self.character_manager.get_char_name(packet.character_id),
-                lambda msg: self.bot.send_private_message(packet.character_id, msg))
+        if packet.message[:1] == "!":
+            command_str = packet.message[1:]
+        else:
+            command_str = packet.message
+
+        self.process_command(
+            command_str,
+            "private_message",
+            self.character_manager.get_char_name(packet.character_id),
+            lambda msg: self.bot.send_private_message(packet.character_id, msg))
 
     def handle_private_channel_message(self, packet: server_packets.PrivateChannelMessage):
         if len(packet.message) < 2:
