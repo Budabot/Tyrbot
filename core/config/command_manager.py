@@ -44,19 +44,21 @@ class CommandManager:
     def register(self, handler, command, regex, access_level, sub_command=None):
         sub_command = sub_command or command
 
-        row = self.db.query_single("SELECT sub_command, access_level, enabled, verified "
-                                   "FROM command_config WHERE command = ? AND sub_command = ?",
-                                   [command, sub_command])
+        for channel in ["private_message", "org_message", "private_channel_message"]:
+            row = self.db.query_single("SELECT sub_command, access_level, enabled, verified "
+                                       "FROM command_config WHERE command = ? AND sub_command = ? AND channel = ?",
+                                       [command, sub_command, channel])
 
-        if row is None:
-            # add new command config
-            self.db.exec(
-                "INSERT INTO command_config (command, sub_command, access_level, enabled, verified) VALUES (?, ?, ?, ?, ?)",
-                [command, sub_command, access_level, 1, 1])
-        else:
-            # mark command as verified
-            self.db.exec("UPDATE command_config SET verified = ? WHERE command = ? AND sub_command = ?",
-                         [1, command, sub_command])
+            if row is None:
+                # add new command config
+                self.db.exec(
+                    "INSERT INTO command_config (command, sub_command, access_level, channel, enabled, verified) VALUES "
+                    "(?, ?, ?, ?, ?, ?)",
+                    [command, sub_command, access_level, channel, 1, 1])
+            else:
+                # mark command as verified
+                self.db.exec("UPDATE command_config SET verified = ? WHERE command = ? AND sub_command = ? AND channel = ?",
+                             [1, command, sub_command, channel])
 
         # load command handler
         r = re.compile(regex, re.IGNORECASE)
@@ -64,7 +66,7 @@ class CommandManager:
 
     def process_command(self, message: str, channel: str, char_name, reply):
         command_str, command_args = self.get_command_parts(message)
-        matches, handler, cmd_config = self.get_handler(command_str, command_args)
+        matches, handler, cmd_config = self.get_handler(command_str, command_args, channel)
         if handler:
             if self.has_sufficient_access_level_for_command(char_name, cmd_config):
                 handler["handler"](message, channel, char_name, reply, matches)
@@ -87,15 +89,16 @@ class CommandManager:
         else:
             return parts[0], ""
 
-    def get_handler(self, command, command_args):
+    def get_handler(self, command, command_args, channel):
         handlers = self.handlers.get(command, None)
         if handlers:
             for handler in handlers:
                 sub_command = handler["sub_command"]
                 matches = handler["regex"].match(command_args)
                 if matches:
-                    row = self.db.query_single("SELECT sub_command, access_level, enabled FROM command_config WHERE command = ? AND sub_command = ?",
-                                               [command, sub_command])
+                    row = self.db.query_single("SELECT sub_command, access_level, enabled FROM command_config "
+                                               "WHERE command = ? AND sub_command = ? AND channel = ?",
+                                               [command, sub_command, channel])
                     if row is None:
                         raise Exception("Could not find command '%s' and sub_command '%s'" % command, sub_command)
                     elif row.enabled == 1:
