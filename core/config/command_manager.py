@@ -16,6 +16,7 @@ class CommandManager:
         self.db = None
         self.handlers = collections.defaultdict(list)
         self.logger = Logger("command_manager")
+        self.channels = ["private_message", "org_message", "private_channel_message"]
 
     def inject(self, registry):
         self.db = registry.get_instance("db")
@@ -43,7 +44,7 @@ class CommandManager:
     def register(self, handler, command, regex, access_level, sub_command=None):
         sub_command = sub_command or command
 
-        for channel in ["private_message", "org_message", "private_channel_message"]:
+        for channel in self.channels:
             row = self.db.query_single("SELECT sub_command, access_level, enabled, verified "
                                        "FROM command_config WHERE command = ? AND sub_command = ? AND channel = ?",
                                        [command, sub_command, channel])
@@ -62,6 +63,15 @@ class CommandManager:
         # load command handler
         r = re.compile(regex, re.IGNORECASE)
         self.handlers[command].append({"handler": handler, "regex": r, "sub_command": sub_command})
+
+    def register_command_channel(self, channel):
+        if channel in self.channels:
+            self.logger.error("Could not register command channel '%s': command channel already registered"
+                              % channel)
+            return
+
+        self.logger.debug("Registering command channel '%s'" % channel)
+        self.channels.append(channel)
 
     def process_command(self, message: str, channel: str, char_name, reply):
         command_str, command_args = self.get_command_parts(message)
