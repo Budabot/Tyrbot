@@ -2,7 +2,7 @@ from core.decorators import instance
 from core.access_manager import AccessManager
 from core.aochat import server_packets
 from core.character_manager import CharacterManager
-from core.setting_manager import SettingManager
+from core.config.setting_manager import SettingManager
 from core.registry import Registry
 from core.logger import Logger
 from core.budabot import Budabot
@@ -13,7 +13,6 @@ import re
 @instance()
 class CommandManager:
     def __init__(self):
-        self.db = None
         self.handlers = collections.defaultdict(list)
         self.logger = Logger("command_manager")
         self.channels = ["private_message", "org_message", "private_channel_message"]

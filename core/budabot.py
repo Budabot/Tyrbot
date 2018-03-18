@@ -2,7 +2,7 @@ from core.aochat.bot import Bot
 from core.buddy_manager import BuddyManager
 from core.character_manager import CharacterManager
 from core.public_channel_manager import PublicChannelManager
-from core.setting_manager import SettingManager
+from core.config.setting_manager import SettingManager
 from core.access_manager import AccessManager
 from core.text import Text
 from core.decorators import instance
@@ -32,17 +32,17 @@ class Budabot(Bot):
 
     def start(self):
         self.access_manager.register_access_level("superadmin", 1, self.check_superadmin)
-        self.setting_manager.register("org_channel_max_page_length", 7500, "")
-        self.setting_manager.register("private_message_max_page_length", 7500, "")
-        self.setting_manager.register("private_channel_max_page_length", 7500, "")
-        self.setting_manager.register("header_color", "", "")
-        self.setting_manager.register("header2_color", "", "")
-        self.setting_manager.register("highlight_color", "", "")
-        self.setting_manager.register("neutral_color", "", "")
-        self.setting_manager.register("omni_color", "", "")
-        self.setting_manager.register("clan_color", "", "")
-        self.setting_manager.register("unknown_color", "", "")
-        self.setting_manager.register("symbol", "!", "")
+        self.setting_manager.register("org_channel_max_page_length", "number", 7500, "")
+        self.setting_manager.register("private_message_max_page_length", "number", 7500, "")
+        self.setting_manager.register("private_channel_max_page_length", "number", 7500, "")
+        self.setting_manager.register("header_color", "color", "", "")
+        self.setting_manager.register("header2_color", "color", "", "")
+        self.setting_manager.register("highlight_color", "color", "", "")
+        self.setting_manager.register("neutral_color", "color", "", "")
+        self.setting_manager.register("omni_color", "color", "", "")
+        self.setting_manager.register("clan_color", "color", "", "")
+        self.setting_manager.register("unknown_color", "color", "", "")
+        self.setting_manager.register("symbol", "text", "!", "")
         self.event_manager.register_event_type("connect")
 
     def post_start(self):

@@ -7,7 +7,6 @@ import collections
 @instance()
 class EventManager:
     def __init__(self):
-        self.db = None
         self.handlers = collections.defaultdict(list)
         self.logger = Logger("event_manager")
         self.event_types = []
