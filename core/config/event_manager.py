@@ -1,12 +1,7 @@
 from core.decorators import instance
-from core.access_manager import AccessManager
-from core.aochat import server_packets
-from core.character_manager import CharacterManager
-from core.setting_manager import SettingManager
 from core.registry import Registry
 from core.logger import Logger
 import collections
-import re
 
 
 @instance()
@@ -15,7 +10,7 @@ class EventManager:
         self.db = None
         self.handlers = collections.defaultdict(list)
         self.logger = Logger("event_manager")
-        self.event_types = ["connect"]
+        self.event_types = []
 
     def inject(self, registry):
         self.db = registry.get_instance("db")

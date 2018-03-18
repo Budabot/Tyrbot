@@ -43,6 +43,7 @@ class Budabot(Bot):
         self.setting_manager.register("clan_color", "", "")
         self.setting_manager.register("unknown_color", "", "")
         self.setting_manager.register("symbol", "!", "")
+        self.event_manager.register_event_type("connect")
 
     def post_start(self):
         self.command_manager.post_start()
