@@ -34,9 +34,17 @@ class EventManager:
 
         self.db.exec("DELETE FROM event_config WHERE verified = 0")
 
+    def register_event_type(self, event_type):
+        if event_type in self.event_types:
+            self.logger.error("Could not register event type '%s': event type already registered"
+                              % event_type)
+            return
+
+        self.logger.debug("Registering event type '%s'" % event_type)
+        self.event_types.append(event_type)
+
     def register(self, handler, event_type):
         handler_name = self.get_handler_name(handler)
-        print(handler_name)
 
         if event_type not in self.event_types:
             self.logger.error("Could not register handler '%s' for event type '%s': event type does not exist"
@@ -65,7 +73,7 @@ class EventManager:
     def get_handler_name(self, handler):
         return handler.__module__ + "." + handler.__qualname__
 
-    def fire_event(self, event_type):
+    def fire_event(self, event_type, event_data=None):
         if event_type not in self.event_types:
             self.logger.error("Could not fire event type '%s': event type does not exist" % event_type)
             return
@@ -79,4 +87,4 @@ class EventManager:
                 return
 
             if row.enabled == 1:
-                handler["handler"](event_type)
+                handler["handler"](event_type, event_data)

@@ -56,7 +56,7 @@ class Budabot(Bot):
             pass
 
         self.ready = True
-        self.event_manager.fire_event("connect")
+        self.event_manager.fire_event("connect", None)
 
         while True:
             self.iterate()
