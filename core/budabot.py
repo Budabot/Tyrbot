@@ -2,9 +2,9 @@ from core.aochat.bot import Bot
 from core.buddy_manager import BuddyManager
 from core.character_manager import CharacterManager
 from core.public_channel_manager import PublicChannelManager
-from core.text import Text
 from core.setting_manager import SettingManager
 from core.access_manager import AccessManager
+from core.text import Text
 from core.decorators import instance
 from core.chat_blob import ChatBlob
 from core.aochat import server_packets, client_packets
@@ -27,7 +27,8 @@ class Budabot(Bot):
         self.text: Text = registry.get_instance("text")
         self.setting_manager: SettingManager = registry.get_instance("setting_manager")
         self.access_manager: AccessManager = registry.get_instance("access_manager")
-        self.command_manager: AccessManager = registry.get_instance("command_manager")
+        self.command_manager = registry.get_instance("command_manager")
+        self.event_manager = registry.get_instance("event_manager")
 
     def start(self):
         self.access_manager.register_access_level("superadmin", 1, self.check_superadmin)
@@ -45,6 +46,7 @@ class Budabot(Bot):
 
     def post_start(self):
         self.command_manager.post_start()
+        self.event_manager.post_start()
 
     def check_superadmin(self, char_name):
         return char_name.capitalize() == self.superadmin
@@ -54,6 +56,7 @@ class Budabot(Bot):
             pass
 
         self.ready = True
+        self.event_manager.fire_event("connect")
 
         while True:
             self.iterate()

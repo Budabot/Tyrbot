@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS event_config (event_type VARCHAR(50) NOT NULL, handler VARCHAR(255) NOT NULL, enabled TINYINT NOT NULL, verified TINYINT NOT NULL);

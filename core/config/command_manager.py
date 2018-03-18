@@ -1,11 +1,11 @@
 from core.decorators import instance
 from core.access_manager import AccessManager
 from core.aochat import server_packets
-from core.budabot import Budabot
 from core.character_manager import CharacterManager
 from core.setting_manager import SettingManager
 from core.registry import Registry
 from core.logger import Logger
+from core.budabot import Budabot
 import collections
 import re
 
@@ -15,7 +15,6 @@ class CommandManager:
     def __init__(self):
         self.db = None
         self.handlers = collections.defaultdict(list)
-        self.temp_commands = {}
         self.logger = Logger("command_manager")
 
     def inject(self, registry):

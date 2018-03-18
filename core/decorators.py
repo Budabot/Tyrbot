@@ -21,3 +21,9 @@ def instance(cls, name=None):
 def command(handler, cmd_name, regex, access_level, sub_command=None):
     handler.command = [cmd_name, regex, access_level, sub_command]
     return handler
+
+
+@parametrized
+def event(handler, event_type):
+    handler.event = [event_type]
+    return handler
