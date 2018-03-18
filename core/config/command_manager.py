@@ -92,7 +92,7 @@ class CommandManager:
         return char_access_level <= cmd_access_level
 
     def get_command_parts(self, message):
-        parts = message.split(" ", 2)
+        parts = message.split(" ", 1)
         if len(parts) == 2:
             return parts[0], parts[1]
         else:
