@@ -63,7 +63,7 @@ class DB:
         match = self.enhanced_like_regex.search(sql)
         if match is not None:
             field = match.group(2)
-            vals = params[0].split(" ")
+            vals = ["%" + p + "%" for p in params[0].split(" ")]
             extra_sql = [field + " LIKE ?" for _ in vals]
             sql = self.enhanced_like_regex.sub(match.group(1) + "(" + " AND ".join(extra_sql) + ")" + match.group(3),
                                                sql, 1)
