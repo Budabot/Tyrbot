@@ -1,4 +1,4 @@
-from core.decorators import instance, command
+from core.decorators import instance, command, event
 from core.db import DB
 
 
@@ -14,8 +14,8 @@ class WhereisController:
         self.db.load_sql_file("./modules/whereis/whereis.sql")
 
     @command("whereis", "^(.+)$", "all")
-    def handle_whereis(self, command, channel, sender, reply, args):
-        data = self.db.query("SELECT * FROM whereis WHERE name LIKE ?", [args[1]])
+    def handle_whereis_cmd(self, command, channel, sender, reply, args):
+        data = self.db.query("SELECT * FROM whereis WHERE name <ENHANCED_LIKE> ?", [args[1]])
         if len(data) > 0:
             reply(data[0]["answer"])
         else:

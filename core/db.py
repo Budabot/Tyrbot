@@ -1,4 +1,5 @@
 import sqlite3
+import re
 from core.decorators import instance
 
 
@@ -6,6 +7,7 @@ from core.decorators import instance
 class DB:
     def __init__(self):
         self.conn = None
+        self.enhanced_like_regex = re.compile("(\s+)(\S+)\s+<ENHANCED_LIKE>\s+\?(\s*)", re.IGNORECASE)
 
     def row_factory(self, cursor: sqlite3.Cursor, row):
         d = {}
@@ -20,7 +22,7 @@ class DB:
     def query_single(self, sql, params=None):
         if params is None:
             params = []
-        sql = self.format_sql(sql)
+        sql, params = self.format_sql(sql, params)
         cur = self.conn.execute(sql, params)
         row = cur.fetchone()
         self.conn.commit()
@@ -29,7 +31,7 @@ class DB:
     def query(self, sql, params=None):
         if params is None:
             params = []
-        sql = self.format_sql(sql)
+        sql, params = self.format_sql(sql, params)
         cur = self.conn.execute(sql, params)
         data = cur.fetchall()
         self.conn.commit()
@@ -38,20 +40,40 @@ class DB:
     def exec(self, sql, params=None):
         if params is None:
             params = []
-        sql = self.format_sql(sql)
+        sql, params = self.format_sql(sql, params)
         cur = self.conn.execute(sql, params)
         rowcount = cur.rowcount
         self.conn.commit()
         return rowcount
 
-    def format_sql(self, sql):
-        # TODO
+    def format_sql(self, sql, params=None):
         sql = sql.replace("<dim>", "")
         sql = sql.replace("<myname>", "")
         sql = sql.replace("<myguild>", "")
         sql = sql.replace("AUTO_INCREMENT", "AUTOINCREMENT")
         sql = sql.replace(" INT ", " INTEGER ")
-        return sql
+
+        if params:  # not None and not empty
+            return self.handle_extended_like(sql, params)
+        else:
+            return sql, params
+
+    def handle_extended_like(self, sql, params):
+        # any <ENHANCED_LIKE>s in a query must correspond with the first parameter(s)
+        match = self.enhanced_like_regex.search(sql)
+        if match is not None:
+            field = match.group(2)
+            vals = params[0].split(" ")
+            extra_sql = [field + " LIKE ?" for _ in vals]
+            sql = self.enhanced_like_regex.sub(match.group(1) + "(" + " AND ".join(extra_sql) + ")" + match.group(3),
+                                               sql, 1)
+
+            # first occurrence has been handled, check for more occurrences with recursive call
+            # then merge params from recursive call
+            sql, remaining_params = self.handle_extended_like(sql, params[1:])
+            return sql, vals + remaining_params
+        else:
+            return sql, params
 
     def get_connection(self):
         return self.conn
@@ -60,7 +82,8 @@ class DB:
         with open(filename, "r") as f:
             c = self.conn.cursor()
             for line in f.readlines():
-                c.execute(self.format_sql(line))
+                sql, _ = self.format_sql(line)
+                c.execute(sql)
             self.conn.commit()
 
 
