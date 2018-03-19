@@ -15,7 +15,6 @@ class WhereisController:
 
     def start(self):
         self.db.load_sql_file("./modules/whereis/whereis.sql")
-        self.db.load_sql_file("./modules/whereis/playfields.sql")
 
     @command("whereis", "^(.+)$", "all")
     def handle_whereis_cmd(self, command, channel, sender, reply, args):
