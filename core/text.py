@@ -24,15 +24,14 @@ class Text:
     def make_image(self, image_id, image_db="rdb"):
         return "<img src='%s://%s'>" % (image_db, image_id)
 
-    def paginate(self, name, msg, max_page_length):
-        # TODO include header size in calc?
+    def paginate(self, label, msg, max_page_length):
         separators = ["<pagebreak>", "\n", " "]
 
         msg = msg.strip()
         msg = msg.replace('"', "&quot;")
-        name = name.replace('"', "&quot;")
+        label = label.replace('"', "&quot;")
 
-        msg = self.format_message(msg)
+        msg = "<header>" + label + "<end>\n\n" + self.format_message(msg)
 
         # if msg is empty, add a space so blob will appear
         if not msg:
@@ -52,17 +51,20 @@ class Text:
 
         pages.append(current_page)
 
-        if len(pages) == 1:
-            return [self.format_page(name, name, pages[0])]
-        else:
-            i = 0
-            for page in pages:
-                i += 1
-                header = name + " (Page " + str(i) + " / " + str(len(pages)) + ")"
-                yield self.format_page(name, header, page)
+        num_pages = len(pages)
 
-    def format_page(self, name, header, msg):
-        return "<a href=\"text://<header>" + header + "<end>\n\n" + msg + "\">" + name + "</a>"
+        def mapper(tup):
+            page, index = tup
+            if num_pages == 1:
+                label2 = label
+            else:
+                label2 = label + " (Page " + str(index) + " / " + str(num_pages) + ")"
+            return self.format_page(label2, page)
+
+        return map(mapper, zip(pages, range(1, num_pages + 1)))
+
+    def format_page(self, label, msg):
+        return "<a href=\"text://" + msg + "\">" + label + "</a>"
 
     def get_next_line(self, msg, max_page_length, separators):
         if len(separators) == 0:

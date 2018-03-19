@@ -91,7 +91,7 @@ class Budabot(Bot):
         if org_channel_id is None:
             self.logger.warning("Could not send message to org channel, unknown org id")
         else:
-            for page in self.get_text_pages(msg, self.setting_manager.get("org_channel_max_page_length")):
+            for page in self.get_text_pages(msg, int(self.setting_manager.get("org_channel_max_page_length"))):
                 packet = client_packets.PublicChannelMessage(org_channel_id, page, "")
                 self.send_packet(packet)
 
@@ -100,7 +100,7 @@ class Budabot(Bot):
         if char_id is None:
             self.logger.warning("Could not send message to %s, could not find char id" % char)
         else:
-            for page in self.get_text_pages(msg, self.setting_manager.get("private_message_max_page_length")):
+            for page in self.get_text_pages(msg, int(self.setting_manager.get("private_message_max_page_length"))):
                 self.logger.log_tell("To", self.character_manager.get_char_name(char_id), page)
                 packet = client_packets.PrivateMessage(char_id, page, "")
                 self.send_packet(packet)
@@ -113,7 +113,7 @@ class Budabot(Bot):
         if private_channel_id is None:
             self.logger.warning("Could not send message to private channel %s, could not find private channel" % private_channel)
         else:
-            for page in self.get_text_pages(msg, self.setting_manager.get("private_channel_max_page_length")):
+            for page in self.get_text_pages(msg, int(self.setting_manager.get("private_channel_max_page_length"))):
                 packet = client_packets.PrivateChannelMessage(private_channel_id, page, "")
                 self.send_packet(packet)
 

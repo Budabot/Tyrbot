@@ -1,5 +1,6 @@
 from core.decorators import instance, command, event
 from core.db import DB
+from core.chat_blob import ChatBlob
 
 
 @instance()
@@ -15,8 +16,9 @@ class WhereisController:
 
     @command("whereis", "^(.+)$", "all")
     def handle_whereis_cmd(self, command, channel, sender, reply, args):
-        data = self.db.query("SELECT * FROM whereis WHERE name <ENHANCED_LIKE> ?", [args[1]])
+        search = args[1]
+        data = self.db.query("SELECT * FROM whereis WHERE name <ENHANCED_LIKE> ?", [search])
         if len(data) > 0:
-            reply(data[0]["answer"])
+            reply(ChatBlob("Search results for %s" % search, data[0].answer))
         else:
             reply("Could not find any results for your search")
