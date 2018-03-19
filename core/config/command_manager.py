@@ -19,6 +19,7 @@ class CommandManager:
 
     def inject(self, registry):
         self.db = registry.get_instance("db")
+        self.util = registry.get_instance("util")
         self.access_manager: AccessManager = registry.get_instance("access_manager")
         self.bot: Budabot = registry.get_instance("budabot")
         self.character_manager: CharacterManager = registry.get_instance("character_manager")
@@ -36,12 +37,18 @@ class CommandManager:
             for name, method in inst.__class__.__dict__.items():
                 if hasattr(method, "command"):
                     cmd_name, regex, access_level, sub_command = getattr(method, "command")
-                    self.register(getattr(inst, name), cmd_name, regex, access_level, sub_command)
+                    handler = getattr(inst, name)
+                    module = self.util.get_module_name(handler)
+                    self.register(handler, cmd_name, regex, access_level, module, sub_command)
 
         self.db.exec("DELETE FROM command_config WHERE verified = 0")
 
-    def register(self, handler, command, regex, access_level, sub_command=None):
+    def register(self, handler, command, regex, access_level, module, sub_command=None):
         sub_command = sub_command or command
+        command = command.lower()
+        sub_command = sub_command.lower()
+        access_level = access_level.lower()
+        module = module.lower()
 
         for channel in self.channels:
             row = self.db.query_single("SELECT sub_command, access_level, enabled, verified "
@@ -51,13 +58,14 @@ class CommandManager:
             if row is None:
                 # add new command config
                 self.db.exec(
-                    "INSERT INTO command_config (command, sub_command, access_level, channel, enabled, verified) VALUES "
-                    "(?, ?, ?, ?, ?, ?)",
-                    [command, sub_command, access_level, channel, 1, 1])
+                    "INSERT INTO command_config (command, sub_command, access_level, channel, module, enabled, verified)"
+                    " VALUES (?, ?, ?, ?, ?, ?, ?)",
+                    [command, sub_command, access_level, channel, module, 1, 1])
             else:
                 # mark command as verified
-                self.db.exec("UPDATE command_config SET verified = ? WHERE command = ? AND sub_command = ? AND channel = ?",
-                             [1, command, sub_command, channel])
+                self.db.exec("UPDATE command_config SET verified = ?, module = ? "
+                             "WHERE command = ? AND sub_command = ? AND channel = ?",
+                             [1, module, command, sub_command, channel])
 
         # load command handler
         r = re.compile(regex, re.IGNORECASE)

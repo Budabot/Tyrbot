@@ -13,6 +13,7 @@ class EventManager:
 
     def inject(self, registry):
         self.db = registry.get_instance("db")
+        self.util = registry.get_instance("util")
 
     def start(self):
         self.db.load_sql_file("./core/config/event_config.sql")
@@ -24,11 +25,15 @@ class EventManager:
             for name, method in inst.__class__.__dict__.items():
                 if hasattr(method, "event"):
                     event_type, = getattr(method, "event")
-                    self.register(getattr(inst, name), event_type)
+                    handler = getattr(inst, name)
+                    module = self.util.get_module_name(handler)
+                    self.register(handler, event_type, module)
 
         self.db.exec("DELETE FROM event_config WHERE verified = 0")
 
     def register_event_type(self, event_type):
+        event_type = event_type.lower()
+
         if event_type in self.event_types:
             self.logger.error("Could not register event type '%s': event type already registered"
                               % event_type)
@@ -37,8 +42,10 @@ class EventManager:
         self.logger.debug("Registering event type '%s'" % event_type)
         self.event_types.append(event_type)
 
-    def register(self, handler, event_type):
-        handler_name = self.get_handler_name(handler)
+    def register(self, handler, event_type, module):
+        event_type = event_type.lower()
+        module = module.lower()
+        handler_name = self.util.get_handler_name(handler)
 
         if event_type not in self.event_types:
             self.logger.error("Could not register handler '%s' for event type '%s': event type does not exist"
@@ -52,22 +59,21 @@ class EventManager:
         if row is None:
             # add new event config
             self.db.exec(
-                "INSERT INTO event_config (event_type, handler, enabled, verified) VALUES "
-                "(?, ?, ?, ?)",
-                [event_type, handler_name, 1, 1])
+                "INSERT INTO event_config (event_type, handler, module, enabled, verified) VALUES "
+                "(?, ?, ?, ?, ?)",
+                [event_type, handler_name, module, 1, 1])
         else:
             # mark command as verified
             self.db.exec(
-                "UPDATE event_config SET verified = ? WHERE event_type = ? AND handler = ?",
-                [1, event_type, handler_name])
+                "UPDATE event_config SET verified = ?, module = ? WHERE event_type = ? AND handler = ?",
+                [1, module, event_type, handler_name])
 
         # load command handler
         self.handlers[event_type].append({"handler": handler, "name": handler_name})
 
-    def get_handler_name(self, handler):
-        return handler.__module__ + "." + handler.__qualname__
-
     def fire_event(self, event_type, event_data=None):
+        event_type = event_type.lower()
+
         if event_type not in self.event_types:
             self.logger.error("Could not fire event type '%s': event type does not exist" % event_type)
             return
