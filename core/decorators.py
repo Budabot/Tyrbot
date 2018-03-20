@@ -27,3 +27,10 @@ def command(handler, cmd_name, regex, access_level, sub_command=None):
 def event(handler, event_type):
     handler.event = [event_type]
     return handler
+
+@parametrized
+def timerevent(handler, budatime):
+    util = Registry.get_instance("util")
+    t = util.parse_time(budatime)
+    handler.event = ["timer:" + str(t)]
+    return handler
