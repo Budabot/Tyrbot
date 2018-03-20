@@ -44,6 +44,7 @@ class Budabot(Bot):
         self.setting_manager.register("unknown_color", "color", "", "", "colors")
         self.setting_manager.register("symbol", "text", "!", "", "system")
         self.event_manager.register_event_type("connect")
+        self.event_manager.register_event_type("packet")
 
     def post_start(self):
         self.command_manager.post_start()
@@ -82,6 +83,8 @@ class Budabot(Bot):
 
             for handler in self.packet_handlers.get(packet.id, []):
                 handler(packet)
+
+            self.event_manager.fire_event("packet:" + str(packet.id), packet)
 
             return packet
         else:

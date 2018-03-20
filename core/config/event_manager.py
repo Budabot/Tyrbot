@@ -43,46 +43,46 @@ class EventManager:
         self.event_types.append(event_type)
 
     def register(self, handler, event_type, module):
-        event_type, event_sub_type = self.get_event_type(event_type)
+        event_type_base, event_sub_type = self.get_event_type_parts(event_type)
         module = module.lower()
         handler_name = self.util.get_handler_name(handler)
 
-        if event_type not in self.event_types:
+        if event_type_base not in self.event_types:
             self.logger.error("Could not register handler '%s' for event type '%s': event type does not exist"
                               % (handler_name, event_type))
             return
 
         row = self.db.query_single("SELECT 1 "
-                                   "FROM event_config WHERE event_type = ? AND event_sub_type = ? AND handler = ?",
-                                   [event_type, event_sub_type, handler_name])
+                                   "FROM event_config WHERE event_type = ? AND handler = ?",
+                                   [event_type, handler_name])
 
         if row is None:
             # add new event config
             self.db.exec(
-                "INSERT INTO event_config (event_type, event_sub_type, handler, module, enabled, verified) "
-                "VALUES (?, ?, ?, ?, ?, ?)",
-                [event_type, event_sub_type, handler_name, module, 1, 1])
+                "INSERT INTO event_config (event_type, handler, module, enabled, verified) "
+                "VALUES (?, ?, ?, ?, ?)",
+                [event_type, handler_name, module, 1, 1])
         else:
             # mark command as verified
             self.db.exec(
                 "UPDATE event_config SET verified = ?, module = ? "
-                "WHERE event_type = ? AND event_sub_type = ? AND handler = ?",
-                [1, module, event_type, event_sub_type, handler_name])
+                "WHERE event_type = ? AND handler = ?",
+                [1, module, event_type, handler_name])
 
         # load command handler
         self.handlers[event_type].append({"handler": handler, "name": handler_name})
 
     def fire_event(self, event_type, event_data=None):
-        event_type, event_sub_type = self.get_event_type(event_type)
+        event_type_base, event_sub_type = self.get_event_type_parts(event_type)
 
-        if event_type not in self.event_types:
+        if event_type_base not in self.event_types:
             self.logger.error("Could not fire event type '%s': event type does not exist" % event_type)
             return
 
         for handler in self.handlers[event_type]:
             row = self.db.query_single("SELECT enabled FROM event_config "
-                                       "WHERE event_type = ? AND event_sub_type = ? AND handler = ?",
-                                       [event_type, event_sub_type, handler["name"]])
+                                       "WHERE event_type = ? AND handler = ?",
+                                       [event_type, handler["name"]])
             if row is None:
                 self.logger.error("Could not find event configuration for event type '%s' and handler '%s'"
                                   % (event_type, handler["name"]))
@@ -91,7 +91,7 @@ class EventManager:
             if row.enabled == 1:
                 handler["handler"](event_type, event_data)
 
-    def get_event_type(self, event_type):
+    def get_event_type_parts(self, event_type):
         arr = event_type.lower().split(":", 1)
         return arr[0], arr[1] if len(arr) > 1 else ""
 
