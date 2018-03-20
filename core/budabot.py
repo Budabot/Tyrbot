@@ -68,6 +68,7 @@ class Budabot(Bot):
         self.packet_handlers[packet_id] = handlers
 
     def iterate(self):
+        self.event_manager.check_for_timer_events()
         packet = self.read_packet()
         if packet is not None:
             if isinstance(packet, server_packets.PrivateMessage):
