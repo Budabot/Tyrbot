@@ -18,8 +18,8 @@ def instance(cls, name=None):
 
 
 @parametrized
-def command(handler, cmd_name, regex, access_level, sub_command=None):
-    handler.command = [cmd_name, regex, access_level, sub_command]
+def command(handler, cmd_name, regex, access_level, help_file=None, sub_command=None):
+    handler.command = [cmd_name, regex, access_level, help_file, sub_command]
     return handler
 
 
@@ -27,6 +27,7 @@ def command(handler, cmd_name, regex, access_level, sub_command=None):
 def event(handler, event_type):
     handler.event = [event_type]
     return handler
+
 
 @parametrized
 def timerevent(handler, budatime):

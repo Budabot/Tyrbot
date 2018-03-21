@@ -6,6 +6,8 @@ from core.config.setting_manager import SettingManager
 from core.registry import Registry
 from core.logger import Logger
 from core.budabot import Budabot
+from core.chat_blob import ChatBlob
+from pathlib import Path
 import collections
 import re
 
@@ -36,40 +38,66 @@ class CommandManager:
         for _, inst in Registry.get_all_instances().items():
             for name, method in inst.__class__.__dict__.items():
                 if hasattr(method, "command"):
-                    cmd_name, regex, access_level, sub_command = getattr(method, "command")
+                    cmd_name, regex, access_level, help_file, sub_command = getattr(method, "command")
                     handler = getattr(inst, name)
-                    module = self.util.get_module_name(handler)
-                    self.register(handler, cmd_name, regex, access_level, module, sub_command)
+                    handler_name_parts = self.util.get_handler_name(handler).split(".")
+                    module = handler_name_parts[1]
+                    if help_file:
+                        help_file = "./" + handler_name_parts[0] + "/" + handler_name_parts[1] + "/" + help_file
+                    self.register(handler, cmd_name, regex, access_level, module, help_file, sub_command)
 
         self.db.exec("DELETE FROM command_config WHERE verified = 0")
 
-    def register(self, handler, command, regex, access_level, module, sub_command=None):
+    def register(self, handler, command, regex, access_level, module, help_file=None, sub_command=None):
         sub_command = sub_command or command
         command = command.lower()
         sub_command = sub_command.lower()
         access_level = access_level.lower()
         module = module.lower()
 
+        if help_file is not None:
+            if not Path(help_file).exists():
+                self.logger.warning("Could not find help file '%s' for command '%s'" % (help_file, command))
+        else:
+            self.logger.warning("No help file specified for for command '%s'" % command)
+            help_file = ""
+
         for channel in self.channels:
-            row = self.db.query_single("SELECT sub_command, access_level, enabled, verified "
-                                       "FROM command_config WHERE command = ? AND sub_command = ? AND channel = ?",
+            row = self.db.query_single("SELECT access_level, help_file, module, enabled, verified "
+                                       "FROM command_config "
+                                       "WHERE command = ? AND sub_command = ? AND channel = ?",
                                        [command, sub_command, channel])
 
             if row is None:
                 # add new command config
                 self.db.exec(
-                    "INSERT INTO command_config (command, sub_command, access_level, channel, module, enabled, verified)"
-                    " VALUES (?, ?, ?, ?, ?, ?, ?)",
-                    [command, sub_command, access_level, channel, module, 1, 1])
+                    "INSERT INTO command_config "
+                    "(command, sub_command, access_level, channel, module, help_file, enabled, verified) "
+                    "VALUES (?, ?, ?, ?, ?, ?, 1, 1)",
+                    [command, sub_command, access_level, channel, module, help_file])
+            elif row.verified:
+                if row.access_level != access_level:
+                    self.logger.warning(
+                        "access_level different for different forms of command '%s' and sub_command '%s'" %
+                        (command, sub_command))
+                if row.help_file != help_file:
+                    self.logger.warning(
+                        "help_file different for different forms of command '%s' and sub_command '%s'" %
+                        (command, sub_command))
+                if row.module != module:
+                    self.logger.warning(
+                        "module different for different forms of command '%s' and sub_command '%s'" %
+                        (command, sub_command))
             else:
                 # mark command as verified
-                self.db.exec("UPDATE command_config SET verified = ?, module = ? "
+                self.db.exec("UPDATE command_config SET verified = 1, module = ?, help_file = ? "
                              "WHERE command = ? AND sub_command = ? AND channel = ?",
-                             [1, module, command, sub_command, channel])
+                             [module, help_file, command, sub_command, channel])
 
-        # load command handler
+        # save reference to command handler
         r = re.compile(regex, re.IGNORECASE)
-        self.handlers[command].append({"handler": handler, "regex": r, "sub_command": sub_command})
+        self.handlers[self.get_command_key(command, sub_command)].append(
+            {"regex": r, "callback": handler})
 
     def register_command_channel(self, channel):
         if channel in self.channels:
@@ -82,21 +110,23 @@ class CommandManager:
 
     def process_command(self, message: str, channel: str, char_name, reply):
         command_str, command_args = self.get_command_parts(message)
-        matches, handler, cmd_config = self.get_handler(command_str, command_args, channel)
-        if handler:
-            if self.has_sufficient_access_level_for_command(char_name, cmd_config):
-                handler["handler"](message, channel, char_name, reply, matches)
+        cmd_configs = self.get_command_configs(command_str, channel)
+        if cmd_configs:
+            cmd_config, matches, handler = self.get_matches(cmd_configs, command_args)
+            if matches:
+                if self.access_manager.check_access(char_name, cmd_config.access_level):
+                    handler["callback"](message, channel, char_name, reply, matches)
+                else:
+                    reply("Error! Access denied.")
             else:
-                reply("Error! Access denied.")
+                # handlers were found, but no handler regex matched
+                help_file = self.get_help_file(command_str, channel)
+                if help_file:
+                    reply(help_file)
+                else:
+                    reply("Error! Invalid syntax.")
         else:
             reply("Error! Unknown command.")
-
-    def has_sufficient_access_level_for_command(self, char, cmd_config):
-        char_access_level = self.access_manager.get_access_level(char)
-        cmd_access_level = self.access_manager.get_access_level_by_label(cmd_config.access_level)
-
-        # higher access levels have lower values
-        return char_access_level <= cmd_access_level
 
     def get_command_parts(self, message):
         parts = message.split(" ", 1)
@@ -105,22 +135,41 @@ class CommandManager:
         else:
             return parts[0], ""
 
-    def get_handler(self, command, command_args, channel):
-        handlers = self.handlers.get(command, None)
-        if handlers:
+    def get_command_configs(self, command, channel):
+        return self.db.query("SELECT command, sub_command, access_level FROM command_config "
+                             "WHERE command = ? AND channel = ? AND enabled = 1",
+                             [command, channel])
+
+    def get_matches(self, cmd_configs, command_args):
+        for row in cmd_configs:
+            command_key = self.get_command_key(row.command, row.sub_command)
+            handlers = self.handlers[command_key]
             for handler in handlers:
-                sub_command = handler["sub_command"]
                 matches = handler["regex"].match(command_args)
                 if matches:
-                    row = self.db.query_single("SELECT sub_command, access_level, enabled FROM command_config "
-                                               "WHERE command = ? AND sub_command = ? AND channel = ?",
-                                               [command, sub_command, channel])
-                    if row is None:
-                        raise Exception("Could not find command '%s' and sub_command '%s'" % command, sub_command)
-                    elif row.enabled == 1:
-                        return matches, handler, row
-
+                    return row, matches, handler
         return None, None, None
+
+    def get_help_file(self, command_str, channel):
+        data = self.db.query("SELECT DISTINCT help_file FROM command_config "
+                             "WHERE command = ? AND channel = ? AND enabled = 1",
+                             [command_str, channel])
+
+        def read_file(row):
+            if row.help_file:
+                with open(row.help_file) as f:
+                    return f.read()
+            else:
+                return ""
+
+        content = "".join(map(read_file, data))
+        if content:
+            return ChatBlob("Help (" + command_str + ")", content)
+        else:
+            return None
+
+    def get_command_key(self, command, sub_command):
+        return command + ":" + sub_command
 
     def handle_private_message(self, packet: server_packets.PrivateMessage):
         if len(packet.message) < 1:
