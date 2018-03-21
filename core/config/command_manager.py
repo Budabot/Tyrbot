@@ -158,11 +158,11 @@ class CommandManager:
         def read_file(row):
             if row.help_file:
                 with open(row.help_file) as f:
-                    return f.read()
+                    return f.read().strip()
             else:
                 return ""
 
-        content = "".join(map(read_file, data))
+        content = "\n\n".join(map(read_file, data))
         if content:
             return ChatBlob("Help (" + command_str + ")", content)
         else:
