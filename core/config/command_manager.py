@@ -18,6 +18,8 @@ class CommandManager:
         self.handlers = collections.defaultdict(list)
         self.logger = Logger("command_manager")
         self.channels = ["private_message", "org_message", "private_channel_message"]
+        self.deferred_register = []
+        self.deferred_register_command_channel = []
 
     def inject(self, registry):
         self.db = registry.get_instance("db")
@@ -47,9 +49,21 @@ class CommandManager:
                         help_file = "./" + handler_name_parts[0] + "/" + handler_name_parts[1] + "/" + help_file
                     self.register(handler, cmd_name, regex, access_level, module, help_file, sub_command)
 
+        # process deferred register calls
+        for args in self.deferred_register_command_channel:
+            self.do_register_command_channel(**args)
+
+        for args in self.deferred_register:
+            self.do_register(**args)
+
         self.db.exec("DELETE FROM command_config WHERE verified = 0")
 
     def register(self, handler, command, regex, access_level, module, help_file=None, sub_command=None):
+        args = locals()
+        del args["self"]
+        self.deferred_register.append(args)
+
+    def do_register(self, handler, command, regex, access_level, module, help_file=None, sub_command=None):
         sub_command = sub_command or command
         command = command.lower()
         sub_command = sub_command.lower()
@@ -101,6 +115,11 @@ class CommandManager:
             {"regex": r, "callback": handler})
 
     def register_command_channel(self, channel):
+        args = locals()
+        del args["self"]
+        self.deferred_register_command_channel.append(args)
+
+    def do_register_command_channel(self, channel):
         if channel in self.channels:
             self.logger.error("Could not register command channel '%s': command channel already registered"
                               % channel)
