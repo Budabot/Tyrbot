@@ -26,6 +26,7 @@ class CommandManager:
         self.bot: Budabot = registry.get_instance("budabot")
         self.character_manager: CharacterManager = registry.get_instance("character_manager")
         self.setting_manager: SettingManager = registry.get_instance("setting_manager")
+        self.command_alias_manager = registry.get_instance("command_alias_manager")
 
     def start(self):
         self.bot.add_packet_handler(server_packets.PrivateMessage.id, self.handle_private_message)
@@ -110,6 +111,10 @@ class CommandManager:
 
     def process_command(self, message: str, channel: str, char_name, reply):
         command_str, command_args = self.get_command_parts(message)
+
+        # check for command alias
+        command_str, command_args = self.command_alias_manager.check_for_alias(command_str, command_args)
+
         cmd_configs = self.get_command_configs(command_str, channel)
         if cmd_configs:
             cmd_config, matches, handler = self.get_matches(cmd_configs, command_args)
