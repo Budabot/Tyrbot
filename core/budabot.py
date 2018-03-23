@@ -32,9 +32,9 @@ class Budabot(Bot):
 
     def start(self):
         self.access_manager.register_access_level("superadmin", 1, self.check_superadmin)
-        self.setting_manager.register("org_channel_max_page_length", "number", 7500, "", "core.system")
-        self.setting_manager.register("private_message_max_page_length", "number", 7500, "", "core.system")
-        self.setting_manager.register("private_channel_max_page_length", "number", 7500, "", "core.system")
+        self.setting_manager.register("org_channel_max_page_length", "number", 7500, "Maximum size of blobs in org channel", "core.system")
+        self.setting_manager.register("private_message_max_page_length", "number", 7500, "Maximum size of blobs in private messages", "core.system")
+        self.setting_manager.register("private_channel_max_page_length", "number", 7500, "Maximum size of blobs in private channel", "core.system")
         self.setting_manager.register("header_color", "color", "#FFFF00", "color for headers", "core.colors")
         self.setting_manager.register("header2_color", "color", "#FCA712", "color for sub-headers", "core.colors")
         self.setting_manager.register("highlight_color", "color", "#FFFFFF", "color for highlight", "core.colors")
@@ -42,7 +42,7 @@ class Budabot(Bot):
         self.setting_manager.register("omni_color", "color", "#FA8484", "color for omni faction", "core.colors")
         self.setting_manager.register("clan_color", "color", "#F79410", "color for clan faction", "core.colors")
         self.setting_manager.register("unknown_color", "color", "#FF0000", "color for unknown faction", "core.colors")
-        self.setting_manager.register("symbol", "text", "!", "", "core.system")
+        self.setting_manager.register("symbol", "text", "!", "Symbol for executing bot commands", "core.system")
         self.event_manager.register_event_type("connect")
         self.event_manager.register_event_type("packet")
         self.event_manager.register_event_type("timer")
