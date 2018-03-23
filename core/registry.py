@@ -55,7 +55,7 @@ class Registry:
         dirs = filter(lambda y: not y[0].endswith("__pycache__"), dirs)
 
         def get_files(tup):
-            return map(lambda x: tup[0] + "\\" + x, tup[2])
+            return map(lambda x: os.path.join(tup[0], x), tup[2])
 
         # get files from subdirectories
         files = flatmap(get_files, dirs)
@@ -69,4 +69,4 @@ class Registry:
     def load_module(cls, file):
         # strip the extension
         file = file[:-3]
-        importlib.import_module(file.replace("\\", "."))
+        importlib.import_module(file.replace("\\", ".").replace("/", "."))

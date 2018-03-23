@@ -1,10 +1,11 @@
 import json
 import time
+import os
 from core.registry import Registry
 
 config = json.load(open("./conf/config.json", "r"))
 
-Registry.load_instances(["core", "modules"])
+Registry.load_instances(["core", os.path.join("modules", "core"), os.path.join("modules", "user"), os.path.join("modules", "extra")])
 Registry.inject_all()
 
 while True:
