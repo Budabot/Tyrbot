@@ -24,14 +24,14 @@ def command(handler, command, params, access_level, description, sub_command=Non
 
 
 @parametrized
-def event(handler, event_type):
-    handler.event = [event_type]
+def event(handler, event_type, description):
+    handler.event = [event_type, description]
     return handler
 
 
 @parametrized
-def timerevent(handler, budatime):
+def timerevent(handler, budatime, description):
     util = Registry.get_instance("util")
     t = util.parse_time(budatime)
-    handler.event = ["timer:" + str(t)]
+    handler.event = ["timer:" + str(t), description]
     return handler

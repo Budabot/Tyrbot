@@ -24,10 +24,10 @@ class EventManager:
         for _, inst in Registry.get_all_instances().items():
             for name, method in inst.__class__.__dict__.items():
                 if hasattr(method, "event"):
-                    event_type, = getattr(method, "event")
+                    event_type, description = getattr(method, "event")
                     handler = getattr(inst, name)
                     module = self.util.get_module_name(handler)
-                    self.register(handler, event_type, module)
+                    self.register(handler, event_type, description, module)
 
         self.db.exec("DELETE FROM event_config WHERE verified = 0")
 
@@ -42,7 +42,7 @@ class EventManager:
         self.logger.debug("Registering event type '%s'" % event_type)
         self.event_types.append(event_type)
 
-    def register(self, handler, event_type, module):
+    def register(self, handler, event_type, description, module):
         event_type_base, event_sub_type = self.get_event_type_parts(event_type)
         module = module.lower()
         handler_name = self.util.get_handler_name(handler)
@@ -59,15 +59,15 @@ class EventManager:
         if row is None:
             # add new event config
             self.db.exec(
-                "INSERT INTO event_config (event_type, handler, module, enabled, verified) "
-                "VALUES (?, ?, ?, ?, ?)",
-                [event_type, handler_name, module, 1, 1])
+                "INSERT INTO event_config (event_type, handler, description, module, enabled, verified) "
+                "VALUES (?, ?, ?, ?, ?, ?)",
+                [event_type, handler_name, description, module, 1, 1])
         else:
             # mark command as verified
             self.db.exec(
-                "UPDATE event_config SET verified = ?, module = ? "
+                "UPDATE event_config SET verified = ?, module = ?, description = ? "
                 "WHERE event_type = ? AND handler = ?",
-                [1, module, event_type, handler_name])
+                [1, module, description, event_type, handler_name])
 
         # load command handler
         self.handlers[event_type].append({"handler": handler, "name": handler_name})
