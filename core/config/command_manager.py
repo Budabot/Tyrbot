@@ -205,7 +205,10 @@ class CommandManager:
             return description + ":\n" + "<tab><symbol>" + command + " " + params
 
     def get_command_key(self, command, sub_command):
-        return command + ":" + sub_command
+        if command == sub_command:
+            return command
+        else:
+            return command + ":" + sub_command
 
     def handle_private_message(self, packet: server_packets.PrivateMessage):
         if len(packet.message) < 1:

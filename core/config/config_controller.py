@@ -12,6 +12,7 @@ class ConfigController:
     def inject(self, registry):
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
+        self.command_manager = registry.get_instance("command_manager")
 
     def start(self):
         pass
@@ -53,3 +54,33 @@ class ConfigController:
                 blob += "<red>Disabled<end>"
             blob += "\n"
         reply(ChatBlob("Config (%d)" % count, blob))
+
+    @command(command="config", params="mod (.+)", access_level="superadmin",
+             description="Shows configuration options for the bot")
+    def config_module_list_cmd(self, command, channel, sender, reply, args):
+        module = args[1].lower()
+
+        blob = ""
+
+        data = self.db.query("SELECT name, description, value FROM setting WHERE module = ? ORDER BY name ASC", [module])
+        if data:
+            blob += "<header2>Settings<end>\n"
+            for row in data:
+                blob += row.description + ": " + row.value + "\n"
+
+        data = self.db.query("SELECT DISTINCT command, sub_command FROM command_config WHERE module = ? ORDER BY command ASC",
+                             [module])
+        if data:
+            blob += "\n<header2>Commands<end>\n"
+            for row in data:
+                blob += self.command_manager.get_command_key(row.command, row.sub_command) + "\n"
+
+        data = self.db.query("SELECT event_type, handler, description FROM event_config WHERE module = ? "
+                             "ORDER BY event_type, handler ASC",
+                             [module])
+        if data:
+            blob += "\n<header2>Events<end>\n"
+            for row in data:
+                blob += row.event_type + " " + row.description + "\n"
+
+        reply(ChatBlob(module + " Module Config", blob))
