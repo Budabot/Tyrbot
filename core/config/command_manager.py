@@ -45,7 +45,7 @@ class CommandManager:
                     handler = getattr(inst, name)
                     module = self.util.get_module_name(handler)
                     regex = "^" + params + "$"
-                    help_text = self.get_help_file(module, help_file)
+                    help_text = self.get_help_file(module, help_file, cmd_name, description, params)
 
                     self.register(handler, cmd_name, regex, access_level, description, module, help_text, sub_command)
 
@@ -137,7 +137,7 @@ class CommandManager:
                         reply("Error! Access denied.")
                 else:
                     # handlers were found, but no handler regex matched
-                    help_file = self.get_help_text(command_str, channel)
+                    help_file = self.get_help_text(char_name, command_str, channel)
                     if help_file:
                         reply(help_file)
                     else:
@@ -170,10 +170,13 @@ class CommandManager:
                     return row, matches, handler
         return None, None, None
 
-    def get_help_text(self, command_str, channel):
-        data = self.db.query("SELECT command, sub_command FROM command_config "
+    def get_help_text(self, char, command_str, channel):
+        data = self.db.query("SELECT command, sub_command, access_level FROM command_config "
                              "WHERE command = ? AND channel = ? AND enabled = 1",
                              [command_str, channel])
+
+        # filter out commands that character does not have access level for
+        data = filter(lambda row: self.access_manager.check_access(char, row.access_level), data)
 
         def read_file(row):
             command_key = self.get_command_key(row.command, row.sub_command)
@@ -185,7 +188,7 @@ class CommandManager:
         else:
             return None
 
-    def get_help_file(self, module, help_file):
+    def get_help_file(self, module, help_file, command, description, params):
         if help_file:
             try:
                 help_file = "./" + module.replace(".", "/") + "/" + help_file
@@ -193,7 +196,9 @@ class CommandManager:
                     return f.read().strip()
             except FileNotFoundError as e:
                 self.logger.error("Error reading help file", e)
-        return ""
+                return ""
+        else:
+            return description + ":\n" + "<tab><symbol>" + command + " " + params
 
     def get_command_key(self, command, sub_command):
         return command + ":" + sub_command

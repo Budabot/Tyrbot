@@ -18,7 +18,7 @@ def instance(cls, name=None):
 
 
 @parametrized
-def command(handler, command, params, access_level, description, help_file=None, sub_command=None):
+def command(handler, command, params, access_level, description, sub_command=None, help_file=None):
     handler.command = [command, params, access_level, description, help_file, sub_command]
     return handler
 
