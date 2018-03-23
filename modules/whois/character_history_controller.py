@@ -13,13 +13,13 @@ class CharacterHistoryController:
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
 
-    @command("history", "^([^ ]+) (\d)$", "all")
+    @command("history", "(.+) (\d)", "all", "Get history of character for a specific server num")
     def handle_history_cmd1(self, command, channel, sender, reply, args):
         name = args[1].lower().capitalize()
         server_num = args[2]
         reply(self.get_character_history(name, server_num))
 
-    @command("history", "^([^ ]+)$", "all")
+    @command("history", "(.+)", "all", "Get history of character for the current server num", "list")
     def handle_history_cmd2(self, command, channel, sender, reply, args):
         name = args[1].lower().capitalize()
         reply(self.get_character_history(name, 5))
