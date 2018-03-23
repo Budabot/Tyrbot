@@ -45,7 +45,7 @@ class CommandManager:
                     handler = getattr(inst, name)
                     module = self.util.get_module_name(handler)
                     if help_file:
-                        help_file = "./" + module + "/" + help_file
+                        help_file = "./" + module.replace(".", "/") + "/" + help_file
                     self.register(handler, cmd_name, regex, access_level, module, help_file, sub_command)
 
         # process deferred register calls
@@ -128,28 +128,32 @@ class CommandManager:
         self.channels.append(channel)
 
     def process_command(self, message: str, channel: str, char_name, reply):
-        command_str, command_args = self.get_command_parts(message)
+        try:
+            command_str, command_args = self.get_command_parts(message)
 
-        # check for command alias
-        command_str, command_args = self.command_alias_manager.check_for_alias(command_str, command_args)
+            # check for command alias
+            command_str, command_args = self.command_alias_manager.check_for_alias(command_str, command_args)
 
-        cmd_configs = self.get_command_configs(command_str, channel)
-        if cmd_configs:
-            cmd_config, matches, handler = self.get_matches(cmd_configs, command_args)
-            if matches:
-                if self.access_manager.check_access(char_name, cmd_config.access_level):
-                    handler["callback"](message, channel, char_name, reply, matches)
+            cmd_configs = self.get_command_configs(command_str, channel)
+            if cmd_configs:
+                cmd_config, matches, handler = self.get_matches(cmd_configs, command_args)
+                if matches:
+                    if self.access_manager.check_access(char_name, cmd_config.access_level):
+                        handler["callback"](message, channel, char_name, reply, matches)
+                    else:
+                        reply("Error! Access denied.")
                 else:
-                    reply("Error! Access denied.")
+                    # handlers were found, but no handler regex matched
+                    help_file = self.get_help_file(command_str, channel)
+                    if help_file:
+                        reply(help_file)
+                    else:
+                        reply("Error! Invalid syntax.")
             else:
-                # handlers were found, but no handler regex matched
-                help_file = self.get_help_file(command_str, channel)
-                if help_file:
-                    reply(help_file)
-                else:
-                    reply("Error! Invalid syntax.")
-        else:
-            reply("Error! Unknown command.")
+                reply("Error! Unknown command.")
+        except Exception as e:
+            self.logger.error("", e)
+            reply("There was an error processing your request.")
 
     def get_command_parts(self, message):
         parts = message.split(" ", 1)
@@ -183,8 +187,8 @@ class CommandManager:
                 try:
                     with open(row.help_file) as f:
                         return f.read().strip()
-                except Exception as e:
-                    self.logger.error("", e)
+                except FileNotFoundError as e:
+                    self.logger.error("Error reading help file", e)
                     return ""
             else:
                 return ""
