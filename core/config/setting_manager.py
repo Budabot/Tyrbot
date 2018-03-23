@@ -29,14 +29,17 @@ class SettingManager:
                               % (name, setting_type))
             return
 
-        row = self.db.query_single("SELECT name, type, setting, description "
+        if not description:
+            self.logger.warning("No description specified for setting '%s'" % name)
+
+        row = self.db.query_single("SELECT name, type, value, description "
                                    "FROM setting WHERE name = ?",
                                    [name])
 
         if row is None:
             # add new event config
             self.db.exec(
-                "INSERT INTO setting (name, type, setting, description, module, verified) VALUES "
+                "INSERT INTO setting (name, type, value, description, module, verified) VALUES "
                 "(?, ?, ?, ?, ?, ?)",
                 [name, setting_type, value, description, module, 1])
         else:
@@ -49,13 +52,13 @@ class SettingManager:
             else:
                 # if type has changed, also update type and setting value
                 self.db.exec(
-                    "UPDATE setting SET type = ?, setting = ?, description = ?, verified = ?, module = ? WHERE name = ?",
+                    "UPDATE setting SET type = ?, value = ?, description = ?, verified = ?, module = ? WHERE name = ?",
                     [setting_type, value, description, 1, module, name])
 
     def get(self, name):
         name = name.lower()
-        row = self.db.query_single("SELECT setting FROM setting WHERE name = ?", [name])
+        row = self.db.query_single("SELECT value FROM setting WHERE name = ?", [name])
         if row:
-            return row.setting
+            return row.value
         else:
             return None
