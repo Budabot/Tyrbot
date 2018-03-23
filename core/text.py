@@ -9,6 +9,7 @@ class Text:
 
     def inject(self, registry):
         self.setting_manager: SettingManager = registry.get_instance("setting_manager")
+        self.bot = registry.get_instance("budabot")
 
     def make_chatcmd(self, name, msg, style=""):
         msg = msg.strip()
@@ -108,7 +109,7 @@ class Text:
             .replace("<clan>", "<font color='%s'>" % self.setting_manager.get("clan_color"))\
             .replace("<unknown>", "<font color='%s'>" % self.setting_manager.get("unknown_color"))\
             \
-            .replace("<myname>", "TODO")\
+            .replace("<myname>", self.bot.char_name)\
             .replace("<myorg>", "TODO")\
             .replace("<tab>", "    ")\
             .replace("<end>", "</font>")\

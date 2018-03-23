@@ -11,6 +11,7 @@ class Bot:
     def __init__(self):
         self.socket = None
         self.char_id = None
+        self.char_name = None
         self.logger = Logger("Budabot")
 
     def connect(self, host, port):
@@ -42,6 +43,7 @@ class Bot:
 
         # select character
         self.char_id = character_list_packet.character_ids[index]
+        self.char_name = character_list_packet.names[index]
         login_select_packet = LoginSelect(self.char_id)
         self.send_packet(login_select_packet)
 
