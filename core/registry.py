@@ -1,7 +1,7 @@
 import re
 import os
 import importlib
-import itertools
+from __init__ import flatmap
 
 
 class Registry:
@@ -51,14 +51,14 @@ class Registry:
     @classmethod
     def load_instances(cls, parent_dirs):
         # get all subdirectories
-        dirs = cls.flatmap(lambda x: os.walk(x), parent_dirs)
+        dirs = flatmap(lambda x: os.walk(x), parent_dirs)
         dirs = filter(lambda y: not y[0].endswith("__pycache__"), dirs)
 
         def get_files(tup):
             return map(lambda x: tup[0] + "\\" + x, tup[2])
 
         # get files from subdirectories
-        files = cls.flatmap(get_files, dirs)
+        files = flatmap(get_files, dirs)
         files = filter(lambda z: z.endswith(".py") and not z.endswith("__init__.py"), files)
 
         # load files as modules
@@ -70,7 +70,3 @@ class Registry:
         # strip the extension
         file = file[:-3]
         importlib.import_module(file.replace("\\", "."))
-
-    @classmethod
-    def flatmap(cls, func, *iterable):
-        return itertools.chain.from_iterable(map(func, *iterable))
