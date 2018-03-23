@@ -73,6 +73,10 @@ class CommandManager:
         if help_text is None:
             self.logger.warning("No help text specified for for command '%s'" % command)
 
+        if not self.access_manager.get_access_level_by_label(access_level):
+            self.logger.error("Could not add command '%s': could not find access level '%s'" % (command, access_level))
+            return
+
         for channel in self.channels:
             row = self.db.query_single("SELECT access_level, module, enabled, verified "
                                        "FROM command_config "
