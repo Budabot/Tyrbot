@@ -16,7 +16,8 @@ class ConfigController:
     def start(self):
         pass
 
-    @command("config", "^$", "all", "config.txt")
+    @command(command="config", params="", access_level="admin", description="shows configuration options for the bot",
+             help_file="config.txt")
     def config_list_cmd(self, command, channel, sender, reply, args):
         sql = """SELECT
                 module,
