@@ -41,11 +41,12 @@ class ConfigController:
         for row in data:
             parts = row.module.split(".")
             group = parts[0]
+            module = parts[1]
             if group != current_group:
                 current_group = group
                 blob += "\n<header2>" + current_group + "<end>\n"
 
-            blob += self.text.make_chatcmd(row.module, "/tell <myname> config mod " + row.module) + " "
+            blob += self.text.make_chatcmd(module, "/tell <myname> config mod " + row.module) + " "
             if row.count_enabled > 0 and row.count_disabled > 0:
                 blob += "<yellow>Partial<end>"
             elif row.count_disabled == 0:
