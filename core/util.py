@@ -41,7 +41,9 @@ class Util:
 
     def get_module_name(self, handler):
         handler_name = self.get_handler_name(handler)
-        return handler_name.split(".")[1]
+        parts = handler_name.split(".")
+        return parts[0] + "." + parts[1]
+
 
     def parse_time(self, budatime):
         unixtime = 0

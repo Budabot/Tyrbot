@@ -43,10 +43,9 @@ class CommandManager:
                 if hasattr(method, "command"):
                     cmd_name, regex, access_level, help_file, sub_command = getattr(method, "command")
                     handler = getattr(inst, name)
-                    handler_name_parts = self.util.get_handler_name(handler).split(".")
-                    module = handler_name_parts[1]
+                    module = self.util.get_module_name(handler)
                     if help_file:
-                        help_file = "./" + handler_name_parts[0] + "/" + handler_name_parts[1] + "/" + help_file
+                        help_file = "./" + module + "/" + help_file
                     self.register(handler, cmd_name, regex, access_level, module, help_file, sub_command)
 
         # process deferred register calls
@@ -181,8 +180,12 @@ class CommandManager:
 
         def read_file(row):
             if row.help_file:
-                with open(row.help_file) as f:
-                    return f.read().strip()
+                try:
+                    with open(row.help_file) as f:
+                        return f.read().strip()
+                except Exception as e:
+                    self.logger.error("", e)
+                    return ""
             else:
                 return ""
 
