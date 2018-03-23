@@ -14,4 +14,4 @@ class PlayfieldController:
         self.text: Text = registry.get_instance("text")
 
     def start(self):
-        self.db.load_sql_file("./modules/helpbot/playfields.sql")
+        self.db.load_sql_file("./modules/user/helpbot/playfields.sql")

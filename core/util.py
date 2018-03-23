@@ -42,7 +42,7 @@ class Util:
     def get_module_name(self, handler):
         handler_name = self.get_handler_name(handler)
         parts = handler_name.split(".")
-        return parts[0] + "." + parts[1]
+        return parts[1] + "." + parts[2]
 
 
     def parse_time(self, budatime):

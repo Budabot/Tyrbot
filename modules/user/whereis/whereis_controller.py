@@ -14,7 +14,7 @@ class WhereisController:
         self.text: Text = registry.get_instance("text")
 
     def start(self):
-        self.db.load_sql_file("./modules/whereis/whereis.sql")
+        self.db.load_sql_file("./modules/user/whereis/whereis.sql")
 
     @command("whereis", "(.+)", "all", "Find locations of NPCs and places")
     def handle_whereis_cmd(self, command, channel, sender, reply, args):
