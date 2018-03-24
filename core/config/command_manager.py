@@ -44,10 +44,8 @@ class CommandManager:
                     cmd_name, params, access_level, description, help_file, sub_command = getattr(method, "command")
                     handler = getattr(inst, name)
                     module = self.util.get_module_name(handler)
-                    regex = "^" + params + "$"
-                    help_text = self.get_help_file(module, help_file, cmd_name, description, params)
-
-                    self.register(handler, cmd_name, regex, access_level, description, module, help_text, sub_command)
+                    help_text = self.get_help_file(module, help_file)
+                    self.register(handler, cmd_name, params, access_level, description, module, help_text, sub_command)
 
         # process deferred register calls
         for args in self.deferred_register_command_channel:
@@ -58,12 +56,12 @@ class CommandManager:
 
         self.db.exec("DELETE FROM command_config WHERE verified = 0")
 
-    def register(self, handler, command, regex, access_level, description, module, help_text=None, sub_command=None):
+    def register(self, handler, command, params, access_level, description, module, help_text=None, sub_command=None):
         args = locals()
         del args["self"]
         self.deferred_register.append(args)
 
-    def do_register(self, handler, command, regex, access_level, description, module, help_text=None, sub_command=None):
+    def do_register(self, handler, command, params, access_level, description, module, help_text=None, sub_command=None):
         sub_command = sub_command or command
         command = command.lower()
         sub_command = sub_command.lower()
@@ -71,7 +69,7 @@ class CommandManager:
         module = module.lower()
 
         if help_text is None:
-            self.logger.warning("No help text specified for for command '%s'" % command)
+            help_text = self.generate_help(command, description, params)
 
         if not self.access_manager.get_access_level_by_label(access_level):
             self.logger.error("Could not add command '%s': could not find access level '%s'" % (command, access_level))
@@ -106,7 +104,7 @@ class CommandManager:
                              [module, command, sub_command, channel])
 
         # save reference to command handler
-        r = re.compile(regex, re.IGNORECASE)
+        r = re.compile(self.get_regex_from_params(params), re.IGNORECASE)
         self.handlers[self.get_command_key(command, sub_command)].append(
             {"regex": r, "callback": handler, "help": help_text, "description": description})
 
@@ -192,7 +190,7 @@ class CommandManager:
         else:
             return None
 
-    def get_help_file(self, module, help_file, command, description, params):
+    def get_help_file(self, module, help_file):
         if help_file:
             try:
                 help_file = "./" + module.replace(".", "/") + "/" + help_file
@@ -200,15 +198,19 @@ class CommandManager:
                     return f.read().strip()
             except FileNotFoundError as e:
                 self.logger.error("Error reading help file", e)
-                return ""
-        else:
-            return description + ":\n" + "<tab><symbol>" + command + " " + params
+        return None
 
     def get_command_key(self, command, sub_command):
         if command == sub_command:
             return command
         else:
             return command + ":" + sub_command
+
+    def get_regex_from_params(self, params):
+        return "^" + " ".join(map(lambda x: x.get_regex(), params)) + "$"
+
+    def generate_help(self, command, description, params):
+        return description + ":\n" + "<tab><symbol>" + command + " " + " ".join(map(lambda x: x.get_name(), params))
 
     def handle_private_message(self, packet: server_packets.PrivateMessage):
         if len(packet.message) < 1:

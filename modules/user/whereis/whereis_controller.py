@@ -1,6 +1,7 @@
 from core.decorators import instance, command, event, timerevent
 from core.db import DB
 from core.text import Text
+from core.command_params import Text
 from core.chat_blob import ChatBlob
 
 
@@ -16,7 +17,7 @@ class WhereisController:
     def start(self):
         self.db.load_sql_file("./modules/user/whereis/whereis.sql")
 
-    @command("whereis", "(.+)", "all", "Find locations of NPCs and places")
+    @command("whereis", [Text("search")], "all", "Find locations of NPCs and places")
     def handle_whereis_cmd(self, command, channel, sender, reply, args):
         search = args[1]
         data = self.db.query("SELECT w.playfield_id, w.name, w.answer, w.xcoord, w.ycoord, p.short_name FROM whereis w "

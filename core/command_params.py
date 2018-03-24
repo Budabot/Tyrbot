@@ -1,0 +1,43 @@
+class Const:
+    def __init__(self, name):
+        self.name = name
+
+    def get_regex(self):
+        return self.name
+
+    def get_name(self):
+        return self.name
+
+
+class Int:
+    def __init__(self, name):
+        self.name = name
+
+    def get_regex(self):
+        return "([0-9]+)"
+
+    def get_name(self):
+        return self.name
+
+
+class Text:
+    def __init__(self, name):
+        self.name = name
+
+    def get_regex(self):
+        return "(.+)"
+
+    def get_name(self):
+        return self.name
+
+
+class Regex:
+    def __init__(self, name, regex):
+        self.name = name
+        self.regex = regex
+
+    def get_regex(self):
+        return self.regex
+
+    def get_name(self):
+        return self.name

@@ -2,6 +2,7 @@ from core.decorators import instance, command, event, timerevent
 from core.db import DB
 from core.text import Text
 from core.chat_blob import ChatBlob
+from core.command_params import Const, Text
 
 
 @instance()
@@ -17,7 +18,7 @@ class ConfigController:
     def start(self):
         pass
 
-    @command(command="config", params="", access_level="superadmin", description="Shows configuration options for the bot")
+    @command(command="config", params=[], access_level="superadmin", description="Shows configuration options for the bot")
     def config_list_cmd(self, command, channel, sender, reply, args):
         sql = """SELECT
                 module,
@@ -56,8 +57,8 @@ class ConfigController:
             blob += "\n"
         reply(ChatBlob("Config (%d)" % count, blob))
 
-    @command(command="config", params="mod (.+)", access_level="superadmin",
-             description="Shows configuration options for the bot")
+    @command(command="config", params=[Const("mod"), Text("module_name")], access_level="superadmin",
+             description="Shows configuration options for a specific module")
     def config_module_list_cmd(self, command, channel, sender, reply, args):
         module = args[1].lower()
 
@@ -67,14 +68,16 @@ class ConfigController:
         if data:
             blob += "<header2>Settings<end>\n"
             for row in data:
-                blob += row.description + ": " + row.value + "\n"
+                blob += row.description + ": "
+                blob += self.text.make_chatcmd(row.value, "/tell <myname> config setting " + row.value) + "\n"
 
         data = self.db.query("SELECT DISTINCT command, sub_command FROM command_config WHERE module = ? ORDER BY command ASC",
                              [module])
         if data:
             blob += "\n<header2>Commands<end>\n"
             for row in data:
-                blob += self.command_manager.get_command_key(row.command, row.sub_command) + "\n"
+                command_key = self.command_manager.get_command_key(row.command, row.sub_command)
+                blob += self.text.make_chatcmd(command_key, "/tell <myname> config cmd " + command_key) + "\n"
 
         data = self.db.query("SELECT event_type, handler, description FROM event_config WHERE module = ? "
                              "ORDER BY event_type, handler ASC",
@@ -82,6 +85,7 @@ class ConfigController:
         if data:
             blob += "\n<header2>Events<end>\n"
             for row in data:
-                blob += row.event_type + " " + row.description + "\n"
+                blob += row.event_type + " "
+                blob += self.text.make_chatcmd(row.description, "/tell <myname> config event " + row.handler) + "\n"
 
         reply(ChatBlob(module + " Module Config", blob))
