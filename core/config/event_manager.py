@@ -1,15 +1,16 @@
 from core.decorators import instance
 from core.registry import Registry
 from core.logger import Logger
-import collections
+import time
 
 
 @instance()
 class EventManager:
     def __init__(self):
-        self.handlers = collections.defaultdict(list)
+        self.handlers = {}
         self.logger = Logger("event_manager")
-        self.event_types = []
+        self.event_types = ["timer"]
+        self.last_timer_event = 0
 
     def inject(self, registry):
         self.db = registry.get_instance("db")
@@ -70,7 +71,7 @@ class EventManager:
                 [1, module, description, event_type, handler_name])
 
         # load command handler
-        self.handlers[event_type].append({"handler": handler, "name": handler_name})
+        self.handlers[handler_name] = handler
 
     def fire_event(self, event_type, event_data=None):
         event_type_base, event_sub_type = self.get_event_type_parts(event_type)
@@ -79,21 +80,28 @@ class EventManager:
             self.logger.error("Could not fire event type '%s': event type does not exist" % event_type)
             return
 
-        for handler in self.handlers[event_type]:
-            row = self.db.query_single("SELECT enabled FROM event_config "
-                                       "WHERE event_type = ? AND handler = ?",
-                                       [event_type, handler["name"]])
-            if row is None:
-                self.logger.error("Could not find event configuration for event type '%s' and handler '%s'"
-                                  % (event_type, handler["name"]))
+        data = self.db.query("SELECT handler, event_type FROM event_config "
+                             "WHERE event_type = ? AND enabled = 1",
+                             [event_type])
+        for row in data:
+            handler = self.handlers.get(row.handler, None)
+            if not handler:
+                self.logger.error("Could not find handler callback for event type '%s' and handler '%s'"
+                                  % (event_type, row.handler))
                 return
 
-            if row.enabled == 1:
-                handler["handler"](event_type, event_data)
+            handler(event_type, event_data)
 
     def get_event_type_parts(self, event_type):
         arr = event_type.lower().split(":", 1)
-        return arr[0], arr[1] if len(arr) > 1 else ""
+        return arr[0], arr[1] if len(arr) > 1 else None
 
     def check_for_timer_events(self):
-        pass
+        timestamp = int(time.time())
+
+        if self.last_timer_event == timestamp:
+            return
+
+        self.last_timer_event = timestamp
+        # TODO read timer events from database
+        # data = self.db.query("SELECT * from timer_events WHERE next_time <= ?", [timestamp])

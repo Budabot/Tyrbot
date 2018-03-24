@@ -45,7 +45,6 @@ class Budabot(Bot):
         self.setting_manager.register("symbol", "text", "!", "Symbol for executing bot commands", "core.system")
         self.event_manager.register_event_type("connect")
         self.event_manager.register_event_type("packet")
-        self.event_manager.register_event_type("timer")
 
     def post_start(self):
         self.command_manager.post_start()
