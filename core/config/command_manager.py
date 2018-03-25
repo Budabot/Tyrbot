@@ -133,7 +133,7 @@ class CommandManager:
                 cmd_config, matches, handler = self.get_matches(cmd_configs, command_args)
                 if matches:
                     if self.access_manager.check_access(char_name, cmd_config.access_level):
-                        handler["callback"](message, channel, char_name, reply, matches)
+                        handler["callback"](channel, char_name, reply, matches)
                     else:
                         reply("Error! Access denied.")
                 else:

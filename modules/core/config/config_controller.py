@@ -19,7 +19,7 @@ class ConfigController:
         pass
 
     @command(command="config", params=[], access_level="superadmin", description="Shows configuration options for the bot")
-    def config_list_cmd(self, command, channel, sender, reply, args):
+    def config_list_cmd(self, channel, sender, reply, args):
         sql = """SELECT
                 module,
                 SUM(CASE WHEN enabled = 1 THEN 1 ELSE 0 END) count_enabled,
@@ -59,7 +59,7 @@ class ConfigController:
 
     @command(command="config", params=[Const("mod"), Text("module_name")], access_level="superadmin",
              description="Shows configuration options for a specific module")
-    def config_module_list_cmd(self, command, channel, sender, reply, args):
+    def config_module_list_cmd(self, channel, sender, reply, args):
         module = args[1].lower()
 
         blob = ""

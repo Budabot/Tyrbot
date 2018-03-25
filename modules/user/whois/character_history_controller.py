@@ -15,14 +15,14 @@ class CharacterHistoryController:
 
     @command(command="history", params=[Text("character"), Int("server_num")], access_level="all",
              description="Get history of character for a specific server num")
-    def handle_history_cmd1(self, command_str, channel, sender, reply, args):
+    def handle_history_cmd1(self, channel, sender, reply, args):
         name = args[1].lower().capitalize()
         server_num = args[2]
         reply(self.get_character_history(name, server_num))
 
     @command(command="history", params=[Text("character")], access_level="all",
              description="Get history of character for the current server num", sub_command="list")
-    def handle_history_cmd2(self, command_str, channel, sender, reply, args):
+    def handle_history_cmd2(self, channel, sender, reply, args):
         name = args[1].lower().capitalize()
         reply(self.get_character_history(name, 5))
 

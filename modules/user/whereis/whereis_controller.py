@@ -20,7 +20,7 @@ class WhereisController:
 
     @command(command="whereis", params=[Text("search")], access_level="all",
              description="Find locations of NPCs and places")
-    def handle_whereis_cmd(self, command_str, channel, sender, reply, args):
+    def handle_whereis_cmd(self, channel, sender, reply, args):
         search = args[1]
         data = self.db.query("SELECT w.playfield_id, w.name, w.answer, w.xcoord, w.ycoord, p.short_name FROM whereis w "
                              "LEFT JOIN playfields p ON w.playfield_id = p.id "

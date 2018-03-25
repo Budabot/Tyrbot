@@ -19,7 +19,7 @@ class HelpController:
 
     @command(command="help", params=[], access_level="all",
              description="Show a list of commands to get help with")
-    def help_list_cmd(self, command_str, channel, sender, reply, args):
+    def help_list_cmd(self, channel, sender, reply, args):
         data = self.db.query("SELECT command, module, access_level FROM command_config "
                              "ORDER BY module ASC, command ASC")
         blob = ""
@@ -49,7 +49,7 @@ class HelpController:
 
     @command(command="help", params=[Text("command")], access_level="all",
              description="Show help for a specific command")
-    def help_detail_cmd(self, command_str, channel, sender, reply, args):
+    def help_detail_cmd(self, channel, sender, reply, args):
         help_topic = args[1]
         help_text = self.command_manager.get_help_text(sender, help_topic, channel)
         if help_text:
