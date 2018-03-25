@@ -11,6 +11,7 @@ class EventManager:
         self.logger = Logger("event_manager")
         self.event_types = ["timer"]
         self.last_timer_event = 0
+        self.timer_event_types = {}
 
     def inject(self, registry):
         self.db = registry.get_instance("db")
@@ -44,45 +45,48 @@ class EventManager:
         self.event_types.append(event_type)
 
     def register(self, handler, event_type, description, module):
-        event_type_base, event_sub_type = self.get_event_type_parts(event_type)
+        event_base_type, event_sub_type = self.get_event_type_parts(event_type)
         module = module.lower()
         handler_name = self.util.get_handler_name(handler)
 
-        if event_type_base not in self.event_types:
+        if event_base_type not in self.event_types:
             self.logger.error("Could not register handler '%s' for event type '%s': event type does not exist"
                               % (handler_name, event_type))
             return
 
         row = self.db.query_single("SELECT 1 "
                                    "FROM event_config WHERE event_type = ? AND handler = ?",
-                                   [event_type, handler_name])
+                                   [event_base_type, handler_name])
 
         if row is None:
             # add new event config
             self.db.exec(
-                "INSERT INTO event_config (event_type, handler, description, module, enabled, verified) "
-                "VALUES (?, ?, ?, ?, ?, ?)",
-                [event_type, handler_name, description, module, 1, 1])
+                "INSERT INTO event_config (event_type, event_sub_type, handler, description, module, enabled, verified) "
+                "VALUES (?, ?, ?, ?, ?, ?, ?)",
+                [event_base_type, event_sub_type, handler_name, description, module, 1, 1])
         else:
             # mark command as verified
             self.db.exec(
-                "UPDATE event_config SET verified = ?, module = ?, description = ? "
+                "UPDATE event_config SET verified = ?, module = ?, description = ?, event_sub_type = ? "
                 "WHERE event_type = ? AND handler = ?",
-                [1, module, description, event_type, handler_name])
+                [1, module, description, event_sub_type, event_base_type, handler_name])
 
         # load command handler
         self.handlers[handler_name] = handler
 
-    def fire_event(self, event_type, event_data=None):
-        event_type_base, event_sub_type = self.get_event_type_parts(event_type)
+        if event_base_type == "timer":
+            self.timer_event_types[event_type] = int(time.time())
 
-        if event_type_base not in self.event_types:
+    def fire_event(self, event_type, event_data=None):
+        event_base_type, event_sub_type = self.get_event_type_parts(event_type)
+
+        if event_base_type not in self.event_types:
             self.logger.error("Could not fire event type '%s': event type does not exist" % event_type)
             return
 
         data = self.db.query("SELECT handler, event_type FROM event_config "
-                             "WHERE event_type = ? AND enabled = 1",
-                             [event_type])
+                             "WHERE event_type = ? AND event_sub_type = ? AND enabled = 1",
+                             [event_base_type, event_sub_type])
         for row in data:
             handler = self.handlers.get(row.handler, None)
             if not handler:
@@ -94,7 +98,10 @@ class EventManager:
 
     def get_event_type_parts(self, event_type):
         arr = event_type.lower().split(":", 1)
-        return arr[0], arr[1] if len(arr) > 1 else None
+        return arr[0], arr[1] if len(arr) > 1 else ""
+
+    def get_event_type_key(self, event_base_type, event_sub_type):
+        return event_base_type + ":" + event_sub_type
 
     def check_for_timer_events(self):
         timestamp = int(time.time())
@@ -103,5 +110,9 @@ class EventManager:
             return
 
         self.last_timer_event = timestamp
-        # TODO read timer events from database
-        # data = self.db.query("SELECT * from timer_events WHERE next_time <= ?", [timestamp])
+
+        for event_type, next_run in self.timer_event_types.items():
+            if next_run <= timestamp:
+                event_base_type, event_sub_type = self.get_event_type_parts(event_type)
+                self.timer_event_types[event_type] += int(event_sub_type)
+                self.fire_event(event_type)
