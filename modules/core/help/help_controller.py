@@ -20,11 +20,12 @@ class HelpController:
     @command(command="help", params=[], access_level="all",
              description="Show a list of commands to get help with")
     def help_list_cmd(self, command_str, channel, sender, reply, args):
-        data = self.db.query("SELECT command, module, access_level FROM command_config WHERE channel = ? "
-                             "ORDER BY module ASC", [channel])
+        data = self.db.query("SELECT command, module, access_level FROM command_config "
+                             "ORDER BY module ASC, command ASC")
         blob = ""
         current_group = ""
         current_module = ""
+        current_command = ""
         for row in data:
             if not self.access_manager.check_access(sender, row.access_level):
                 continue
@@ -40,7 +41,9 @@ class HelpController:
                 current_module = module
                 blob += "\n" + module + ":"
 
-            blob += " " + self.text.make_chatcmd(row.command, "/tell <myname> help " + row.command)
+            if row.command != current_command:
+                current_command = row.command
+                blob += " " + self.text.make_chatcmd(row.command, "/tell <myname> help " + row.command)
 
         reply(ChatBlob("Help (main)", blob))
 
