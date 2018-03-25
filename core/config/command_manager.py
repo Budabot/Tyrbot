@@ -138,9 +138,9 @@ class CommandManager:
                         reply("Error! Access denied.")
                 else:
                     # handlers were found, but no handler regex matched
-                    help_file = self.get_help_text(char_name, command_str, channel)
-                    if help_file:
-                        reply(help_file)
+                    help_text = self.get_help_text(char_name, command_str, channel)
+                    if help_text:
+                        reply(self.format_help_text(command_str, help_text))
                     else:
                         reply("Error! Invalid syntax.")
             else:
@@ -184,10 +184,10 @@ class CommandManager:
             return filter(lambda x: x is not None, map(lambda handler: handler["help"], self.handlers[command_key]))
 
         content = "\n\n".join(flatmap(read_help_text, data))
-        if content:
-            return ChatBlob("Help (" + command_str + ")", content)
-        else:
-            return None
+        return content if content else None
+
+    def format_help_text(self, topic, help_text):
+        return ChatBlob("Help (" + topic + ")", help_text)
 
     def get_help_file(self, module, help_file):
         if help_file:

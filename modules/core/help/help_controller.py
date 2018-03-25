@@ -50,9 +50,9 @@ class HelpController:
     @command(command="help", params=[Text("command")], access_level="all",
              description="Show help for a specific command")
     def help_detail_cmd(self, channel, sender, reply, args):
-        help_topic = args[1]
+        help_topic = args[1].lower()
         help_text = self.command_manager.get_help_text(sender, help_topic, channel)
         if help_text:
-            reply(help_text)
+            reply(self.command_manager.format_help_text(help_topic, help_text))
         else:
             reply("Could not find help on <highlight>" + help_topic + "<end>.")
