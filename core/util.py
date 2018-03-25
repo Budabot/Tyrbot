@@ -44,7 +44,6 @@ class Util:
         parts = handler_name.split(".")
         return parts[1] + "." + parts[2]
 
-
     def parse_time(self, budatime):
         unixtime = 0
 

@@ -1,5 +1,6 @@
 from core.decorators import instance
 from core.logger import Logger
+import os
 
 
 @instance()
@@ -13,7 +14,7 @@ class SettingManager:
         self.util = registry.get_instance("util")
 
     def start(self):
-        self.db.load_sql_file("./core/config/setting.sql")
+        self.db.load_sql_file("setting.sql", os.path.dirname(__file__))
         self.db.exec("UPDATE setting SET verified = 0")
 
     def post_start(self):

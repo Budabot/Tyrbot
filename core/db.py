@@ -1,7 +1,7 @@
+from core.decorators import instance
 import sqlite3
 import re
-from core.decorators import instance
-
+import os
 
 @instance()
 class DB:
@@ -78,7 +78,12 @@ class DB:
     def get_connection(self):
         return self.conn
 
-    def load_sql_file(self, filename):
+    def load_sql_file(self, sqlfile, module=None):
+        if module:
+            filename = module + os.sep + sqlfile
+        else:
+            filename = sqlfile
+
         with open(filename, "r") as f:
             c = self.conn.cursor()
             for line in f.readlines():

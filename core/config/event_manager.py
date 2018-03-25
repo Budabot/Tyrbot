@@ -2,6 +2,7 @@ from core.decorators import instance
 from core.registry import Registry
 from core.logger import Logger
 import time
+import os
 
 
 @instance()
@@ -18,7 +19,7 @@ class EventManager:
         self.util = registry.get_instance("util")
 
     def start(self):
-        self.db.load_sql_file("./core/config/event_config.sql")
+        self.db.load_sql_file("event_config.sql", os.path.dirname(__file__))
         self.db.exec("UPDATE event_config SET verified = 0")
 
     def post_start(self):

@@ -1,6 +1,7 @@
 from core.decorators import instance
 from core.config.command_manager import CommandManager
 from core.logger import Logger
+import os
 
 
 @instance()
@@ -13,7 +14,7 @@ class CommandAliasManager:
         self.command_manager: CommandManager = registry.get_instance("command_manager")
 
     def start(self):
-        self.db.load_sql_file("./core/config/command_alias.sql")
+        self.db.load_sql_file("command_alias.sql", os.path.dirname(__file__))
 
     def check_for_alias(self, command_str, command_args):
         row = self.get_alias(command_str)

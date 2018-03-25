@@ -10,6 +10,7 @@ from core.chat_blob import ChatBlob
 from __init__ import flatmap
 import collections
 import re
+import os
 
 
 @instance()
@@ -33,7 +34,7 @@ class CommandManager:
     def start(self):
         self.bot.add_packet_handler(server_packets.PrivateMessage.id, self.handle_private_message)
         self.bot.add_packet_handler(server_packets.PrivateChannelMessage.id, self.handle_private_channel_message)
-        self.db.load_sql_file("./core/config/command_config.sql")
+        self.db.load_sql_file("command_config.sql", os.path.dirname(__file__))
         self.db.exec("UPDATE command_config SET verified = 0")
 
     def post_start(self):
@@ -62,9 +63,11 @@ class CommandManager:
         self.deferred_register.append(args)
 
     def do_register(self, handler, command, params, access_level, description, module, help_text=None, sub_command=None):
-        sub_command = sub_command or command
         command = command.lower()
-        sub_command = sub_command.lower()
+        if sub_command:
+            sub_command = sub_command.lower()
+        else:
+            sub_command = ""
         access_level = access_level.lower()
         module = module.lower()
 
@@ -180,11 +183,11 @@ class CommandManager:
         # filter out commands that character does not have access level for
         data = filter(lambda row: self.access_manager.check_access(char, row.access_level), data)
 
-        def read_file(row):
+        def read_help_text(row):
             command_key = self.get_command_key(row.command, row.sub_command)
             return filter(lambda x: x is not None, map(lambda handler: handler["help"], self.handlers[command_key]))
 
-        content = "\n\n".join(flatmap(read_file, data))
+        content = "\n\n".join(flatmap(read_help_text, data))
         if content:
             return ChatBlob("Help (" + command_str + ")", content)
         else:
