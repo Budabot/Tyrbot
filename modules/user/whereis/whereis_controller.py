@@ -3,6 +3,7 @@ from core.db import DB
 from core.text import Text
 from core.command_params import Text
 from core.chat_blob import ChatBlob
+import os
 
 
 @instance()
@@ -15,10 +16,11 @@ class WhereisController:
         self.text: Text = registry.get_instance("text")
 
     def start(self):
-        self.db.load_sql_file("./modules/user/whereis/whereis.sql")
+        self.db.load_sql_file("whereis.sql", os.path.dirname(__file__))
 
-    @command("whereis", [Text("search")], "all", "Find locations of NPCs and places")
-    def handle_whereis_cmd(self, command, channel, sender, reply, args):
+    @command(command="whereis", params=[Text("search")], access_level="all",
+             description="Find locations of NPCs and places")
+    def handle_whereis_cmd(self, command_str, channel, sender, reply, args):
         search = args[1]
         data = self.db.query("SELECT w.playfield_id, w.name, w.answer, w.xcoord, w.ycoord, p.short_name FROM whereis w "
                              "LEFT JOIN playfields p ON w.playfield_id = p.id "
@@ -37,8 +39,8 @@ class WhereisController:
         else:
             reply("Could not find any results for your search.")
 
-    @timerevent("20m", "How often we print stuff")
+    @timerevent(budatime="10s", description="How often we print stuff")
+    #@event(event_type="buddy_logon", description="Show buddy login")
     def handle_connect_event(self, event_type, event_data):
-        # print(event_data)
+        # print(event_type)
         pass
-        # print("handling connect event '%s' for data '%s'" % (event_type, event_data))

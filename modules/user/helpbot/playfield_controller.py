@@ -1,7 +1,7 @@
 from core.decorators import instance, command, event
 from core.db import DB
 from core.text import Text
-from core.chat_blob import ChatBlob
+import os
 
 
 @instance()
@@ -14,4 +14,4 @@ class PlayfieldController:
         self.text: Text = registry.get_instance("text")
 
     def start(self):
-        self.db.load_sql_file("./modules/user/helpbot/playfields.sql")
+        self.db.load_sql_file("playfields.sql", os.path.dirname(__file__))

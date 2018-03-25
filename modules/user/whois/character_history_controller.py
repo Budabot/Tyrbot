@@ -1,8 +1,7 @@
-from core.decorators import instance, command, event
+from core.decorators import instance, command
 from core.db import DB
 from core.text import Text
 from core.command_params import Text, Int
-from core.chat_blob import ChatBlob
 
 
 @instance()
@@ -14,14 +13,16 @@ class CharacterHistoryController:
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
 
-    @command("history", [Text("character"), Int("server_num")], "all", "Get history of character for a specific server num")
-    def handle_history_cmd1(self, command, channel, sender, reply, args):
+    @command(command="history", params=[Text("character"), Int("server_num")], access_level="all",
+             description="Get history of character for a specific server num")
+    def handle_history_cmd1(self, command_str, channel, sender, reply, args):
         name = args[1].lower().capitalize()
         server_num = args[2]
         reply(self.get_character_history(name, server_num))
 
-    @command("history", [Text("character")], "all", "Get history of character for the current server num", "list")
-    def handle_history_cmd2(self, command, channel, sender, reply, args):
+    @command(command="history", params=[Text("character")], access_level="all",
+             description="Get history of character for the current server num", sub_command="list")
+    def handle_history_cmd2(self, command_str, channel, sender, reply, args):
         name = args[1].lower().capitalize()
         reply(self.get_character_history(name, 5))
 
