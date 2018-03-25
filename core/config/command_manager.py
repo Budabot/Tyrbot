@@ -92,10 +92,6 @@ class CommandManager:
                     "VALUES (?, ?, ?, ?, ?, 1, 1)",
                     [command, sub_command, access_level, channel, module])
             elif row.verified:
-                if row.access_level != access_level:
-                    self.logger.warning(
-                        "access_level different for different forms of command '%s' and sub_command '%s'" %
-                        (command, sub_command))
                 if row.module != module:
                     self.logger.warning(
                         "module different for different forms of command '%s' and sub_command '%s'" %
