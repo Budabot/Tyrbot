@@ -41,3 +41,14 @@ class Regex:
 
     def get_name(self):
         return self.name
+
+
+class Options:
+    def __init__(self, options):
+        self.options = options
+
+    def get_regex(self):
+        return "(" + "|".join(self.options) + ")"
+
+    def get_name(self):
+        return "|".join(self.options)
