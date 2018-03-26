@@ -2,7 +2,7 @@ from core.decorators import instance, command, event, timerevent
 from core.db import DB
 from core.text import Text
 from core.chat_blob import ChatBlob
-from core.command_params import Const, Text, Options
+from core.command_params import Const, Any, Options
 
 
 @instance()
@@ -57,7 +57,7 @@ class ConfigController:
             blob += "\n"
         reply(ChatBlob("Config (%d)" % count, blob))
 
-    @command(command="config", params=[Const("mod"), Text("module_name")], access_level="superadmin",
+    @command(command="config", params=[Const("mod"), Any("module_name")], access_level="superadmin",
              description="Shows configuration options for a specific module")
     def config_module_list_cmd(self, channel, sender, reply, args):
         module = args[1].lower()
@@ -90,7 +90,7 @@ class ConfigController:
 
         reply(ChatBlob(module + " Module Config", blob))
 
-    @command(command="config", params=[Const("cmd"), Text("cmd_name"), Options(["enable", "disable"]), Text("channel")], access_level="superadmin",
+    @command(command="config", params=[Const("cmd"), Any("cmd_name"), Options(["enable", "disable"]), Any("channel")], access_level="superadmin",
              description="Enable or disable a command")
     def config_cmd_status_cmd(self, channel, sender, reply, args):
         cmd_name = args[1].lower()

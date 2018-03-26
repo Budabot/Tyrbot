@@ -1,7 +1,7 @@
 from core.decorators import instance, command, event, timerevent
 from core.db import DB
 from core.text import Text
-from core.command_params import Text
+from core.command_params import Any
 from core.chat_blob import ChatBlob
 import os
 
@@ -18,7 +18,7 @@ class WhereisController:
     def start(self):
         self.db.load_sql_file("whereis.sql", os.path.dirname(__file__))
 
-    @command(command="whereis", params=[Text("search")], access_level="all",
+    @command(command="whereis", params=[Any("search")], access_level="all",
              description="Find locations of NPCs and places")
     def handle_whereis_cmd(self, channel, sender, reply, args):
         search = args[1]
@@ -39,8 +39,8 @@ class WhereisController:
         else:
             reply("Could not find any results for your search.")
 
-    @timerevent(budatime="10s", description="How often we print stuff")
+    @timerevent(budatime="3s", description="How often we print stuff")
     #@event(event_type="buddy_logon", description="Show buddy login")
     def handle_connect_event(self, event_type, event_data):
-        # print(event_type)
+        print(event_type)
         pass

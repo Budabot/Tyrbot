@@ -20,7 +20,7 @@ class Int:
         return self.name
 
 
-class Text:
+class Any:
     def __init__(self, name):
         self.name = name
 

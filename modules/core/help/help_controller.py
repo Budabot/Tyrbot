@@ -1,6 +1,6 @@
 from core.decorators import instance, command, event
 from core.chat_blob import ChatBlob
-from core.command_params import Text
+from core.command_params import Any
 
 
 @instance()
@@ -47,7 +47,7 @@ class HelpController:
 
         reply(ChatBlob("Help (main)", blob))
 
-    @command(command="help", params=[Text("command")], access_level="all",
+    @command(command="help", params=[Any("command")], access_level="all",
              description="Show help for a specific command")
     def help_detail_cmd(self, channel, sender, reply, args):
         help_topic = args[1].lower()

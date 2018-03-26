@@ -1,7 +1,7 @@
 from core.decorators import instance, command
 from core.db import DB
 from core.text import Text
-from core.command_params import Text, Int
+from core.command_params import Any, Int
 
 
 @instance()
@@ -13,14 +13,14 @@ class CharacterHistoryController:
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
 
-    @command(command="history", params=[Text("character"), Int("server_num")], access_level="all",
+    @command(command="history", params=[Any("character"), Int("server_num")], access_level="all",
              description="Get history of character for a specific server num")
     def handle_history_cmd1(self, channel, sender, reply, args):
         name = args[1].lower().capitalize()
         server_num = args[2]
         reply(self.get_character_history(name, server_num))
 
-    @command(command="history", params=[Text("character")], access_level="all",
+    @command(command="history", params=[Any("character")], access_level="all",
              description="Get history of character for the current server num", sub_command="list")
     def handle_history_cmd2(self, channel, sender, reply, args):
         name = args[1].lower().capitalize()
