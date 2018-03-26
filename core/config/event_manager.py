@@ -49,6 +49,9 @@ class EventManager:
         self.logger.debug("Registering event type '%s'" % event_type)
         self.event_types.append(event_type)
 
+    def is_event_type(self, event_base_type):
+        return event_base_type in self.event_types
+
     def register(self, handler, event_type, description, module):
         event_base_type, event_sub_type = self.get_event_type_parts(event_type)
         module = module.lower()
@@ -107,8 +110,11 @@ class EventManager:
             handler(event_type, event_data)
 
     def get_event_type_parts(self, event_type):
-        arr = event_type.lower().split(":", 1)
-        return arr[0], arr[1] if len(arr) > 1 else ""
+        parts = event_type.lower().split(":", 1)
+        if len(parts) == 2:
+            return parts[0], parts[1]
+        else:
+            return parts[0], ""
 
     def get_event_type_key(self, event_base_type, event_sub_type):
         return event_base_type + ":" + event_sub_type

@@ -217,7 +217,7 @@ class CommandManager:
             return command + ":" + sub_command
 
     def get_command_key_parts(self, command_str):
-        parts = command_str.split(":", 2)
+        parts = command_str.split(":", 1)
         if len(parts) == 2:
             return parts[0], parts[1]
         else:

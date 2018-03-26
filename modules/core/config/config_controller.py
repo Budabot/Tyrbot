@@ -14,6 +14,7 @@ class ConfigController:
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
         self.command_manager = registry.get_instance("command_manager")
+        self.event_manager = registry.get_instance("event_manager")
 
     def start(self):
         pass
@@ -111,9 +112,32 @@ class ConfigController:
 
         count = self.db.exec(sql, params)
         if count == 0:
-            reply("Could not find command '%s' for channel '%s'" % (cmd_name, cmd_channel))
+            reply("Could not find command '%s' for channel '%s'." % (cmd_name, cmd_channel))
         else:
             if cmd_channel == "all":
                 reply("Command '%s' has been %sd successfully." % (cmd_name, action))
             else:
                 reply("Command '%s' for channel '%s' has been %sd successfully." % (cmd_name, channel, action))
+
+    @command(command="config", params=[Const("event"), Any("event_type"), Any("event_handler"), Options(["enable", "disable"])],
+             access_level="superadmin",
+             description="Enable or disable an event")
+    def config_event_status_cmd(self, channel, sender, reply, args):
+        event_type = args[1].lower()
+        event_handler = args[2].lower()
+        action = args[3].lower()
+        event_base_type, event_sub_type = self.event_manager.get_event_type_parts(event_type)
+        enabled = 1 if action == "enable" else 0
+
+        if not self.event_manager.is_event_type(event_base_type):
+            reply("Unknown event type '%s'." % event_type)
+            return
+
+        count = self.db.exec("UPDATE event_config SET enabled = ? "
+                             "WHERE event_type = ? AND event_sub_type = ? AND handler LIKE ?",
+                             [enabled, event_base_type, event_sub_type, event_handler])
+
+        if count == 0:
+            reply("Could not find event for type '%s' and handler '%s'." % (event_type, event_handler))
+        else:
+            reply("Event type '%s' for handler '%s' has been %sd successfully." % (event_type, event_handler, action))
