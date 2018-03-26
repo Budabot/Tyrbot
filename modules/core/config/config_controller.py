@@ -13,6 +13,7 @@ class ConfigController:
     def inject(self, registry):
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
+        self.access_manager = registry.get_instance("access_manager")
         self.command_manager = registry.get_instance("command_manager")
         self.event_manager = registry.get_instance("event_manager")
 
@@ -118,6 +119,37 @@ class ConfigController:
                 reply("Command '%s' has been %sd successfully." % (cmd_name, action))
             else:
                 reply("Command '%s' for channel '%s' has been %sd successfully." % (cmd_name, channel, action))
+
+    @command(command="config", params=[Const("cmd"), Any("cmd_name"), Const("access_level"), Any("channel"), Any("access_level")], access_level="superadmin",
+             description="Change access_level for a command")
+    def config_cmd_access_level_cmd(self, channel, sender, reply, args):
+        cmd_name = args[1].lower()
+        cmd_channel = args[2].lower()
+        access_level = args[3].lower()
+        command_str, sub_command_str = self.command_manager.get_command_key_parts(cmd_name)
+
+        if cmd_channel != "all" and not self.command_manager.is_command_channel(cmd_channel):
+            reply("Unknown command channel '%s'." % cmd_channel)
+            return
+
+        if not self.access_manager.get_access_level_by_label(access_level):
+            reply("Unknown access level '%s'." % access_level)
+            return
+
+        sql = "UPDATE command_config SET access_level = ? WHERE command = ? AND sub_command = ?"
+        params = [access_level, command_str, sub_command_str]
+        if cmd_channel != "all":
+            sql += " AND channel = ?"
+            params.append(cmd_channel)
+
+        count = self.db.exec(sql, params)
+        if count == 0:
+            reply("Could not find command '%s' for channel '%s'." % (cmd_name, cmd_channel))
+        else:
+            if cmd_channel == "all":
+                reply("Access level '%s' for command '%s' has been set successfully." % (access_level, cmd_name))
+            else:
+                reply("Access level '%s' for command '%s' on channel '%s' has been set successfully." % (access_level, cmd_name, channel))
 
     @command(command="config", params=[Const("event"), Any("event_type"), Any("event_handler"), Options(["enable", "disable"])],
              access_level="superadmin",
