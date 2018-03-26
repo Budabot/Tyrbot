@@ -121,6 +121,9 @@ class CommandManager:
         self.logger.debug("Registering command channel '%s'" % channel)
         self.channels.append(channel)
 
+    def is_command_channel(self, channel):
+        return channel in self.channels
+
     def process_command(self, message: str, channel: str, char_name, reply):
         try:
             command_str, command_args = self.get_command_parts(message)
@@ -128,7 +131,7 @@ class CommandManager:
             # check for command alias
             command_str, command_args = self.command_alias_manager.check_for_alias(command_str, command_args)
 
-            cmd_configs = self.get_command_configs(command_str, channel)
+            cmd_configs = self.get_command_configs(command_str, channel, 1)
             if cmd_configs:
                 # given a list of cmd_configs that are enabled, see if one has regex that matches incoming command_str
                 cmd_config, matches, handler = self.get_matches(cmd_configs, command_args)
@@ -157,10 +160,17 @@ class CommandManager:
         else:
             return parts[0], ""
 
-    def get_command_configs(self, command, channel):
-        return self.db.query("SELECT command, sub_command, access_level FROM command_config "
-                             "WHERE command = ? AND channel = ? AND enabled = 1",
-                             [command, channel])
+    def get_command_configs(self, command, channel=None, enabled=1):
+        sql = "SELECT command, sub_command, access_level FROM command_config WHERE command = ?"
+        params = [command]
+        if channel:
+            sql += " AND channel = ?"
+            params.append(channel)
+        if enabled:
+            sql += " AND enabled = ?"
+            params.append(enabled)
+
+        return self.db.query(sql, params)
 
     def get_matches(self, cmd_configs, command_args):
         for row in cmd_configs:
@@ -205,6 +215,13 @@ class CommandManager:
             return command
         else:
             return command + ":" + sub_command
+
+    def get_command_key_parts(self, command_str):
+        parts = command_str.split(":", 2)
+        if len(parts) == 2:
+            return parts[0], parts[1]
+        else:
+            return parts[0], ""
 
     def get_regex_from_params(self, params):
         # params must be wrapped with line-beginning and line-ending anchors in order to match

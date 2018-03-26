@@ -2,7 +2,7 @@ from core.decorators import instance, command, event, timerevent
 from core.db import DB
 from core.text import Text
 from core.chat_blob import ChatBlob
-from core.command_params import Const, Text
+from core.command_params import Const, Text, Options
 
 
 @instance()
@@ -89,3 +89,31 @@ class ConfigController:
                 blob += self.text.make_chatcmd(row.description, "/tell <myname> config event " + row.handler) + "\n"
 
         reply(ChatBlob(module + " Module Config", blob))
+
+    @command(command="config", params=[Const("cmd"), Text("cmd_name"), Options(["enable", "disable"]), Text("channel")], access_level="superadmin",
+             description="Enable or disable a command")
+    def config_cmd_status_cmd(self, channel, sender, reply, args):
+        cmd_name = args[1].lower()
+        action = args[2].lower()
+        cmd_channel = args[3].lower()
+        command_str, sub_command_str = self.command_manager.get_command_key_parts(cmd_name)
+        enabled = 1 if action == "enable" else 0
+
+        if cmd_channel != "all" and not self.command_manager.is_command_channel(cmd_channel):
+            reply("Unknown command channel '%s'." % cmd_channel)
+            return
+
+        sql = "UPDATE command_config SET enabled = ? WHERE command = ? AND sub_command = ?"
+        params = [enabled, command_str, sub_command_str]
+        if cmd_channel != "all":
+            sql += " AND channel = ?"
+            params.append(cmd_channel)
+
+        count = self.db.exec(sql, params)
+        if count == 0:
+            reply("Could not find command '%s' for channel '%s'" % (cmd_name, cmd_channel))
+        else:
+            if cmd_channel == "all":
+                reply("Command '%s' has been %sd successfully." % (cmd_name, action))
+            else:
+                reply("Command '%s' for channel '%s' has been %sd successfully." % (cmd_name, channel, action))
