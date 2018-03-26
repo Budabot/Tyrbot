@@ -116,6 +116,7 @@ class EventManager:
     def check_for_timer_events(self):
         timestamp = int(time.time())
 
+        # timer events will execute not more often than once per second
         if self.last_timer_event == timestamp:
             return
 
@@ -132,7 +133,7 @@ class EventManager:
             next_run = row.next_run + int(row.event_sub_type)
 
             # prevents timer events from getting too far behind, or having a large "catch-up" after
-            # being offline for a time
+            # the bot has been offline for a time
             if next_run < timestamp:
                 next_run = timestamp + int(row.event_sub_type)
 

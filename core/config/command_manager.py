@@ -130,6 +130,7 @@ class CommandManager:
 
             cmd_configs = self.get_command_configs(command_str, channel)
             if cmd_configs:
+                # given a list of cmd_configs that are enabled, see if one has regex that matches incoming command_str
                 cmd_config, matches, handler = self.get_matches(cmd_configs, command_args)
                 if matches:
                     if self.access_manager.check_access(char_name, cmd_config.access_level):
@@ -206,12 +207,17 @@ class CommandManager:
             return command + ":" + sub_command
 
     def get_regex_from_params(self, params):
+        # params must be wrapped with line-beginning and line-ending anchors in order to match
+        # when no params are specified (eg. "^$")
         return "^" + " ".join(map(lambda x: x.get_regex(), params)) + "$"
 
     def generate_help(self, command, description, params):
         return description + ":\n" + "<tab><symbol>" + command + " " + " ".join(map(lambda x: x.get_name(), params))
 
     def handle_private_message(self, packet: server_packets.PrivateMessage):
+        # since the command symbol is not required for private messages,
+        # the command_str must have length of at least 1 in order to be valid,
+        # otherwise it is ignored
         if len(packet.message) < 1:
             return
 
@@ -227,6 +233,9 @@ class CommandManager:
             lambda msg: self.bot.send_private_message(packet.character_id, msg))
 
     def handle_private_channel_message(self, packet: server_packets.PrivateChannelMessage):
+        # since the command symbol is required in the private channel,
+        # the command_str must have length of at least 2 in order to be valid,
+        # otherwise it is ignored
         if len(packet.message) < 2:
             return
 
