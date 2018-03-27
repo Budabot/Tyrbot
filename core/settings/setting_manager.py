@@ -54,7 +54,7 @@ class SettingManager:
         if row and setting:
             setting_type = setting["type"]
             setting_type.set_value(row.value)
-            return setting_type.get_value()
+            return setting_type
         else:
             return None
 

@@ -37,6 +37,9 @@ class ColorSettingType(SettingType):
     def get_display(self):
         return ""
 
+    def get_font_color(self):
+        return "<font color='%s'>" % self.value
+
 
 class NumberSettingType(SettingType):
     def __init__(self, value, options=None):
@@ -44,7 +47,7 @@ class NumberSettingType(SettingType):
         self.options = options
 
     def get_value(self):
-        return self.value
+        return int(self.value)
 
     def set_value(self, value):
         self.value = value

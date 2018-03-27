@@ -89,9 +89,9 @@ class Text:
 
     def format_message(self, msg):
         return msg\
-            .replace("<header>", "<font color='%s'>" % self.setting_manager.get("header_color"))\
-            .replace("<header2>", "<font color='%s'>" % self.setting_manager.get("header2_color"))\
-            .replace("<highlight>", "<font color='%s'>" % self.setting_manager.get("highlight_color"))\
+            .replace("<header>", "<font color='%s'>" % self.setting_manager.get("header_color").get_value())\
+            .replace("<header2>", "<font color='%s'>" % self.setting_manager.get("header2_color").get_value())\
+            .replace("<highlight>", "<font color='%s'>" % self.setting_manager.get("highlight_color").get_value())\
             \
             .replace("<black>", "<font color='#000000'>") \
             .replace("<white>", "<font color='#FFFFFF'>")\
@@ -104,14 +104,14 @@ class Text:
             .replace("<cyan>", "<font color='#00FFFF'>")\
             .replace("<violet>", "<font color='#8F00FF'>")\
             \
-            .replace("<neutral>", "<font color='%s'>" % self.setting_manager.get("neutral_color"))\
-            .replace("<omni>", "<font color='%s'>" % self.setting_manager.get("omni_color"))\
-            .replace("<clan>", "<font color='%s'>" % self.setting_manager.get("clan_color"))\
-            .replace("<unknown>", "<font color='%s'>" % self.setting_manager.get("unknown_color"))\
+            .replace("<neutral>", "<font color='%s'>" % self.setting_manager.get("neutral_color").get_value())\
+            .replace("<omni>", "<font color='%s'>" % self.setting_manager.get("omni_color").get_value())\
+            .replace("<clan>", "<font color='%s'>" % self.setting_manager.get("clan_color").get_value())\
+            .replace("<unknown>", "<font color='%s'>" % self.setting_manager.get("unknown_color").get_value())\
             \
             .replace("<myname>", self.bot.char_name)\
             .replace("<myorg>", "TODO")\
             .replace("<tab>", "    ")\
             .replace("<end>", "</font>")\
-            .replace("<symbol>", self.setting_manager.get("symbol"))\
+            .replace("<symbol>", self.setting_manager.get("symbol").get_value())\
             .replace("<br>", "\n")

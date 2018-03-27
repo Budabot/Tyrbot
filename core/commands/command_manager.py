@@ -238,7 +238,7 @@ class CommandManager:
         if len(packet.message) < 1:
             return
 
-        if packet.message[:1] == self.setting_manager.get("symbol"):
+        if packet.message[:1] == self.setting_manager.get("symbol").get_value():
             command_str = packet.message[1:]
         else:
             command_str = packet.message
@@ -258,7 +258,7 @@ class CommandManager:
 
         symbol = packet.message[:1]
         command_str = packet.message[1:]
-        if symbol == self.setting_manager.get("symbol") and packet.character_id == self.bot.char_id:
+        if symbol == self.setting_manager.get("symbol").get_value() and packet.character_id == self.bot.char_id:
             self.process_command(
                 command_str,
                 "private_channel_message",
