@@ -67,7 +67,7 @@ class EventManager:
                                    [event_base_type, handler_name])
 
         if row is None:
-            # add new event config
+            # add new event commands
             self.db.exec(
                 "INSERT INTO event_config (event_type, event_sub_type, handler, description, module, enabled, verified) "
                 "VALUES (?, ?, ?, ?, ?, ?, ?)",

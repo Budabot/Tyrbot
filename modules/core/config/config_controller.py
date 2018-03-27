@@ -1,8 +1,8 @@
-from core.decorators import instance, command, event, timerevent
+from core.decorators import instance, command
 from core.db import DB
 from core.text import Text
 from core.chat_blob import ChatBlob
-from core.command_params import Const, Any, Options
+from core.commands.param_types import Const, Any, Options
 
 
 @instance()
@@ -57,6 +57,7 @@ class ConfigController:
             else:
                 blob += "<red>Disabled<end>"
             blob += "\n"
+
         reply(ChatBlob("Config (%d)" % count, blob))
 
     @command(command="config", params=[Const("mod"), Any("module_name")], access_level="superadmin",

@@ -2,7 +2,7 @@ from core.aochat.bot import Bot
 from core.buddy_manager import BuddyManager
 from core.character_manager import CharacterManager
 from core.public_channel_manager import PublicChannelManager
-from core.config.setting_manager import SettingManager
+from core.settings.setting_manager import SettingManager
 from core.access_manager import AccessManager
 from core.text import Text
 from core.decorators import instance

@@ -1,7 +1,7 @@
 from core.decorators import instance, command
 from core.db import DB
 from core.text import Text
-from core.command_params import Any, Int
+from core.commands.param_types import Any, Int
 
 
 @instance()

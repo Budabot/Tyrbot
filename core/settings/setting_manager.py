@@ -38,7 +38,7 @@ class SettingManager:
                                    [name])
 
         if row is None:
-            # add new event config
+            # add new event commands
             self.db.exec(
                 "INSERT INTO setting (name, type, value, description, module, verified) VALUES "
                 "(?, ?, ?, ?, ?, ?)",

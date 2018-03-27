@@ -1,7 +1,7 @@
-from core.decorators import instance, command, event, timerevent
+from core.decorators import instance, command, timerevent
 from core.db import DB
 from core.text import Text
-from core.command_params import Any
+from core.commands.param_types import Any
 from core.chat_blob import ChatBlob
 import os
 

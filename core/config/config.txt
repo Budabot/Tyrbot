@@ -1,2 +1,0 @@
-To show a list of all the modules that can be configured:
-<highlight><tab><symbol>config<end>

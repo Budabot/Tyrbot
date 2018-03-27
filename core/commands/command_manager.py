@@ -2,7 +2,7 @@ from core.decorators import instance
 from core.access_manager import AccessManager
 from core.aochat import server_packets
 from core.character_manager import CharacterManager
-from core.config.setting_manager import SettingManager
+from core.settings.setting_manager import SettingManager
 from core.registry import Registry
 from core.logger import Logger
 from core.budabot import Budabot
@@ -85,7 +85,7 @@ class CommandManager:
                                        [command, sub_command, channel])
 
             if row is None:
-                # add new command config
+                # add new command commands
                 self.db.exec(
                     "INSERT INTO command_config "
                     "(command, sub_command, access_level, channel, module, enabled, verified) "

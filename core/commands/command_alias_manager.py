@@ -1,5 +1,5 @@
 from core.decorators import instance
-from core.config.command_manager import CommandManager
+from core.commands.command_manager import CommandManager
 from core.logger import Logger
 import os
 

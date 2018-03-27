@@ -1,6 +1,6 @@
-from core.decorators import instance, command, event
+from core.decorators import instance, command
 from core.chat_blob import ChatBlob
-from core.command_params import Any
+from core.commands.param_types import Any
 
 
 @instance()
