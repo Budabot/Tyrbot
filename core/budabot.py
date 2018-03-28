@@ -33,23 +33,23 @@ class Budabot(Bot):
 
     def start(self):
         self.access_manager.register_access_level("superadmin", 1, self.check_superadmin)
-        self.setting_manager.register("org_channel_max_page_length",
-                                      NumberSettingType(7500, [4500, 6000, 7500, 9000, 10500, 12000]),
+        self.setting_manager.register(NumberSettingType("org_channel_max_page_length", 7500,
+                                                        [4500, 6000, 7500, 9000, 10500, 12000]),
                                       "Maximum size of blobs in org channel", "core.system")
-        self.setting_manager.register("private_message_max_page_length",
-                                      NumberSettingType(7500, [4500, 6000, 7500, 9000, 10500, 12000]),
-                                      "Maximum size of blobs in private messages", "core.system")
-        self.setting_manager.register("private_channel_max_page_length",
-                                      NumberSettingType(7500, [4500, 6000, 7500, 9000, 10500, 12000]),
+        self.setting_manager.register(NumberSettingType("private_message_max_page_length", 7500,
+                                                        [4500, 6000, 7500, 9000, 10500, 12000]),
+                                      "Maximum size of blobs in private messages", "core.system",)
+        self.setting_manager.register(NumberSettingType("private_channel_max_page_length",
+                                                        7500, [4500, 6000, 7500, 9000, 10500, 12000]),
                                       "Maximum size of blobs in private channel", "core.system")
-        self.setting_manager.register("header_color", ColorSettingType("#FFFF00"), "color for headers", "core.colors")
-        self.setting_manager.register("header2_color", ColorSettingType("#FCA712"), "color for sub-headers", "core.colors")
-        self.setting_manager.register("highlight_color", ColorSettingType("#FFFFFF"), "color for highlight", "core.colors")
-        self.setting_manager.register("neutral_color", ColorSettingType("#E6E1A6"), "color for neutral faction", "core.colors")
-        self.setting_manager.register("omni_color", ColorSettingType("#FA8484"), "color for omni faction", "core.colors")
-        self.setting_manager.register("clan_color", ColorSettingType("#F79410"), "color for clan faction", "core.colors")
-        self.setting_manager.register("unknown_color", ColorSettingType("#FF0000"), "color for unknown faction", "core.colors")
-        self.setting_manager.register("symbol", TextSettingType("!", ["!", "#", "*", "@", "$", "+", "-"]),
+        self.setting_manager.register(ColorSettingType("header_color", "#FFFF00"), "color for headers", "core.colors")
+        self.setting_manager.register(ColorSettingType("header2_color", "#FCA712"), "color for sub-headers", "core.colors")
+        self.setting_manager.register(ColorSettingType("highlight_color", "#FFFFFF"), "color for highlight", "core.colors")
+        self.setting_manager.register(ColorSettingType("neutral_color", "#E6E1A6"), "color for neutral faction", "core.colors")
+        self.setting_manager.register(ColorSettingType("omni_color", "#FA8484"), "color for omni faction", "core.colors")
+        self.setting_manager.register(ColorSettingType("clan_color", "#F79410"), "color for clan faction", "core.colors")
+        self.setting_manager.register(ColorSettingType("unknown_color", "#FF0000"), "color for unknown faction", "core.colors")
+        self.setting_manager.register(TextSettingType("symbol", "!", ["!", "#", "*", "@", "$", "+", "-"]),
                                       "Symbol for executing bot commands", "core.system")
         self.event_manager.register_event_type("connect")
         self.event_manager.register_event_type("packet")

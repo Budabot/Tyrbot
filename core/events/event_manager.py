@@ -10,7 +10,7 @@ class EventManager:
     def __init__(self):
         self.handlers = {}
         self.logger = Logger("event_manager")
-        self.event_types = ["timer"]
+        self.event_types = []
         self.last_timer_event = 0
 
     def inject(self, registry):
@@ -21,6 +21,7 @@ class EventManager:
         self.db.load_sql_file("event_config.sql", os.path.dirname(__file__))
         self.db.load_sql_file("timer_event.sql", os.path.dirname(__file__))
         self.db.exec("UPDATE event_config SET verified = 0")
+        self.register_event_type("timer")
 
     def post_start(self):
         # process decorators

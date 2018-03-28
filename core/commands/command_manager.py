@@ -18,7 +18,7 @@ class CommandManager:
     def __init__(self):
         self.handlers = collections.defaultdict(list)
         self.logger = Logger("command_manager")
-        self.channels = ["private_message", "org_message", "private_channel_message"]
+        self.channels = []
         self.deferred_register = []
         self.deferred_register_command_channel = []
 
@@ -36,6 +36,9 @@ class CommandManager:
         self.bot.add_packet_handler(server_packets.PrivateChannelMessage.id, self.handle_private_channel_message)
         self.db.load_sql_file("command_config.sql", os.path.dirname(__file__))
         self.db.exec("UPDATE command_config SET verified = 0")
+        self.register_command_channel("msg")
+        self.register_command_channel("org")
+        self.register_command_channel("priv")
 
     def post_start(self):
         # process decorators
@@ -245,7 +248,7 @@ class CommandManager:
 
         self.process_command(
             command_str,
-            "private_message",
+            "msg",
             self.character_manager.get_char_name(packet.character_id),
             lambda msg: self.bot.send_private_message(packet.character_id, msg))
 
@@ -261,6 +264,6 @@ class CommandManager:
         if symbol == self.setting_manager.get("symbol").get_value() and packet.character_id == self.bot.char_id:
             self.process_command(
                 command_str,
-                "private_channel_message",
+                "priv",
                 self.character_manager.get_char_name(packet.character_id),
                 lambda msg: self.bot.send_private_channel_message(msg))

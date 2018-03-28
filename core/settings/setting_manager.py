@@ -22,39 +22,39 @@ class SettingManager:
     def post_start(self):
         self.db.exec("DELETE FROM event_config WHERE verified = 0")
 
-    def register(self, name, setting_type: SettingType, description, module):
-        name = name.lower()
+    def register(self, setting: SettingType, description, module):
+        name = setting.get_name().lower()
+        value = setting.get_value()
         module = module.lower()
 
         if not description:
             self.logger.warning("No description specified for setting '%s'" % name)
 
-        row = self.db.query_single("SELECT name, type, value, description "
+        row = self.db.query_single("SELECT name, value, description "
                                    "FROM setting WHERE name = ?",
                                    [name])
 
         if row is None:
             # add new event commands
             self.db.exec(
-                "INSERT INTO setting (name, type, value, description, module, verified) VALUES "
-                "(?, ?, ?, ?, ?, ?)",
-                [name, setting_type, setting_type.get_value(), description, module, 1])
+                "INSERT INTO setting (name, value, description, module, verified) VALUES "
+                "(?, ?, ?, ?, ?)",
+                [name, value, description, module, 1])
         else:
             # mark command as verified
             self.db.exec(
                 "UPDATE setting SET description = ?, verified = ?, module = ? WHERE name = ?",
                 [description, 1, module, name])
 
-        self.settings[name] = {"type": setting_type}
+        self.settings[name] = setting
 
     def get(self, name):
         name = name.lower()
-        row = self.db.query_single("SELECT value FROM setting WHERE name = ?", [name])
+        row = self.db.query_single("SELECT name, value FROM setting WHERE name = ?", [name])
         setting = self.settings.get(name, None)
         if row and setting:
-            setting_type = setting["type"]
-            setting_type.set_value(row.value)
-            return setting_type
+            setting.set_value(row.value)
+            return setting
         else:
             return None
 
