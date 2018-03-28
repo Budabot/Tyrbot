@@ -65,28 +65,28 @@ class ColorSettingType(SettingType):
         return """For this setting you can set any Color in the HTML Hexadecimal Color Format.
 You can change it manually with the command:
 
-/tell <myname> config setting {$this->row->name} <i>HTML-Color</i>
+/tell <myname> config setting """ + self.name + """ <i>HTML-Color</i>
 
-Or you can choose one of the following Colors
+Or you can choose one of the following colors
 
-Red: <font color='#ff0000'>Example Text</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #ff0000'>Save it</a>)
-White: <font color='#FFFFFF'>Example Text</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #FFFFFF'>Save it</a>)
-Grey: <font color='#808080'>Example Text</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #808080'>Save it</a>)
-Light Grey: <font color='#DDDDDD'>Example Text</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #DDDDDD'>Save it</a>)
-Dark Grey: <font color='#9CC6E7'>Example Text</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #9CC6E7'>Save it</a>)
-Black: <font color='#000000'>Example Text</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #000000'>Save it</a>)
-Yellow: <font color='#FFFF00'>Example Text</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #FFFF00'>Save it</a>)
-Blue: <font color='#8CB5FF'>Example Text</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #8CB5FF'>Save it</a>)
-Deep Sky Blue: <font color='#00BFFF'>Example Text</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #00BFFF'>Save it</a>)
-Green: <font color='#00DE42'>Example Text</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #00DE42'>Save it</a>)
-Orange: <font color='#FCA712'>Example Text</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #FCA712'>Save it</a>)
-Gold: <font color='#FFD700'>Example Text</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #FFD700'>Save it</a>)
-Deep Pink: <font color='#FF1493'>Example Text</font> (<a href='chatcmd:///tell <myname> config setting {$this->row->name} #FF1493'>Save it</a>)
-Violet: <font color='#EE82EE'>Example Text</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #EE82EE'>Save it</a>)
-Brown: <font color='#8B7355'>Example Text</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #8B7355'>Save it</a>)
-Cyan: <font color='#00FFFF'>Example Text</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #00FFFF'>Save it</a>)
-Navy Blue: <font color='#000080'>Example Text</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #000080'>Save it</a>)
-Dark Orange: <font color='#FF8C00'>Example Text</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #FF8C00'>Save it</a>)"""
+<font color='#ff0000'>Red</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #ff0000'>Save it</a>)
+<font color='#FFFFFF'>White</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #FFFFFF'>Save it</a>)
+<font color='#808080'>Grey</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #808080'>Save it</a>)
+<font color='#DDDDDD'>Light Grey</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #DDDDDD'>Save it</a>)
+<font color='#9CC6E7'>Dark Grey</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #9CC6E7'>Save it</a>)
+<font color='#000000'>Black</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #000000'>Save it</a>)
+<font color='#FFFF00'>Yellow</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #FFFF00'>Save it</a>)
+<font color='#8CB5FF'>Blue</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #8CB5FF'>Save it</a>)
+<font color='#00BFFF'>Deep Sky Blue</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #00BFFF'>Save it</a>)
+<font color='#00DE42'>Green</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #00DE42'>Save it</a>)
+<font color='#FCA712'>Orange</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #FCA712'>Save it</a>)
+<font color='#FFD700'>Gold</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #FFD700'>Save it</a>)
+<font color='#FF1493'>Deep Pink</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #FF1493'>Save it</a>)
+<font color='#EE82EE'>Violet</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #EE82EE'>Save it</a>)
+<font color='#8B7355'>Brown</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #8B7355'>Save it</a>)
+<font color='#00FFFF'>Cyan</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #00FFFF'>Save it</a>)
+<font color='#000080'>Navy Blue</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #000080'>Save it</a>)
+<font color='#FF8C00'>Dark Orange</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #FF8C00'>Save it</a>)"""
 
     def get_font_color(self):
         return "<font color='%s'>" % self.value

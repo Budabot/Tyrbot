@@ -76,7 +76,7 @@ class ConfigController:
             blob += "<header2>Settings<end>\n"
             for row in data:
                 blob += row.description + ": "
-                blob += self.text.make_chatcmd(row.value, "/tell <myname> config setting " + row.value) + "\n"
+                blob += self.text.make_chatcmd(row.value, "/tell <myname> config setting " + row.name) + "\n"
 
         data = self.db.query("SELECT DISTINCT command, sub_command FROM command_config WHERE module = ? ORDER BY command ASC",
                              [module])
@@ -93,7 +93,7 @@ class ConfigController:
             blob += "\n<header2>Events<end>\n"
             for row in data:
                 blob += row.event_type + " "
-                blob += self.text.make_chatcmd(row.description, "/tell <myname> config event " + row.handler) + "\n"
+                blob += self.text.make_chatcmd(row.description, "/tell <myname> config event " + row.event_type + " " + row.handler) + "\n"
 
         if blob:
             reply(ChatBlob("Module (" + module + ")", blob))

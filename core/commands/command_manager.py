@@ -20,7 +20,6 @@ class CommandManager:
         self.logger = Logger("command_manager")
         self.channels = []
         self.deferred_register = []
-        self.deferred_register_command_channel = []
 
     def inject(self, registry):
         self.db = registry.get_instance("db")
@@ -52,9 +51,6 @@ class CommandManager:
                     self.register(handler, cmd_name, params, access_level, description, module, help_text, sub_command)
 
         # process deferred register calls
-        for args in self.deferred_register_command_channel:
-            self.do_register_command_channel(**args)
-
         for args in self.deferred_register:
             self.do_register(**args)
 
@@ -112,11 +108,6 @@ class CommandManager:
             {"regex": r, "callback": handler, "help": help_text, "description": description})
 
     def register_command_channel(self, channel):
-        args = locals()
-        del args["self"]
-        self.deferred_register_command_channel.append(args)
-
-    def do_register_command_channel(self, channel):
         if channel in self.channels:
             self.logger.error("Could not register command channel '%s': command channel already registered"
                               % channel)
@@ -215,10 +206,10 @@ class CommandManager:
         return None
 
     def get_command_key(self, command, sub_command):
-        if command == sub_command:
-            return command
-        else:
+        if sub_command:
             return command + ":" + sub_command
+        else:
+            return command
 
     def get_command_key_parts(self, command_str):
         parts = command_str.split(":", 1)
