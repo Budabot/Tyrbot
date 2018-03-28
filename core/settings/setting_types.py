@@ -56,7 +56,10 @@ class ColorSettingType(SettingType):
         return self.value
 
     def set_value(self, value):
-        self.value = value
+        if re.match("^#([0-9a-fA-F]{6})$", str(value)):
+            self.value = value
+        else:
+            raise Exception("You must enter a valid HTML color.")
 
     def get_display(self):
         return """For this setting you can set any Color in the HTML Hexadecimal Color Format.
