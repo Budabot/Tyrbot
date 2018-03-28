@@ -16,11 +16,14 @@ class ConfigController:
         self.access_manager = registry.get_instance("access_manager")
         self.command_manager = registry.get_instance("command_manager")
         self.event_manager = registry.get_instance("event_manager")
+        self.setting_manager = registry.get_instance("setting_manager")
 
     def start(self):
         pass
 
-    @command(command="config", params=[], access_level="superadmin", description="Shows configuration options for the bot")
+    @command(command="config", params=[],
+             access_level="superadmin",
+             description="Shows configuration options for the bot")
     def config_list_cmd(self, channel, sender, reply, args):
         sql = """SELECT
                 module,
@@ -60,7 +63,8 @@ class ConfigController:
 
         reply(ChatBlob("Config (%d)" % count, blob))
 
-    @command(command="config", params=[Const("mod"), Any("module_name")], access_level="superadmin",
+    @command(command="config", params=[Const("mod"), Any("module_name")],
+             access_level="superadmin",
              description="Shows configuration options for a specific module")
     def config_module_list_cmd(self, channel, sender, reply, args):
         module = args[1].lower()
@@ -91,9 +95,13 @@ class ConfigController:
                 blob += row.event_type + " "
                 blob += self.text.make_chatcmd(row.description, "/tell <myname> config event " + row.handler) + "\n"
 
-        reply(ChatBlob(module + " Module Config", blob))
+        if blob:
+            reply(ChatBlob("Module (" + module + ")", blob))
+        else:
+            reply("Could not find module <highlight>%s<end>" % module)
 
-    @command(command="config", params=[Const("cmd"), Any("cmd_name"), Options(["enable", "disable"]), Any("channel")], access_level="superadmin",
+    @command(command="config", params=[Const("cmd"), Any("cmd_name"), Options(["enable", "disable"]), Any("channel")],
+             access_level="superadmin",
              description="Enable or disable a command")
     def config_cmd_status_cmd(self, channel, sender, reply, args):
         cmd_name = args[1].lower()
@@ -121,7 +129,8 @@ class ConfigController:
             else:
                 reply("Command '%s' for channel '%s' has been %sd successfully." % (cmd_name, channel, action))
 
-    @command(command="config", params=[Const("cmd"), Any("cmd_name"), Const("access_level"), Any("channel"), Any("access_level")], access_level="superadmin",
+    @command(command="config", params=[Const("cmd"), Any("cmd_name"), Const("access_level"), Any("channel"), Any("access_level")],
+             access_level="superadmin",
              description="Change access_level for a command")
     def config_cmd_access_level_cmd(self, channel, sender, reply, args):
         cmd_name = args[1].lower()
@@ -174,3 +183,34 @@ class ConfigController:
             reply("Could not find event for type '%s' and handler '%s'." % (event_type, event_handler))
         else:
             reply("Event type '%s' for handler '%s' has been %sd successfully." % (event_type, event_handler, action))
+
+    @command(command="config", params=[Const("setting"), Any("setting_name"), Any("new_value")],
+             access_level="superadmin",
+             description="Sets new value for a setting")
+    def config_setting_update_cmd(self, channel, sender, reply, args):
+        setting_name = args[1].lower()
+        new_value = args[2]
+
+        setting = self.setting_manager.set(setting_name, new_value)
+
+        if setting:
+            reply("Setting <highlight>%s<end> has been set to <highlight>%s<end>." % (setting_name, new_value))
+        else:
+            reply("Could not find setting <highlight>%s<end>." % setting_name)
+
+    @command(command="config", params=[Const("setting"), Any("setting_name")],
+             access_level="superadmin",
+             description="Shows configuration options for a setting")
+    def config_setting_show_cmd(self, channel, sender, reply, args):
+        setting_name = args[1].lower()
+
+        blob = ""
+
+        setting = self.setting_manager.get(setting_name)
+
+        if setting:
+            blob += "Current Value: <highlight>" + setting.get_value() + "<end>\n\n"
+            blob += setting.get_display()
+            reply(ChatBlob("Setting (" + setting_name + ")", blob))
+        else:
+            reply("Could not find setting <highlight>%s<end>." % setting_name)

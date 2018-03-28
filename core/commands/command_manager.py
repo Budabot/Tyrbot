@@ -73,6 +73,7 @@ class CommandManager:
             sub_command = ""
         access_level = access_level.lower()
         module = module.lower()
+        command_key = self.get_command_key(command, sub_command)
 
         if help_text is None:
             help_text = self.generate_help(command, description, params)
@@ -107,7 +108,7 @@ class CommandManager:
 
         # save reference to command handler
         r = re.compile(self.get_regex_from_params(params), re.IGNORECASE)
-        self.handlers[self.get_command_key(command, sub_command)].append(
+        self.handlers[command_key].append(
             {"regex": r, "callback": handler, "help": help_text, "description": description})
 
     def register_command_channel(self, channel):

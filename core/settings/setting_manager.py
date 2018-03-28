@@ -62,6 +62,8 @@ class SettingManager:
         name = name.lower()
         setting = self.settings.get(name, None)
         if setting:
-            setting_type = setting["type"]
-            setting_type.set_value(value)
-            self.db.exec("UPDATE setting SET value = ? WHERE name = ?", [setting_type.get_value(), name])
+            setting.set_value(value)
+            self.db.exec("UPDATE setting SET value = ? WHERE name = ?", [setting.get_value(), name])
+            return setting
+        else:
+            return None
