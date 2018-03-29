@@ -9,7 +9,6 @@ class SettingManager:
     def __init__(self):
         self.logger = Logger("setting_manager")
         self.settings = {}
-        # self.setting_types = ["text", "options", "number", "time", "color"]
 
     def inject(self, registry):
         self.db = registry.get_instance("db")
@@ -22,10 +21,11 @@ class SettingManager:
     def post_start(self):
         self.db.exec("DELETE FROM event_config WHERE verified = 0")
 
-    def register(self, setting: SettingType, description, module):
+    def register(self, setting: SettingType, module):
         name = setting.get_name().lower()
         value = setting.get_value()
         module = module.lower()
+        description = setting.get_description()
 
         if not description:
             self.logger.warning("No description specified for setting '%s'" % name)

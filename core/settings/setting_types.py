@@ -20,9 +20,10 @@ class SettingType:
 
 
 class TextSettingType(SettingType):
-    def __init__(self, name, value, options=None):
+    def __init__(self, name, value, description, options=None):
         self.name = name
         self.set_value(value)
+        self.description = description
         self.options = options
 
     def get_name(self):
@@ -30,6 +31,9 @@ class TextSettingType(SettingType):
 
     def get_value(self):
         return self.value
+
+    def get_description(self):
+        return self.description
 
     def set_value(self, value):
         if len(str(value)) > 255:
@@ -45,15 +49,19 @@ To change this setting:
 
 
 class ColorSettingType(SettingType):
-    def __init__(self, name, value):
+    def __init__(self, name, value, description):
         self.name = name
         self.set_value(value)
+        self.description = description
 
     def get_name(self):
         return self.name
 
     def get_value(self):
         return self.value
+
+    def get_description(self):
+        return self.description
 
     def set_value(self, value):
         if re.match("^#([0-9a-fA-F]{6})$", str(value)):
@@ -93,9 +101,10 @@ Or you can choose one of the following colors
 
 
 class NumberSettingType(SettingType):
-    def __init__(self, name, value, options=None):
+    def __init__(self, name, value, description, options=None):
         self.name = name
         self.set_value(value)
+        self.description = description
         self.options = options
 
     def get_name(self):
@@ -103,6 +112,9 @@ class NumberSettingType(SettingType):
 
     def get_value(self):
         return int(self.value)
+
+    def get_description(self):
+        return self.description
 
     def set_value(self, value):
         if re.match("^\d+$", str(value)):
@@ -118,15 +130,19 @@ To change this setting:
 
 
 class TimeSettingType(SettingType):
-    def __init__(self, name, value):
+    def __init__(self, name, value, description):
         self.name = name
         self.set_value(value)
+        self.description = description
 
     def get_name(self):
         return self.name
 
     def get_value(self):
         return int(self.value)
+
+    def get_description(self):
+        return self.description
 
     def set_value(self, value):
         util = Registry.get_instance("util")

@@ -209,7 +209,8 @@ class ConfigController:
         setting = self.setting_manager.get(setting_name)
 
         if setting:
-            blob += "Current Value: <highlight>" + setting.get_value() + "<end>\n\n"
+            blob += "Current Value: <highlight>" + setting.get_value() + "<end>\n"
+            blob += "Description: <highlight>" + setting.get_description() + "<end>\n\n"
             blob += setting.get_display()
             reply(ChatBlob("Setting (" + setting_name + ")", blob))
         else:
