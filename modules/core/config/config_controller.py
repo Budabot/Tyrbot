@@ -86,14 +86,20 @@ class ConfigController:
                 command_key = self.command_manager.get_command_key(row.command, row.sub_command)
                 blob += self.text.make_chatcmd(command_key, "/tell <myname> config cmd " + command_key) + "\n"
 
-        data = self.db.query("SELECT event_type, handler, description FROM event_config WHERE module = ? "
+        data = self.db.query("SELECT event_type, event_sub_type, handler, description "
+                             "FROM event_config WHERE module = ? "
                              "ORDER BY event_type, handler ASC",
                              [module])
         if data:
             blob += "\n<header2>Events<end>\n"
             for row in data:
-                blob += row.event_type + " "
-                blob += self.text.make_chatcmd(row.description, "/tell <myname> config event " + row.event_type + " " + row.handler) + "\n"
+                event_type_key = self.event_manager.get_event_type_key(row.event_type, row.event_sub_type)
+                blob += row.event_type + " - " + row.description
+                blob += " " + self.text.make_chatcmd("On",
+                                                     "/tell <myname> config event " + event_type_key + " " + row.handler + " enable")
+                blob += " " + self.text.make_chatcmd("Off",
+                                                     "/tell <myname> config event " + event_type_key + " " + row.handler + " disable")
+                blob += "\n"
 
         if blob:
             reply(ChatBlob("Module (" + module + ")", blob))
