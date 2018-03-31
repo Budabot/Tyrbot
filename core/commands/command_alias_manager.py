@@ -48,3 +48,6 @@ class CommandAliasManager:
                 return False
         else:
             return False
+
+    def get_enabled_aliases(self):
+        return self.db.query("SELECT alias, command FROM command_alias WHERE enabled = 1 ORDER BY alias ASC")
