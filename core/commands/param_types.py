@@ -17,7 +17,7 @@ class Int:
         return "([0-9]+)"
 
     def get_name(self):
-        return self.name
+        return "<highlight>'%s'<end>" % self.name
 
 
 class Any:
@@ -28,7 +28,7 @@ class Any:
         return "(.+)"
 
     def get_name(self):
-        return self.name
+        return "<highlight>'%s'<end>" % self.name
 
 
 class Regex:
@@ -40,7 +40,7 @@ class Regex:
         return self.regex
 
     def get_name(self):
-        return self.name
+        return "<highlight>'%s'<end>" % self.name
 
 
 class Options:
