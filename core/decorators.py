@@ -12,7 +12,7 @@ def parametrized(dec):
 
 @parametrized
 def instance(cls, name=None):
-    instance_name = cls.__name__ if name is None else name
+    instance_name = name if name else cls.__name__
     Registry.add_instance(instance_name, cls())
     return cls
 
