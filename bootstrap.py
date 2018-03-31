@@ -1,16 +1,14 @@
 import json
 import time
 import os
-from core.bot_status import BotStatus
 from core.registry import Registry
 
-config = json.load(open("./conf/config.json", "r"))
+try:
+    config = json.load(open("./conf/config.json", "r"))
 
-Registry.load_instances(["core", os.path.join("modules", "core"), os.path.join("modules", "user"), os.path.join("modules", "extra")])
-Registry.inject_all()
+    Registry.load_instances(["core", os.path.join("modules", "core"), os.path.join("modules", "user"), os.path.join("modules", "extra")])
+    Registry.inject_all()
 
-status = BotStatus.RUN
-while not status == BotStatus.SHUTDOWN:
     db = Registry.get_instance("db")
     db.connect(config["database"]["name"])
 
@@ -24,5 +22,10 @@ while not status == BotStatus.SHUTDOWN:
     if not bot.login(config["username"], config["password"], config["character"]):
         bot.disconnect()
         time.sleep(5)
+        exit(1)
     else:
         status = bot.run()
+        bot.disconnect()
+        exit(status.value)
+except KeyboardInterrupt:
+    exit(0)
