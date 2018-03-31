@@ -9,6 +9,7 @@ from core.decorators import instance
 from core.chat_blob import ChatBlob
 from core.settings.setting_types import TextSettingType, ColorSettingType, NumberSettingType
 from core.aochat import server_packets, client_packets
+from core.bot_status import BotStatus
 
 
 @instance()
@@ -20,6 +21,7 @@ class Budabot(Bot):
         self.org_id = None
         self.org_name = None
         self.superadmin = None
+        self.status: BotStatus = BotStatus.SHUTDOWN
 
     def inject(self, registry):
         self.buddy_manager: BuddyManager = registry.get_instance("buddy_manager")
@@ -55,6 +57,7 @@ class Budabot(Bot):
         self.event_manager.register_event_type("packet")
 
     def post_start(self):
+        self.status = BotStatus.RUN
         self.command_manager.post_start()
         self.event_manager.post_start()
 
@@ -68,8 +71,10 @@ class Budabot(Bot):
         self.ready = True
         self.event_manager.fire_event("connect", None)
 
-        while True:
+        while self.status == BotStatus.RUN:
             self.iterate()
+
+        return self.status
 
     def add_packet_handler(self, packet_id, handler):
         handlers = self.packet_handlers.get(packet_id, [])
@@ -146,3 +151,9 @@ class Budabot(Bot):
 
     def is_ready(self):
         return self.ready
+
+    def shutdown(self):
+        self.status = BotStatus.SHUTDOWN
+
+    def restart(self):
+        self.status = BotStatus.RESTART
