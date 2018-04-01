@@ -41,12 +41,26 @@ class BuddyManager:
         char_id = self.character_manager.resolve_char_to_id(char)
         if char_id:
             if char_id not in self.buddy_list:
-                self.bot.send_packet(client_packets.BuddyAdd(char_id, b"1"))
+                self.bot.send_packet(client_packets.BuddyAdd(char_id, "1"))  # TODO b"1"
                 self.buddy_list[char_id] = {"online": None, "types": set(_type)}
             else:
                 self.buddy_list[char_id]["types"].append(_type)
 
             return True
+        else:
+            return False
+
+    def remove_buddy(self, char, _type):
+        char_id = self.character_manager.resolve_char_to_id(char)
+        if char_id:
+            if char_id not in self.buddy_list:
+                return False
+            else:
+                self.buddy_list[char_id]["types"].remove(_type)
+                if len(self.buddy_list[char_id]["types"]) == 0:
+                    del self.buddy_list[char_id]
+                    self.bot.send_packet(client_packets.BuddyRemove(char_id))
+                return True
         else:
             return False
 
