@@ -26,7 +26,7 @@ class BuddyManager:
         self.event_manager.register_event_type(self.BUDDY_LOGOFF_EVENT)
 
     def handle_add(self, packet):
-        buddy = self.buddy_list.get(packet.character_id, {})
+        buddy = self.buddy_list.get(packet.character_id, {"types": []})
         buddy["online"] = packet.online
         self.buddy_list[packet.character_id] = buddy
         if packet.online == 1:
@@ -35,6 +35,7 @@ class BuddyManager:
             self.event_manager.fire_event(self.BUDDY_LOGOFF_EVENT, packet)
 
     def handle_remove(self, packet):
+        # TODO if buddy still has types, log warning
         del self.buddy_list[packet.character_id]
 
     def handle_login_ok(self):
@@ -45,9 +46,9 @@ class BuddyManager:
         if char_id:
             if char_id not in self.buddy_list:
                 self.bot.send_packet(client_packets.BuddyAdd(char_id, "1"))  # TODO b"1"
-                self.buddy_list[char_id] = {"online": None, "types": set(_type)}
+                self.buddy_list[char_id] = {"online": None, "types": [_type]}
             else:
-                self.buddy_list[char_id]["types"].append(_type)
+                self.buddy_list[char_id]["types"].add(_type)
 
             return True
         else:
@@ -59,9 +60,9 @@ class BuddyManager:
             if char_id not in self.buddy_list:
                 return False
             else:
-                self.buddy_list[char_id]["types"].remove(_type)
+                if _type in self.buddy_list[char_id]["types"]:
+                    self.buddy_list[char_id]["types"].remove(_type)
                 if len(self.buddy_list[char_id]["types"]) == 0:
-                    del self.buddy_list[char_id]
                     self.bot.send_packet(client_packets.BuddyRemove(char_id))
                 return True
         else:
