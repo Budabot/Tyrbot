@@ -10,6 +10,9 @@ class AccessManager:
             {"label": "none", "level": 0, "handler": self.no_access},
             {"label": "all", "level": 100, "handler": self.all_access}]
 
+    def inject(self, registry):
+        self.character_manager = registry.get_instance("character_manager")
+
     def register_access_level(self, label, level, handler):
         self.access_levels.append({"label": label, "level": level, "handler": handler})
         self.access_levels = sorted(self.access_levels, key=lambda k: k["level"])
