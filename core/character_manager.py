@@ -33,6 +33,12 @@ class CharacterManager:
         else:
             return self.get_char_id(char)
 
+    def resolve_char_to_name(self, char):
+        if isinstance(char, int):
+            return self.get_char_name(char)
+        else:
+            return char
+
     def get_char_name(self, char_id):
         return self.id_to_name.get(char_id, None)
 
