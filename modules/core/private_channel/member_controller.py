@@ -1,6 +1,7 @@
 from core.decorators import instance, command, event
 from core.commands.param_types import Any, Const, Options
 from core.chat_blob import ChatBlob
+from core.buddy_manager import BuddyManager
 import os
 
 
@@ -20,6 +21,8 @@ class MemberController:
 
     def start(self):
         self.db.load_sql_file("members.sql", os.path.dirname(__file__))
+        # TODO register access_level
+        # TODO add !autoinivte command
 
     @command(command="member", params=[Const("add"), Any("character")], access_level="superadmin",
              description="Add a member")
@@ -59,7 +62,7 @@ class MemberController:
             blob += str(row.char_id) + "\n"
         reply(ChatBlob("Members (%d)" % count, blob))
 
-    @event(event_type="buddy_logon", description="")
+    @event(event_type=BuddyManager.BUDDY_LOGON_EVENT, description="")
     def handle_buddy_logon(self, event_type, event_data):
         member = self.get_member(event_data.character_id)
         if member and member.auto_invite == 1:

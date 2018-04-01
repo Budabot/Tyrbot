@@ -5,8 +5,8 @@ from core.aochat import server_packets, client_packets
 
 @instance()
 class PrivateChannelManager:
-    JOINED_PRIVATE_CHANNEL = "private_channel_joined"
-    LEFT_PRIVATE_CHANNEL = "private_channel_left"
+    JOINED_PRIVATE_CHANNEL_EVENT = "private_channel_joined"
+    LEFT_PRIVATE_CHANNEL_EVENT = "private_channel_left"
 
     def __init__(self):
         self.logger = Logger("Budabot")
@@ -25,8 +25,8 @@ class PrivateChannelManager:
         # self.bot.add_packet_handler(server_packets.PrivateChannelKicked.id, self.update)
         # self.bot.add_packet_handler(server_packets.PrivateChannelLeft.id, self.update)
         self.bot.add_packet_handler(server_packets.PrivateChannelMessage.id, self.handle_private_channel_message)
-        self.event_manager.register_event_type(self.JOINED_PRIVATE_CHANNEL)
-        self.event_manager.register_event_type(self.LEFT_PRIVATE_CHANNEL)
+        self.event_manager.register_event_type(self.JOINED_PRIVATE_CHANNEL_EVENT)
+        self.event_manager.register_event_type(self.LEFT_PRIVATE_CHANNEL_EVENT)
 
     def handle_private_channel_message(self, packet: server_packets.PrivateChannelMessage):
         char_name = self.character_manager.get_char_name(packet.character_id)
@@ -35,12 +35,12 @@ class PrivateChannelManager:
     def handle_private_channel_client_joined(self, packet: server_packets.PrivateChannelClientJoined):
         self.private_channel_chars[packet.character_id] = packet
         if packet.private_channel_id == self.bot.char_id:
-            self.event_manager.fire_event(self.JOINED_PRIVATE_CHANNEL, packet)
+            self.event_manager.fire_event(self.JOINED_PRIVATE_CHANNEL_EVENT, packet)
 
     def handle_private_channel_client_left(self, packet: server_packets.PrivateChannelClientLeft):
         del self.private_channel_chars[packet.character_id]
         if packet.private_channel_id == self.bot.char_id:
-            self.event_manager.fire_event(self.LEFT_PRIVATE_CHANNEL, packet)
+            self.event_manager.fire_event(self.LEFT_PRIVATE_CHANNEL_EVENT, packet)
 
     def invite(self, char_id):
         self.bot.send_packet(client_packets.PrivateChannelInvite(char_id))

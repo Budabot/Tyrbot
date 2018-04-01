@@ -6,6 +6,9 @@ from core.aochat import client_packets
 
 @instance()
 class BuddyManager:
+    BUDDY_LOGON_EVENT = "buddy_logon"
+    BUDDY_LOGOFF_EVENT = "buddy_logoff"
+
     def __init__(self):
         self.buddy_list = {}
         self.buddy_list_size = 1000
@@ -19,17 +22,17 @@ class BuddyManager:
         self.bot.add_packet_handler(server_packets.BuddyAdded.id, self.handle_add)
         self.bot.add_packet_handler(server_packets.BuddyRemoved.id, self.handle_remove)
         self.bot.add_packet_handler(server_packets.LoginOK.id, self.handle_login_ok)
-        self.event_manager.register_event_type("buddy_logon")
-        self.event_manager.register_event_type("buddy_logoff")
+        self.event_manager.register_event_type(self.BUDDY_LOGON_EVENT)
+        self.event_manager.register_event_type(self.BUDDY_LOGOFF_EVENT)
 
     def handle_add(self, packet):
         buddy = self.buddy_list.get(packet.character_id, {})
         buddy["online"] = packet.online
         self.buddy_list[packet.character_id] = buddy
         if packet.online == 1:
-            self.event_manager.fire_event("buddy_logon", packet)
+            self.event_manager.fire_event(self.BUDDY_LOGON_EVENT, packet)
         else:
-            self.event_manager.fire_event("buddy_logoff", packet)
+            self.event_manager.fire_event(self.BUDDY_LOGOFF_EVENT, packet)
 
     def handle_remove(self, packet):
         del self.buddy_list[packet.character_id]
