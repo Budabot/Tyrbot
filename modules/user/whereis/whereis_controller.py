@@ -38,9 +38,3 @@ class WhereisController:
             reply(ChatBlob("Whereis '%s' (%d)" % (search, count), blob))
         else:
             reply("Could not find any results for your search.")
-
-    @timerevent(budatime="3s", description="How often we print stuff")
-    #@event(event_type="buddy_logon", description="Show buddy login")
-    def handle_connect_event(self, event_type, event_data):
-        print(event_type)
-        pass

@@ -20,10 +20,6 @@ class PrivateChannelManager:
     def start(self):
         self.bot.add_packet_handler(server_packets.PrivateChannelClientJoined.id, self.handle_private_channel_client_joined)
         self.bot.add_packet_handler(server_packets.PrivateChannelClientLeft.id, self.handle_private_channel_client_left)
-        # self.bot.add_packet_handler(server_packets.PrivateChannelInvited.id, self.update)
-        # self.bot.add_packet_handler(server_packets.PrivateChannelInviteRefused.id, self.update)
-        # self.bot.add_packet_handler(server_packets.PrivateChannelKicked.id, self.update)
-        # self.bot.add_packet_handler(server_packets.PrivateChannelLeft.id, self.update)
         self.bot.add_packet_handler(server_packets.PrivateChannelMessage.id, self.handle_private_channel_message)
         self.event_manager.register_event_type(self.JOINED_PRIVATE_CHANNEL_EVENT)
         self.event_manager.register_event_type(self.LEFT_PRIVATE_CHANNEL_EVENT)
