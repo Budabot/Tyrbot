@@ -18,10 +18,11 @@ class MemberController:
         self.private_channel_manager = registry.get_instance("private_channel_manager")
         self.buddy_manager = registry.get_instance("buddy_manager")
         self.bot = registry.get_instance("budabot")
+        self.access_manager = registry.get_instance("access_manager")
 
     def start(self):
         self.db.load_sql_file("members.sql", os.path.dirname(__file__))
-        # TODO register access_level
+        self.access_manager.register_access_level("member", 90, self.check_member)
         # TODO add !autoinivte command
 
     @command(command="member", params=[Const("add"), Any("character")], access_level="superadmin",
@@ -85,3 +86,6 @@ class MemberController:
 
     def get_all_members(self):
         return self.db.query("SELECT char_id, auto_invite FROM members")
+
+    def check_member(self, char_id):
+        return self.get_member(char_id) is not None
