@@ -27,7 +27,7 @@ class MemberController:
     @command(command="member", params=[Const("add"), Any("character")], access_level="superadmin",
              description="Add a member")
     def member_add_cmd(self, channel, sender, reply, args):
-        char = args[1].lower().capitalize()
+        char = args[1].capitalize()
         char_id = self.character_manager.resolve_char_to_id(char)
         if char_id:
             if self.get_member(char_id):
@@ -41,7 +41,7 @@ class MemberController:
     @command(command="member", params=[Options(["rem", "remove"]), Any("character")], access_level="superadmin",
              description="Remove a member")
     def member_remove_cmd(self, channel, sender, reply, args):
-        char = args[2].lower().capitalize()
+        char = args[2].capitalize()
         char_id = self.character_manager.resolve_char_to_id(char)
         if char_id:
             if self.get_member(char_id):
