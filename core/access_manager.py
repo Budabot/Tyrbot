@@ -18,8 +18,9 @@ class AccessManager:
         return self.access_levels
 
     def get_access_level(self, char):
+        char_id = self.character_manager.resolve_char_to_id(char)
         for access_level in self.access_levels:
-            if access_level["handler"](char):
+            if access_level["handler"](char_id):
                 return access_level
 
     def get_access_level_by_level(self, level):
@@ -37,8 +38,8 @@ class AccessManager:
     def check_access(self, char, access_level_label):
         return self.get_access_level(char)["level"] <= self.get_access_level_by_label(access_level_label)
 
-    def no_access(self, char):
+    def no_access(self, char_id):
         return False
 
-    def all_access(self, char):
+    def all_access(self, char_id):
         return True

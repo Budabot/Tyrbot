@@ -61,8 +61,9 @@ class Budabot(Bot):
         self.command_manager.post_start()
         self.event_manager.post_start()
 
-    def check_superadmin(self, char_name):
-        return char_name.capitalize() == self.superadmin
+    def check_superadmin(self, char_id):
+        char_name = self.character_manager.resolve_char_to_name(char_id)
+        return char_name == self.superadmin
 
     def run(self):
         while None is not self.iterate():
