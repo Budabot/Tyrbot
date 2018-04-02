@@ -1,7 +1,9 @@
 from core.decorators import instance
+from . import MapObject
 import sqlite3
 import re
 import os
+
 
 @instance()
 class DB:
@@ -13,7 +15,7 @@ class DB:
         d = {}
         for idx, col in enumerate(cursor.description):
             d[col[0]] = row[idx]
-        return DBRow(d)
+        return MapObject(d)
 
     def connect(self, name):
         self.conn = sqlite3.connect("./data/" + name)
@@ -90,23 +92,3 @@ class DB:
                 sql, _ = self.format_sql(line)
                 c.execute(sql)
             self.conn.commit()
-
-
-class DBRow:
-    def __init__(self, row):
-        self.row = row
-
-    def get_row_value(self, name):
-        return self.row[name]
-
-    def __getitem__(self, name):
-        return self.row[name]
-
-    def __getattr__(self, name):
-        return self.get_row_value(name)
-
-    def __repr__(self):
-        return self.__str__()
-
-    def __str__(self):
-        return self.row.__str__()

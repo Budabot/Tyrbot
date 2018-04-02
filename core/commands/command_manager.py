@@ -7,6 +7,7 @@ from core.registry import Registry
 from core.logger import Logger
 from core.budabot import Budabot
 from core.chat_blob import ChatBlob
+from core import MapObject
 from __init__ import flatmap
 import collections
 import re
@@ -132,7 +133,8 @@ class CommandManager:
                 cmd_config, matches, handler = self.get_matches(cmd_configs, command_args)
                 if matches:
                     if self.access_manager.check_access(char_id, cmd_config.access_level):
-                        sender = {"name": self.character_manager.resolve_char_to_name(char_id), "char_id": char_id}
+                        sender = MapObject({"name": self.character_manager.resolve_char_to_name(char_id),
+                                            "char_id": char_id})
                         handler["callback"](channel, sender, reply, matches)
                     else:
                         reply("Error! Access denied.")
