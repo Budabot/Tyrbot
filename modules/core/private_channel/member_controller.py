@@ -7,7 +7,7 @@ import os
 
 @instance()
 class MemberController:
-    BUDDY_TYPE = "member"
+    MEMBER_BUDDY_TYPE = "member"
 
     def __init__(self):
         pass
@@ -24,6 +24,12 @@ class MemberController:
         self.db.load_sql_file("members.sql", os.path.dirname(__file__))
         self.access_manager.register_access_level("member", 90, self.check_member)
         # TODO add !autoinivte command
+
+    @event(event_type="connect", description="Add members as buddies of the bot on startup")
+    def handle_connect_event(self, event_type, event_data):
+        for row in self.get_all_members():
+            if row.auto_invite == 1:
+                self.buddy_manager.add_buddy(row.char_id, self.MEMBER_BUDDY_TYPE)
 
     @command(command="member", params=[Const("add"), Any("character")], access_level="superadmin",
              description="Add a member")
@@ -71,11 +77,11 @@ class MemberController:
             self.private_channel_manager.invite(member.char_id)
 
     def add_member(self, char_id, auto_invite=1):
-        self.buddy_manager.add_buddy(char_id, self.BUDDY_TYPE)
+        self.buddy_manager.add_buddy(char_id, self.MEMBER_BUDDY_TYPE)
         self.db.exec("INSERT INTO members (char_id, auto_invite) VALUES (?, ?)", [char_id, auto_invite])
 
     def remove_member(self, char_id):
-        self.buddy_manager.remove_buddy(char_id, self.BUDDY_TYPE)
+        self.buddy_manager.remove_buddy(char_id, self.MEMBER_BUDDY_TYPE)
         self.db.exec("DELETE FROM members WHERE char_id = ?", [char_id])
 
     def update_auto_invite(self, char_id, auto_invite):

@@ -48,7 +48,7 @@ class BuddyManager:
                 self.bot.send_packet(client_packets.BuddyAdd(char_id, "1"))  # TODO b"1"
                 self.buddy_list[char_id] = {"online": None, "types": [_type]}
             else:
-                self.buddy_list[char_id]["types"].add(_type)
+                self.buddy_list[char_id]["types"].append(_type)
 
             return True
         else:
