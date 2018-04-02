@@ -23,7 +23,6 @@ class MemberController:
     def start(self):
         self.db.load_sql_file("members.sql", os.path.dirname(__file__))
         self.access_manager.register_access_level("member", 90, self.check_member)
-        # TODO add !autoinivte command
 
     @event(event_type="connect", description="Add members as buddies of the bot on startup")
     def handle_connect_event(self, event_type, event_data):
@@ -72,11 +71,11 @@ class MemberController:
     @command(command="autoinvite", params=[Options(["on", "off"])], access_level="all",
              description="Set your auto invite preference")
     def autoinvite_cmd(self, channel, sender, reply, args):
-        auto_invite_preference = 1 if args[1].lower() == "on" else 0
+        pref = args[1].lower()
         member = self.get_member(sender.char_id)
         if member:
-            self.update_auto_invite(sender.char_id, auto_invite_preference)
-            reply("Your auto invite preference has been updated.")
+            self.update_auto_invite(sender.char_id, 1 if pref == "on" else 0)
+            reply("Your auto invite preference has been set to <highlight>%s<end>." % pref)
         else:
             reply("You must be a member of this bot to set your auto invite preference.")
 
