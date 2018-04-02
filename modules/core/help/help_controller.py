@@ -27,7 +27,7 @@ class HelpController:
         current_module = ""
         current_command = ""
         for row in data:
-            if not self.access_manager.check_access(sender, row.access_level):
+            if not self.access_manager.check_access(sender.char_id, row.access_level):
                 continue
 
             parts = row.module.split(".")
@@ -51,7 +51,7 @@ class HelpController:
              description="Show help for a specific command")
     def help_detail_cmd(self, channel, sender, reply, args):
         help_topic = args[1].lower()
-        help_text = self.command_manager.get_help_text(sender, help_topic, channel)
+        help_text = self.command_manager.get_help_text(sender.char_id, help_topic, channel)
         if help_text:
             reply(self.command_manager.format_help_text(help_topic, help_text))
         else:

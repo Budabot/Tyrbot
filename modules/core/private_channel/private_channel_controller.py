@@ -16,14 +16,12 @@ class PrivateChannelController:
     @command(command="join", params=[], access_level="all",
              description="Join the private channel")
     def join_cmd(self, channel, sender, reply, args):
-        char_id = self.character_manager.resolve_char_to_id(sender)
-        self.private_channel_manager.invite(char_id)
+        self.private_channel_manager.invite(sender.char_id)
 
     @command(command="leave", params=[], access_level="all",
              description="Leave the private channel")
     def leave_cmd(self, channel, sender, reply, args):
-        char_id = self.character_manager.resolve_char_to_id(sender)
-        self.private_channel_manager.kick(char_id)
+        self.private_channel_manager.kick(sender.char_id)
 
     @command(command="invite", params=[Any("character")], access_level="all",
              description="Invite a character to the private channel")
@@ -31,7 +29,7 @@ class PrivateChannelController:
         char = args[1].capitalize()
         char_id = self.character_manager.resolve_char_to_id(char)
         if char_id:
-            self.bot.send_private_message(char_id, "You have been invited to the private channel by <highlight>%s<end>." % sender)
+            self.bot.send_private_message(char_id, "You have been invited to the private channel by <highlight>%s<end>." % sender.name)
             self.private_channel_manager.invite(char_id)
             reply("You have invited <highlight>%s<end> to the private channel." % char)
         else:

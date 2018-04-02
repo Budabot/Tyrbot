@@ -119,7 +119,7 @@ class CommandManager:
     def is_command_channel(self, channel):
         return channel in self.channels
 
-    def process_command(self, message: str, channel: str, char_name, reply):
+    def process_command(self, message: str, channel: str, char_id, reply):
         try:
             command_str, command_args = self.get_command_parts(message)
 
@@ -131,13 +131,14 @@ class CommandManager:
                 # given a list of cmd_configs that are enabled, see if one has regex that matches incoming command_str
                 cmd_config, matches, handler = self.get_matches(cmd_configs, command_args)
                 if matches:
-                    if self.access_manager.check_access(char_name, cmd_config.access_level):
-                        handler["callback"](channel, char_name, reply, matches)
+                    if self.access_manager.check_access(char_id, cmd_config.access_level):
+                        sender = {"name": self.character_manager.resolve_char_to_name(char_id), "char_id": char_id}
+                        handler["callback"](channel, sender, reply, matches)
                     else:
                         reply("Error! Access denied.")
                 else:
                     # handlers were found, but no handler regex matched
-                    help_text = self.get_help_text(char_name, command_str, channel)
+                    help_text = self.get_help_text(char_id, command_str, channel)
                     if help_text:
                         reply(self.format_help_text(command_str, help_text))
                     else:
@@ -241,7 +242,7 @@ class CommandManager:
         self.process_command(
             command_str,
             "msg",
-            self.character_manager.get_char_name(packet.character_id),
+            packet.character_id,
             lambda msg: self.bot.send_private_message(packet.character_id, msg))
 
     def handle_private_channel_message(self, packet: server_packets.PrivateChannelMessage):
@@ -257,5 +258,5 @@ class CommandManager:
             self.process_command(
                 command_str,
                 "priv",
-                self.character_manager.get_char_name(packet.character_id),
+                packet.character_id,
                 lambda msg: self.bot.send_private_channel_message(msg))
