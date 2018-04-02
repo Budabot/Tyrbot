@@ -69,6 +69,17 @@ class MemberController:
             blob += str(row.char_id) + "\n"
         reply(ChatBlob("Members (%d)" % count, blob))
 
+    @command(command="autoinvite", params=[Options(["on", "off"])], access_level="all",
+             description="Set your auto invite preference")
+    def autoinvite_cmd(self, channel, sender, reply, args):
+        auto_invite_preference = 1 if args[1].lower() == "on" else 0
+        member = self.get_member(sender.char_id)
+        if member:
+            self.update_auto_invite(sender.char_id, auto_invite_preference)
+            reply("Your auto invite preference has been updated.")
+        else:
+            reply("You must be a member of this bot to set your auto invite preference.")
+
     @event(event_type=BuddyManager.BUDDY_LOGON_EVENT, description="")
     def handle_buddy_logon(self, event_type, event_data):
         member = self.get_member(event_data.character_id)
