@@ -63,6 +63,9 @@ class EventManager:
                               % (handler_name, event_type))
             return
 
+        if not description:
+            self.logger.warning("No description for event_type '%s' and handler '%s'" % (event_type, handler_name))
+
         row = self.db.query_single("SELECT 1 "
                                    "FROM event_config WHERE event_type = ? AND handler = ?",
                                    [event_base_type, handler_name])
