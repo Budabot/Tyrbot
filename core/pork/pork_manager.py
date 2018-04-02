@@ -1,6 +1,7 @@
 from core.decorators import instance
 from core import MapObject
 import requests
+import time
 import os
 
 
@@ -38,10 +39,10 @@ class PorkManager:
             else:
                 org_info = None
 
-            return MapObject({
+            char_info = MapObject({
                 "name": char_info_json["NAME"],
                 "char_id": char_info_json["CHAR_INSTANCE"],
-                "first_name": char_info_json["LASTNAME"],
+                "first_name": char_info_json["FIRSTNAME"],
                 "last_name": char_info_json["LASTNAME"],
                 "level": char_info_json["LEVELX"],
                 "breed": char_info_json["BREED"],
@@ -55,8 +56,12 @@ class PorkManager:
                 "pvp_rating": char_info_json["PVPRATING"],
                 "pvp_title": char_info_json["PVPTITLE"],
                 "head_id": char_info_json["HEADID"],
+                "source": "people.anarchy-online.com",
                 "org": org_info
             })
+
+            self.save_character_info(char_info, )
+            return char_info
         else:
             return None
 
@@ -65,3 +70,28 @@ class PorkManager:
 
     def get_org_info(self, org_id):
         pass
+
+    def save_character_info(self, char_info):
+        c = char_info
+        o = c.org
+        if not o:
+            o = MapObject({
+                    "name": "",
+                    "id": 0,
+                    "rank_name": "",
+                    "rank_id": 0
+                })
+
+        self.db.exec("DELETE FROM characters WHERE char_id = ?", [char_info.char_id])
+
+        insert_sql = """
+            INSERT INTO characters ( char_id, name, first_name, last_name, level, breed, gender, faction, profession,
+                profession_title, ai_rank, ai_level, org_id, org_name, org_rank_name, org_rank_id, dimension, head_id,
+                pvp_rating, pvp_title, source, last_updated)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """
+
+        self.db.exec(insert_sql, [c.char_id, c.name, c.first_name, c.last_name, c.level, c.breed, c.gender, c.faction,
+                                  c.profession, c.profession_title, c.ai_rank, c.ai_level, o.id, o.name,
+                                  o.rank_name, o.rank_id, c.dimension, c.head_id, c.pvp_rating, c.pvp_title,
+                                  c.source, int(time.time())])
