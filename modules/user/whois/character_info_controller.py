@@ -1,7 +1,7 @@
 from core.decorators import instance, command
 from core.db import DB
 from core.text import Text
-from core.commands.param_types import Any, Int
+from core.commands.param_types import Any
 
 
 @instance()
@@ -20,7 +20,8 @@ class CharacterHistoryController:
         char_name = args[1].capitalize()
         whois = self.pork_manager.get_character_info(char_name)
         if whois:
-            msg = "<highlight>%s<end> (%d/<green>%d<end>) %s" % (whois.name, whois.level, whois.ai_level, whois.profession)
+            msg = "<highlight>%s<end> (%d/<green>%d<end>) %s %s" %\
+                  (whois.name, whois.level, whois.ai_level, whois.faction, whois.profession)
             reply(msg)
         else:
             reply("Could not find whois info for character <highlight>%s<end>." % char_name)
