@@ -16,6 +16,7 @@ try:
 
     bot = Registry.get_instance("budabot")
     bot.superadmin = config["superadmin"].capitalize()
+    bot.dimension = 5
     bot.connect("chat.d1.funcom.com", 7105)
     bot.post_start()
 

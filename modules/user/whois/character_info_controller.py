@@ -24,7 +24,3 @@ class CharacterHistoryController:
             reply(msg)
         else:
             reply("Could not find whois info for character <highlight>%s<end>." % char_name)
-
-    def get_character_history(self, name, server_num):
-        return "<header>" + name + " (" + str(server_num) + ")<end>"
-

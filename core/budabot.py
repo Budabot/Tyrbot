@@ -22,6 +22,7 @@ class Budabot(Bot):
         self.org_name = None
         self.superadmin = None
         self.status: BotStatus = BotStatus.SHUTDOWN
+        self.dimension = None
 
     def inject(self, registry):
         self.buddy_manager: BuddyManager = registry.get_instance("buddy_manager")
