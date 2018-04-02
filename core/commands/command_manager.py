@@ -154,9 +154,9 @@ class CommandManager:
     def get_command_parts(self, message):
         parts = message.split(" ", 1)
         if len(parts) == 2:
-            return parts[0], parts[1]
+            return parts[0].lower(), parts[1]
         else:
-            return parts[0], ""
+            return parts[0].lower(), ""
 
     def get_command_configs(self, command, channel=None, enabled=1):
         sql = "SELECT command, sub_command, access_level FROM command_config WHERE command = ?"
