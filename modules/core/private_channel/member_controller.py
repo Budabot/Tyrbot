@@ -80,7 +80,7 @@ class MemberController:
         else:
             reply("You must be a member of this bot to set your auto invite preference.")
 
-    @event(event_type=BuddyManager.BUDDY_LOGON_EVENT, description="")
+    @event(event_type=BuddyManager.BUDDY_LOGON_EVENT, description="Auto invite members to the private channel when they logon")
     def handle_buddy_logon(self, event_type, event_data):
         member = self.get_member(event_data.character_id)
         if member and member.auto_invite == 1:
