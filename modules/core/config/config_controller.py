@@ -167,6 +167,48 @@ class ConfigController:
             else:
                 reply("Access level '%s' for command '%s' on channel '%s' has been set successfully." % (access_level, cmd_name, channel))
 
+    @command(command="config", params=[Const("cmd"), Any("cmd_name")],
+             access_level="superadmin",
+             description="Enable or disable a command")
+    def config_cmd_show_cmd(self, channel, sender, reply, args):
+        cmd_name = args[1].lower()
+        command_str, sub_command_str = self.command_manager.get_command_key_parts(cmd_name)
+
+        blob = ""
+        for channel in self.command_manager.channels:
+            cmd_configs = self.command_manager.get_command_configs(command=command_str,
+                                                                   sub_command=sub_command_str,
+                                                                   channel=channel,
+                                                                   enabled=None)
+            if len(cmd_configs) > 0:
+                cmd_config = cmd_configs[0]
+                blob += "<header2>%s<end>\n" % channel
+                blob += "Status: "
+                enable_link = self.text.make_chatcmd("Enable",
+                                                     "/tell <myname> config cmd %s enable %s" %
+                                                     (cmd_name, channel))
+                disable_link = self.text.make_chatcmd("Disable",
+                                                      "/tell <myname> config cmd %s disable %s" %
+                                                      (cmd_name, channel))
+                if cmd_config.enabled == 1:
+                    blob += "[" + enable_link + "] " + disable_link
+                else:
+                    blob += enable_link + " [" + disable_link + "]"
+
+                blob += "\nAccess Level: "
+                for access_level in self.access_manager.access_levels:
+                    label = access_level["label"]
+                    link = self.text.make_chatcmd(label, "/tell <myname> config cmd %s access_level %s %s" %
+                                                  (cmd_name, channel, label))
+                    if cmd_config.access_level == label:
+                        blob += "[" + link + "] "
+                    else:
+                        blob += link + " "
+                blob += "\n"
+            blob += "\n"
+
+        reply(ChatBlob("%s Command Config" % cmd_name.capitalize(), blob))
+
     @command(command="config", params=[Const("event"), Any("event_type"), Any("event_handler"), Options(["enable", "disable"])],
              access_level="superadmin",
              description="Enable or disable an event")

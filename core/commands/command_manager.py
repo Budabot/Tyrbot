@@ -158,8 +158,8 @@ class CommandManager:
         else:
             return parts[0].lower(), ""
 
-    def get_command_configs(self, command, channel=None, enabled=1):
-        sql = "SELECT command, sub_command, access_level FROM command_config WHERE command = ?"
+    def get_command_configs(self, command, channel=None, enabled=1, sub_command=None):
+        sql = "SELECT command, sub_command, access_level, enabled FROM command_config WHERE command = ?"
         params = [command]
         if channel:
             sql += " AND channel = ?"
@@ -167,6 +167,11 @@ class CommandManager:
         if enabled:
             sql += " AND enabled = ?"
             params.append(enabled)
+        if sub_command:
+            sql += " AND sub_command = ?"
+            params.append(sub_command)
+
+        sql += " ORDER BY sub_command, channel"
 
         return self.db.query(sql, params)
 
