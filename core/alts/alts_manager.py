@@ -24,7 +24,7 @@ class AltsManager:
         self.pork_manager.get_character_info(char_id)
 
         sql = "SELECT c.* FROM character c " \
-              "LEFT JOIN alts a ON c.char_id = a.char_id AND a.status >= ?" \
+              "LEFT JOIN alts a ON c.char_id = a.char_id AND a.status >= ? " \
               "WHERE c.char_id = ? OR a.group_id = (" \
               "SELECT group_id FROM alts WHERE char_id = ?) " \
               "ORDER BY a.status DESC, c.level DESC"
