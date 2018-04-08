@@ -1,5 +1,6 @@
 from core.decorators import instance
-from core import MapObject, none_to_empty_string
+from core.map_object import MapObject
+from __init__ import none_to_empty_string
 import requests
 import time
 import os

@@ -7,7 +7,7 @@ from core.registry import Registry
 from core.logger import Logger
 from core.budabot import Budabot
 from core.chat_blob import ChatBlob
-from core import MapObject
+from core.map_object import MapObject
 from __init__ import flatmap
 import collections
 import re

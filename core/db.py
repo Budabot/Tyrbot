@@ -1,5 +1,5 @@
 from core.decorators import instance
-from . import MapObject
+from core.map_object import MapObject
 import sqlite3
 import re
 import os
