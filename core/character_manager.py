@@ -43,5 +43,8 @@ class CharacterManager:
         return self.id_to_name.get(char_id, None)
 
     def update(self, packet):
-        self.id_to_name[packet.character_id] = packet.name
-        self.name_to_id[packet.name] = packet.character_id
+        if packet.character_id == 4294967295:
+            self.name_to_id[packet.name] = None
+        else:
+            self.id_to_name[packet.character_id] = packet.name
+            self.name_to_id[packet.name] = packet.character_id
