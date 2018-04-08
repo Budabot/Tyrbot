@@ -99,14 +99,17 @@ class ConfigCommandController:
 
                 blob += "<header2>%s<end> %s (Access Level: %s)\n" % (channel_label, status, cmd_config.access_level.capitalize())
 
+                # show status config
                 blob += "Status:"
                 enable_link = self.text.make_chatcmd("Enable", "/tell <myname> config cmd %s enable %s" % (cmd_name, channel))
                 disable_link = self.text.make_chatcmd("Disable", "/tell <myname> config cmd %s disable %s" % (cmd_name, channel))
 
                 blob += "  " + enable_link + "  " + disable_link
 
+                # show access level config
                 blob += "\nAccess Level:"
                 for access_level in self.access_manager.access_levels:
+                    # skip "None" access level
                     if access_level["level"] == 0:
                         continue
 
@@ -117,6 +120,7 @@ class ConfigCommandController:
             blob += "\n\n"
 
         if blob:
+            # include help text
             blob += "\n\n".join(map(lambda handler: handler["help"], self.command_manager.get_handlers(cmd_name)))
 
-        reply(ChatBlob("Command (%s)" % cmd_name.capitalize(), blob))
+        reply(ChatBlob("Command (%s)" % cmd_name, blob))
