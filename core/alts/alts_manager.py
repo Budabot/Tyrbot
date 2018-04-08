@@ -19,13 +19,15 @@ class AltsManager:
     def start(self):
         self.db.load_sql_file("alts.sql", os.path.dirname(__file__))
 
-    def get_alts(self, char):
-        char_id = self.character_manager.resolve_char_to_id(char)
+    def get_alts(self, char_id):
+        # make sure char info exists in character table
+        self.pork_manager.get_character_info(char_id)
+
         sql = "SELECT c.* FROM character c " \
               "LEFT JOIN alts a ON c.char_id = a.char_id AND a.status >= ?" \
               "WHERE c.char_id = ? OR a.group_id = (" \
               "SELECT group_id FROM alts WHERE char_id = ?) " \
-              "ORDER BY a.status DESC"
+              "ORDER BY a.status DESC, c.level DESC"
 
         return self.db.query(sql, [self.VALIDATED, char_id, char_id])
 
@@ -48,6 +50,7 @@ class AltsManager:
 
             params = [alt_char_id, group_id, self.VALIDATED]
 
+        # make sure char info exists in character table
         self.pork_manager.get_character_info(alt_char_id)
         self.db.exec("INSERT INTO alts (char_id, group_id, status) VALUES (?, ?, ?)", params)
         return True
@@ -71,5 +74,5 @@ class AltsManager:
         return self.db.query_single("SELECT group_id, status FROM alts WHERE char_id = ?", [char_id])
 
     def get_next_group_id(self):
-        row = self.db.query_single("SELECT (IFNULL(MAX(group_id), 1) + 1) AS next_group_id FROM alts")
+        row = self.db.query_single("SELECT (IFNULL(MAX(group_id), 0) + 1) AS next_group_id FROM alts")
         return row.next_group_id
