@@ -16,3 +16,10 @@ class MapObject:
 
     def __str__(self):
         return self.row.__str__()
+
+
+def none_to_empty_string(val):
+    if val:
+        return val
+    else:
+        return ""

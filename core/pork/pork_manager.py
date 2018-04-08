@@ -1,5 +1,5 @@
 from core.decorators import instance
-from core import MapObject
+from core import MapObject, none_to_empty_string
 import requests
 import time
 import os
@@ -16,7 +16,7 @@ class PorkManager:
         self.character_manager = registry.get_instance("character_manager")
 
     def start(self):
-        self.db.load_sql_file("characters.sql", os.path.dirname(__file__))
+        self.db.load_sql_file("character.sql", os.path.dirname(__file__))
 
     def get_character_info(self, char):
         char_name = self.character_manager.resolve_char_to_name(char)
@@ -54,13 +54,13 @@ class PorkManager:
                 "ai_rank": char_info_json["RANK_name"],
                 "ai_level": char_info_json["ALIENLEVEL"],
                 "pvp_rating": char_info_json["PVPRATING"],
-                "pvp_title": char_info_json["PVPTITLE"],
+                "pvp_title": none_to_empty_string(char_info_json["PVPTITLE"]),
                 "head_id": char_info_json["HEADID"],
                 "source": "people.anarchy-online.com",
                 "org": org_info
             })
 
-            self.save_character_info(char_info, )
+            self.save_character_info(char_info)
             return char_info
         else:
             return None
@@ -82,10 +82,10 @@ class PorkManager:
                     "rank_id": 0
                 })
 
-        self.db.exec("DELETE FROM characters WHERE char_id = ?", [char_info.char_id])
+        self.db.exec("DELETE FROM character WHERE char_id = ?", [char_info.char_id])
 
         insert_sql = """
-            INSERT INTO characters ( char_id, name, first_name, last_name, level, breed, gender, faction, profession,
+            INSERT INTO character ( char_id, name, first_name, last_name, level, breed, gender, faction, profession,
                 profession_title, ai_rank, ai_level, org_id, org_name, org_rank_name, org_rank_id, dimension, head_id,
                 pvp_rating, pvp_title, source, last_updated)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
