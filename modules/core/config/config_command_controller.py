@@ -88,7 +88,7 @@ class ConfigCommandController:
         command_str, sub_command_str = self.command_manager.get_command_key_parts(cmd_name)
 
         blob = ""
-        for channel in self.command_manager.channels:
+        for channel, channel_label in self.command_manager.channels.items():
             cmd_configs = self.command_manager.get_command_configs(command=command_str,
                                                                    sub_command=sub_command_str,
                                                                    channel=channel,
@@ -100,7 +100,7 @@ class ConfigCommandController:
                 else:
                     status = "<red>Disabled<end>"
 
-                blob += "<header2>%s<end> %s (Access Level: %s)\n" % (channel, status, cmd_config.access_level.capitalize())
+                blob += "<header2>%s<end> %s (Access Level: %s)\n" % (channel_label, status, cmd_config.access_level.capitalize())
 
                 blob += "Status:"
                 enable_link = self.text.make_chatcmd("Enable",
@@ -117,8 +117,9 @@ class ConfigCommandController:
                     if access_level["level"] == 0:
                         continue
 
-                    label = access_level["label"].capitalize()
-                    link = self.text.make_chatcmd(label, "/tell <myname> config cmd %s access_level %s %s" %
+                    label = access_level["label"]
+                    link = self.text.make_chatcmd(label.capitalize(),
+                                                  "/tell <myname> config cmd %s access_level %s %s" %
                                                   (cmd_name, channel, label))
                     blob += "  " + link
                 blob += "\n"

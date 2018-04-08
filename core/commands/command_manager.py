@@ -19,7 +19,7 @@ class CommandManager:
     def __init__(self):
         self.handlers = collections.defaultdict(list)
         self.logger = Logger("command_manager")
-        self.channels = []
+        self.channels = {}
         self.deferred_register = []
 
     def inject(self, registry):
@@ -36,9 +36,9 @@ class CommandManager:
         self.bot.add_packet_handler(server_packets.PrivateChannelMessage.id, self.handle_private_channel_message)
         self.db.load_sql_file("command_config.sql", os.path.dirname(__file__))
         self.db.exec("UPDATE command_config SET verified = 0")
-        self.register_command_channel("msg")
-        self.register_command_channel("org")
-        self.register_command_channel("priv")
+        self.register_command_channel("Private Message", "msg")
+        self.register_command_channel("Org Channel", "org")
+        self.register_command_channel("Private Channel", "priv")
 
     def post_start(self):
         # process decorators
@@ -79,7 +79,7 @@ class CommandManager:
             self.logger.error("Could not add command '%s': could not find access level '%s'" % (command, access_level))
             return
 
-        for channel in self.channels:
+        for channel, label in self.channels.items():
             row = self.db.query_single("SELECT access_level, module, enabled, verified "
                                        "FROM command_config "
                                        "WHERE command = ? AND sub_command = ? AND channel = ?",
@@ -108,14 +108,14 @@ class CommandManager:
         self.handlers[command_key].append(
             {"regex": r, "callback": handler, "help": help_text, "description": description})
 
-    def register_command_channel(self, channel):
-        if channel in self.channels:
+    def register_command_channel(self, label, value):
+        if value in self.channels:
             self.logger.error("Could not register command channel '%s': command channel already registered"
-                              % channel)
+                              % value)
             return
 
-        self.logger.debug("Registering command channel '%s'" % channel)
-        self.channels.append(channel)
+        self.logger.debug("Registering command channel '%s'" % value)
+        self.channels[value] = label
 
     def is_command_channel(self, channel):
         return channel in self.channels
