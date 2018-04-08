@@ -51,3 +51,20 @@ class AltsController:
             reply("<highlight>%s<end> removed as alt successfully." % alt)
         else:
             reply("Could not remove <highlight>%s<end> as alt." % alt)
+
+    @command(command="alts", params=[Any("character")], access_level="all",
+             description="Show alts of another character")
+    def alts_list_other_cmd(self, channel, sender, reply, args):
+        name = args[1].capitalize()
+        char_id = self.character_manager.resolve_char_to_id(name)
+        if not char_id:
+            reply("Could not find character <highlight>%s<end>." % name)
+            return
+
+        alts = self.alts_manager.get_alts(char_id)
+        blob = ""
+        for alt in alts:
+            blob += "<highlight>%s<end> (%d/<green>%d<end>) %s %s\n" % \
+                    (alt.name, alt.level, alt.ai_level, alt.faction, alt.profession)
+
+        reply(ChatBlob("Alts for %s (%d)" % (name, len(alts)), blob))
