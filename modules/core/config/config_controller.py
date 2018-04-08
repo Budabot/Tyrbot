@@ -182,28 +182,32 @@ class ConfigController:
                                                                    enabled=None)
             if len(cmd_configs) > 0:
                 cmd_config = cmd_configs[0]
-                blob += "<header2>%s<end>\n" % channel
-                blob += "Status: "
+                if cmd_config.enabled == 1:
+                    status = "<green>Enabled<end>"
+                else:
+                    status = "<red>Disabled<end>"
+
+                blob += "<header2>%s<end> %s (Access Level: %s)\n" % (channel, status, cmd_config.access_level.capitalize())
+
+                blob += "Status:"
                 enable_link = self.text.make_chatcmd("Enable",
                                                      "/tell <myname> config cmd %s enable %s" %
                                                      (cmd_name, channel))
                 disable_link = self.text.make_chatcmd("Disable",
                                                       "/tell <myname> config cmd %s disable %s" %
                                                       (cmd_name, channel))
-                if cmd_config.enabled == 1:
-                    blob += "[" + enable_link + "] " + disable_link
-                else:
-                    blob += enable_link + " [" + disable_link + "]"
 
-                blob += "\nAccess Level: "
+                blob += "  " + enable_link + "  " + disable_link
+
+                blob += "\nAccess Level:"
                 for access_level in self.access_manager.access_levels:
-                    label = access_level["label"]
+                    if access_level["level"] == 0:
+                        continue
+
+                    label = access_level["label"].capitalize()
                     link = self.text.make_chatcmd(label, "/tell <myname> config cmd %s access_level %s %s" %
                                                   (cmd_name, channel, label))
-                    if cmd_config.access_level == label:
-                        blob += "[" + link + "] "
-                    else:
-                        blob += link + " "
+                    blob += "  " + link
                 blob += "\n"
             blob += "\n"
 
