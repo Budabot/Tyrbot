@@ -44,8 +44,7 @@ class AdminManager:
             return False
 
     def remove(self, char_id):
-        self.db.exec("DELETE FROM admin WHERE char_id = ?", [char_id])
-        return True
+        return 1 == self.db.exec("DELETE FROM admin WHERE char_id = ?", [char_id])
 
     def get_all(self):
         return self.db.query("SELECT c.*, a.access_level FROM admin a "
