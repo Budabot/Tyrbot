@@ -114,6 +114,9 @@ class ConfigCommandController:
                     link = self.text.make_chatcmd(label.capitalize(), "/tell <myname> config cmd %s access_level %s %s" % (cmd_name, channel, label))
                     blob += "  " + link
                 blob += "\n"
-            blob += "\n"
+            blob += "\n\n"
 
-        reply(ChatBlob("%s Command Config" % cmd_name.capitalize(), blob))
+        if blob:
+            blob += "\n\n".join(map(lambda handler: handler["help"], self.command_manager.get_handlers(cmd_name)))
+
+        reply(ChatBlob("Command (%s)" % cmd_name.capitalize(), blob))

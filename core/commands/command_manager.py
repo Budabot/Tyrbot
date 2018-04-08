@@ -229,6 +229,9 @@ class CommandManager:
     def generate_help(self, command, description, params):
         return description + ":\n" + "<tab><symbol>" + command + " " + " ".join(map(lambda x: x.get_name(), params))
 
+    def get_handlers(self, command_key):
+        return self.handlers.get(command_key, None)
+
     def handle_private_message(self, packet: server_packets.PrivateMessage):
         # since the command symbol is not required for private messages,
         # the command_str must have length of at least 1 in order to be valid,
