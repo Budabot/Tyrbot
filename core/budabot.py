@@ -35,7 +35,7 @@ class Budabot(Bot):
         self.event_manager = registry.get_instance("event_manager")
 
     def start(self):
-        self.access_manager.register_access_level("superadmin", 1, self.check_superadmin)
+        self.access_manager.register_access_level("superadmin", 10, self.check_superadmin)
         self.setting_manager.register(NumberSettingType("org_channel_max_page_length", 7500,
                                                         "Maximum size of blobs in org channel",
                                                         [4500, 6000, 7500, 9000, 10500, 12000]), "core.system")

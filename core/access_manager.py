@@ -1,5 +1,3 @@
-from operator import itemgetter
-
 from core.decorators import instance
 
 
