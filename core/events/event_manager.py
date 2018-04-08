@@ -36,15 +36,13 @@ class EventManager:
         # remove events that are no longer registered
         self.db.exec("DELETE FROM event_config WHERE verified = 0")
 
-        self.db.exec("DELETE FROM timer_event WHERE handler NOT IN "
-                     "(SELECT handler FROM event_config WHERE event_type = ?)", ["timer"])
+        self.db.exec("DELETE FROM timer_event WHERE handler NOT IN (SELECT handler FROM event_config WHERE event_type = ?)", ["timer"])
 
     def register_event_type(self, event_type):
         event_type = event_type.lower()
 
         if event_type in self.event_types:
-            self.logger.error("Could not register event type '%s': event type already registered"
-                              % event_type)
+            self.logger.error("Could not register event type '%s': event type already registered" % event_type)
             return
 
         self.logger.debug("Registering event type '%s'" % event_type)
@@ -59,37 +57,33 @@ class EventManager:
         handler_name = self.util.get_handler_name(handler)
 
         if event_base_type not in self.event_types:
-            self.logger.error("Could not register handler '%s' for event type '%s': event type does not exist"
-                              % (handler_name, event_type))
+            self.logger.error("Could not register handler '%s' for event type '%s': event type does not exist" % (handler_name, event_type))
             return
 
         if not description:
             self.logger.warning("No description for event_type '%s' and handler '%s'" % (event_type, handler_name))
 
-        row = self.db.query_single("SELECT 1 "
-                                   "FROM event_config WHERE event_type = ? AND handler = ?",
+        row = self.db.query_single("SELECT 1 FROM event_config WHERE event_type = ? AND handler = ?",
                                    [event_base_type, handler_name])
 
         if row is None:
             # add new event commands
             self.db.exec(
-                "INSERT INTO event_config (event_type, event_sub_type, handler, description, module, enabled, verified) "
-                "VALUES (?, ?, ?, ?, ?, ?, ?)",
+                "INSERT INTO event_config (event_type, event_sub_type, handler, description, module, enabled, verified) VALUES (?, ?, ?, ?, ?, ?, ?)",
                 [event_base_type, event_sub_type, handler_name, description, module, 1, 1])
 
             if event_base_type == "timer":
-                self.db.exec("INSERT INTO timer_event (event_type, event_sub_type, handler, next_run) "
-                             "VALUES (?, ?, ?, ?)", [event_base_type, event_sub_type, handler_name, int(time.time())])
+                self.db.exec("INSERT INTO timer_event (event_type, event_sub_type, handler, next_run) VALUES (?, ?, ?, ?)",
+                             [event_base_type, event_sub_type, handler_name, int(time.time())])
         else:
             # mark command as verified
             self.db.exec(
-                "UPDATE event_config SET verified = ?, module = ?, description = ?, event_sub_type = ? "
-                "WHERE event_type = ? AND handler = ?",
+                "UPDATE event_config SET verified = ?, module = ?, description = ?, event_sub_type = ? WHERE event_type = ? AND handler = ?",
                 [1, module, description, event_sub_type, event_base_type, handler_name])
 
             if event_base_type == "timer":
-                self.db.exec("UPDATE timer_event SET event_sub_type = ? "
-                             "WHERE event_type = ? AND handler = ?", [event_sub_type, event_base_type, handler_name])
+                self.db.exec("UPDATE timer_event SET event_sub_type = ? WHERE event_type = ? AND handler = ?",
+                             [event_sub_type, event_base_type, handler_name])
 
         # load command handler
         self.handlers[handler_name] = handler
@@ -101,14 +95,12 @@ class EventManager:
             self.logger.error("Could not fire event type '%s': event type does not exist" % event_type)
             return
 
-        data = self.db.query("SELECT handler, event_type FROM event_config "
-                             "WHERE event_type = ? AND event_sub_type = ? AND enabled = 1",
+        data = self.db.query("SELECT handler, event_type FROM event_config WHERE event_type = ? AND event_sub_type = ? AND enabled = 1",
                              [event_base_type, event_sub_type])
         for row in data:
             handler = self.handlers.get(row.handler, None)
             if not handler:
-                self.logger.error("Could not find handler callback for event type '%s' and handler '%s'"
-                                  % (event_type, row.handler))
+                self.logger.error("Could not find handler callback for event type '%s' and handler '%s'" % (event_type, row.handler))
                 return
 
             handler(event_type, event_data)

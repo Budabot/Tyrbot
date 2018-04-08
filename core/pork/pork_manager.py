@@ -20,8 +20,7 @@ class PorkManager:
 
     def get_character_info(self, char):
         char_name = self.character_manager.resolve_char_to_name(char)
-        url = "http://people.anarchy-online.com/character/bio/d/%d/name/%s/bio.xml?data_type=json" %\
-              (self.bot.dimension, char_name)
+        url = "http://people.anarchy-online.com/character/bio/d/%d/name/%s/bio.xml?data_type=json" % (self.bot.dimension, char_name)
 
         r = requests.get(url)
         json = r.json()

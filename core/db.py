@@ -67,8 +67,7 @@ class DB:
             field = match.group(2)
             vals = ["%" + p + "%" for p in params[0].split(" ")]
             extra_sql = [field + " LIKE ?" for _ in vals]
-            sql = self.enhanced_like_regex.sub(match.group(1) + "(" + " AND ".join(extra_sql) + ")" + match.group(3),
-                                               sql, 1)
+            sql = self.enhanced_like_regex.sub(match.group(1) + "(" + " AND ".join(extra_sql) + ")" + match.group(3), sql, 1)
 
             # first occurrence has been handled, check for more occurrences with recursive call
             # then merge params from recursive call

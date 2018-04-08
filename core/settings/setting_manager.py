@@ -30,15 +30,13 @@ class SettingManager:
         if not description:
             self.logger.warning("No description specified for setting '%s'" % name)
 
-        row = self.db.query_single("SELECT name, value, description "
-                                   "FROM setting WHERE name = ?",
+        row = self.db.query_single("SELECT name, value, description FROM setting WHERE name = ?",
                                    [name])
 
         if row is None:
             # add new event commands
             self.db.exec(
-                "INSERT INTO setting (name, value, description, module, verified) VALUES "
-                "(?, ?, ?, ?, ?)",
+                "INSERT INTO setting (name, value, description, module, verified) VALUES (?, ?, ?, ?, ?)",
                 [name, value, description, module, 1])
         else:
             # mark command as verified

@@ -19,8 +19,7 @@ class ConfigCommandController:
     def start(self):
         pass
 
-    @command(command="config", params=[Const("cmd"), Any("cmd_name"), Options(["enable", "disable"]), Any("channel")],
-             access_level="superadmin",
+    @command(command="config", params=[Const("cmd"), Any("cmd_name"), Options(["enable", "disable"]), Any("channel")], access_level="superadmin",
              description="Enable or disable a command")
     def config_cmd_status_cmd(self, channel, sender, reply, args):
         cmd_name = args[1].lower()
@@ -46,11 +45,9 @@ class ConfigCommandController:
             if cmd_channel == "all":
                 reply("Command <highlight>%s<end> has been <highlight>%sd<end> successfully." % (cmd_name, action))
             else:
-                reply("Command <highlight>%s<end> for channel <highlight>%s<end> has been <highlight>%sd<end>"
-                      " successfully." % (cmd_name, channel, action))
+                reply("Command <highlight>%s<end> for channel <highlight>%s<end> has been <highlight>%sd<end> successfully." % (cmd_name, channel, action))
 
-    @command(command="config", params=[Const("cmd"), Any("cmd_name"), Const("access_level"), Any("channel"), Any("access_level")],
-             access_level="superadmin",
+    @command(command="config", params=[Const("cmd"), Any("cmd_name"), Const("access_level"), Any("channel"), Any("access_level")], access_level="superadmin",
              description="Change access_level for a command")
     def config_cmd_access_level_cmd(self, channel, sender, reply, args):
         cmd_name = args[1].lower()
@@ -77,14 +74,11 @@ class ConfigCommandController:
             reply("Could not find command <highlight>%s<end> for channel <highlight>%s<end>." % (cmd_name, cmd_channel))
         else:
             if cmd_channel == "all":
-                reply("Access level <highlight>%s<end> for command <highlight>%s<end> has been set successfully." %
-                      (access_level, cmd_name))
+                reply("Access level <highlight>%s<end> for command <highlight>%s<end> has been set successfully." % (access_level, cmd_name))
             else:
-                reply("Access level <highlight>%s<end> for command <highlight>%s<end> on channel <highlight>%s<end>"
-                      " has been set successfully." % (access_level, cmd_name, channel))
+                reply("Access level <highlight>%s<end> for command <highlight>%s<end> on channel <highlight>%s<end> has been set successfully." % (access_level, cmd_name, channel))
 
-    @command(command="config", params=[Const("cmd"), Any("cmd_name")],
-             access_level="superadmin",
+    @command(command="config", params=[Const("cmd"), Any("cmd_name")], access_level="superadmin",
              description="Enable or disable a command")
     def config_cmd_show_cmd(self, channel, sender, reply, args):
         cmd_name = args[1].lower()
@@ -106,12 +100,8 @@ class ConfigCommandController:
                 blob += "<header2>%s<end> %s (Access Level: %s)\n" % (channel_label, status, cmd_config.access_level.capitalize())
 
                 blob += "Status:"
-                enable_link = self.text.make_chatcmd("Enable",
-                                                     "/tell <myname> config cmd %s enable %s" %
-                                                     (cmd_name, channel))
-                disable_link = self.text.make_chatcmd("Disable",
-                                                      "/tell <myname> config cmd %s disable %s" %
-                                                      (cmd_name, channel))
+                enable_link = self.text.make_chatcmd("Enable", "/tell <myname> config cmd %s enable %s" % (cmd_name, channel))
+                disable_link = self.text.make_chatcmd("Disable", "/tell <myname> config cmd %s disable %s" % (cmd_name, channel))
 
                 blob += "  " + enable_link + "  " + disable_link
 
@@ -121,9 +111,7 @@ class ConfigCommandController:
                         continue
 
                     label = access_level["label"]
-                    link = self.text.make_chatcmd(label.capitalize(),
-                                                  "/tell <myname> config cmd %s access_level %s %s" %
-                                                  (cmd_name, channel, label))
+                    link = self.text.make_chatcmd(label.capitalize(), "/tell <myname> config cmd %s access_level %s %s" % (cmd_name, channel, label))
                     blob += "  " + link
                 blob += "\n"
             blob += "\n"

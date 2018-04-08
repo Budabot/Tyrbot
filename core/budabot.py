@@ -52,8 +52,7 @@ class Budabot(Bot):
         self.setting_manager.register(ColorSettingType("omni_color", "#FA8484", "color for omni faction"), "core.colors")
         self.setting_manager.register(ColorSettingType("clan_color", "#F79410", "color for clan faction"), "core.colors")
         self.setting_manager.register(ColorSettingType("unknown_color", "#FF0000", "color for unknown faction"), "core.colors")
-        self.setting_manager.register(TextSettingType("symbol", "!", "Symbol for executing bot commands",
-                                                      ["!", "#", "*", "@", "$", "+", "-"]), "core.system")
+        self.setting_manager.register(TextSettingType("symbol", "!", "Symbol for executing bot commands", ["!", "#", "*", "@", "$", "+", "-"]), "core.system")
         self.event_manager.register_event_type("connect")
         self.event_manager.register_event_type("packet")
 

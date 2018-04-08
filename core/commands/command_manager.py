@@ -94,9 +94,7 @@ class CommandManager:
                     [command, sub_command, access_level, channel, module])
             elif row.verified:
                 if row.module != module:
-                    self.logger.warning(
-                        "module different for different forms of command '%s' and sub_command '%s'" %
-                        (command, sub_command))
+                    self.logger.warning("module different for different forms of command '%s' and sub_command '%s'" % (command, sub_command))
             else:
                 # mark command as verified
                 self.db.exec("UPDATE command_config SET verified = 1, module = ? "
@@ -105,13 +103,11 @@ class CommandManager:
 
         # save reference to command handler
         r = re.compile(self.get_regex_from_params(params), re.IGNORECASE)
-        self.handlers[command_key].append(
-            {"regex": r, "callback": handler, "help": help_text, "description": description})
+        self.handlers[command_key].append({"regex": r, "callback": handler, "help": help_text, "description": description})
 
     def register_command_channel(self, label, value):
         if value in self.channels:
-            self.logger.error("Could not register command channel '%s': command channel already registered"
-                              % value)
+            self.logger.error("Could not register command channel '%s': command channel already registered" % value)
             return
 
         self.logger.debug("Registering command channel '%s'" % value)
@@ -133,8 +129,7 @@ class CommandManager:
                 cmd_config, matches, handler = self.get_matches(cmd_configs, command_args)
                 if matches:
                     if self.access_manager.check_access(char_id, cmd_config.access_level):
-                        sender = MapObject({"name": self.character_manager.resolve_char_to_name(char_id),
-                                            "char_id": char_id})
+                        sender = MapObject({"name": self.character_manager.resolve_char_to_name(char_id), "char_id": char_id})
                         handler["callback"](channel, sender, reply, matches)
                     else:
                         reply("Error! Access denied.")

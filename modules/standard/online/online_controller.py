@@ -37,8 +37,7 @@ class OnlineController:
                     blob += "\n<highlight>%s<end>\n" % row.main
                     current_main = row.main
 
-                blob += " | <highlight>%s<end> (%d/<green>%d<end>) %s %s\n" % \
-                        (row.name, row.level, row.ai_level, row.faction, row.profession)
+                blob += " | <highlight>%s<end> (%d/<green>%d<end>) %s %s\n" % (row.name, row.level, row.ai_level, row.faction, row.profession)
 
         reply(ChatBlob("Online (%d)" % count, blob))
 
