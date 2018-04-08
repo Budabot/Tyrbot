@@ -6,7 +6,7 @@ from core.registry import Registry
 try:
     config = json.load(open("./conf/config.json", "r"))
 
-    Registry.load_instances(["core", os.path.join("modules", "core"), os.path.join("modules", "user"), os.path.join("modules", "extra")])
+    Registry.load_instances(["core", os.path.join("modules", "core"), os.path.join("modules", "standard"), os.path.join("modules", "custom")])
     Registry.inject_all()
 
     db = Registry.get_instance("db")
