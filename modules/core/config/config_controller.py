@@ -117,7 +117,7 @@ class ConfigController:
         enabled = 1 if action == "enable" else 0
 
         if not self.event_manager.is_event_type(event_base_type):
-            reply("Unknown event type '%s'." % event_type)
+            reply("Unknown event type <highlight>%s<end>." % event_type)
             return
 
         count = self.db.exec("UPDATE event_config SET enabled = ? "
@@ -125,9 +125,11 @@ class ConfigController:
                              [enabled, event_base_type, event_sub_type, event_handler])
 
         if count == 0:
-            reply("Could not find event for type '%s' and handler '%s'." % (event_type, event_handler))
+            reply("Could not find event for type <highlight>%s<end> and handler <highlight>%s<end>." %
+                  (event_type, event_handler))
         else:
-            reply("Event type '%s' for handler '%s' has been %sd successfully." % (event_type, event_handler, action))
+            reply("Event type <highlight>%s<end> for handler <highlight>%s<end> has been <highlight>%sd<end>"
+                  " successfully." % (event_type, event_handler, action))
 
     @command(command="config", params=[Const("setting"), Any("setting_name"), Any("new_value")],
              access_level="superadmin",

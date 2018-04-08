@@ -30,7 +30,7 @@ class ConfigCommandController:
         enabled = 1 if action == "enable" else 0
 
         if cmd_channel != "all" and not self.command_manager.is_command_channel(cmd_channel):
-            reply("Unknown command channel '%s'." % cmd_channel)
+            reply("Unknown command channel <highlight>%s<end>." % cmd_channel)
             return
 
         sql = "UPDATE command_config SET enabled = ? WHERE command = ? AND sub_command = ?"
@@ -41,12 +41,13 @@ class ConfigCommandController:
 
         count = self.db.exec(sql, params)
         if count == 0:
-            reply("Could not find command '%s' for channel '%s'." % (cmd_name, cmd_channel))
+            reply("Could not find command <highlight>%s<end> for channel <highlight>%s<end>." % (cmd_name, cmd_channel))
         else:
             if cmd_channel == "all":
-                reply("Command '%s' has been %sd successfully." % (cmd_name, action))
+                reply("Command <highlight>%s<end> has been <highlight>%sd<end> successfully." % (cmd_name, action))
             else:
-                reply("Command '%s' for channel '%s' has been %sd successfully." % (cmd_name, channel, action))
+                reply("Command <highlight>%s<end> for channel <highlight>%s<end> has been <highlight>%sd<end>"
+                      " successfully." % (cmd_name, channel, action))
 
     @command(command="config", params=[Const("cmd"), Any("cmd_name"), Const("access_level"), Any("channel"), Any("access_level")],
              access_level="superadmin",
@@ -58,11 +59,11 @@ class ConfigCommandController:
         command_str, sub_command_str = self.command_manager.get_command_key_parts(cmd_name)
 
         if cmd_channel != "all" and not self.command_manager.is_command_channel(cmd_channel):
-            reply("Unknown command channel '%s'." % cmd_channel)
+            reply("Unknown command channel <highlight>%s<end>." % cmd_channel)
             return
 
         if not self.access_manager.get_access_level_by_label(access_level):
-            reply("Unknown access level '%s'." % access_level)
+            reply("Unknown access level <highlight>%s<end>." % access_level)
             return
 
         sql = "UPDATE command_config SET access_level = ? WHERE command = ? AND sub_command = ?"
@@ -73,12 +74,14 @@ class ConfigCommandController:
 
         count = self.db.exec(sql, params)
         if count == 0:
-            reply("Could not find command '%s' for channel '%s'." % (cmd_name, cmd_channel))
+            reply("Could not find command <highlight>%s<end> for channel <highlight>%s<end>." % (cmd_name, cmd_channel))
         else:
             if cmd_channel == "all":
-                reply("Access level '%s' for command '%s' has been set successfully." % (access_level, cmd_name))
+                reply("Access level <highlight>%s<end> for command <highlight>%s<end> has been set successfully." %
+                      (access_level, cmd_name))
             else:
-                reply("Access level '%s' for command '%s' on channel '%s' has been set successfully." % (access_level, cmd_name, channel))
+                reply("Access level <highlight>%s<end> for command <highlight>%s<end> on channel <highlight>%s<end>"
+                      " has been set successfully." % (access_level, cmd_name, channel))
 
     @command(command="config", params=[Const("cmd"), Any("cmd_name")],
              access_level="superadmin",
