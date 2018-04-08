@@ -71,6 +71,31 @@ class PorkManager:
     def get_org_info(self, org_id):
         pass
 
+    def load_character_info(self, char_id):
+        char_info = self.get_character_info(char_id)
+        if not char_info:
+            char_info = MapObject({
+                "name": "Unknown:" + str(char_id),
+                "char_id": char_id,
+                "first_name": "",
+                "last_name": "",
+                "level": 0,
+                "breed": "",
+                "dimension": 5,
+                "gender": "",
+                "faction": "",
+                "profession": "",
+                "profession_title": "",
+                "ai_rank": "",
+                "ai_level": 0,
+                "pvp_rating": 0,
+                "pvp_title": "",
+                "head_id": 0,
+                "source": "stub",
+                "org": None
+            })
+            self.save_character_info(char_info)
+
     def save_character_info(self, char_info):
         c = char_info
         o = c.org

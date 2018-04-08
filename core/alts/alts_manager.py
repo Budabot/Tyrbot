@@ -20,9 +20,6 @@ class AltsManager:
         self.db.load_sql_file("alts.sql", os.path.dirname(__file__))
 
     def get_alts(self, char_id):
-        # make sure char info exists in character table
-        self.pork_manager.get_character_info(char_id)
-
         sql = "SELECT c.* FROM character c " \
               "LEFT JOIN alts a ON c.char_id = a.char_id AND a.status >= ? " \
               "WHERE c.char_id = ? OR a.group_id = (" \
@@ -48,10 +45,13 @@ class AltsManager:
             self.db.exec("INSERT INTO alts (char_id, group_id, status) VALUES (?, ?, ?)",
                          [sender_char_id, group_id, self.MAIN])
 
+            # make sure char info exists in character table
+            self.pork_manager.load_character_info(sender_char_id)
+
             params = [alt_char_id, group_id, self.VALIDATED]
 
         # make sure char info exists in character table
-        self.pork_manager.get_character_info(alt_char_id)
+        self.pork_manager.load_character_info(alt_char_id)
         self.db.exec("INSERT INTO alts (char_id, group_id, status) VALUES (?, ?, ?)", params)
         return True
 

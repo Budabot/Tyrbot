@@ -54,7 +54,7 @@ class OnlineController:
 
     @event(PrivateChannelManager.JOINED_PRIVATE_CHANNEL_EVENT, "Notify private channel when someone joins")
     def private_channel_joined_event(self, event_type, event_data):
-        self.pork_manager.get_character_info(event_data.character_id)
+        self.pork_manager.load_character_info(event_data.character_id)
         self.db.exec("INSERT INTO online (char_id, afk, channel, dt) VALUES (?, ?, ?, ?)",
                      [event_data.character_id, "", self.PRIVATE_CHANNEL, int(time.time())])
 
