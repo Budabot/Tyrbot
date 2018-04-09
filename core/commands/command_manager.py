@@ -40,10 +40,18 @@ class CommandManager:
         self.register_command_channel("Org Channel", "org")
         self.register_command_channel("Private Channel", "priv")
 
+    # taken from: https://stackoverflow.com/a/8529229/280574 and modified
+    def get_attrs(self, obj):
+        attrs = {}
+        for cls in obj.__class__.__mro__:
+            attrs.update(cls.__dict__.items())
+        attrs.update(obj.__class__.__dict__.items())
+        return attrs
+
     def post_start(self):
         # process decorators
         for _, inst in Registry.get_all_instances().items():
-            for name, method in inst.__class__.__dict__.items():
+            for name, method in self.get_attrs(inst).items():
                 if hasattr(method, "command"):
                     cmd_name, params, access_level, description, help_file, sub_command = getattr(method, "command")
                     handler = getattr(inst, name)
