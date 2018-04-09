@@ -1,5 +1,6 @@
 from core.decorators import instance
 import re
+import math
 
 
 @instance()
@@ -7,31 +8,31 @@ class Util:
     def __init__(self):
         self.time_units = [
             {
-                "units": ["y", "yr", "year", "years"],
+                "units": ["yr", "years", "year", "y"],
                 "conversion_factor": 31536000
             },
             {
-                "units": ["mo", "month", "months"],
+                "units": ["month", "months", "mo"],
                 "conversion_factor": 2592000
             },
             {
-                "units": ["weeks", "week", "w"],
+                "units": ["week", "weeks", "w"],
                 "conversion_factor": 604800
             },
             {
-                "units": ["d", "day", "days"],
+                "units": ["day", "days", "d"],
                 "conversion_factor": 86400
             },
             {
-                "units": ["h", "hr", "hrs", "hour", "hours"],
+                "units": ["hr", "hours", "hour", "hrs", "h"],
                 "conversion_factor": 3600
             },
             {
-                "units": ["m", "min", "mins"],
+                "units": ["min", "mins", "m"],
                 "conversion_factor": 60
             },
             {
-                "units": ["s", "sec", "secs"],
+                "units": ["sec", "secs", "s"],
                 "conversion_factor": 1
             }
         ]
@@ -56,3 +57,25 @@ class Util:
                     unixtime += int(match.group(1)) * time_unit["conversion_factor"]
 
         return unixtime
+
+    def time_to_readable(self, unixtime, show_seconds=False):
+        if unixtime == 0:
+            return "0 secs"
+
+        time_shift = ""
+        for time_unit in self.time_units:
+            unit = time_unit["units"][0]
+            if unixtime > 0:
+                length = math.floor(unixtime / time_unit["conversion_factor"])
+            else:
+                length = math.ceil(unixtime / time_unit["conversion_factor"])
+
+            if unit != "secs" or show_seconds or time_shift == "":
+                if length > 1:
+                    time_shift += str(length) + " " + unit + "s "
+                elif length == 1:
+                    time_shift += str(length) + " " + unit + " "
+
+            unixtime = unixtime % time_unit["conversion_factor"]
+
+        return time_shift.strip()
