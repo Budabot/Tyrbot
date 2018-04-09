@@ -33,11 +33,11 @@ class AccessManager:
     def get_access_level_by_label(self, label):
         for access_level in self.access_levels:
             if access_level["label"] == label.lower():
-                return access_level["level"]
+                return access_level
         return None
 
     def check_access(self, char, access_level_label):
-        return self.get_access_level(char)["level"] <= self.get_access_level_by_label(access_level_label)
+        return self.get_access_level(char)["level"] <= self.get_access_level_by_label(access_level_label)["level"]
 
     def no_access(self, char_id):
         return False
