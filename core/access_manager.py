@@ -12,7 +12,7 @@ class AccessManager:
         self.character_manager = registry.get_instance("character_manager")
 
     def register_access_level(self, label, level, handler):
-        self.access_levels.append({"label": label, "level": level, "handler": handler})
+        self.access_levels.append({"label": label.lower(), "level": level, "handler": handler})
         self.access_levels = sorted(self.access_levels, key=lambda k: k["level"])
 
     def get_access_levels(self):
@@ -32,7 +32,7 @@ class AccessManager:
 
     def get_access_level_by_label(self, label):
         for access_level in self.access_levels:
-            if access_level["label"] == label:
+            if access_level["label"] == label.lower():
                 return access_level["level"]
         return None
 

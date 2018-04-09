@@ -59,7 +59,7 @@ class ConfigCommandController:
             reply("Unknown command channel <highlight>%s<end>." % cmd_channel)
             return
 
-        if not self.access_manager.get_access_level_by_label(access_level):
+        if self.access_manager.get_access_level_by_label(access_level) is None:
             reply("Unknown access level <highlight>%s<end>." % access_level)
             return
 
