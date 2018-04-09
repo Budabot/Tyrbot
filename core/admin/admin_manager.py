@@ -25,7 +25,7 @@ class AdminManager:
 
     def check_mod(self, char_id):
         access_level = self.get_access_level(char_id)
-        return access_level == self.MOD
+        return access_level == self.MODERATOR
 
     def get_access_level(self, char_id):
         row = self.db.query_single("SELECT access_level FROM admin WHERE char_id = ?", [char_id])
