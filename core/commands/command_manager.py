@@ -140,7 +140,7 @@ class CommandManager:
                         sender = MapObject({"name": self.character_manager.resolve_char_to_name(char_id), "char_id": char_id})
                         handler["callback"](channel, sender, reply, matches)
                     else:
-                        reply("Error! Access denied.")
+                        self.access_denied_response(char_id, cmd_config, reply)
                 else:
                     # handlers were found, but no handler regex matched
                     help_text = self.get_help_text(char_id, command_str, channel)
@@ -153,6 +153,9 @@ class CommandManager:
         except Exception as e:
             self.logger.error("", e)
             reply("There was an error processing your request.")
+
+    def access_denied_response(self, char_id, cmd_config, reply):
+        reply("Error! Access denied.")
 
     def get_command_parts(self, message):
         parts = message.split(" ", 1)
