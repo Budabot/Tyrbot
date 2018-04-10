@@ -46,3 +46,6 @@ class PrivateChannelManager:
 
     def kickall(self):
         self.bot.send_packet(client_packets.PrivateChannelKickAll())
+
+    def in_private_channel(self, char_id):
+        return char_id in self.private_channel_chars
