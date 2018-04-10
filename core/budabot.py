@@ -120,7 +120,7 @@ class Budabot(Bot):
         else:
             for page in self.get_text_pages(msg, self.setting_manager.get("private_message_max_page_length").get_value()):
                 self.logger.log_tell("To", self.character_manager.get_char_name(char_id), page)
-                packet = client_packets.PrivateMessage(char_id, page, "")
+                packet = client_packets.PrivateMessage(char_id, page, "\0")
                 self.send_packet(packet)
 
     def send_private_channel_message(self, msg, private_channel=None):
