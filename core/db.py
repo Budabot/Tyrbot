@@ -48,6 +48,9 @@ class DB:
         self.conn.commit()
         return rowcount
 
+    def last_insert_id(self):
+        return self.conn.insert_id()
+
     def format_sql(self, sql, params=None):
         sql = sql.replace("<dim>", "")
         sql = sql.replace("<myname>", "")
