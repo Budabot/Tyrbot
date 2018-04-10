@@ -130,10 +130,11 @@ To change this setting:
 
 
 class TimeSettingType(SettingType):
-    def __init__(self, name, value, description):
+    def __init__(self, name, value, description, options=None):
         self.name = name
         self.set_value(value)
         self.description = description
+        self.options = options
 
     def get_name(self):
         return self.name
@@ -145,12 +146,15 @@ class TimeSettingType(SettingType):
         return self.description
 
     def set_value(self, value):
-        util = Registry.get_instance("util")
-        time = util.parse_time(value)
-        if time > 0:
-            self.value = time
+        if value.isdigit():
+            self.value = value
         else:
-            raise Exception("You must enter time in a valid Budatime format")
+            util = Registry.get_instance("util")
+            time = util.parse_time(value)
+            if time > 0:
+                self.value = time
+            else:
+                raise Exception("You must enter time in a valid Budatime format")
 
     def get_display(self):
         return """For this setting you must enter a time value. See <a href='chatcmd:///tell <myname> help budatime'>budatime</a> for info on the format of the 'time' parameter.

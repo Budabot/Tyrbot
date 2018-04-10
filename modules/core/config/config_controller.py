@@ -145,9 +145,9 @@ class ConfigController:
         setting = self.setting_manager.get(setting_name)
 
         if setting:
-            blob += "Current Value: <highlight>" + setting.get_value() + "<end>\n"
-            blob += "Description: <highlight>" + setting.get_description() + "<end>\n\n"
+            blob += "Current Value: <highlight>%s<end>\n" % str(setting.get_value())
+            blob += "Description: <highlight>%s<end>\n\n" % setting.get_description()
             blob += setting.get_display()
-            reply(ChatBlob("Setting (" + setting_name + ")", blob))
+            reply(ChatBlob("Setting (%s)" % setting_name, blob))
         else:
             reply("Could not find setting <highlight>%s<end>." % setting_name)

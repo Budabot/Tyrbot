@@ -10,6 +10,7 @@ class DB:
     def __init__(self):
         self.conn = None
         self.enhanced_like_regex = re.compile("(\s+)(\S+)\s+<ENHANCED_LIKE>\s+\?(\s*)", re.IGNORECASE)
+        self.lastrowid = None
 
     def row_factory(self, cursor: sqlite3.Cursor, row):
         d = {}
@@ -45,11 +46,12 @@ class DB:
         sql, params = self.format_sql(sql, params)
         cur = self.conn.execute(sql, params)
         rowcount = cur.rowcount
+        self.lastrowid = cur.lastrowid
         self.conn.commit()
         return rowcount
 
     def last_insert_id(self):
-        return self.conn.insert_id()
+        return self.lastrowid
 
     def format_sql(self, sql, params=None):
         sql = sql.replace("<dim>", "")

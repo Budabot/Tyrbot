@@ -25,7 +25,7 @@ class Any:
         self.name = name
 
     def get_regex(self):
-        return "(.+)"
+        return "(.+?)"
 
     def get_name(self):
         return "<highlight>'%s'<end>" % self.name

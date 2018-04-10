@@ -132,7 +132,7 @@ class Budabot(Bot):
             self.logger.warning("Could not send message to private channel %s, could not find private channel" % private_channel)
         else:
             for page in self.get_text_pages(msg, self.setting_manager.get("private_channel_max_page_length").get_value()):
-                packet = client_packets.PrivateChannelMessage(private_channel_id, page, "")
+                packet = client_packets.PrivateChannelMessage(private_channel_id, page, "\0")
                 self.send_packet(packet)
 
     def handle_private_message(self, packet: server_packets.PrivateMessage):
