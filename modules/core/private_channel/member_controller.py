@@ -88,7 +88,8 @@ class MemberController:
 
     def add_member(self, char_id, auto_invite=1):
         self.buddy_manager.add_buddy(char_id, self.MEMBER_BUDDY_TYPE)
-        self.db.exec("INSERT INTO members (char_id, auto_invite) VALUES (?, ?)", [char_id, auto_invite])
+        if not self.get_member(char_id):
+            self.db.exec("INSERT INTO members (char_id, auto_invite) VALUES (?, ?)", [char_id, auto_invite])
 
     def remove_member(self, char_id):
         self.buddy_manager.remove_buddy(char_id, self.MEMBER_BUDDY_TYPE)
