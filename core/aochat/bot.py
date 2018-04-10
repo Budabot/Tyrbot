@@ -61,7 +61,8 @@ class Bot:
         Wait for packet from server.
         """
 
-        if not select.select([self.socket], [], [], time)[0]:
+        read, write, error = select.select([self.socket], [], [], time)
+        if not read:
             return None
         else:
             # Read data from server
@@ -84,7 +85,7 @@ class Bot:
         while num_bytes > 0:
             chunk = self.socket.recv(num_bytes)
 
-            if chunk == "":
+            if len(chunk) == 0:
                 raise EOFError
 
             num_bytes -= len(chunk)
