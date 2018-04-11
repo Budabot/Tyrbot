@@ -62,7 +62,7 @@ class Text:
                 label2 = label + " (Page " + str(index) + " / " + str(num_pages) + ")"
             return self.format_page(label2, page)
 
-        return map(mapper, zip(pages, range(1, num_pages + 1)))
+        return list(map(mapper, zip(pages, range(1, num_pages + 1))))
 
     def format_page(self, label, msg):
         return "<a href=\"text://" + msg + "\">" + label + "</a>"

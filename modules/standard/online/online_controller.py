@@ -51,13 +51,13 @@ class OnlineController:
 
         return self.db.query(sql, [AltsManager.MAIN, channel])
 
-    @event(PrivateChannelManager.JOINED_PRIVATE_CHANNEL_EVENT, "Notify private channel when someone joins")
+    @event(PrivateChannelManager.JOINED_PRIVATE_CHANNEL_EVENT, "Record in database when someone joins private channel")
     def private_channel_joined_event(self, event_type, event_data):
         self.pork_manager.load_character_info(event_data.character_id)
         self.db.exec("INSERT INTO online (char_id, afk, channel, dt) VALUES (?, ?, ?, ?)",
                      [event_data.character_id, "", self.PRIVATE_CHANNEL, int(time.time())])
 
-    @event(PrivateChannelManager.LEFT_PRIVATE_CHANNEL_EVENT, "Notify private channel when someone leaves")
+    @event(PrivateChannelManager.LEFT_PRIVATE_CHANNEL_EVENT, "Record in database when someone leaves private channel")
     def private_channel_left_event(self, event_type, event_data):
         self.db.exec("DELETE FROM online WHERE char_id = ? AND channel = ?",
                      [event_data.character_id, self.PRIVATE_CHANNEL])

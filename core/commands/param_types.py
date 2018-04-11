@@ -1,3 +1,6 @@
+import re
+
+
 class Const:
     def __init__(self, name):
         self.name = name
@@ -45,7 +48,7 @@ class Regex:
 
 class Options:
     def __init__(self, options):
-        self.options = options
+        self.options = list(map(lambda x: re.escape(x), options))
 
     def get_regex(self):
         return "(" + "|".join(self.options) + ")"
