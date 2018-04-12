@@ -1,6 +1,7 @@
 from core.decorators import instance
 from core.registry import Registry
 from core.logger import Logger
+from __init__ import get_attrs
 import time
 import os
 
@@ -26,7 +27,7 @@ class EventManager:
     def post_start(self):
         # process decorators
         for _, inst in Registry.get_all_instances().items():
-            for name, method in inst.__class__.__dict__.items():
+            for name, method in get_attrs(inst).items():
                 if hasattr(method, "event"):
                     event_type, description = getattr(method, "event")
                     handler = getattr(inst, name)

@@ -3,69 +3,54 @@ import re
 
 
 class SettingType:
-    def get_name(self):
-        pass
+    def __init__(self):
+        self.setting_manager = Registry.get_instance("setting_manager")
+        self.name = None
 
-    def get_value(self):
-        pass
+    def set_name(self, name):
+        self.name = name
 
-    def get_description(self):
-        pass
+    def _get_raw_value(self):
+        return self.setting_manager.get_value(self.name)
+
+    def _set_raw_value(self, value):
+        self.setting_manager.set_value(self.name, value)
 
     def set_value(self, value):
         pass
 
-    def get_display(self):
-        pass
-
 
 class TextSettingType(SettingType):
-    def __init__(self, name, value, description, options=None):
-        self.name = name
-        self.set_value(value)
-        self.description = description
+    def __init__(self, options=None):
+        super().__init__()
         self.options = options
 
-    def get_name(self):
-        return self.name
-
     def get_value(self):
-        return self.value
-
-    def get_description(self):
-        return self.description
+        return self._get_raw_value()
 
     def set_value(self, value):
         if len(str(value)) > 255:
             raise Exception("Your text can not be longer than 255 characters.")
         else:
-            self.value = value
+            self._set_raw_value(value)
 
     def get_display(self):
-        return """For this setting you can enter any text you want (max. 255 chararacters).
+        return """For this setting you can enter any text you want (max. 255 characters).
 To change this setting:
 
 <highlight>/tell <myname> config setting """ + self.name + """ <i>text</i><end>"""
 
 
 class ColorSettingType(SettingType):
-    def __init__(self, name, value, description):
-        self.name = name
-        self.set_value(value)
-        self.description = description
-
-    def get_name(self):
-        return self.name
+    def __init__(self):
+        super().__init__()
 
     def get_value(self):
-        return self.value
-
-    def get_description(self):
-        return self.description
+        return self._get_raw_value()
 
     def set_value(self, value):
         if re.match("^#([0-9a-fA-F]{6})$", str(value)):
-            self.value = value
+            self._set_raw_value(value)
         else:
             raise Exception("You must enter a valid HTML color.")
 
@@ -97,28 +82,20 @@ Or you can choose one of the following colors
 <font color='#FF8C00'>Dark Orange</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #FF8C00'>Save it</a>)"""
 
     def get_font_color(self):
-        return "<font color='%s'>" % self.value
+        return "<font color='%s'>" % self.get_value()
 
 
 class NumberSettingType(SettingType):
-    def __init__(self, name, value, description, options=None):
-        self.name = name
-        self.set_value(value)
-        self.description = description
+    def __init__(self, options=None):
+        super().__init__()
         self.options = options
 
-    def get_name(self):
-        return self.name
-
     def get_value(self):
-        return int(self.value)
-
-    def get_description(self):
-        return self.description
+        return int(self._get_raw_value())
 
     def set_value(self, value):
         if re.match("^\d+$", str(value)):
-            self.value = value
+            self._set_raw_value(value)
         else:
             raise Exception("You must enter a positive integer for this setting.")
 
@@ -130,31 +107,20 @@ To change this setting:
 
 
 class TimeSettingType(SettingType):
-    def __init__(self, name, value, description, options=None):
-        self.name = name
-        self.set_value(value)
-        self.description = description
+    def __init__(self, options=None):
+        super().__init__()
         self.options = options
 
-    def get_name(self):
-        return self.name
-
     def get_value(self):
-        return int(self.value)
-
-    def get_description(self):
-        return self.description
+        return int(self._get_raw_value())
 
     def set_value(self, value):
-        if value.isdigit():
-            self.value = value
+        util = Registry.get_instance("util")
+        time = util.parse_time(value)
+        if time > 0:
+            self._set_raw_value(time)
         else:
-            util = Registry.get_instance("util")
-            time = util.parse_time(value)
-            if time > 0:
-                self.value = time
-            else:
-                raise Exception("You must enter time in a valid Budatime format")
+            raise Exception("You must enter time in a valid Budatime format")
 
     def get_display(self):
         return """For this setting you must enter a time value. See <a href='chatcmd:///tell <myname> help budatime'>budatime</a> for info on the format of the 'time' parameter.

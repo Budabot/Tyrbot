@@ -36,23 +36,20 @@ class Budabot(Bot):
 
     def start(self):
         self.access_manager.register_access_level("superadmin", 10, self.check_superadmin)
-        self.setting_manager.register(NumberSettingType("org_channel_max_page_length", 7500,
-                                                        "Maximum size of blobs in org channel",
-                                                        [4500, 6000, 7500, 9000, 10500, 12000]), "core.system")
-        self.setting_manager.register(NumberSettingType("private_message_max_page_length", 7500,
-                                                        "Maximum size of blobs in private messages",
-                                                        [4500, 6000, 7500, 9000, 10500, 12000]), "core.system",)
-        self.setting_manager.register(NumberSettingType("private_channel_max_page_length", 7500,
-                                                        "Maximum size of blobs in private channel",
-                                                        [4500, 6000, 7500, 9000, 10500, 12000]), "core.system")
-        self.setting_manager.register(ColorSettingType("header_color", "#FFFF00", "color for headers"), "core.colors")
-        self.setting_manager.register(ColorSettingType("header2_color", "#FCA712", "color for sub-headers"), "core.colors")
-        self.setting_manager.register(ColorSettingType("highlight_color", "#FFFFFF", "color for highlight"), "core.colors")
-        self.setting_manager.register(ColorSettingType("neutral_color", "#E6E1A6", "color for neutral faction"), "core.colors")
-        self.setting_manager.register(ColorSettingType("omni_color", "#FA8484", "color for omni faction"), "core.colors")
-        self.setting_manager.register(ColorSettingType("clan_color", "#F79410", "color for clan faction"), "core.colors")
-        self.setting_manager.register(ColorSettingType("unknown_color", "#FF0000", "color for unknown faction"), "core.colors")
-        self.setting_manager.register(TextSettingType("symbol", "!", "Symbol for executing bot commands", ["!", "#", "*", "@", "$", "+", "-"]), "core.system")
+        self.setting_manager.register("org_channel_max_page_length", 7500, "Maximum size of blobs in org channel",
+                                      NumberSettingType([4500, 6000, 7500, 9000, 10500, 12000]), "core.system")
+        self.setting_manager.register("private_message_max_page_length", 7500, "Maximum size of blobs in private messages",
+                                      NumberSettingType([4500, 6000, 7500, 9000, 10500, 12000]), "core.system",)
+        self.setting_manager.register("private_channel_max_page_length", 7500, "Maximum size of blobs in private channel",
+                                      NumberSettingType([4500, 6000, 7500, 9000, 10500, 12000]), "core.system")
+        self.setting_manager.register("header_color", "#FFFF00", "color for headers", ColorSettingType(), "core.colors")
+        self.setting_manager.register("header2_color", "#FCA712", "color for sub-headers", ColorSettingType(), "core.colors")
+        self.setting_manager.register("highlight_color", "#FFFFFF", "color for highlight", ColorSettingType(), "core.colors")
+        self.setting_manager.register("neutral_color", "#E6E1A6", "color for neutral faction", ColorSettingType(), "core.colors")
+        self.setting_manager.register("omni_color", "#FA8484", "color for omni faction", ColorSettingType(), "core.colors")
+        self.setting_manager.register("clan_color", "#F79410", "color for clan faction", ColorSettingType(), "core.colors")
+        self.setting_manager.register("unknown_color", "#FF0000", "color for unknown faction", ColorSettingType(), "core.colors")
+        self.setting_manager.register("symbol", "!", "Symbol for executing bot commands", TextSettingType(["!", "#", "*", "@", "$", "+", "-"]), "core.system")
         self.event_manager.register_event_type("connect")
         self.event_manager.register_event_type("packet")
 
@@ -60,6 +57,7 @@ class Budabot(Bot):
         self.status = BotStatus.RUN
         self.command_manager.post_start()
         self.event_manager.post_start()
+        self.setting_manager.post_start()
 
     def check_superadmin(self, char_id):
         char_name = self.character_manager.resolve_char_to_name(char_id)

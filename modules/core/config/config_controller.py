@@ -128,10 +128,14 @@ class ConfigController:
         setting_name = args[1].lower()
         new_value = args[2]
 
-        setting = self.setting_manager.set(setting_name, new_value)
+        setting = self.setting_manager.get(setting_name)
 
         if setting:
-            reply("Setting <highlight>%s<end> has been set to <highlight>%s<end>." % (setting_name, new_value))
+            try:
+                setting.set_value(new_value)
+                reply("Setting <highlight>%s<end> has been set to <highlight>%s<end>." % (setting_name, new_value))
+            except Exception as e:
+                reply("Error! %s" % str(e))
         else:
             reply("Could not find setting <highlight>%s<end>." % setting_name)
 

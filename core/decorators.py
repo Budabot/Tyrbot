@@ -35,3 +35,15 @@ def timerevent(handler, budatime, description):
     t = util.parse_time(budatime)
     handler.event = ["timer:" + str(t), description]
     return handler
+
+
+@parametrized
+def setting(handler, name, value, description):
+    obj = handler(None)
+
+    def new_handler(self):
+        return obj
+
+    new_handler.setting = [name, value, description, obj]
+    new_handler.__module__ = handler.__module__
+    return new_handler

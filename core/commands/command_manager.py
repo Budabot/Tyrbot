@@ -8,7 +8,7 @@ from core.logger import Logger
 from core.budabot import Budabot
 from core.chat_blob import ChatBlob
 from core.map_object import MapObject
-from __init__ import flatmap
+from __init__ import flatmap, get_attrs
 import collections
 import re
 import os
@@ -40,18 +40,10 @@ class CommandManager:
         self.register_command_channel("Org Channel", "org")
         self.register_command_channel("Private Channel", "priv")
 
-    # taken from: https://stackoverflow.com/a/8529229/280574 and modified
-    def get_attrs(self, obj):
-        attrs = {}
-        for cls in obj.__class__.__mro__:
-            attrs.update(cls.__dict__.items())
-        attrs.update(obj.__class__.__dict__.items())
-        return attrs
-
     def post_start(self):
         # process decorators
         for _, inst in Registry.get_all_instances().items():
-            for name, method in self.get_attrs(inst).items():
+            for name, method in get_attrs(inst).items():
                 if hasattr(method, "command"):
                     cmd_name, params, access_level, description, help_file, sub_command = getattr(method, "command")
                     handler = getattr(inst, name)
