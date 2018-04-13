@@ -43,9 +43,9 @@ class BuddyManager:
 
     def add_buddy(self, char, _type):
         char_id = self.character_manager.resolve_char_to_id(char)
-        if char_id:
+        if char_id and char_id != self.bot.char_id:
             if char_id not in self.buddy_list:
-                self.bot.send_packet(client_packets.BuddyAdd(char_id, "1"))  # TODO b"1"
+                self.bot.send_packet(client_packets.BuddyAdd(char_id, "\1"))  # TODO b"1"
                 self.buddy_list[char_id] = {"online": None, "types": [_type]}
             else:
                 self.buddy_list[char_id]["types"].append(_type)
