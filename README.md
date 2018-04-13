@@ -7,16 +7,5 @@ Budabot is an in-game chat-bot for the MMORPG Anarchy Online released by Funcom 
 ## Installation
 In its current state, this project is not meant to be used, other than during development.  
 
-# Developement state  
-Currently the following functionality are in place.  
-
-## Core  
-- admin  
-- config  
-- help  
-
-## Modules
-- helpbot  
-- online  
-- whereis  
-- whois  
+If you want to test it, clone it and install its dependencies: `pip install -U -r requirements.txt`.  
+Copy `conf/config.template.json` to `conf/config.json`, update its values and  either run the `start.bat` or `start.sh`.  
