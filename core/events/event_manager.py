@@ -13,6 +13,7 @@ class EventManager:
         self.logger = Logger("event_manager")
         self.event_types = []
         self.last_timer_event = 0
+        self.deferred_register = []
 
     def inject(self, registry):
         self.db = registry.get_instance("db")
@@ -34,6 +35,10 @@ class EventManager:
                     module = self.util.get_module_name(handler)
                     self.register(handler, event_type, description, module)
 
+        # process deferred register calls
+        for args in self.deferred_register:
+            self.do_register(**args)
+
         # remove events that are no longer registered
         self.db.exec("DELETE FROM event_config WHERE verified = 0")
 
@@ -53,6 +58,11 @@ class EventManager:
         return event_base_type in self.event_types
 
     def register(self, handler, event_type, description, module):
+        args = locals()
+        del args["self"]
+        self.deferred_register.append(args)
+
+    def do_register(self, handler, event_type, description, module):
         event_base_type, event_sub_type = self.get_event_type_parts(event_type)
         module = module.lower()
         handler_name = self.util.get_handler_name(handler)
