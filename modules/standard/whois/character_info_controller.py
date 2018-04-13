@@ -5,7 +5,7 @@ from core.commands.param_types import Any
 
 
 @instance()
-class CharacterHistoryController:
+class CharacterInfoController:
     def __init__(self):
         pass
 

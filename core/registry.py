@@ -1,11 +1,13 @@
 import re
 import os
 import importlib
+from core.logger import Logger
 from __init__ import flatmap
 
 
 class Registry:
     _registry = {}
+    logger = Logger("registry")
 
     @classmethod
     def inject_all(cls):
@@ -40,6 +42,8 @@ class Registry:
     @classmethod
     def add_instance(cls, name, inst):
         name = cls.format_name(name)
+        if name in cls._registry:
+            cls.logger.warning("Overriding '%s' with new instance" % name)
         cls._registry[name] = inst
 
     @classmethod
