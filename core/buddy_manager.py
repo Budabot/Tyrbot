@@ -2,6 +2,7 @@ from core.decorators import instance
 from core.character_manager import CharacterManager
 from core.aochat import server_packets
 from core.aochat import client_packets
+from core.logger import Logger
 
 
 @instance()
@@ -12,6 +13,7 @@ class BuddyManager:
     def __init__(self):
         self.buddy_list = {}
         self.buddy_list_size = 1000
+        self.logger = Logger("Budabot")
 
     def inject(self, registry):
         self.character_manager: CharacterManager = registry.get_instance("character_manager")
@@ -35,8 +37,10 @@ class BuddyManager:
             self.event_manager.fire_event(self.BUDDY_LOGOFF_EVENT, packet)
 
     def handle_remove(self, packet):
-        # TODO if buddy still has types, log warning
-        del self.buddy_list[packet.character_id]
+        if packet.character_id in self.buddy_list:
+            if len(self.buddy_list[packet.character_id]["types"]) > 0:
+                self.logger.warning("Removing buddy %d that still has types %s" % (packet.character_id, self.buddy_list[packet.character_id]["types"]))
+            del self.buddy_list[packet.character_id]
 
     def handle_login_ok(self):
         self.buddy_list_size += 1000
@@ -45,7 +49,7 @@ class BuddyManager:
         char_id = self.character_manager.resolve_char_to_id(char)
         if char_id and char_id != self.bot.char_id:
             if char_id not in self.buddy_list:
-                self.bot.send_packet(client_packets.BuddyAdd(char_id, "\1"))  # TODO b"1"
+                self.bot.send_packet(client_packets.BuddyAdd(char_id, "\1"))
                 self.buddy_list[char_id] = {"online": None, "types": [_type]}
             else:
                 self.buddy_list[char_id]["types"].append(_type)
