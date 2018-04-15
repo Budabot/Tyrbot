@@ -91,8 +91,9 @@ class Text:
         return msg\
             .replace("<header>", "<font color='%s'>" % self.setting_manager.get("header_color").get_value())\
             .replace("<header2>", "<font color='%s'>" % self.setting_manager.get("header2_color").get_value())\
-            .replace("<highlight>", "<font color='%s'>" % self.setting_manager.get("highlight_color").get_value())\
-            \
+            .replace("<highlight>", "<font color='%s'>" % self.setting_manager.get("highlight_color").get_value()) \
+            .replace("<notice>", "<font color='%s'>" % self.setting_manager.get("notice_color").get_value()) \
+ \
             .replace("<black>", "<font color='#000000'>") \
             .replace("<white>", "<font color='#FFFFFF'>")\
             .replace("<yellow>", "<font color='#FFFF00'>")\
