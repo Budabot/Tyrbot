@@ -25,18 +25,17 @@ class Text:
     def make_image(self, image_id, image_db="rdb"):
         return "<img src='%s://%s'>" % (image_db, image_id)
 
-    def paginate(self, label, msg, max_page_length):
+    def paginate(self, label, msg, max_page_length, max_num_pages=None, footer=None):
         separators = ["<pagebreak>", "\n", " "]
 
-        msg = msg.strip()
-        msg = msg.replace('"', "&quot;")
         label = label.replace('"', "&quot;")
+        msg = "<header>" + label + "<end>\n\n" + msg.strip().replace('"', "&quot;")
+        msg = self.format_message(msg)
 
-        msg = "<header>" + label + "<end>\n\n" + self.format_message(msg)
-
-        # if msg is empty, add a space so blob will appear
-        if not msg:
-            msg = " "
+        if footer:
+            footer = "\n\n" + self.format_message(footer.replace('"', "&quot;"))
+        else:
+            footer = ""
 
         rest = msg
         current_page = ""
@@ -44,13 +43,22 @@ class Text:
 
         while len(rest) > 0:
             line, rest = self.get_next_line(rest, max_page_length, separators)
-            if len(current_page) + len(line) > max_page_length:
-                pages.append(current_page)
-                current_page = ""
+            if max_num_pages == len(pages) + 1:
+                if len(current_page) + len(line) + len(footer) > max_page_length:
+                    break
+            else:
+                if len(current_page) + len(line) > max_page_length:
+                    pages.append(current_page.strip())
+                    current_page = ""
 
             current_page += line
 
-        pages.append(current_page)
+        current_page = current_page.strip()
+        if len(current_page) + len(footer) > max_page_length:
+            pages.append(current_page)
+            pages.append(footer.strip())
+        else:
+            pages.append(current_page + footer)
 
         num_pages = len(pages)
 
@@ -89,30 +97,30 @@ class Text:
 
     def format_message(self, msg):
         return msg\
-            .replace("<header>", "<font color='%s'>" % self.setting_manager.get("header_color").get_value())\
-            .replace("<header2>", "<font color='%s'>" % self.setting_manager.get("header2_color").get_value())\
+            .replace("<header>", "<font color='%s'>" % self.setting_manager.get("header_color").get_value()) \
+            .replace("<header2>", "<font color='%s'>" % self.setting_manager.get("header2_color").get_value()) \
             .replace("<highlight>", "<font color='%s'>" % self.setting_manager.get("highlight_color").get_value()) \
             .replace("<notice>", "<font color='%s'>" % self.setting_manager.get("notice_color").get_value()) \
- \
+            \
             .replace("<black>", "<font color='#000000'>") \
-            .replace("<white>", "<font color='#FFFFFF'>")\
-            .replace("<yellow>", "<font color='#FFFF00'>")\
-            .replace("<blue>", "<font color='#8CB5FF'>")\
-            .replace("<green>", "<font color='#00DE42'>")\
-            .replace("<red>", "<font color='#FF0000'>")\
-            .replace("<orange>", "<font color='#FCA712'>")\
-            .replace("<grey>", "<font color='#C3C3C3'>")\
-            .replace("<cyan>", "<font color='#00FFFF'>")\
-            .replace("<violet>", "<font color='#8F00FF'>")\
+            .replace("<white>", "<font color='#FFFFFF'>") \
+            .replace("<yellow>", "<font color='#FFFF00'>") \
+            .replace("<blue>", "<font color='#8CB5FF'>") \
+            .replace("<green>", "<font color='#00DE42'>") \
+            .replace("<red>", "<font color='#FF0000'>") \
+            .replace("<orange>", "<font color='#FCA712'>") \
+            .replace("<grey>", "<font color='#C3C3C3'>") \
+            .replace("<cyan>", "<font color='#00FFFF'>") \
+            .replace("<violet>", "<font color='#8F00FF'>") \
             \
-            .replace("<neutral>", "<font color='%s'>" % self.setting_manager.get("neutral_color").get_value())\
-            .replace("<omni>", "<font color='%s'>" % self.setting_manager.get("omni_color").get_value())\
-            .replace("<clan>", "<font color='%s'>" % self.setting_manager.get("clan_color").get_value())\
-            .replace("<unknown>", "<font color='%s'>" % self.setting_manager.get("unknown_color").get_value())\
+            .replace("<neutral>", "<font color='%s'>" % self.setting_manager.get("neutral_color").get_value()) \
+            .replace("<omni>", "<font color='%s'>" % self.setting_manager.get("omni_color").get_value()) \
+            .replace("<clan>", "<font color='%s'>" % self.setting_manager.get("clan_color").get_value()) \
+            .replace("<unknown>", "<font color='%s'>" % self.setting_manager.get("unknown_color").get_value()) \
             \
-            .replace("<myname>", self.bot.char_name)\
-            .replace("<myorg>", "TODO")\
-            .replace("<tab>", "    ")\
-            .replace("<end>", "</font>")\
-            .replace("<symbol>", self.setting_manager.get("symbol").get_value())\
+            .replace("<myname>", self.bot.char_name) \
+            .replace("<myorg>", "TODO") \
+            .replace("<tab>", "    ") \
+            .replace("<end>", "</font>") \
+            .replace("<symbol>", self.setting_manager.get("symbol").get_value()) \
             .replace("<br>", "\n")
