@@ -11,17 +11,16 @@ class SettingManager:
     def __init__(self):
         self.logger = Logger("setting_manager")
         self.settings = {}
-        self.deferred_register = []
 
     def inject(self, registry):
         self.db = registry.get_instance("db")
         self.util = registry.get_instance("util")
 
-    def start(self):
+    def pre_start(self):
         self.db.load_sql_file("setting.sql", os.path.dirname(__file__))
         self.db.exec("UPDATE setting SET verified = 0")
 
-    def post_start(self):
+    def start(self):
         # process decorators
         for _, inst in Registry.get_all_instances().items():
             for name, method in get_attrs(inst).items():
@@ -31,18 +30,7 @@ class SettingManager:
                     module = self.util.get_module_name(handler)
                     self.register(setting_name, value, description, obj, module)
 
-        # process deferred register calls
-        for args in self.deferred_register:
-            self.do_register(**args)
-
-        self.db.exec("DELETE FROM event_config WHERE verified = 0")
-
     def register(self, name, value, description, setting: SettingType, module):
-        args = locals()
-        del args["self"]
-        self.deferred_register.append(args)
-
-    def do_register(self, name, value, description, setting: SettingType, module):
         name = name.lower()
         module = module.lower()
         setting.set_name(name)

@@ -9,17 +9,9 @@ try:
     Registry.load_instances(["core", os.path.join("modules", "core"), os.path.join("modules", "standard"), os.path.join("modules", "custom")])
     Registry.inject_all()
 
-    db = Registry.get_instance("db")
-    db.connect(config["database"]["name"])
-
-    Registry.pre_start_all()
-    Registry.start_all()
-
     bot = Registry.get_instance("budabot")
-    bot.superadmin = config["superadmin"].capitalize()
-    bot.dimension = 5
+    bot.init(config, Registry)
     bot.connect("chat.d1.funcom.com", 7105)
-    bot.post_start()
 
     if not bot.login(config["username"], config["password"], config["character"]):
         bot.disconnect()

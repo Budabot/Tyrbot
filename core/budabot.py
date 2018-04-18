@@ -25,6 +25,7 @@ class Budabot(Bot):
         self.dimension = None
 
     def inject(self, registry):
+        self.db = registry.get_instance("db")
         self.buddy_manager: BuddyManager = registry.get_instance("buddy_manager")
         self.character_manager: CharacterManager = registry.get_instance("character_manager")
         self.public_channel_manager: PublicChannelManager = registry.get_instance("public_channel_manager")
@@ -33,6 +34,27 @@ class Budabot(Bot):
         self.access_manager: AccessManager = registry.get_instance("access_manager")
         self.command_manager = registry.get_instance("command_manager")
         self.event_manager = registry.get_instance("event_manager")
+
+    def init(self, config, registry):
+        self.superadmin = config["superadmin"].capitalize()
+        self.dimension = 5
+
+        self.db.connect(config["database"]["name"])
+
+        registry.pre_start_all()
+        registry.start_all()
+
+        self.status = BotStatus.RUN
+
+        # remove commands that are no longer registered
+        self.db.exec("DELETE FROM command_config WHERE verified = 0")
+
+        # remove events that are no longer registered
+        self.db.exec("DELETE FROM event_config WHERE verified = 0")
+        self.db.exec("DELETE FROM timer_event WHERE handler NOT IN (SELECT handler FROM event_config WHERE event_type = ?)", ["timer"])
+
+        # remove settings that are no longer registered
+        self.db.exec("DELETE FROM event_config WHERE verified = 0")
 
     def start(self):
         self.access_manager.register_access_level("superadmin", 10, self.check_superadmin)
@@ -53,12 +75,6 @@ class Budabot(Bot):
         self.setting_manager.register("symbol", "!", "Symbol for executing bot commands", TextSettingType(["!", "#", "*", "@", "$", "+", "-"]), "core.system")
         self.event_manager.register_event_type("connect")
         self.event_manager.register_event_type("packet")
-
-    def post_start(self):
-        self.status = BotStatus.RUN
-        self.command_manager.post_start()
-        self.event_manager.post_start()
-        self.setting_manager.post_start()
 
     def check_superadmin(self, char_id):
         char_name = self.character_manager.resolve_char_to_name(char_id)

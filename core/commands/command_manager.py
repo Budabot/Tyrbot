@@ -20,7 +20,6 @@ class CommandManager:
         self.handlers = collections.defaultdict(list)
         self.logger = Logger("command_manager")
         self.channels = {}
-        self.deferred_register = []
 
     def inject(self, registry):
         self.db = registry.get_instance("db")
@@ -31,7 +30,7 @@ class CommandManager:
         self.setting_manager: SettingManager = registry.get_instance("setting_manager")
         self.command_alias_manager = registry.get_instance("command_alias_manager")
 
-    def start(self):
+    def pre_start(self):
         self.bot.add_packet_handler(server_packets.PrivateMessage.id, self.handle_private_message)
         self.bot.add_packet_handler(server_packets.PrivateChannelMessage.id, self.handle_private_channel_message)
         self.db.load_sql_file("command_config.sql", os.path.dirname(__file__))
@@ -40,7 +39,7 @@ class CommandManager:
         self.register_command_channel("Org Channel", "org")
         self.register_command_channel("Private Channel", "priv")
 
-    def post_start(self):
+    def start(self):
         # process decorators
         for _, inst in Registry.get_all_instances().items():
             for name, method in get_attrs(inst).items():
@@ -51,18 +50,7 @@ class CommandManager:
                     help_text = self.get_help_file(module, help_file)
                     self.register(handler, cmd_name, params, access_level, description, module, help_text, sub_command)
 
-        # process deferred register calls
-        for args in self.deferred_register:
-            self.do_register(**args)
-
-        self.db.exec("DELETE FROM command_config WHERE verified = 0")
-
     def register(self, handler, command, params, access_level, description, module, help_text=None, sub_command=None):
-        args = locals()
-        del args["self"]
-        self.deferred_register.append(args)
-
-    def do_register(self, handler, command, params, access_level, description, module, help_text=None, sub_command=None):
         command = command.lower()
         if sub_command:
             sub_command = sub_command.lower()
