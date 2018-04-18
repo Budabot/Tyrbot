@@ -20,9 +20,11 @@ class MemberController:
         self.bot = registry.get_instance("budabot")
         self.access_manager = registry.get_instance("access_manager")
 
+    def pre_start(self):
+        self.access_manager.register_access_level("member", 90, self.check_member)
+
     def start(self):
         self.db.load_sql_file("members.sql", os.path.dirname(__file__))
-        self.access_manager.register_access_level("member", 90, self.check_member)
 
     @event(event_type="connect", description="Add members as buddies of the bot on startup")
     def handle_connect_event(self, event_type, event_data):

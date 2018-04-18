@@ -14,9 +14,11 @@ class AdminManager:
         self.db = registry.get_instance("db")
         self.access_manager = registry.get_instance("access_manager")
 
-    def start(self):
+    def pre_start(self):
         self.access_manager.register_access_level(self.ADMIN, 20, self.check_admin)
         self.access_manager.register_access_level(self.MODERATOR, 30, self.check_mod)
+
+    def start(self):
         self.db.load_sql_file("admin.sql", os.path.dirname(__file__))
 
     def check_admin(self, char_id):

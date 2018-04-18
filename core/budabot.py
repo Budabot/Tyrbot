@@ -59,8 +59,12 @@ class Budabot(Bot):
 
         self.status = BotStatus.RUN
 
-    def start(self):
+    def pre_start(self):
         self.access_manager.register_access_level("superadmin", 10, self.check_superadmin)
+        self.event_manager.register_event_type("connect")
+        self.event_manager.register_event_type("packet")
+
+    def start(self):
         self.setting_manager.register("org_channel_max_page_length", 7500, "Maximum size of blobs in org channel",
                                       NumberSettingType([4500, 6000, 7500, 9000, 10500, 12000]), "core.system")
         self.setting_manager.register("private_message_max_page_length", 7500, "Maximum size of blobs in private messages",
@@ -76,8 +80,6 @@ class Budabot(Bot):
         self.setting_manager.register("unknown_color", "#FF0000", "color for unknown faction", ColorSettingType(), "core.colors")
         self.setting_manager.register("notice_color", "#FF8C00", "color for important notices", ColorSettingType(), "core.colors")
         self.setting_manager.register("symbol", "!", "Symbol for executing bot commands", TextSettingType(["!", "#", "*", "@", "$", "+", "-"]), "core.system")
-        self.event_manager.register_event_type("connect")
-        self.event_manager.register_event_type("packet")
 
     def check_superadmin(self, char_id):
         char_name = self.character_manager.resolve_char_to_name(char_id)

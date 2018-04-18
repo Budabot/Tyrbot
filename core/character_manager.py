@@ -12,7 +12,7 @@ class CharacterManager:
     def inject(self, registry):
         self.bot = registry.get_instance("budabot")
 
-    def start(self):
+    def pre_start(self):
         self.bot.add_packet_handler(server_packets.CharacterLookup.id, self.update)
         self.bot.add_packet_handler(server_packets.CharacterName.id, self.update)
 

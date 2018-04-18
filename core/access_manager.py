@@ -1,4 +1,5 @@
 from core.decorators import instance
+from core.logger import Logger
 
 
 @instance()
@@ -7,11 +8,13 @@ class AccessManager:
         self.access_levels = [
             {"label": "none", "level": 0, "handler": self.no_access},
             {"label": "all", "level": 100, "handler": self.all_access}]
+        self.logger = Logger("access_manager")
 
     def inject(self, registry):
         self.character_manager = registry.get_instance("character_manager")
 
     def register_access_level(self, label, level, handler):
+        self.logger.debug("Registering access level %d with label '%s'" % (level, label))
         self.access_levels.append({"label": label.lower(), "level": level, "handler": handler})
         self.access_levels = sorted(self.access_levels, key=lambda k: k["level"])
 

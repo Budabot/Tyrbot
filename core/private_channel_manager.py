@@ -17,12 +17,12 @@ class PrivateChannelManager:
         self.event_manager = registry.get_instance("event_manager")
         self.character_manager = registry.get_instance("character_manager")
 
-    def start(self):
+    def pre_start(self):
+        self.event_manager.register_event_type(self.JOINED_PRIVATE_CHANNEL_EVENT)
+        self.event_manager.register_event_type(self.LEFT_PRIVATE_CHANNEL_EVENT)
         self.bot.add_packet_handler(server_packets.PrivateChannelClientJoined.id, self.handle_private_channel_client_joined)
         self.bot.add_packet_handler(server_packets.PrivateChannelClientLeft.id, self.handle_private_channel_client_left)
         self.bot.add_packet_handler(server_packets.PrivateChannelMessage.id, self.handle_private_channel_message)
-        self.event_manager.register_event_type(self.JOINED_PRIVATE_CHANNEL_EVENT)
-        self.event_manager.register_event_type(self.LEFT_PRIVATE_CHANNEL_EVENT)
 
     def handle_private_channel_message(self, packet: server_packets.PrivateChannelMessage):
         char_name = self.character_manager.get_char_name(packet.character_id)

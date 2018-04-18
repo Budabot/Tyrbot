@@ -20,7 +20,7 @@ class BuddyManager:
         self.bot = registry.get_instance("budabot")
         self.event_manager = registry.get_instance("event_manager")
 
-    def start(self):
+    def pre_start(self):
         self.bot.add_packet_handler(server_packets.BuddyAdded.id, self.handle_add)
         self.bot.add_packet_handler(server_packets.BuddyRemoved.id, self.handle_remove)
         self.bot.add_packet_handler(server_packets.LoginOK.id, self.handle_login_ok)
