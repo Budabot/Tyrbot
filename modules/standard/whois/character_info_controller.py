@@ -23,6 +23,7 @@ class CharacterInfoController:
         whois = self.pork_manager.get_character_info(char_name)
         char_id = self.character_manager.resolve_char_to_id(char_name)
         if whois:
+            # TODO add extended info
             msg = "<highlight>%s<end> (%d/<green>%d<end>) %s %s" % (whois.name, whois.level, whois.ai_level, whois.faction, whois.profession)
             reply(msg)
         elif char_id:
