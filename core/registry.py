@@ -21,6 +21,17 @@ class Registry:
                 cls._registry[key].inject(cls)
 
     @classmethod
+    def pre_start_all(cls):
+        # call start() on instances so they can finish any init() processes
+        for key in cls._registry:
+            try:
+                cls._registry[key].pre_start
+            except AttributeError:
+                pass
+            else:
+                cls._registry[key].pre_start()
+
+    @classmethod
     def start_all(cls):
         # call start() on instances so they can finish any init() processes
         for key in cls._registry:

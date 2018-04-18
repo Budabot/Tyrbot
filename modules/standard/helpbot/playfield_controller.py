@@ -1,5 +1,5 @@
 from core.decorators import instance, command, event
-from core.db import DB
+from core.db.db import DB
 from core.text import Text
 import os
 

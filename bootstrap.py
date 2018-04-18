@@ -12,6 +12,7 @@ try:
     db = Registry.get_instance("db")
     db.connect(config["database"]["name"])
 
+    Registry.pre_start_all()
     Registry.start_all()
 
     bot = Registry.get_instance("budabot")

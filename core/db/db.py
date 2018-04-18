@@ -1,5 +1,7 @@
 from core.decorators import instance
 from core.map_object import MapObject
+from core.logger import Logger
+from pkg_resources import parse_version
 import sqlite3
 import re
 import os
@@ -11,6 +13,10 @@ class DB:
         self.conn = None
         self.enhanced_like_regex = re.compile("(\s+)(\S+)\s+<ENHANCED_LIKE>\s+\?(\s*)", re.IGNORECASE)
         self.lastrowid = None
+        self.logger = Logger("db")
+
+    def pre_start(self):
+        self._load_file(os.path.dirname(__file__) + os.sep + "db_version.sql")
 
     def row_factory(self, cursor: sqlite3.Cursor, row):
         d = {}
@@ -84,12 +90,33 @@ class DB:
     def get_connection(self):
         return self.conn
 
-    def load_sql_file(self, sqlfile, module=None):
-        if module:
-            filename = module + os.sep + sqlfile
-        else:
-            filename = sqlfile
+    def load_sql_file(self, sqlfile, base_path):
+        filename = base_path + os.sep + sqlfile
 
+        db_version = self.get_db_version(filename)
+        file_version = self.get_file_version(filename)
+
+        if db_version:
+            if parse_version(file_version) > parse_version(db_version):
+                self.logger.debug("loading sql file '%s'" % sqlfile)
+                self._load_file(filename)
+                self.exec("UPDATE db_version SET version = ? WHERE file = ?", [file_version, filename])
+        else:
+            self.logger.debug("loading sql file '%s'" % sqlfile)
+            self._load_file(filename)
+            self.exec("INSERT INTO db_version (file, version) VALUES (?, ?)", [filename, file_version])
+
+    def get_file_version(self, filename):
+        return str(os.path.getmtime(filename))
+
+    def get_db_version(self, filename):
+        row = self.query_single("SELECT version FROM db_version WHERE file = ?", [filename])
+        if row:
+            return row.version
+        else:
+            return None
+
+    def _load_file(self, filename):
         with open(filename, "r") as f:
             c = self.conn.cursor()
             for line in f.readlines():
