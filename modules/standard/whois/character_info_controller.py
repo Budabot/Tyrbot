@@ -1,7 +1,7 @@
 from core.decorators import instance, command
 from core.db import DB
 from core.text import Text
-from core.commands.param_types import Any
+from core.command_param_types import Any
 from core.chat_blob import ChatBlob
 
 

@@ -1,5 +1,5 @@
 from core.decorators import instance, command, event
-from core.commands.param_types import Any
+from core.command_param_types import Any
 from core.private_channel_manager import PrivateChannelManager
 
 

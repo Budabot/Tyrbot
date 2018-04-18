@@ -1,5 +1,5 @@
 from core.decorators import instance, command
-from core.commands.param_types import Any
+from core.command_param_types import Any
 
 
 @instance()

@@ -2,12 +2,12 @@ from core.aochat.bot import Bot
 from core.buddy_manager import BuddyManager
 from core.character_manager import CharacterManager
 from core.public_channel_manager import PublicChannelManager
-from core.settings.setting_manager import SettingManager
+from core.setting_manager import SettingManager
 from core.access_manager import AccessManager
 from core.text import Text
 from core.decorators import instance
 from core.chat_blob import ChatBlob
-from core.settings.setting_types import TextSettingType, ColorSettingType, NumberSettingType
+from core.setting_types import TextSettingType, ColorSettingType, NumberSettingType
 from core.aochat import server_packets, client_packets
 from core.bot_status import BotStatus
 import os

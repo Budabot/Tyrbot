@@ -2,7 +2,7 @@ from core.decorators import instance
 from core.access_manager import AccessManager
 from core.aochat import server_packets
 from core.character_manager import CharacterManager
-from core.settings.setting_manager import SettingManager
+from core.setting_manager import SettingManager
 from core.registry import Registry
 from core.logger import Logger
 from core.budabot import Budabot
@@ -11,7 +11,6 @@ from core.map_object import MapObject
 from __init__ import flatmap, get_attrs
 import collections
 import re
-import os
 
 
 @instance()

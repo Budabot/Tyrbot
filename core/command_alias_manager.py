@@ -1,7 +1,6 @@
 from core.decorators import instance
-from core.commands.command_manager import CommandManager
+from core.command_manager import CommandManager
 from core.logger import Logger
-import os
 
 
 @instance()
