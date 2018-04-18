@@ -15,9 +15,6 @@ class DB:
         self.lastrowid = None
         self.logger = Logger("db")
 
-    def pre_start(self):
-        self._load_file(os.path.dirname(__file__) + os.sep + "db_version.sql")
-
     def row_factory(self, cursor: sqlite3.Cursor, row):
         d = {}
         for idx, col in enumerate(cursor.description):
@@ -27,6 +24,7 @@ class DB:
     def connect(self, name):
         self.conn = sqlite3.connect("./data/" + name)
         self.conn.row_factory = self.row_factory
+        self.exec("CREATE TABLE IF NOT EXISTS db_version (file VARCHAR(255) NOT NULL, version VARCHAR(255) NOT NULL)")
 
     def query_single(self, sql, params=None):
         if params is None:
