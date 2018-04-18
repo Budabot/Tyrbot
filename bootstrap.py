@@ -11,7 +11,7 @@ try:
 
     bot = Registry.get_instance("budabot")
     bot.init(config, Registry)
-    bot.connect("chat.d1.funcom.com", 7105)
+    bot.connect(config["server"]["host"], config["server"]["port"])
 
     if not bot.login(config["username"], config["password"], config["character"]):
         bot.disconnect()

@@ -1,9 +1,13 @@
 {
-  "username":"",
-  "password":"",
-  "character":"",
-  "superadmin":"",
+  "username": "",
+  "password": "",
+  "character": "",
+  "superadmin": "",
   "database": {
-    "name":"budabot.db"
+    "name": "budabot.db"
+  },
+  "server": {
+    "host": "chat.d1.funcom.com",
+    "port": 7105
   }
 }
