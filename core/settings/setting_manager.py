@@ -16,10 +16,6 @@ class SettingManager:
         self.db = registry.get_instance("db")
         self.util = registry.get_instance("util")
 
-    def pre_start(self):
-        self.db.load_sql_file("setting.sql", os.path.dirname(__file__))
-        self.db.exec("UPDATE setting SET verified = 0")
-
     def start(self):
         # process decorators
         for _, inst in Registry.get_all_instances().items():

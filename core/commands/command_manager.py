@@ -33,8 +33,6 @@ class CommandManager:
     def pre_start(self):
         self.bot.add_packet_handler(server_packets.PrivateMessage.id, self.handle_private_message)
         self.bot.add_packet_handler(server_packets.PrivateChannelMessage.id, self.handle_private_channel_message)
-        self.db.load_sql_file("command_config.sql", os.path.dirname(__file__))
-        self.db.exec("UPDATE command_config SET verified = 0")
         self.register_command_channel("Private Message", "msg")
         self.register_command_channel("Org Channel", "org")
         self.register_command_channel("Private Channel", "priv")

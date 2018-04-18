@@ -13,9 +13,6 @@ class CommandAliasManager:
         self.db = registry.get_instance("db")
         self.command_manager: CommandManager = registry.get_instance("command_manager")
 
-    def start(self):
-        self.db.load_sql_file("command_alias.sql", os.path.dirname(__file__))
-
     def check_for_alias(self, command_str, command_args):
         row = self.get_alias(command_str)
         if row and row.enabled:

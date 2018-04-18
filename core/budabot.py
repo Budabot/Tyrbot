@@ -10,6 +10,7 @@ from core.chat_blob import ChatBlob
 from core.settings.setting_types import TextSettingType, ColorSettingType, NumberSettingType
 from core.aochat import server_packets, client_packets
 from core.bot_status import BotStatus
+import os
 
 
 @instance()
@@ -40,21 +41,23 @@ class Budabot(Bot):
         self.dimension = 5
 
         self.db.connect(config["database"]["name"])
+        self.db.load_sql_file("core.sql", os.path.dirname(__file__))
+
+        # prepare commands, events, and settings
+        self.db.exec("UPDATE command_config SET verified = 0")
+        self.db.exec("UPDATE event_config SET verified = 0")
+        self.db.exec("UPDATE setting SET verified = 0")
 
         registry.pre_start_all()
         registry.start_all()
 
-        self.status = BotStatus.RUN
-
-        # remove commands that are no longer registered
+        # remove commands, events, and settings that are no longer registered
         self.db.exec("DELETE FROM command_config WHERE verified = 0")
-
-        # remove events that are no longer registered
         self.db.exec("DELETE FROM event_config WHERE verified = 0")
         self.db.exec("DELETE FROM timer_event WHERE handler NOT IN (SELECT handler FROM event_config WHERE event_type = ?)", ["timer"])
+        self.db.exec("DELETE FROM setting WHERE verified = 0")
 
-        # remove settings that are no longer registered
-        self.db.exec("DELETE FROM event_config WHERE verified = 0")
+        self.status = BotStatus.RUN
 
     def start(self):
         self.access_manager.register_access_level("superadmin", 10, self.check_superadmin)
