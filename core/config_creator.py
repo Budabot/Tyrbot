@@ -10,7 +10,7 @@ def create_new_cfg(config_file):
               },
               "server": {
                   "host": validate_input("Server Host", "chat.d1.funcom.com"),
-                  "port": validate_input("Database name?", 7105, formatter=int)
+                  "port": validate_input("Server Port", 7105, formatter=int)
               }}
 
     with open(config_file, "wb") as f:
