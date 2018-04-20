@@ -2,7 +2,8 @@ import json, codecs
 
 
 def create_new_cfg(config_file):
-    config = {"username": validate_input("Account username"), "password": validate_input("Account password"),
+    config = {"username": validate_input("Account username"),
+              "password": validate_input("Account password"),
               "character": validate_input("Enter the character name the bot will run on"),
               "superadmin": validate_input("Enter the name of the character you wish to be super-admin"),
               "database": {
@@ -24,9 +25,9 @@ def validate_input(prompt, default=None, formatter=str):
         else:
             value = input(prompt + ": ")
 
-        if not value and not default:
-            print("Invalid input, try again!")
-        elif not value and default:
+        if value:
+            return formatter(value)
+        elif default:
             return default
         else:
-            return formatter(value)
+            print("Invalid input, try again!")
