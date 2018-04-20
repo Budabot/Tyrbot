@@ -1,10 +1,18 @@
+from core.registry import Registry
+from core import config_creator
 import json
 import time
 import os
-from core.registry import Registry
+
 
 try:
-    config = json.load(open("./conf/config.json", "r"))
+    config_file = "./conf/config.json"
+
+    if not os.path.exists(config_file):
+        config_creator.create_new_cfg(config_file)
+
+    with open(config_file, "r") as cfg:
+        config = json.load(cfg)
 
     Registry.load_instances(["core", os.path.join("modules", "core"), os.path.join("modules", "standard"), os.path.join("modules", "custom")])
     Registry.inject_all()
