@@ -12,20 +12,15 @@ class WhereisController:
         pass
 
     def inject(self, registry):
-        self.db: DB = registry.get_instance("db")
+        self.dao = registry.get_instance("whereis_dao")
         self.text: Text = registry.get_instance("text")
-
-    def start(self):
-        self.db.load_sql_file("whereis.sql", os.path.dirname(__file__))
 
     @command(command="whereis", params=[Any("search")], access_level="all",
              description="Find locations of NPCs and places")
     def handle_whereis_cmd(self, channel, sender, reply, args):
         search = args[1]
-        data = self.db.query("SELECT w.playfield_id, w.name, w.answer, w.xcoord, w.ycoord, p.short_name FROM whereis w "
-                             "LEFT JOIN playfields p ON w.playfield_id = p.id "
-                             "WHERE name <ENHANCED_LIKE> ? OR keywords <ENHANCED_LIKE> ?",
-                             [search, search])
+        data = self.dao.search_whereis(search)
+
         count = len(data)
         if count > 0:
             blob = ""
