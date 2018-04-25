@@ -1,4 +1,5 @@
-import json, codecs
+import json
+import codecs
 
 
 def create_new_cfg(config_file):

@@ -23,7 +23,7 @@ class PorkManager:
         # if we have entry in database and it is less than a day old, use that
         char_info = self.get_from_database(char)
         if char_info and char_info.last_updated > (int(time.time()) - 86400):
-            # TODO append "(cache)" to source field
+            char_info.source += " (cache)"
             return char_info
 
         char_name = self.character_manager.resolve_char_to_name(char)

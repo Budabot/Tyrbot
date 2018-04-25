@@ -119,7 +119,7 @@ class Text:
             .replace("<unknown>", "<font color='%s'>" % self.setting_manager.get("unknown_color").get_value()) \
             \
             .replace("<myname>", self.bot.char_name) \
-            .replace("<myorg>", "TODO") \
+            .replace("<myorg>", self.bot.org_name if self.bot.org_name else "Unknown Org") \
             .replace("<tab>", "    ") \
             .replace("<end>", "</font>") \
             .replace("<symbol>", self.setting_manager.get("symbol").get_value()) \
