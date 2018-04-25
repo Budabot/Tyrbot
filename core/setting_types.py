@@ -19,14 +19,23 @@ class SettingType:
     def set_value(self, value):
         pass
 
+    def get_value(self):
+        return self._get_raw_value()
+
+    def get_display_value(self):
+        return self.get_value()
+
+    def set_description(self, description):
+        self.description = description
+
+    def get_description(self):
+        return self.description
+
 
 class TextSettingType(SettingType):
     def __init__(self, options=None):
         super().__init__()
         self.options = options
-
-    def get_value(self):
-        return self._get_raw_value()
 
     def set_value(self, value):
         if len(str(value)) > 255:
@@ -45,8 +54,8 @@ class ColorSettingType(SettingType):
     def __init__(self):
         super().__init__()
 
-    def get_value(self):
-        return self._get_raw_value()
+    def get_display_value(self):
+        return self.get_value()
 
     def set_value(self, value):
         if re.match("^#([0-9a-fA-F]{6})$", str(value)):
@@ -113,6 +122,10 @@ class TimeSettingType(SettingType):
 
     def get_value(self):
         return int(self._get_raw_value())
+
+    def get_display_value(self):
+        util = Registry.get_instance("util")
+        return util.time_to_readable(self.get_value())
 
     def set_value(self, value):
         util = Registry.get_instance("util")

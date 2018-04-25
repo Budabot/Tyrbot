@@ -69,11 +69,12 @@ class ConfigController:
 
         blob = ""
 
-        data = self.db.query("SELECT name, description, value FROM setting WHERE module = ? ORDER BY name ASC", [module])
+        data = self.db.query("SELECT name FROM setting WHERE module = ? ORDER BY name ASC", [module])
         if data:
             blob += "<header2>Settings<end>\n"
             for row in data:
-                blob += row.description + ": " + self.text.make_chatcmd(row.value, "/tell <myname> config setting " + row.name) + "\n"
+                setting = self.setting_manager.get(row.name)
+                blob += setting.get_description() + ": " + self.text.make_chatcmd(setting.get_display_value(), "/tell <myname> config setting " + row.name) + "\n"
 
         data = self.db.query("SELECT DISTINCT command, sub_command FROM command_config WHERE module = ? ORDER BY command ASC", [module])
         if data:
@@ -149,7 +150,7 @@ class ConfigController:
         setting = self.setting_manager.get(setting_name)
 
         if setting:
-            blob += "Current Value: <highlight>%s<end>\n" % str(setting.get_value())
+            blob += "Current Value: <highlight>%s<end>\n" % str(setting.get_display_value())
             blob += "Description: <highlight>%s<end>\n\n" % setting.get_description()
             blob += setting.get_display()
             reply(ChatBlob("Setting (%s)" % setting_name, blob))

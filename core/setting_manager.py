@@ -30,6 +30,7 @@ class SettingManager:
         name = name.lower()
         module = module.lower()
         setting.set_name(name)
+        setting.set_description(description)
 
         if not description:
             self.logger.warning("No description specified for setting '%s'" % name)
