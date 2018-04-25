@@ -6,7 +6,7 @@ class MapObject:
         return self.row[name]
 
     def __getitem__(self, name):
-        return self.get_row_value[name]
+        return self.get_row_value(name)
 
     def __getattr__(self, name):
         return self.get_row_value(name)
