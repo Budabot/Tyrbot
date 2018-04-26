@@ -2,6 +2,7 @@ from core.decorators import instance
 from core.map_object import MapObject
 from core.logger import Logger
 from pkg_resources import parse_version
+import mysql.connector
 import sqlite3
 import re
 import os
@@ -21,9 +22,17 @@ class DB:
             d[col[0]] = row[idx]
         return MapObject(d)
 
-    def connect(self, name):
+    def connect_mysql(self, host, username, password, database_name):
+        self.conn = mysql.connector.connect(user=username, password=password, host=host, database=database_name)
+        self.conn.row_factory = self.row_factory
+        self.create_db_version_table()
+
+    def connect_sqlite(self, name):
         self.conn = sqlite3.connect("./data/" + name)
         self.conn.row_factory = self.row_factory
+        self.create_db_version_table()
+
+    def create_db_version_table(self):
         self.exec("CREATE TABLE IF NOT EXISTS db_version (file VARCHAR(255) NOT NULL, version VARCHAR(255) NOT NULL)")
 
     def query_single(self, sql, params=None):
