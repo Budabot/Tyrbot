@@ -40,7 +40,11 @@ class DB:
         self.exec("CREATE TABLE IF NOT EXISTS db_version (file VARCHAR(255) NOT NULL, version VARCHAR(255) NOT NULL)")
 
     def _execute_wrapper(self, sql, params, callback):
-        cur = self.conn.cursor()
+        if self.type == self.MYSQL:
+            cur = self.conn.cursor(dictionary=True)
+        else:
+            cur = self.conn.cursor()
+
         cur.execute(sql if self.type == self.SQLITE else sql.replace("?", "%s"), params)
         result = callback(cur)
         cur.close()
