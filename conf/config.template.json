@@ -4,6 +4,10 @@
   "character": "",
   "superadmin": "",
   "database": {
+    "type": "sqlite",
+    "username": "",
+    "password": "",
+    "host": "",
     "name": "budabot.db"
   },
   "server": {

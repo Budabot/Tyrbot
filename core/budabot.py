@@ -40,7 +40,13 @@ class Budabot(Bot):
         self.superadmin = config.superadmin.capitalize()
         self.dimension = 5
 
-        self.db.connect(config.database.name)
+        if config.database.type == "sqlite":
+            self.db.connect_sqlite(config.database.name)
+        elif config.database.type == "mysql":
+            self.db.connect_mysql(config.database.host, config.database.username, config.database.password, config.database.name)
+        else:
+            raise Exception("Unknown database type '%s'" % config.database.type)
+
         self.db.load_sql_file("core.sql", os.path.dirname(__file__))
 
         # prepare commands, events, and settings
