@@ -149,6 +149,8 @@ class DB:
             cur = self.conn.cursor()
             for line in f.readlines():
                 sql, _ = self.format_sql(line)
-                cur.execute(sql)
+                sql = sql.strip()
+                if sql:
+                    cur.execute(sql)
             cur.close()
             self.conn.commit()
