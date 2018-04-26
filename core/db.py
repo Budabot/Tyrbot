@@ -23,12 +23,11 @@ class DB:
         d = {}
         for idx, col in enumerate(cursor.description):
             d[col[0]] = row[idx]
-        return MapObject(d)
+        return d
 
     def connect_mysql(self, host, username, password, database_name):
         self.type = self.MYSQL
         self.conn = mysql.connector.connect(user=username, password=password, host=host, database=database_name)
-        self.conn.row_factory = self.row_factory
         self.create_db_version_table()
 
     def connect_sqlite(self, name):
@@ -40,7 +39,7 @@ class DB:
     def create_db_version_table(self):
         self.exec("CREATE TABLE IF NOT EXISTS db_version (file VARCHAR(255) NOT NULL, version VARCHAR(255) NOT NULL)")
 
-    def execute_wrapper(self, sql, params, callback):
+    def _execute_wrapper(self, sql, params, callback):
         cur = self.conn.cursor()
         cur.execute(sql if self.type == self.SQLITE else sql.replace("?", "%s"), params)
         result = callback(cur)
@@ -52,19 +51,32 @@ class DB:
         if params is None:
             params = []
         sql, params = self.format_sql(sql, params)
-        return self.execute_wrapper(sql, params, lambda cur: cur.fetchone())
+
+        def map_result(cur):
+            row = cur.fetchone()
+            return row if row is None else MapObject(row)
+
+        return self._execute_wrapper(sql, params, map_result)
 
     def query(self, sql, params=None):
         if params is None:
             params = []
         sql, params = self.format_sql(sql, params)
-        return self.execute_wrapper(sql, params, lambda cur: cur.fetchall())
+
+        def map_result(cur):
+            return map(lambda row: MapObject(row), cur.fetchall())
+
+        return self._execute_wrapper(sql, params, map_result)
 
     def exec(self, sql, params=None):
         if params is None:
             params = []
         sql, params = self.format_sql(sql, params)
-        row_count, lastrowid = self.execute_wrapper(sql, params, lambda cur: [cur.rowcount, cur.lastrowid])
+
+        def map_result(cur):
+            return [cur.rowcount, cur.lastrowid]
+
+        row_count, lastrowid = self._execute_wrapper(sql, params, map_result)
         self.lastrowid = lastrowid
         return row_count
 
@@ -112,14 +124,14 @@ class DB:
             if parse_version(file_version) > parse_version(db_version):
                 self.logger.debug("loading sql file '%s'" % sqlfile)
                 self._load_file(filename)
-                self.exec("UPDATE db_version SET version = ? WHERE file = ?", [file_version, filename])
+                self.exec("UPDATE db_version SET version = ? WHERE file = ?", [int(file_version), filename])
         else:
             self.logger.debug("loading sql file '%s'" % sqlfile)
             self._load_file(filename)
-            self.exec("INSERT INTO db_version (file, version) VALUES (?, ?)", [filename, file_version])
+            self.exec("INSERT INTO db_version (file, version) VALUES (?, ?)", [filename, int(file_version)])
 
     def get_file_version(self, filename):
-        return str(os.path.getmtime(filename))
+        return str(int(os.path.getmtime(filename)))
 
     def get_db_version(self, filename):
         row = self.query_single("SELECT version FROM db_version WHERE file = ?", [filename])
