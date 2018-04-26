@@ -39,8 +39,10 @@ class DB:
         if params is None:
             params = []
         sql, params = self.format_sql(sql, params)
-        cur = self.conn.execute(sql, params)
+        cur = self.conn.cursor()
+        cur.execute(sql, params)
         row = cur.fetchone()
+        cur.close()
         self.conn.commit()
         return row
 
@@ -48,8 +50,10 @@ class DB:
         if params is None:
             params = []
         sql, params = self.format_sql(sql, params)
-        cur = self.conn.execute(sql, params)
+        cur = self.conn.cursor()
+        cur.execute(sql, params)
         data = cur.fetchall()
+        cur.close()
         self.conn.commit()
         return data
 
@@ -57,9 +61,11 @@ class DB:
         if params is None:
             params = []
         sql, params = self.format_sql(sql, params)
-        cur = self.conn.execute(sql, params)
+        cur = self.conn.cursor()
+        cur.execute(sql, params)
         rowcount = cur.rowcount
         self.lastrowid = cur.lastrowid
+        cur.close()
         self.conn.commit()
         return rowcount
 
@@ -125,8 +131,9 @@ class DB:
 
     def _load_file(self, filename):
         with open(filename, "r") as f:
-            c = self.conn.cursor()
+            cur = self.conn.cursor()
             for line in f.readlines():
                 sql, _ = self.format_sql(line)
-                c.execute(sql)
+                cur.execute(sql)
+            cur.close()
             self.conn.commit()
