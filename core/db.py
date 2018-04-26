@@ -10,6 +10,9 @@ import os
 
 @instance()
 class DB:
+    SQLITE = "sqlite"
+    MYSQL = "mysql"
+
     def __init__(self):
         self.conn = None
         self.enhanced_like_regex = re.compile("(\s+)(\S+)\s+<ENHANCED_LIKE>\s+\?(\s*)", re.IGNORECASE)
@@ -23,11 +26,13 @@ class DB:
         return MapObject(d)
 
     def connect_mysql(self, host, username, password, database_name):
+        self.type = self.MYSQL
         self.conn = mysql.connector.connect(user=username, password=password, host=host, database=database_name)
         self.conn.row_factory = self.row_factory
         self.create_db_version_table()
 
     def connect_sqlite(self, name):
+        self.type = self.SQLITE
         self.conn = sqlite3.connect("./data/" + name)
         self.conn.row_factory = self.row_factory
         self.create_db_version_table()
@@ -35,39 +40,33 @@ class DB:
     def create_db_version_table(self):
         self.exec("CREATE TABLE IF NOT EXISTS db_version (file VARCHAR(255) NOT NULL, version VARCHAR(255) NOT NULL)")
 
+    def execute_wrapper(self, sql, params, callback):
+        cur = self.conn.cursor()
+        cur.execute(sql if self.type == self.SQLITE else sql.replace("?", "%s"), params)
+        result = callback(cur)
+        cur.close()
+        self.conn.commit()
+        return result
+
     def query_single(self, sql, params=None):
         if params is None:
             params = []
         sql, params = self.format_sql(sql, params)
-        cur = self.conn.cursor()
-        cur.execute(sql, params)
-        row = cur.fetchone()
-        cur.close()
-        self.conn.commit()
-        return row
+        return self.execute_wrapper(sql, params, lambda cur: cur.fetchone())
 
     def query(self, sql, params=None):
         if params is None:
             params = []
         sql, params = self.format_sql(sql, params)
-        cur = self.conn.cursor()
-        cur.execute(sql, params)
-        data = cur.fetchall()
-        cur.close()
-        self.conn.commit()
-        return data
+        return self.execute_wrapper(sql, params, lambda cur: cur.fetchall())
 
     def exec(self, sql, params=None):
         if params is None:
             params = []
         sql, params = self.format_sql(sql, params)
-        cur = self.conn.cursor()
-        cur.execute(sql, params)
-        rowcount = cur.rowcount
-        self.lastrowid = cur.lastrowid
-        cur.close()
-        self.conn.commit()
-        return rowcount
+        row_count, lastrowid = self.execute_wrapper(sql, params, lambda cur: [cur.rowcount, cur.lastrowid])
+        self.lastrowid = lastrowid
+        return row_count
 
     def last_insert_id(self):
         return self.lastrowid
