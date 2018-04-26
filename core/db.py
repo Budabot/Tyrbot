@@ -68,7 +68,7 @@ class DB:
         sql, params = self.format_sql(sql, params)
 
         def map_result(cur):
-            return map(lambda row: MapObject(row), cur.fetchall())
+            return list(map(lambda row: MapObject(row), cur.fetchall()))
 
         return self._execute_wrapper(sql, params, map_result)
 
