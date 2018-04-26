@@ -91,8 +91,10 @@ class DB:
         sql = sql.replace("<dim>", "")
         sql = sql.replace("<myname>", "")
         sql = sql.replace("<myguild>", "")
-        sql = sql.replace("AUTO_INCREMENT", "AUTOINCREMENT")
-        sql = sql.replace(" INT ", " INTEGER ")
+
+        if self.type == self.SQLITE:
+            sql = sql.replace("AUTO_INCREMENT", "")
+            sql = sql.replace(" INT ", " INTEGER ")
 
         if params:  # not None and not empty
             return self.handle_extended_like(sql, params)
