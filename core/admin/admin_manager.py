@@ -49,6 +49,6 @@ class AdminManager:
         return self.db.exec("DELETE FROM admin WHERE char_id = ?", [char_id]) > 0
 
     def get_all(self):
-        return self.db.query("SELECT c.*, a.access_level FROM admin a "
+        return self.db.query("SELECT p.*, a.access_level FROM admin a "
                              "LEFT JOIN player p ON a.char_id = p.char_id "
                              "ORDER BY a.access_level ASC, p.name ASC")
