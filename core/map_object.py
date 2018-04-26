@@ -3,7 +3,11 @@ class MapObject:
         self.row = row
 
     def get_row_value(self, name):
-        return self.row[name]
+        val = self.row[name]
+        if isinstance(val, dict):
+            return MapObject(val)
+        else:
+            return val
 
     def __getitem__(self, name):
         return self.get_row_value(name)

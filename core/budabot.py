@@ -37,10 +37,10 @@ class Budabot(Bot):
         self.event_manager = registry.get_instance("event_manager")
 
     def init(self, config, registry):
-        self.superadmin = config["superadmin"].capitalize()
+        self.superadmin = config.superadmin.capitalize()
         self.dimension = 5
 
-        self.db.connect(config["database"]["name"])
+        self.db.connect(config.database.name)
         self.db.load_sql_file("core.sql", os.path.dirname(__file__))
 
         # prepare commands, events, and settings
