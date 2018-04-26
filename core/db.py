@@ -150,7 +150,7 @@ class DB:
             for line in f.readlines():
                 sql, _ = self.format_sql(line)
                 sql = sql.strip()
-                if sql:
+                if sql and not sql.startswith("--"):
                     cur.execute(sql)
             cur.close()
             self.conn.commit()
