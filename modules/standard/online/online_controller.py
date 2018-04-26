@@ -42,11 +42,11 @@ class OnlineController:
         reply(ChatBlob("Online (%d)" % count, blob))
 
     def get_online_characters(self, channel):
-        sql = "SELECT c1.*, o.afk, COALESCE(c2.name, c1.name) AS main FROM online o " \
+        sql = "SELECT p1.*, o.afk, COALESCE(p2.name, c1.name) AS main FROM online o " \
               "LEFT JOIN alts a1 ON o.char_id = a1.char_id " \
-              "LEFT JOIN character c1 ON o.char_id = c1.char_id " \
+              "LEFT JOIN player p1 ON o.char_id = p1.char_id " \
               "LEFT JOIN alts a2 ON a1.group_id = a2.group_id AND a2.status = ? " \
-              "LEFT JOIN character c2 ON a2.char_id = c2.char_id " \
+              "LEFT JOIN player p2 ON a2.char_id = p2.char_id " \
               "WHERE channel = ?"
 
         return self.db.query(sql, [AltsManager.MAIN, channel])

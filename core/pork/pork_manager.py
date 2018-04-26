@@ -100,10 +100,10 @@ class PorkManager:
             self.save_character_info(char_info)
 
     def save_character_info(self, char_info):
-        self.db.exec("DELETE FROM character WHERE char_id = ?", [char_info.char_id])
+        self.db.exec("DELETE FROM player WHERE char_id = ?", [char_info.char_id])
 
         insert_sql = """
-            INSERT INTO character ( char_id, name, first_name, last_name, level, breed, gender, faction, profession,
+            INSERT INTO player ( char_id, name, first_name, last_name, level, breed, gender, faction, profession,
                 profession_title, ai_rank, ai_level, org_id, org_name, org_rank_name, org_rank_id, dimension, head_id,
                 pvp_rating, pvp_title, source, last_updated)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -120,4 +120,4 @@ class PorkManager:
         return self.db.query_single("SELECT char_id, name, first_name, last_name, level, breed, gender, faction, profession, "
                                     "profession_title, ai_rank, ai_level, org_id, org_name, org_rank_name, org_rank_id, "
                                     "dimension, head_id, pvp_rating, pvp_title, source, last_updated "
-                                    "FROM character WHERE char_id = ?", [char_id])
+                                    "FROM player WHERE char_id = ?", [char_id])

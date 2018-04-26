@@ -50,5 +50,5 @@ class AdminManager:
 
     def get_all(self):
         return self.db.query("SELECT c.*, a.access_level FROM admin a "
-                             "LEFT JOIN character c ON a.char_id = c.char_id "
-                             "ORDER BY a.access_level ASC, c.name ASC")
+                             "LEFT JOIN player p ON a.char_id = p.char_id "
+                             "ORDER BY a.access_level ASC, p.name ASC")
