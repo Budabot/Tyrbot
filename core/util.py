@@ -58,18 +58,20 @@ class Util:
 
         return unixtime
 
-    def time_to_readable(self, unixtime, show_seconds=False, max_unit="day"):
+    def time_to_readable(self, unixtime, min_unit="min", max_unit="day", max_levels=2):
         if unixtime == 0:
             return "0 secs"
 
         found_max_unit = False
         time_shift = ""
+        levels = 0
         for time_unit in self.time_units:
             unit = time_unit["units"][0]
 
-            if unit == max_unit:
+            if max_unit in time_unit["units"]:
                 found_max_unit = True
 
+            # continue to skip until we have found the max unit
             if not found_max_unit:
                 continue
 
@@ -78,12 +80,22 @@ class Util:
             else:
                 length = math.ceil(unixtime / time_unit["conversion_factor"])
 
-            if unit != "sec" or show_seconds or not time_shift:
-                if length > 1:
-                    time_shift += str(length) + " " + unit + "s "
-                elif length == 1:
-                    time_shift += str(length) + " " + unit + " "
+            if length > 1:
+                time_shift += str(length) + " " + unit + "s "
+            elif length == 1:
+                time_shift += str(length) + " " + unit + " "
 
             unixtime = unixtime % time_unit["conversion_factor"]
+
+            # record level after the first a unit has a length
+            if levels or length >= 1:
+                levels += 1
+
+            if levels == max_levels:
+                break
+
+            # if we have reached the min unit, then break, unless we have no output, in which case we continue
+            if time_shift and min_unit in time_unit["units"]:
+                break
 
         return time_shift.strip()
