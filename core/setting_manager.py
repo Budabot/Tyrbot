@@ -31,6 +31,7 @@ class SettingManager:
         module = module.lower()
         setting.set_name(name)
         setting.set_description(description)
+        setting.set_value(value)
 
         if not description:
             self.logger.warning("No description specified for setting '%s'" % name)
@@ -39,12 +40,12 @@ class SettingManager:
                                    [name])
 
         if row is None:
-            # add new event commands
+            self.logger.debug("Adding setting '%s'" % name)
             self.db.exec(
                 "INSERT INTO setting (name, value, description, module, verified) VALUES (?, ?, ?, ?, ?)",
-                [name, value, description, module, 1])
+                [name, setting.get_value(), description, module, 1])
         else:
-            # mark command as verified
+            self.logger.debug("Updating setting '%s'" % name)
             self.db.exec(
                 "UPDATE setting SET description = ?, verified = ?, module = ? WHERE name = ?",
                 [description, 1, module, name])
