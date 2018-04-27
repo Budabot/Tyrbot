@@ -31,7 +31,6 @@ class SettingManager:
         module = module.lower()
         setting.set_name(name)
         setting.set_description(description)
-        setting.set_value(value)
 
         if not description:
             self.logger.warning("No description specified for setting '%s'" % name)
@@ -41,6 +40,10 @@ class SettingManager:
 
         if row is None:
             self.logger.debug("Adding setting '%s'" % name)
+
+            # verify default value is a valid value, and is formatted appropriately
+            setting.set_value(value)
+
             self.db.exec(
                 "INSERT INTO setting (name, value, description, module, verified) VALUES (?, ?, ?, ?, ?)",
                 [name, setting.get_value(), description, module, 1])
