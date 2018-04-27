@@ -109,10 +109,15 @@ class NumberSettingType(SettingType):
             raise Exception("You must enter a positive integer for this setting.")
 
     def get_display(self):
+        text = Registry.get_instance("text")
+        options_str = "\n".join(map(lambda opt: text.make_chatcmd(str(opt), "/tell <myname> config setting %s %s" % (self.name, opt)), self.options))
+
         return """For this setting you can set any positive integer.
 To change this setting:
 
-<highlight>/tell <myname> config setting """ + self.name + """ <i>number</i><end>"""
+<highlight>/tell <myname> config setting """ + self.name + """ <i>number</i><end>
+
+Or choose an option below:\n\n""" + options_str
 
 
 class TimeSettingType(SettingType):
@@ -136,8 +141,13 @@ class TimeSettingType(SettingType):
             raise Exception("You must enter time in a valid Budatime format")
 
     def get_display(self):
+        text = Registry.get_instance("text")
+        options_str = "\n".join(map(lambda opt: text.make_chatcmd(str(opt), "/tell <myname> config setting %s %s" % (self.name, opt)), self.options))
+
         return """For this setting you must enter a time value. See <a href='chatcmd:///tell <myname> help budatime'>budatime</a> for info on the format of the 'time' parameter.
 
 To change this setting:
 
-<highlight>/tell <myname> config setting """ + self.name + """ <i>time</i><end>"""
+<highlight>/tell <myname> config setting """ + self.name + """ <i>time</i><end>
+
+Or choose an option below:\n\n""" + options_str
