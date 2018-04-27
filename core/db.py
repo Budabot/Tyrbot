@@ -93,10 +93,10 @@ class DB:
         sql = sql.replace("<myguild>", "")
 
         if self.type == self.SQLITE:
-            sql = sql.replace("AUTO_INCREMENT", "")
+            sql = sql.replace("AUTO_INCREMENT", "AUTOINCREMENT")
             sql = sql.replace(" INT ", " INTEGER ")
 
-        if params:  # not None and not empty
+        if params:
             return self.handle_extended_like(sql, params)
         else:
             return sql, params
