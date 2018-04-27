@@ -58,19 +58,27 @@ class Util:
 
         return unixtime
 
-    def time_to_readable(self, unixtime, show_seconds=False):
+    def time_to_readable(self, unixtime, show_seconds=False, max_unit="day"):
         if unixtime == 0:
             return "0 secs"
 
+        found_max_unit = False
         time_shift = ""
         for time_unit in self.time_units:
             unit = time_unit["units"][0]
+
+            if unit == max_unit:
+                found_max_unit = True
+
+            if not found_max_unit:
+                continue
+
             if unixtime > 0:
                 length = math.floor(unixtime / time_unit["conversion_factor"])
             else:
                 length = math.ceil(unixtime / time_unit["conversion_factor"])
 
-            if unit != "secs" or show_seconds or time_shift == "":
+            if unit != "sec" or show_seconds or not time_shift:
                 if length > 1:
                     time_shift += str(length) + " " + unit + "s "
                 elif length == 1:
