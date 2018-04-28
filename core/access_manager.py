@@ -30,7 +30,7 @@ class AccessManager:
     def get_access_level_by_level(self, level):
         for access_level in self.access_levels:
             if access_level["level"] == level:
-                return access_level["label"]
+                return access_level
         return None
 
     def get_access_level_by_label(self, label):

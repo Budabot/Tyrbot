@@ -10,6 +10,7 @@ class SystemController:
     def inject(self, registry):
         self.bot = registry.get_instance("budabot")
         self.access_manager = registry.get_instance("access_manager")
+        self.command_manager = registry.get_instance("command_manager")
 
     def start(self):
         pass
@@ -32,3 +33,10 @@ class SystemController:
         char = args[1].capitalize()
         access_level = self.access_manager.get_access_level(char)
         reply("Access level for <highlight>%s<end> is <highlight>%s<end>." % (char, access_level["label"]))
+
+    @command(command="macro", params=[Any("command 1|command 2|command 3 ...")], access_level="all",
+             description="Execute multiple commands at once")
+    def macro_cmd(self, channel, sender, reply, args):
+        commands = args[1].split("|")
+        for command_str in commands:
+            self.command_manager.process_command(command_str, channel, sender.char_id, reply)
