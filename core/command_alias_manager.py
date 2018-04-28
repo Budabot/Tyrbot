@@ -15,9 +15,9 @@ class CommandAliasManager:
     def check_for_alias(self, command_str, command_args):
         row = self.get_alias(command_str)
         if row and row.enabled:
-            return row.command, command_args
+            return row.command
         else:
-            return command_str, command_args
+            return None
 
     def get_alias(self, alias):
         return self.db.query_single("SELECT alias, command, enabled FROM command_alias WHERE alias = ?", [alias])
