@@ -28,7 +28,7 @@ class CharacterManager:
             return self.name_to_id.get(char_name, None)
 
     def resolve_char_to_id(self, char):
-        if isinstance(char, int):
+        if isinstance(char, int) or char.isdigit():
             return char
         else:
             return self.get_char_id(char)
