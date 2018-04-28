@@ -29,7 +29,7 @@ class Bot:
 
         # read seed packet
         self.logger.info(("Logging in as %s" % character))
-        seed_packet = self.read_packet()
+        seed_packet = self.read_packet(10)
         seed = seed_packet.seed
 
         # send back challenge
