@@ -41,12 +41,12 @@ class SettingManager:
         if row is None:
             self.logger.debug("Adding setting '%s'" % name)
 
-            # verify default value is a valid value, and is formatted appropriately
-            setting.set_value(value)
-
             self.db.exec(
                 "INSERT INTO setting (name, value, description, module, verified) VALUES (?, ?, ?, ?, ?)",
-                [name, setting.get_value(), description, module, 1])
+                [name, "", description, module, 1])
+
+            # verify default value is a valid value, and is formatted appropriately
+            setting.set_value(value)
         else:
             self.logger.debug("Updating setting '%s'" % name)
             self.db.exec(
