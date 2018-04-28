@@ -58,7 +58,7 @@ class Util:
 
         return unixtime
 
-    def time_to_readable(self, unixtime, min_unit="min", max_unit="day", max_levels=2):
+    def time_to_readable(self, unixtime, min_unit="sec", max_unit="day", max_levels=2):
         if unixtime == 0:
             return "0 secs"
 
