@@ -63,6 +63,9 @@ class ColorSettingType(SettingType):
         else:
             raise Exception("You must enter a valid HTML color.")
 
+    def get_description(self):
+        return self.get_font_color() + super().get_description() + "<end>"
+
     def get_display(self):
         return """For this setting you can set any Color in the HTML Hexadecimal Color Format.
 You can change it manually with the command:
