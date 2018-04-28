@@ -19,6 +19,7 @@ class OnlineController:
 
     def start(self):
         self.db.load_sql_file("online.sql", os.path.dirname(__file__))
+        self.db.exec("DELETE FROM online")
 
     @command(command="online", params=[], access_level="all",
              description="Show the list of online characters")
