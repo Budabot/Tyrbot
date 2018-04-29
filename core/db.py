@@ -41,6 +41,7 @@ class DB:
 
     def _execute_wrapper(self, sql, params, callback):
         if self.type == self.MYSQL:
+            # buffered=True - https://stackoverflow.com/a/33632767/280574
             cur = self.conn.cursor(dictionary=True, buffered=True)
         else:
             cur = self.conn.cursor()

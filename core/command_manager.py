@@ -120,7 +120,7 @@ class CommandManager:
             command_alias = self.command_alias_manager.check_for_alias(command_str, command_args)
 
             if command_alias:
-                command_str, command_args = self.get_command_parts(command_alias + " " + command_args)
+                command_str, command_args = self.get_command_parts(command_alias + " " + command_args if command_args else command_alias)
 
             cmd_configs = self.get_command_configs(command_str, channel, 1)
             if cmd_configs:
