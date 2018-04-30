@@ -173,12 +173,15 @@ class CommandManager:
         return self.db.query(sql, params)
 
     def get_matches(self, cmd_configs, command_args):
+        if command_args:
+            command_args = " " + command_args
+
         for row in cmd_configs:
             command_key = self.get_command_key(row.command, row.sub_command)
             handlers = self.handlers[command_key]
             for handler in handlers:
                 # add leading space to search string to normalize input for command params
-                matches = handler["regex"].search(" " + command_args if command_args else "")
+                matches = handler["regex"].search(command_args)
                 if matches:
                     return row, self.format_matches(command_args, matches), handler
         return None, None, None
