@@ -177,14 +177,18 @@ class CommandManager:
             command_key = self.get_command_key(row.command, row.sub_command)
             handlers = self.handlers[command_key]
             for handler in handlers:
+                # add leading space to search string to normalize input for command params
                 matches = handler["regex"].search(" " + command_args if command_args else "")
                 if matches:
                     return row, self.format_matches(command_args, matches), handler
         return None, None, None
 
     def format_matches(self, command_args, matches):
+        # convert matches to list
         m = list(matches.groups())
         m.insert(0, command_args)
+
+        # strip leading spaces for each group, if they group exists
         return list(map(lambda x: x[1:] if x else x, m))
 
     def get_help_text(self, char, command_str, channel):
