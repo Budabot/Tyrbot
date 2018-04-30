@@ -177,10 +177,15 @@ class CommandManager:
             command_key = self.get_command_key(row.command, row.sub_command)
             handlers = self.handlers[command_key]
             for handler in handlers:
-                matches = handler["regex"].match(command_args)
+                matches = handler["regex"].search(" " + command_args if command_args else "")
                 if matches:
-                    return row, matches, handler
+                    return row, self.format_matches(command_args, matches), handler
         return None, None, None
+
+    def format_matches(self, command_args, matches):
+        m = list(matches.groups())
+        m.insert(0, command_args)
+        return list(map(lambda x: x[1:] if x else x, m))
 
     def get_help_text(self, char, command_str, channel):
         data = self.db.query("SELECT command, sub_command, access_level FROM command_config "
@@ -226,7 +231,7 @@ class CommandManager:
     def get_regex_from_params(self, params):
         # params must be wrapped with line-beginning and line-ending anchors in order to match
         # when no params are specified (eg. "^$")
-        return "^" + " ".join(map(lambda x: x.get_regex(), params)) + "$"
+        return "^" + "".join(map(lambda x: x.get_regex(), params)) + "$"
 
     def generate_help(self, command, description, params):
         return description + ":\n" + "<tab><symbol>" + command + " " + " ".join(map(lambda x: x.get_name(), params))
