@@ -5,6 +5,12 @@ class CommandParam:
     def __init__(self):
         pass
 
+    def get_regex(self):
+        pass
+
+    def get_name(self):
+        pass
+
 
 class Const(CommandParam):
     def __init__(self, name, is_optional=False):
@@ -63,8 +69,9 @@ class Any(CommandParam):
             return "<highlight>%s<end>" % self.name
 
 
-class Regex:
+class Regex(CommandParam):
     def __init__(self, name, regex):
+        super().__init__()
         self.name = name
         self.regex = regex
 
