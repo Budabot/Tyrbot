@@ -28,7 +28,7 @@ class AltsController:
     @command(command="alts", params=[Const("add"), Any("character")], access_level="all",
              description="Add an alt")
     def alts_add_cmd(self, channel, sender, reply, args):
-        alt = args[1].capitalize()
+        alt = args[2].capitalize()
         alt_char_id = self.character_manager.resolve_char_to_id(alt)
 
         if not alt_char_id:

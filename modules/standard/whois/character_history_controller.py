@@ -14,18 +14,12 @@ class CharacterHistoryController:
         self.text: Text = registry.get_instance("text")
         self.pork_manager = registry.get_instance("pork_manager")
 
-    @command(command="history", params=[Any("character"), Int("server_num")], access_level="all",
-             description="Get history of character for a specific server num")
+    @command(command="history", params=[Any("character"), Int("server_num", is_optional=True)], access_level="all",
+             description="Get history of character")
     def handle_history_cmd1(self, channel, sender, reply, args):
         name = args[1].capitalize()
-        server_num = args[2]
+        server_num = args[2] if args[2] else 5
         reply(self.get_character_history(name, server_num))
-
-    @command(command="history", params=[Any("character")], access_level="all",
-             description="Get history of character for the current server num", sub_command="list")
-    def handle_history_cmd2(self, channel, sender, reply, args):
-        name = args[1].capitalize()
-        reply(self.get_character_history(name, 5))
 
     def get_character_history(self, name, server_num):
         return "<header>" + name + " (" + str(server_num) + ")<end>"
