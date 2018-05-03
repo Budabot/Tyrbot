@@ -1,4 +1,5 @@
 import logging
+import logging.handlers
 import sys
 import traceback
 import re
@@ -6,6 +7,7 @@ import re
 
 class Logger:
     console_logger = logging.StreamHandler(sys.stdout)
+    file_logger = logging.handlers.RotatingFileHandler("./logs/bot.log", maxBytes=5*1024*1024*1024, backupCount=1000)
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(name)s - %(message)s')
     console_logger.setFormatter(formatter)
 
@@ -13,6 +15,7 @@ class Logger:
         self.logger = logging.getLogger(name)
         self.logger.setLevel("DEBUG")
         self.logger.addHandler(Logger.console_logger)
+        self.logger.addHandler(Logger.file_logger)
 
     def warning(self, msg, obj: Exception=None):
         self.logger.warning(self.format_message(msg, obj))
