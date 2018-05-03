@@ -89,10 +89,11 @@ class Options(CommandParam):
         self.is_optional = is_optional
 
     def get_regex(self):
+        regex = "(" + "|".join(map(lambda x: " " + x, self.options)) + ")"
         if self.is_optional:
-            return "( " + "|".join(self.options) + ")?"
+            return regex + "?"
         else:
-            return "( " + "|".join(self.options) + ")"
+            return regex
 
     def get_name(self):
         if self.is_optional:
