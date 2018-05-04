@@ -25,7 +25,7 @@ class JobScheduler:
                 self.logger.warning("Error processing scheduled job", e)
 
     def run_later(self, callback, delay, *args, **kwargs):
-        self.schedule_job(callback, int(time.time()) + delay, *args, **kwargs)
+        return self.schedule_job(callback, int(time.time()) + delay, *args, **kwargs)
 
     def schedule_job(self, callback, scheduled_time, *args, **kwargs):
         job_id = self._get_next_job_id()
