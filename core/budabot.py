@@ -39,7 +39,7 @@ class Budabot(Bot):
         self.access_manager: AccessManager = registry.get_instance("access_manager")
         self.command_manager = registry.get_instance("command_manager")
         self.event_manager = registry.get_instance("event_manager")
-        self.scheduler = registry.get_instance("scheduler")
+        self.job_scheduler = registry.get_instance("job_scheduler")
 
     def init(self, config, registry):
         self.superadmin = config.superadmin.capitalize()
@@ -109,7 +109,7 @@ class Budabot(Bot):
             # timer events will execute not more often than once per second
             if self.last_timer_event < timestamp:
                 self.last_timer_event = timestamp
-                self.scheduler.check_for_scheduled_jobs(timestamp)
+                self.job_scheduler.check_for_scheduled_jobs(timestamp)
                 self.event_manager.check_for_timer_events(timestamp)
 
             self.iterate()
