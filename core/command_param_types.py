@@ -70,16 +70,20 @@ class Any(CommandParam):
 
 
 class Regex(CommandParam):
-    def __init__(self, name, regex):
+    def __init__(self, name, regex, is_optional=False):
         super().__init__()
         self.name = name
         self.regex = regex
+        self.is_optional = is_optional
 
     def get_regex(self):
         return self.regex
 
     def get_name(self):
-        return "<highlight>%s<end>" % self.name
+        if self.is_optional:
+            return "<highlight>[%s]<end>" % self.name
+        else:
+            return "<highlight>%s<end>" % self.name
 
 
 class Options(CommandParam):
