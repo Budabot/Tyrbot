@@ -1,6 +1,7 @@
 from core.decorators import instance
 from core.map_object import MapObject
 from core.aochat import server_packets
+from core.logger import Logger
 from __init__ import none_to_empty_string
 import requests
 import time
@@ -10,7 +11,7 @@ import os
 @instance()
 class PorkManager:
     def __init__(self):
-        pass
+        self.logger = Logger("setting_manager")
 
     def inject(self, registry):
         self.bot = registry.get_instance("budabot")
@@ -35,7 +36,12 @@ class PorkManager:
         url = "http://people.anarchy-online.com/character/bio/d/%d/name/%s/bio.xml?data_type=json" % (self.bot.dimension, char_name)
 
         r = requests.get(url)
-        json = r.json()
+        try:
+            json = r.json()
+        except ValueError as e:
+            self.logger.warning("Error marshalling value as json: %s" % r.text, e)
+            json = None
+
         if json:
             char_info_json = json[0]
             org_info_json = json[1] if json[1] else {}
