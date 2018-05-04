@@ -3,7 +3,6 @@ from core.registry import Registry
 from core.logger import Logger
 from __init__ import get_attrs
 import time
-import os
 
 
 @instance()
@@ -12,7 +11,6 @@ class EventManager:
         self.handlers = {}
         self.logger = Logger("event_manager")
         self.event_types = []
-        self.last_timer_event = 0
 
     def inject(self, registry):
         self.db = registry.get_instance("db")
@@ -111,15 +109,7 @@ class EventManager:
     def get_event_type_key(self, event_base_type, event_sub_type):
         return event_base_type + ":" + event_sub_type
 
-    def check_for_timer_events(self):
-        timestamp = int(time.time())
-
-        # timer events will execute not more often than once per second
-        if self.last_timer_event == timestamp:
-            return
-
-        self.last_timer_event = timestamp
-
+    def check_for_timer_events(self, timestamp):
         data = self.db.query("SELECT e.event_type, e.event_sub_type, e.handler, t.next_run FROM timer_event t "
                              "JOIN event_config e ON t.event_type = e.event_type AND t.handler = e.handler "
                              "WHERE t.next_run <= ? AND e.enabled = 1", [timestamp])

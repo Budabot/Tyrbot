@@ -12,6 +12,7 @@ from core.aochat import server_packets, client_packets
 from core.aochat.delay_queue import DelayQueue
 from core.bot_status import BotStatus
 import os
+import time
 
 
 @instance()
@@ -26,6 +27,7 @@ class Budabot(Bot):
         self.status: BotStatus = BotStatus.SHUTDOWN
         self.dimension = None
         self.packet_queue = DelayQueue(2, 2.5)
+        self.last_timer_event = 0
 
     def inject(self, registry):
         self.db = registry.get_instance("db")
@@ -37,6 +39,7 @@ class Budabot(Bot):
         self.access_manager: AccessManager = registry.get_instance("access_manager")
         self.command_manager = registry.get_instance("command_manager")
         self.event_manager = registry.get_instance("event_manager")
+        self.scheduler = registry.get_instance("scheduler")
 
     def init(self, config, registry):
         self.superadmin = config.superadmin.capitalize()
@@ -101,6 +104,14 @@ class Budabot(Bot):
         self.event_manager.fire_event("connect", None)
 
         while self.status == BotStatus.RUN:
+            timestamp = int(time.time())
+
+            # timer events will execute not more often than once per second
+            if self.last_timer_event < timestamp:
+                self.last_timer_event = timestamp
+                self.scheduler.check_for_scheduled_jobs(timestamp)
+                self.event_manager.check_for_timer_events(timestamp)
+
             self.iterate()
 
         return self.status
@@ -111,7 +122,6 @@ class Budabot(Bot):
         self.packet_handlers[packet_id] = handlers
 
     def iterate(self):
-        self.event_manager.check_for_timer_events()
         packet = self.read_packet()
         if packet is not None:
             if isinstance(packet, server_packets.PrivateMessage):

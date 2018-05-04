@@ -11,7 +11,7 @@ import os
 @instance()
 class PorkManager:
     def __init__(self):
-        self.logger = Logger("setting_manager")
+        self.logger = Logger("pork_manager")
 
     def inject(self, registry):
         self.bot = registry.get_instance("budabot")
