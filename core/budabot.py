@@ -180,12 +180,12 @@ class Budabot(Bot):
                 self.send_packet(packet)
 
     def handle_private_message(self, packet: server_packets.PrivateMessage):
-        self.logger.log_tell("From", self.character_manager.get_char_name(packet.character_id), packet.message)
+        self.logger.log_tell("From", self.character_manager.get_char_name(packet.char_id), packet.message)
 
     def handle_public_channel_message(self, packet: server_packets.PublicChannelMessage):
         self.logger.log_chat(
             self.public_channel_manager.get_channel_name(packet.channel_id),
-            self.character_manager.get_char_name(packet.character_id),
+            self.character_manager.get_char_name(packet.char_id),
             packet.message)
 
     def get_text_pages(self, msg, max_page_length):

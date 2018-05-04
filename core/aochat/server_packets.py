@@ -113,12 +113,12 @@ class LoginCharacterList(ServerPacket):
     id = 7
     types = "isii"
 
-    def __init__(self, character_ids, names, levels, online_statuses):
-        self.character_ids = character_ids
+    def __init__(self, char_ids, names, levels, online_statuses):
+        self.char_ids = char_ids
         self.names = names
         self.levels = levels
         self.online_statuses = online_statuses
-        super().__init__(self.id, self.types, [self.character_ids, self.names, self.levels, self.online_statuses])
+        super().__init__(self.id, self.types, [self.char_ids, self.names, self.levels, self.online_statuses])
 
     @classmethod
     def from_bytes(cls, data):
@@ -130,9 +130,9 @@ class CharacterUnknown(ServerPacket):
     id = 10
     types = "I"
 
-    def __init__(self, character_id):
-        self.character_id = character_id
-        super().__init__(self.id, self.types, [self.character_id])
+    def __init__(self, char_id):
+        self.char_id = char_id
+        super().__init__(self.id, self.types, [self.char_id])
 
     @classmethod
     def from_bytes(cls, data):
@@ -144,10 +144,10 @@ class CharacterName(ServerPacket):
     id = 20
     types = "IS"
 
-    def __init__(self, character_id, name):
-        self.character_id = character_id
+    def __init__(self, char_id, name):
+        self.char_id = char_id
         self.name = name
-        super().__init__(self.id, self.types, [self.character_id, self.name])
+        super().__init__(self.id, self.types, [self.char_id, self.name])
 
     @classmethod
     def from_bytes(cls, data):
@@ -159,10 +159,10 @@ class CharacterLookup(ServerPacket):
     id = 21
     types = "IS"
 
-    def __init__(self, character_id, name):
-        self.character_id = character_id
+    def __init__(self, char_id, name):
+        self.char_id = char_id
         self.name = name
-        super().__init__(self.id, self.types, [self.character_id, self.name])
+        super().__init__(self.id, self.types, [self.char_id, self.name])
 
     @classmethod
     def from_bytes(cls, data):
@@ -174,11 +174,11 @@ class PrivateMessage(ServerPacket):
     id = 30
     types = "ISS"
 
-    def __init__(self, character_id, message, blob):
-        self.character_id = character_id
+    def __init__(self, char_id, message, blob):
+        self.char_id = char_id
         self.message = message
         self.blob = blob
-        super().__init__(self.id, self.types, [self.character_id, self.message, self.blob])
+        super().__init__(self.id, self.types, [self.char_id, self.message, self.blob])
 
     @classmethod
     def from_bytes(cls, data):
@@ -190,11 +190,11 @@ class VicinityMessage(ServerPacket):
     id = 34
     types = "ISS"
 
-    def __init__(self, character_id, message, blob):
-        self.character_id = character_id
+    def __init__(self, char_id, message, blob):
+        self.char_id = char_id
         self.message = message
         self.blob = blob
-        super().__init__(self.id, self.types, [self.character_id, self.message, self.blob])
+        super().__init__(self.id, self.types, [self.char_id, self.message, self.blob])
 
     @classmethod
     def from_bytes(cls, data):
@@ -253,11 +253,11 @@ class BuddyAdded(ServerPacket):
     id = 40
     types = "IIS"
 
-    def __init__(self, character_id, online, status):
-        self.character_id = character_id
+    def __init__(self, char_id, online, status):
+        self.char_id = char_id
         self.online = online
         self.status = status
-        super().__init__(self.id, self.types, [self.character_id, self.online, self.status])
+        super().__init__(self.id, self.types, [self.char_id, self.online, self.status])
 
     @classmethod
     def from_bytes(cls, data):
@@ -269,9 +269,9 @@ class BuddyRemoved(ServerPacket):
     id = 41
     types = "I"
 
-    def __init__(self, character_id):
-        self.character_id = character_id
-        super().__init__(self.id, self.types, [self.character_id])
+    def __init__(self, char_id):
+        self.char_id = char_id
+        super().__init__(self.id, self.types, [self.char_id])
 
     @classmethod
     def from_bytes(cls, data):
@@ -325,10 +325,10 @@ class PrivateChannelClientJoined(ServerPacket):
     id = 55
     types = "II"
 
-    def __init__(self, private_channel_id, character_id):
+    def __init__(self, private_channel_id, char_id):
         self.private_channel_id = private_channel_id
-        self.character_id = character_id
-        super().__init__(self.id, self.types, [self.private_channel_id, self.character_id])
+        self.char_id = char_id
+        super().__init__(self.id, self.types, [self.private_channel_id, self.char_id])
 
     @classmethod
     def from_bytes(cls, data):
@@ -340,10 +340,10 @@ class PrivateChannelClientLeft(ServerPacket):
     id = 56
     types = "II"
 
-    def __init__(self, private_channel_id, character_id):
+    def __init__(self, private_channel_id, char_id):
         self.private_channel_id = private_channel_id
-        self.character_id = character_id
-        super().__init__(self.id, self.types, [self.private_channel_id, self.character_id])
+        self.char_id = char_id
+        super().__init__(self.id, self.types, [self.private_channel_id, self.char_id])
 
     @classmethod
     def from_bytes(cls, data):
@@ -355,12 +355,12 @@ class PrivateChannelMessage(ServerPacket):
     id = 57
     types = "IISS"
 
-    def __init__(self, private_channel_id, character_id, message, blob):
+    def __init__(self, private_channel_id, char_id, message, blob):
         self.private_channel_id = private_channel_id
-        self.character_id = character_id
+        self.char_id = char_id
         self.message = message
         self.blob = blob
-        super().__init__(self.id, self.types, [self.private_channel_id, self.character_id, self.message, self.blob])
+        super().__init__(self.id, self.types, [self.private_channel_id, self.char_id, self.message, self.blob])
 
     @classmethod
     def from_bytes(cls, data):
@@ -372,10 +372,10 @@ class PrivateChannelInviteRefused(ServerPacket):
     id = 58
     types = "II"
 
-    def __init__(self, private_channel_id, character_id):
+    def __init__(self, private_channel_id, char_id):
         self.private_channel_id = private_channel_id
-        self.character_id = character_id
-        super().__init__(self.id, self.types, [self.private_channel_id, self.character_id])
+        self.char_id = char_id
+        super().__init__(self.id, self.types, [self.private_channel_id, self.char_id])
 
     @classmethod
     def from_bytes(cls, data):
@@ -418,12 +418,12 @@ class PublicChannelMessage(ServerPacket):
     id = 65
     types = "GISS"
 
-    def __init__(self, channel_id, character_id, message, blob):
+    def __init__(self, channel_id, char_id, message, blob):
         self.channel_id = channel_id
-        self.character_id = character_id
+        self.char_id = char_id
         self.message = message
         self.blob = blob
-        super().__init__(self.id, self.types, [self.channel_id, self.character_id, self.message, self.blob])
+        super().__init__(self.id, self.types, [self.channel_id, self.char_id, self.message, self.blob])
 
     @classmethod
     def from_bytes(cls, data):

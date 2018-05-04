@@ -25,16 +25,16 @@ class PrivateChannelManager:
         self.bot.add_packet_handler(server_packets.PrivateChannelMessage.id, self.handle_private_channel_message)
 
     def handle_private_channel_message(self, packet: server_packets.PrivateChannelMessage):
-        char_name = self.character_manager.get_char_name(packet.character_id)
+        char_name = self.character_manager.get_char_name(packet.char_id)
         self.logger.log_chat("Private Channel", char_name, packet.message)
 
     def handle_private_channel_client_joined(self, packet: server_packets.PrivateChannelClientJoined):
-        self.private_channel_chars[packet.character_id] = packet
+        self.private_channel_chars[packet.char_id] = packet
         if packet.private_channel_id == self.bot.char_id:
             self.event_manager.fire_event(self.JOINED_PRIVATE_CHANNEL_EVENT, packet)
 
     def handle_private_channel_client_left(self, packet: server_packets.PrivateChannelClientLeft):
-        del self.private_channel_chars[packet.character_id]
+        del self.private_channel_chars[packet.char_id]
         if packet.private_channel_id == self.bot.char_id:
             self.event_manager.fire_event(self.LEFT_PRIVATE_CHANNEL_EVENT, packet)
 

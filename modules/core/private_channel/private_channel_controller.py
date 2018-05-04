@@ -39,10 +39,10 @@ class PrivateChannelController:
 
     @event(PrivateChannelManager.JOINED_PRIVATE_CHANNEL_EVENT, "Notify private channel when someone joins")
     def private_channel_joined_event(self, event_type, event_data):
-        char_name = self.character_manager.get_char_name(event_data.character_id)
+        char_name = self.character_manager.get_char_name(event_data.char_id)
         self.bot.send_private_channel_message("<highlight>%s<end> has joined the private channel." % char_name)
 
     @event(PrivateChannelManager.LEFT_PRIVATE_CHANNEL_EVENT, "Notify private channel when someone leaves")
     def private_channel_left_event(self, event_type, event_data):
-        char_name = self.character_manager.get_char_name(event_data.character_id)
+        char_name = self.character_manager.get_char_name(event_data.char_id)
         self.bot.send_private_channel_message("<highlight>%s<end> has left the private channel." % char_name)

@@ -42,7 +42,7 @@ class Bot:
         index = character_list_packet.names.index(character)
 
         # select character
-        self.char_id = character_list_packet.character_ids[index]
+        self.char_id = character_list_packet.char_ids[index]
         self.char_name = character_list_packet.names[index]
         login_select_packet = LoginSelect(self.char_id)
         self.send_packet(login_select_packet)

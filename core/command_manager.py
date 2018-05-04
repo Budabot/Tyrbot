@@ -265,8 +265,8 @@ class CommandManager:
         self.process_command(
             command_str,
             "msg",
-            packet.character_id,
-            lambda msg: self.bot.send_private_message(packet.character_id, msg))
+            packet.char_id,
+            lambda msg: self.bot.send_private_message(packet.char_id, msg))
 
     def handle_private_channel_message(self, packet: server_packets.PrivateChannelMessage):
         # since the command symbol is required in the private channel,
@@ -281,5 +281,5 @@ class CommandManager:
             self.process_command(
                 command_str,
                 "priv",
-                packet.character_id,
+                packet.char_id,
                 lambda msg: self.bot.send_private_channel_message(msg))

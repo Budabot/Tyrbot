@@ -69,9 +69,9 @@ class LoginSelect(ClientPacket):
     id = 3
     types = "I"
 
-    def __init__(self, character_id):
-        self.character_id = character_id
-        super().__init__(self.id, self.types, [self.character_id])
+    def __init__(self, char_id):
+        self.char_id = char_id
+        super().__init__(self.id, self.types, [self.char_id])
 
     @classmethod
     def from_bytes(cls, data):
@@ -97,11 +97,11 @@ class PrivateMessage(ClientPacket):
     id = 30
     types = "ISS"
 
-    def __init__(self, character_id, message, blob):
-        self.character_id = character_id
+    def __init__(self, char_id, message, blob):
+        self.char_id = char_id
         self.message = message
         self.blob = blob
-        super().__init__(self.id, self.types, [self.character_id, self.message, self.blob])
+        super().__init__(self.id, self.types, [self.char_id, self.message, self.blob])
 
     @classmethod
     def from_bytes(cls, data):
@@ -113,10 +113,10 @@ class BuddyAdd(ClientPacket):
     id = 40
     types = "IS"
 
-    def __init__(self, character_id, status):
-        self.character_id = character_id
+    def __init__(self, char_id, status):
+        self.char_id = char_id
         self.status = status
-        super().__init__(self.id, self.types, [self.character_id, self.status])
+        super().__init__(self.id, self.types, [self.char_id, self.status])
 
     @classmethod
     def from_bytes(cls, data):
@@ -128,9 +128,9 @@ class BuddyRemove(ClientPacket):
     id = 41
     types = "I"
 
-    def __init__(self, character_id):
-        self.character_id = character_id
-        super().__init__(self.id, self.types, [self.character_id])
+    def __init__(self, char_id):
+        self.char_id = char_id
+        super().__init__(self.id, self.types, [self.char_id])
 
     @classmethod
     def from_bytes(cls, data):
@@ -142,9 +142,9 @@ class PrivateChannelInvite(ClientPacket):
     id = 50
     types = "I"
 
-    def __init__(self, character_id):
-        self.character_id = character_id
-        super().__init__(self.id, self.types, [self.character_id])
+    def __init__(self, char_id):
+        self.char_id = char_id
+        super().__init__(self.id, self.types, [self.char_id])
 
     @classmethod
     def from_bytes(cls, data):
@@ -156,9 +156,9 @@ class PrivateChannelKick(ClientPacket):
     id = 51
     types = "I"
 
-    def __init__(self, character_id):
-        self.character_id = character_id
-        super().__init__(self.id, self.types, [self.character_id])
+    def __init__(self, char_id):
+        self.char_id = char_id
+        super().__init__(self.id, self.types, [self.char_id])
 
     @classmethod
     def from_bytes(cls, data):

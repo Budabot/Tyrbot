@@ -28,19 +28,19 @@ class BuddyManager:
         self.event_manager.register_event_type(self.BUDDY_LOGOFF_EVENT)
 
     def handle_add(self, packet):
-        buddy = self.buddy_list.get(packet.character_id, {"types": []})
+        buddy = self.buddy_list.get(packet.char_id, {"types": []})
         buddy["online"] = packet.online
-        self.buddy_list[packet.character_id] = buddy
+        self.buddy_list[packet.char_id] = buddy
         if packet.online == 1:
             self.event_manager.fire_event(self.BUDDY_LOGON_EVENT, packet)
         else:
             self.event_manager.fire_event(self.BUDDY_LOGOFF_EVENT, packet)
 
     def handle_remove(self, packet):
-        if packet.character_id in self.buddy_list:
-            if len(self.buddy_list[packet.character_id]["types"]) > 0:
-                self.logger.warning("Removing buddy %d that still has types %s" % (packet.character_id, self.buddy_list[packet.character_id]["types"]))
-            del self.buddy_list[packet.character_id]
+        if packet.char_id in self.buddy_list:
+            if len(self.buddy_list[packet.char_id]["types"]) > 0:
+                self.logger.warning("Removing buddy %d that still has types %s" % (packet.char_id, self.buddy_list[packet.char_id]["types"]))
+            del self.buddy_list[packet.char_id]
 
     def handle_login_ok(self, packet):
         self.buddy_list_size += 1000

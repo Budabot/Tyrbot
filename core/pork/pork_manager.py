@@ -134,11 +134,11 @@ class PorkManager:
                                     "FROM player WHERE char_id = ?", [char_id])
 
     def update(self, packet):
-        character = self.get_from_database(packet.character_id)
+        character = self.get_from_database(packet.char_id)
 
         if character:
             if character.name != packet.name:
-                self.db.exec("UPDATE player SET name = ? WHERE char_id = ?", [packet.name, packet.character_id])
+                self.db.exec("UPDATE player SET name = ? WHERE char_id = ?", [packet.name, packet.char_id])
         else:
             insert_sql = """
                         INSERT INTO player ( char_id, name, first_name, last_name, level, breed, gender, faction, profession,
@@ -147,6 +147,6 @@ class PorkManager:
                             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                         """
 
-            self.db.exec(insert_sql, [packet.character_id, packet.name, "", "", 0, "", "",
+            self.db.exec(insert_sql, [packet.char_id, packet.name, "", "", 0, "", "",
                                       "", "", "", "", 0, 0, "", "", 6, 5, 0, 0, "",
                                       "chat_server", int(time.time())])
