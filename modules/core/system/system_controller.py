@@ -27,12 +27,18 @@ class SystemController:
         reply("Restarting down the bot...")
         self.bot.restart()
 
-    @command(command="checkaccess", params=[Any("character")], access_level="all",
+    @command(command="checkaccess", params=[Any("character", is_optional=True)], access_level="all",
              description="Check access level for a character")
     def checkaccess_cmd(self, channel, sender, reply, args):
-        char = args[1].capitalize()
-        access_level = self.access_manager.get_access_level(char)
-        reply("Access level for <highlight>%s<end> is <highlight>%s<end>." % (char, access_level["label"]))
+        if args[1]:
+            char_name = args[1].capitalize()
+        else:
+            char_name = sender.name
+        access_level = self.access_manager.get_access_level(char_name)
+        if access_level:
+            reply("Access level for <highlight>%s<end> is <highlight>%s<end>." % (char_name, access_level["label"]))
+        else:
+            reply("Could not find character <highlight>%s<end>." % char_name)
 
     @command(command="macro", params=[Any("command 1|command 2|command 3 ...")], access_level="all",
              description="Execute multiple commands at once")
