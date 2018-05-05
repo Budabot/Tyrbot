@@ -10,6 +10,7 @@ class Logger:
     file_logger = logging.handlers.RotatingFileHandler("./logs/bot.log", maxBytes=5*1024*1024*1024, backupCount=1000)
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(name)s - %(message)s')
     console_logger.setFormatter(formatter)
+    file_logger.setFormatter(formatter)
 
     def __init__(self, name):
         self.logger = logging.getLogger(name)
