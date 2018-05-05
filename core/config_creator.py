@@ -8,6 +8,10 @@ def create_new_cfg(config_file):
               "character": validate_input("Enter the character name the bot will run on"),
               "superadmin": validate_input("Enter the name of the character you wish to be super-admin"),
               "database": {
+                  "type": validate_input("Database type (sqlite or mysql)", "sqlite"),
+                  "username": validate_input("Database username"),
+                  "password": validate_input("Database password"),
+                  "host": validate_input("Database host", "localhost"),
                   "name": validate_input("Database name", "budabot.db")
               },
               "server": {
