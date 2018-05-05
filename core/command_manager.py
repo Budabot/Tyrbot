@@ -117,7 +117,7 @@ class CommandManager:
             command_str, command_args = self.get_command_parts(message)
 
             # check for command alias
-            command_alias = self.command_alias_manager.check_for_alias(command_str, command_args)
+            command_alias = self.command_alias_manager.check_for_alias(command_str)
 
             if command_alias:
                 command_str, command_args = self.get_command_parts(command_alias + " " + command_args if command_args else command_alias)

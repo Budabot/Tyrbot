@@ -12,7 +12,7 @@ class CommandAliasManager:
         self.db = registry.get_instance("db")
         self.command_manager: CommandManager = registry.get_instance("command_manager")
 
-    def check_for_alias(self, command_str, command_args):
+    def check_for_alias(self, command_str):
         row = self.get_alias(command_str)
         if row and row.enabled:
             return row.command

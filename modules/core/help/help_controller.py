@@ -13,6 +13,7 @@ class HelpController:
         self.db = registry.get_instance("db")
         self.access_manager = registry.get_instance("access_manager")
         self.command_manager = registry.get_instance("command_manager")
+        self.command_alias_manager = registry.get_instance("command_alias_manager")
 
     def start(self):
         pass
@@ -51,6 +52,12 @@ class HelpController:
              description="Show help for a specific command")
     def help_detail_cmd(self, channel, sender, reply, args):
         help_topic = args[1].lower()
+
+        # check for alias
+        alias = self.command_alias_manager.check_for_alias(help_topic)
+        if alias:
+            help_topic = alias
+
         help_text = self.command_manager.get_help_text(sender.char_id, help_topic, channel)
         if help_text:
             reply(self.command_manager.format_help_text(help_topic, help_text))
