@@ -62,6 +62,11 @@ class Util:
         if unixtime == 0:
             return "0 secs"
 
+        is_negative = False
+        if unixtime < 0:
+            is_negative = True
+            unixtime *= -1
+
         found_max_unit = False
         time_shift = ""
         levels = 0
@@ -75,15 +80,12 @@ class Util:
             if not found_max_unit:
                 continue
 
-            if unixtime > 0:
-                length = math.floor(unixtime / time_unit["conversion_factor"])
-            else:
-                length = math.ceil(unixtime / time_unit["conversion_factor"])
+            length = math.floor(unixtime / time_unit["conversion_factor"])
 
-            if length > 1:
-                time_shift += str(length) + " " + unit + "s "
-            elif length == 1:
+            if length == 1:
                 time_shift += str(length) + " " + unit + " "
+            else:
+                time_shift += str(length) + " " + unit + "s "
 
             unixtime = unixtime % time_unit["conversion_factor"]
 
@@ -98,4 +100,4 @@ class Util:
             if time_shift and min_unit in time_unit["units"]:
                 break
 
-        return time_shift.strip()
+        return ("-" if is_negative else "") + time_shift.strip()
