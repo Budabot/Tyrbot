@@ -21,12 +21,12 @@ class AltsManager:
 
     def get_alts(self, char_id):
         sql = "SELECT p.* FROM player p " \
-              "LEFT JOIN alts a ON p.char_id = a.char_id AND a.status >= ? " \
+              "LEFT JOIN alts a ON p.char_id = a.char_id " \
               "WHERE p.char_id = ? OR a.group_id = (" \
-              "SELECT group_id FROM alts WHERE char_id = ?) " \
+              "SELECT group_id FROM alts WHERE status >= ? AND char_id = ?) " \
               "ORDER BY a.status DESC, p.level DESC"
 
-        return self.db.query(sql, [self.VALIDATED, char_id, char_id])
+        return self.db.query(sql, [char_id, self.VALIDATED, char_id])
 
     def add_alt(self, sender_char_id, alt_char_id):
         alt_row = self.get_alt_status(alt_char_id)
