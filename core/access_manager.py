@@ -27,9 +27,13 @@ class AccessManager:
         if not char_id:
             return None
 
-        alts = self.alts_manager.get_alts(char_id)
-        main = alts[0]
         access_level1 = self.get_single_access_level(char_id)
+
+        alts = self.alts_manager.get_alts(char_id)
+        if not alts:
+            return access_level1
+
+        main = alts[0]
         if main.char_id == char_id:
             return access_level1
         else:
