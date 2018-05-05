@@ -1,5 +1,5 @@
 from core.decorators import instance
-from core.character_manager import CharacterManager
+from core.lookup.character_manager import CharacterManager
 from core.aochat import server_packets
 from core.aochat import client_packets
 from core.logger import Logger
