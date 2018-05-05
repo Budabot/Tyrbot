@@ -30,10 +30,8 @@ class SystemController:
     @command(command="checkaccess", params=[Any("character", is_optional=True)], access_level="all",
              description="Check access level for a character")
     def checkaccess_cmd(self, channel, sender, reply, args):
-        if args[1]:
-            char_name = args[1].capitalize()
-        else:
-            char_name = sender.name
+        char_name = args[1].capitalize() if args[1] else sender.name
+
         access_level = self.access_manager.get_access_level(char_name)
         if access_level:
             reply("Access level for <highlight>%s<end> is <highlight>%s<end>." % (char_name, access_level["label"]))
