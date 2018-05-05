@@ -20,7 +20,7 @@ class AltsManager:
         self.db.load_sql_file("alts.sql", os.path.dirname(__file__))
 
     def get_alts(self, char_id):
-        sql = "SELECT p.* FROM player p " \
+        sql = "SELECT p.*, a.group_id, a.status FROM player p " \
               "LEFT JOIN alts a ON p.char_id = a.char_id " \
               "WHERE p.char_id = ? OR a.group_id = (" \
               "SELECT group_id FROM alts WHERE status >= ? AND char_id = ?) " \

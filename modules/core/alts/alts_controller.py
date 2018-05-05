@@ -1,6 +1,7 @@
 from core.decorators import instance, command
 from core.command_param_types import Any, Const, Options
 from core.chat_blob import ChatBlob
+from core.alts.alts_manager import AltsManager
 
 
 @instance()
@@ -21,9 +22,17 @@ class AltsController:
         alts = self.alts_manager.get_alts(sender.char_id)
         blob = ""
         for alt in alts:
-            blob += "<highlight>%s<end> (%d/<green>%d<end>) %s %s\n" % (alt.name, alt.level, alt.ai_level, alt.faction, alt.profession)
+            blob += "<highlight>%s<end> (%d/<green>%d<end>) %s %s%s\n" % (alt.name, alt.level, alt.ai_level, alt.faction, alt.profession, self.get_alt_status(alt.status))
 
         reply(ChatBlob("Alts for %s (%d)" % (sender.name, len(alts)), blob))
+
+    def get_alt_status(self, status):
+        if status == AltsManager.MAIN:
+            return " - [main]"
+        elif status == AltsManager.VALIDATED:
+            return ""
+        else:
+            return " - [unvalidated]"
 
     @command(command="alts", params=[Const("add"), Any("character")], access_level="all",
              description="Add an alt")
