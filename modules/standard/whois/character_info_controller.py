@@ -22,7 +22,7 @@ class CharacterInfoController:
         char_name = args[1].capitalize()
         char_info = self.pork_manager.get_character_info(char_name)
         char_id = self.character_manager.resolve_char_to_id(char_name)
-        if char_info:
+        if char_info and char_info.source != 'chat_server':
             blob = "Name: %s\n" % self.get_full_name(char_info)
             blob += "Profession: %s\n" % char_info.profession
             blob += "Faction: %s\n" % char_info.faction
@@ -37,7 +37,7 @@ class CharacterInfoController:
                 blob += "Org: &lt;None&gt;\n"
                 blob += "Org Rank: &lt;None&gt;\n"
             blob += "Head Id: %d\n" % char_info.head_id
-            blob += "PVP Rating: %d" % char_info.pvp_rating
+            blob += "PVP Rating: %d\n" % char_info.pvp_rating
             blob += "PVP Title: %s\n" % char_info.pvp_title
             blob += "Character Id: %d\n" % char_info.char_id
             blob += "Source: %s\n" % char_info.source

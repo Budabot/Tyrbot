@@ -28,7 +28,7 @@ class PorkManager:
     def get_character_info(self, char):
         # if we have entry in database and it is less than a day old, use that
         char_info = self.get_from_database(char)
-        if char_info and char_info.last_updated > (int(time.time()) - 86400):
+        if char_info and char_info.last_updated > (int(time.time()) - 86400) and char_info.source != 'chat_server':
             char_info.source += " (cache)"
             return char_info
 
