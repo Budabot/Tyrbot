@@ -1,13 +1,12 @@
 import re
 import os
 import importlib
-from core.logger import Logger
 from __init__ import flatmap
 
 
 class Registry:
     _registry = {}
-    logger = Logger("registry")
+    logger = None
 
     @classmethod
     def inject_all(cls):

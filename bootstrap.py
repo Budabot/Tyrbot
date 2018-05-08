@@ -2,12 +2,18 @@ from core.registry import Registry
 from core import config_creator
 from core.map_object import MapObject
 from core.logger import Logger
+import logging
+import sys
 import json
 import time
 import os
 
 
 try:
+    Logger.add_logger(logging.handlers.RotatingFileHandler("./logs/bot.log", maxBytes=5 * 1024 * 1024 * 1024, backupCount=1000))
+    Logger.add_logger(logging.StreamHandler(sys.stdout))
+    Registry.logger = Logger("registry")
+
     logger = Logger("bootstrap")
     logger.info("Starting Budabot...")
     config_file = "./conf/config.json"

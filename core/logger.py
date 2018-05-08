@@ -1,22 +1,23 @@
 import logging
 import logging.handlers
-import sys
 import traceback
 import re
 
 
 class Logger:
-    console_logger = logging.StreamHandler(sys.stdout)
-    file_logger = logging.handlers.RotatingFileHandler("./logs/bot.log", maxBytes=5*1024*1024*1024, backupCount=1000)
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(name)s - %(message)s')
-    console_logger.setFormatter(formatter)
-    file_logger.setFormatter(formatter)
+    handlers = []
+
+    @classmethod
+    def add_logger(cls, logger):
+        logger.setFormatter(Logger.formatter)
+        Logger.handlers.append(logger)
 
     def __init__(self, name):
         self.logger = logging.getLogger(name)
         self.logger.setLevel("DEBUG")
-        self.logger.addHandler(Logger.console_logger)
-        self.logger.addHandler(Logger.file_logger)
+        for handler in Logger.handlers:
+            self.logger.addHandler(handler)
 
     def warning(self, msg, obj: Exception=None):
         self.logger.warning(self.format_message(msg, obj))
