@@ -5,6 +5,9 @@ import math
 
 @instance()
 class Util:
+    budatime_full_regex = re.compile("^(([0-9]+)([a-z]+))+$")
+    budatime_unit_regex = re.compile("([0-9]+)([a-z]+)")
+
     def __init__(self):
         self.time_units = [
             {
@@ -45,16 +48,19 @@ class Util:
         parts = handler_name.split(".")
         return parts[1] + "." + parts[2]
 
-    def parse_time(self, budatime):
+    def parse_time(self, budatime, default=0):
         unixtime = 0
 
-        pattern = "([0-9]+)([a-z]+)"
-        matches = re.finditer(pattern, budatime)
+        if not self.budatime_full_regex.search(budatime):
+            return default
+
+        matches = self.budatime_unit_regex.finditer(budatime)
 
         for match in matches:
             for time_unit in self.time_units:
                 if match.group(2) in time_unit["units"]:
                     unixtime += int(match.group(1)) * time_unit["conversion_factor"]
+                    continue
 
         return unixtime
 
