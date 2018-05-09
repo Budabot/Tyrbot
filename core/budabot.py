@@ -100,8 +100,8 @@ class Budabot(Bot):
         while None is not self.iterate():
             pass
 
-        self.ready = True
         self.event_manager.fire_event("connect", None)
+        self.ready = True
 
         while self.status == BotStatus.RUN:
             timestamp = int(time.time())
