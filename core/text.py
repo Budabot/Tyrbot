@@ -46,15 +46,17 @@ class Text:
         pages = []
 
         while len(rest) > 0:
-            line, rest2 = self.get_next_line(rest, separator)
+            line, rest = self.get_next_line(rest, separator)
             line_length = len(line)
 
             # if separator is not sufficient, try the next one
             if line_length > max_page_length:
                 try:
                     separator = next(separators)
+                    rest = line + rest
                     continue
                 except StopIteration:
+                    # this is thrown when there are no more separators in the iterator
                     raise Exception("Could not paginate: page is too large")
 
             if max_num_pages == len(pages) + 1:
@@ -66,7 +68,6 @@ class Text:
                     current_page = ""
 
             current_page += line
-            rest = rest2
 
         current_page = current_page.strip()
         if len(current_page) + len(footer) > max_page_length:
