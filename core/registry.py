@@ -43,7 +43,7 @@ class Registry:
 
     @classmethod
     def get_instance(cls, name):
-        return cls._registry.get(name, None)
+        return cls._registry.get(name)
 
     @classmethod
     def get_all_instances(cls):

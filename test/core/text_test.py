@@ -3,7 +3,7 @@ import unittest
 from unittest.mock import Mock, MagicMock
 
 
-class TestTest(unittest.TestCase):
+class TextTest(unittest.TestCase):
 
     def test_get_next_line(self):
         msg = "hello this is a test\nthis is another test as well\nand a third\ntest also\nwhich is\nshort"
