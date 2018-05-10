@@ -4,23 +4,39 @@ class MMDBParser:
 
     def get_message_string(self, category_id, instance_id):
         with open(self.filename, "rb") as file:
-            category = self.find_entry(file, category_id, 8)
-            print(category)
-            instance = self.find_entry(file, instance_id, category["offset"])
-            print(instance)
-            file.seek(instance["offset"])
-            return self.read_string(file)
+            categories = self.get_categories(file)
 
-    def find_entry(self, file, entry_id, offset):
-        file.seek(offset)
-        previous_entry = None
+            try:
+                category = next(categories)
+                while category["id"] != category_id:
+                    category = next(categories)
+                next_category = next(categories)
+            except StopIteration:
+                return None
+
+            instance = self.find_entry(file, instance_id, category["offset"], next_category["offset"])
+
+            if instance:
+                file.seek(instance["offset"])
+                return self.read_string(file)
+            else:
+                return None
+
+    def find_entry(self, file, entry_id, min_offset, max_offset):
+        file.seek(min_offset)
         entry = self.read_entry(file)
-        while not previous_entry or previous_entry["id"] < entry["id"]:
+        while file.tell() < max_offset:
             if entry["id"] == entry_id:
                 return entry
             entry = self.read_entry(file)
 
         return None
+
+    def get_categories(self, file):
+        file.seek(4)
+        num_categories = self.read_int(file)
+        for i in range(0, num_categories):
+            yield self.read_entry(file)
 
     def read_entry(self, file):
         return {"id": self.read_int(file), "offset": self.read_int(file)}
