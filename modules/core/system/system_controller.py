@@ -24,7 +24,7 @@ class SystemController:
     @command(command="restart", params=[], access_level="superadmin",
              description="Restart the bot")
     def restart_cmd(self, channel, sender, reply, args):
-        reply("Restarting down the bot...")
+        reply("Restarting the bot...")
         self.bot.restart()
 
     @command(command="checkaccess", params=[Any("character", is_optional=True)], access_level="all",

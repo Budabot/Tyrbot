@@ -19,10 +19,8 @@ class Const(CommandParam):
         self.is_optional = is_optional
 
     def get_regex(self):
-        if self.is_optional:
-            return "( " + self.name + ")" + "?"
-        else:
-            return "( " + self.name + ")"
+        regex = "( " + self.name + ")"
+        return regex + ("?" if self.is_optional else "")
 
     def get_name(self):
         if self.is_optional:
@@ -38,10 +36,8 @@ class Int(CommandParam):
         self.is_optional = is_optional
 
     def get_regex(self):
-        if self.is_optional:
-            return "( [0-9]+)?"
-        else:
-            return "( [0-9]+)"
+        regex = "( [0-9]+)"
+        return regex + ("?" if self.is_optional else "")
 
     def get_name(self):
         if self.is_optional:
@@ -94,13 +90,27 @@ class Options(CommandParam):
 
     def get_regex(self):
         regex = "(" + "|".join(map(lambda x: " " + x, self.options)) + ")"
-        if self.is_optional:
-            return regex + "?"
-        else:
-            return regex
+        return regex + ("?" if self.is_optional else "")
 
     def get_name(self):
         if self.is_optional:
             return "[" + "|".join(self.options) + "]"
         else:
             return "|".join(self.options)
+
+
+class Time(CommandParam):
+    def __init__(self, name, is_optional=False):
+        super().__init__()
+        self.name = name
+        self.is_optional = is_optional
+
+    def get_regex(self):
+        regex = "( (([0-9]+)([a-z]+))+)"
+        return regex + ("?" if self.is_optional else "")
+
+    def get_name(self):
+        if self.is_optional:
+            return "<highlight>[%s]<end>" % self.name
+        else:
+            return "<highlight>%s<end>" % self.name
