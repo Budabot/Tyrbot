@@ -27,7 +27,6 @@ class CommandManager:
             re.compile("I only listen", re.IGNORECASE),
             re.compile("Error!", re.IGNORECASE),
             re.compile("Unknown command input", re.IGNORECASE),
-            re.compile("/tell", re.IGNORECASE),
             re.compile("You have been auto invited", re.IGNORECASE),
         ]
 
