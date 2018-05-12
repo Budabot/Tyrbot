@@ -39,7 +39,7 @@ try:
     if not bot.login(config.username, config.password, config.character):
         bot.disconnect()
         time.sleep(5)
-        exit(1)
+        exit(3)
     else:
         status = bot.run()
         bot.disconnect()
@@ -49,4 +49,4 @@ except KeyboardInterrupt:
 except Exception as e:
     logger = Logger("bootstrap")
     logger.error("", e)
-    exit(1)
+    exit(4)
