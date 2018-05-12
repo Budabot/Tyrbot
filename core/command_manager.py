@@ -98,7 +98,7 @@ class CommandManager:
 
         # save reference to command handler
         r = re.compile(self.get_regex_from_params(params), re.IGNORECASE)
-        self.handlers[command_key].append({"regex": r, "callback": handler, "help": help_text, "description": description})
+        self.handlers[command_key].append({"regex": r, "callback": handler, "help": help_text, "description": description, "params": params})
 
     def register_command_channel(self, label, value):
         if value in self.channels:
@@ -182,8 +182,15 @@ class CommandManager:
                 # add leading space to search string to normalize input for command params
                 matches = handler["regex"].search(command_args)
                 if matches:
-                    return row, self.format_matches(command_args, matches), handler
+                    m = self.format_matches(command_args, matches)
+                    return row, self.process_matches(m, handler["params"]), handler
         return None, None, None
+
+    def process_matches(self, matches, params):
+        processed = [matches.pop(0)]
+        for param in params:
+            processed.append(param.process_matches(matches))
+        return processed
 
     def format_matches(self, command_args, matches):
         # convert matches to list
