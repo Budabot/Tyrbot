@@ -5,7 +5,7 @@ import math
 
 @instance()
 class Util:
-    budatime_full_regex = re.compile("^(([0-9]+)([a-z]+))+$")
+    budatime_full_regex = re.compile("^([0-9]+[a-z]+)+$")
     budatime_unit_regex = re.compile("([0-9]+)([a-z]+)")
 
     def __init__(self):
