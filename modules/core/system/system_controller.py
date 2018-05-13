@@ -1,5 +1,6 @@
 from core.decorators import instance, command
 from core.command_param_types import Any
+from core.command_manager import CommandManager
 
 
 @instance()
@@ -18,13 +19,21 @@ class SystemController:
     @command(command="shutdown", params=[], access_level="superadmin",
              description="Shutdown the bot")
     def shutdown_cmd(self, channel, sender, reply, args):
-        reply("Shutting down the bot...")
+        msg = "The bot is shutting down..."
+        self.bot.send_org_message(msg)
+        self.bot.send_private_channel_message(msg)
+        if channel not in [CommandManager.ORG_CHANNEL, CommandManager.PRIVATE_CHANNEL]:
+            reply(msg)
         self.bot.shutdown()
 
     @command(command="restart", params=[], access_level="superadmin",
              description="Restart the bot")
     def restart_cmd(self, channel, sender, reply, args):
-        reply("Restarting the bot...")
+        msg = "The bot is restarting..."
+        self.bot.send_org_message(msg)
+        self.bot.send_private_channel_message(msg)
+        if channel not in [CommandManager.ORG_CHANNEL, CommandManager.PRIVATE_CHANNEL]:
+            reply(msg)
         self.bot.restart()
 
     @command(command="checkaccess", params=[Any("character", is_optional=True)], access_level="all",

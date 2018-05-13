@@ -15,6 +15,10 @@ import re
 
 @instance()
 class CommandManager:
+    PRIVATE_CHANNEL = "priv"
+    ORG_CHANNEL = "org"
+    PRIVATE_MESSAGE = "msg"
+
     def __init__(self):
         self.handlers = collections.defaultdict(list)
         self.logger = Logger("command_manager")
@@ -42,9 +46,9 @@ class CommandManager:
     def pre_start(self):
         self.bot.add_packet_handler(server_packets.PrivateMessage.id, self.handle_private_message)
         self.bot.add_packet_handler(server_packets.PrivateChannelMessage.id, self.handle_private_channel_message)
-        self.register_command_channel("Private Message", "msg")
-        self.register_command_channel("Org Channel", "org")
-        self.register_command_channel("Private Channel", "priv")
+        self.register_command_channel("Private Message", self.PRIVATE_MESSAGE)
+        self.register_command_channel("Org Channel", self.ORG_CHANNEL)
+        self.register_command_channel("Private Channel", self.PRIVATE_CHANNEL)
 
     def start(self):
         # process decorators
@@ -270,7 +274,7 @@ class CommandManager:
 
         self.process_command(
             command_str,
-            "msg",
+            self.PRIVATE_MESSAGE,
             packet.char_id,
             lambda msg: self.bot.send_private_message(packet.char_id, msg))
 
@@ -286,6 +290,6 @@ class CommandManager:
         if symbol == self.setting_manager.get("symbol").get_value() and packet.private_channel_id == self.bot.char_id:
             self.process_command(
                 command_str,
-                "priv",
+                self.PRIVATE_CHANNEL,
                 packet.char_id,
                 lambda msg: self.bot.send_private_channel_message(msg))
