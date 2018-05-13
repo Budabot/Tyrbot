@@ -106,11 +106,11 @@ class Regex(CommandParam):
 class Options(CommandParam):
     def __init__(self, options, is_optional=False):
         super().__init__()
-        self.options = list(map(lambda x: re.escape(x), options))
+        self.options = options
         self.is_optional = is_optional
 
     def get_regex(self):
-        regex = "(" + "|".join(map(lambda x: " " + x, self.options)) + ")"
+        regex = "(" + "|".join(map(lambda x: " " + re.escape(x), self.options)) + ")"
         return regex + ("?" if self.is_optional else "")
 
     def get_name(self):
