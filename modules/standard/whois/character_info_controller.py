@@ -66,4 +66,8 @@ class CharacterInfoController:
         return name
 
     def format_char_info(self, char_info):
-        return "<highlight>%s<end> (%d/<green>%d<end>) %s %s" % (char_info.name, char_info.level, char_info.ai_level, char_info.faction, char_info.profession)
+        if char_info.org_name and char_info.org_rank_name:
+            return "<highlight>%s<end> (%d/<green>%d<end>) %s %s, %s of %s" % \
+                   (char_info.name, char_info.level, char_info.ai_level, char_info.faction, char_info.profession, char_info.org_rank_name, char_info.org_name)
+        else:
+            return "<highlight>%s<end> (%d/<green>%d<end>) %s %s" % (char_info.name, char_info.level, char_info.ai_level, char_info.faction, char_info.profession)
