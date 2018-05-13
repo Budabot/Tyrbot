@@ -74,7 +74,7 @@ You can change it manually with the command:
 
 Or you can choose one of the following colors
 
-<font color='#FF0000'>Red</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #ff0000'>Save it</a>)
+<font color='#FF0000'>Red</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #FF0000'>Save it</a>)
 <font color='#FFFFFF'>White</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #FFFFFF'>Save it</a>)
 <font color='#808080'>Grey</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #808080'>Save it</a>)
 <font color='#DDDDDD'>Light Grey</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #DDDDDD'>Save it</a>)

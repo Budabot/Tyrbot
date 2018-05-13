@@ -38,7 +38,7 @@ class Logger:
         self.info("%s %s: %s" % (direction.capitalize(), sender, self.format_chat_message(msg)))
 
     def format_chat_message(self, msg):
-        msg = re.sub("<a\s+href=\".+?\">", "[link]", msg, 0, re.UNICODE | re.DOTALL)
+        msg = re.sub("<a\s+href=\".+?[^\\\\]\">", "[link]", msg, 0, re.UNICODE | re.DOTALL)
         msg = re.sub("<a\s+href='.+?'>", "[link]", msg, 0, re.UNICODE | re.DOTALL)
         msg = re.sub("<font\s+.+?>", "", msg, 0, re.UNICODE)
         msg = re.sub("</font>", "", msg, 0, re.UNICODE)

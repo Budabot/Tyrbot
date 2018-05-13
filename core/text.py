@@ -30,12 +30,11 @@ class Text:
     def paginate(self, label, msg, max_page_length, max_num_pages=None, footer=None):
         separators = iter(self.separators)
 
-        label = label.replace('"', "&quot;")
-        msg = "<header>" + label + "<end>\n\n" + msg.strip().replace('"', "&quot;")
+        msg = ("<header>" + label + "<end>\n\n" + msg.strip()).replace("\"", "\\\"")
         msg = self.format_message(msg)
 
         if footer:
-            footer = "\n\n" + self.format_message(footer.replace('"', "&quot;"))
+            footer = "\n\n" + self.format_message(footer.replace("\"", "\\\""))
         else:
             footer = ""
 
@@ -89,7 +88,7 @@ class Text:
         return list(map(mapper, zip(pages, range(1, num_pages + 1))))
 
     def format_page(self, label, msg):
-        return "<a href=\"text://" + msg + "\">" + label + "</a>"
+        return "<a href=\"text://%s\">%s</a>" % (msg, label)
 
     def get_next_line(self, msg, separator):
         result = msg.split(separator["symbol"], 1)
@@ -106,10 +105,10 @@ class Text:
 
     def format_message(self, msg):
         return msg\
-            .replace("<header>", "<font color='%s'>" % self.setting_manager.get("header_color").get_value()) \
-            .replace("<header2>", "<font color='%s'>" % self.setting_manager.get("header2_color").get_value()) \
-            .replace("<highlight>", "<font color='%s'>" % self.setting_manager.get("highlight_color").get_value()) \
-            .replace("<notice>", "<font color='%s'>" % self.setting_manager.get("notice_color").get_value()) \
+            .replace("<header>", self.setting_manager.get("header_color").get_font_color()) \
+            .replace("<header2>", self.setting_manager.get("header2_color").get_font_color()) \
+            .replace("<highlight>", self.setting_manager.get("highlight_color").get_font_color()) \
+            .replace("<notice>", self.setting_manager.get("notice_color").get_font_color()) \
             \
             .replace("<black>", "<font color='#000000'>") \
             .replace("<white>", "<font color='#FFFFFF'>") \
@@ -122,10 +121,10 @@ class Text:
             .replace("<cyan>", "<font color='#00FFFF'>") \
             .replace("<violet>", "<font color='#8F00FF'>") \
             \
-            .replace("<neutral>", "<font color='%s'>" % self.setting_manager.get("neutral_color").get_value()) \
-            .replace("<omni>", "<font color='%s'>" % self.setting_manager.get("omni_color").get_value()) \
-            .replace("<clan>", "<font color='%s'>" % self.setting_manager.get("clan_color").get_value()) \
-            .replace("<unknown>", "<font color='%s'>" % self.setting_manager.get("unknown_color").get_value()) \
+            .replace("<neutral>", self.setting_manager.get("neutral_color").get_font_color()) \
+            .replace("<omni>", self.setting_manager.get("omni_color").get_font_color()) \
+            .replace("<clan>", self.setting_manager.get("clan_color").get_font_color()) \
+            .replace("<unknown>", self.setting_manager.get("unknown_color").get_font_color()) \
             \
             .replace("<myname>", self.bot.char_name) \
             .replace("<myorg>", self.bot.org_name if self.bot.org_name else "Unknown Org") \

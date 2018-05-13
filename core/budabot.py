@@ -123,7 +123,7 @@ class Budabot(Bot):
 
     def iterate(self):
         packet = self.read_packet()
-        if packet is not None:
+        if packet:
             if isinstance(packet, server_packets.PrivateMessage):
                 self.handle_private_message(packet)
             elif isinstance(packet, server_packets.PublicChannelJoined):
