@@ -38,12 +38,12 @@ class OnlineController:
                     blob += "\n<highlight>%s<end>\n" % row.main
                     current_main = row.main
 
-                blob += " | <highlight>%s<end> (%d/<green>%d<end>) %s %s\n" % (row.name, row.level, row.ai_level, row.faction, row.profession)
+                blob += " | <highlight>%s<end> (%d/<green>%d<end>) %s %s\n" % (row.name, row.level or 0, row.ai_level or 0, row.faction, row.profession)
 
         reply(ChatBlob("Online (%d)" % count, blob))
 
     def get_online_characters(self, channel):
-        sql = "SELECT p1.*, o.afk, COALESCE(p2.name, p1.name) AS main FROM online o " \
+        sql = "SELECT p1.*, o.afk, COALESCE(p2.name, p1.name, o.char_id) AS main, IFNULL(p1.name, o.char_id) AS name FROM online o " \
               "LEFT JOIN alts a1 ON o.char_id = a1.char_id " \
               "LEFT JOIN player p1 ON o.char_id = p1.char_id " \
               "LEFT JOIN alts a2 ON a1.group_id = a2.group_id AND a2.status = ? " \

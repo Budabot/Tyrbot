@@ -18,13 +18,19 @@ class PorkManager:
         self.db = registry.get_instance("db")
         self.character_manager = registry.get_instance("character_manager")
 
+    def pre_start(self):
+        self.bot.add_packet_handler(server_packets.CharacterLookup.id, self.update)
+        self.bot.add_packet_handler(server_packets.CharacterName.id, self.update)
+
     def start(self):
         self.db.load_sql_file("player.sql", os.path.dirname(__file__))
 
     def get_character_info(self, char):
         # if we have entry in database and it is less than a day old, use that
         char_info = self.get_from_database(char)
-        if char_info and char_info.last_updated > (int(time.time()) - 86400):
+        if char_info.source == "chat_server":
+            char_info = None
+        elif char_info and char_info.last_updated > (int(time.time()) - 86400):
             char_info.source += " (cache)"
             return char_info
 
@@ -128,3 +134,20 @@ class PorkManager:
                                     "profession_title, ai_rank, ai_level, org_id, org_name, org_rank_name, org_rank_id, "
                                     "dimension, head_id, pvp_rating, pvp_title, source, last_updated "
                                     "FROM player WHERE char_id = ?", [char_id])
+
+    def update(self, packet):
+        character = self.get_from_database(packet.char_id)
+
+        if character:
+            if character.name != packet.name:
+                self.db.exec("UPDATE player SET name = ? WHERE char_id = ?", [packet.name, packet.char_id])
+        else:
+            insert_sql = """
+                INSERT INTO player ( char_id, name, first_name, last_name, level, breed, gender, faction, profession,
+                profession_title, ai_rank, ai_level, org_id, org_name, org_rank_name, org_rank_id, dimension, head_id,
+                pvp_rating, pvp_title, source, last_updated)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"""
+
+            self.db.exec(insert_sql, [packet.char_id, packet.name, "", "", 0, "", "",
+                                      "", "", "", "", 0, 0, "", "", 6, 5, 0, 0, "",
+                                      "chat_server", int(time.time())])
