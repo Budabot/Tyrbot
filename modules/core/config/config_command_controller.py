@@ -51,8 +51,8 @@ class ConfigCommandController:
              description="Change access_level for a command")
     def config_cmd_access_level_cmd(self, channel, sender, reply, args):
         cmd_name = args[2].lower()
-        cmd_channel = args[3].lower()
-        access_level = args[4].lower()
+        cmd_channel = args[4].lower()
+        access_level = args[5].lower()
         command_str, sub_command_str = self.command_manager.get_command_key_parts(cmd_name)
 
         if cmd_channel != "all" and not self.command_manager.is_command_channel(cmd_channel):
