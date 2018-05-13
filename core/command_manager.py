@@ -132,7 +132,7 @@ class CommandManager:
                 if matches:
                     if self.access_manager.check_access(char_id, cmd_config.access_level):
                         sender = MapObject({"name": self.character_manager.resolve_char_to_name(char_id), "char_id": char_id})
-                        handler["callback"](channel, sender, reply, matches)
+                        handler["callback"](channel, sender, reply, self.process_matches(matches, handler["params"]))
                     else:
                         self.access_denied_response(char_id, cmd_config, reply)
                 else:
@@ -186,8 +186,7 @@ class CommandManager:
                 # add leading space to search string to normalize input for command params
                 matches = handler["regex"].search(command_args)
                 if matches:
-                    m = self.format_matches(command_args, matches)
-                    return row, self.process_matches(m, handler["params"]), handler
+                    return row, self.format_matches(command_args, matches), handler
         return None, None, None
 
     def process_matches(self, matches, params):
