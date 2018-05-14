@@ -132,7 +132,7 @@ class CommandManager:
                 if matches:
                     if self.access_manager.check_access(char_id, cmd_config.access_level):
                         sender = MapObject({"name": self.character_manager.resolve_char_to_name(char_id), "char_id": char_id})
-                        handler["callback"](channel, sender, reply, self.process_matches(matches, handler["params"], command_args))
+                        handler["callback"](channel, sender, reply, self.process_matches(matches, handler["params"]))
                     else:
                         self.access_denied_response(char_id, cmd_config, reply)
                 else:
@@ -189,10 +189,10 @@ class CommandManager:
                     return row, matches, handler
         return None, None, None
 
-    def process_matches(self, matches, params, command_args):
+    def process_matches(self, matches, params):
         groups = list(matches.groups())
 
-        processed = [command_args]
+        processed = []
         for param in params:
             processed.append(param.process_matches(groups))
         return processed

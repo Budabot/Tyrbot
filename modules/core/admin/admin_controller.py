@@ -37,7 +37,7 @@ class AdminController:
     @command(command="admin", params=[Const("add"), Any("character")], access_level="superadmin",
              description="Add an admin", sub_command="modify")
     def admin_add_cmd(self, channel, sender, reply, args):
-        name = args[2].capitalize()
+        name = args[1].capitalize()
         char_id = self.character_manager.resolve_char_to_id(name)
 
         if not char_id:
@@ -52,7 +52,7 @@ class AdminController:
     @command(command="admin", params=[Options(["remove", "rem"]), Any("character")], access_level="superadmin",
              description="Remove an admin", sub_command="modify")
     def admin_remove_cmd(self, channel, sender, reply, args):
-        name = args[2].capitalize()
+        name = args[1].capitalize()
         char_id = self.character_manager.resolve_char_to_id(name)
 
         if not char_id:
@@ -67,7 +67,7 @@ class AdminController:
     @command(command="moderator", params=[Const("add"), Any("character")], access_level="superadmin",
              description="Add a moderator", sub_command="modify")
     def moderator_add_cmd(self, channel, sender, reply, args):
-        name = args[2].capitalize()
+        name = args[1].capitalize()
         char_id = self.character_manager.resolve_char_to_id(name)
 
         if not char_id:
@@ -82,7 +82,7 @@ class AdminController:
     @command(command="moderator", params=[Options(["remove", "rem"]), Any("character")], access_level="superadmin",
              description="Remove a moderator", sub_command="modify")
     def moderator_remove_cmd(self, channel, sender, reply, args):
-        name = args[2].capitalize()
+        name = args[1].capitalize()
         char_id = self.character_manager.resolve_char_to_id(name)
 
         if not char_id:

@@ -39,7 +39,7 @@ class SystemController:
     @command(command="checkaccess", params=[Any("character", is_optional=True)], access_level="all",
              description="Check access level for a character")
     def checkaccess_cmd(self, channel, sender, reply, args):
-        char_name = args[1].capitalize() if args[1] else sender.name
+        char_name = args[0].capitalize() if args[1] else sender.name
 
         access_level = self.access_manager.get_access_level(char_name)
         if access_level:
@@ -50,6 +50,6 @@ class SystemController:
     @command(command="macro", params=[Any("command 1|command 2|command 3 ...")], access_level="all",
              description="Execute multiple commands at once")
     def macro_cmd(self, channel, sender, reply, args):
-        commands = args[1].split("|")
+        commands = args[0].split("|")
         for command_str in commands:
             self.command_manager.process_command(command_str, channel, sender.char_id, reply)

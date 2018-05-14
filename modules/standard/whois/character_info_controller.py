@@ -19,7 +19,7 @@ class CharacterInfoController:
     @command(command="whois", params=[Any("character")], access_level="all",
              description="Get whois information for a character")
     def whois_cmd(self, channel, sender, reply, args):
-        char_name = args[1].capitalize()
+        char_name = args[0].capitalize()
         char_info = self.pork_manager.get_character_info(char_name)
         char_id = self.character_manager.resolve_char_to_id(char_name)
         if char_info:

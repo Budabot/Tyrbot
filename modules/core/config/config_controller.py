@@ -65,7 +65,7 @@ class ConfigController:
     @command(command="config", params=[Const("mod"), Any("module_name")], access_level="superadmin",
              description="Shows configuration options for a specific module")
     def config_module_list_cmd(self, channel, sender, reply, args):
-        module = args[2].lower()
+        module = args[1].lower()
 
         blob = ""
 
@@ -104,9 +104,9 @@ class ConfigController:
     @command(command="config", params=[Const("event"), Any("event_type"), Any("event_handler"), Options(["enable", "disable"])], access_level="superadmin",
              description="Enable or disable an event")
     def config_event_status_cmd(self, channel, sender, reply, args):
-        event_type = args[2].lower()
-        event_handler = args[3].lower()
-        action = args[4].lower()
+        event_type = args[1].lower()
+        event_handler = args[2].lower()
+        action = args[3].lower()
         event_base_type, event_sub_type = self.event_manager.get_event_type_parts(event_type)
         enabled = 1 if action == "enable" else 0
 
@@ -126,8 +126,8 @@ class ConfigController:
     @command(command="config", params=[Const("setting"), Any("setting_name"), Any("new_value")], access_level="superadmin",
              description="Sets new value for a setting")
     def config_setting_update_cmd(self, channel, sender, reply, args):
-        setting_name = args[2].lower()
-        new_value = args[3]
+        setting_name = args[1].lower()
+        new_value = args[2]
 
         setting = self.setting_manager.get(setting_name)
 
@@ -143,7 +143,7 @@ class ConfigController:
     @command(command="config", params=[Const("setting"), Any("setting_name")], access_level="superadmin",
              description="Shows configuration options for a setting")
     def config_setting_show_cmd(self, channel, sender, reply, args):
-        setting_name = args[2].lower()
+        setting_name = args[1].lower()
 
         blob = ""
 

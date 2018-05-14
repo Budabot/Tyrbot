@@ -17,8 +17,8 @@ class CharacterHistoryController:
     @command(command="history", params=[Any("character"), Int("server_num", is_optional=True)], access_level="all",
              description="Get history of character")
     def handle_history_cmd1(self, channel, sender, reply, args):
-        name = args[1].capitalize()
-        server_num = args[2] if args[2] else 5
+        name = args[0].capitalize()
+        server_num = args[1] if args[1] else 5
         reply(self.get_character_history(name, server_num))
 
     def get_character_history(self, name, server_num):

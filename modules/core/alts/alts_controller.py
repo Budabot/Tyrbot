@@ -37,7 +37,7 @@ class AltsController:
     @command(command="alts", params=[Const("add"), Any("character")], access_level="all",
              description="Add an alt")
     def alts_add_cmd(self, channel, sender, reply, args):
-        alt = args[2].capitalize()
+        alt = args[1].capitalize()
         alt_char_id = self.character_manager.resolve_char_to_id(alt)
 
         if not alt_char_id:
@@ -50,7 +50,7 @@ class AltsController:
     @command(command="alts", params=[Options(["rem", "remove"]), Any("character")], access_level="all",
              description="Remove an alt")
     def alts_remove_cmd(self, channel, sender, reply, args):
-        alt = args[2].capitalize()
+        alt = args[1].capitalize()
         alt_char_id = self.character_manager.resolve_char_to_id(alt)
 
         if not alt_char_id:
@@ -63,7 +63,7 @@ class AltsController:
     @command(command="alts", params=[Any("character")], access_level="all",
              description="Show alts of another character")
     def alts_list_other_cmd(self, channel, sender, reply, args):
-        name = args[1].capitalize()
+        name = args[0].capitalize()
         char_id = self.character_manager.resolve_char_to_id(name)
         if not char_id:
             reply("Could not find character <highlight>%s<end>." % name)

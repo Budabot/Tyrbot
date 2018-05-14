@@ -28,8 +28,8 @@ class AliasController:
     @command(command="alias", params=[Const("add"), Any("alias"), Any("command")], access_level="superadmin",
              description="Add a command alias", sub_command="modify")
     def alias_add_cmd(self, channel, sender, reply, args):
-        alias = args[2]
-        command = args[3]
+        alias = args[1]
+        command = args[2]
         if self.command_alias_manager.add_alias(alias, command):
             reply("Alias <highlight>%s<end> for command <highlight>%s<end> added successfully." % (alias, command))
         else:
@@ -38,7 +38,7 @@ class AliasController:
     @command(command="alias", params=[Options(["rem", "remove"]), Any("alias")], access_level="superadmin",
              description="Remove a command alias", sub_command="modify")
     def alias_remove_cmd(self, channel, sender, reply, args):
-        alias = args[2]
+        alias = args[1]
         if self.command_alias_manager.remove_alias(alias):
             reply("Alias <highlight>%s<end> has been removed successfully." % alias)
         else:

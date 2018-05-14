@@ -17,5 +17,5 @@ class RecipeController:
     @command(command="recipe", params=[Item("item", is_optional=True)], access_level="all",
              description="Search for a recipe")
     def recipe_cmd(self, channel, sender, reply, args):
-        item = args[1]
+        item = args[0]
         reply("Search results for <highlight>%s<end>" % item.name)

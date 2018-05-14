@@ -51,7 +51,7 @@ class HelpController:
     @command(command="help", params=[Any("command")], access_level="all",
              description="Show help for a specific command")
     def help_detail_cmd(self, channel, sender, reply, args):
-        help_topic = args[1].lower()
+        help_topic = args[0].lower()
 
         # check for alias
         alias = self.command_alias_manager.check_for_alias(help_topic)

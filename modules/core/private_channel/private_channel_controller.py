@@ -26,7 +26,7 @@ class PrivateChannelController:
     @command(command="invite", params=[Any("character")], access_level="all",
              description="Invite a character to the private channel")
     def invite_cmd(self, channel, sender, reply, args):
-        char = args[1].capitalize()
+        char = args[0].capitalize()
         char_id = self.character_manager.resolve_char_to_id(char)
         if sender.char_id == char_id:
             self.private_channel_manager.invite(sender.char_id)
