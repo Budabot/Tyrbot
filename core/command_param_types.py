@@ -21,7 +21,7 @@ class Const(CommandParam):
         self.is_optional = is_optional
 
     def get_regex(self):
-        regex = "( " + self.name + ")"
+        regex = "(\s+" + self.name + ")"
         return regex + ("?" if self.is_optional else "")
 
     def get_name(self):
@@ -45,7 +45,7 @@ class Int(CommandParam):
         self.is_optional = is_optional
 
     def get_regex(self):
-        regex = "( [0-9]+)"
+        regex = "(\s+[0-9]+)"
         return regex + ("?" if self.is_optional else "")
 
     def get_name(self):
@@ -69,10 +69,8 @@ class Any(CommandParam):
         self.is_optional = is_optional
 
     def get_regex(self):
-        if self.is_optional:
-            return "( .+?)?"
-        else:
-            return "( .+?)"
+        regex = "(\s+.+?)"
+        return regex + ("?" if self.is_optional else "")
 
     def get_name(self):
         if self.is_optional:
@@ -119,7 +117,7 @@ class Options(CommandParam):
         self.is_optional = is_optional
 
     def get_regex(self):
-        regex = "(" + "|".join(map(lambda x: " " + re.escape(x), self.options)) + ")"
+        regex = "(" + "|".join(map(lambda x: "\s+" + re.escape(x), self.options)) + ")"
         return regex + ("?" if self.is_optional else "")
 
     def get_name(self):
@@ -143,7 +141,7 @@ class Time(CommandParam):
         self.is_optional = is_optional
 
     def get_regex(self):
-        regex = "( (([0-9]+)([a-z]+))+)"
+        regex = "(\s+(([0-9]+)([a-z]+))+)"
         return regex + ("?" if self.is_optional else "")
 
     def get_name(self):
@@ -172,7 +170,7 @@ class Item(CommandParam):
         self.is_optional = is_optional
 
     def get_regex(self):
-        regex = """( <a href="itemref:\/\/(\d+)\/(\d+)\/(\d+)">(.+)<\/a>)"""
+        regex = """(\s+<a href="itemref:\/\/(\d+)\/(\d+)\/(\d+)">(.+)<\/a>)"""
         return regex + ("?" if self.is_optional else "")
 
     def get_name(self):
