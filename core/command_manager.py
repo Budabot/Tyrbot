@@ -132,7 +132,7 @@ class CommandManager:
                 if matches:
                     if self.access_manager.check_access(char_id, cmd_config.access_level):
                         sender = MapObject({"name": self.character_manager.resolve_char_to_name(char_id), "char_id": char_id})
-                        handler["callback"](channel, sender, reply, self.process_matches(matches, handler["params"]))
+                        handler["callback"](channel, sender, reply, self.process_matches(matches, handler["params"], command_args))
                     else:
                         self.access_denied_response(char_id, cmd_config, reply)
                 else:
@@ -186,22 +186,16 @@ class CommandManager:
                 # add leading space to search string to normalize input for command params
                 matches = handler["regex"].search(command_args)
                 if matches:
-                    return row, self.format_matches(command_args, matches), handler
+                    return row, matches, handler
         return None, None, None
 
-    def process_matches(self, matches, params):
-        processed = [matches.pop(0)]
+    def process_matches(self, matches, params, command_args):
+        groups = list(matches.groups())
+
+        processed = [command_args]
         for param in params:
-            processed.append(param.process_matches(matches))
+            processed.append(param.process_matches(groups))
         return processed
-
-    def format_matches(self, command_args, matches):
-        # convert matches to list
-        m = list(matches.groups())
-        m.insert(0, command_args)
-
-        # strip leading spaces for each group, if they group exists
-        return list(map(lambda x: x[1:] if x else x, m))
 
     def get_help_text(self, char, command_str, channel):
         data = self.db.query("SELECT command, sub_command, access_level FROM command_config "
