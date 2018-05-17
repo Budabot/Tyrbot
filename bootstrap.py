@@ -2,7 +2,6 @@ from core.registry import Registry
 from core import config_creator
 from core.map_object import MapObject
 from core.logger import Logger
-from core.aochat.mmdb_parser import MMDBParser
 import logging
 import sys
 import json
@@ -11,9 +10,7 @@ import os
 
 
 try:
-    mmdb = MMDBParser("text.mdb")
-
-    Logger.add_logger(logging.handlers.RotatingFileHandler("./logs/bot.log", maxBytes=5 * 1024 * 1024 * 1024, backupCount=1000))
+    Logger.add_logger(logging.handlers.RotatingFileHandler("./logs/bot.log", maxBytes=5 * 1024 * 1024 * 1024, backupCount=1000, encoding="utf-8"))
     Logger.add_logger(logging.StreamHandler(sys.stdout))
     Registry.logger = Logger("registry")
 
