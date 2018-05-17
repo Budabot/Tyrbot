@@ -27,7 +27,7 @@ class DB:
 
     def connect_mysql(self, host, username, password, database_name):
         self.type = self.MYSQL
-        self.conn = mysql.connector.connect(user=username, password=password, host=host, database=database_name)
+        self.conn = mysql.connector.connect(user=username, password=password, host=host, database=database_name, charset='utf8')
         self.create_db_version_table()
 
     def connect_sqlite(self, name):
