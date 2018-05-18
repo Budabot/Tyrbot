@@ -99,7 +99,7 @@ class MMDBParser:
                 args.append(param_str[2:2 + size])
                 param_str = param_str[2 + size:]
             elif data_type == "s":
-                size = ord(param_str[0])
+                size = ord(param_str[0]) - 1  # size is 1 less than indicated
                 args.append(param_str[1:1 + size])
                 param_str = param_str[1 + size:]
             elif data_type == "I":
@@ -124,8 +124,6 @@ class MMDBParser:
                     raise Exception("Could not find message string for category '%s' and instance '%s'" % (category_id, instance_id))
                 args.append(message)
                 param_str = param_str[5:]
-            elif data_type == "~":
-                break
             else:
                 raise Exception("Unknown argument type '%s'" % data_type)
 
