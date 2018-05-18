@@ -9,32 +9,35 @@ class Util:
     budatime_unit_regex = re.compile("([0-9]+)([a-z]+)")
 
     def __init__(self):
+        self.abilities = [
+            "Agility",
+            "Intelligence",
+            "Psychic",
+            "Stamina",
+            "Strength",
+            "Sense"
+        ]
+
         self.time_units = [
             {
                 "units": ["yr", "years", "year", "y"],
                 "conversion_factor": 31536000
-            },
-            {
+            }, {
                 "units": ["month", "months", "mo"],
                 "conversion_factor": 2592000
-            },
-            {
+            }, {
                 "units": ["week", "weeks", "w"],
                 "conversion_factor": 604800
-            },
-            {
+            }, {
                 "units": ["day", "days", "d"],
                 "conversion_factor": 86400
-            },
-            {
+            }, {
                 "units": ["hr", "hours", "hour", "hrs", "h"],
                 "conversion_factor": 3600
-            },
-            {
+            }, {
                 "units": ["min", "mins", "m"],
                 "conversion_factor": 60
-            },
-            {
+            }, {
                 "units": ["sec", "secs", "s"],
                 "conversion_factor": 1
             }
@@ -113,3 +116,10 @@ class Util:
                 break
 
         return ("-" if is_negative else "") + time_shift.strip()
+
+    def get_ability(self, ability_str):
+        ability_str = ability_str.capitalize()
+        for ability in self.abilities:
+            if ability.startswith(ability_str):
+                return ability
+        return None

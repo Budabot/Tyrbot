@@ -25,3 +25,13 @@ class UtilTest(unittest.TestCase):
         self.assertEqual(util.parse_time("10s1m"), 70)
         self.assertEqual(util.parse_time("10s1m"), 70)
         self.assertEqual(util.parse_time("1s3hr2d1m"), 183661)
+
+    def test_get_ability(self):
+        util = Util()
+        self.assertEqual("Agility", util.get_ability("Agility"))
+        self.assertEqual("Agility", util.get_ability("Agil"))
+        self.assertEqual("Agility", util.get_ability("A"))
+        self.assertEqual("Agility", util.get_ability("a"))
+        self.assertEqual("Agility", util.get_ability("agility"))
+        self.assertEqual(None, util.get_ability("agilityy"))
+        self.assertEqual(None, util.get_ability("agilb"))
