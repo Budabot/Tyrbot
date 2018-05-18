@@ -15,8 +15,8 @@ import os
 import time
 
 
-@instance()
-class Budabot(Bot):
+@instance("bot")
+class Tyrbot(Bot):
     def __init__(self):
         super().__init__()
         self.ready = False

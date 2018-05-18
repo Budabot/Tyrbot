@@ -2,6 +2,7 @@ from core.registry import Registry
 from core import config_creator
 from core.map_object import MapObject
 from core.logger import Logger
+from core.aochat.mmdb_parser import MMDBParser
 import logging
 import sys
 import json
@@ -15,7 +16,7 @@ try:
     Registry.logger = Logger("registry")
 
     logger = Logger("bootstrap")
-    logger.info("Starting Budabot...")
+    logger.info("Starting Tyrbot...")
     config_file = "./conf/config.json"
 
     if not os.path.exists(config_file):
@@ -27,9 +28,10 @@ try:
 
     logger.debug("Loading instances")
     Registry.load_instances(["core", os.path.join("modules", "core"), os.path.join("modules", "standard"), os.path.join("modules", "custom")])
+    Registry.add_instance("mmdb_parser", MMDBParser("text.mdb"))
     Registry.inject_all()
 
-    bot = Registry.get_instance("budabot")
+    bot = Registry.get_instance("bot")
     bot.init(config, Registry)
     bot.connect(config.server.host, config.server.port)
 

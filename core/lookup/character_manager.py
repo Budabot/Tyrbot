@@ -13,7 +13,7 @@ class CharacterManager:
         self.id_to_name = {}
 
     def inject(self, registry):
-        self.bot = registry.get_instance("budabot")
+        self.bot = registry.get_instance("bot")
         self.db = registry.get_instance("db")
 
     def pre_start(self):

@@ -9,7 +9,7 @@ class SystemController:
         pass
 
     def inject(self, registry):
-        self.bot = registry.get_instance("budabot")
+        self.bot = registry.get_instance("bot")
         self.access_manager = registry.get_instance("access_manager")
         self.command_manager = registry.get_instance("command_manager")
 

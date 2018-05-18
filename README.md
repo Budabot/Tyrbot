@@ -1,4 +1,4 @@
-# Budabot (Python rewrite)
+# Tyrbot
 
 This is a rewrite of the original [Budabot](https://github.com/Budabot/Budabot) in Python3.  
 

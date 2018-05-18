@@ -9,7 +9,7 @@ class PrivateChannelController:
         pass
 
     def inject(self, registry):
-        self.bot = registry.get_instance("budabot")
+        self.bot = registry.get_instance("bot")
         self.private_channel_manager = registry.get_instance("private_channel_manager")
         self.character_manager = registry.get_instance("character_manager")
 

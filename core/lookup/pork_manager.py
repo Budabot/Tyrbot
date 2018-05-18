@@ -14,7 +14,7 @@ class PorkManager:
         self.logger = Logger("pork_manager")
 
     def inject(self, registry):
-        self.bot = registry.get_instance("budabot")
+        self.bot = registry.get_instance("bot")
         self.db = registry.get_instance("db")
         self.character_manager = registry.get_instance("character_manager")
 

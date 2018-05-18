@@ -11,7 +11,7 @@ class Text:
 
     def inject(self, registry):
         self.setting_manager: SettingManager = registry.get_instance("setting_manager")
-        self.bot = registry.get_instance("budabot")
+        self.bot = registry.get_instance("bot")
 
     def make_chatcmd(self, name, msg, style=""):
         msg = msg.strip()

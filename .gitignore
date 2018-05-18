@@ -2,6 +2,6 @@
 __pycache__
 /.idea
 /conf/config.json
-/data/budabot.db
+/data/database.db
 /modules/custom
 /logs/

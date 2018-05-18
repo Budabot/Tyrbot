@@ -12,7 +12,7 @@ class Bot:
         self.socket = None
         self.char_id = None
         self.char_name = None
-        self.logger = Logger("Budabot")
+        self.logger = Logger("aochat")
 
     def connect(self, host, port):
         self.logger.info("Connecting to %s:%d" % (host, port))

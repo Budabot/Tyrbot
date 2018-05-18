@@ -5,7 +5,7 @@ from core.lookup.character_manager import CharacterManager
 from core.setting_manager import SettingManager
 from core.registry import Registry
 from core.logger import Logger
-from core.budabot import Budabot
+from core.tyrbot import Tyrbot
 from core.chat_blob import ChatBlob
 from core.map_object import MapObject
 from __init__ import flatmap, get_attrs
@@ -38,7 +38,7 @@ class CommandManager:
         self.db = registry.get_instance("db")
         self.util = registry.get_instance("util")
         self.access_manager: AccessManager = registry.get_instance("access_manager")
-        self.bot: Budabot = registry.get_instance("budabot")
+        self.bot: Tyrbot = registry.get_instance("bot")
         self.character_manager: CharacterManager = registry.get_instance("character_manager")
         self.setting_manager: SettingManager = registry.get_instance("setting_manager")
         self.command_alias_manager = registry.get_instance("command_alias_manager")

@@ -12,7 +12,7 @@ def create_new_cfg(config_file):
                   "username": validate_input("Database username"),
                   "password": validate_input("Database password"),
                   "host": validate_input("Database host", "localhost"),
-                  "name": validate_input("Database name", "budabot.db")
+                  "name": validate_input("Database name", "database.db")
               },
               "server": {
                   "host": validate_input("Server Host", "chat.d1.funcom.com"),

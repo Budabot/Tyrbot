@@ -10,7 +10,7 @@ class PublicChannelManager:
         self.org_channel_id = None
 
     def inject(self, registry):
-        self.bot = registry.get_instance("budabot")
+        self.bot = registry.get_instance("bot")
 
     def pre_start(self):
         self.bot.add_packet_handler(server_packets.PublicChannelJoined.id, self.add)

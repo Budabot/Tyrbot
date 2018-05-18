@@ -8,7 +8,7 @@
     "username": "",
     "password": "",
     "host": "",
-    "name": "budabot.db"
+    "name": "database.db"
   },
   "server": {
     "host": "chat.d1.funcom.com",

@@ -17,7 +17,7 @@ class MemberController:
         self.character_manager = registry.get_instance("character_manager")
         self.private_channel_manager = registry.get_instance("private_channel_manager")
         self.buddy_manager = registry.get_instance("buddy_manager")
-        self.bot = registry.get_instance("budabot")
+        self.bot = registry.get_instance("bot")
         self.access_manager = registry.get_instance("access_manager")
 
     def pre_start(self):

@@ -10,7 +10,7 @@ class AdminController:
         pass
 
     def inject(self, registry):
-        self.bot = registry.get_instance("budabot")
+        self.bot = registry.get_instance("bot")
         self.admin_manager = registry.get_instance("admin_manager")
         self.character_manager = registry.get_instance("character_manager")
         self.pork_manager = registry.get_instance("pork_manager")
