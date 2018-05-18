@@ -123,3 +123,6 @@ class Util:
             if ability.startswith(ability_str):
                 return ability
         return None
+
+    def get_all_abilities(self):
+        return self.abilities.copy()
