@@ -28,11 +28,10 @@ class TowerController:
         self.db.load_sql_file("tower_site.sql", os.path.dirname(__file__))
 
     def handle_public_channel_message(self, packet: server_packets.PublicChannelMessage):
-        print(packet)
         if packet.channel_id == self.TOWER_BATTLE_OUTCOME_ID:
-            print("tower battle outcome")
+            print("tower battle outcome", packet)
         elif packet.channel_id == self.ALL_TOWERS_ID:
-            print("tower attack")
+            print("tower attack", packet)
             msg = packet.message
             if msg.startswith("~&") and msg.endswith("~"):
                 msg = msg[1:-2]
