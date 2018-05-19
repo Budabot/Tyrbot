@@ -53,7 +53,7 @@ class MMDBParser:
     def find_entry(self, file, entry_id, min_offset, max_offset):
         file.seek(min_offset)
         entry = self.read_entry(file)
-        while file.tell() < max_offset:
+        while file.tell() <= max_offset:
             if entry["id"] == entry_id:
                 return entry
             entry = self.read_entry(file)
