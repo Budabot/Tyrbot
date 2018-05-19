@@ -40,6 +40,7 @@ class Tyrbot(Bot):
         self.command_manager = registry.get_instance("command_manager")
         self.event_manager = registry.get_instance("event_manager")
         self.job_scheduler = registry.get_instance("job_scheduler")
+        self.mmdb = registry.get_instance("mmdb_parser")
 
     def init(self, config, registry):
         self.superadmin = config.superadmin.capitalize()
@@ -132,6 +133,12 @@ class Tyrbot(Bot):
                     self.org_id = 0x00ffffffff & packet.channel_id
                     if packet.name != "Clan (name unknown)":
                         self.org_name = packet.name
+            elif isinstance(packet, server_packets.SystemMessage):
+                category_id = 20000
+                instance_id = packet.message_id
+                template = self.mmdb.get_message_string(category_id, instance_id)
+                params = self.mmdb.parse_params(packet.message_args)
+                self.logger.info(template % tuple(params))
 
             for handler in self.packet_handlers.get(packet.id, []):
                 handler(packet)
