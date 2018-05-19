@@ -27,8 +27,9 @@ class HelpController:
         current_group = ""
         current_module = ""
         current_command = ""
+        access_level = self.access_manager.get_access_level(sender.char_id)
         for row in data:
-            if not self.access_manager.check_access(sender.char_id, row.access_level):
+            if access_level["level"] > self.access_manager.get_access_level_by_label(row.access_level)["level"]:
                 continue
 
             parts = row.module.split(".")

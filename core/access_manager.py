@@ -56,8 +56,9 @@ class AccessManager:
         return None
 
     def get_access_level_by_label(self, label):
+        label = label.lower()
         for access_level in self.access_levels:
-            if access_level["label"] == label.lower():
+            if access_level["label"] == label:
                 return access_level
         return None
 
