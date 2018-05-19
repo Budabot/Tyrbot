@@ -118,7 +118,7 @@ class MMDBParser:
                 param_str = param_str[10:]
             elif data_type == "l":
                 category_id = 20000
-                instance_id = struct.unpack(">I", param_str[:4])[0]
+                instance_id = struct.unpack(">I", param_str[:4].encode("latin-1"))[0]
                 message = self.get_message_string(category_id, instance_id)
                 if not message:
                     raise Exception("Could not find message string for category '%s' and instance '%s'" % (category_id, instance_id))
