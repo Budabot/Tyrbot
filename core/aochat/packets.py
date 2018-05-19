@@ -18,7 +18,7 @@ def decode_args(types, data):
 
         elif argtype == "S":
             length = struct.unpack(">H", data[:2])[0]
-            result = data[2:2 + length].decode('utf-8')
+            result = data[2:2 + length].decode('latin-1')
             data = data[2 + length:]
 
         elif argtype == "G":
@@ -40,7 +40,7 @@ def decode_args(types, data):
             result = []
             while length:
                 slength = struct.unpack(">H", data[:2])[0]
-                result.append(data[2:2 + slength].decode('utf-8'))
+                result.append(data[2:2 + slength].decode('latin-1'))
                 data = data[2 + slength:]
                 length -= 1
 
