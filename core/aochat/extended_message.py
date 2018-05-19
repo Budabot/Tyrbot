@@ -6,4 +6,4 @@ class ExtendedMessage:
         self.params = params
 
     def get_message(self):
-        return self.template % self.params
+        return self.template % tuple(self.params)

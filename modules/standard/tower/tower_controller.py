@@ -1,9 +1,11 @@
+from core.decorators import instance
 from core.logger import Logger
 from core.aochat import server_packets
 from core.aochat.extended_message import ExtendedMessage
 import os
 
 
+@instance()
 class TowerController:
     TOWER_BATTLE_OUTCOME_ID = 42949672962
     ALL_TOWERS_ID = 1
@@ -40,6 +42,7 @@ class TowerController:
                 params = self.mmdb.parse_params(msg[10:])
                 extended_message = ExtendedMessage(category_id, instance_id, template, params)
                 print(extended_message)
+                print(extended_message.get_message())
                 self.event_manager.fire_event("tower_attack", extended_message)
             else:
                 raise Exception("Tower message not an extended message")
