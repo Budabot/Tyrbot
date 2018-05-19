@@ -22,13 +22,13 @@ class PublicChannelManager:
     def get_channel_name(self, channel_id):
         return self.id_to_name[channel_id]
 
-    def add(self, packet):
+    def add(self, packet: server_packets.PublicChannelJoined):
         self.id_to_name[packet.channel_id] = packet.name
         self.name_to_id[packet.name] = packet.channel_id
         if packet.channel_id >> 32 == 3:
             self.org_channel_id = packet.channel_id
 
-    def remove(self, packet):
+    def remove(self, packet: server_packets.PublicChannelLeft):
         channel_name = self.get_channel_name(packet.channel_id)
         del self.id_to_name[packet.channel_id]
         del self.name_to_id[channel_name]

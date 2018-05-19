@@ -1,5 +1,5 @@
 remove timer_event table and store next_run in meta_data column of event_config
-handle extended messages
+handle extended messages - tower module
 log character joined and character left private channel messages
 
 ADMIN
