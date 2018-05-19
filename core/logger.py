@@ -32,7 +32,10 @@ class Logger:
         self.logger.debug(self.format_message(msg, obj))
 
     def log_chat(self, channel, sender, msg):
-        self.info("[%s] %s: %s" % (channel, sender, self.format_chat_message(msg)))
+        if sender:
+            self.info("[%s] %s: %s" % (channel, sender, self.format_chat_message(msg)))
+        else:
+            self.info("[%s] %s" % (channel, self.format_chat_message(msg)))
 
     def log_tell(self, direction, sender, msg):
         self.info("%s %s: %s" % (direction.capitalize(), sender, self.format_chat_message(msg)))
