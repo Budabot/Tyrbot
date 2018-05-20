@@ -138,7 +138,7 @@ class Tyrbot(Bot):
                 instance_id = packet.message_id
                 template = self.mmdb.get_message_string(category_id, instance_id)
                 params = self.mmdb.parse_params(packet.message_args)
-                self.logger.info(template % tuple(params))
+                self.logger.log_chat("SystemMessage", None, template % tuple(params))
 
             for handler in self.packet_handlers.get(packet.id, []):
                 handler(packet)
