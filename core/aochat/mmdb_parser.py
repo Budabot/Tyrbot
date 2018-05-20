@@ -103,7 +103,7 @@ class MMDBParser:
                 args.append(param_str[1:1 + size])
                 param_str = param_str[1 + size:]
             elif data_type == "I":
-                args.append(struct.unpack(">I", param_str[:4])[0])
+                args.append(struct.unpack(">I", param_str[:4].encode("latin-1"))[0])
                 param_str = param_str[4:]
             elif data_type == "i" or data_type == "u":
                 args.append(self.read_base_85(param_str[:5]))
