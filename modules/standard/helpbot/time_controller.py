@@ -3,6 +3,7 @@ from core.chat_blob import ChatBlob
 from core.command_param_types import Any
 from datetime import datetime
 import pytz
+import time
 
 
 @instance()
@@ -13,7 +14,7 @@ class TimeController:
     @command(command="time", params=[], access_level="all",
              description="Show the current time in every timezone")
     def time_cmd(self, channel, sender, reply, args):
-        blob = ""
+        blob = "Unixtime => %d\n\n" % int(time.time())
         current_region = ""
         dt = datetime.now()
         for tz in pytz.common_timezones:
