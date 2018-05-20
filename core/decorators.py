@@ -11,9 +11,9 @@ def parametrized(dec):
 
 
 @parametrized
-def instance(cls, name=None):
+def instance(cls, name=None, override=False):
     instance_name = name if name else cls.__name__
-    Registry.add_instance(instance_name, cls())
+    Registry.add_instance(instance_name, cls(), override)
     return cls
 
 

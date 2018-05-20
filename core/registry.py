@@ -50,10 +50,10 @@ class Registry:
         return cls._registry
 
     @classmethod
-    def add_instance(cls, name, inst):
+    def add_instance(cls, name, inst, override=False):
         name = cls.format_name(name)
-        if name in cls._registry:
-            cls.logger.warning("Overriding '%s' with new instance" % name)
+        if not override and name in cls._registry:
+            raise Exception("Overriding '%s' with new instance" % name)
         cls._registry[name] = inst
 
     @classmethod
