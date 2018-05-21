@@ -55,13 +55,13 @@ class CommandManager:
         for _, inst in Registry.get_all_instances().items():
             for name, method in get_attrs(inst).items():
                 if hasattr(method, "command"):
-                    cmd_name, params, access_level, description, help_file, sub_command = getattr(method, "command")
+                    cmd_name, params, access_level, description, help_file, sub_command, extended_description = getattr(method, "command")
                     handler = getattr(inst, name)
                     module = self.util.get_module_name(handler)
                     help_text = self.get_help_file(module, help_file)
-                    self.register(handler, cmd_name, params, access_level, description, module, help_text, sub_command)
+                    self.register(handler, cmd_name, params, access_level, description, module, help_text, sub_command, extended_description)
 
-    def register(self, handler, command, params, access_level, description, module, help_text=None, sub_command=None):
+    def register(self, handler, command, params, access_level, description, module, help_text=None, sub_command=None, extended_description=None):
         command = command.lower()
         if sub_command:
             sub_command = sub_command.lower()
@@ -72,7 +72,7 @@ class CommandManager:
         command_key = self.get_command_key(command, sub_command)
 
         if help_text is None:
-            help_text = self.generate_help(command, description, params)
+            help_text = self.generate_help(command, description, params, extended_description)
 
         if not self.access_manager.get_access_level_by_label(access_level):
             self.logger.error("Could not add command '%s': could not find access level '%s'" % (command, access_level))
@@ -243,8 +243,12 @@ class CommandManager:
         # when no params are specified (eg. "^$")
         return "^" + "".join(map(lambda x: x.get_regex(), params)) + "$"
 
-    def generate_help(self, command, description, params):
-        return description + ":\n" + "<tab><symbol>" + command + " " + " ".join(map(lambda x: x.get_name(), params))
+    def generate_help(self, command, description, params, extended_description=None):
+        help_text = description + ":\n" + "<tab><symbol>" + command + " " + " ".join(map(lambda x: x.get_name(), params))
+        if extended_description:
+            help_text += "\n" + extended_description
+
+        return help_text
 
     def get_handlers(self, command_key):
         return self.handlers.get(command_key, None)
