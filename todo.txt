@@ -28,7 +28,7 @@ FUN
 GIT
 GUIDE
 GUILD
-HELPBOT
+HELPBOT - !time and !calc are done
 IMPLANT
 ITEMS
 LEVEL
@@ -51,7 +51,7 @@ TIMERS
 TOWER
 TRACKER
 TRICKLE - done
-VOTE
+VOTE - renamed to poll
 WEATHER - ignore
 WHEREIS - done
 WHOIS
