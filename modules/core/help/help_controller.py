@@ -22,6 +22,7 @@ class HelpController:
              description="Show a list of commands to get help with")
     def help_list_cmd(self, channel, sender, reply, args):
         data = self.db.query("SELECT command, module, access_level FROM command_config "
+                             "WHERE enabled = 1 "
                              "ORDER BY module ASC, command ASC")
         blob = ""
         current_group = ""
