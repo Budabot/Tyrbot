@@ -1,0 +1,15 @@
+<header> :::::: Guide to The AO Professions  :::::: <end>
+
+Note: Not all professions have a guide at this time
+
+<a href='chatcmd:///tell <myname> guides adventurer>Guide to Adventurers</a>
+<a href='chatcmd:///tell <myname> guides agent>Guide to Agents</a>
+<a href='chatcmd:///tell <myname> guides bureaucrat>Guide to Bureaucrats</a>
+<a href='chatcmd:///tell <myname> guides doctor>Guide to Doctors</a>
+<a href='chatcmd:///tell <myname> guides enforcer>Guide to Enforcers</a>
+<a href='chatcmd:///tell <myname> guides engineer>Guide to Engineers</a>
+<a href='chatcmd:///tell <myname> guides fixer>Guide to Fixers</a>
+<a href='chatcmd:///tell <myname> guides metaphysicist>Guide to Meta Physicists</a>
+<a href='chatcmd:///tell <myname> guides nanotech>Guide to Nanotechs</a>
+<a href='chatcmd:///tell <myname> guides soldier>Guide to Soldiers</a>
+<a href='chatcmd:///tell <myname> guides trader>Guide to Traders</a>

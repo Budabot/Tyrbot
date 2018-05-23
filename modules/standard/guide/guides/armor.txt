@@ -1,0 +1,149 @@
+<header> :::::: Armor Information :::::: <end>
+
+Information on Armor by stats and type
+
+<pagebreak><header2>-= Agility - Stamina Armor =-<end>
+
+ Top Tier
+   <font color = yellow>* Omni Carbonum Plate</font> <QL1-200> Omni Only. Weak vs. Ener, Rad. Bonus to NCU, Nano Init, Max Nano, Max Health. Craftable, Market Price is 1m + 10k per QL.
+   <font color = yellow>* Storm Carbonum Plate</font> <QL1-200> Clan Only. Weak vs. Ener, Rad. Bonus to NCU, Nano Init, Max Nano, Nano Resist. Craftable, Market Price is 1m + 10k per QL.
+   <font color = yellow>* Carbonum Plate</font> <QL1-200> Weak vs. Ener, Rad. Bonus to NCU, Nano Init, Max Nano. Craftable, Market Price is 10k per QL for a full suit at QLs 1-90.
+
+<pagebreak><header2>-= Agility - Strength Armor =-<end>
+   
+ Top Tier
+   <font color = yellow>* Servants of Eight</font> <QL10-200> Level Locked. Weak vs. Rad. Many Bonuses. Boss Loot.
+   <font color = yellow>* Flowers Tech</font> <QL75-200> Weak vs. Pois. Avail in Mission/Loot.
+   <font color = yellow>* Primus Decus</font> <QL30-200> Weak vs. Rad. Avail in Mission/Loot.
+
+ Other Armors
+   <font color = yellow>* Secundus Decus</font> <QL20-200> Weak vs. Chem, Rad. Avail in Mission/Loot.
+   <font color = yellow>* Junkmetal Armor</font> <QL1-200> Weak vs. Cold, Fire. Bonus to Health. Craftable from Robot Junk. Cheap and Effective.
+   <font color = yellow>* Tech Armor</font> <QL1-200> Weak vs. Cold, Poison. Avail in Mission/Loot/Shop.
+
+ Special Armors
+   <font color = yellow>* Metallic Mantis</font> <QL80-140> Somewhat weak vs. Rad, Fire. Many Bonuses, including Proj and Ener damage. Craftable, from Mantid Parts in Smuggler's Den.
+   <font color = yellow>* Kirch Kevlar</font> <QL45-200> Buffing Armor. Bonuses to Max Health, AGI, SEN, PSY. Boss Loot.
+   
+ Shop Food
+   * Tertius Decus
+   * Omni-Pol Desert
+   * Omni-Pol Forest
+   * Metaplast
+   * Kevlar
+   * Low-Tech Armor
+
+<pagebreak><header2>-= Stamina - Strength Armor =-<end>
+   
+ Top Tier
+   <font color = yellow>* Omni Life Guard</font> <QL30-200> Omni Only. Somewhat weak vs. Chem. Many Bonuses. Boss Loot.
+   <font color = yellow>* CAS Symbiotic</font> <QL30-200> Weak vs. Cold. Many bonuses. Craftable, Market Price is 50-100k per QL for a full suit.
+   <font color = yellow>* Omni-Pol Elite</font> <QL75-200> Omni Only. Weak vs. Chem. Avail in Mission/Loot.
+
+ Other Armors
+   <font color = yellow>* Graft Armor</font> <QL30-200> Weak vs. Cold. Avail in Mission/Loot/Shops.
+   <font color = yellow>* Organic Armor</font> <QL20-200> Weak vs. Cold, Rad. Avail in Mission/Loot/Shops.
+   <font color = yellow>* Omni-Pol Armor</font> <QL30-200> Omni Only. Weak vs. Cold, Fire. Avail in Mission/Loot/Shops.
+
+ Special Armors
+   <font color = yellow>* Omni-Pol Trooper</font> <QL5-225> Soldier Only. Somewhat weak vs. Pois. Boss Loot.
+   <font color = yellow>* Sekutek Chilled Plasteel</font> <QL10-200> Buffing Armor. Many Bonuses, including STR, AGI, INT, and Max Nano. Boss Loot.
+   
+ Shop Food
+   * Vito's Plasteel
+   * Titan Plasteel
+   * Nomad Armor
+   * Chilled Plasteel
+   * Heated Plasteel
+   * Flak Armor
+
+<pagebreak><header2>-= Strength - Psychic Armor =-<end>
+   <font color = yellow>* Massive Steel Body Armor</font> <QL10-50> Male Only <no Atroxes or Females>. Weak vs. Cold, Fire. Leveling Armor from 10-50.
+
+<pagebreak><header2>-= Sense - Agility Armor =-<end>
+
+ Top Tier
+   <font color = yellow>* Omni Steel-Ribbed</font> <QL20-200> Weak vs. Rad. Many Bonuses. Craftable, Market Price 1m + 10k per QL.
+   <font color = yellow>* Obtru Steel-Ribbed</font> <QL20-200> Weak vs. Rad. Avail in Mission/Loot.
+   
+ Other Armors
+   <font color - yellow>* Nadir Steel-Ribbed</font> <QL20-200> Weak vs. Rad, Cold. Avail in Mission/Loot.
+
+ Special Armors
+   <font color = yellow>* Shadowfade</font> <QL1> Agent Only. No weaknesses. Found in ToTW, from Reverends and Windcallers.
+   <font color = yellow>* Crawler Armor</font> <QL75> Craftable, from Skincrawler Parts in Crypt of Home.
+   <font color = yellow>* Cyborg Death Squad</font> <QL70-200> Fixer Only. Weak vs. Rad. Many Bonuses. Available as Loot drops from Cyborgs.
+   <font color = yellow>* Dillon</font> <QL5-200> Buffing Armor. Bonuses to STA, INT, Piercing. Boss Loot.
+   <font color = yellow>* Nova Dillon</font> <QL5-200> Buffing Armor. Bonuses to all Abilities and Piercing. Boss Loot.
+
+ Shop Food
+   * Sid's Leather
+   * Martial Artist Suit
+   * Steel-Ribbed
+   * Leather Armor
+   * Light Combat Armor
+
+<pagebreak><header2>-= Intelligence - Psychic Armor =-<end>
+   
+ Top Tier
+   <font color = yellow>* Nano Armor</font> <QL75-200> Weak vs. Chem. Avail in Mission/Loot.
+   <font color = yellow>* Waitt Cyber</font> <QL30-200> Weak vs. Pois. The best form of Cyber armor, Avail in Mission/Loot/Shops.
+
+ Other Armors
+   <font color = yellow>* Bau Cyber</font> <QL20-200> Weak vs. Chem, Pois.  Avail in Mission/Loot/Shops.
+   
+ Shop Food
+   <font color = yellow>* Cyber Armor</font> <QL1-200> Weak vs. Chem, Rad, Pois. Avail in Mission/Loot/Shops.
+   
+ Special Armors
+   <font color = yellow>* Living Cyber Armor</font> <QL 1 -50> Weak vs. Chem, Rad, Pois. Leveling armor <from 1-50>. Bonus to Health. The Sleeves do not exist in-game. Most parts can be found as a drop in the Subway <Deep section, humanoid monsters> or from the Party Mixer's quest.
+   <font color = yellow>* Barter</font> <QL75-200> Trader Only. Weak vs. Chem. Many Bonuses. Craftable, Market Price 50-100k per QL for a full suit.
+
+<pagebreak><header2>-= Intelligence - Stamina Armor =-<end>
+   <font color = yellow>* Bronto Hide</font> <QL20-200> Somewhat weak vs. Ener, Rad. Bonus to Max Nano. Craftable from Bronto Hide parts. QLs higher than 60 are very rare.
+
+<pagebreak><header2>-= Psychic - Stamina Armor<end>
+
+ Top Tier
+   <font color = yellow>* Biomech</font> <QL75-200> Weak vs. Rad.  Bonus to First Aid, Treatment.  Available as Mission Reward/Loot/Shops.
+
+ Other Armors
+   <font color = yellow>* Links Energized</font> <QL1-200> Weak vs. Chem, Poison. Avail in Mission/Loot/Shops.
+
+ Special Armors
+   <font color = yellow>* Augmented Cyborg Armor</font> <QL77> Level-Locked at 71, NoDrop. Weak vs. Cold. Bonus to NCU.
+   <font color = yellow>* Physician's Cap</font> <QL 15-75> Head Only. Leveling Armor <15-75>.
+
+ Shop Food
+   * Raven's Energized<QL30-200> Weak vs. Chem, Pois, Fire. Avail in Mission/Loot/Shops.
+   * Energized Armor <QL1-200> Weak vs. Chem, Cold, Pois, Fire. Avail in Mission/Loot/Shops.
+   
+   Other Special Armors <not covered above>
+   <font color = yellow>* Padded Love</font> <QL5-200> Fixer Only. Somewhat weak vs. Rad, Cold. Many Bonuses. Boss Loot.
+   <font color = yellow>* Notum Saturated Metaplast</font> <QL50-90> NT Only. No weaknesses. Craftable, Extremely Rare.
+   <font color = yellow>* Armor of Yearning</font> <QL100-200> MP Only.
+
+<pagebreak><header2> Armors NOT Covered by this guide:<end>
+ 
+   * Azure Reveries <QL200>
+   * Carapace of the Infernal Tyrant <QL1>
+   * DeCranum's Corona MK I <QL140>
+   * DeCranum's Corona MKII <QL170>
+   * Dustbrigade Commander <QL200>
+   * Dustbrigade Trooper <QL200>
+   * Flower Guard Triplate <QL200>
+   * Gloomfall Armor <QL1>
+   * Lion's Leather <QL150>
+   * Living Dragonflesh <QL100>
+   * Luxurious Rubber <QL200>
+   * Mosquito Armor <QL5-225>
+   * Omni-Armed Forces <QL200>
+   * Omni-Med Battle <QL200>
+   * Superior Sentinel <QL200>
+   * Unhallowed Carapace of the Infernal Tyrant <QL1>
+   * All Shadowlands Armor
+   * Ambitious Suit
+   * Nano Breed Service Suit
+   * Pilgrim Protector
+   * Pilgrim Seeker
+   * Pilgrim Visionary

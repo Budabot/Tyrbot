@@ -1,0 +1,30 @@
+<header>::::: Deflect :::::<end>
+
+Parry has been renamed to Deflect.
+Deflect is a defensive stat and not a melee special. Deflect increases the chance that incoming attacks become Glancing Hits. 
+A Glancing Hit deals 50% damage. Glance chance is 0%->10%, between 0->3000 Deflect skill.
+
+<tab>*Fast Attack: Glancing hit will deal normal damage.
+<tab>*Fling Shot: Glancing hit will deal normal damage.
+<tab>*Sneak Attack: Glance is 50% damage.
+<tab>*Aimed Shot: Glance counts as a miss with 0 damage.
+<tab>*Backstab: Glance is 50% damage (on the damage calculated before applying the backstab multiplier).
+<tab>*Brawl: Glance is 50% damage.
+<tab>*Burst: Per bullet: Glance is 50% damage.
+<tab>*Dimach: Glance is 50% damage.
+<tab>*Full Auto: If a shot is glanced, all subsequent bullets will do 50% damage. 
+        
+<highlight>Chance 0%->1% @ 0->300 Deflect Skill
+Chance 1%->2% @ 301->600 Deflect Skill
+Chance 2%->3% @ 601->900 Deflect Skill
+Chance 3%->4% @ 901->1200 Deflect Skill
+Chance 4%->5% @ 1201->1500 Deflect Skill
+Chance 5%->6% @ 1501->1800 Deflect Skill
+Chance 6%->7% @ 1801->2100 Deflect Skill
+Chance 7%->8% @ 2101->2400 Deflect Skill
+Chance 8%->9% @ 2401->2700 Deflect Skill
+Chance 9%->10% @ 2700->3000 Deflect Skill<end>        
+        
+source: https://forums.anarchy-online.com/showthread.php?613558-18-7-0-Update-Release-Notes
+
+by <highlight>longsdale<end>

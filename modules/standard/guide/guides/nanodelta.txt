@@ -1,0 +1,49 @@
+<header> :::::: Nano Delta :::::: <end>
+
+Psychic  -> tick delay
+<img src=tdb://id:GFX_GUI_FRIENDLIST_SPLITTER>
+<font color=#339999>000<tab><tab>-><tab>28s</font>
+<font color=#66cccc>060<tab><tab>-><tab>26s</font>
+<font color=#339999>120<tab><tab>-><tab>24s</font>
+<img src=tdb://id:GFX_GUI_FRIENDLIST_SPLITTER>
+<font color=#66cccc>180<tab><tab>-><tab>22s</font>
+<font color=#339999>240<tab><tab>-><tab>20s</font>
+<font color=#66cccc>300<tab><tab>-><tab>18s</font>
+<img src=tdb://id:GFX_GUI_FRIENDLIST_SPLITTER>
+<font color=#339999>360<tab><tab>-><tab>16s</font>
+<font color=#66cccc>420<tab><tab>-><tab>14s</font>
+<font color=#339999>480<tab><tab>-><tab>12s</font>
+<img src=tdb://id:GFX_GUI_FRIENDLIST_SPLITTER>
+<font color=#66cccc>540<tab><tab>-><tab>10s</font>
+<font color=#339999>600<tab><tab>-><tab>08s</font>
+<font color=#66cccc>660<tab><tab>-><tab>06s</font>
+<img src=tdb://id:GFX_GUI_FRIENDLIST_SPLITTER>
+<font color=#339999>720<tab><tab>-><tab>04s</font>
+<font color=#66cccc>780<tab><tab>-><tab>02s</font>
+<img src=tdb://id:GFX_GUI_FRIENDLIST_SPLITTER>
+
+by Imoutochan (RK1)
+
+<header2>Nanopoints by Breed<end>
+
+Atrox gets 2 nano for each point in nanopool
+Opifex gets 3 nano
+Solitus gets 3 nano
+Nanomage gets 4 nano
+
+The amount of nanodelta you get is:
+base + (bodydev / 100) + nanodelta items
+Body Dev plays a part in the base tick amount for nano delta.
+Base tick amount for Solitus is 3 nano per tick. 
+By "base amount" I mean if you have no +nanodelta modifiers at all. 
+This base amount is then increased by +1 for every 100 points in 
+Body Dev -- i.e. with 800 body dev, a Solitus will have a base tick of 11 nano (3+8).
+
+Nano tickrate formula ; 28-(psy/30)=tickrate
+
+example 28-(780/30)=2 secs
+
+The most you can get per tick is 200.
+
+http://forums.anarchy-online.com/showthread.php?t=435274
+http://forums.anarchy-online.com/showthread.php?t=417764

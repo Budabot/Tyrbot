@@ -1,0 +1,80 @@
+<header>::::: Chatfilter :::::<end>
+
+With the advent of the 18.1 patch, a feature was introduced to allow users to completely filter out certain messages from being displayed in chat windows.
+
+The main reason this feature was introduced was to allow users to eliminate credit seller spam from their chat windows. Using the /ignore <username> was insufficient because credit selling spammers would create new accounts constantly to thwart the use of /ignore.
+
+Let's take a look at the basics if the /filter command.
+
+<header2>Basics<end>
+
+Here are the basic commands to enable, disable and clear your chat filters:
+
+/filter enable - enables the filter <a href='chatcmd:///filter enable'>Click</a>
+/filter disable - disables the filter without deleting any of the added filters <a href='chatcmd:///filter disable'>Click</a>
+/filter clear	- clears all filters <a href='chatcmd:///filter clear'>Click</a>
+
+
+<header2>Adding and removing filtered words<end>
+
+Now, in order to do something useful with these filters, you need to add some words that trigger the filter. Here are the commands that add filters:
+
+/filter add 'word' - adds a word to the filter 
+/filter list - lists all the active filters <a href='chatcmd:///filter list'>Click</a>
+/filter del 'number' - deletes the specified filter (where 'number' is the line number from 'list')
+
+
+Note that filters are added to your game client preferences. That means if you add a filter on one character, that filter will be active for all characters on all accounts.
+
+Simple example of filtering any line that includes the word 'bob':
+
+/filter add bob
+/filter enable
+
+
+<header2>More advanced stuff<end>
+
+The chat filter supports a subset of regular expressions. AO is old, and so is our regex parser, so not everything will work as you'd expect in a more modern implementation. Escape sequences inside character sets might not work as expected, for example. The most common constructs should work though.
+
+Example that filters various variants of 'plox', 'plx', and 'plz':
+
+/filter add [pP][lL1][oO0][xX]
+/filter add [pP][lL][xX]
+/filter add [pP][lL][zZ]
+/filter enable
+
+For the guide about credit spammers go <a href='chatcmd:///tell <myname> guides spamfilter'>here</a>.
+
+
+<header2>Other uses<end>
+
+That takes care of the main use, but the chat filters not only filter out messages from other players, it can even filter out messages from the system. If you are a "button masher" type of player, perhaps you're sick of all the messages from the system telling you about things you can't do.
+
+Here are examples of other filters you could add to prevent those messages about how much longer you have to wait until you can use a particular special attack.
+
+/filter add Wait for your previous special action <a href='chatcmd:///filter add Wait for your previous special action'>Click</a>
+/filter add Unable to perform action <a href='chatcmd:///filter add Unable to perform action'>Click</a>
+/filter enable <a href='chatcmd:///filter enable'>Click</a>
+
+
+Source: https://www.ao-universe.com/index.php?id=14&mid=8&pid=616
+
+
+Samples u can copy after add: 
+
+^Your damage shield hit [a-zA-Z0-9 !-_,.()']+ for [0-9]+ points of damage.$
+^You were healed for [12]?[0-9]?[0-9] points.$
+^Executing Nano Program: [a-zA-Z0-9 '!()]+.$
+^Nano program failed. Already executing nanoprogram.$
+^Wait for current nano program execution to finish.$
+^Wait for your previous special attack to complete.$
+^You are already running this action!$
+^Unable to execute nano program. You can't execute this nano on the target.$
+^Unable to perform action[a-zA-Z ,]+ locked, able in [0-9][0-9]:[0-9][0-9]:[0-9][0-9]$
+^[a-zA-Z ()]+ available.$
+^Target is already dead.$
+^Special attack is unavailable.$
+^Your reflect shield hit [a-zA-Z0-9 !-_,.()']+ for [0-9]+ points of damage.$
+^You were damaged by a toxic substance for [1-9]?[0-9] points of damage.$
+
+by <highlight>longsdale<end>

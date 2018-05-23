@@ -1,0 +1,404 @@
+<header> :::::: Atrox :::::: <end>
+
+These fellas (if that's the appropriate term, since they are genderless) are
+the big workhorse breed of Anarchy Online. They receive the most Health per
+point of Body Development, and have bonuses to Stamina and Strength. They make
+ideal melee combatants and tanks, but their intelligence-based skills and
+nanoskills suffer. Pick them if you want to be able to dish out a lot of melee
+damage and take a lot of punishment. It is a good choice for the early levels,
+but in the later levels you'll find yourself hurting in the nanoskill
+department.
+
+Most of the Atrox-only items are geared toward melee weaponry and strength,
+including the Silken Legchopper Gloves. Certain "large" weapons are also Atrox
+only, such as the Support Beams and the Diamondine Kick Pistol. Oddly enough,
+because Atrox is genderless, in many cases they can wear both male and female
+outfits.
+
+
+<header2> ::: Atrox Breed Caps ::: <end>
+
+* <font color='#00CC88'>Strength</font> 512/912
+* <font color='#0088CC'>Agility</font>  480/780
+* <font color='#00CC88'>Stamina</font> 512/912
+* <font color='#075AFF'>Intelligence</font> 400/600
+* <font color='#075AFF'>Sense</font> 400/600
+* <font color='#075AFF'>Psychic</font> 400/600
+
+Atrox HP/NP ratio, -Nanocost cap %
+
+Max % Add Nano Cost -45%
+
+4 max health per 1 point of bodydev
+2 max nano per 1 point of nanopool
+
+<pagebreak><header2> ::: Atrox Shadowbreeds List ::: <end>
+
+<green>Atrox (Clan) Shadowbreed<end>
+
+1: Luminous
+Casts: Screen of light
+
+On Self:
+Boots Nano Resist by 2k
+Allows you to absorb 7 attacks
+
+2: Splendent
+Casts: Shield of Light
+
+On Self:
+Boosts Add all Def by 200
+Breaks Roots
+
+AoE
+Allows affected players to absorb 12 hits
+
+3: Metoric
+Casts: Fortress of Light
+
+On Self:
+Boosts Add all Def by 800
+Will Absorb 1000 Damage from Special Attacks
+Will give Root and Snare resistance
+
+AoE:
+Allows affected players to absorb 15 hits
+
+<pagebreak><green>Atrox (Omni) Shadowbreed<end>
+
+1: Dusky
+Casts: Blackfist
+
+On Self:
+Boosts your Add all Off by 400
+Raises your Critical Chance by 10
+
+2: Gloomy
+Casts: Slam of Darkness
+
+On Self:
+Boosts your Add all Damage by 400
+
+Hostile AoE
+Casts a DoT (1k, 6 hits, 3 sec delay)
+Lowers Run Speed by 1k
+
+3: Nocturnal
+Casts: Scream of Death
+
+On Self:
+Absorbs 10 hits
+Absorbs 30 Special Attacks
+
+Hostile AoE
+Casts a DoT (1.5k, 6 hits, 5 sec delay)
+Lowers Run Speed by 2k and fears all monsters for 30 seconds
+
+<pagebreak><green>Atrox (Neutral) Shadowbreed<end>
+
+1: Unsettled
+Casts: Blackfist
+
+On Self:
+Boosts your Add all Off by 400
+Raises your Critical Chance by 10
+
+2: Undetermined
+Casts: Screen of light
+
+On Self:
+Boots Nano Resist by 2k
+Allows you to absorb 7 attacks
+
+3: Undecided
+Casts: Slam of Darkness
+
+On Self:
+Boosts your Add all Damage by 400
+
+Hostile AoE
+Casts a DoT (1k, 6 hits, 3 sec delay)
+Lowers Run Speed by 1k
+
+<pagebreak><header2> ::: Atrox Alien Invasion Perks ::: <end>
+
+<green>Atrox Primary Genome<end>
+
+1. Requirements:
+
+Level from 15
+Breed = Atrox
+
+Modifies:
+
+Strength = +2
+Stamina = +2
+
+2. Requirements:
+
+Level from 15
+Breed = Atrox
+Must have perk: Atrox Primary Genome 1
+
+Modifies:
+
+Strength = +3
+Stamina = +3
+
+3. Requirements:
+
+Level from 35
+Breed = Atrox
+Must have perk: Atrox Primary Genome 2
+
+Modifies:
+
+Strength = +3
+Stamina = +3
+
+Enables Special: Body Tackle
+
+The effect of this special is an Atrox favorite, slow but fatal attack. It'll grow much efficient when you train more Atrox Primary Genome perks.
+
+Duration: 2 Seconds
+Recharge: 2 Minutes, 10 Seconds
+
+<a href='chatcmd:///start http://aoitems.com/item/252487'>http://aoitems.com/item/252487</a>
+
+4. Requirements:
+
+Level from 55
+Breed = Atrox
+Must have perk: Atrox Primary Genome 3
+
+Modifies:
+
+Strength = +3
+Stamina = +3
+
+5. Requirements:
+
+Level from 55
+Breed = Atrox
+Must have perk: Atrox Primary Genome 4
+
+Modifies:
+
+Strength = +4
+Stamina = +4
+
+6. Requirements:
+
+Level from 55
+Breed = Atrox
+Must have perk: Atrox Primary Genome 5
+
+Modifies:
+
+Strength = +4
+Stamina = +4
+
+7. Requirements:
+
+Level from 115
+Breed = Atrox
+Must have perk: Atrox Primary Genome 6
+
+Modifies:
+
+Strength = +4
+Stamina = +4
+
+8. Requirements:
+
+Level from 115
+Breed = Atrox
+Must have perk: Atrox Primary Genome 7
+
+Modifies:
+
+Strength = +5
+Stamina = +5
+
+9. Requirements:
+
+Level from 202
+Breed = Atrox
+Must have perk: Atrox Primary Genome 8
+
+Modifies:
+
+Strength = +7
+Stamina = +7
+
+10. Requirements:
+
+Level from 207
+Breed = Atrox
+Must have perk: Atrox Primary Genome 9
+
+Modifies:
+
+Strength = +14
+Stamina = +14
+
+Enables Special: Mongo Rage
+
+Ths effect of this special will increase your attack rating by a massive amount for a short while, then you will have a cool down period.
+
+Duration: 10 Seconds
+Recharge: 2 Minutes, 30 Seconds
+
+<a href='chatcmd:///start http://aoitems.com/item/252490'>http://aoitems.com/item/252490</a>
+
+<pagebreak><green>Atrox Secondary Genome<end>
+
+1. Requirements:
+
+Level from 15
+Breed = Atrox
+
+Modifies:
+
+Agility = +1
+Sense = +1
+Intelligence = +1
+Psychic = +1
+
+2. Requirements:
+
+Level from 15
+Breed = Atrox
+Must have perk: Atrox Secondary Genome 1
+
+Modifies:
+
+Agility = +1
+Sense = +1
+Intelligence = +1
+Psychic = +1
+
+3. Requirements:
+
+Level from 35
+Breed = Atrox
+Must have perk: Atrox Secondary Genome 2
+
+Modifies:
+
+Agility = +1
+Sense = +1
+Intelligence = +1
+Psychic = +1
+
+Enables Special: Wit of the Atrox
+
+The effect of this special is an evade and damage buff.
+
+Duration: 30 Seconds
+Recharge: 1 Minute. 30 Seconds
+
+<a href='chatcmd:///start http://aoitems.com/item/252508'>http://aoitems.com/item/252508</a>
+
+4. Requirements:
+
+Level from 55
+Breed = Atrox
+Must have perk: Atrox Secondary Genome 3
+
+Modifies:
+
+Agility = +1
+Sense = +1
+Intelligence = +1
+Psychic = +1
+
+5. Requirements:
+
+Level from 55
+Breed = Atrox
+Must have perk: Atrox Secondary Genome 4
+
+Modifies:
+
+Agility = +2
+Sense = +2
+Intelligence = +2
+Psychic = +2
+
+6. Requirements:
+
+Level from 55
+Breed = Atrox
+Must have perk: Atrox Secondary Genome 5
+
+Modifies:
+
+Agility = +2
+Sense = +2
+Intelligence = +2
+Psychic = +2
+
+7. Requirements:
+
+Level from 115
+Breed = Atrox
+Must have perk: Atrox Secondary Genome 6
+
+Modifies:
+
+Agility = +2
+Sense = +2
+Intelligence = +2
+Psychic = +2
+
+8. Requirements:
+
+Level from 115
+Breed = Atrox
+Must have perk: Atrox Secondary Genome 7
+
+Modifies:
+
+Agility = +3
+Sense = +3
+Intelligence = +3
+Psychic = +3
+
+9. Requirements:
+
+Level from 202
+Breed = Atrox
+Must have perk: Atrox Secondary Genome 8
+
+Modifies:
+
+Agility = +4
+Sense = +4
+Intelligence = +4
+Psychic = +4
+
+10. Requirements:
+
+Level from 207
+Breed = Atrox
+Must have perk: Atrox Secondary Genome 9
+
+Modifies:
+
+Agility = +8
+Sense = +8
+Intelligence = +8
+Psychic = +8
+
+Enables Special: My Own Fortress
+
+The effect of this special is an attack and armor buff.
+
+Duration: 30 Seconds
+Recharge: 1 Minute, 30 Seconds
+
+<a href='chatcmd:///start http://aoitems.com/item/252511'>http://aoitems.com/item/252511</a>
+
+By Curlycat (RK2), Mdkdoc420 (RK2)
+original version at <a href='chatcmd:///start http://aocrimson.darkbb.com/t126-comprehensive-breeds-guide-very-detailed'>http://aocrimson.darkbb.com/t126-comprehensive-breeds-guide-very-detailed</a>

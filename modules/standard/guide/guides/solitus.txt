@@ -1,0 +1,415 @@
+<header> :::::: Solitus :::::: <end>
+
+The Solitus breed is what normally passes for "Human" in most games. It is also
+the most versatile breed with no glaring strengths or weaknesses. You can't go
+wrong with picking Solitus as your breed. All of your core abilities will cost
+the same to raise, and most of your abilities will cap at 480 (with the notable
+exception of Strength at 472).
+
+Many folks pick Solitus for cosmetic reasons, as it is the only breed that has
+the same skin tone and body build as a "normal" human. A handful of Solitus
+breed-locked items exist, as well, and they tend to be well-rounded.
+
+
+<header2> ::: Solitus Breed Caps ::: <end>
+
+* <font color='#0088CC'>Strength</font> 472/772
+* <font color='#0088CC'>Agility</font> 480/780
+* <font color='#0088CC'>Stamina</font> 480/780
+* <font color='#0088CC'>Intelligence</font> 480/780
+* <font color='#0088CC'>Sense</font> 480/780
+* <font color='#0088CC'>Psychic</font> 480/780
+
+Solitus HP/NP ratio, -Nanocost cap %
+
+Max % Add Nano Cost -50%
+
+3 max health per 1 point of bodydev
+3 max nano per 1 point of nanopool
+
+
+<pagebreak><header2> ::: Solitus Shadowbreeds List ::: <end>
+
+<green>Solitus (Clan) Shadowbreeds<end>
+
+1: Vivid
+Casts: Path of Light
+
+On Self:
+Heals 5k health
+Boosts Perception by 300
+Gives a 100 Damage Shield
+Breaks roots
+
+2: Bright
+Casts: Tunnel of Light
+
+On Self:
+Heals 10k health
+Gives a 150 Damage Shield
+
+AOE:
+Boosts perception by 400
+Breaks roots and Snares
+
+3: Scintillant
+Casts: The Choice
+
+AoE:
+Heals 15k Health
+Boosts perception by 1k
+Gives a 200 Damage Shield
+Breaks Roots, Snares and Calms
+
+<pagebreak><green>Solitus (Omni) Shadowbreeds<end>
+
+1: Murky
+Casts: Path of Darkness
+
+On Self:
+Boosts Perception by 400
+Boosts Concealment by 400
+
+AoE:
+Casts a DoT (500, 5 hits, 3 sec delay)
+Debuffs Run Speed by 1.8k
+
+2: Dark
+Casts: Road to Darkness
+
+On Self:
+Boosts Concealment by 700
+Raises your Critical Chance by 7
+
+AoE:
+Casts a DoT (1k, 8 hits, 3 sec delay)
+Roots your opponents
+
+3: Black
+Casts: The Choice
+
+Friendly AoE:
+Boosts your Run Speed by 500
+Boosts your Concealment by 1k
+Raises your Critical Chance by 10
+
+Hostile AoE:
+Casts a DoT (1k, 10 hits, 3 sec delay)
+Roots your opponents
+
+<pagebreak><green>Solitus (Neutral) Shadowbreeds<end>
+
+1: Vague
+Casts: Path of Darkness
+
+On Self:
+Boosts Perception by 400
+Boosts Concealment by 400
+
+AoE:
+Casts a DoT (500, 5 hits, 3 sec delay)
+Debuffs Run Speed by 1.8k
+
+2: Indeterminated
+Casts: Path of Light
+
+On Self:
+Heals 5k health
+Boosts Perception by 300
+Gives a 100 Damage Shield
+Breaks roots
+
+3: Ambigous
+Casts :Road to Darkness
+
+On Self:
+Boosts Concealment by 700
+Raises your Critical Chance by 7
+
+AoE:
+Casts a DoT (1k, 8 hits, 3 sec delay)
+Roots your opponents
+
+
+<pagebreak><header2> ::: Solitus Alien Invasion Perks ::: <end>
+
+<green>Solitus Alpha Genome<end>
+
+1. Requirements:
+
+Level from 15
+Breed = Solitus
+
+Modifies:
+
+Strength = +1
+Stamina = +1
+Agility = +1
+
+2. Requirements:
+
+Level from 15
+Breed = Solitus
+Must have perk = Solitus Alpha Genome 1
+
+Modifies:
+
+Strength = +2
+Stamina = +2
+Agility = +2
+
+3. Requirements:
+
+Level from 35
+Breed = Solitus
+Must have perk = Solitus Alpha Genome 2
+
+Modifies:
+
+Strength = +2
+Stamina = +2
+Agility = +2
+
+Enables Special: Tacky Hack
+
+The effect of this special is a root resist buff. This one will provide 90% protection against most known roots.
+
+Duration = 15 Seconds
+Recharge = 1 Minute, 45 Seconds
+
+<a href='chatcmd:///start http://aoitems.com/item/253030'>http://aoitems.com/item/253030</a>
+
+4. Requirements:
+
+Level from 55
+Breed = Solitus
+Must have perk = Solitus Alpha Genome 3
+
+Modifies:
+
+Strength = +2
+Stamina = +2
+Agility = +2
+
+5. Requirements:
+
+Level from 55
+Breed = Solitus
+Must have perk = Solitus Alpha Genome 4
+
+Modifies:
+
+Strength = +2
+Stamina = +2
+Agility = +2
+
+6. Requirements:
+
+Level from 55
+Breed = Solitus
+Must have perk = Solitus Alpha Genome 5
+
+Modifies:
+
+Strength = +3
+Stamina = +3
+Agility = +3
+
+7. Requirements:
+
+Level from 115
+Breed = Solitus
+Must have perk = Solitus Alpha Genome 6
+
+Modifies:
+
+Strength = +3
+Stamina = +3
+Agility = +3
+
+8. Requirements:
+
+Level from 115
+Breed = Solitus
+Must have perk = Solitus Alpha Genome 7
+
+Modifies:
+
+Strength = +4
+Stamina = +4
+Agility = +4
+
+9. Requirements:
+
+Level from 202
+Breed = Solitus
+Must have perk = Solitus Alpha Genome 8
+
+Modifies:
+
+Strength = +5
+Stamina = +5
+Agility = +5
+
+10. Requirements:
+
+Level from 207
+Breed = Solitus
+Must have perk = Solitus Alpha Genome 9
+
+Modifies:
+
+Strength = +10
+Stamina = +10
+Agility = +10
+
+Enables Special: Sphere
+
+The effect of this special is a team buff that will increase the teams offense and defense. In addition is will give the team a small critical chance bonus.
+
+Duration = 25 Seconds
+Recharge = 1 Minute, 40 Seconds
+
+<a href='chatcmd:///start http://aoitems.com/item/253033/'>http//aoitems.com/item/253033/</a>
+
+<pagebreak><green>Solitus Beta Genome<end>
+
+1. Requirements:
+
+Level from 15
+Breed = Solitus
+
+Modifies:
+
+Intelligence = +1
+Sense = +1
+Psychic = +1
+
+2. Requirements:
+
+Level from 15
+Breed = Solitus
+Must have perk = Solitus Beta Genome 1
+
+Modifies:
+
+Intelligence = +2
+Sense = +2
+Psychic = +2
+
+3. Requirements:
+
+Level from 35
+Breed = Solitus
+Must have perk = Solitus Beta Genome 2
+
+Modifies:
+
+Intelligence = +2
+Sense = +2
+Psychic = +2
+
+Enables Special: Feel
+
+The effect of this special will do a minor direct damage to the target. This perk special will grow more efficient upon training more perks in this line.
+
+Duration = N/A
+Recharge = 1 Minute, 45 Seconds
+
+<a href='chatcmd:///start http://aoitems.com/item/253045'>http://aoitems.com/item/253045</a>
+
+4. Requirements:
+
+Level from 55
+Breed = Solitus
+Must have perk = Solitus Beta Genome 3
+
+Modifies:
+
+Intelligence = +2
+Sense = +2
+Psychic = +2
+
+5. Requirements:
+
+Level from 55
+Breed = Solitus
+Must have perk = Solitus Beta Genome 4
+
+Modifies:
+
+Intelligence = +2
+Sense = +2
+Psychic = +2
+
+6. Requirements:
+
+Level from 55
+Breed = Solitus
+Must have perk = Solitus Beta Genome 5
+
+Modifies:
+
+Intelligence = +3
+Sense = +3
+Psychic = +3
+
+7. Requirements:
+
+Level from 115
+Breed = Solitus
+Must have perk = Solitus Beta Genome 6
+
+Modifies:
+
+Intelligence = +3
+Sense = +3
+Psychic = +3
+
+8. Requirements:
+
+Level from 115
+Breed = Solitus
+Must have perk = Solitus Beta Genome 7
+
+Modifies:
+
+Intelligence = +4
+Sense = +4
+Psychic = +4
+
+9. Requirements:
+
+Level from 202
+Breed = Solitus
+Must have perk = Solitus Beta Genome 8
+
+Modifies:
+
+Intelligence = +5
+Sense = +5
+Psychic = +5
+
+10. Requirements:
+
+Level from 207
+Breed = Solitus
+Must have perk = Solitus Beta Genome 9
+
+Modifies:
+
+Intelligence = +10
+Sense = +10
+Psychic = +10
+
+Enables Effect: Survival
+
+The effect of this special is a team heal over time.
+
+Duration = 30 Seconds
+Recharge = 2 Minutes
+
+<a href='chatcmd:///start http://aoitems.com/item/253048'>http://aoitems.com/item/253048</a>
+
+By Curlycat (RK2), Mdkdoc420 (RK2)
+original version at <a href='chatcmd:///start http://aocrimson.darkbb.com/t126-comprehensive-breeds-guide-very-detailed'>http://aocrimson.darkbb.com/t126-comprehensive-breeds-guide-very-detailed</a>

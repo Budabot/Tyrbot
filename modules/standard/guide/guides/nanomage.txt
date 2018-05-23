@@ -1,0 +1,433 @@
+<header> :::::: Nanomage :::::: <end>
+
+This breed is difficult to play for most new players due to the hits they take
+in the Health department and is not recommended until you have a better grasp
+of the game. They have superior abilities in Nano-related skills and overall
+Nanopoints, but have less Health. They have penalties in Strength and Agility.
+
+Later on in the game, they get access to breed-only buff items such as the
+Shades of Lucubration, but these items tend to be out of the grasp of a new
+player anyway. It's something to think about for veteran players. Typically,
+playing a Nanomage is a challenging proposition and is one way to ramp up the
+difficulty of the game.
+
+
+<pagebreak><header2> ::: Nanomage Breed Caps ::: <end>
+
+* <font color='#075AFF'>Strength</font> 464/664
+* <font color='#075AFF'>Agility</font> 464/664
+* <font color='#0088CC'>Stamina</font> 448/748
+* <font color='#00CC88'>Intelligence</font> 512/912
+* <font color='#0088CC'>Sense</font> 480/780
+* <font color='#00CC88'>Psychic</font> 512/912
+
+Nanomage HP/NP ratio, -Nanocost cap %
+
+Max % Add Nano Cost -55%
+
+2 max health per 1 point of bodydev
+4 max nano per 1 point of nanopool
+
+
+<pagebreak><header2> ::: Nanomage Shadowbreeds List ::: <end>
+
+<green>Nanomage (Clan) Shadowbreed<end>
+
+1: Radient
+Casts: Morning
+
+On Self:
+Raises you Max Nano by 1k
+Boosts your Nano Init by 300
+Gives a Nano HoT
+
+AoE:
+Lowers your enemies nano by 1500
+
+2: Splendid
+Casts: Hope
+
+On Self:
+Buffs your Agg/Def by 150
+Raises your Max Nano by 3k
+Gives a Nano HoT
+Gives root/Snare/Calm Resistances
+
+Friendly AoE:
+Raises Nano Init by 800
+
+Hostile AoE:
+Lowers Nano Init by 400
+
+3: Blazing
+Casts: Life
+
+AoE:
+Gives a Nano Hot
+Buffs your Agg/Def by 200
+Boosts your Nano Init by 1k
+Raises your Max Nano by 4k
+Gives root/Snare/Calm Resistances
+
+<pagebreak><green>Nanomage (Omni) Shadowbreed<end>
+
+1: Benighted
+Casts: Silence
+
+On Self:
+Gives a Nano HoT (500, 7 hits, 3 secs delay)
+Boosts your Nano Init by 1k
+
+Hostile AoE
+Casts a Nano DoT (-500, 5 hits, 3 secs delay)
+
+2: Noctivagant
+Casts: Misery
+
+On Self:
+Boosts your Agg/Def by 200
+Gives a 1k Damage Shield
+
+Target Debuff:
+Lowers Nano Init by 1k
+
+Friendly AoE:
+Raises you Nano Init by 1k
+
+Hostile AoE:
+Casts a 4k Nuke
+
+3: Noctivagous
+Casts: Death
+
+Friendly AoE:
+Casts a HoT (1k, 5 hits, 4 secs delay)
+Boosts your Agg/Def by 200
+Raises your Nano Init by 1k
+Gives a 1k Damage Shield
+
+Hostile AoE:
+Cast a 8k Nuke
+
+<pagebreak><green>Nanomage (Neutral) Shadowbreed<end>
+
+1: Balanced
+Casts: Silence
+
+On Self:
+Gives a Nano HoT (500, 7 hits, 3 secs delay)
+Boosts your Nano Init by 1k
+
+Hostile AoE
+Casts a Nano DoT (-500, 5 hits, 3 secs delay)
+
+2: Casual
+Casts: Morning
+
+On Self:
+Raises you Max Nano by 1k
+Boosts your Nano Init by 300
+Gives a Nano HoT
+
+AoE:
+Lowers your enemies nano by 1500
+
+3: Uncertain
+Casts: Misery
+
+On Self:
+Boosts your Agg/Def by 200
+Gives a 1k Damage Shield
+
+Target Debuff:
+Lowers Nano Init by 1k
+
+Friendly AoE:
+Raises you Nano Init by 1k
+
+Hostile AoE:
+Casts a 4k Nuke
+
+
+<pagebreak><header2> ::: Nanomage Alien Invasion Perks ::: <end>
+
+<green>Nanobreed Primary Genome<end>
+
+1. Requirements:
+
+Level from 15
+Breed = Nanomage
+
+Modifies:
+
+Intelligence = +2
+Psychic = +2
+
+2. Requirements:
+
+Level from 15
+Breed = Nanomage
+Must have perk: Nanobreed Primary Genome 1
+
+Modifies:
+
+Intelligence = +3
+Psychic = +3
+
+3. Requirements:
+
+Level from 35
+Breed = Nanomage
+Must have perk: Nanobreed Primary Genome 2
+
+Modifies:
+
+Intelligence = +3
+Psychic = +3
+
+Enables Special: Reject
+
+The effect of this special is a minor direct damage to the target.
+
+Duration: N/A
+Recharge: 30 Seconds
+
+<a href='chatcmd:///start http://aoitems.com/item/254313'>http://aoitems.com/item/254313</a>
+
+4. Requirements:
+
+Level from 55
+Breed = Nanomage
+Must have perk: Nanobreed Primary Genome 3
+
+Modifies:
+
+Intelligence = +3
+Psychic = +3
+
+5. Requirements:
+
+Level from 55
+Breed = Nanomage
+Must have perk: Nanobreed Primary Genome 4
+
+Modifies:
+
+Intelligence = +3
+Psychic = +3
+
+6. Requirements:
+
+Level from 55
+Breed = Nanomage
+Must have perk: Nanobreed Primary Genome 5
+
+Modifies:
+
+Intelligence = +4
+Psychic = +4
+
+7. Requirements:
+
+Level from 115
+Breed = Nanomage
+Must have perk: Nanobreed Primary Genome 6
+
+Modifies:
+
+Intelligence = +4
+Psychic = +4
+
+8. Requirements:
+
+Level from 115
+Breed = Nanomage
+Must have perk: Nanobreed Primary Genome 7
+
+Modifies:
+
+Intelligence = +5
+Psychic = +5
+
+9. Requirements:
+
+Level from 202
+Breed = Nanomage
+Must have perk: Nanobreed Primary Genome 8
+
+Modifies:
+
+Intelligence = +7
+Psychic = +7
+
+10. Requirements:
+
+Level from 207
+Breed = Nanomage
+Must have perk: Nanobreed Primary Genome 9
+
+Modifies:
+
+Intelligence = +14
+Psychic = +14
+
+Enables Special: Sword
+
+The effect of this attack is a special buff that increases the targets nanocost by 100%
+
+Duration: 30 Seconds
+Recharge: 1 Minute, 15 Seconds
+
+<a href='chatcmd:///start http://aoitems.com/item/252559'>http://aoitems.com/item/252559</a>
+
+<pagebreak><green>Nanobreed Secondary Genome<end>
+
+1. Requirements:
+
+Level from 15
+Breed = Nanomage
+
+Modifies:
+
+Strength = +1
+Stamina = +1
+Sense = +1
+Agility = +1
+
+2. Requirements:
+
+Level from 15
+Breed = Nanomage
+Must have perk: Nanobreed Secondary Genome 1
+
+Modifies:
+
+Strength = +1
+Stamina = +1
+Sense = +1
+Agility = +1
+
+3. Requirements:
+
+Level from 35
+Breed = Nanomage
+Must have perk: Nanobreed Secondary Genome 2
+
+Modifies:
+
+Strength = +1
+Stamina = +1
+Sense = +1
+Agility = +1
+
+Enables Special: Pen
+
+The effect of this special is a direct damage to the target. It will also lower the targets runspeed. This special will grow more efficient upon training more perks.
+
+Duration: 30 Seconds
+Recharge: 1 Minute, 40 Seconds
+
+<a href='chatcmd:///start http://aoitems.com/item/253014'>http://aoitems.com/item/253014</a>
+
+4. Requirements:
+
+Level from 55
+Breed = Nanomage
+Must have perk: Nanobreed Secondary Genome 3
+
+Modifies:
+
+Strength = +1
+Stamina = +1
+Sense = +1
+Agility = +1
+
+5. Requirements:
+
+Level from 55
+Breed = Nanomage
+Must have perk: Nanobreed Secondary Genome 4
+
+Modifies:
+
+Strength = +2
+Stamina = +2
+Sense = +2
+Agility = +2
+
+6. Requirements:
+
+Level from 55
+Breed = Nanomage
+Must have perk: Nanobreed Secondary Genome 5
+
+Modifies:
+
+Strength = +2
+Stamina = +2
+Sense = +2
+Agility = +2
+
+7. Requirements:
+
+Level from 115
+Breed = Nanomage
+Must have perk: Nanobreed Secondary Genome 6
+
+Modifies:
+
+Strength = +2
+Stamina = +2
+Sense = +2
+Agility = +2
+
+8. Requirements:
+
+Level from 115
+Breed = Nanomage
+Must have perk: Nanobreed Secondary Genome 7
+
+Modifies:
+
+Strength = +3
+Stamina = +3
+Sense = +3
+Agility = +3
+
+9. Requirements:
+
+Level from 202
+Breed = Nanomage
+Must have perk: Nanobreed Secondary Genome 8
+
+Modifies:
+
+Strength = +3
+Stamina = +3
+Sense = +3
+Agility = +3
+
+10. Requirements:
+
+Level from 207
+Breed = Nanomage
+Must have perk: Nanobreed Secondary Genome 9
+
+Modifies:
+
+Strength = +8
+Stamina = +8
+Sense = +8
+Agility = +8
+
+Enables Special: Notum Shield
+
+The effect of this special is a shield that will deflect 15% amount of damage taken. Once this shield is active you will not be able to stop it until you go below 5000 nanopool.
+
+Duration: 10 Seconds (Reoccurring)
+Recharge: 1 Minute, 15 Seconds
+
+<a href='chatcmd:///start http://aoitems.com/item/253017'>http://aoitems.com/item/253017</a>
+
+By Curlycat (RK2), Mdkdoc420 (RK2)
+original version at <a href='chatcmd:///start http://aocrimson.darkbb.com/t126-comprehensive-breeds-guide-very-detailed'>http://aocrimson.darkbb.com/t126-comprehensive-breeds-guide-very-detailed</a>

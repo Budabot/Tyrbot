@@ -1,0 +1,79 @@
+<header> :::::: Fixer Grid exits :::::: <end>
+
+The Fixer Grid is accessible by all fixers (over level 40) who have completed the <a href='chatcmd:///tell <myname> aou 30'>first Fixer Grid quest</a>.
+
+Other professions may access the Fixer Grid when teamed with a fixer (over level 100) who has completed the <a href='chatcmd:///tell <myname> aou 31'>second Fixer Grid quest</a>.
+
+Unlike the regular Grid, the Fixer Grid is circular, has 10 levels, and has no Computer Literacy requirements to use any of the exits. Most of the levels have more than 1 exit per destination as shown below: L = Left, M = Middle, R = Right
+
+Typically, the higher the level of the exit, the higher level mobs you will likely find in that destination, so be wary.
+
+<header2>Level 1<end>
+Newland City
+Tir
+West Athen
+Old Athen
+Borealis
+Omni-1 Entertainment
+Omni-1 HQ
+Omni-1 Trade
+
+<header2>Level 2<end>
+Newland
+Tir County
+Athen Shire
+Holes in the wall
+Rome Green
+Rome Red
+Rome Blue
+Omni forest
+
+<header2>Level 3<end>
+Newland Desert
+Greater Tir County
+Wailing Wastes
+Stret West Bank [L,R]
+Mutant Domain
+Lush Fields
+Greater Omni forest
+
+<header2>Level 4<end>
+Varmint Woods
+Aegean
+Wartorn Valley
+Clondyke [L,R]
+Galway Shire
+Galway County
+Varmint Woods
+
+<header2>Level 5<end>
+4 Holes [L,M,R]
+Andromeda [L,M,R]
+Pleasant Meadows [L,R]
+
+<header2>Level 6<end>
+The Longest Road [L,M,R]
+Stret East Bank [L,M,R]
+Milky Way [L,R]
+
+<header2>Level 7<end>
+Southern Fouls Hills [L,R]
+Upper Stret East Bank [L,M,R]
+Souther Artery Valley [L,M,R]
+
+<header2>Level 8<end>
+Avalon [L,R]
+Central Artery Valley [L,M,R]
+Belial Forest [L,M,R]
+
+<header2>Level 9<end>
+Mort [L,M,R]
+Deep Artery Valley [L,M,R]
+Broken Shores [L,R]
+
+<header2>Level 10<end>
+Perpetual Wastelands [L,M,R]
+Eastern Fouls Plains [L,M,R]
+
+Written by Shassandrafx (RK2)
+Submitted By Spectin (RK2) 

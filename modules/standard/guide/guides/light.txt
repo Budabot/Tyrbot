@@ -1,0 +1,19 @@
+<header> :::::: Light Settings :::::: <end>
+
+<a href='chatcmd:///fxscript Tweak_Rubi-Ka_SunLight #'>RKLight</a>
+
+<a href='chatcmd:///fxscript Tweak_Shadowlands_SunLight #'>SLBasicLight</a>
+
+<a href='chatcmd:///fxscript Tweak_Shadowlands_SunLight_Caustics #'>CausticsLight</a>
+
+<a href='chatcmd:///fxscript Tweak_Shadowlands_SunLight_Penumbra #'>PenumbraLight</a>
+
+<a href='chatcmd:///fxscript Tweak_Shadowlands_SunLight_Lavaland #'>InfernoLight</a>
+
+<a href='chatcmd:///fxscript Tweak_Shadowlands_SunLight_Pandemonium #'>PandemoniumLight</a>
+
+<a href='chatcmd:///fxscript Tweak_Outerspace_SunLight #'>GlobalLight</a>
+
+(zone to reset light settings)
+
+<highlight>By DrUrban (RK1)<end>

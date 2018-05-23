@@ -1,0 +1,48 @@
+<header>::::: Chat Commands :::::<end>
+
+Here u can find an overview of some commands with samples.
+
+<header2>Playtime<end>
+
+<highlight>/played<end>
+
+Tells you for how long you have played this character. Also gives you the local time, both in-game and real-time.
+
+<a href='chatcmd:///played'>Example Here</a>
+
+<header2>Date of Birth<end>
+
+<highlight>/born<end>
+
+Tells you when character was created.
+
+<a href='chatcmd:///born'>Example Here</a>
+
+<header2>Stucked<end>
+
+<highlight>/stuck<end>
+
+When you are stuck, sit down and use this command and you will be moved
+
+<a href='chatcmd:///stuck'>Example Here</a>
+
+<header2>Tip of the Day Infowindow<end>
+
+<highlight>/TipOfTheDay<end>
+
+Will bring up the next tip.
+
+<a href='chatcmd:///tipoftheday'>Example Here</a>
+
+<header2>Messagebox<end>
+
+<highlight>/messagebox [text]<end>
+
+Opens a messagebox with [text] in it and a OK button to close it.
+
+<a href='chatcmd:///messagebox YAY u have done it'>Example Here</a>
+
+
+Source: http://wiki.aodb.us/wiki/Chat_command
+
+by <highlight>longsdale<end>

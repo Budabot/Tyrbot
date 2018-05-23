@@ -26,7 +26,7 @@ DEV
 EVENTS
 FUN
 GIT
-GUIDE
+GUIDE - !guides is done, still need to do !aou
 GUILD
 HELPBOT - !time and !calc are done
 IMPLANT

@@ -1,0 +1,63 @@
+<header> :::::: Heal Delta :::::: <end>
+
+Stamina  -> HD tick standing/sitting
+<tab><img src=tdb://id:GFX_GUI_FRIENDLIST_SPLITTER>
+<font color=#ff9999>000<tab><tab>-><tab>29s / 14s</font>
+<font color=#ffcccc>030<tab><tab>-><tab>28s / 14s</font>
+<font color=#ff9999>060<tab><tab>-><tab>27s / 13s</font>
+<tab><img src=tdb://id:GFX_GUI_FRIENDLIST_SPLITTER>
+<font color=#ffcccc>090<tab><tab>-><tab>26s / 13s</font>
+<font color=#ff9999>120<tab><tab>-><tab>25s / 12s</font>
+<font color=#ffcccc>150<tab><tab>-><tab>24s / 12s</font>
+<tab><img src=tdb://id:GFX_GUI_FRIENDLIST_SPLITTER>
+<font color=#ff9999>180<tab><tab>-><tab>23s / 11s</font>
+<font color=#ffcccc>210<tab><tab>-><tab>22s / 11s</font>
+<font color=#ff9999>240<tab><tab>-><tab>21s / 10s</font>
+<tab><img src=tdb://id:GFX_GUI_FRIENDLIST_SPLITTER>
+<font color=#ffcccc>270<tab><tab>-><tab>20s / 10s</font>
+<font color=#ff9999>300<tab><tab>-><tab>19s / 09s</font>
+<font color=#ffcccc>330<tab><tab>-><tab>18s / 09s</font>
+<tab><img src=tdb://id:GFX_GUI_FRIENDLIST_SPLITTER>
+<font color=#ff9999>360<tab><tab>-><tab>17s / 08s</font>
+<font color=#ffcccc>390<tab><tab>-><tab>16s / 08s</font>
+<font color=#ff9999>420<tab><tab>-><tab>15s / 07s</font>
+<tab><img src=tdb://id:GFX_GUI_FRIENDLIST_SPLITTER>
+<font color=#ffcccc>450<tab><tab>-><tab>14s / 07s</font>
+<font color=#ff9999>480<tab><tab>-><tab>13s / 06s</font>
+<font color=#ffcccc>510<tab><tab>-><tab>12s / 06s</font>
+<tab><img src=tdb://id:GFX_GUI_FRIENDLIST_SPLITTER>
+<font color=#ff9999>540<tab><tab>-><tab>11s / 05s</font>
+<font color=#ffcccc>570<tab><tab>-><tab>10s / 05s</font>
+<font color=#ff9999>600<tab><tab>-><tab>09s / 04s</font>
+<tab><img src=tdb://id:GFX_GUI_FRIENDLIST_SPLITTER>
+<font color=#ffcccc>630<tab><tab>-><tab>08s / 04s</font>
+<font color=#ff9999>660<tab><tab>-><tab>07s / 03s</font>
+<font color=#ffcccc>690<tab><tab>-><tab>06s / 03s</font>
+<tab><img src=tdb://id:GFX_GUI_FRIENDLIST_SPLITTER>
+<font color=#ff9999>720<tab><tab>-><tab>05s / 02s</font>
+<font color=#ffcccc>750<tab><tab>-><tab>04s / 02s</font>
+<font color=#ff9999>780<tab><tab>-><tab>03s / 01s</font>
+<tab><img src=tdb://id:GFX_GUI_FRIENDLIST_SPLITTER>
+<font color=#ffcccc>810<tab><tab>-><tab>02s / 01s</font>
+<tab><img src=tdb://id:GFX_GUI_FRIENDLIST_SPLITTER>
+
+by Imoutochan (RK1)
+
+<header2>Hitpoints by Breed<end>
+
+Atrox 4 hitpoints from each point in bodydev
+Opifex 3 hitpoints
+Solitus 3 hitpoints
+Nanomage 2 hitpoints
+
+The amount of healdelta you get is:
+base + (bodydev / 100) + healdelta items
+Base is 4 for atrox, 3 for opi/sol, 2 for nanomage
+
+healdelta tickrate formula:
+(870 - stam) / 30 = tickrate
+
+example (870-810)/30=2 secs  
+
+http://forums.anarchy-online.com/showthread.php?t=525410
+http://forums.anarchy-online.com/showthread.php?t=435274

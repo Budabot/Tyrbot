@@ -1,0 +1,94 @@
+<header> :::::: Stats :::::: <end>
+
+<header2>::: Offense / Defense :::<end>
+<a href=skillid://276>Offense (Addall-Off)</a>
+<a href=skillid://277>Defense (Addall-Def)</a>
+<a href=skillid://51>Aggdef-Slider</a>
+<a href=skillid://4>Attack Speed</a>
+
+<header2>::: Critical Strike :::<end>
+<a href=skillid://379>Crit increase</a>
+<a href=skillid://391>Crit decrease</a>
+
+<header2>::: Heal :::<end>
+<a href=skillid://342>Heal delta (interval)</a> (tick in secs)
+<a href=skillid://343>Heal delta (amount)</a>
+<a href=skillid://535>Heal modifier</a>
+
+<header2>::: Nano :::<end>
+<a href=skillid://363>Nano delta (interval)</a> (tick in secs)
+<a href=skillid://364>Nano delta (amount)</a>
+<a href=skillid://318>Nano execution cost</a>
+<a href=skillid://536>Nano modifier</a>
+<a href=skillid://383>Interrupt modifier</a>
+<a href=skillid://381>Range Increase Nanoformula</a>
+
+<header2>::: Add Damage (Amount) :::<end>
+<a href=skillid://279>+Damage - Melee</a>
+<a href=skillid://280>+Damage - Energy</a>
+<a href=skillid://281>+Damage - Chemical</a>
+<a href=skillid://282>+Damage - Radiation</a>
+<a href=skillid://278>+Damage - Projectile</a>
+<a href=skillid://311>+Damage - Cold</a>
+<a href=skillid://315>+Damage - Nano</a>
+<a href=skillid://316>+Damage - Fire</a>
+<a href=skillid://317>+Damage - Poison</a>
+
+<header2>::: Reflect Shield (Percentage) :::<end>
+<a href=skillid://205>ReflectProjectileAC</a>
+<a href=skillid://206>ReflectMeleeAC</a>
+<a href=skillid://207>ReflectEnergyAC</a>
+<a href=skillid://208>ReflectChemicalAC</a>
+<a href=skillid://216>ReflectRadiationAC</a>
+<a href=skillid://217>ReflectColdAC</a>
+<a href=skillid://218>ReflectNanoAC</a>
+<a href=skillid://219>ReflectFireAC</a>
+<a href=skillid://225>ReflectPoisonAC</a>
+
+<header2>::: Reflect Shield (Amount) :::<end>
+<a href=skillid://475>MaxReflectedProjectileDmg</a>
+<a href=skillid://476>MaxReflectedMeleeDmg</a>
+<a href=skillid://477>MaxReflectedEnergyDmg</a>
+<a href=skillid://278>MaxReflectedChemicalDmg</a>
+<a href=skillid://479>MaxReflectedRadiationDmg</a>
+<a href=skillid://480>MaxReflectedColdDmg</a>
+<a href=skillid://481>MaxReflectedNanoDmg</a>
+<a href=skillid://482>MaxReflectedFireDmg</a>
+<a href=skillid://483>MaxReflectedPoisonDmg</a>
+
+<header2>::: Damage Shield (Amount) :::<end>
+<a href=skillid://226>ShieldProjectileAC</a>
+<a href=skillid://227>ShieldMeleeAC</a>
+<a href=skillid://228>ShieldEnergyAC</a>
+<a href=skillid://229>ShieldChemicalAC</a>
+<a href=skillid://230>ShieldRadiationAC</a>
+<a href=skillid://231>ShieldColdAC</a>
+<a href=skillid://232>ShieldNanoAC</a>
+<a href=skillid://233>ShieldFireAC</a>
+<a href=skillid://234>ShieldPoisonAC</a>
+
+<header2>::: Damage Absorb (Amount) :::<end>
+<a href=skillid://238>AbsorbProjectileAC</a>
+<a href=skillid://239>AbsorbMeleeAC</a>
+<a href=skillid://240>AbsorbEnergyAC</a>
+<a href=skillid://241>AbsorbChemicalAC</a>
+<a href=skillid://242>AbsorbRadiationAC</a>
+<a href=skillid://243>AbsorbColdAC</a>
+<a href=skillid://244>AbsorbFireAC</a>
+<a href=skillid://245>AbsorbPoisonAC</a>
+<a href=skillid://246>AbsorbNanoAC</a>
+
+<header2>::: Misc :::<end>
+<a href=skillid://319>XP Bonus</a>
+<a href=skillid://382>SkillLockModifier</a>
+<a href=skillid://380>Weapon Range Increase</a>
+<a href=skillid://517>Special Attack Blockers</a>
+<a href=skillid://199>Reset Points</a>
+<a href=skillid://360>Scale</a>
+<a href=skillid://676>Profession Duel Kills</a>
+<a href=skillid://677>Profession Duel Deaths</a>
+<a href=skillid://679>Solo Deaths</a>
+<a href=skillid://681>Team Deaths</a>
+<a href=skillid://410>Number of fighting opponents</a>
+
+Compiled by Tyrence (RK2)

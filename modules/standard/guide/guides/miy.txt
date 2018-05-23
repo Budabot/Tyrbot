@@ -1,0 +1,13 @@
+<header> :::::: Miy Armor for Buffing Abilities :::::: <end>
+
+<img src='rdb://270281'> <a href='itemref://268834/268834/300'>Miy's Nano Armor Helmet</a> Int Psy
+
+<img src='rdb://270272'> <a href='itemref://268863/268863/300'>Miy's Ranged Body Armor</a> | or | <img src='rdb://270274'> <a href='itemref://268875/268875/300'>Miy's Tank Body Armor</a> Sta Str
+
+<img src='rdb://270266'> <a href='itemref://268841/268841/300'>Miy's Nano Armor Sleeves</a> | or | <img src='rdb://270268'> <a href='itemref://268891/268891/300'>Miy's Scary Armor Sleeves</a> Psy Int
+
+<img src='rdb://270255'> <a href='itemref://268853/268853/300'>Miy's Melee Armor Gloves</a> | or | <img src='rdb://270257'> <a href='itemref://268865/268865/300'>Miy's Ranged Armor Gloves</a> Agi Sen
+
+<img src='rdb://270260'> <a href='itemref://268857/268857/300'>Miy's Melee Armor Legs</a> | or | <img src='rdb://270263'> <a href='itemref://268893/268893/300'>Miy's Scary Armor Legs</a> Agi Sen
+
+<img src='rdb://270253'> <a href='itemref://268895/268895/300'>Miy's Scary Armor Boots</a> | or | <img src='rdb://270254'> <a href='itemref://268883/268883/300'>Miy's Tank Armor Boots</a> Str Sta

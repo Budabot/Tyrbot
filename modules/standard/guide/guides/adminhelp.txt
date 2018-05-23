@@ -1,0 +1,37 @@
+<header> :::::: Admin Help :::::: <end>
+
+This guide gives a quick overview of Budabot commands, features, and ideology that a bot admin may find useful when managing the bot.
+
+Budabot has three main entities that can be configured to change the way the bot works.  They are <highlight>Settings<end>, <highlight>Events<end>, and <highlight>Commands<end>.  Additionally, there are <highlight>Modules<end> which group together settings, events, and commands that are related to each other.
+
+<header2>Settings<end>
+
+Settings have one of 5 types: 'color', 'number', 'text', 'options', and 'time'.  The type indicates the type of value that the setting can hold.
+
+<tab>-Color means that the setting holds a color and will change the color of some output of the bot
+
+<tab>-Number means that the setting must contain a positive integer value (no decimal or fractional numbers).
+
+<tab>-Text means that the setting can contain any text value.
+
+<tab>-Options means that the setting has a list of values, and you can only choose one of the values.
+
+<tab>-Time means that the setting must be set to a time value.  The format of the time value should be in Budatime (see: <a href='chatcmd:///tell <myname> help budatime'><symbol>help budatime</a>).
+
+Note that many settings display a list of options for you to choose, but allow you to provide your own value as well.
+
+Settings cannot be disabled.  For information on viewing or changing settings, see <a href='chatcmd:///tell <myname> help settings'><symbol>help settings</a>.
+
+<header2>Events<end>
+
+Events come in two categories: normal and cron events.  Normal events run in response to something that happens externally.  For instance, an org member logs on or a character joins the private channel.  Cron events run at specified intervals.  For instance, there is a cron event that happens every 24 hours to check for updates to the org roster.
+
+Events can be enabled or disabled--there are no other configuration options.  For more information on viewing or configuring events, see <a href='chatcmd:///tell <myname> help eventlist'><symbol>help eventlist</a>.
+
+<header2>Commands<end>
+
+Commands can be registered for tells, private channel, and guild channel.  For each channel, a command can be enabled or disabled.  Additionally, for each channel, a command can have a different access level.  This is important to know because when you enable or disable a command, or adjust the access level, you will typically want to do it for all three channels.
+
+<header2>Getting Started<end>
+
+Most often, when you want to configure your bot, you should use <a href='chatcmd:///tell <myname> config'><symbol>config</a>.  This shows all the modules in the bot.  Selecting a module will show all settings, events, and commands for that module.  You can either enable or disable the entire module, or change the settings, events, and commands individually.

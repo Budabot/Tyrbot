@@ -1,0 +1,67 @@
+<header> :::::: Playfield Maps of Rubi-Ka :::::: <end>
+
+This is a list of the in-game playfield maps for the various areas of Rubi-Ka.
+
+Each map has a certain MapNav requirement to load (except for the startup maps).
+
+<font color=#ff9900> MapNav </font><font color=#00ccff>|</font>    <font color=#00ff00>Map Name</font>
+<font color=#00ccff>---------|----------------------------------------</font>
+<font color=#ff9900>     0</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Startup  Maps - Clans </font>
+<font color=#ff9900>     0</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Startup  Maps - Neutrals </font>
+<font color=#ff9900>     0</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Startup  Maps - Omni-Tek</font>
+<font color=#ff9900>     2</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - 4 Holes </font>
+<font color=#ff9900>   15</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Omni-1 Entertainment District</font> 
+<font color=#ff9900>   15</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Tir City </font>
+<font color=#ff9900>   25</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Holes in the Wall </font>
+<font color=#ff9900>   25</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Omni-1 - Trader District </font>
+<font color=#ff9900>   25</font>      <font color=#00ccff>|</font>    <font color=#ffff00>Map Reader Upgrade - Directional Arrow </font>
+<font color=#ff9900>   35</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Borealis City </font>
+<font color=#ff9900>   35</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Omni Forest </font>
+<font color=#ff9900>   35</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Tir County </font>
+<font color=#ff9900>   40</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Rome Green District </font>
+<font color=#ff9900>   45</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Lush Fields </font>
+<font color=#ff9900>   45</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Newland City </font>
+<font color=#ff9900>   45</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Newland Desert </font>
+<font color=#ff9900>   45</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Old Athens </font>
+<font color=#ff9900>   50</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Rome Blue District </font>
+<font color=#ff9900>   50</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - The Reck </font>
+<font color=#ff9900>   50</font>      <font color=#00ccff>|</font>    <font color=#ffff00>Map Reader Upgrade - Machines </font>
+<font color=#ff9900>   56</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Aegean </font>
+<font color=#ff9900>   56</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Galway County </font>
+<font color=#ff9900>   56</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Rome Red District </font>
+<font color=#ff9900>   65</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Stret West Bank </font>
+<font color=#ff9900>   66</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Athen West </font>
+<font color=#ff9900>   71</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Full Athen Shire </font>
+<font color=#ff9900>   75</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Pleasant Meadows </font>
+<font color=#ff9900>   80</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Andromeda </font>
+<font color=#ff9900>   80</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Clondyke </font>
+<font color=#ff9900>   80</font>      <font color=#00ccff>|</font>    <font color=#ffff00>Map Reader Upgrade - People </font>
+<font color=#ff9900>   98</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Newland </font>
+<font color=#ff9900> 100</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Coast of Peace </font>
+<font color=#ff9900> 100</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Coast of Tranquility </font>
+<font color=#ff9900> 100</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Mutan Domain </font>
+<font color=#ff9900> 100</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - The Spur </font>
+<font color=#ff9900> 110</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Varmint Woods </font>
+<font color=#ff9900> 120</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Bay of Rome </font>
+<font color=#ff9900> 130</font>      <font color=#00ccff>|</font>    <font color=#ffff00>Map Reader Upgrade - Monsters </font>
+<font color=#ff9900> 140</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - The Longest Road </font>
+<font color=#ff9900> 190</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Stret East Bank </font>
+<font color=#ff9900> 200</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Omni-1 - HQ </font>
+<font color=#ff9900> 200</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Southern Fouls Hills </font>
+<font color=#ff9900> 200</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Three Craters </font>
+<font color=#ff9900> 235</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Milky Way </font>
+<font color=#ff9900> 240</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Upper Stret East Bank </font>
+<font color=#ff9900> 270</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Broken Shores </font>
+<font color=#ff9900> 270</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Southern Artery Valley </font>
+<font color=#ff9900> 300</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Mort </font>
+<font color=#ff9900> 346</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Plains of Salt </font>
+<font color=#ff9900> 350</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Avalon </font>
+<font color=#ff9900> 390</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Central Artery Valley </font>
+<font color=#ff9900> 400</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Belial Forest </font>
+<font color=#ff9900> 450</font>      <font color=#00ccff>|</font>    <font color=#ffff00>Map Reader Upgrade - Side </font>
+<font color=#ff9900> 546</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Eastern Fouls Plains </font>
+<font color=#ff9900> 700</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Deep Artery Valley </font>
+<font color=#ff9900> 700</font>      <font color=#00ccff>|</font>    <font color=#00ff00>Map - Perpetual Wastelands </font>
+
+Written by Shassandrafx (RK2)
+Submitted By Spectin (RK2) 

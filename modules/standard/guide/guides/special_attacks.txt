@@ -1,0 +1,68 @@
+<header>::::: Special Attacks :::::<end>
+
+<header2>Fling Shot<end>
+Fling Shot is a ranged special attack that is executed by whiping the pistol barrel as though you are 'flinging' the bullet. This special attack works the same as any normal attack, only the recharge for this attack is based on the Fling Shot skill. Fling Shot is found most commonly on pistol type weapons. Fling Shot uses up one unit of ammunition.
+
+Recharge Time: (Attack x 15) - Fling skill/100
+Minimum Recharge Time: 6 Seconds + Attack
+
+<header2>Burst<end>
+Burst shoots 3 bullets at once, this is the only special ingame that cannot crit. (Yes dimach can crit, but you will find no extra damage from it)
+
+Recharge Time: (Recharge x 20) + Burst Cycle/100 - Burst Skill/25
+Minimum Recharge Time: 8 Seconds + Attack
+
+<header2>Full Auto<end>
+A Fully Automatic attack causes the weapon to fire all of its remaining ammunition at the target. This isn't always as efficient as some would like though, as the Full Auto Skill determines how many bullets actualy hit the intended target. Full auto can hit for 5 bullets + 1 bullet for every 100th FA skill you have. This damage is also affected by how many shots are remaining in the weapon, so if there are only five bullets in the gun then a maximum of 5 bullets have a chance to hit even if a character normal could hit with as many as 15. Full Auto is found most commonly on Assualt Rifle type weapons. Full Auto completely empties the ammunition on a weapon when used. The maximum damage of a FA is 15.000, but might be harder to achieve then you would think. If a full auto does over 10.000 damage, all the damage after that will be halved, and halved once again after 11.500, 13.000 and 14.500 making a capping 15k FA not quite as easy.
+
+Recharge Time: (Recharge x 40) + Full Auto Delay/100 - FA skill/25
+Minimum Recharge Time: 10 seconds + Attack
+
+<header2>Aimed Shot<end>
+Also called 'Snipe' this attack is a shot that is carefuly aimed to automaticaly hit. Aimed Shot is a truly special attack because it ignores most normal rules for combat, because of this it has slightly different rules for use in Player vs Enemy combat and Player vs Player combat. In PvE, the target you are trying to fire on needs to be unaware of your pressence, which ussualy requires the sniper to be far off from the target and/or use the concealment skill. In PvP, Aimed Shot automaticaly hits. The damage on Aimed Shot ignores Armor, ignores dodge chance, and deals the maximum damage of the weapon, augmented by a multiplier. The multiplier is determined by your aimed shot skill divided by 95. The maximum Damage that can be dealt by a Aimed shot is 13K. Aimed Shot is most commonly found on Rifle type weapons. Aimed Shot uses 1 unit of ammunition.
+
+Recharge Time: (Recharge x 40) - (3 x AS skill/100)
+Minimum Recharge Time: 10 seconds + Attack
+
+<header2>Fast Attack<end>
+A Fast Attack is a quick attack of opportunity that relies mostly on speed to get included between a normal attack pattern. In essence, Fast Attack is just another attack only with the recharge calculated from your Fast Attack skill instead of the Weapon recharge and your initiative. Fast Attack is commonly found on Sword type weapons.
+
+Recharge Time: (Attack x 15) - Fast Attack Skill/100
+Minimum Recharge Time: 6 Seconds + Attack
+
+<header2>Brawl<end>
+A brawl is a rough and tumble special attack that generally involves some sort of punching, kicking, or wrestling. Brawl's chance of hitting and damage are both determined by the character's Brawl Skill. You can use Brawl if you are wielding any melee weapon that has a requirement in Brawl, or when using martial arts (No weapons equipped). Brawling also has a slim chance of stunning the target for a brief time of 3 seconds.
+
+Recharge Time: 15 seconds
+
+<header2>Dimach<end>
+Also known as the 'soul attack' or 'death attack', this special strike is extremely damaging and is said to use the power of one's Ki or soul to function. Keepers have a special benefit to using Dimach as their attacks with this special will allow them to use it to heal themselves, but it will only do 1 damage. (Plus any Add Melee dmg. the user might have) Shades also have a differing version of Dimach that is called 'Lifetap' it deals a bit of damage and heals you for 70-75% of the damage done. The damage and recharge is dependent on the amount of Dimach skill the user has, though both damage and recharge vary by profession.
+
+Recharge Time: Varies
+Minimum Recharge Time: 5 Seconds
+
+<header2>Sneak Attack<end>
+A sneak attack is a melee attack made in stealth, similar to a Aimed Shot, but at close range. Sneak Attack is a truly special attack because it ignores most normal rules for combat, because of this it has slightly different rules for use in Player vs Enemy combat and Player vs Player combat. In PvE, the target you are trying to attack needs to be unaware of your presence, which usually requires the use of concealment to sneak up on the target. In PvP, a Sneak Attack automatically hits. The damage on Sneak Attack is just like a normal hit but has a chance of multiplying, though not as reliable as an Aimed Shot attack. The multiplier is determined by your Sneak Attack skill divided by 95. The maximum Damage that can be dealt by a Sneak Attack is 13k.
+
+Recharge Time: 40 - Does not lower
+Minimum Recharge Time: 40 seconds
+
+<header2>Backstab<end>
+Backstab is really a revision of Sneak Attack that only applies to Shades and Adventurers. The special attack is enabled at various levels of Sneak Attack skill for each profession, and requires increasing levels of base, non-buffed, non-implanted, skill to acheive greater damage multipliers. To use this attack the character must be standing behind the target with somebody else fighting the target. Back Stab Damage is capped at 13K. Backstab is applied to any weapon that also does Sneak Attack.
+
+    Adventurer Progression
+        Enabled: 350 Sneak Attack Skill
+        Damage Multipliers: 540 Sneak Attack Skill
+        Critical Backstab: 625 Sneak Attack Skill 
+    Shade Progression
+        Enabled: 100 Sneak Attack Skill
+        Damage Multipliers: 235 Sneak Attack Skill
+        Critical Backstab: 420 Sneak Attack Skill 
+
+
+Recharge Time: (40 - Sneak Attack skill/150)/2
+Minimum Recharge Time: 
+
+source: http://anarchyonline.wikia.com/wiki/Special_Attacks
+
+by <highlight>longsdale<end>

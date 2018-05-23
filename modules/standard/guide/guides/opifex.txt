@@ -1,0 +1,399 @@
+<header> :::::: Opifex :::::: <end>
+
+This grey-skinned breed is more slender and agile than Humans. They have bonuses
+to Agility and Sense (which are Light Green for them) and a penalty to Stamina
+(which is Dark Blue). This makes the Opifex ideal for ranged combat, especially
+Pistol Adventurers, Fixers, and Agents. They are also pretty decent Martial
+Artists and Shades. Opifex gain the same amount of Health and Nano points as a Solitus per
+point of Body Dev/Nano Pool, but tend to have less in each due to their racial
+Ability penalties.
+
+Most of the Opifex-only items are geared toward Agility and Sense, but these
+items are few and far between.
+
+<header2> ::: Opifex Breed Caps ::: <end>
+
+* <font color='#0088CC'>Strength</font> 464/764
+* <font color='#00CC88'>Agility</font> 544/944
+* <font color='#075AFF'>Stamina</font> 480/680
+* <font color='#0088CC'>Intelligence</font> 464/764
+* <font color='#00CC88'>Sense</font> 512/912
+* <font color='#0088CC'>Psychic</font> 448/748
+
+Opifex HP/NP ratio, -Nanocost cap %
+
+Max % Add Nano Cost -50%
+
+3 max health per 1 point of bodydev
+3 max nano per 1 point of nanopool
+
+
+<pagebreak><header2> ::: Opifex Shadowbreeds List ::: <end>
+
+<green>Opifex (Clan) Shadowbreed<end>
+
+1: Cloudless
+Casts: Lightstep
+
+On Self:
+Boosts Run Speed and Swimming by 1.5k
+Allows you to absorb 5 hits
+Allows you to absorb 10 special attacks
+
+2: Loustrous
+Casts: Gather Light
+
+On Self:
+Boosts your Perception by 2k
+Boosts your Add all Def by 2k
+Boosts your Add all Damage by 500
+
+3: Shiny
+Casts: Rain of Light
+
+On Self:
+Boosts Perception by 2k
+Boosts Add all Damage by 800
+Allows you to Absorb 9 hits
+Allows you to Absorb 25 Special Attacks
+
+AoE:
+Boosts Add all Def by 1k
+
+<pagebreak><green>Opifex (Omni) Shadowbreed<end>
+
+1: Shady
+Casts: Blackstep
+
+On Self:
+Boosts Run Speed by 2k
+Raises Critical Chance by 10
+
+2: Adumbrated
+Casts: Obscure Vision
+
+On Self:
+Boosts your Run Speed by 2k
+Boosts your Concealment by 4k
+Boosts your Add all Off by 200
+Raises your Critical Chance by 12
+
+3: Darkened
+Casts: Gather Darkness
+
+On Self:
+Boosts your Run Speed by 1k
+Boosts your Concealment by 2k
+Boosts your Add all Off by 800
+Raises your Critical Chance by 15
+
+<pagebreak><green>Opifex (Neutral) Shadowbreed<end>
+
+1: Doubtful
+Casts: Blackstep
+
+On Self:
+Boosts Run Speed by 2k
+Raises Critical Chance by 10
+
+2: Dubious
+Casts: Gather Light
+
+On Self:
+Boosts your Perception by 2k
+Boosts your Add all Def by 2k
+Boosts your Add all Damage by 500
+
+3: Undefinable
+Casts: Obscure Vision
+
+On Self:
+Boosts your Run Speed by 2k
+Boosts your Concealment by 4k
+Boosts your Add all Off by 200
+Raises your Critical Chance by 12
+
+
+<pagebreak><header2> ::: Opifex Alien Invasion Perks ::: <end>
+
+<green>Opifex Primary Genome<end>
+
+1. Requirements:
+
+Level from 15
+Breed = Opifex
+
+Modifies:
+
+Sense = +2
+Agility = +2
+
+2. Requirements:
+
+Level from 15
+Breed = Opifex
+Must have perk = Opifex Primary Genome 1
+
+Modifies:
+
+Sense = +3
+Agility = +3
+
+3. Requirements:
+
+Level from 35
+Breed = Opifex
+Must have perk = Opifex Primary Genome 2
+
+Modifies:
+
+Sense = +3
+Agility = +3
+
+Enables Special: Opening
+
+This opifex attack was usually used as an opening attack, hence the name Opening. Due to the demanding physics of such an attack, it has a rather slow recycle.
+
+Duration: N/A
+Recharge: 2 Minutes, 15 Seconds
+
+<a href='chatcmd:///start http://aoitems.com/item/252523'>http://aoitems.com/item/252523</a>
+
+4. Requirements:
+
+Level from 55
+Breed = Opifex
+Must have perk = Opifex Primary Genome 3
+
+Modifies:
+
+Sense = +3
+Agility = +3
+
+5. Requirements:
+
+Level from 55
+Breed = Opifex
+Must have perk = Opifex Primary Genome 4
+
+Modifies:
+
+Sense = +3
+Agility = +3
+
+6. Requirements:
+
+Level from 55
+Breed = Opifex
+Must have perk = Opifex Primary Genome 5
+
+Modifies:
+
+Sense = +4
+Agility = +4
+
+7. Requirements:
+
+Level from 115
+Breed = Opifex
+Must have perk = Opifex Primary Genome 6
+
+Modifies:
+
+Sense = +4
+Agility = +4
+
+8. Requirements:
+
+Level from 115
+Breed = Opifex
+Must have perk = Opifex Primary Genome 7
+
+Modifies:
+
+Sense = +5
+Agility = +5
+
+9. Requirements:
+
+Level from 202
+Breed = Opifex
+Must have perk = Opifex Primary Genome 8
+
+Modifies:
+
+Sense = +7
+Agility = +7
+
+10. Requirements:
+
+Level from 207
+Breed = Opifex
+Must have perk = Opifex Primary Genome 9
+
+Modifies:
+
+Sense = +14
+Agility = +14
+
+Enables Special: Derivate
+
+This is a special poison that the opifex can use on its target. It requires that you stand behind the target.
+
+Duration: 35 Seconds
+Recharge: 1 Minute, 50 Seconds
+
+<a href='chatcmd:///start http://aoitems.com/item/252526'>http://aoitems.com/item/252526</a>
+
+<pagebreak><green>Opifex Secondary Genome<end>
+
+1. Requirements:
+
+Level from 15
+Breed = Opifex
+
+Modifies:
+
+Strength = +1
+Stamina = +1
+Psychic = +1
+Intelligence = +1
+
+2. Requirements:
+
+Level from 15
+Breed = Opifex
+Must have perk = Opifex Secondary Genome 1
+
+Modifies:
+
+Strength = +1
+Stamina = +1
+Psychic = +1
+Intelligence = +1
+
+3. Requirements:
+
+Level from 35
+Breed = Opifex
+Must have perk = Opifex Secondary Genome 2
+
+Modifies:
+
+Strength = +1
+Stamina = +1
+Psychic = +1
+Intelligence = +1
+
+Enables Special: Blinded by Delights
+
+The effect of this special is a target blind. It will also reduce the targets nanoskills.
+
+Duration: 25 Seconds
+Recharge: 1 Minute, 50 Seconds
+
+<a href='chatcmd:///start http://aoitems.com/item/252539'>http://aoitems.com/item/252539</a>
+
+4. Requirements:
+
+Level from 55
+Breed = Opifex
+Must have perk = Opifex Secondary Genome 3
+
+Modifies:
+
+Strength = +1
+Stamina = +1
+Psychic = +1
+Intelligence = +1
+
+5. Requirements:
+
+Level from 55
+Breed = Opifex
+Must have perk = Opifex Secondary Genome 4
+
+Modifies:
+
+Strength = +2
+Stamina = +2
+Psychic = +2
+Intelligence = +2
+
+6. Requirements:
+
+Level from 55
+Breed = Opifex
+Must have perk = Opifex Secondary Genome 5
+
+Modifies:
+
+Strength = +2
+Stamina = +2
+Psychic = +2
+Intelligence = +2
+
+7. Requirements:
+
+Level from 115
+Breed = Opifex
+Must have perk = Opifex Secondary Genome 6
+
+Modifies:
+
+Strength = +2
+Stamina = +2
+Psychic = +2
+Intelligence = +2
+
+8. Requirements:
+
+Level from 115
+Breed = Opifex
+Must have perk = Opifex Secondary Genome 7
+
+Modifies:
+
+Strength = +3
+Stamina = +3
+Psychic = +3
+Intelligence = +3
+
+9. Requirements:
+
+Level from 202
+Breed = Opifex
+Must have perk = Opifex Secondary Genome 8
+
+Modifies:
+
+Strength = +3
+Stamina = +3
+Psychic = +3
+Intelligence = +3
+
+10. Requirements:
+
+Level from 207
+Breed = Opifex
+Must have perk = Opifex Secondary Genome 9
+Must have Blinded by Delights running
+
+Modifies:
+
+Strength = +8
+Stamina = +8
+Psychic = +8
+Intelligence = +8
+
+Enables Special: Dizzying Heights
+
+The effect of this special is a direct damage only available on the target that has Blinded by Delights running.
+
+Duration: N/A
+Recharge: 1 Minute, 40 Seconds
+
+<a href='chatcmd:///start http://aoitems.com/item/252541'>http://aoitems.com/item/252541</a>
+
+By Curlycat (RK2), Mdkdoc420 (RK2)
+original version at <a href='chatcmd:///start http://aocrimson.darkbb.com/t126-comprehensive-breeds-guide-very-detailed'>http://aocrimson.darkbb.com/t126-comprehensive-breeds-guide-very-detailed</a>

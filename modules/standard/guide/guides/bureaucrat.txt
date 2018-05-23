@@ -1,0 +1,157 @@
+<header> :::::: Guide to Bureaucrat :::::: <end>
+
+Skills are abilities like Matter Creation or Time & Space in nanoskills, or pistol skill in weapon skills. Stats are the abilities of your character on the body side. Those are: Strength, Stamina, Agility, Intelligence, Psychic, Sense, Nanopool and Body Development.
+
+While many Bureaucrats prefer to raise Intelligence, Sense and Psychic, this choice is all up to you. You can play an Int/Psy/Stam Crat, who can have more HP than the Int/Psy/Sense Crat. On the other hand, most of the Bureaucrat nano skills depend on Int, Psy and Sense, so raising those stats will automatically raise your nanoskills by 1 point from time to time. I chose the Str/Stam/Agil/Int Crat and I only put little IP into Sense and Psychic. This allows me to use good armor (Omni-Pol Elite armor at my level) and with high Int, my nanoskills are also high enough for my level.
+
+It is recommended to specialize in Int/Psy and Sense.
+
+<pagebreak><header2>2.3) Important skills<end>
+
+The Bureaucrat mainly depends on nano technology, thus all nano skills are important, except Matter Metamorphosis (Mat Meta). Your droid assistant requires Matter Creation and Time & Space to be created thus you should focus your development in thos 2 skills at first.
+
+Bureaucrat direct damage nanos require Time & Space/ Mat Crea, Psychology Modification and Sense Improvement and Modification mainly.
+
+Droid Repair nanos require Mat Crea and Biological Metamorphosis.
+
+Charm nanos and Mesmerize nanos as well as Fear nanos require Psy Mod and Sense Imp and Bio Met.
+
+Root nanos require Psy Mod and Mat Crea
+
+XP-Buff nanos require Sense Imp and Psy Mod
+
+Stun Nanos require Psy Mod
+
+Treatment skill is reommended for all professions to allow for better healing with Med-Kits and Nano Rechargers
+
+Nano Inititiative raises the speed which you cast your nanos with
+
+Nano Resistance enables you to resist hostile nano programs that are casted on you
+
+For weapons, the Bureaucrat uses pistols mainly. This skill is light blue. Unfortunately, pistols are not that great in damage dealing and speed, but if you plan to use weapons at all, the only reasonable area here are pistols. Beria of Red Tape has assembled a good pistol guide for the Bureaucrat, which can be found here: http://www.geocities.com/cratpistol/
+
+Recent scientific research has found, that Bureaucrats are not proficient in weapon skills due to a lot lower damage without the needed skills unbuffed. It is recommended to stick to Direct Damage (DD) nanos and pet damage.
+
+<pagebreak><header2>2.4.) The psychology skill<end>
+
+It is rumored that this skill will one day - far in the future - be useful for paperwork tradeskills. At this time this skill is needed to create a Bureaucrat Executive suit and it also raises your chance to successfully charm an opponent. Psychology is part of the nano skillcheck that is done when you cast a charm. The higher your Psychology, the less likely your charm will be resisted.
+
+Besides this, many Crats are waiting for Psychology to have a real use besides this. Paperwork tradeskills are partly implemented at this time with several multi forms in bookstores, as well as ID data extractors and holo cameras. They are used to create the suits and bow-tie for the Bureaucrat.
+
+It is recommended to raise Psychology as much as you can afford, because this skill will play some role in the future in the crat profession.
+
+<pagebreak><header2>3.) Combat<end>
+
+3.1.) Which Armor to use as a Bureaucrat
+
+Due to the stats you specialize in, it is not predictable which armor would suit you best. Bureaucrats with high Int/Psy/Sense can use Nano armor which gives good protection and looks stylish at the same time. Str/Stam/Agil Crats can use Omni-Pol armor (for Omni-Tek employees). The best armor rating ingame has the Flower armor, which needs Agil and Str. Accompanied by a Hanshi Primus Decus Coat, this armor gives best protection available. However, the armor you use is up to your personal choice. Depending on the stats you specialized in, you will have to find armor that fits to those stats. As mentioned above, if you chose to max. Int/Psy and Sense, Nano armor would be best choice for you as it requires Int and Psy.
+
+<pagebreak><header2>3.2.) What Weapon to use as Bureaucrat<end>
+
+Bureaucrats have a droid pet, Direct Damage nanos and can also use pistols. If you specialized in another weapon, then you should know what you do, otherwise you will waste a lot of IP because weapons are ineffective for Bureaucrats at higher levels, except the droid and the DD nanos.
+
+Your droid pet will most likely be the damage dealer for you. This is why you should concentrate on getting a droid that has a red healthbar to you. A strong droid can kill the enemies which give you XP to level up, while you help your droid with your DD nano. The droids range from Helper droids, over Worker droids, Assistant, Attendant, Aide, Secretary, Administrator, Minion to the Bureaucrat Bodyguard, which looks like a Ninjadroid and does quite some damage.
+
+The low level droids can all be bought in the nano shops, from Basic, Advanced and Superior shops. The droids from Administrator upwards, as well as some of the Secretaries are not available in shops. You can find those either in missions as item to find or as reward or in chests (rarely). But you will most likely have to buy nanos from players. Thus you will need credits. For this, check section 5 of this guide ;)
+
+To keep monsters from changing their attention from your droid to you, you can obtain nanos which raise the 'aggressiveness' of your droid. Your pet will then keep the monster focussed on itself, so you can help your pet with DD nanos and the monster sticks to your pet which has a lot more HP than you. Those pet enhancing nanos are 'Mudslinger'; 'Defamation 101' and 'Character Assassin'.
+
+<pagebreak><header2>3.2.1.) Pet Commands<end>
+
+/pet attack - makes pet attack the target, be aware of the fact that monsters/NPCs might switch targets, so you can still get attacked, even when you tell your pet to attack the enemy, the pet taunt nanos 'Mudslinger', 'Defamination 101' and 'Character Assassin' raise the aggressivness of your pet and let it keep the monster on itself for longer - the monster might even stay on your pet during the entire fight if you use those nanos.
+
+/pet guard - makes pet guard you, it will attack anything that attacks you when in guard mode
+
+/pet follow - makes pet follow you
+
+/pet behind - makes pet follow you and stay behind you at all costs (can be sometimes used to force your pet to 'teleport' to you)
+
+/pet wait - makes pet wait
+
+/pet report - gives you a short report of location, current enemy of the pet, remaining HP, remaining time of pet
+
+/pet terminate - terminates your pet anywhere, releases charmed monsters/NPCs
+
+/pet social {social move} - makes charmed NPCs execute social moves (e.g. disco, prostrate...)
+
+/pet hunt - makes pet hunt on its own, be careful when you use this command since your pet might very well attack something much tougher than itself
+
+/pet rename {name} - renames pet (It is possible to create long names with spaces by using /pet rename 'name of pet')
+
+/pet chat {'text'} - pet says what you type
+
+<pagebreak><header2>3.3.) Trimmers<end>
+
+Trimmers are extra items to 'trim' the settings of your pet. You can find the QL of the trimmers inside their description (e.g. by shift-left clicking on the trimmer). You cannot really see the effect of the trimmer by examination of your pet, but you should notice a difference in behavior of your pet depending on the trimmer used. The higher the QL of the trimmer, the bigger the effect on the pet. Trimmers can be bought in the shops at the booth labeled 'Tools', or found as mission rewards. It is recommended to use a trimmer that changes the pets' aggressiveness.
+
+Bureaucrats have a wide range of Crowd control nanos. You should use those often and to your advantage. Charm nanos, Fear nanos and Mesmerize nanos can be the saviour of your life if you use them in the right moment. For this, you will need to know how those nanos work.
+
+Charm nanos cause your enemy to become your pet for a limited period of time. The Bureaucrat has 2 different lines of charm nanos. The stable charm has lower nano resistance requirement, usually lower nano cost and is less likely to be broken by the monster, compared to the unstable charm. The unstable charm lasts a lot shorter than the stable one and the unstable charm can also be broken before the time of the charm has run out. This happens randomly and thus most Bureaucrats use the stable charm, if they use charms at all. The advantage of the unstable charm is, that you can charm 2 monsters at once, effectively giving you 3 pets if you also have your droid pet with you.
+
+The Bureaucrat has 3 nano lines which make the profession unique. First there are the XP-Buff nanos which are called 'Batons'.
+
+They come in 3 variations. The first is 'Baton of Authority' which raises the XP gained by your team and yourself by 3%.
+
+The 2nd one is 'Baton of Leadership' which raises the XP gained by your team and yourself by 6%.
+
+The 3rd and last one is 'Baton of Command' which raises the XP gained by your team and yourself by 9%.
+
+Those nanos are somewhat useful and usually the teams you are in welcome those XP buffs, since they are rare to get and help to level up faster. Although the Bureaucrat community would welcome it if those nanos would be enhanced even further, to actually raise the XPs you gain by a moderate amount (10, 20 and 30%), so that Bureaucrats are wanted in teams and the difference is noticable.
+
+The other 2 nano lines are direct oppositions of each other.
+
+The Motivational Speeches work like the engineer aura buffs. A Motivational speech casted on yourself will send out a wave of nano bots around you and enhance everyone (Players only) of friendly alignment a little bit. Those nanos can range from adding to the chance to Critical hit an enemy, or to raise the number of available nanobots, to raise nano resistance or to raise the damage output and damage taking of the friendly targets around you. The speech effect lasts 22 seconds and will only be refreshed if those friendly aligned individuals are around you. The Critical hit speeches (e.g. Opportunity Knocks) are welcome in teams, since +3 points to do critical hits (Critical Hit Modifier) is a nice addition for everyone who uses a weapon or fists.
+
+Demotivational Speeches on the other hand demotivate all enemies around you. This results in various effects, depending on the speech you use at the moment. They have the direct opposite effects of the motivational speeches and lower Crit chances, lower available nanobots or lower nano resistance of enemies around you. They function especially well to transform you into a magnet for monsters, so that all monsters in an area which are affected by your demotivational speech will immidiately attack you ;) In mayhem areas (like arenas) a demotivational speech is very dangerous for the bureaucrat, so those nanos will be part of those you will rarely or never use. 
+
+<pagebreak><header2>12.) Special equipment useful for a Bureaucrat<end>
+
+The Neleb's Nano-circuit robe:
+
+The dungeon 'Steps of Madness' in Omni Forest has a boss enemy called 'Neleb the Deranged'. This enemy has a robe called 'Neleb's Nano-circuit robe'. This robe adds +8 to all nano skills as well some points to nanopool and other additions.
+
+It is recommended to get this robe, since it will help you to use better nanos (red healthbar for droid, higher DD nanos...) and it also looks stylish.
+
+The Sealed Order forms for the Bureaucrat suits and Bow-tie:
+
+The dungeon 'Foreman' in The Longest Road contains a laboratory which has the boss T.I.M. This boss is not so important for us Crats, but the Lab Director in this dungeon is.
+
+The Director occasionally drops an order form, which says 'Sealed Order Form XXXX' where the XXXX stands for a row of letters and numbers, defining what this order form can be used for.
+
+
+
+<pagebreak>Charms have one problem, in common with Fear nanos. They have a Psychic requirement that checks the psychic stat of the enemy you try to charm. If the charm nano for instance has a psychic requirement of 200 and the enemy has Psychic of 210, you cannot charm this enemy. You will have to drain his Psychic with the general Psychic drain nano by 12 points to charm this enemy. Unfortunately at higher levels, you will encounter that the charm nanos, as well as the fear nanos are too restrictive in the Psychic requirement, so that they are mostly useless in everyday life of a Bureaucrat level 100+.
+
+Fear nanos cause your enemy to run away for a short period of time, causing it to stop attacking you and flee the area in front of you as long as the enemy is not attacked by you again and the nano is in effect.
+
+Especially in teams, where the team looks for monsters of a lot higher level than the team members, to gain good experience, your charm nanos and fear nanos will be useless due to the Psychic check on the enemy.
+
+That is where your mesmerize nano comes in effect.
+
+The mesmerize nano causes your enemy to stop attacking you or it prevents the enemy from attacking you at all. This nano can be broken quite easily like a root nano, by attacking the monster. Teams usually hunt in areas with a lot of monsters, so the team member who 'pulls' the enemy, might accidentally or willingly pull more than one at a time. In this case, you can mesmerize one of the enemies that comes running after you, effectively stopping this one from attacking you or the team. Now your team just has to ignore this mesmerized enemy until they are done with the first one.
+
+Keep in mind though that mesmerize nanos have an additional 'defensive check' which checks the level of the opponent and calculates that as a percentage into the resistance of that nano. This means that the higher level a monster is, the less chance you will have to mezz it with a lower quality level nano. You will not be able to mezz a monster 100 levels above you. You will also not be able to use the same low QL mezz all the time. Always use the best mezz you can use with your nano skills (that generally counts for all nanos anyway).
+
+Root nanos cause your enemy to be frozen to the ground, but the enemy can still fight, so any ranged attacks will still be available to the enemy. Those nanos are not very useful in the single target version, but the area effect root can be very effective against a large group of monsters, so your team can pull one enemy at a time by attacking them one after the other once they are done with the first enemy.
+
+Stun nanos cause your enemy to be totally immobile and unable to fight. Those nanos last only a few seconds (5 seconds max.) and are available to really high level Bureaucrats only. Those nanos are not very useful, only if you can stun the enemy and have someone else to do the damage. In teams those nanos are a bit useful to keep your enemy from doing damage at all.
+
+Finally your Direct Damage nanos are quite effective. Bureaucrats have the 2nd best DD nanos after the NT DD nanos. Many Crats specialize in those nanos to do a lot of damage in rather short time. Unfortunately, the DD nano variety is very limited in the Bureaucrat profession, which will cause you to use one DD nano for a lot of levels until you can upgrade to the next higher one, making your DD nano ineffective for a few levels before the upgrade. At high levels, a Bureaucrat gets DD nanos that can do up to 3k damage (Rule Of One) in short time. In teams this will most likely be the only way for you to damage the enemy, if you desire to do any damage at all.
+
+Weapon damage is not the proficient area for the Bureaucrat. Almost all weapon skills are dark blue for Bureaucrats. This means that IP cost is extremely high in those skills, which makes it not effective to raise weapon skills at all. If you wish to use a weapon, it will most likely be for fashion reasons, because Crats cannot effort to raise weapon skills to a level where they are effective. Many bureaucrats use pistols, as those weapons have a light blue skill, which is not so costly to raise on the IP side as a dark blue skill. But many also use rifles like the Yatamuthy X-3 rifles or Shotguns. Which weapon you want to use is entirely up to your personal preference. But rest assured that Bureaucrats are not the weapon masters of AO, so your damage with a weapon will always be sub-standard. A good way to compensate the lack of skill is, to use the motivational speeches which raise your ATR (Attack Rating). This is a small number in your stats window (where the XP, HP and Nanopool are as well) and determines the damage modification for your weapon.
+
+<pagebreak><header2>5.1 Explanation of the 'Unaffected by your nano' messages (by Kithrak)<end>
+
+I will try to explain a bit why some mobs that are supposedly immune to mez or some nano suddenly not be immune if you spam the casting key enough times and why sometimes its won't change a thing.
+
+For bureaucrat, currently all regular mission mobs are not immune to mez/fear/charm/root/snare. But, a level 250 Ace Enforcer will resist your nanos a lot due to your attack rating (nanoskills) being much lower. The charm/fears will not work only because the psychic check is too high.
+
+Another bureaucrat, for a level 100 team boss it is flat out immune to mez/charm. No amount of repeat spamming the mez or charm nano will get through. Because a team boss can't be mezzed or charmed at all. It will eat up your nano, but give the message, mob is unaffected by xxxx. Resists or attack skills do not even enter into the equation. Imagine a mob thats immune to projectile damage and you can see the problem.
+
+The last bureaucrat for cases of partial immunity is when the mob isn't 100% immune.(bureaucrats include innate root resistance from some de-root buffs/Grid armor or Doc skill debuff protection nanos) It works like an extra layer of defense roll. If a mob has a 50% chance to be unaffected by root for bureaucrat and you cast any root nano. There is a 50/50 chance the root will be ignored flat out not do anything. Resist or attack skills do not matter. But say your root does pass the 50% innate resistance check then nano resist comes in.
+
+The problem is that for practically all of the new mobs like the Primus, Secundus, Team Bosses etc. are immune or have a very high innate resistance percentage against many things. With mobs that are immune to both mez and roots the psychic checks on fears also prevent it from being used past mobs of around level 200.
+
+Another bureaucrat of the problems with innate resistance is traders saying they practically can't drain anyone defending a tower. If you take a look at the tower effects they confer a 50% innate resistance against many things, one of which is skill drains. Hence traders trying to drain defenders under the influence of a controller constantly get 'player not affected by your nano.'
+
+Hope that helps shed some light and why crowd controllers such as bureaucrats have problems when the mobs are immune to mez/root/stun and the psychic checks on fears render the nano inoperative.

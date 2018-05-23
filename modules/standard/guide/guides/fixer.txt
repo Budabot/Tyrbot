@@ -1,0 +1,53 @@
+<header> :::::: Guide to Fixers :::::: <end>
+
+<pagebreak><font color = yellow>At a glance</font>
+<font color = red>* Main Weapons: SMGs</font>
+* Alternate Weapons: Pistol, Ranged Energy
+* Main Nanoskills: MM/BM/TS for Heal-over-Time, MM/MC/TS for Grid Armor
+* Tradeskills: Good
+* Overall Difficulty: Medium
+This class specializes in moving very quickly. They have access to a special
+form of the Grid which allows them to transport themselves virtually anywhere
+in Rubi-Ka. Run speed buffs, Heal over Time, and NCU buffs make for a very well-
+rounded class which excels at missions and soloing.  They also have the best
+evades, including the highly coveted Grid Armor line of nanos that allow them
+to become virtually untouchable in combat. Their nanoskills, however, are all
+dark blue. Opifex is the race of choice.
+
+<pagebreak><header2>Chapter One: What is a Fixer?<end>
+What is a fixer? Some people think of us as useless for anything but our run-, NCU- and hot buffs. Others think of us as a nice bunch they can ask to fetch items for. Yet others just don't know what fixers are, can and will do. So, what can we do? Well, we do run pretty fast, and we seem to be able to find almost everything on Rubi-Ka. And people do like to have someone with them that can
+
+<pagebreak><header2>Chapter Two: Breeds - What breed suits your play style?<end>
+
+Atrox: Is the breed with the most HP. The difference is that Opifex and Solitus get 3hp per body dev while Atrox gets 4hp for each body dev. point. So this means when fixer breed caps at 666 (I think this is the right number) Atrox will have 666 more hp they others and twice as much compared to Nanomage. The skill that Atrox lacks is intelligence which will have to be compensated with some heavier implanting or by putting up a few towers. Also they will have a lower nano pull that means about 1000 or more nano less then others.
+
+Nanomage: This breed has a lot of nanopool but lacks in hp greatly. That on the other hand does not make them gimps. Nanomages have great intelligence and that translates in more points in nano skills and lesser implantations so you can concentrate on weapons or other skills to implant. Also with a big nano pool you can root and snare more times then the others.
+
+Solitus: Has a 300 HP advantage over Opifex breed at level 200, easier choice of armor and no dark blue Stamina. A good all-round breed, that doesn't stand out in the crowd. Might have a bit harder time to equip some of the high-end armor, items and guns, but nothing that cant be fixed with implants.
+
+Opifex: Agility and Sense are green and the cap is over 500, which translate, in additional points in the weapon skills like SMG and Burst, which at the end adds additions attack rating. Also some specific fixer items may require agility or stamina to wear so if you don't wont to implant every time you want wear it.
+
+<pagebreak><header2>Chapter Three: Abilities and Skills. -Where should I spend my IPs?<end>
+
+Abilities:
+Basically you will have to raise all abilities almost constantly. Now you don't have to max them all out, but you should focus on Agility and Sense, as those are the main fixer abilities. Intelligence is another good thing to max, or at least keep as high as possible, as the tickledown in this ability raises all your nano-skills and your complit. Stamina should be high on the list too as it helps your Body dev raise, and thus gives you more hit points. Body dev is one of the skills you always should max, as you need your hit points. Raise your Nano Pool as you see fit. Make sure you have enough to cast the best nanos you can get.
+
+<font color = yellow>Skills</font>
+There are an assortment of skills that you should max at all times. SMG and Burst, to be able to equip the best gun possible, runspeed, dodge ranged and evade close combat, to be able to get to and survive a mission. At level 112 I had 1150 run speed, and I kept on maxing it. Why? It's getting you there, and it's great when blitzing. (You will learn more on Blitzing in chapter four.) Ranged initiative is the next skill to max, as it will help you when you have got to fight. Nano resistance is useful, but you don't need to max it. Fixer with grid armor might have a great advantage since the GA also adds NR we can be the best in it, which means resist roots and snares. Complit is green to fixer and its easy to rise. Try to get it to 801 points, so you can use the Nano Formula Recompiler that adds 400 to nano initiative, and it takes 800 comp lit to hack a ql 200 surgery clinic. You will have to raise treatment from day one of you character in order to be able to use the best implants you can get. First aid is also a decent skill, but thanks to our HoTs (Healings over Time) we don' need to max this skill. Raised it enough to be able to use the ql 125 first aid kits from the store because that is the highest ql you can buy.
+
+Breaking and entering is a very useful skill for hacking and opening chests. When you can reach around 420 B&E buffed at lower level stop till you can afford the IP to raise it further to 800+. At 420 you can open any chest in ql 200 mission, after that only use is to hack items, but you can leave that to other fixers so you save IP. You should try to raise Map navigation to 130 fast, so you can use the map upgrades. If you're lucky, or well connected, you will be able to buy one of the lowest ql Yalmahas so you should try to raise or implant vehicle air to around 100. The best way to do this is to buy the Yalm first, and then spend the IP
+
+<font color = yellow>Nano skills</font>
+Before we start talking about nano skills be sure to note that you will need to make a NCU Hacker Interface. This is a tool that helps fixers with the nano skills, and it levels along with you.
+As a fixer you will notice that all the nano skills are dark blue, and therefore cost a lot to raise. Let me break the skills down for you:
+
+* MM is used for HoTs, Damage Buffs, Grid Nanos, NCU buffs and Grid Armor, so this is one of the most important skills. Raise it as high as you can.
+* BM is used for HoTs only, but since we love HoTs, we try to keep this skill high as well.  It is not as needed as MM, though.
+* MC is used only for Grid Armor and the Summon line. If you don't plan to use the GA, you really should leave this skill alone. If you want to use the GA, you should use implants to raise it as far as you can before you start putting IP into it.
+* TS is used for Run buffs, Roots, Snares, HoTs, NCU buffs and Grid Armor, and is also one of the skills that should receive a lot of attention from you.
+* PM is used for Roots, Grid nanos, SMG buffs and B&E buffs. Again, raise it fast and high.
+* SI is used for Run buffs, Snares, Damage buffs, Grid nanos, NCU, SMG buffs and B&E buffs and should be given a lot of IP love.
+
+In essence, all the nano skills need love, except the MC that you don't need if you don't want to use the GA. If you need to prioritize, you should try to keep TS about 2/3 of your SI and BM skill is at because it's required less. The next two skills you have to look out for is PM and MM. Usually if a line needs both they are required in the same amount so keep them equal if you can, or if you think SMG buffs are more important to you raise PM. In any case at high level they will end up about the same around 787.
+
+http://forums.anarchy-online.com/showthread.php?t=391085&highlight=updated+fixer

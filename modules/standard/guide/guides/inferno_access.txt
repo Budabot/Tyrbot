@@ -1,0 +1,61 @@
+Name: Inferno Access Quest
+Faction:  All 
+Approximate Level:  N/A 
+Author:  Silirrion, Adrius
+Credits: AOVault.com, Herodotus2
+
+Like the garden quests both versions are very similar and both end up with the same objective - getting your hands on a pattern for a pocket boss called the 'Great Ice Golem'. So without further delay, here's the run down. 
+
+<pagebreak><header2>Clan Version </font>
+
+1. First off head to the Adonis Catacombs and with a raid team farm some Yomi Grimoir pages off of the Yomi Grimoir and the other boss mobs in that dungeon. 
+
+2. Once you have a page give it to the Sipius in the Penumbra Redeemed temple (he's on the top floor ) he will give you the Book of insignificant rituals 
+
+3. Give the book of insignifcant rituals to the Eeclesiast, and he will spawn Cama. Note that Cama spawns in the 75% room, so be carefull if there are Omni's around. Redeemed Cama gives awesome faction for the Omni's and they won't think twice about killing it. 
+
+4. Talk to the Cama, she then gives you the Sealed Instructions to the Acolyte Cama Hume. 
+
+5. Head back to the temple kill the prophet there and the Acoloyte will spawn. 
+
+6. At the minute you need to either calm or fear the Acolyte, in order to talk to him in, he's aggro . Give him the sacred blueprint of vanya and sealed instructions to acolyte cama hume. 
+
+7. He now spawns the unredeemed vanya, instead of spawning Omega Carlos Truhillo 
+
+8. Kill the Unredeemed Vanya, he has quite abit of hp and hits for around 3k'ish, UBT from a doc' and other init. debuffs help alot. Loot Vanya's beating heart, you now have 1 hour and 30 minutes to finish the quest before you have to do it all over 
+
+9. Go to the ecclesiast again, tell him you need to see cama because you have something to give her, show him the heart. He now spawns cama in the 75% room. 
+
+10. Talk to the Cama, give her the heart, and she gives you the blueprint of for the Ice Golem. 
+
+11. The Golem can now be spawned at the Incarnator. When you kill him, he will drop 6 molars. This is enough to get 6 people their +7 Inferno Rings.
+
+<pagebreak><header2>Omni Version </font>
+
+As mentioned above this one is pretty much the same accept for the mobs / temples that need killing / visiting. 
+
+1. Head to the Adonis Catacombs, and with a raid team, farm 'A Page From The Yomi Grimoire' off of the Yomi Grimoire and the other boss mobs in that dungeon. 
+
+2. Once you have a page give it to 'Hypnagogic Ixi-Lum Van' in the Penumbra north east Unredeemed temple. He will give you the Book of insignificant rituals. 
+
+3. Give the book of insignifcant rituals to Prophet Nar Van, and he will spawn Vanya. Note that Vanya spawns in the 75% room, so be carefull if there are Clanners around. Unredeemed Vanya gives awesome faction for the Clanners and they won't think twice about killing it. 
+
+4. Talk to Vanya, she then gives you the 'Sealed instructions to Ardent Gulu Van'. 
+
+5. Head to the Redeemed Temple in NW Penumbra and kill the Ecclisiast. The Ecclisiast will drop 'Sacred Blueprint of Cama' (100% drop), you need to loot this item. Killing the Ecclisiast will also spawn Ardent Gulu Van. 
+
+6. Give him the 'Sacred Blueprint of Cama' and the 'Sealed instructions to Ardent Gulu Van'. 
+
+7. He now spawns the Redeemed Cama. 
+
+8. Kill the Redeemed Cama, and loot 'Cama's Beating Heart'. You now have 1 hour and 30 minutes to finish the quest before you have to do it all over again. 
+
+9. Go talk to Prophet Nar Van again. Tell him you need to see Vanya because you have something to give her. Show him the heart. He now spawns Vanya in the 75% room. 
+
+10. Talk to Vanya and give her the heart. She will give you the Blueptrint Pattern of 'The Great Ice Golem'. Make this pattern up the same way you would any other pocket boss. 
+
+11. He can now be spawned at the Incarnator. When you kill him, he will drop 6 molars. This is enough to get 6 people their +7 Inferno Rings.
+
+<pagebreak><header2>Head to Ergo!</font>
+
+You'll then have to head to Ergo for the +7 ring that will see you into Inferno. As usual the little floating chatterbox is in the far north of Penumbra (in the Penumbra Valley area) but isn't that hard to find. Chat to Ergo about getting to Inferno and then hand him the molar looted from the Golem and viola - access to Inferno is yours.

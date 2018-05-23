@@ -1,0 +1,42 @@
+<header> :::::: Guide to Agents :::::: <end>
+
+<header2>At a glance<end>
+<font color = red>* Main Weapons: Rifle</font>
+* Alternate Weapons: Assault Rifle, Bow
+* Main Nanoskills: BM/PM/SI for False Profession
+* Tradeskills: Poor
+* Overall Difficulty: Hard
+Agents are long-range assassins, with the ability to hide in the shadows and strike with a powerful Aimed Shot (often killing things in one hit).  They also have the False Profession ability, which allows them to cast a wide variety of nanos from other professions.  This makes them a versatile and powerful class selection.  However, this versatility comes at a cost, as Agents are one of the weakest professions in terms of Health and evading attacks.  They do not bloom until later levels.  Opifex is the race of choice for these agile combatants.
+
+<header2>Race<end>
+<font color = red>Opifex is typically the race of choice, due to the bonuses to Agility and Sense.  Agents are a very Agility/Sense-heavy class.</font>
+
+<header2>Abilities<end>
+<font color = red>* Strength - You can virtually ignore this ability
+* Agility - Max this out. For Agent armor and for Rifle skill.
+* Stamina - Increase this only as high as you need for implants or equipment.  The trickledown to Body Dev helps, but not enough to justify making this a primary stat.
+* Intelligence - Important for nanoskills. Keep this stat high.
+* Sense - Max this out. For Agent armor and for Rifle skill.
+* Psychic - You don't need much of this stat.
+* Body Dev - Max this out.  You are too squishy without it.
+* Nano Pool - Only necessary to raise for the nanos that you cast while using False Profession.</font>
+
+<header2>Weapon Skills<end>
+<font color = red>Max out Rifle and Aimed Shot.</font>  That's about it. There are few weapon choices outside of this combo for a viable agent.
+
+<header2>Nano & Aiding Skills<end>
+<font color = red>* BM/PM/SI for your False Profession line.</font> You are going to be 'borrowing' nanos from other professions.  Of particular note is the False Profession: Metaphysicist, which allows you to use MP pets and Nanoskill buffs.
+* PM/SI is also useful for the Rifle and Aimed Shot buffs that are specific to your profession.
+
+<header2>Weapon Recommendations<end>
+<font color = red>* Perennium Sniper (SL only)</font> - The top of the line gun for Agents, this blue gun comes in QLs 50+, and should be your weapon of choice if you have expansions.  Generally, they cost a minimum of 3m credits on open market.
+* Yatamutchy X-3 Counter-Sniper Rifle - The best gun for the rest of us (fr00bs).  Boss Loot only, comes in all QLs.
+* FDA Caterwaul - Another alternative choice, this excellent gun is rollable on missions and drops pretty frequently from mission/dungeon mobs.
+* Gripo-Com AKR 1k20/1k21 - A great early level weapon choice, this model comes in QLs 1-50.  It fires fast, and does decent damage.  They generally cost 2k per QL and are shop-buyable.
+* Barret AM R05 Sniper - The premium weapon of the early levels, this model comes in QLs 40-50, and is probably the most effective, and expensive, gun in the early levels. They are boss loot only, and prices range from 500k to 5m.
+
+<header2>Armor Recommendations<end>
+<font color = red>* Levels 1-20+ - Omni Newcomers Armor
+* Levels 20-50+ - Low level Carbonum armor or Steel-Ribbed + ToTW robes
+* Levels 50-80 - Shadowfade Armor from ToTW
+* Levels 81+ - Take a look at #L 'Sense/Agility Armors' 'SEN AGI Armor'</font>

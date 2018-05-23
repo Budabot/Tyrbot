@@ -1,0 +1,173 @@
+<header> :::::: Guide to Enforcers :::::: <end>
+
+<pagebreak><header2>Basic Attributes<end>
+
+Strength, Stamina, Body Development are your friends. Max these three attributes always and forever! Agility is an important part of many of your skills, try to keep it at ~66% of your maximum. The rest of the attributes are not your priority, raise them enough to meet minimum skill requirements as necessary, like Melee Initiative.
+
+But wait! What's that? You want to concentrate on STR and AGI and wear some sort of sissy armor? Hold it right there, cowboy! The best armors in this game (forget cyber, cause it ain't gonna happen) are STR/STA armors. In addition, Tank Armor requires serious STR and STA. And, you will want Tank Armor. AGI is something you raise only because it trickles down into skill points for many of your melee skills. It should never receive the same priority as STR and STA.
+
+ Body Skills:
+
+Brawling, Brawling, and Brawling. Max it, use it, love it! When you start getting Brawling criticals, you'll thank your instructor.
+
+Dimach? It's too darned expensive. Most melee weapons require some skill in Dimach, so raise it a little here and there as necessary. Strongly consider using implants instead of IP's at higher levels.
+
+Martial Arts, Riposte, Adventuring, Swim: Whatever! Very few melee weapons allow you to use Martial Arts, so it's a waste of time to train in my opinion. Riposte, too complicated (see Parry). Adventuring (whee! I can wear a backpack! but not if I have tank armor in my back slot). Swimming (what the heck are you doing in the water?).
+
+ <pagebreak><header2>Melee Skills<end>
+
+As far as the basic melee skills go, pick one weapon style and stick with it. 1hb, 2hb or even the edged weapons- just stay with it. Each has its own advantages
+
+Energy Melee: This is sort of expensive, but many of the weapons requiring this skill have lower primary skill requirements. For instance, the Stun Baton relies on 67% 1HB skill and 33% Energy Melee skill, so it has lower 1HB requirements than a comparable QL Mace. This generally allows you to equip a significantly higher QL Stun Baton, than you could a Mace. One thing to keep in mind, if you decide to use a weapon that has a secondary Energy Melee skill requirement, keep Energy Melee as high as possible. Otherwise, your damage output will suffer.
+
+Parry: I don't use it. This is an area where you may want to tread your own path. I have my AGG/DEF Slider adjusted to max Aggression at all times to optimize offensive output. I've found that Parry is a non-factor for me. The faster the monster dies, the less damage I take. If the monster is tough enough to scare me, then I probably won't successfully Parry it anyway. Deflection Shields? Bah! Not worth the trouble, if you ask me. But I'm willing to admit I haven't put in the effort to truly rule out this skill. If you want to, be my guest.
+
+Sneak Attack: It's real tempting to put a lot of points into this skill, because many melee weapons allow you to use it. Don't be fooled. Eventually, you won't be able to sneak up on anything worth sneaking up on, so just put as many points into this as are necessary to equip your weapon. (also see Concealment)
+
+Multi Melee: Make a choice. You wanna use two weapons? Then raise this as much as you need to get your second weapon in your hand. Going for the two-hander? Then don't. Simple enough.
+
+Fast Attack: This is a handy little bit of damage. Doesn't seem like much at low levels, but keep it trained if your weapon of choice uses it. When you start getting Fast Attack criticals, you'll thank your instructor. Many people will say only raise it as high as you must for equipping your weapon, but you'll do more damage with higher skill. Your decision.
+
+Misc Weapon Skills: Thrown? Grenades? NO. Some people may think they would be nice for pulling monsters, yada yada yada. Bottom line is they are expensive, they would require swapping weapons, and they aren't worth the trouble.
+
+Heavy Weapons: There are a few weapons out there that require Heavy Weapons skill (for instance rare Concrete Cushions that have STR/STA buffs, and the popular Rider line of edged weapons), but this skill is expensive. Think carefully before taking the plunge. If you do decide to use a weapon with a Heavy Weapons secondary attack skill requirement, you will want to keep this skill as high as possible. Otherwise, your damage output will suffer.
+
+ Ranged Weapons:
+If you wanna be a Soldier, go buy a gun. Nuff said!
+
+ <pagebreak><header2>Speed and Evades<end>
+ YOU ARE SLOW!  Look at your evasion skills, they are expensive! Max them for as long as you can, if you want. It will probably help you at low level, but at higher level it won't make a bit of difference. You simply can't keep them high enough to make high level monsters miss you. You will get hit all the time!
+
+The key is having high enough AC that you only get hit for minimum damage and that your hitpoints are high enough that minimum damage is not significant. The evasion skills are expensive and you are slow. Deal with it.
+
+Think you'll ever Resist Nano formulas at high level?  Forget it, because you will get it anyway. Waste of IP.
+
+But, if you want to make a serious commitment to keeping Evade Close Combat skill maxed, be my guest. It's the only one you have even a slight chance of keeping meaningfully high for your level.
+
+PvP ALERT: Evasion skills are much more important when being attacked by other players. If you want to partake seriously in PvP combat, plan on paying through the nose for at least Dodged Range skill.
+
+Melee Initiative is the only star in this constellation. Raise it and swing faster. This is harder on the atrox, because you will quickly bang your head against the stat requirements. Raise your mental stats as needed to keep this skill reasonably high, but don't count on max'ing it forever.
+
+Run Speed is also expensive, raising it early to avoid critters is all fine and good, but it will take a serious commitment to keep it maxed forever. Plan on buying a vehicle instead.
+
+  <pagebreak><header2>Trade & Repair Skills<end>
+Plan on getting to about around 150 skill in Comp Literacy as soon as possible. This skill will allow you to equip good enough computer gear to hold buffs, also it's necessary for travel through the Grid. Once you get up in the 150-200 range for good Grid travel, you can let it slide for awhile, and only upgrade it when you need more NCU gear.
+
+Psychology is important for using aggression enhancers. Raise this if you have problems keeping monsters off your teammates. They will thank you for it.
+
+Ignore the rest.
+
+  <pagebreak><header2>Nano and Aiding Skills<end>
+Nano skills can be a vitally important part of your enforcer's repertoire.
+
+Nano skills are expensive, and eventually they will suck you dry of IP's faster than you can blink. So, choose carefully. The easiest to dispense with is Time&Space. None of your Enforcer nanos require it, and none of the important generic nanos require it, so don't spend IP's on it. The only problem with this is that Nano Recharger kits require T&S skill...oh well, learn to deal with it. You can always use the Simple Nano Kits that rely on First Aid skill instead. They should suffice.
+
+Sensory Improvement is the next easiest one to live without. If you are going to solo a lot and want to be able to cast the generic +20 skill Expertise nanos on yourself, then raise it to about 66 skill. If you are going to use blunt weapons, plan on raising it to 129 (+20 from Expertise = 149) for the Headcracker buff, which gives +46 to 1HB and 2HB skill. Beyond that, this skill offers diminishing returns. The Brutal Thug blunt weapon buff doesn't come till skill 366. There are also some high level nanos that increase initiative, but the skill requirements may not be worth it. You be the judge.
+
+Now let's consider Psychological Modification. Again, if you want to cast the generic Expertise nanos yourself, take this to 66. And also, if you use blunt weapons, take it 129-149 for Headcracker. Beyond this is a judgment call and will depend on your character and your role. This skill is necessary for the taunting nano line. If you find you need to provoke monsters into beating on you, instead of your teammates, raise this as necessary. Psychology skill is cheaper and the Aggression Enhancer equipment may suffice depending on your goals.
+
+The last three are your meat and potatoes. Material Metamorphose, Material Creation and Biological Metamorphose. Put points into them when you can. If you are an atrox and find yourself less interested in such nonsense, try sticking to BioMet and MatCrea skill. These two skills are necessary for the 'Essence of Blank' nanos, which give STR/STA buffs important for equipping better armor. How much you spend on these will depend on your breed, character style, and play style. Plan on scrimping elsewhere if you want these skills high.
+
+First Aid and Treatment are essential skills for soloing, but less so if grouped with healers. In my opinion, max out First Aid every level. You can often use it twice in a fight and add serious amounts of hitpoints to your total health. A real lifesaver. Also, as mentioned above, the simple nano kits run off First Aid skill and are a welcome replacement to the Nano Rechargers. As for Treatment, plan on raising it gradually, or in bursts whenever you find you can't add your new implants or your downtime is too long using weaker Treatment Kits.
+
+ <pagebreak><header2>Spy Skills<end>
+What are you? An agent or fixer? Bah, leave sneaking to the sneaks.
+
+I know what you're thinking...'but my weapon has Sneak Attack, so I should raise Concealment'. Nope. There are two kinds of adversaries: those that you have no need to hide from and those that will always find you. I guarantee that at high level, the only ones you'll fool  are ones too weak to care about. The really tough monsters will see right through your attempts, and you'll be kicking yourself for wasting your IPs on Concealment.
+
+Ignore Trap Disarming and only raise B&E when you try a dozen times to open a chest and still can't get it open.
+
+Perception? Bah! Who are you kidding?
+
+  <pagebreak><header2>Navigation<end>
+When it comes to Vehicles, there are two schools of thought. Raise Ground cause it's cheap. Save it all for Air, because at higher level the planes are nicer. You decide. I went the compromise route; I raised my Ground Vehicles to 139 and bought a cheap car. Then started working slowly on Air Vehicles for the future.
+
+Map Navigation is very important. If you're new to the game, let me clue you in. There are additions to your map-reader that turn it from a useless hunk of garbage into an essential tool. But they require Map Navigation skill to install. At skill 130, you will be able to see machines/doors, people, and monsters on your map. You should plan on that skill as a minimum. Remember, you will be pointman when in groups, and it is essential that you know where you are going and what lies ahead. Temporarily raising your skill through implants is a viable alternative. But be warned, later in the game some of the zones require huge amounts of skill just to upload a map of the area. If you stop at skill 130, you will one day be without the map you have become so addicted to when out is the wilderness.
+
+<pagebreak><header2>Enforcer Nanos<end>
+
+Weapon Buffs
+All in all, your damage should go up a lot using these nanos, even at lower levels the 1hb and 2hb can add +45 to your skills, this allows you to use much better QL weapons.
+
+Mongo Slam! (Bash!, Smash!, Crush!)
+These are probably the defining nano for Enforcers. They're the only way, aside from First Aid, for you to heal yourself in a fight. They also agro mobs nearby and can thus be used to draw agro away from your fellow team members.
+
+Rage
+These are great line of nanos, often underrated due to their low durations, but they buff extra initiatives, huge runspeed buff and have a chance of breaking debuffs.
+
+Essences
+The most sought after buff that Enforcers can provide for others - these buffs add to both strength and stamina as well as significantly boosting Hit Points.
+
+The Other Lines
+The various shields and damage boosters are nice, adding a little extra HP, more damage is always helpful
+
+--------------------------------------------------------------------------
+
+<pagebreak><header2>Choosing  A Weapon Path<end>
+Unlike most other professions, the enforcer has a *vast* ammount of weapons to choose from. Some are more efficient than others, but all in all, you can go all the way with one weapontype alone. Some people say 'Atrox go 2h, rest go 1h'. That's rather limiting IMO, because aside from very few weapons, all professions can wield all types with great efficiency.
+Here's a short description of the various paths.
+
+1 Hand Blunt:
+Clubs/Dual Hammers cover this path. The selection is fairly ok, with a few gaps (depending on level). this is a typical 'tank option', that shows its true strenght on the very high levels. Be warned, while this line has more special attacks, those specials use up more IP points too. Here are a few typical weapons Enforcers use at early levels:
+Schiacciamento Vento, Foschia, Rabbia, Tuono
+Mortig Beater
+Skull of Lamentation
+Skull of Woe
+
+1 Hand Edged:
+Blades, axes and short swords makes up for the 1he weaponrack. As 1hb, the selection of 1he weapons covers your path from newborn to the high levels when it comes to efficiency.
+Here are a few examples of lower 1he weapons:
+Phase Blade
+Meibutso Daito
+Kinetic Axe
+
+2 Hand Blunt:
+Sledgehammers, Staffs and even a Banjo is found in this Path. 2HB is the original 'stereotypical' Atrox enforcer. this line is not the easiest to start out with comparing with the efficiency contra availability with 1he/1hb/2he, but it's a great path if you got the weapons for it. Here are a few 'lowbie' 2hb Weapons:
+Icebreaker
+Gravity
+Loose Support Beam
+
+2 Hand Edged:
+Swords, Bladestaffs and Massive axes cover this line and it is known as 'the easiest path to start with', because of a few nice startout weapons that will take you through the first 100 levels. 2HE will also take you all the way with few gaps.
+Frost Scythe of the Legionnaire
+Longmoon
+
+Piercing:
+Daggers, Spears and Piercing swords have mostly been said to be for the Shades, but enforcers can wield these efficiently. This line will take you from bottom to top, but you may have to search for some time to find weapons to avoid the gaps. Not a typical 'first time enf' weaponline.
+Improved Tango Dirks
+Staff of Pelias
+
+Melee Energy:
+By the time you know the alternatives here, you also see there are no perks to using this line. Even if there are ok alternatives for the highlevels, it isn't worth enough to go into detail about in this thread.
+-------------------------------------------------
+<pagebreak><header2>Armor<end>
+
+Yes, you need that too, I'm afraid
+How much a mob hits you for depends on your AC. There are *many* different setups you can choose from. Some armor only adds the AC, while other can add everything from Hitpoints to Additional damage to your weapon... or maybe even some extra effects Here are some armor setups you often see at lower levels that are usable and not too hard to get.
+
+Flower Tech/Omni-Pol Elite - This armor is possible to buy/roll as mission reward and run. Cheap and usable armor for the new enforcer
+
+Carbonum - This is tradeskill produced armor, but due to it being so common, it is sold all the time and shouldn't be too expensive. It adds to your Nanopool and Max NCU, 2 things you never can have enough of as an enforcer
+
+Metallic Mantis - Can be bought, great armor for the low enforcer.
+
+-------------------------------------------------
+<pagebreak><header2>Implants<end>
+
+Yes, it's time to remove those old bones and replace them with some proper technology. Implants add points to various skills. Implants are tradeskill made with Nanoprogramming (don't raise that btw. Get someone else to do it for you). The basic shops have some 'basic enforcer implants' that cost your shirt, so unless you have the cash for it, you have to design your own implants or ask for some help. Now.. I could post setups for all the various levels, weapontypes and twink processes, but... a lil sentence in the back of my head told me 'Don't give a man a fish, teach him how to fish'.
+Implant design may look complicated at first look, but it's really just a matter of choosing what skills you want to raise. Every implant can contain 3 'clusters' to raise your skill. Shining adds more than Bright, Bright adds more than faded. The quality level of the implant also matters. You should aim at having Higher Quality level implants than your own level.
+
+now.. as you look at the implant designer, you can start playing with what goes where. Here is an example of a 2hb setup for atrox/solitus.
+
+- Max Health(Body dev for atrox) is obvious... we need HP to eat damage
+- Weaponskill. The more weaponskill, the better the weapon.
+- Nanoskills. *what* nano do you want to upload when? Have a look at the enforcer nanolist Here and see what you can use if you pop in some nanoskills in an implant.
+
+----------------------------------------------
+<pagebreak><header2>Final words of 'Wisdom'<end>
+
+Somone once said 'Mongo won't save you, but it may just save your team!'. That sentence stuck with me and I keep trying my best to live the idea behind it.
+
+We, in this form, are the closest you get to a walking Pinyata. We expect to take the heat from our team members. Even if we don't do most damage, we *can* hold aggro when we do our job properly. Being an enforcer isn't about being the best equipped, most skilled or cool player out there. It's about your attitude. Ofcourse equipment and skill counts, but if you lack the attitude, if you can't stand aggro, I think you are on the wrong shelf.
+
+On the positive side.. as an enforcer, you have more HP than god, bigger hammers than Thor and not many want to pick a fight with you once you stand there 3 times their height."

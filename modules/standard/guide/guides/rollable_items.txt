@@ -1,0 +1,1381 @@
+<header>::::: Blitzlist for Copy and Paste into clicksaver :::::<end>
+             
+<header2>Weapons<end>
+
+SOL Fire Executioner
+Vektor ND LIZARD Shotgun
+Vektor ND DRAGON Shotgun
+FDA Caterwaul 913
+BBI Faithful
+Illicit Laser Backup
+Mausser Particle Streamer
+Tango Dirk
+MTI B-94
+QL51 Pillow with Important Stripes
+QL44 Galahad Inc T70 Beyer
+QL77 Galahad Inc T70 Zig Zag
+QL96 Uncle Bazzit Rusty 22mm
+QL 121 Druid pistol
+ICC Arms 2Q2C
+Nano-Charged Assault Rifle
+Nano-Charged Rifle
+
+<header2>Armor<end>
+
+<highlight>OT White (starting QL 25)<end>
+Omni-Pol Armor Boots -desert -forest
+Omni-Pol Armor Pants -desert -forest
+Omni-Pol Body Armor -desert -forest
+Omni-Pol Armor Sleeves -desert -forest
+Omni-Pol Armor Sleeves -desert -forest
+Omni-Pol Armor Gloves -desert -forest
+Omni-Pol Armor Helmet -desert -forest
+
+<highlight>OT Elite (starting QL 75)<end>
+Omni-Pol Elite Armor Boots
+Omni-Pol Elite Armor Pants
+Omni-Pol Elite Body Armor
+Omni-Pol Elite Armor Sleeves
+Omni-Pol Elite Armor Sleeves
+Omni-Pol Elite Armor Gloves
+Omni-Pol Elite Armor Helmet
+
+<highlight>Graft Armor (starting QL 50)
+*This armor can also be made into CAS<end>
+Graft Armor Boots
+Graft Armor Pants
+Graft Body Armor
+Graft Armor Sleeves
+Graft Armor Sleeves
+Graft Armor Gloves
+Graft Armor Helmet
+
+<highlight>Obtru (All QL's)<end>
+Obtru Steel-Ribbed Armor Boots
+Obtru Steel-Ribbed Armor Pants
+Obtru Steel-Ribbed Body Armor
+Obtru Steel-Ribbed Armor Sleeves
+Obtru Steel-Ribbed Armor Sleeves
+Obtru Steel-Ribbed Armor Gloves
+Obtru Steel-Ribbed Armor Helmet
+
+<highlight>Nano Armor (Starting QL 75)<end>
+Nano Armor Boots
+Nano Armor Pants
+Nano Body Armor
+Nano Armor Sleeves
+Nano Armor Sleeves
+Nano Armor Gloves
+Nano Armor Helmet
+Nano Armor Cloak
+
+<highlight>Flowers Tech (Starting QL 50)<end>
+Flowers Tech Armor Boots
+Flowers Tech Armor Pants
+Flowers Tech Body Armor
+Flowers Tech Armor Sleeves
+Flowers Tech Armor Sleeves
+Flowers Tech Armor Gloves
+Flowers Tech Armor Helmet
+
+<highlight>Primus (Starting QL 75)<end>
+Primus Decus Armor Boots
+Primus Decus Armor Pants
+Primus Decus Body Armor
+Primus Decus Armor Sleeves
+Primus Decus Armor Sleeves
+Primus Decus Armor Gloves
+Primus Decus Armor Helmet
+Primus Decus Armor Cloak
+
+<highlight>Biomech Armor (Starting QL 75)<end>
+Biomech Armor Boots
+Biomech Armor Pants
+Biomech Body Armor
+Biomech Armor Sleeves
+Biomech Armor Sleeves
+Biomech Armor Gloves
+Biomech Armor Helmet
+Biomech Armor Cloak
+
+<highlight>Leather Armor (All QL's)
+*Leather is useless is and of itself, but it can be made into apocalypse leather which is useful<end>
+Leather Armor Boots
+Leather Armor Pants
+Leather Body Armor
+Leather Armor Sleeves
+Leather Armor Slevves
+Leather Armor Gloves
+Leather Armor Helmet
+
+<highlight>Med Suit (All QL's)<end>
+Omni-Med Suit Boots
+Omni-Med Suit Pants
+Omni-Med Suit Skirt
+Omni-Med Suit Shirt
+Omni-Med Suit Female Shirt
+Omni-Med Suit Sleeves
+Omni-Med Suit Sleeves
+Omni-Med Suit Gloves
+
+<highlight>Tank Armor (Staring at QL 50, new one every 25 QLs)<end>
+Very Light Tank Armor
+Light Tank Armor
+Medium Tank Armor
+Heavy Tank Armor
+Omni-Tek Very Light Tank Armor
+Omni-Tek Light Tank Armor
+Omni-Tek Medium Tank Armor
+Omni-Tek Heavy Tank Armor
+
+<header2>Misc<end>
+
+Graft: Enhanced Senses
+Graft: Sparrow Flight
+Graft: Playful Cub
+Targeting Scope - Vision Enhancer
+NCU Memory
+Hardcore CPU upgrade
+Portable Surgery Clinic <highlight>(Only QL 125+)<end>
+
+<header2>Nanos<end>
+
+<highlight>Adventurer<end>
+
+Greater Restore Health
+A Clear Sense of Scheol
+A Clear View of Adonis
+A Clear View of Penumbra
+Advanced Survival Technique
+Beauty of Life
+Biting Blades
+Boon of the Forester
+Calia's Anatomy: Pit Lizard
+Calia's Anatomy: Sabretooth
+Calia's Anatomy: Wolf
+Calia's Figure: Sabretooth
+Calia's Form: Parrot
+Calia's Form: Parrot (other)
+Calia's Form: Parrot (team)
+Calia's Form: Pit Lizard
+Calia's Form: Pit Lizard (other)
+Calia's Form: Pit Lizard (team)
+Calia's Form: Sabretooth
+Calia's Form: Sabretooth (other)
+Calia's Form: Sabretooth (team)
+Calia's Form: Wolf
+Calia's Form: Wolf (other)
+Calia's Form: Wolf (team)
+Calia's Morph: Pit Lizard
+Calia's Morph: Sabretooth
+Calia's Morph: Wolf
+Corrosive Barrier
+Cyclic Arctic Gale
+Cyclic Biting Blades
+Cyclic Cloak of Fire
+Cyclic Corrosive Barrier
+Cyclic Enshroud With Barbs
+Cyclic Fiery Vengeance
+Cyclic Fiery Wrap
+Cyclic Firefly's Fury
+Cyclic Frost With Snow
+Cyclic Guard of the Grizzly
+Cyclic Interlocking Barbs
+Cyclic Jacket of Blades
+Cyclic Lightning's Child
+Cyclic Magma Coating
+Cyclic Nest of Vipers
+Cyclic Personal Blizzard
+Cyclic Porcupine Barrier
+Cyclic Protection of the Storm
+Cyclic Razor Barrier
+Cyclic Retalitory Venom Spit
+Cyclic Retribution of the Aesir
+Cyclic Revenge of the Valkyrie
+Cyclic Skin of the Toad
+Cyclic Sparking Touch
+Cyclic Wings of the Phoenix
+Essence of Life
+Fiery Vengeance
+Flawless Lick Wounds
+Flawless Stitching
+Freedom of the Forester
+Glorious Healing
+Greater Encourage Regrowth
+Greater Slobber Wounds
+Grove Curator
+Grove Custodian
+Grove Guardian
+Grove Warden
+Healing Rays of Sunrise
+Implacability of Life
+Improved Blissful Calm
+Improved Friend of the Wild
+Improved Serene Sky
+Improved Soothing Breeze
+Improved Tranquility of the Vale
+Improved Zephyr from the Grove
+Interlocking Barbs
+Invocation of the Phoenix
+Knowledge of The End
+Knowledge of the Inferno
+Lesser Slobber Wounds
+Lightning's Child
+Moonbeam
+Nature's Blessing
+One Wiith Nature
+Peerless Lick Wounds
+Personal Blizzard
+Pronouncement of Greatness (other)
+Razor Barrier
+Relation to Cerberus (other)
+Relation to Cerberus (team)
+Retalitory Venom Spit
+Retribution of the Aesir
+Revenge of the Valkyrie
+Robust Treatment
+Scale Regeneration
+Scale Regrowth
+Scale Renewal
+Scale Repair
+Seed Life
+Slobber Wounds
+Stormedge
+Superior Slobber Wounds
+Supreme Lick Wounds
+Supreme Wilderness Protection
+Thorn of the Rose
+Wings of the Phoenix
+
+<highlight>Agent<end>
+
+Absolve Guilt
+Advanced Face Graft
+Anger Shock
+Assasin's Grin
+Bail Out
+Blast of Avoidance
+Blast of Circumvention
+Blast of Neglect
+Blast of Outflanking
+Blast of Rejection
+Break Out
+Burst Out
+Death's Knocking
+Delayed Assasin
+Disappear
+Entrap Victim
+Fade From Memory
+Greater Death's Knocking
+Greater Myserious Causes
+Greater Paralyze with Indecision
+Harm Shock
+Hold Victim
+Ignore Past Actions
+Jarring Shock
+Leisurely Interrogation
+Make Off
+Mimic Profession: Adv
+Mimic Profession: 'Crat
+Mimic Profession: Doc
+Mimic Profession: Enf
+Mimic Profession: Engi
+Mimic Profession: Fixer
+Mimic Profession: MA
+Mimic Profession: MP
+Mimic Profession: NT
+Mimic Profession: Sol
+Mimic Profession: Trader
+Numbing Shock
+Relive Stress
+Renounce Anger
+Ruse of Taren: Phase
+Sickening Shock
+Slip Away
+Take the Shot
+Unexpected Attack
+Unsetteling Shock
+
+<highlight>Bureaucrat<end>
+
+10 thumbs
+Administrative Error
+Advanced Administrator-Droid
+Advanced Bodyguard
+Advanced Minion
+Allure of Servitute
+Assasins Focus
+Basic Administrator
+Basic Bodyguard
+Basic Minion
+Baton of Command
+Bravery Overcomes
+Captivating Speech
+Certainty of Defeat
+Chains of Iron
+Character Assasin
+Charismatic Rapture
+Contemplation
+Corporate Guardian
+Corporate Leadership: Clemency
+Corporate Leadership: Dispensation
+Cut Red Tape
+Defamation
+Director-Grade Administrator-Droid
+Director-Grade Bodyguard
+Director-Grade Minion
+Director-Grade Secretary-Droid
+Disciplinary Action
+Disjointed from Reality
+Disjointed Psyche
+Displace Thought Patterns
+Disrupted Psyche
+Droid Overhaul
+Emergency XP Loss Reducer
+Empovered Anger Addlement
+Empovered Chaotic Mind
+Empovered Contemplation
+Empovered Cubicle Dweller
+Empovered Disjointed From Reality
+Empovered Distracted Gaze
+Empovered Divided Ego
+Empovered Dominate
+Empovered Introspective Engagement
+Empovered Sleep
+Empovered Wandering Mind
+Energized Bolt
+Enrapturing Bondage
+Erasing Ray
+Erratic Laser
+Executive-Grade Administrator-Droid
+Executive-Grade Bodyguard
+Executive-Grade Minion
+Factory Recall
+Faithful Administrator-Droid
+Faithful Bodyguard
+Faithful Minion
+Fear of Attention
+Fumble Fingers
+Gallant Slave The Bitter Vassal
+Gallant Slave: The Aggravated Serf
+Gallant Slave: The Angry Drudge
+Gallant Slave: The Enraged Slave
+Gallant Slave: The Incensed Subordinate
+Gallant Slave: The Indignant Peon
+Gallant Slave: The Infuriated Thrall
+Gallant Slave: The Irate Chattel
+Gallant Slave: The Vengeful Toiler
+Glorious Leader
+Greater Enforced Sloth
+Greater Fear of Attention
+Greater Illusory Paralysis
+Greater Mass Illusory Paralysis
+Greater Musculature Command
+Heroic Measures
+Horror From the Darkest Pit
+Implement Through Iteration
+Improved Bot Reproduction
+Improvise and Adapt
+Inhibit Movement
+Insidious Beguilement
+Introspective Engagement
+Inveigle Support
+Lead From the Front
+Lesser Fear of Attention
+Let's Make a Commitee
+Limited Administrator-Droid
+Limited Minion
+Living Embalming
+Malaise of Desire
+Malaise of Emotion
+Malaise of Fervor
+Malaise of Motivation
+Malaise of Passion
+Monofilament Cat-O
+Monofilament Scourger
+Mourner's March
+Mud Slinger
+Muddled Psyche
+My Way
+Only the Paranoid Will Survive
+Opportunity Knocks
+Oppressive Weight of the Guilty
+Organizational Opportunities
+Peer Pressure
+Powerful Blizzard of Red Tape
+Primal Fear
+Puissant Captivating Speech
+Puissant Illusionary Paralysis
+Puissant Inhibit Motion
+Puissant Momentary Daze
+Puissant Musulature Command
+Puissant Restrict Movement
+Puissant Total Musulature Command
+Puissant Void Inertia
+Retreat to Glory
+Rule of One
+Shackles of Obedience
+Siren Call
+Sneaking Terror
+Splinter Missile
+Supervisor-Grade Administrator-Droid
+Supervisor-Grade Bodyguard
+Supervisor-Grade Minion
+Surge in the System
+Swapdisk Mayhem
+Team Empovered Allure of Servitude
+Team Empovered Bend Will
+Team Empovered Captivated Thoughts
+Team Empovered Dominate Psyche
+Team Empovered Impose Will
+Team Empovered Insidious Beguilement
+Team Empovered Inveigle Support
+Team Empovered Solicit Support
+Team Empovered Temporary Glamor
+Team Empovered Total Mental Domination
+Team Empovered Voice of Truth
+Temporary Allegiance
+That is not on the Agenda
+The Voice of God
+The Voice of One
+The Voice of Truth
+Thorough Overhaul
+Tight Embrace
+Total Mental Domination
+Total Musculature Command
+Triumphant Pose
+Visions of a Doomed Future
+Void Inertia
+Wandering Mind
+Who Writes the Minutes
+
+<highlight>Doctor<end>
+
+Accumulate Scars
+Acidic Lessons
+Advanced Cellular Rebuild
+All-Consuming Toxin
+Alpha and Omega
+Aussage Pain
+Autonomous Viral Agent
+Basic Omni-Med Enhancement
+Bestow Healing
+Biological-Digital Conversion
+Blessing of Purity
+Bloom of Health
+Bodily Invirogation
+Body Purification
+Cellular Dismantlement
+Cellular Rebirth
+Cellular Recuperation
+Circle of Renewal
+Circulate Health
+Complete Healing
+Complex Nano Contagion
+Compress Wounds
+Conglomerate Health Plan
+Constitution Magnification
+Continous Cellular Reconditioning
+Continuous Reconstruction
+Corrupting Ooze
+Cycle of Life
+Cycle of Reconstruction
+Deathless Blessing
+Decreptitude
+Deep Tissue Repair
+Deep Wound Cleanser
+Digitizing Sequencer
+Distributed Care
+Emergency Medical Response
+Enhanced Health Surge
+Entropic Sores
+Epsilon Purge
+Festering Plague
+Flesh Eater
+Gargantuan Health
+Greater Bloom of Health
+Greater Field Dressings
+Greater Periodic Checkup
+Greater Policy Payout
+Hale and Hearty
+Halo of Health
+Healer's Hands
+Health Assembler
+Health Cartel
+Improved Continuous Reconstruction
+Improved Heary Constitution
+Improved Instinctive Control
+Improved Nano Repulsor
+Incandescent Venom
+Induce Musculature Spasms
+Infuse With Life
+Internal Decomposition
+Internal Renewal
+Life Balm
+Life Channeler
+Lifegiving Elixir
+Medical Response
+Molecular Rejuvenation
+Morgue Longings
+Mutagenic Catalyser
+Mutagenic Contagion
+Mutagenic Contamination
+Mutagenic Pestilence
+Mutagenic Venom
+Nano Repulsor
+Parasitic Horde
+Perpetuating Nano Reaper
+Positive Life Reinforcement
+Pre-Combat Conditioning
+Radiant Heal
+Rampant Decay
+Rapid Palsy
+Recuperative Respite
+Remedy Dissemination
+Renewal of Being
+Repeated Cellular Trauma
+Restorative Influx
+Revivification
+Scythe B Virus
+Scythe Omega Virus
+Sentinent Nano Gorger
+Superior Health Pump
+Superior Life Reinforcement
+Superior Metabolsim Booster
+Superior Nano Bandage
+Superior Omni-Med Enhancement
+Team Compress Wounds
+Team Purification
+Team Tissue Repair
+Touch of Kindness
+Uncontrollable Body Tremors
+Viral Neurotoxin
+Wrack and Ruin
+
+<highlight>Enforcer<end>
+
+Absorb Punishment
+Belligerent Stance
+Brave Challenger to Behemoth
+Brave Challenger to Leviathan
+Challenger to Behemoth
+Challenger to Leviathan
+Cruscrating Screen
+Deaden Pain
+Dominate Foe
+Dreadbringer
+Element of Corrosion
+Element of Flame
+Element of Ice
+Element of Malice
+Element of Poison
+Element of Radiation
+Essence of Behemoth
+Essence of Colossus
+Essence of Gargantua
+Essence of Leviathan
+Failing Impregnability
+Fearbringer
+Glacial Cloak
+Hatebringer
+Impart Resentment
+Incadescent Rage
+Infernal Rage
+Irebringer
+Lick of Fire
+Mighty Challenger to Behemoth
+Mighty Challenger to Colossus
+Mighty Challenger to Leviathan
+Mongo Crush!
+Mongo Smash!
+Mongo's Gargantua
+Mongo's Mega Leviathan
+Mongo's Mighty Colossus
+Mongo's Ultra Behemoth
+Primal Hatred
+Prodigous Strength
+Ragebringer
+Rancourus Enmity
+Screen of Blades
+Shrug Off Blows
+Spine of Jelly
+Spite
+Toxic Barrier
+Wrathbringer
+
+<highlight>Engineer<end>
+
+A Maker's Touch
+Advanced Defensive Screen
+Advanced Force Field
+Advanced Predator M-
+Advanced Warbot
+Advanced Warmachine
+Aegis Barrier
+Assurance Advocacy
+Assurance Attention
+Assurance Relief
+Basic Force Field
+Battlefield Devastator Drone
+Beacon Warp
+Citadel of Spikes
+Common Warbot
+Common Warmachine
+Decomissioned Wardroid
+Desolator Assualt Drone
+Devastator Drone
+Disruptive Barrier Negator
+Disruptive Cocoon Harmonics
+Disruptive Field Harmonics
+Disruptive Field Negator
+Disruptive Phase Harmonics
+Disruptive Photon Absorber
+Disruptive Photon Annihilator
+Disruptive Photon Deflector
+Disruptive Photon Devourer
+Disruptive Retaliatory Negator
+Disruptive Retributive Negator
+Disruptive Shielding Negator
+Disruptive Void Projector
+Electrical Engineering Knowledge
+Electrical Engineering Mastery
+Empovered Lesser Harmonic Cocoon
+Empovered Minor Harmonic Cocoon
+Empovered Partial Harmonic Cocoon
+Empovered Reactive Harmonic Cocoon
+Empowered Greater Harmonic Cocoon
+Empowered Harmonic Cocoon
+Entropy Weapon
+Extreme Prejudice
+Feeble Warbot
+Feeble Warmachine
+Field Quantum Physics Knowledge
+Field Quantum Physics Mastery
+Field Workshop
+Fieldsweeper Devastator Drone
+Flawed Force Field
+Flawed Warbot
+Flawed Warmachine
+Force Field
+Fortress of Spikes
+Gift of Assurance
+Greater Harmonic Cocoon
+Greater Retaliatory Barrier
+Harmonic Cocoon
+Heavy Assault Force Field
+Impel Shadowland Recall
+Inferior Gladiatorbot
+Inferior Warbot
+Inferior Warmachine
+Initiate Shadowland Recall
+Intricate Repairs
+Isochronal Sloughing Assault Shield
+Isochronal Sloughing Combat Field
+Isochronal Sloughing Defensive Shield
+Isochronal Sloughing Protective Barrier
+Lesser Force Field
+Lesser Warbot
+Lesser Warmachine
+Marauder M-
+Mechanical Engineering Knowledge
+Mechanical Engineering Mastery
+Military-Grade Marauder M-
+Military-Grade Predator M-
+Military-Grade Warbot
+Military-Grade Warmachine
+Null Space Disruptor
+Patchwork Warbot
+Patchwork Warmachine
+Patchy Repairs
+Perfected Defensive Screen
+Perfected Protective Field
+Perfected Shielding Barrier
+Perfected Warbot
+Perfected Warmachine
+Pharmaceuticals Knowledge
+Pharmaceuticals Mastery
+Plasma Shield
+Predator M-
+Quick Fix
+Rapid Weapon
+Reactivated Wardroid
+Reactive Harmonic Cocoon
+Rebuild Casing
+Recondition Parts
+Retalatory Barrier
+Semi-Sentinent Guardbot
+Semi-Sentinent Predator M-
+Semi-Sentinent Warbot
+Semi-Sentinent Wardroid
+Semi-Sentinent Warmachine
+Shadowland Anchor
+Shadowland Safeguard
+Slayerdroid Annihalator
+Slayerdroid Guardian
+Slayerdroid Protector
+Slayerdroid Sentinel
+Slayerdroid Transference
+Slayerdroid Warden
+Sparkling Field Array
+Superior Force Field
+Sympathetic Armor Boost
+Sympathetic Arms Enhancement
+Sympathetic Defensive Screen
+Sympathetic Energy Cocoon
+Sympathetic Entropy Infusion
+Sympathetic Force Field
+Sympathetic Fortress Screen
+Sympathetic Harmonic Cocoon
+Sympathetic Harmonic Field
+Sympathetic Plasma Shielding
+Sympathetic Protective Field
+Sympathetic Reactive Cocoon
+Sympathetic Reactive Field
+Sympathetic Retalatory Barrier
+Sympathetic Shielding Barrier
+Synchronized Capacitor Overload
+Synchronized Energy Spike
+Team Beacon Warp
+Ultimate Force Field
+Upgraded Predator M-
+Upgraded Warbot
+Upgraded Warmachine
+Warbot
+Warmachine
+Weapon Smithing Knowledge
+Weapon Smithing Mastery
+Widowmaker Battle Drone
+
+<highlight>Fixer<end>
+
+Advanced Augmentation Cloud
+Advanced Policy Skim
+Bootleg Beamers 'n Bolters (OP-C)
+Bootleg Beamers 'n Bolters (OP-CC)
+Bootleg Beamers 'n Bolters (OP-CLX)
+Bootleg Beamers 'n Bolters (OP-CLXXX)
+Bootleg Beamers 'n Bolters (OP-CXL)
+Bootleg Beamers 'n Bolters (OP-CXX)
+Bootleg Beamers 'n Bolters (OP-LX)
+Bootleg Beamers 'n Bolters (OP-LXXX)
+Bootleg Beamers 'n Bolters (OP-XL)
+Bootleg Beamers 'n Bolters (OP-XX)
+Bootleg Blades 'n Blunts (OP-C)
+Bootleg Blades 'n Blunts (OP-CC)
+Bootleg Blades 'n Blunts (OP-CLX)
+Bootleg Blades 'n Blunts (OP-CLXXX)
+Bootleg Blades 'n Blunts (OP-CXL)
+Bootleg Blades 'n Blunts (OP-CXX)
+Bootleg Blades 'n Blunts (OP-LX)
+Bootleg Blades 'n Blunts (OP-LXXX)
+Bootleg Blades 'n Blunts (OP-XL)
+Bootleg Blades 'n Blunts (OP-XX)
+Contact Poison
+Emergency Vector Tap
+Flawless Medical Claim
+Gravity Bindings
+Greater Delay Retreat
+Greater Nano Boost
+Greater Prolong Encounter
+Grid Excursion
+Grid Phase Accelerator
+Gridspace Freedom
+Improved Advanced Augmentation Cloud
+Improved Augmentation Cloud
+Improved Contact Poison
+Improved Greater Nano Boost
+Improved Hasty Augmentation Cloud
+Improved Lesser Nano Boost
+Improved Lifebane Modification
+Improved Nano Boost
+Improved Neural Interfaced Augmentation Cloud
+Improved Poison Modification
+Improved Semi-Sentinent Augmentation Cloud
+Improved Targeted Augmentation Cloud
+Improved Venom Modification
+Intense Micro Entanglement
+Intense Nano Net
+Intense Personal Entanglement
+Karma Harvest
+Mass Gravity Bindings
+Meld With Grid Stream
+Neural Interfaced Augmentation Cloud
+Omni-Med Incursion
+Prolong Encounter
+Recompiling Memory Analyzer
+Re-Matrix Grid Vector
+Restock Ammo (Level OP-C)
+Restock Ammo (Level OP-CC)
+Restock Ammo (Level OP-I)
+Restock Ammo (Level OP-II)
+Restock Ammo (Level OP-X)
+Restock Ammo (Level OP-XX)
+Ruinous Grid Jump
+Semi-Sentinent Augmentation Cloud
+Smuggler Shipment (OP-C)
+Smuggler Shipment (OP-CC)
+Smuggler Shipment (OP-CLX)
+Smuggler Shipment (OP-CLXXX)
+Smuggler Shipment (OP-CXL)
+Smuggler Shipment (OP-CXX)
+Smuggler Shipment (OP-LX)
+Smuggler Shipment (OP-LXXX)
+Smuggler Shipment (OP-XL)
+Smuggler Shipment (OP-XX)
+Spin Nanoweb
+Targeted Augmentation Cloud
+
+<highlight>Martial Artist<end>
+
+Aegis of Metal
+Aegis of Notum
+Aegis of Stone
+Autumn Leaves
+Chirp of the Mournful Cricket
+Cohort
+Diamond Skin
+Dragon Stance
+Elude Step
+Enlightened Aura of Healing
+Etermal Emnity
+Fake Out
+Fists of Stellar Harmony
+Fists of the Lightning Crane
+Fists of the Sorrowful Toad
+Form of Tessai
+Four Fists of Kali
+Grace of the Emperor Crane
+Greater Restore Essence
+Greater Shen Protection
+Greater Team Restore Essence
+Greater Titanium Skin
+Horde
+Inner Peace, Outward Rage
+Last Minute Adjustments
+Mark of Danger
+Mark of Peril
+Mark of Risk
+Misleading Conduct
+Monomolecular Skin
+Partial Diamond Skin
+Peaceful Midnight Sky
+Petals on Water
+Reduce Inertia
+Return Attack
+Ripples on the Calm Pond
+Rumble of Distant Thunder
+Seething Resentment
+Shuffle Step
+Smell of Approaching Rain
+Stutter Step
+Summer Rain
+Supreme Shen Protection
+Transcendent Shen Protection
+Universal Vulnerability Compendium
+Waiting Panda
+Ward Blow
+
+<highlight>Meta-Physicist<end>
+
+Calling of Altumus
+Calling of Belemorte
+Calling of Curatem the Grand
+Calling of Mortificant the Eternal
+Calling of the Vivificator
+Chant of Effortless Strikes
+Creation: Asp of Semol
+Creation: Azure Cobra of Orma
+Creation: Belthior's Flame Ward
+Creation: Bitis Striker
+Creation: Coplan's Hand Taipan
+Creation: Death Ward
+Creation: Gold Acantophis
+Creation: Living Shield of Evernan
+Creation: Mocham's Guard
+Creation: Notum Defender
+Creation: Shield of Asmodian
+Creation: Solar Guard
+Creation: The Crotalus
+Creation: Viper Staff
+Creation: Vital Buckler
+Creation: Wave Breaker
+Creation: Wixel's Notum Python
+Curse of Chronos
+Dedication of Thought
+Deranged Mindreaver
+Distracting Sphere
+Dominate: Biomet
+Dominate: MatCrea
+Dominate: MatMet
+Dominate: Psymod
+Dominate: SenseImp
+Dominate: SpaceTime
+Enmity Personification
+Frenzy Embodiment
+Glacial Lance
+Greater Deranged Mindreaver
+Greater Distracting Sphere
+Greater Enmity Personification
+Greater Frenzy Embodiment
+High Chant of Effortless Strikes
+High Chant of Frenzied Blows
+Inferior Enmity Personification
+Inferior Frenzy Embodiment
+Infuse With Knowledge: BioMet
+Infuse With Knowledge: MatCrea
+Infuse With Knowledge: MatMet
+Infuse With Knowledge: PsyMod
+Infuse With Knowledge: SenseImp
+Infuse With Knowledge: TimeSpace
+Instill With Enduring Wrath
+Instill With Malign Intent
+Instill With Righteous Frenzy
+Lesser Deranged Mindreaver
+Lesser Distracting Sphere
+Lesser Enmity Personification
+Lull Wrath
+Mind Banshee
+Mind Quake
+Mocham's Gift: Biomet
+Mocham's Gift: Matcrea
+Mocham's Gift: MatMet
+Mocham's Gift: PsyMod
+Mocham's Gift: SenseImp
+Mocham's Gift: SpaceTime
+Mocham's Neural Interface-Web
+Nano Shutdown
+Neuron-Notum Interface
+Notum Rejection
+Odin's Missing Eye
+One Mind, One Purpose
+Summon Cacodemon
+Summon Demon
+Summon Fiend
+Summon Lemur
+Summoning of Absuum
+Summoning of Balbuto the Gibberer
+Summoning of Confane
+Summoning of Demenus
+Summoning of Distral
+Summoning of Duoco
+Summoning of Ignatus Mind-Clouder
+Summoning of Tumulten
+Superior Enmity Personification
+Superior Frenzy Embodiment
+Supreme Deranged Mindreaver
+Supreme Distracting Sphere
+Supreme Enmity Personification
+Supreme Frenzy Embodiment
+Temper Wrath
+Transcendent Enmity Personification
+Transcendent Frenzy Embodiment
+Wrath Abatement
+Wrath Ebb
+
+<highlight>Nano-Technician<end>
+
+Acidic Droplets
+Advanced Collapsing Barrier
+Annihalating Hadron String
+Ariu's Neutron Annihilator
+Astinus's Stellar Pulse
+Atomic Collapse
+Biomolecular Corrosion
+Blaze of Hephaestos
+Blood of Hephaestos
+Boil Blood
+Boil from Within
+Boundless Humidity Extractor
+Brutal Cornea Attack
+Burden of Atlas
+Burning Bones
+Burning Quartet
+Caring Needle
+Cascade of the Storm
+Chaos Lights
+Chilled Touch
+Chilling Presence
+Coherent Positron Stream
+Collapsing Barrier
+Collapsing Hadron String
+Combustive Envelopment
+Compacted Neutron Missile
+Conator's Collapsing Hadron String
+Conduction Stream
+Contained Plasma Sphere
+Coronet of Frost
+Crown of Frost
+CrunchCom Nano Compressor Pro
+Discourage Involvement
+Electrifying Containment
+Encircle With Blades
+Enfraam's Augmented Fortification
+Enfraam's Blistering Blast
+Enfraam's Cortex Accelerator
+Enfraam's Fortification
+Enfraam's Glacial Encasement
+Enfraam's Glorious Fortification
+Enfraam's Greater Fortification
+Enfraam's Lesser Fortification
+Enfraam's Major Fortification
+Enfraam's Minor Fortification
+Enfraam's Perfected Fortification
+Enfraam's Superior Fortification
+Enfraam's Supreme Fortification
+Enfraam's Trivial Fortification
+Enfraam's Ultimate Destroyer
+Engulf in Flame
+Entropy Advance
+Eviscerate Eyes
+Eye of Light
+Eyeblighter
+Feet of Lead
+Ferocius Impactor Missile
+Fiery Blast
+Fleeting Immunity
+Foul Eyeblighter
+Frigid Landscape
+Full-Body Acid Coating
+Glacial Finality
+Gravitational Anomaly
+Gravity Pull
+Greater Crystalizing Ray
+Greater RNA Reaper
+Greater Searing Stream
+Greater Shower with Sludge
+Greater Viral Assault
+Impactor Missile
+Impaling Tracer
+Implacability of the Second Law
+Internal Combustion
+Istope Waves
+Izgimmer's Cataclysm
+Izgimmer's Celestial Fury
+Izgimmer's Celestial Implosion
+Izgimmer's Contagion
+Izgimmer's Corrosive Tear
+Izgimmer's Defilement of Being
+Izgimmer's Enveloping Flame
+Izgimmer's Frosty Welcome
+Izgimmer's Gelid Caress
+Izgimmer's Hippocamal Augmentor
+Izgimmer's Inferno
+Izgimmer's Infinite Slicer
+Izgimmer's Interstellar Chill
+Izgimmer's Little Nuke
+Izgimmer's Malignant Declaration
+Izgimmer's Obfuscated Recompiler
+Izgimmer's Positronic Annihalation
+Izgimmer's Quasar Flicker
+Izgimmer's Ultimatum
+Jobe Nano Libraries
+Legions of the Eyeblighter
+Lick of the Pest
+Linear Acceleration
+Liquefying Sphere
+Localized Dimensional Inversion
+Major Chemical Burn
+Malign Devourer
+Mass Pronounce Blindness
+Mephitic Ichor
+Meta-Dioxin Spray
+Molecular Deconstruction
+Molecular Flechettes
+Momentum Impaler
+Nano Cloud Supplement
+Nanoblade Cloud
+Neural Stunner
+Warp Time and Space Newland
+Fold Time and Space Newland
+Team Warp Time and Space Newland
+Team Fold Time and Space Newland
+Notum Overload
+Warp Time and Space Omni-
+Fold Time and Space Omni-
+Team Warp Time and Space Omni-
+Team Fold Time and Space Omni-
+Particle Accelerator
+Particle Flare
+Peaceful Intentions
+Personal Notum Harvester
+Pestilental Stream
+Photon Deflector
+Positronic Fluctation
+Quark Collapse
+Rend Constraints
+Rend Flesh
+Warp Time and Space Rome
+Fold Time and Space Rome
+Team Warp Time and Space Rome
+Team Fold Time and Space Rome
+Searing Circle
+Searing Dioxin Shower
+Searing Stream
+Shrapnel Burst
+Shroud of the Grave
+Slithering Flames
+Solar Wind
+Spark Shower
+Stargasp
+Stinging Missile Swarm
+Sudden Affliction
+Superior Malign Devourer
+The Spider's Secret
+Warp Time and Space Tir
+Fold Time and Space Tir
+Team Warp Time and Space Tir
+Team Fold Time and Space Tir
+Touch of the Pyre
+Toxic Sphere
+Toxic Spill
+Tremor
+Visions of the Void
+Vital Corruptor
+Volcanic Eruption
+Warmth of the Grave
+Warp Time and Space West Athen
+Fold Time and Space West Athen
+Team Warp Time and Space West Athen
+Team Fold Time and Space West Athen
+Ziana's Energy Wave
+
+<highlight>Soldier<end>
+
+A Sergeant's Knowledge
+Absorption Shield
+Adaptive Resonance Field
+Advanced Absorption Shield
+Aggressive Insult
+Alleysweeper
+Annoying Insult
+Artillery Fire
+Battery Fire
+Battlefield Endurance
+Boost Fight (Team)
+Bypass Me
+Canonry Fire
+Casual Insult
+Circumvent Me
+Clear Victim
+Deepen Fight (Team)
+Desist Me
+Disruptive Insult
+Distinct Victim
+Elude Me
+Empovered Deflection Shield
+Empovered Greater Deflection Shield
+Empovered Greater Reflective Field
+Empovered Lesser Deflection Shield
+Empovered Lesser Reflective Field
+Empovered Major Deflection Shield
+Empovered Major Reflective Field
+Empovered Minor Deflection Shield
+Empovered Minor Reflective Field
+Empovered Partial Deflection Shield
+Empovered Partial Reflective Field
+Empovered Reactive Deflection Shield
+Empovered Reactive Reflection Field
+Empovered Reflective Field
+Greater Reflective Field
+Greater Reflective Field (Ext)
+Harmonizing Resonance Field
+Heavy Assault Absorption Shield
+Heavy Assault Combat Barrier
+Heighten Fight (Team)
+Helepolis of the Besieger
+Id Assault
+Intensify Fight (Team)
+Intrusive Insult
+Keep Clear of Me
+Laser Surgery
+Lesser Insult
+Lesser Reflective Field
+Lesser Reflective Field (Ext)
+Major Reflective Field
+Major Reflective Field (Ext)
+Metal Stream
+Minor Insult
+Obvious Victim
+Offensive Insult
+Offensive Steamroller
+Only You, Only Me
+Perfected Absorption Shield
+Perfected Combat Barrier
+Phalanx
+Power Volley
+Reactive Reflective Field
+Reactive Reflective Field (Ext)
+Reactive Resonance Field
+Reflective Field
+Reflective Field (Ext)
+Reinforce Fight (Team)
+Riot Control
+Shake Off Me
+Survivor's Resilience
+Total Focus
+Total Mirror Shield MK IX
+Total Mirror Shield MK VII
+Total Mirror Shield MK VIII
+Total Mirror Shield MK X
+Undeniable Victim
+Unmistakable Victim
+
+<highlight>Trader<end>
+
+Abolish Aluminium
+Abolish Bismuth
+Abolish Gallium
+Abolish Polonium
+Abolish Thallium
+Abolish Tin
+Advanced Delayed Health Payment
+Advanced Health Plunder
+Armpr Trade-In
+Attentuate Defense
+Average Health Plunder
+Blackmail Notum
+Blunt Defense
+Cheat Notum
+Cleanse Outfit (Team)
+Control Ends and Means
+Cripple Defense
+Debilitate Defense
+Despoil Notum
+Digital Existence
+Disable Defense
+Divest Skills
+Divest Skills (Advanced)
+Divest Skills (Average)
+Divest Skills (Lesser)
+Divest Skills (Major)
+Draw AC
+Draw AC (Advanced)
+Draw AC (Greater)
+Draw AC (Invasive)
+Draw AC (Major)
+Emasculate Defense
+Enfeeble Defense
+Enliven Outfit (Team)
+Entrepreneurial Thrall
+Eviscerate Defense
+Exceptional Delayed Health Payment
+Exhaust Defense
+Fine Tuning
+Flow of Time
+Forced Bankruptcy
+Glib Health Haggler
+Greater Delayed Health Payment
+Greater Detain Customer
+Greater Embrace of Greed
+Greater Health Plunder
+Grid Gateway
+Guard Convoy
+Health Plunder
+Imaginary Distractions
+Impoverish Accounts
+Insolvency
+Invigorate Outfit (Team)
+Irresistible Health Haggler
+Lend Nano:
+Lesser Health Plunder
+Liquidation
+Maestro
+Major Armor Distributor
+Major Health Plunder
+Mar Defense
+Minor Health Plunder
+My Brain for Your Brain
+Patchy Health Plunder
+Pawnbroker's Armor
+Pay the Pauper
+Plagiarize Notum
+Plunder Skills
+Plunder Skills (Average)
+Plunder Skills (Lesser)
+Plunder Skills (Major)
+Plunder Skills (Minor)
+Plunder Skils (Advanced)
+Preeminent Health Haggler
+Premium Delayed Health Payment
+Profit Preoccupation
+Purify Outfit (Team)
+Quantum Uncertainty
+Redeem AC
+Redeem AC (Advanced)
+Redeem AC (Greater)
+Redeem AC (Lesser)
+Redeem AC (Major)
+Redirect Neural Signals
+Refresh Outfit (Team)
+Relentless Slayer
+Restore Outfit (Team)
+Rouse Outfit (Team)
+Simple Mind, Simple Pleasures
+Siphon AC
+Siphon AC (Advanced)
+Siphon AC (Greater)
+Siphon AC (Invasive)
+Siphon AC (Major)
+Skill Wranger (Exceptional)
+Skill Wrangler (Greater)
+Skill Wrangler (Premium)
+Skill Wrangler (Sophisticated)
+Skill Wrangler (Superb)
+Skill Wrangler (Superior)
+Snitch Notum
+Sophisticated Delayed Health Payment
+Sophisticated Health Freeloader
+Sophisticated Health Plunder
+Strip Notum
+Superior Delayed Health Payment
+Swindle Notum
+Team Skill Wrangler (Advanced)
+Team Skill Wrangler (Exceptional)
+Team Skill Wrangler (Greater)
+Team Skill Wrangler (Premium)
+Team Skill Wrangler (Sophisticated)
+Team Skill Wrangler (Superior)
+Thought Controller
+Thought Juggler
+Trading Mogul
+Traffic AC
+Traffic AC (Advanced)
+Traffic AC (Greater)
+Traffic AC (Lesser)
+Traffic AC (Major)
+Umbral Wrangler
+Umbral Wrangler (Commonplace)
+Umbral Wrangler (Exceptional)
+Umbral Wrangler (Greater)
+Umbral Wrangler (Lesser)
+Umbral Wrangler (Major)
+Umbral Wrangler (Minor)
+Umbral Wrangler (Patchy)
+Umbral Wrangler (Premium)
+Umbral Wrangler (Superior)
+Umtral Wrangler (Advanced)
+Undermine Defense
+Weak Delayed Health Payment
+Weak Health Plunder
+Weaken Defense
+
+<highlight>Shop Foods<end>
+
+Omni-Pol Elite Battle Suit
+Omni-Pol Battle Suit
+Scorpiod Battle Suit
+Plasteel Battle Suit
+Urban Battle Suit
+Anima of
+Infuse
+Teachings of
+Mocham's Gift
+Creation: Summoning
+Bootleg Beamers 'n Bolters
+Bootleg Blades 'n Blunts
+Smuggler Shipment 
+
+
+source: https://www.ao-universe.com/index.php?id=14&mid=8&site=AO-Universe%2FKnowledge%2FClassic+AO%2FGameplay+Guides%2F&pid=19
+
+by <highlight>longsdale<end>
