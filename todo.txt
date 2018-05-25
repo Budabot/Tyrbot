@@ -26,7 +26,7 @@ DEV
 EVENTS
 FUN
 GIT
-GUIDE - !guides is done, still need to do !aou
+GUIDE - almost done, just need to add formatting for !aou guides
 GUILD
 HELPBOT - !time and !calc are done
 IMPLANT

@@ -18,7 +18,8 @@ class OnlineController:
         self.pork_manager = registry.get_instance("pork_manager")
 
     def start(self):
-        self.db.load_sql_file("online.sql", os.path.dirname(__file__))
+        self.db.exec("DROP TABLE IF EXISTS online")
+        self.db.exec("CREATE TABLE online (char_id INT NOT NULL PRIMARY KEY, afk VARCHAR(255) DEFAULT '', channel CHAR(50) NOT NULL, dt INT NOT NULL)")
         self.db.exec("DELETE FROM online")
 
     @command(command="online", params=[], access_level="all",

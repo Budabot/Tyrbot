@@ -24,7 +24,6 @@ class PollController:
 
     def start(self):
         pass
-        # self.db.load_sql_file("online.sql", os.path.dirname(__file__))
         # create scheduled job for active polls
 
     @command(command="poll", params=[], access_level="all",

@@ -12,7 +12,8 @@ class RecipeController:
         self.db = registry.get_instance("db")
 
     def start(self):
-        self.db.load_sql_file("recipes.sql", os.path.dirname(__file__))
+        self.db.exec("DROP TABLE IF EXISTS recipes")
+        self.db.exec("CREATE TABLE recipes (id INT NOT NULL PRIMARY KEY, name VARCHAR(50) NOT NULL, author VARCHAR(50) NOT NULL, recipe TEXT NOT NULL)")
 
     @command(command="recipe", params=[Item("item", is_optional=True)], access_level="all",
              description="Search for a recipe")
