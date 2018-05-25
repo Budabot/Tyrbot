@@ -1,3 +1,4 @@
 requests
 mysql-connector
 pytz
+hjson

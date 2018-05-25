@@ -5,7 +5,7 @@ from core.logger import Logger
 from core.aochat.mmdb_parser import MMDBParser
 import logging
 import sys
-import json
+import hjson
 import time
 import os
 
@@ -17,14 +17,14 @@ try:
 
     logger = Logger("bootstrap")
     logger.info("Starting Tyrbot...")
-    config_file = "./conf/config.json"
+    config_file = "./conf/config.hjson"
 
     if not os.path.exists(config_file):
         config_creator.create_new_cfg(config_file)
 
     logger.debug("Reading config file '%s'" % config_file)
     with open(config_file, "r") as cfg:
-        config = MapObject(json.load(cfg))
+        config = MapObject(hjson.load(cfg))
 
     # paths to search for instances: core + module_paths
     paths = ["core"]

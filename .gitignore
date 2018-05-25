@@ -2,6 +2,7 @@
 __pycache__
 /.idea
 /conf/config.json
+/conf/config.hjson
 /data/database.db
 /modules/custom
 /logs/

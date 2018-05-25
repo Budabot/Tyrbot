@@ -1,0 +1,26 @@
+{
+  username: ""
+  password: ""
+  character: ""
+  superadmin: ""
+
+  database: {
+    type: "sqlite"
+    username: ""
+    password: ""
+    host: ""
+    name: "database.db"
+  }
+
+  # do not modify below this line unless you know what you are doing
+  server: {
+    host: "chat.d1.funcom.com"
+    port: 7105
+  }
+
+  module_paths: [
+    "modules/core"
+    "modules/standard"
+    "modules/custom"
+  ]
+}
