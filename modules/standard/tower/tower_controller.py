@@ -2,7 +2,6 @@ from core.decorators import instance
 from core.logger import Logger
 from core.aochat import server_packets
 from core.aochat.extended_message import ExtendedMessage
-import os
 
 
 @instance()
@@ -25,7 +24,7 @@ class TowerController:
         self.bot.add_packet_handler(server_packets.PublicChannelMessage.id, self.handle_public_channel_message)
 
     def start(self):
-        self.db.load_sql_file("tower_site.sql", os.path.dirname(__file__))
+        pass
 
     def handle_public_channel_message(self, packet: server_packets.PublicChannelMessage):
         if packet.channel_id == self.TOWER_BATTLE_OUTCOME_ID:

@@ -19,7 +19,7 @@ class TrickleController:
         self.util = registry.get_instance("util")
 
     def start(self):
-        self.db.load_sql_file("trickle.sql", os.path.dirname(__file__))
+        pass
 
     @command(command="trickle", params=[Regex("ability amount", "(( ([a-z]+) ([0-9]+))+)")], access_level="all",
              description="Show skill increases due to trickle")

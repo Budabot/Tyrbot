@@ -13,5 +13,10 @@
   "server": {
     "host": "chat.d1.funcom.com",
     "port": 7105
-  }
+  },
+  "module_paths": [
+    "modules\\core",
+    "modules\\standard",
+    "modules\\custom"
+  ]
 }

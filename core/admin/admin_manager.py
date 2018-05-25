@@ -19,7 +19,7 @@ class AdminManager:
         self.access_manager.register_access_level(self.MODERATOR, 30, self.check_mod)
 
     def start(self):
-        self.db.load_sql_file("admin.sql", os.path.dirname(__file__))
+        pass
 
     def check_admin(self, char_id):
         access_level = self.get_access_level(char_id)

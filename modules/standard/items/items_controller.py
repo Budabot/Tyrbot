@@ -3,7 +3,6 @@ from core.db import DB
 from core.text import Text
 from core.chat_blob import ChatBlob
 from core.command_param_types import Int, Any
-import os
 
 
 @instance()
@@ -16,7 +15,7 @@ class ItemsController:
         self.text: Text = registry.get_instance("text")
 
     def start(self):
-        self.db.load_sql_file("aodb.sql", os.path.dirname(__file__))
+        pass
 
     @command(command="items", params=[Int("ql", is_optional=True), Any("search")], access_level="all",
              description="Search for an item")

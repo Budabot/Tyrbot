@@ -26,13 +26,17 @@ try:
     with open(config_file, "r") as cfg:
         config = MapObject(json.load(cfg))
 
+    # paths to search for instances: core + module_paths
+    paths = ["core"]
+    paths.extend(config.module_paths)
+
     logger.debug("Loading instances")
-    Registry.load_instances(["core", os.path.join("modules", "core"), os.path.join("modules", "standard"), os.path.join("modules", "custom")])
+    Registry.load_instances(paths)
     Registry.add_instance("mmdb_parser", MMDBParser("text.mdb"))
     Registry.inject_all()
 
     bot = Registry.get_instance("bot")
-    bot.init(config, Registry)
+    bot.init(config, Registry, paths)
     bot.connect(config.server.host, config.server.port)
 
     if not bot.login(config.username, config.password, config.character):

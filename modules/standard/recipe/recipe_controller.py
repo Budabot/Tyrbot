@@ -1,6 +1,5 @@
 from core.decorators import instance, command
-from core.command_param_types import Item, Int
-import os
+from core.command_param_types import Item
 
 
 @instance()
@@ -12,8 +11,7 @@ class RecipeController:
         self.db = registry.get_instance("db")
 
     def start(self):
-        self.db.exec("DROP TABLE IF EXISTS recipes")
-        self.db.exec("CREATE TABLE recipes (id INT NOT NULL PRIMARY KEY, name VARCHAR(50) NOT NULL, author VARCHAR(50) NOT NULL, recipe TEXT NOT NULL)")
+        pass
 
     @command(command="recipe", params=[Item("item", is_optional=True)], access_level="all",
              description="Search for a recipe")

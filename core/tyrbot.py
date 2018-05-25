@@ -11,6 +11,7 @@ from core.setting_types import TextSettingType, ColorSettingType, NumberSettingT
 from core.aochat import server_packets, client_packets
 from core.aochat.delay_queue import DelayQueue
 from core.bot_status import BotStatus
+from __init__ import flatmap
 import os
 import time
 
@@ -42,7 +43,7 @@ class Tyrbot(Bot):
         self.job_scheduler = registry.get_instance("job_scheduler")
         self.mmdb = registry.get_instance("mmdb_parser")
 
-    def init(self, config, registry):
+    def init(self, config, registry, paths):
         self.superadmin = config.superadmin.capitalize()
         self.dimension = 5
 
@@ -53,7 +54,7 @@ class Tyrbot(Bot):
         else:
             raise Exception("Unknown database type '%s'" % config.database.type)
 
-        self.db.load_sql_file("core.sql", os.path.dirname(__file__))
+        self.load_sql_files(paths)
 
         # prepare commands, events, and settings
         self.db.exec("UPDATE command_config SET verified = 0")
@@ -209,3 +210,18 @@ class Tyrbot(Bot):
 
     def restart(self):
         self.status = BotStatus.RESTART
+
+    def load_sql_files(self, paths):
+        dirs = flatmap(lambda x: os.walk(x), paths)
+        dirs = filter(lambda y: not y[0].endswith("__pycache__"), dirs)
+
+        def get_files(tup):
+            return map(lambda x: os.path.join(tup[0], x), tup[2])
+
+        # get files from subdirectories
+        files = flatmap(get_files, dirs)
+        files = filter(lambda z: z.endswith(".sql"), files)
+
+        base_path = os.path.dirname(__file__)[:-5]
+        for file in files:
+            self.db.load_sql_file(file, base_path)

@@ -21,7 +21,7 @@ class CharacterManager:
         self.bot.add_packet_handler(server_packets.CharacterName.id, self.update)
 
     def start(self):
-        self.db.load_sql_file("name_history.sql", os.path.dirname(__file__))
+        pass
 
     def get_char_id(self, char_name):
         char_name = char_name.capitalize()

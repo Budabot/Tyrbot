@@ -17,7 +17,7 @@ class AltsManager:
         self.pork_manager = registry.get_instance("pork_manager")
 
     def start(self):
-        self.db.load_sql_file("alts.sql", os.path.dirname(__file__))
+        pass
 
     def get_alts(self, char_id):
         sql = "SELECT p.*, a.group_id, a.status FROM player p " \

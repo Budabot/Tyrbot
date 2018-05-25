@@ -24,7 +24,7 @@ class MemberController:
         self.access_manager.register_access_level("member", 90, self.check_member)
 
     def start(self):
-        self.db.exec("CREATE TABLE IF NOT EXISTS members (char_id INT NOT NULL PRIMARY KEY, auto_invite INT DEFAULT 0)")
+        pass
 
     @event(event_type="connect", description="Add members as buddies of the bot on startup")
     def handle_connect_event(self, event_type, event_data):

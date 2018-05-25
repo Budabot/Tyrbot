@@ -23,7 +23,7 @@ class PorkManager:
         self.bot.add_packet_handler(server_packets.CharacterName.id, self.update)
 
     def start(self):
-        self.db.load_sql_file("player.sql", os.path.dirname(__file__))
+        pass
 
     def get_character_info(self, char):
         # if we have entry in database and it is less than a day old, use that
