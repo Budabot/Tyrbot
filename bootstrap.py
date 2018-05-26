@@ -32,11 +32,10 @@ try:
 
     logger.debug("Loading instances")
     Registry.load_instances(paths)
-    Registry.add_instance("mmdb_parser", MMDBParser("text.mdb"))
     Registry.inject_all()
 
     bot = Registry.get_instance("bot")
-    bot.init(config, Registry, paths)
+    bot.init(config, Registry, paths, MMDBParser("text.mdb"))
     bot.connect(config.server.host, config.server.port)
 
     if not bot.login(config.username, config.password, config.character):

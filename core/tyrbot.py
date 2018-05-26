@@ -42,9 +42,9 @@ class Tyrbot(Bot):
         self.command_manager = registry.get_instance("command_manager")
         self.event_manager = registry.get_instance("event_manager")
         self.job_scheduler = registry.get_instance("job_scheduler")
-        self.mmdb = registry.get_instance("mmdb_parser")
 
-    def init(self, config, registry, paths):
+    def init(self, config, registry, paths, mmdb_parser):
+        self.mmdb_parser = mmdb_parser
         self.superadmin = config.superadmin.capitalize()
         self.dimension = 5
 
@@ -138,18 +138,18 @@ class Tyrbot(Bot):
             elif isinstance(packet, server_packets.SystemMessage):
                 category_id = 20000
                 instance_id = packet.message_id
-                template = self.mmdb.get_message_string(category_id, instance_id)
-                params = self.mmdb.parse_params(packet.message_args)
+                template = self.mmdb_parser.get_message_string(category_id, instance_id)
+                params = self.mmdb_parser.parse_params(packet.message_args)
                 packet.extended_message = ExtendedMessage(category_id, instance_id, template, params)
                 self.logger.log_chat("SystemMessage", None, packet.extended_message.get_message())
             elif isinstance(packet, server_packets.PublicChannelMessage):
                 msg = packet.message
                 if msg.startswith("~&") and msg.endswith("~"):
                     msg = msg[1:-2]
-                    category_id = self.mmdb.read_base_85(msg[0:5])
-                    instance_id = self.mmdb.read_base_85(msg[5: 10])
-                    template = self.mmdb.get_message_string(category_id, instance_id)
-                    params = self.mmdb.parse_params(msg[10:])
+                    category_id = self.mmdb_parser.read_base_85(msg[0:5])
+                    instance_id = self.mmdb_parser.read_base_85(msg[5: 10])
+                    template = self.mmdb_parser.get_message_string(category_id, instance_id)
+                    params = self.mmdb_parser.parse_params(msg[10:])
                     packet.extended_message = ExtendedMessage(category_id, instance_id, template, params)
 
             for handler in self.packet_handlers.get(packet.id, []):

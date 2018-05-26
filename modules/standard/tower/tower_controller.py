@@ -16,7 +16,6 @@ class TowerController:
         self.bot = registry.get_instance("bot")
         self.db = registry.get_instance("db")
         self.event_manager = registry.get_instance("event_manager")
-        self.mmdb = registry.get_instance("mmdb_parser")
 
     def pre_start(self):
         self.event_manager.register_event_type("tower_attack")
