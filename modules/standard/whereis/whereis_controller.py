@@ -10,14 +10,14 @@ class WhereisController:
         pass
 
     def inject(self, registry):
-        self.dao = registry.get_instance("whereis_dao")
+        self.db = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
 
     @command(command="whereis", params=[Any("search")], access_level="all",
              description="Find locations of NPCs and places")
     def handle_whereis_cmd(self, channel, sender, reply, args):
         search = args[0]
-        data = self.dao.search_whereis(search)
+        data = self.search_whereis(search)
 
         count = len(data)
         if count > 0:
@@ -31,3 +31,9 @@ class WhereisController:
             reply(ChatBlob("Whereis '%s' (%d)" % (search, count), blob, "this is a footer"))
         else:
             reply("Could not find any results for your search.")
+
+    def search_whereis(self, search):
+        return self.db.query("SELECT w.playfield_id, w.name, w.answer, w.xcoord, w.ycoord, p.short_name FROM whereis w "
+                             "LEFT JOIN playfields p ON w.playfield_id = p.id "
+                             "WHERE name <ENHANCED_LIKE> ? OR keywords <ENHANCED_LIKE> ?",
+                             [search, search])
