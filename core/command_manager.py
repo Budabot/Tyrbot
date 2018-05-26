@@ -131,7 +131,7 @@ class CommandManager:
                 cmd_config, matches, handler = self.get_matches(cmd_configs, command_args)
                 if matches:
                     if self.access_manager.check_access(char_id, cmd_config.access_level):
-                        sender = MapObject({"name": self.character_manager.resolve_char_to_name(char_id), "char_id": char_id})
+                        sender = MapObject({"name": self.character_manager.resolve_char_to_name(char_id, "Unknown(%d)" % char_id), "char_id": char_id})
                         handler["callback"](channel, sender, reply, self.process_matches(matches, handler["params"]))
                     else:
                         self.access_denied_response(char_id, cmd_config, reply)

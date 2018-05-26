@@ -35,6 +35,7 @@ class PorkManager:
             return char_info
 
         char_name = self.character_manager.resolve_char_to_name(char)
+        # TODO handle if char_name is None
         url = "http://people.anarchy-online.com/character/bio/d/%d/name/%s/bio.xml?data_type=json" % (self.bot.dimension, char_name)
 
         r = requests.get(url)

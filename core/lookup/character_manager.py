@@ -42,9 +42,10 @@ class CharacterManager:
         else:
             return self.get_char_id(char)
 
-    def resolve_char_to_name(self, char):
+    def resolve_char_to_name(self, char, default=None):
         if isinstance(char, int):
-            return self.get_char_name(char)
+            char_name = self.get_char_name(char)
+            return char_name if char_name else default
         else:
             return char
 
