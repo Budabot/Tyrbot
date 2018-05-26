@@ -45,28 +45,26 @@ class BuddyManager:
     def handle_login_ok(self, packet):
         self.buddy_list_size += 1000
 
-    def add_buddy(self, char, _type):
-        char_id = self.character_manager.resolve_char_to_id(char)
+    def add_buddy(self, char_id, _type):
         if char_id and char_id != self.bot.char_id:
             if char_id not in self.buddy_list:
                 self.bot.send_packet(client_packets.BuddyAdd(char_id, "\1"))
                 self.buddy_list[char_id] = {"online": None, "types": [_type]}
-            else:
+            elif _type not in self.buddy_list[char_id]["types"]:
                 self.buddy_list[char_id]["types"].append(_type)
 
             return True
         else:
             return False
 
-    def remove_buddy(self, char, _type):
-        char_id = self.character_manager.resolve_char_to_id(char)
+    def remove_buddy(self, char_id, _type, force_remove=False):
         if char_id:
             if char_id not in self.buddy_list:
                 return False
             else:
                 if _type in self.buddy_list[char_id]["types"]:
                     self.buddy_list[char_id]["types"].remove(_type)
-                if len(self.buddy_list[char_id]["types"]) == 0:
+                if len(self.buddy_list[char_id]["types"]) == 0 or force_remove:
                     self.bot.send_packet(client_packets.BuddyRemove(char_id))
                 return True
         else:
@@ -83,3 +81,6 @@ class BuddyManager:
             return None
         else:
             return buddy.get("online", None)
+
+    def get_all_buddies(self):
+        return dict(self.buddy_list)
