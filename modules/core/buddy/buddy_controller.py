@@ -23,6 +23,7 @@ class BuddyController:
         buddy_list = []
         for char_id, buddy in self.buddy_manager.get_all_buddies().items():
             char_name = self.character_manager.resolve_char_to_name(char_id)
+            char_name = char_name if char_name else "Unknown(%d)" % char_id
             buddy_list.append([char_name, buddy["online"], ",".join(buddy["types"])])
 
         blob = self.format_buddies(buddy_list)
@@ -84,6 +85,7 @@ class BuddyController:
         buddy_list = []
         for char_id, buddy in self.buddy_manager.get_all_buddies().items():
             char_name = self.character_manager.resolve_char_to_name(char_id)
+            char_name = char_name if char_name else "Unknown(%d)" % char_id
             if search in char_name.lower():
                 buddy_list.append([char_name, buddy["online"], ",".join(buddy["types"])])
 
