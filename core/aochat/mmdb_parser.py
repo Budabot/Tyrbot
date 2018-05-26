@@ -1,9 +1,11 @@
 import struct
+from core.logger import Logger
 
 
 class MMDBParser:
     def __init__(self, filename):
         self.filename = filename
+        self.logger = Logger("mmdb_parser")
 
     def get_message_string(self, category_id, instance_id):
         with open(self.filename, "rb") as file:
@@ -90,6 +92,7 @@ class MMDBParser:
         return n
 
     def parse_params(self, param_str):
+        self.logger.debug("Param string: '%s'" % param_str.encode("latin-1"))
         args = []
         while param_str:
             data_type = param_str[0]

@@ -1,5 +1,6 @@
 remove timer_event table and store next_run in meta_data column of event_config
 add alts_merging event
+https://www.w3schools.com/charsets/ref_utf_geometric.asp
 
 ADMIN
 ALTS

@@ -136,21 +136,27 @@ class Tyrbot(Bot):
                     if packet.name != "Clan (name unknown)":
                         self.org_name = packet.name
             elif isinstance(packet, server_packets.SystemMessage):
-                category_id = 20000
-                instance_id = packet.message_id
-                template = self.mmdb_parser.get_message_string(category_id, instance_id)
-                params = self.mmdb_parser.parse_params(packet.message_args)
-                packet.extended_message = ExtendedMessage(category_id, instance_id, template, params)
-                self.logger.log_chat("SystemMessage", None, packet.extended_message.get_message())
+                try:
+                    category_id = 20000
+                    instance_id = packet.message_id
+                    template = self.mmdb_parser.get_message_string(category_id, instance_id)
+                    params = self.mmdb_parser.parse_params(packet.message_args)
+                    packet.extended_message = ExtendedMessage(category_id, instance_id, template, params)
+                    self.logger.log_chat("SystemMessage", None, packet.extended_message.get_message())
+                except Exception as e:
+                    self.logger.error("", e)
             elif isinstance(packet, server_packets.PublicChannelMessage):
                 msg = packet.message
                 if msg.startswith("~&") and msg.endswith("~"):
                     msg = msg[1:-2]
-                    category_id = self.mmdb_parser.read_base_85(msg[0:5])
-                    instance_id = self.mmdb_parser.read_base_85(msg[5: 10])
-                    template = self.mmdb_parser.get_message_string(category_id, instance_id)
-                    params = self.mmdb_parser.parse_params(msg[10:])
-                    packet.extended_message = ExtendedMessage(category_id, instance_id, template, params)
+                    try:
+                        category_id = self.mmdb_parser.read_base_85(msg[0:5])
+                        instance_id = self.mmdb_parser.read_base_85(msg[5: 10])
+                        template = self.mmdb_parser.get_message_string(category_id, instance_id)
+                        params = self.mmdb_parser.parse_params(msg[10:])
+                        packet.extended_message = ExtendedMessage(category_id, instance_id, template, params)
+                    except Exception as e:
+                        self.logger.error("", e)
 
             for handler in self.packet_handlers.get(packet.id, []):
                 handler(packet)
