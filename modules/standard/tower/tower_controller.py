@@ -31,16 +31,7 @@ class TowerController:
             print("tower battle outcome", packet)
         elif packet.channel_id == self.ALL_TOWERS_ID:
             print("tower attack", packet)
-            msg = packet.message
-            if msg.startswith("~&") and msg.endswith("~"):
-                msg = msg[1:-2]
-                category_id = self.mmdb.read_base_85(msg[0:5])
-                instance_id = self.mmdb.read_base_85(msg[5: 10])
-                template = self.mmdb.get_message_string(category_id, instance_id)
-                params = self.mmdb.parse_params(msg[10:])
-                extended_message = ExtendedMessage(category_id, instance_id, template, params)
-                print(extended_message)
-                print(extended_message.get_message())
-                self.event_manager.fire_event("tower_attack", extended_message)
+            if packet.extended_message:
+                self.event_manager.fire_event("tower_attack", packet.extended_message)
             else:
                 raise Exception("Tower message not an extended message")

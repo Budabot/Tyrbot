@@ -7,3 +7,6 @@ class ExtendedMessage:
 
     def get_message(self):
         return self.template % tuple(self.params)
+
+    def __str__(self):
+        return str([self.category_id, self.instance_id, self.template, self.params, self.get_message()])

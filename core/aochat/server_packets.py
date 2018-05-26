@@ -241,12 +241,16 @@ class SystemMessage(ServerPacket):
         self.window_id = window_id
         self.message_id = message_id
         self.message_args = message_args
+        self.extended_message = None
         super().__init__(self.id, self.types, [self.client_id, self.window_id, self.message_id, self.message_args])
 
     @classmethod
     def from_bytes(cls, data):
         args = decode_args(cls.types, data)
         return cls(*args)
+
+    def __str__(self):
+        return super().__str__() + ", ExtendedMessage: %s" % self.extended_message
 
 
 class BuddyAdded(ServerPacket):
@@ -423,6 +427,7 @@ class PublicChannelMessage(ServerPacket):
         self.char_id = char_id
         self.message = message
         self.blob = blob
+        self.extended_message = None
         super().__init__(self.id, self.types, [self.channel_id, self.char_id, self.message, self.blob])
 
     @classmethod
@@ -430,6 +435,8 @@ class PublicChannelMessage(ServerPacket):
         args = decode_args(cls.types, data)
         return cls(*args)
 
+    def __str__(self):
+        return super().__str__() + ", ExtendedMessage: %s" % self.extended_message
 
 class Pong(ServerPacket):
     id = 100

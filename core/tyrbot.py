@@ -9,6 +9,7 @@ from core.decorators import instance
 from core.chat_blob import ChatBlob
 from core.setting_types import TextSettingType, ColorSettingType, NumberSettingType
 from core.aochat import server_packets, client_packets
+from core.aochat.extended_message import ExtendedMessage
 from core.aochat.delay_queue import DelayQueue
 from core.bot_status import BotStatus
 from __init__ import flatmap
@@ -139,7 +140,17 @@ class Tyrbot(Bot):
                 instance_id = packet.message_id
                 template = self.mmdb.get_message_string(category_id, instance_id)
                 params = self.mmdb.parse_params(packet.message_args)
-                self.logger.log_chat("SystemMessage", None, template % tuple(params))
+                packet.extended_message = ExtendedMessage(category_id, instance_id, template, params)
+                self.logger.log_chat("SystemMessage", None, packet.extended_message.get_message())
+            elif isinstance(packet, server_packets.PublicChannelMessage):
+                msg = packet.message
+                if msg.startswith("~&") and msg.endswith("~"):
+                    msg = msg[1:-2]
+                    category_id = self.mmdb.read_base_85(msg[0:5])
+                    instance_id = self.mmdb.read_base_85(msg[5: 10])
+                    template = self.mmdb.get_message_string(category_id, instance_id)
+                    params = self.mmdb.parse_params(msg[10:])
+                    packet.extended_message = ExtendedMessage(category_id, instance_id, template, params)
 
             for handler in self.packet_handlers.get(packet.id, []):
                 handler(packet)
