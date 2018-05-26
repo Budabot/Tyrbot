@@ -1,5 +1,5 @@
 remove timer_event table and store next_run in meta_data column of event_config
-handle extended messages - tower module
+add alts_merging event
 
 ADMIN
 ALTS

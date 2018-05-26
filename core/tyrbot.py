@@ -233,6 +233,6 @@ class Tyrbot(Bot):
         files = flatmap(get_files, dirs)
         files = filter(lambda z: z.endswith(".sql"), files)
 
-        base_path = os.path.dirname(__file__)[:-5]
+        base_path = os.getcwd()
         for file in files:
             self.db.load_sql_file(file, base_path)
