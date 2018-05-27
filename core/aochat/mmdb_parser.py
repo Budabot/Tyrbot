@@ -92,9 +92,9 @@ class MMDBParser:
         return n
 
     def parse_params(self, param_str):
-        self.logger.debug("Param string: '%s'" % param_str.encode("latin-1"))
+        param_str = param_str + "~"
         args = []
-        while param_str:
+        while True:
             data_type = param_str[0]
             param_str = param_str[1:]
             if data_type == "S":
@@ -127,6 +127,8 @@ class MMDBParser:
                     raise Exception("Could not find message string for category '%s' and instance '%s'" % (category_id, instance_id))
                 args.append(message)
                 param_str = param_str[5:]
+            elif data_type == "~":
+                break
             else:
                 raise Exception("Unknown argument type '%s'" % data_type)
 
