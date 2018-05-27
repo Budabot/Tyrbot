@@ -41,6 +41,7 @@ class CharacterInfoController:
             blob += "PVP Title: %s\n" % char_info.pvp_title
             blob += "Character Id: %d\n" % char_info.char_id
             blob += "Source: %s\n" % char_info.source
+            blob += "Status: %s\n" % ("<green>Active<end>" if char_id else "<red>Inactive<end>")
             more_info = self.text.paginate("More Info", blob, 5000, 1)[0]
 
             msg = self.format_char_info(char_info) + " " + more_info
