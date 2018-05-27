@@ -149,7 +149,7 @@ class Tyrbot(Bot):
                 msg = packet.message
                 if msg.startswith("~&") and msg.endswith("~"):
                     self.logger.debug("Param string: '%s'" % msg.encode("latin-1"))
-                    msg = msg[1:-2]
+                    msg = msg[2:-1]
                     try:
                         category_id = self.mmdb_parser.read_base_85(msg[0:5])
                         instance_id = self.mmdb_parser.read_base_85(msg[5: 10])
