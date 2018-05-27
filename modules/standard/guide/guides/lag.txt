@@ -7,7 +7,7 @@
 <a href='chatcmd:///option RealisticMoons 1'>Enable</a> <a href='chatcmd:///option RealisticMoons 0'>Disable</a> Display Realistic Moons
 <a href='chatcmd:///option StarRotation 1'>Enable</a> <a href='chatcmd:///option StarRotation 0'>Disable</a> Star rotation at night
 <a href='chatcmd:///option Wildlife 1'>Enable</a> <a href='chatcmd:///option Wildlife 0'>Disable</a> Show wildlife
-<a href='chatcmd:///option IsSpaceShipsShown 1'>Enable</a> <a href='chatcmd:///option IsSpaceShipsShown 0'>Disable</a> Show Sace Ships
+<a href='chatcmd:///option IsSpaceShipsShown 1'>Enable</a> <a href='chatcmd:///option IsSpaceShipsShown 0'>Disable</a> Show Space Ships
 <a href='chatcmd:///option Shadows 1'>Enable</a> <a href='chatcmd:///option Shadows 0'>Disable</a> Show Ground Shadows
 
 <header2><tab> ::: Environment and Visual (Zoning Required) :::<end>
