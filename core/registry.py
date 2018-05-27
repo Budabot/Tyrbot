@@ -21,7 +21,7 @@ class Registry:
 
     @classmethod
     def pre_start_all(cls):
-        # call start() on instances so they can finish any init() processes
+        # call pre_start() on instances so they can start any init() processes
         for key in cls._registry:
             try:
                 cls._registry[key].pre_start

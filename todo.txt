@@ -57,5 +57,5 @@ TRICKLE - done
 VOTE - renamed to poll
 WEATHER - ignore
 WHEREIS - done
-WHOIS
+WHOIS - need !history
 WHOMPAH
