@@ -29,18 +29,14 @@ class PorkManager:
         char_id = self.character_manager.resolve_char_to_id(char)
         char_name = self.character_manager.resolve_char_to_name(char)
 
-        # for characters that haven't been activated since the server merge, they have an entry in PoRK, but the chat server doesn't know who they are
-        if char_id:
-            # if we have entry in database and it is less than a day old, use that
-            char_info = self.get_from_database(char_id)
-            if char_info:
-                if char_info.source == "chat_server":
-                    char_info = None
-                elif char_info.last_updated > (int(time.time()) - 86400):
-                    char_info.source += " (cache)"
-                    return char_info
-        else:
-            char_info = None
+        # if we have entry in database and it is less than a day old, use that
+        char_info = self.get_from_database(char_id=char_id, char_name=char_name)
+        if char_info:
+            if char_info.source == "chat_server":
+                char_info = None
+            elif char_info.last_updated > (int(time.time()) - 86400):
+                char_info.source += " (cache)"
+                return char_info
 
         if char_name:
             url = "http://people.anarchy-online.com/character/bio/d/%d/name/%s/bio.xml?data_type=json" % (self.bot.dimension, char_name)
@@ -137,14 +133,26 @@ class PorkManager:
                                   char_info.org_rank_name, char_info.org_rank_id, char_info.dimension, char_info.head_id, char_info.pvp_rating, char_info.pvp_title,
                                   char_info.source, int(time.time())])
 
-    def get_from_database(self, char_id):
-        return self.db.query_single("SELECT char_id, name, first_name, last_name, level, breed, gender, faction, profession, "
-                                    "profession_title, ai_rank, ai_level, org_id, org_name, org_rank_name, org_rank_id, "
-                                    "dimension, head_id, pvp_rating, pvp_title, source, last_updated "
-                                    "FROM player WHERE char_id = ?", [char_id])
+    def get_from_database(self, char_id=None, char_name=None):
+        if char_id:
+            return self.db.query_single("SELECT char_id, name, first_name, last_name, level, breed, gender, faction, profession, "
+                                        "profession_title, ai_rank, ai_level, org_id, org_name, org_rank_name, org_rank_id, "
+                                        "dimension, head_id, pvp_rating, pvp_title, source, last_updated "
+                                        "FROM player WHERE char_id = ?", [char_id])
+        elif char_name:
+            return self.db.query_single("SELECT char_id, name, first_name, last_name, level, breed, gender, faction, profession, "
+                                        "profession_title, ai_rank, ai_level, org_id, org_name, org_rank_name, org_rank_id, "
+                                        "dimension, head_id, pvp_rating, pvp_title, source, last_updated "
+                                        "FROM player WHERE name = ?", [char_name])
+        else:
+            return None
 
     def update(self, packet):
-        character = self.get_from_database(packet.char_id)
+        # don't update if we didn't get a valid response
+        if packet.char_id == 4294967295:
+            return
+
+        character = self.get_from_database(char_id=packet.char_id)
 
         if character:
             if character.name != packet.name:
