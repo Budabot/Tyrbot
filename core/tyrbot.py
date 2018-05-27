@@ -156,6 +156,7 @@ class Tyrbot(Bot):
                         template = self.mmdb_parser.get_message_string(category_id, instance_id)
                         params = self.mmdb_parser.parse_params(msg[10:])
                         packet.extended_message = ExtendedMessage(category_id, instance_id, template, params)
+                        print(packet)
                     except Exception as e:
                         self.logger.error("", e)
 
