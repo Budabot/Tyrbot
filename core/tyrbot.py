@@ -107,15 +107,18 @@ class Tyrbot(Bot):
         self.ready = True
 
         while self.status == BotStatus.RUN:
-            timestamp = int(time.time())
+            try:
+                timestamp = int(time.time())
 
-            # timer events will execute not more often than once per second
-            if self.last_timer_event < timestamp:
-                self.last_timer_event = timestamp
-                self.job_scheduler.check_for_scheduled_jobs(timestamp)
-                self.event_manager.check_for_timer_events(timestamp)
+                # timer events will execute not more often than once per second
+                if self.last_timer_event < timestamp:
+                    self.last_timer_event = timestamp
+                    self.job_scheduler.check_for_scheduled_jobs(timestamp)
+                    self.event_manager.check_for_timer_events(timestamp)
 
-            self.iterate()
+                self.iterate()
+            except Exception as e:
+                self.logger.error("", e)
 
         return self.status
 
