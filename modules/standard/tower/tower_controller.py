@@ -9,6 +9,8 @@ class TowerController:
     TOWER_BATTLE_OUTCOME_ID = 42949672962
     ALL_TOWERS_ID = 42949672960
 
+    ATTACK_1 = [506, 12753364]
+
     def __init__(self):
         self.logger = Logger("tower_controller")
 
@@ -29,7 +31,9 @@ class TowerController:
         if packet.channel_id == self.TOWER_BATTLE_OUTCOME_ID:
             print("tower battle outcome", packet)
         elif packet.channel_id == self.ALL_TOWERS_ID:
-            print("tower attack", packet)
+            if [packet.extended_message.category_id, packet.extended_message.instance_id] != self.ATTACK_1:
+                print("tower attack", packet)
+
             if packet.extended_message:
                 self.event_manager.fire_event("tower_attack", packet.extended_message)
             else:
