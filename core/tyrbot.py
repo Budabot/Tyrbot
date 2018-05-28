@@ -148,7 +148,6 @@ class Tyrbot(Bot):
             elif isinstance(packet, server_packets.PublicChannelMessage):
                 msg = packet.message
                 if msg.startswith("~&") and msg.endswith("~"):
-                    self.logger.debug("Param string: '%s'" % msg.encode("latin-1"))
                     msg = msg[2:-1]
                     try:
                         category_id = self.mmdb_parser.read_base_85(msg[0:5])
@@ -156,7 +155,6 @@ class Tyrbot(Bot):
                         template = self.mmdb_parser.get_message_string(category_id, instance_id)
                         params = self.mmdb_parser.parse_params(msg[10:])
                         packet.extended_message = ExtendedMessage(category_id, instance_id, template, params)
-                        print(packet)
                     except Exception as e:
                         self.logger.error("", e)
 

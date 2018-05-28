@@ -7,7 +7,7 @@ from core.aochat.extended_message import ExtendedMessage
 @instance()
 class TowerController:
     TOWER_BATTLE_OUTCOME_ID = 42949672962
-    ALL_TOWERS_ID = 1
+    ALL_TOWERS_ID = 42949672960
 
     def __init__(self):
         self.logger = Logger("tower_controller")
