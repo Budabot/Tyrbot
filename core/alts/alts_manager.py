@@ -18,7 +18,10 @@ class AltsManager:
     def start(self):
         pass
 
-    def get_alts(self, char_id, status = self.VALIDATED):
+    def get_alts(self, char_id, status=None):
+        if not status:
+            status = self.VALIDATED
+
         sql = "SELECT p.*, a.group_id, a.status FROM player p " \
               "LEFT JOIN alts a ON p.char_id = a.char_id " \
               "WHERE p.char_id = ? OR a.group_id = (" \
