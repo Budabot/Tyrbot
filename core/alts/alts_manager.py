@@ -1,5 +1,4 @@
 from core.decorators import instance
-import os
 
 
 @instance()
@@ -24,9 +23,9 @@ class AltsManager:
               "LEFT JOIN alts a ON p.char_id = a.char_id " \
               "WHERE p.char_id = ? OR a.group_id = (" \
               "SELECT group_id FROM alts WHERE status >= ? AND char_id = ?) " \
-              "ORDER BY status = ? DESC, a.status DESC, p.level DESC"
+              "ORDER BY a.status DESC, a.status DESC, p.level DESC"
 
-        return self.db.query(sql, [char_id, status, char_id, self.MAIN])
+        return self.db.query(sql, [char_id, status, char_id])
 
     def add_alt(self, sender_char_id, alt_char_id):
         alt_row = self.get_alt_status(alt_char_id)
@@ -41,6 +40,7 @@ class AltsManager:
                 params = [alt_char_id, sender_row.group_id, self.UNVALIDATED]
         else:
             # main does not exist, create entry for it
+            # TODO race condition here if something else is adding alts at the same time
             group_id = self.get_next_group_id()
             self.db.exec("INSERT INTO alts (char_id, group_id, status) VALUES (?, ?, ?)",
                          [sender_char_id, group_id, self.MAIN])
