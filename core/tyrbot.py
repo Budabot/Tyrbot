@@ -149,7 +149,7 @@ class Tyrbot(Bot):
                     packet.extended_message = ExtendedMessage(category_id, instance_id, template, params)
                     self.logger.log_chat("SystemMessage", None, packet.extended_message.get_message())
                 except Exception as e:
-                    self.logger.error("Error handling extended message", e)
+                    self.logger.error("Error handling extended message: " + str(packet), e)
             elif isinstance(packet, server_packets.PublicChannelMessage):
                 msg = packet.message
                 if msg.startswith("~&") and msg.endswith("~"):
@@ -161,7 +161,7 @@ class Tyrbot(Bot):
                         params = self.mmdb_parser.parse_params(msg[10:])
                         packet.extended_message = ExtendedMessage(category_id, instance_id, template, params)
                     except Exception as e:
-                        self.logger.error("Error handling extended message", e)
+                        self.logger.error("Error handling extended message for packet: " + str(packet), e)
 
             for handler in self.packet_handlers.get(packet.id, []):
                 handler(packet)

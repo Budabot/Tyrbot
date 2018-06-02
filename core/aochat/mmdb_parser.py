@@ -126,7 +126,7 @@ class MMDBParser:
                 if not message:
                     raise Exception("Could not find message string for category '%s' and instance '%s'" % (category_id, instance_id))
                 args.append(message)
-                param_str = param_str[5:]
+                param_str = param_str[4:]
             elif data_type == "~":
                 break
             else:
