@@ -3,8 +3,8 @@ from core.decorators import instance
 
 @instance()
 class AltsManager:
-    UNVALIDATED = 0
-    VALIDATED = 1
+    UNCONFIRMED = 0
+    CONFIRMED = 1
     MAIN = 2
 
     def __init__(self):
@@ -20,7 +20,7 @@ class AltsManager:
 
     def get_alts(self, char_id, status=None):
         if not status:
-            status = self.VALIDATED
+            status = self.CONFIRMED
 
         sql = "SELECT p.*, a.group_id, a.status FROM player p " \
               "LEFT JOIN alts a ON p.char_id = a.char_id " \
@@ -30,28 +30,30 @@ class AltsManager:
 
         return self.db.query(sql, [char_id, status, char_id])
 
-    def add_alt(self, sender_char_id, alt_char_id):
+    def add_alt(self, sender_char_id, alt_char_id, status=None):
         alt_row = self.get_alt_status(alt_char_id)
         if alt_row:
             return False
 
         sender_row = self.get_alt_status(sender_char_id)
         if sender_row:
-            if sender_row.status == self.MAIN or sender_row.status == self.VALIDATED:
-                params = [alt_char_id, sender_row.group_id, self.VALIDATED]
-            else:
-                params = [alt_char_id, sender_row.group_id, self.UNVALIDATED]
+            if status is None:  # status = 0 is a valid state, so we must explicitly check for None
+                if sender_row.status >= self.CONFIRMED:
+                    status = self.CONFIRMED
+                else:
+                    status = self.UNCONFIRMED
+            params = [alt_char_id, sender_row.group_id, status]
         else:
-            # main does not exist, create entry for it
-            # TODO race condition here if something else is adding alts at the same time
             group_id = self.get_next_group_id()
+
+            # main does not exist, create entry for it
             self.db.exec("INSERT INTO alts (char_id, group_id, status) VALUES (?, ?, ?)",
                          [sender_char_id, group_id, self.MAIN])
 
             # make sure char info exists in character table
             self.pork_manager.load_character_info(sender_char_id)
 
-            params = [alt_char_id, group_id, self.VALIDATED]
+            params = [alt_char_id, group_id, status if status else self.CONFIRMED]
 
         # make sure char info exists in character table
         self.pork_manager.load_character_info(alt_char_id)
@@ -66,8 +68,8 @@ class AltsManager:
         if not alt_row or not sender_row or alt_row.group_id != sender_row.group_id:
             return False
 
-        # cannot remove alt from an unvalidated sender
-        if sender_row.status == self.UNVALIDATED:
+        # cannot remove alt from an unconfirmed sender
+        if sender_row.status == self.UNCONFIRMED:
             return False
 
         self.db.exec("DELETE FROM alts WHERE char_id = ?", [alt_char_id])
@@ -79,3 +81,20 @@ class AltsManager:
     def get_next_group_id(self):
         row = self.db.query_single("SELECT (IFNULL(MAX(group_id), 0) + 1) AS next_group_id FROM alts")
         return row.next_group_id
+
+    def confirm_alt(self, sender_char_id, alt_char_id):
+        sender_status = self.get_alt_status(sender_char_id)
+        alt_status = self.get_alt_status(alt_char_id)
+
+        if not sender_status or not alt_status or sender_status.group_id != alt_status.group_id:
+            return ["not_alt", False]
+
+        if sender_status.status < AltsManager.CONFIRMED:
+            return ["unconfirmed_sender", False]
+
+        if alt_status.status >= AltsManager.CONFIRMED:
+            return ["already_confirmed", False]
+
+        self.db.exec("UPDATE alts SET status = ? WHERE char_id = ?", [self.CONFIRMED, alt_char_id])
+
+        return ["", True]

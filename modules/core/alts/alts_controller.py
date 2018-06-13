@@ -27,12 +27,12 @@ class AltsController:
         reply(ChatBlob("Alts for %s (%d)" % (sender.name, len(alts)), blob))
 
     def get_alt_status(self, status):
-        if status == AltsManager.MAIN:
-            return " - [main]"
-        elif status == AltsManager.VALIDATED:
+        if status == AltsManager.UNCONFIRMED:
+            return " - [unconfirmed]"
+        elif status == AltsManager.CONFIRMED:
             return ""
         else:
-            return " - [unvalidated]"
+            return " - [main]"
 
     @command(command="alts", params=[Const("add"), Any("character")], access_level="all",
              description="Add an alt")
@@ -42,10 +42,10 @@ class AltsController:
 
         if not alt_char_id:
             reply("Could not find character <highlight>%s<end>." % alt)
-        elif self.alts_manager.add_alt(sender.char_id, alt_char_id):
-            reply("<highlight>%s<end> added as alt successfully." % alt)
+        elif self.alts_manager.add_alt(sender.char_id, alt_char_id, AltsManager.UNCONFIRMED):
+            reply("<highlight>%s<end> has been added as your alt." % alt)
         else:
-            reply("Could not add <highlight>%s<end> as alt." % alt)
+            reply("Could not add <highlight>%s<end> as your alt alt." % alt)
 
     @command(command="alts", params=[Options(["rem", "remove"]), Any("character")], access_level="all",
              description="Remove an alt")
@@ -56,12 +56,32 @@ class AltsController:
         if not alt_char_id:
             reply("Could not find character <highlight>%s<end>." % alt)
         elif self.alts_manager.remove_alt(sender.char_id, alt_char_id):
-            reply("<highlight>%s<end> removed as alt successfully." % alt)
+            reply("<highlight>%s<end> has been removed as your alt." % alt)
         else:
-            reply("Could not remove <highlight>%s<end> as alt." % alt)
+            reply("Could not remove <highlight>%s<end> as your alt." % alt)
 
-    @command(command="alts", params=[Any("character")], access_level="all",
-             description="Show alts of another character")
+    @command(command="alts", params=[Const("confirm"), Any("character")], access_level="all",
+             description="Confirm an alt")
+    def alts_confirm_cmd(self, channel, sender, reply, args):
+        alt_name = args[1].capitalize()
+        alt_char_id = self.character_manager.resolve_char_to_id(alt_name)
+        if not alt_char_id:
+            reply("Could not find character <highlight>%s<end>." % alt_name)
+            return
+
+        msg, result = self.alts_manager.confirm_alt(sender.char_id, alt_char_id)
+
+        if result:
+            reply("Character <highlight>%s<end> has been confirmed as your alt." % alt_name)
+        elif msg == "not_alt":
+            reply("Character <highlight>%s<end> is not registered as your alt." % alt_name)
+        elif msg == "unconfirmed_sender":
+            reply("You must use this command from your main or an already-confirmed alt.")
+        elif msg == "already_confirmed":
+            reply("Character <highlight>%s<end> is already confirmed as your alt." % alt_name)
+
+    @command(command="alts", params=[Any("character")], access_level="member",
+             description="Show alts of another character", sub_command="show")
     def alts_list_other_cmd(self, channel, sender, reply, args):
         name = args[0].capitalize()
         char_id = self.character_manager.resolve_char_to_id(name)
