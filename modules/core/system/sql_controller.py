@@ -16,6 +16,6 @@ class SqlController:
         sql = args[1]
         try:
             results = list(map(lambda x: x.row, self.db.query(sql)))
-            reply(ChatBlob("Results", json.dumps(results, indent=4, sort_keys=True)))
+            reply(ChatBlob("Results (%d)" % len(results), json.dumps(results, indent=4, sort_keys=True)))
         except Exception as e:
             reply("There was an error executing your query: %s" % str(e))
