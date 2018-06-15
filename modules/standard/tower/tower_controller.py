@@ -11,6 +11,7 @@ class TowerController:
 
     ATTACK_1 = [506, 12753364]
     ATTACK_2 = [506, 147506468]  # 'Notum Wars Update: The %s organization %s lost their base in %s.'
+    ATTACK_3 = "(.+) just attacked the (clan|neutral|omni) organization (.+)'s tower in (.+) at location \(\d+, \d+\).\n"
 
     VICTORY_1 = [42949672962, 0]  # 'The Neutral organization Oldschool attacked the Omni Post Apocalypse at their base in Greater Omni Forest. The attackers won!!', '\x02\x01']
 
@@ -32,11 +33,14 @@ class TowerController:
 
     def handle_public_channel_message(self, packet: server_packets.PublicChannelMessage):
         if packet.channel_id == self.TOWER_BATTLE_OUTCOME_ID:
-            self.logger.info("tower battle outcome: " + str(packet))
+            # self.logger.info("tower battle outcome: " + str(packet))
+            pass
         elif packet.channel_id == self.ALL_TOWERS_ID:
             if packet.extended_message:
                 if [packet.extended_message.category_id, packet.extended_message.instance_id] != self.ATTACK_1:
-                    self.logger.info("tower attack: " + str(packet))
+                    # self.logger.info("tower attack: " + str(packet))
+                    pass
                 # TODO self.event_manager.fire_event("tower_attack", packet.extended_message)
             else:
-                self.logger.warning("No extended message for towers message: " + str(packet))
+                # self.logger.warning("No extended message for towers message: " + str(packet))
+                pass

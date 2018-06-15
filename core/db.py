@@ -94,6 +94,8 @@ class DB:
         sql = sql.replace("<myname>", "")
         sql = sql.replace("<myguild>", "")
 
+        # TODO check for AUTOINCREMENT in sql and log warning
+
         if self.type == self.SQLITE:
             sql = sql.replace("AUTO_INCREMENT", "AUTOINCREMENT")
             sql = sql.replace(" INT ", " INTEGER ")
