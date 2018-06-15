@@ -7,6 +7,8 @@ class AltsManager:
     CONFIRMED = 1
     MAIN = 2
 
+    MAIN_CHANGED_EVENT_TYPE = "main_changed"
+
     def __init__(self):
         pass
 
@@ -14,9 +16,10 @@ class AltsManager:
         self.db = registry.get_instance("db")
         self.character_manager = registry.get_instance("character_manager")
         self.pork_manager = registry.get_instance("pork_manager")
+        self.event_manager = registry.get_instance("event_manager")
 
-    def start(self):
-        pass
+    def pre_start(self):
+        self.event_manager.register_event_type(self.MAIN_CHANGED_EVENT_TYPE)
 
     def get_alts(self, char_id, status=None):
         if not status:
@@ -31,12 +34,18 @@ class AltsManager:
         return self.db.query(sql, [char_id, status, char_id])
 
     def add_alt(self, sender_char_id, alt_char_id, status=None):
-        alt_row = self.get_alt_status(alt_char_id)
-        if alt_row:
-            return False
+        alts = self.get_alts(alt_char_id, self.UNCONFIRMED)
+        if len(alts) > 1:
+            return ["another_main", False]
 
         sender_row = self.get_alt_status(sender_char_id)
         if sender_row:
+            # if alt has no other alts, but still has a record in the alts table, delete record
+            # so it can be assigned to another group_id
+            if len(alts) == 1:
+                self.event_manager.fire_event(self.MAIN_CHANGED_EVENT_TYPE, {"old_main_id": alt_char_id, "new_main_id": self.get_main(sender_char_id)})
+                self.db.exec("DELETE FROM alts WHERE char_id = ?", [alt_char_id])
+
             if status is None:  # status = 0 is a valid state, so we must explicitly check for None
                 if sender_row.status >= self.CONFIRMED:
                     status = self.CONFIRMED
@@ -50,6 +59,8 @@ class AltsManager:
             self.db.exec("INSERT INTO alts (char_id, group_id, status) VALUES (?, ?, ?)",
                          [sender_char_id, group_id, self.MAIN])
 
+            self.event_manager.fire_event(self.MAIN_CHANGED_EVENT_TYPE, {"old_main_id": alt_char_id, "new_main_id": sender_char_id})
+
             # make sure char info exists in character table
             self.pork_manager.load_character_info(sender_char_id)
 
@@ -58,7 +69,7 @@ class AltsManager:
         # make sure char info exists in character table
         self.pork_manager.load_character_info(alt_char_id)
         self.db.exec("INSERT INTO alts (char_id, group_id, status) VALUES (?, ?, ?)", params)
-        return True
+        return ["success", True]
 
     def remove_alt(self, sender_char_id, alt_char_id):
         alt_row = self.get_alt_status(alt_char_id)
@@ -66,14 +77,19 @@ class AltsManager:
 
         # sender and alt do not belong to the same group id
         if not alt_row or not sender_row or alt_row.group_id != sender_row.group_id:
-            return False
+            return ["not_alt", False]
 
         # cannot remove alt from an unconfirmed sender
         if sender_row.status == self.UNCONFIRMED:
-            return False
+            return ["unconfirmed_sender", False]
+
+        if alt_row.status == self.MAIN:
+            return ["remove_main", False]
+
+        self.event_manager.fire_event(self.MAIN_CHANGED_EVENT_TYPE, {"old_main_id": self.get_main(alt_char_id).char_id, "new_main_id": alt_char_id})
 
         self.db.exec("DELETE FROM alts WHERE char_id = ?", [alt_char_id])
-        return True
+        return ["success", True]
 
     def get_alt_status(self, char_id):
         return self.db.query_single("SELECT group_id, status FROM alts WHERE char_id = ?", [char_id])
@@ -81,6 +97,9 @@ class AltsManager:
     def get_next_group_id(self):
         row = self.db.query_single("SELECT (IFNULL(MAX(group_id), 0) + 1) AS next_group_id FROM alts")
         return row.next_group_id
+
+    def get_main(self, char_id):
+        return self.get_alts(char_id, self.MAIN).pop(0)
 
     def confirm_alt(self, sender_char_id, alt_char_id):
         sender_status = self.get_alt_status(sender_char_id)
@@ -97,4 +116,4 @@ class AltsManager:
 
         self.db.exec("UPDATE alts SET status = ? WHERE char_id = ?", [self.CONFIRMED, alt_char_id])
 
-        return ["", True]
+        return ["success", True]
