@@ -30,11 +30,11 @@ class Text:
     def paginate(self, label, msg, max_page_length, max_num_pages=None, footer=None):
         separators = iter(self.separators)
 
-        msg = ("<header>" + label + "<end>\n\n" + msg.strip()).replace("\"", "\\\"")
+        msg = ("<header>" + label + "<end>\n\n" + msg.strip()).replace("\"", "&quot;")
         msg = self.format_message(msg)
 
         if footer:
-            footer = "\n\n" + self.format_message(footer.replace("\"", "\\\""))
+            footer = "\n\n" + self.format_message(footer.replace("\"", "&quot;"))
         else:
             footer = ""
 
