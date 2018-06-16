@@ -22,7 +22,6 @@ class ItemsController:
     def items_cmd(self, channel, sender, reply, args):
         ql = args[0]
         search = args[1]
-        print(search)
 
         count = 0
         reply(ChatBlob("Item Search Results (%d)" % count, str(ql) + " " + search))

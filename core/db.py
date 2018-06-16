@@ -6,6 +6,7 @@ import mysql.connector
 import sqlite3
 import re
 import os
+import time
 
 
 @instance()
@@ -47,7 +48,13 @@ class DB:
         else:
             cur = self.conn.cursor()
 
+        start_time = time.time()
         cur.execute(sql if self.type == self.SQLITE else sql.replace("?", "%s"), params)
+        elapsed = time.time() - start_time
+
+        if elapsed > 0.1:
+            self.logger.warning("slow query (%fs) '%s' for params: %s" % (elapsed, sql, str(params)))
+
         result = callback(cur)
         cur.close()
         self.conn.commit()
