@@ -11,6 +11,7 @@ from core.map_object import MapObject
 from __init__ import flatmap, get_attrs
 import collections
 import re
+import html
 
 
 @instance()
@@ -117,6 +118,8 @@ class CommandManager:
 
     def process_command(self, message: str, channel: str, char_id, reply):
         try:
+            message = html.unescape(message)
+
             command_str, command_args = self.get_command_parts(message)
 
             # check for command alias
@@ -143,7 +146,7 @@ class CommandManager:
                     else:
                         reply("Error! Invalid syntax.")
             else:
-                reply("Error! Unknown command.")
+                reply("Error! Unknown command <highlight>%s<end>." % command_str)
         except Exception as e:
             self.logger.error("error processing command: %s" % message, e)
             reply("There was an error processing your request.")
