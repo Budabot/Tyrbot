@@ -86,8 +86,6 @@ class AltsManager:
         if alt_row.status == self.MAIN:
             return ["remove_main", False]
 
-        self.event_manager.fire_event(self.MAIN_CHANGED_EVENT_TYPE, {"old_main_id": self.get_main(alt_char_id).char_id, "new_main_id": alt_char_id})
-
         self.db.exec("DELETE FROM alts WHERE char_id = ?", [alt_char_id])
         return ["success", True]
 
