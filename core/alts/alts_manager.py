@@ -97,7 +97,7 @@ class AltsManager:
         return row.next_group_id
 
     def get_main(self, char_id):
-        return self.get_alts(char_id, self.MAIN).pop(0)
+        return self.get_alts(char_id, self.CONFIRMED).pop(0)
 
     def confirm_alt(self, sender_char_id, alt_char_id):
         sender_status = self.get_alt_status(sender_char_id)

@@ -24,7 +24,7 @@ class AltsController:
         for alt in alts:
             blob += "<highlight>%s<end> (%d/<green>%d<end>) %s %s%s\n" % (alt.name, alt.level, alt.ai_level, alt.faction, alt.profession, self.get_alt_status(alt.status))
 
-        reply(ChatBlob("Alts for %s (%d)" % (sender.name, len(alts)), blob))
+        reply(ChatBlob("Alts of %s (%d)" % (alts[0].name, len(alts)), blob))
 
     def get_alt_status(self, status):
         if status == AltsManager.UNCONFIRMED:
@@ -37,21 +37,24 @@ class AltsController:
     @command(command="alts", params=[Const("add"), Any("character")], access_level="all",
              description="Add an alt")
     def alts_add_cmd(self, channel, sender, reply, args):
-        alt = args[1].capitalize()
-        alt_char_id = self.character_manager.resolve_char_to_id(alt)
+        alt_char_name = args[1].capitalize()
+        alt_char_id = self.character_manager.resolve_char_to_id(alt_char_name)
 
         if not alt_char_id:
-            reply("Could not find character <highlight>%s<end>." % alt)
+            reply("Could not find character <highlight>%s<end>." % alt_char_name)
+            return
+        elif alt_char_id == sender.char_id:
+            reply("You cannot register yourself as an alt.")
             return
 
         # for now, always add alts as confirmed
         msg, result = self.alts_manager.add_alt(sender.char_id, alt_char_id, AltsManager.CONFIRMED)
         if result:
-            reply("Character <highlight>%s<end> has been added as your alt." % alt)
+            reply("<highlight>%s<end> has been added as your alt." % alt_char_name)
         elif msg == "another_main":
-            reply("Character <highlight>%s<end> already has alts." % alt)
+            reply("<highlight>%s<end> already has alts." % alt_char_name)
         else:
-            reply("Could not add <highlight>%s<end> as your alt." % alt)
+            raise Exception("Unknown msg: " + msg)
 
     @command(command="alts", params=[Options(["rem", "remove"]), Any("character")], access_level="all",
              description="Remove an alt")
@@ -65,15 +68,15 @@ class AltsController:
 
         msg, result = self.alts_manager.remove_alt(sender.char_id, alt_char_id)
         if result:
-            reply("Character <highlight>%s<end> has been removed as your alt." % alt)
+            reply("<highlight>%s<end> has been removed as your alt." % alt)
         elif msg == "not_alt":
-            reply("Character <highlight>%s<end> is not your alt." % alt)
+            reply("<highlight>%s<end> is not your alt." % alt)
         elif msg == "unconfirmed_sender":
             reply("You cannot remove alts from an unconfirmed alt.")
         elif msg == "remove_main":
             reply("You cannot remove your main.")
         else:
-            reply("Could not remove <highlight>%s<end> as your alt." % alt)
+            raise Exception("Unknown msg: " + msg)
 
     @command(command="alts", params=[Any("character")], access_level="member",
              description="Show alts of another character", sub_command="show")
@@ -89,4 +92,4 @@ class AltsController:
         for alt in alts:
             blob += "<highlight>%s<end> (%d/<green>%d<end>) %s %s\n" % (alt.name, alt.level, alt.ai_level, alt.faction, alt.profession)
 
-        reply(ChatBlob("Alts for %s (%d)" % (name, len(alts)), blob))
+        reply(ChatBlob("Alts of %s (%d)" % (alts[0].name, len(alts)), blob))
