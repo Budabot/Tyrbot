@@ -2,9 +2,10 @@ import socket
 import struct
 import select
 from core.aochat.server_packets import ServerPacket, LoginOK
-from core.aochat.client_packets import LoginRequest, LoginSelect
+from core.aochat.client_packets import LoginRequest, LoginSelect, Ping
 from core.logger import Logger
 from core.aochat.crypt import generate_login_key
+import time
 
 
 class Bot:
@@ -13,6 +14,7 @@ class Bot:
         self.char_id = None
         self.char_name = None
         self.logger = Logger("aochat")
+        self.packet_last_sent_timestamp = 0
 
     def connect(self, host, port):
         self.logger.info("Connecting to %s:%d" % (host, port))
@@ -56,13 +58,16 @@ class Bot:
             self.logger.error("Error logging in: %s" % packet.message)
             return False
 
-    def read_packet(self, time=1):
+    def read_packet(self, max_delay_time=1):
         """
         Wait for packet from server.
         """
 
-        read, write, error = select.select([self.socket], [], [], time)
+        read, write, error = select.select([self.socket], [], [], max_delay_time)
         if not read:
+            if time.time() - self.packet_last_sent_timestamp > 60:
+                self.send_packet(Ping("tyrbot_aochat"))
+
             return None
         else:
             # Read data from server
@@ -78,6 +83,7 @@ class Bot:
         data = struct.pack(">2H", packet.id, len(data)) + data
 
         self.write_bytes(data)
+        self.packet_last_sent_timestamp = time.time()
 
     def read_bytes(self, num_bytes):
         data = bytes()

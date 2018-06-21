@@ -128,7 +128,7 @@ class Tyrbot(Bot):
         self.packet_handlers[packet_id] = handlers
 
     def iterate(self):
-        packet = self.read_packet()
+        packet = self.read_packet(1)
         if packet:
             if isinstance(packet, server_packets.PrivateMessage):
                 self.handle_private_message(packet)
