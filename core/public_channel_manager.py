@@ -8,6 +8,8 @@ class PublicChannelManager:
         self.name_to_id = {}
         self.id_to_name = {}
         self.org_channel_id = None
+        self.org_id = None
+        self.org_name = None
 
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
@@ -25,10 +27,22 @@ class PublicChannelManager:
     def add(self, packet: server_packets.PublicChannelJoined):
         self.id_to_name[packet.channel_id] = packet.name
         self.name_to_id[packet.name] = packet.channel_id
-        if packet.channel_id >> 32 == 3:
+        if self.is_org_channel_id(packet.channel_id):
             self.org_channel_id = packet.channel_id
+            self.org_id = 0x00ffffffff & packet.channel_id
+            if packet.name != "Clan (name unknown)":
+                self.org_name = packet.name
 
     def remove(self, packet: server_packets.PublicChannelLeft):
         channel_name = self.get_channel_name(packet.channel_id)
         del self.id_to_name[packet.channel_id]
         del self.name_to_id[channel_name]
+
+    def is_org_channel_id(self, channel_id):
+        return channel_id >> 32 == 3
+
+    def get_org_id(self):
+        return self.org_id
+
+    def get_org_name(self):
+        return self.org_name

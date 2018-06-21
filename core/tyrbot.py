@@ -23,8 +23,6 @@ class Tyrbot(Bot):
         super().__init__()
         self.ready = False
         self.packet_handlers = {}
-        self.org_id = None
-        self.org_name = None
         self.superadmin = None
         self.status: BotStatus = BotStatus.SHUTDOWN
         self.dimension = None
@@ -134,12 +132,6 @@ class Tyrbot(Bot):
         if packet:
             if isinstance(packet, server_packets.PrivateMessage):
                 self.handle_private_message(packet)
-            elif isinstance(packet, server_packets.PublicChannelJoined):
-                # set org id and org name
-                if packet.channel_id >> 32 == 3:
-                    self.org_id = 0x00ffffffff & packet.channel_id
-                    if packet.name != "Clan (name unknown)":
-                        self.org_name = packet.name
             elif isinstance(packet, server_packets.SystemMessage):
                 try:
                     category_id = 20000
