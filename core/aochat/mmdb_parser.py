@@ -1,4 +1,6 @@
 import struct
+
+from core.aochat import DEFAULT_CHARACTER_ENCODING
 from core.logger import Logger
 
 
@@ -83,7 +85,7 @@ class MMDBParser:
             message.append(ord(char))
             char = file.read(1)
 
-        return message.decode("ISO-8859-1")
+        return message.decode(DEFAULT_CHARACTER_ENCODING)
 
     def read_base_85(self, num_str):
         n = 0
@@ -106,7 +108,7 @@ class MMDBParser:
                 args.append(param_str[1:1 + size])
                 param_str = param_str[1 + size:]
             elif data_type == "I":
-                args.append(struct.unpack(">I", param_str[:4].encode("latin-1"))[0])
+                args.append(struct.unpack(">I", param_str[:4].encode(DEFAULT_CHARACTER_ENCODING))[0])
                 param_str = param_str[4:]
             elif data_type == "i" or data_type == "u":
                 args.append(self.read_base_85(param_str[:5]))
@@ -121,7 +123,7 @@ class MMDBParser:
                 param_str = param_str[10:]
             elif data_type == "l":
                 category_id = 20000
-                instance_id = struct.unpack(">I", param_str[:4].encode("latin-1"))[0]
+                instance_id = struct.unpack(">I", param_str[:4].encode(DEFAULT_CHARACTER_ENCODING))[0]
                 message = self.get_message_string(category_id, instance_id)
                 if not message:
                     raise Exception("Could not find message string for category '%s' and instance '%s'" % (category_id, instance_id))

@@ -1,5 +1,7 @@
 import struct
 
+from core.aochat import DEFAULT_CHARACTER_ENCODING
+
 
 class UnknownArgumentType(Exception):
     pass
@@ -18,7 +20,7 @@ def decode_args(types, data):
 
         elif argtype == "S":
             length = struct.unpack(">H", data[:2])[0]
-            result = data[2:2 + length].decode('latin-1')
+            result = data[2:2 + length].decode(DEFAULT_CHARACTER_ENCODING)
             data = data[2 + length:]
 
         elif argtype == "G":
@@ -40,7 +42,7 @@ def decode_args(types, data):
             result = []
             while length:
                 slength = struct.unpack(">H", data[:2])[0]
-                result.append(data[2:2 + slength].decode('latin-1'))
+                result.append(data[2:2 + slength].decode(DEFAULT_CHARACTER_ENCODING))
                 data = data[2 + slength:]
                 length -= 1
 
@@ -67,7 +69,7 @@ def encode_args(types, args):
 
         elif argtype == "S":
             data += struct.pack(">H", len(it))
-            data += it.encode('utf-8')
+            data += it.encode(DEFAULT_CHARACTER_ENCODING)
 
         elif argtype == "G":
             data += struct.pack(">BI", it >> 32, it & 0xffffffff)
@@ -76,7 +78,7 @@ def encode_args(types, args):
             data += struct.pack(">H", len(it))
             for it_elem in it:
                 data += struct.pack(">H", len(it_elem))
-                data += it_elem.encode('utf-8')
+                data += it_elem.encode(DEFAULT_CHARACTER_ENCODING)
 
         else:
             raise UnknownArgumentType(argtype)
