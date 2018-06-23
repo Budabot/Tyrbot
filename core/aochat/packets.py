@@ -68,8 +68,9 @@ def encode_args(types, args):
             data += struct.pack(">I", it)
 
         elif argtype == "S":
-            data += struct.pack(">H", len(it))
-            data += it.encode(DEFAULT_CHARACTER_ENCODING)
+            encoded = it.encode(DEFAULT_CHARACTER_ENCODING)
+            data += struct.pack(">H", len(encoded))
+            data += encoded
 
         elif argtype == "G":
             data += struct.pack(">BI", it >> 32, it & 0xffffffff)
@@ -77,8 +78,9 @@ def encode_args(types, args):
         elif argtype == "s":
             data += struct.pack(">H", len(it))
             for it_elem in it:
-                data += struct.pack(">H", len(it_elem))
-                data += it_elem.encode(DEFAULT_CHARACTER_ENCODING)
+                encoded = it_elem.encode(DEFAULT_CHARACTER_ENCODING)
+                data += struct.pack(">H", len(encoded))
+                data += encoded
 
         else:
             raise UnknownArgumentType(argtype)
