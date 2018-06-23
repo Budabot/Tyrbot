@@ -1,4 +1,3 @@
-from core.aochat import DEFAULT_CHARACTER_ENCODING
 from core.registry import Registry
 from core import config_creator
 from core.map_object import MapObject
@@ -12,7 +11,7 @@ import os
 
 
 try:
-    Logger.add_logger(logging.handlers.RotatingFileHandler("./logs/bot.log", maxBytes=5 * 1024 * 1024 * 1024, backupCount=1000, encoding=DEFAULT_CHARACTER_ENCODING))
+    Logger.add_logger(logging.handlers.RotatingFileHandler("./logs/bot.log", maxBytes=5 * 1024 * 1024 * 1024, backupCount=1000, encoding="utf-8"))
     Logger.add_logger(logging.StreamHandler(sys.stdout))
     Registry.logger = Logger("registry")
 
