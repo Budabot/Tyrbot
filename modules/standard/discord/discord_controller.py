@@ -19,11 +19,12 @@ class DiscordChannel:
 
 
 class DiscordWrapper(discord.Client):
-    def __init__(self, queue):
+    def __init__(self, queue, aoqueue):
         super().__init__()
         self.logger = Logger("discord_wrapper")
         self.relay_to = {}
         self.queue = queue
+        self.aoqueue = aoqueue
 
     def register(self, registry):
         self.db = registry.get_instance("db")
@@ -32,44 +33,23 @@ class DiscordWrapper(discord.Client):
     @asyncio.coroutine
     def on_ready(self):  
         self.logger.info("Discord successfully logged on")
-        #self.event_manager.fire_event("discord_ready")
-        self.running = True
-
-        channels = []
-
-        # mmmeehh...
-        '''for server in self.servers:
-            self.logger.info("Retrieving channels for %s" % (server.name))
-            row = self.db.query_single("SELECT relay_channels FROM discord WHERE g_id = ?", [server.id])
-
-            if row is not None:
-                self.relay_to[server.id] = pickle.loads(row.relay_channels)
-            else:
-                channels = []
-
-                for channel in server.channels:
-                    self.logger.info("Channel: '%s', type: '%s'" % (channel.id, channel.type))
-                    if channel.type is ChannelType.text:
-                        channels.append(DiscordChannel(channel.id, False, False))
-                
-                self.db.exec("INSERT INTO discord (g_id, relay_channels) VALUES (?,?)", [server.id, pickle.dumps(channels)])'''
-        
-        # Using this for now...
-        for channel in self.get_all_channels():
-            self.logger.info("Channel: '%s', type: '%s', name: '%s'" % (channel.id, channel.type, channel.name))
-            if channel.type == ChannelType.text:
-                # TODO Not working either; incoming channel.type is not comparable to ChannelType.text 
-                channels.append(DiscordChannel(channel.id, False, False))
 
     @asyncio.coroutine
     def on_message(self, message):
         self.logger.info("On message event fired, firing discord_message event")
         self.queue.append(("discord_message", message))
 
-    # TODO Not working...
-    async def relay_message(self, message):
-        async with self as client:
-            await client.send_message(discord.Object(id="461198667026792460"), "Online list...")
+    async def relay_message(self):
+        await self.wait_until_ready()
+
+        while not self.is_closed:
+            if self.aoqueue:
+                testchannel = discord.Object(id="302331444049477632")
+                _, message = self.aoqueue.pop(0)
+
+                await self.send_message(testchannel, message)
+
+            await asyncio.sleep(1)
 
     def get_relay(self):
         return self.relay_to
@@ -85,10 +65,11 @@ class DiscordController:
         self.is_running = False
         self.dthread = None
         self.queue = []
+        self.aoqueue = []
 
         self.logger = Logger("discord")
 
-        self.client = DiscordWrapper(self.queue)
+        self.client = DiscordWrapper(self.queue, self.aoqueue)
 
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
@@ -106,7 +87,8 @@ class DiscordController:
 
     @command(command="dsendmsg", params=[Any("message")], access_level="moderator", description="Send message to Discord")
     def dsendmsg_cmd(self, channel, sender, reply, args):
-        asyncio.run_coroutine_threadsafe(self.client.send_message(discord.Object(id="437551368195014659"), args[0]), self.client.loop).result()
+        message = "[%s] %s" % (sender, args[0])
+        self.aoqueue.append(("ao_sendmsg_message", message))
 
     @command(command="dconnect", params=[], access_level="moderator", description="Manually connect to Discord, if not already connected")
     def dconnect_cmd(self, channel, sender, reply, args):
@@ -162,7 +144,7 @@ class DiscordController:
     @event(event_type="org_message", description="Relay messages to Discord, if relaying is enabled")
     def handle_org_message_event(self, event_type, event_data):
         self.logger.info("Org message event fired, relaying...")
-        asyncio.run_coroutine_threadsafe(self.client.send_message(discord.Object(id="437551368195014659"), event_data), self.client.loop).result()
+        self.aoqueue.append(("ao_sendmsg_message", event_data))
 
     @timerevent(budatime="1s", description="Relay messages to AO, if relaying is enabled")
     def handle_discord_message_event(self, event_type, event_data):
@@ -174,10 +156,7 @@ class DiscordController:
             else:
                 name = message.author.name
 
-            timestamp = datetime.datetime.fromtimestamp(time.time()).strftime("%H:%M:%S")
-
-            self.logger.info("Message: [%s][%s]: %s" % (timestamp, name, message.content))
-            self.bot.send_private_channel_message("[Discord] %s: %s" % (name, message.content))
+            self.bot.send_private_channel_message("[Discord:%s] %s: %s" % (message.channel.name, name, message.content))
 
     def connect_discord_client(self):
         token = self.settings_manager.get("discord_secret")
@@ -185,5 +164,6 @@ class DiscordController:
         if token is not None:
             self.dthread = threading.Thread(target=self.client.run, args=(token,), daemon=True)
             self.dthread.start()
+            self.client.loop.create_task(self.client.relay_message())
         else:
             self.logger.error("No token registered, can't connect Discord")
