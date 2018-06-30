@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS discord (`g_id` BIGINT NOT NULL, `relay_channels` TEXT, PRIMARY KEY (`g_id`));
