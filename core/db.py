@@ -52,7 +52,7 @@ class DB:
         cur.execute(sql if self.type == self.SQLITE else sql.replace("?", "%s"), params)
         elapsed = time.time() - start_time
 
-        if elapsed > 0.1:
+        if elapsed > 0.5:
             self.logger.warning("slow query (%fs) '%s' for params: %s" % (elapsed, sql, str(params)))
 
         result = callback(cur)
