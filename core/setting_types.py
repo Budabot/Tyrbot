@@ -43,11 +43,16 @@ class TextSettingType(SettingType):
         else:
             self._set_raw_value(value)
 
+    def get_display_value(self):
+        value = self.get_value()
+        return value or "&lt;empty&gt;"
+
     def get_display(self):
         return """For this setting you can enter any text you want (max. 255 characters).
 To change this setting:
 
 <highlight>/tell <myname> config setting """ + self.name + """ <i>text</i><end>"""
+
 
 class HiddenSettingType(TextSettingType):
     def __init__(self, options=None):
@@ -55,7 +60,7 @@ class HiddenSettingType(TextSettingType):
         self.options = options
 
     def get_display_value(self):
-        return "<Hidden>"
+        return "&lt;hidden&gt;"
 
     def get_display(self):
         return """For this setting you can enter any text you want (max. 255 characters).

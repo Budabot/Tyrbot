@@ -62,7 +62,7 @@ class ConfigController:
 
         reply(ChatBlob("Config (%d)" % count, blob))
 
-    @command(command="config", params=[Const("mod"), Any("module_name")], access_level="superadmin",
+    @command(command="config", params=[Options(["mod", "module"]), Any("module_name")], access_level="superadmin",
              description="Shows configuration options for a specific module")
     def config_module_list_cmd(self, channel, sender, reply, args):
         module = args[1].lower()
