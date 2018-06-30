@@ -1,12 +1,11 @@
 remove timer_event table and store next_run in meta_data column of event_config
-add alts_merging event
 https://www.w3schools.com/charsets/ref_utf_geometric.asp
 add db update/migration
 
 [Tower Battle Outcome] Notum Wars Update: The omni organization Peace In Death lost their base in Stret West Bank.
 
 ADMIN
-ALTS
+ALTS - show warning when adding alt that has higher access level than main
 BAN
 BUDDYLIST - done
 COLORS - needs guild color, private channel color, private message, color, blob color
