@@ -7,8 +7,6 @@ import discord
 import asyncio
 import pickle
 import threading
-import time
-import datetime
 
 
 class DiscordChannel:
