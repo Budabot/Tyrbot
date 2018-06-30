@@ -2,3 +2,4 @@ requests
 mysql-connector
 pytz
 hjson
+discord
