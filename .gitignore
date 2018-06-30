@@ -5,4 +5,6 @@ __pycache__
 /conf/config.hjson
 /data/database.db
 /logs/
-/.vscode/*
+.vscode/*
+/.vscode
+*.log
