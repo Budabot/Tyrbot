@@ -116,6 +116,9 @@ Or you can choose one of the following colors
     def get_font_color(self):
         return "<font color='%s'>" % self.get_value()
 
+    def get_int_value(self):
+        return int(self.get_value().replace("#", ""), 16)
+
 
 class NumberSettingType(SettingType):
     def __init__(self, options=None):
