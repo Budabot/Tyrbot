@@ -1,19 +1,12 @@
 remove timer_event table and store next_run in meta_data column of event_config
-https://www.w3schools.com/charsets/ref_utf_geometric.asp
 add db update/migration
 
 ignore offline messages? maybe
 consider a replication strategy
 
-[Tower Battle Outcome] Notum Wars Update: The omni organization Peace In Death lost their base in Stret West Bank.
-
 ADMIN
 ALTS - show warning when adding alt that has higher access level than main
 BAN
-BUDDYLIST - done
-COLORS - done
-CONFIG - done
-HELP - done
 LIMITS
 PLAYER_LOOKUP - needs guild lookup
 PREFERENCES
@@ -49,15 +42,22 @@ RAID
 RECIPE
 RELAY
 REPUTATION
-SHOPPING
+SHOPPING - ignore
 SKILLS
 SPIRITS
 TIMERS
 TOWER
 TRACKER
-TRICKLE - done
 VOTE - renamed to poll
+WHOIS - need !history
+WHOMPAH - need whompah route between two cities
+
+done
+----
+BUDDYLIST - done
+COLORS - done
+CONFIG - done
+HELP - done
+TRICKLE - done
 WEATHER - ignore
 WHEREIS - done
-WHOIS - need !history
-WHOMPAH
