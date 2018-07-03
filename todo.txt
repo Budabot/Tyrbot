@@ -2,13 +2,19 @@ remove timer_event table and store next_run in meta_data column of event_config
 https://www.w3schools.com/charsets/ref_utf_geometric.asp
 add db update/migration
 
+fix for config.template.hjson - module_paths, use defaults
+add HiddenSettingType - why is it super slow?
+follow up on byte arrays from db
+ignore offline messages? maybe
+consider a replication strategy
+
 [Tower Battle Outcome] Notum Wars Update: The omni organization Peace In Death lost their base in Stret West Bank.
 
 ADMIN
 ALTS - show warning when adding alt that has higher access level than main
 BAN
 BUDDYLIST - done
-COLORS - needs guild color, private channel color, private message, color, blob color
+COLORS - done
 CONFIG - done
 HELP - done
 LIMITS
