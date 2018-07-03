@@ -2,9 +2,6 @@ remove timer_event table and store next_run in meta_data column of event_config
 https://www.w3schools.com/charsets/ref_utf_geometric.asp
 add db update/migration
 
-fix for config.template.hjson - module_paths, use defaults
-add HiddenSettingType - why is it super slow?
-follow up on byte arrays from db
 ignore offline messages? maybe
 consider a replication strategy
 
