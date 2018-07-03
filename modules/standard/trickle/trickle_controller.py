@@ -107,7 +107,7 @@ class TrickleController:
             FROM
                 trickle
             GROUP BY
-                groupName,
+                group_name,
                 name,
                 amount_agility,
                 amount_intelligence,

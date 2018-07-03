@@ -23,7 +23,7 @@ class SettingType:
         return self._get_raw_value()
 
     def get_display_value(self):
-        return self.get_value()
+        return "<highlight>%s<end>" % self.get_value()
 
     def set_description(self, description):
         self.description = description
@@ -44,8 +44,7 @@ class TextSettingType(SettingType):
             self._set_raw_value(value)
 
     def get_display_value(self):
-        value = self.get_value()
-        return value or "&lt;empty&gt;"
+        return "<highlight>%s<end>" % (self.get_value() or "&lt;empty&gt;")
 
     def get_display(self):
         return """For this setting you can enter any text you want (max. 255 characters).
@@ -60,7 +59,7 @@ class HiddenSettingType(TextSettingType):
         self.options = options
 
     def get_display_value(self):
-        return "&lt;hidden&gt;"
+        return "<highlight>%s<end>" % "&lt;hidden&gt;"
 
     def get_display(self):
         return """For this setting you can enter any text you want (max. 255 characters).
@@ -70,21 +69,19 @@ To change this setting:
 
 The saved text will not be visible to anyone. This is convenient for secret keys/tokens and passwords, where the value should not be visible to anyone, even if they were to be able to alter this setting."""
 
+
 class ColorSettingType(SettingType):
     def __init__(self):
         super().__init__()
 
     def get_display_value(self):
-        return self.get_value()
+        return self.get_font_color() + self.get_value() + "<end>"
 
     def set_value(self, value):
         if re.match("^#([0-9a-fA-F]{6})$", str(value)):
             self._set_raw_value(value)
         else:
             raise Exception("You must enter a valid HTML color.")
-
-    def get_description(self):
-        return self.get_font_color() + super().get_description() + "<end>"
 
     def get_display(self):
         return """For this setting you can set any Color in the HTML Hexadecimal Color Format.
@@ -156,7 +153,7 @@ class TimeSettingType(SettingType):
 
     def get_display_value(self):
         util = Registry.get_instance("util")
-        return util.time_to_readable(self.get_value())
+        return "<highlight>%s<end>" % util.time_to_readable(self.get_value())
 
     def set_value(self, value):
         util = Registry.get_instance("util")
@@ -187,7 +184,7 @@ class BooleanSettingType(SettingType):
         return int(self._get_raw_value()) == 1
 
     def get_display_value(self):
-        return "True" if self.get_value() else "False"
+        return "<highlight>%s<end>" % ("True" if self.get_value() else "False")
 
     def set_value(self, value):
         if value.lower() == "true":

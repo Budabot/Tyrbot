@@ -99,7 +99,7 @@ class Tyrbot(Bot):
         self.setting_manager.register("org_channel_color", "#89D2E8", "default org channel color", ColorSettingType(), "core.colors")
         self.setting_manager.register("private_channel_color", "#89D2E8", "default private channel color", ColorSettingType(), "core.colors")
         self.setting_manager.register("private_message_color", "#89D2E8", "default private message color", ColorSettingType(), "core.colors")
-        self.setting_manager.register("blob_color", "#89D2E8", "default blob content color", ColorSettingType(), "core.colors")
+        self.setting_manager.register("blob_color", "#FFFFFF", "default blob content color", ColorSettingType(), "core.colors")
 
     def check_superadmin(self, char_id):
         char_name = self.character_manager.resolve_char_to_name(char_id)

@@ -74,7 +74,7 @@ class ConfigController:
             blob += "<header2>Settings<end>\n"
             for row in data:
                 setting = self.setting_manager.get(row.name)
-                blob += setting.get_description() + ": " + self.text.make_chatcmd(setting.get_display_value(), "/tell <myname> config setting " + row.name) + "\n"
+                blob += "%s: %s (%s)\n" % (setting.get_description(), setting.get_display_value(), self.text.make_chatcmd("change", "/tell <myname> config setting " + row.name))
 
         data = self.db.query("SELECT DISTINCT command, sub_command FROM command_config WHERE module = ? ORDER BY command ASC", [module])
         if data:
