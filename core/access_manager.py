@@ -43,6 +43,36 @@ class AccessManager:
             else:
                 return access_level2
 
+    def compare_access_levels(self, access_level1, access_level2):
+        """
+        Returns a positive number if the access_level1 is greater than access_level2,
+        a negative number if access_level1 is less than access_level2,
+        and 0 if the access levels are equal.
+
+        :param access_level1:
+        :param access_level2:
+        :return: int
+        """
+        a1 = self.get_access_level_by_label(access_level1)
+        a2 = self.get_access_level_by_label(access_level2)
+
+        return a2["level"] - a1["level"]
+
+    def compare_char_access_levels(self, char1, char2):
+        """
+        Returns a positive number if the access level of char1 is greater than the access level of char2,
+        a negative number if the access level of char1 is less than the access level of char2,
+        and a 0 if the access levels of char1 and char2 are equal.
+
+        :param char1:
+        :param char2:
+        :return:
+        """
+        a1 = self.get_access_level(char1)
+        a2 = self.get_access_level(char2)
+
+        return a2["level"] - a1["level"]
+
     def get_single_access_level(self, char):
         char_id = self.character_manager.resolve_char_to_id(char)
         for access_level in self.access_levels:

@@ -45,10 +45,12 @@ class PrivateChannelManager:
             self.event_manager.fire_event(self.LEFT_PRIVATE_CHANNEL_EVENT, packet)
 
     def invite(self, char_id):
-        self.bot.send_packet(client_packets.PrivateChannelInvite(char_id))
+        if char_id != self.bot.char_id:
+            self.bot.send_packet(client_packets.PrivateChannelInvite(char_id))
 
     def kick(self, char_id):
-        self.bot.send_packet(client_packets.PrivateChannelKick(char_id))
+        if char_id != self.bot.char_id:
+            self.bot.send_packet(client_packets.PrivateChannelKick(char_id))
 
     def kickall(self):
         self.bot.send_packet(client_packets.PrivateChannelKickAll())

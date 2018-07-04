@@ -11,12 +11,10 @@ LIMITS
 PLAYER_LOOKUP - needs guild lookup
 PREFERENCES
 PROFILE - ignore
-SETUP - needs to handle new config options
 SYSTEM
 USAGE
 
 ALIEN
-BANK - ignore
 BASIC_CHAT
 BROADCAST
 CITY
@@ -35,14 +33,12 @@ NEWS
 NOTES
 ONLINE - needs afk check
 ORGLIST
-PRIVATE_CHANNEL - needs !kick, !kickall
 QUOTE
 RAFFLE
 RAID
 RECIPE
 RELAY
 REPUTATION
-SHOPPING - ignore
 SKILLS
 SPIRITS
 TIMERS
@@ -56,7 +52,12 @@ done
 BUDDYLIST - done
 COLORS - done
 CONFIG - done
+SETUP - done
+
+BANK - ignore
 HELP - done
+PRIVATE_CHANNEL - done
+SHOPPING - ignore
 TRICKLE - done
 WEATHER - ignore
 WHEREIS - done
