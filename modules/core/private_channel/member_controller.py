@@ -2,7 +2,6 @@ from core.decorators import instance, command, event
 from core.command_param_types import Any, Const, Options
 from core.chat_blob import ChatBlob
 from core.buddy_manager import BuddyManager
-import os
 
 
 @instance()

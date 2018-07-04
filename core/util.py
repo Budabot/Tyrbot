@@ -126,3 +126,21 @@ class Util:
 
     def get_all_abilities(self):
         return self.abilities.copy()
+
+    def get_title_level(self, level):
+        if level < 5:
+            return 0
+        elif level < 15:
+            return 1
+        elif level < 50:
+            return 2
+        elif level < 100:
+            return 3
+        elif level < 150:
+            return 4
+        elif level < 190:
+            return 5
+        elif level < 205:
+            return 6
+        else:
+            return 7
