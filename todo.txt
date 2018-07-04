@@ -24,7 +24,7 @@ FUN
 GIT
 GUIDE - almost done, just need to add formatting for !aou guides
 GUILD
-HELPBOT - !time and !calc are done
+HELPBOT - need !dyna, !playfields, !waypoint, !random, !roll, !verify, !research
 IMPLANT
 ITEMS
 LEVEL
