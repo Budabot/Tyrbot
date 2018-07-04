@@ -35,7 +35,7 @@ NEWS
 NOTES
 ONLINE - needs afk check
 ORGLIST
-PRIVATE_CHANNEL - needs !kick, !kickall, !count
+PRIVATE_CHANNEL - needs !kick, !kickall, !count (should have only one form and display all counts together in one blob)
 QUOTE
 RAFFLE
 RAID
@@ -50,7 +50,6 @@ TOWER
 TRACKER
 VOTE - renamed to poll
 WHOIS - need !history
-WHOMPAH - need whompah route between two cities
 
 done
 ----
@@ -61,3 +60,4 @@ HELP - done
 TRICKLE - done
 WEATHER - ignore
 WHEREIS - done
+WHOMPAH - done
