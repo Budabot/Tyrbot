@@ -31,7 +31,6 @@ LEVEL
 NANO
 NEWS
 NOTES
-ONLINE - needs afk check
 ORGLIST
 QUOTE
 RAFFLE
@@ -56,6 +55,7 @@ SETUP - done
 
 BANK - ignore
 HELP - done
+ONLINE - done
 PRIVATE_CHANNEL - done
 SHOPPING - ignore
 TRICKLE - done
