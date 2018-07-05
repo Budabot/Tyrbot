@@ -2,19 +2,24 @@ from core.decorators import instance, command, event
 from core.alts.alts_manager import AltsManager
 from core.chat_blob import ChatBlob
 from core.private_channel_manager import PrivateChannelManager
+from core.public_channel_manager import PublicChannelManager
 import time
+import re
+
 
 @instance()
 class OnlineController:
     PRIVATE_CHANNEL = "Private"
 
     def __init__(self):
-        pass
+        self.afk_regex = re.compile("^(afk|brb) ?(.*)$", re.IGNORECASE)
 
     def inject(self, registry):
+        self.bot = registry.get_instance("bot")
         self.db = registry.get_instance("db")
         self.util = registry.get_instance("util")
         self.pork_manager = registry.get_instance("pork_manager")
+        self.character_manager = registry.get_instance("character_manager")
 
     def start(self):
         self.db.exec("DELETE FROM online")
@@ -77,7 +82,7 @@ class OnlineController:
         reply(ChatBlob("Count (%d)" % len(data), blob))
 
     def get_online_characters(self, channel):
-        sql = "SELECT p1.*, o.afk, COALESCE(p2.name, p1.name, o.char_id) AS main, IFNULL(p1.name, o.char_id) AS name FROM online o " \
+        sql = "SELECT p1.*, o.afk_dt, o.afk_reason, COALESCE(p2.name, p1.name, o.char_id) AS main, IFNULL(p1.name, o.char_id) AS name FROM online o " \
               "LEFT JOIN alts a1 ON o.char_id = a1.char_id " \
               "LEFT JOIN player p1 ON o.char_id = p1.char_id " \
               "LEFT JOIN alts a2 ON a1.group_id = a2.group_id AND a2.status = ? " \
@@ -89,10 +94,37 @@ class OnlineController:
     @event(PrivateChannelManager.JOINED_PRIVATE_CHANNEL_EVENT, "Record in database when someone joins private channel")
     def private_channel_joined_event(self, event_type, event_data):
         self.pork_manager.load_character_info(event_data.char_id)
-        self.db.exec("INSERT INTO online (char_id, afk, channel, dt) VALUES (?, ?, ?, ?)",
-                     [event_data.char_id, "", self.PRIVATE_CHANNEL, int(time.time())])
+        self.db.exec("INSERT INTO online (char_id, afk_dt, afk_reason, channel, dt) VALUES (?, ?, ?, ?, ?)",
+                     [event_data.char_id, 0, "", self.PRIVATE_CHANNEL, int(time.time())])
 
     @event(PrivateChannelManager.LEFT_PRIVATE_CHANNEL_EVENT, "Record in database when someone leaves private channel")
     def private_channel_left_event(self, event_type, event_data):
         self.db.exec("DELETE FROM online WHERE char_id = ? AND channel = ?",
                      [event_data.char_id, self.PRIVATE_CHANNEL])
+
+    @event(PrivateChannelManager.PRIVATE_CHANNEL_MESSAGE_EVENT, "Check for afk messages in private channel")
+    def afk_check_private_channel_event(self, event_type, event_data):
+        if event_data.char_id != self.bot.char_id:
+            self.afk_check(event_data.char_id, event_data.message, lambda msg: self.bot.send_private_channel_message(msg))
+
+    @event(PublicChannelManager.ORG_MESSAGE_EVENT, "Check for afk messages in org channel")
+    def afk_check_org_channel_event(self, event_type, event_data):
+        if event_data.char_id != self.bot.char_id:
+            self.afk_check(event_data.char_id, event_data.message, lambda msg: self.bot.send_org_message(msg))
+
+    def afk_check(self, char_id, message, channel_reply):
+        matches = self.afk_regex.search(message)
+        if matches:
+            char_name = self.character_manager.resolve_char_to_name(char_id)
+            self.set_afk(char_id, int(time.time()), message)
+            channel_reply("<highlight>%s<end> is now afk." % char_name)
+        else:
+            row = self.db.query_single("SELECT * FROM online WHERE char_id = ? AND afk_dt > 0", [char_id])
+            if row:
+                self.set_afk(char_id, 0, "")
+                char_name = self.character_manager.resolve_char_to_name(char_id)
+                time_string = self.util.time_to_readable(int(time.time()) - row.afk_dt)
+                channel_reply("<highlight>%s<end> is back after %s." % (char_name, time_string))
+
+    def set_afk(self, char_id, dt, reason):
+        self.db.exec("UPDATE online SET afk_dt = ?, afk_reason = ? WHERE char_id = ?", [dt, reason, char_id])
