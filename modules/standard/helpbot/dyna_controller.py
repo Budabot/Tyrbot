@@ -21,7 +21,7 @@ class DynaController:
         for row in data:
             blob += "%s (%d - %d)\n" % (self.text.make_chatcmd(row.mob, "/tell <myname> dyna %s" % row.mob), row.minQl, row.maxQl)
 
-        reply(ChatBlob("Dyna Mob Types (%d)" % len(data), blob))
+        reply(ChatBlob("Dyna Mobs (%d)" % len(data), blob))
 
     @command(command="dyna", params=[Int("level")], access_level="all",
              description="Show a list of dyna camps +/- 25 of QL")
