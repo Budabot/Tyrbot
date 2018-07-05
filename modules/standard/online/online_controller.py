@@ -41,7 +41,11 @@ class OnlineController:
                     blob += "\n<highlight>%s<end>\n" % row.main
                     current_main = row.main
 
-                blob += " | <highlight>%s<end> (%d/<green>%d<end>) %s %s\n" % (row.name, row.level or 0, row.ai_level or 0, row.faction, row.profession)
+                afk = ""
+                if row.afk_dt > 0:
+                    afk = " - <highlight>%s (%s ago)<end>" % (row.afk_reason, self.util.time_to_readable(int(time.time()) - row.afk_dt))
+
+                blob += " | <highlight>%s<end> (%d/<green>%d<end>) %s %s%s\n" % (row.name, row.level or 0, row.ai_level or 0, row.faction, row.profession, afk)
 
         reply(ChatBlob("Online (%d)" % count, blob))
 
