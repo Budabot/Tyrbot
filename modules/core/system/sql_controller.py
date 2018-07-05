@@ -12,7 +12,7 @@ class SqlController:
 
     @command(command="sql", params=[Const("query"), Any("sql_statement")], access_level="superadmin",
              description="Execute a SQL query and return the results")
-    def sendtell_cmd(self, channel, sender, reply, args):
+    def sql_cmd(self, channel, sender, reply, args):
         sql = args[1]
         try:
             results = list(map(lambda x: x.row, self.db.query(sql)))

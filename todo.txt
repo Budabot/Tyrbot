@@ -12,7 +12,7 @@ PLAYER_LOOKUP - needs guild lookup
 PREFERENCES
 PROFILE - ignore
 SYSTEM
-USAGE
+USAGE - needs !usage command, needs to submit usage
 
 ALIEN
 BASIC_CHAT
@@ -40,7 +40,7 @@ RELAY
 REPUTATION
 SKILLS
 SPIRITS
-TIMERS
+TIMERS - need !timer, !rtimer, ignore !stopwatch
 TOWER
 TRACKER
 VOTE - renamed to poll

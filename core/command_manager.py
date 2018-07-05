@@ -43,6 +43,7 @@ class CommandManager:
         self.character_manager: CharacterManager = registry.get_instance("character_manager")
         self.setting_manager: SettingManager = registry.get_instance("setting_manager")
         self.command_alias_manager = registry.get_instance("command_alias_manager")
+        self.usage_manager = registry.get_instance("usage_manager")
 
     def pre_start(self):
         self.bot.add_packet_handler(server_packets.PrivateMessage.id, self.handle_private_message)
@@ -143,6 +144,9 @@ class CommandManager:
                     if handler["check_access"](char_id, cmd_config.access_level):
                         sender = MapObject({"name": self.character_manager.resolve_char_to_name(char_id, "Unknown(%d)" % char_id), "char_id": char_id})
                         handler["callback"](channel, sender, reply, self.process_matches(matches, handler["params"]))
+
+                        # record command usage
+                        self.usage_manager.add_usage(command_str, handler["callback"].__qualname__, char_id, channel)
                     else:
                         self.access_denied_response(char_id, cmd_config, reply)
                 else:
