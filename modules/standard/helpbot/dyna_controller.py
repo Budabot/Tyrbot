@@ -12,6 +12,17 @@ class DynaController:
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
 
+    @command(command="dyna", params=[], access_level="all",
+             description="Show a list of dyna mob types")
+    def dyna_mob_types_command(self, channel, sender, reply, args):
+        data = self.db.query("SELECT mob, MIN(minQl) AS minQl, MAX(maxQl) AS maxQl FROM dynadb GROUP BY mob ORDER BY mob ASC")
+
+        blob = ""
+        for row in data:
+            blob += "%s (%d - %d)\n" % (self.text.make_chatcmd(row.mob, "/tell <myname> dyna %s" % row.mob), row.minQl, row.maxQl)
+
+        reply(ChatBlob("Dyna Mob Types (%d)" % len(data), blob))
+
     @command(command="dyna", params=[Int("level")], access_level="all",
              description="Show a list of dyna camps +/- 25 of QL")
     def dyna_level_command(self, channel, sender, reply, args):
