@@ -96,7 +96,7 @@ class PollController:
 
         for row in data:
             self.bot.send_private_message(row.char_id, "Your poll <highlight>%d. %s<end> has finished." % (row.id, row.question))
-            self.db.query("UPDATE poll SET is_finished = 1 WHERE id = ?", [row.id])
+            self.db.exec("UPDATE poll SET is_finished = 1 WHERE id = ?", [row.id])
 
     def show_poll_details_blob(self, poll):
         blob = "Status: <highlight>%s<end>\n" % poll.status

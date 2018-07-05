@@ -18,7 +18,7 @@ class ItemsController:
         pass
 
     @command(command="items", params=[Int("ql", is_optional=True), Any("search")], access_level="all",
-             description="Search for an item")
+             description="Search for an item", aliases=["i"])
     def items_cmd(self, channel, sender, reply, args):
         ql = args[0]
         search = args[1]

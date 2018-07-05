@@ -25,7 +25,7 @@ class OnlineController:
         self.db.exec("DELETE FROM online")
 
     @command(command="online", params=[], access_level="all",
-             description="Show the list of online characters")
+             description="Show the list of online characters", aliases=["o"])
     def online_cmd(self, channel, sender, reply, args):
         blob = ""
         count = 0

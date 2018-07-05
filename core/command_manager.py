@@ -56,11 +56,15 @@ class CommandManager:
         for _, inst in Registry.get_all_instances().items():
             for name, method in get_attrs(inst).items():
                 if hasattr(method, "command"):
-                    cmd_name, params, access_level, description, help_file, sub_command, extended_description, check_access = getattr(method, "command")
+                    cmd_name, params, access_level, description, help_file, sub_command, extended_description, check_access, aliases = getattr(method, "command")
                     handler = getattr(inst, name)
                     module = self.util.get_module_name(handler)
                     help_text = self.get_help_file(module, help_file)
                     self.register(handler, cmd_name, params, access_level, description, module, help_text, sub_command, extended_description, check_access)
+
+                    if aliases:
+                        for alias in aliases:
+                            self.command_alias_manager.add_alias(alias, cmd_name)
 
     def register(self, handler, command, params, access_level, description, module, help_text=None, sub_command=None, extended_description=None, check_access=None):
         command = command.lower()
