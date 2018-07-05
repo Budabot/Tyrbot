@@ -19,6 +19,7 @@ class PollController:
         pass
 
     def inject(self, registry):
+        self.bot = registry.get_instance("bot")
         self.db = registry.get_instance("db")
         self.pork_manager = registry.get_instance("pork_manager")
         self.util = registry.get_instance("util")
@@ -51,7 +52,7 @@ class PollController:
         reply(ChatBlob("Polls (%d)" % len(polls), blob))
 
     @command(command="poll", params=[Int("poll_id")], access_level="all",
-             description="Add a poll", extended_description="View information for a poll")
+             description="View a poll", extended_description="View information for a poll")
     def poll_view_cmd(self, channel, sender, reply, args):
         poll_id = args[0]
         poll = self.get_poll(poll_id)
@@ -76,7 +77,7 @@ class PollController:
         pass
 
     @command(command="poll", params=[Int("poll_id"), Const("start")], access_level="all",
-             description="List of polls on the bot")
+             description="Start a poll")
     def poll_start_cmd(self, channel, sender, reply, args):
         pass
 
@@ -89,6 +90,13 @@ class PollController:
              description="Remove your vote on a poll")
     def poll_remvote_cmd(self, channel, sender, reply, args):
         pass
+
+    def check_for_finished_polls(self):
+        data = self.db.query("SELECT * FROM poll WHERE is_finished = 0 AND finished_at <= ?", [int(time.time())])
+
+        for row in data:
+            self.bot.send_private_message(row.char_id, "Your poll <highlight>%d. %s<end> has finished." % (row.id, row.question))
+            self.db.query("UPDATE poll SET is_finished = 1 WHERE id = ?", [row.id])
 
     def show_poll_details_blob(self, poll):
         blob = "Status: <highlight>%s<end>\n" % poll.status
@@ -117,8 +125,8 @@ class PollController:
 
     def add_poll(self, question, char_id):
         t = int(time.time())
-        self.db.exec("INSERT INTO poll (question, status, duration, min_access_level, char_id, created_at, finished_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                     [question, self.POLL_STATUS_CREATED, self.DEFAULT_DURATION, "all", char_id, t, t + self.DEFAULT_DURATION])
+        self.db.exec("INSERT INTO poll (question, status, duration, min_access_level, char_id, created_at, finished_at, is_finished) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                     [question, self.POLL_STATUS_CREATED, self.DEFAULT_DURATION, "all", char_id, t, t + self.DEFAULT_DURATION, 0])
 
         return self.db.last_insert_id()
 
