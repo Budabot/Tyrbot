@@ -1,6 +1,7 @@
 from core.decorators import instance
 import re
 import math
+import locale
 
 
 @instance()
@@ -9,6 +10,9 @@ class Util:
     budatime_unit_regex = re.compile("([0-9]+)([a-z]+)")
 
     def __init__(self):
+        # needed for self.format_number() to work properly
+        locale.setlocale(locale.LC_NUMERIC, '')
+
         self.abilities = [
             "Agility",
             "Intelligence",
@@ -144,3 +148,6 @@ class Util:
             return 6
         else:
             return 7
+
+    def format_number(self, number):
+        return locale.format("%.*f", (0, number), grouping=True)
