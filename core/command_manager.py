@@ -56,13 +56,13 @@ class CommandManager:
         for _, inst in Registry.get_all_instances().items():
             for name, method in get_attrs(inst).items():
                 if hasattr(method, "command"):
-                    cmd_name, params, access_level, description, help_file, sub_command, extended_description = getattr(method, "command")
+                    cmd_name, params, access_level, description, help_file, sub_command, extended_description, check_access = getattr(method, "command")
                     handler = getattr(inst, name)
                     module = self.util.get_module_name(handler)
                     help_text = self.get_help_file(module, help_file)
-                    self.register(handler, cmd_name, params, access_level, description, module, help_text, sub_command, extended_description)
+                    self.register(handler, cmd_name, params, access_level, description, module, help_text, sub_command, extended_description, check_access)
 
-    def register(self, handler, command, params, access_level, description, module, help_text=None, sub_command=None, extended_description=None):
+    def register(self, handler, command, params, access_level, description, module, help_text=None, sub_command=None, extended_description=None, check_access=None):
         command = command.lower()
         if sub_command:
             sub_command = sub_command.lower()
@@ -74,6 +74,9 @@ class CommandManager:
 
         if help_text is None:
             help_text = self.generate_help(command, description, params, extended_description)
+
+        if check_access is None:
+            check_access = self.access_manager.check_access
 
         if not self.access_manager.get_access_level_by_label(access_level):
             self.logger.error("Could not add command '%s': could not find access level '%s'" % (command, access_level))
@@ -103,7 +106,7 @@ class CommandManager:
 
         # save reference to command handler
         r = re.compile(self.get_regex_from_params(params), re.IGNORECASE)
-        self.handlers[command_key].append({"regex": r, "callback": handler, "help": help_text, "description": description, "params": params})
+        self.handlers[command_key].append({"regex": r, "callback": handler, "help": help_text, "description": description, "params": params, "check_access": check_access})
 
     def register_command_channel(self, label, value):
         if value in self.channels:
@@ -133,7 +136,7 @@ class CommandManager:
                 # given a list of cmd_configs that are enabled, see if one has regex that matches incoming command_str
                 cmd_config, matches, handler = self.get_matches(cmd_configs, command_args)
                 if matches:
-                    if self.access_manager.check_access(char_id, cmd_config.access_level):
+                    if handler["check_access"](char_id, cmd_config.access_level):
                         sender = MapObject({"name": self.character_manager.resolve_char_to_name(char_id, "Unknown(%d)" % char_id), "char_id": char_id})
                         handler["callback"](channel, sender, reply, self.process_matches(matches, handler["params"]))
                     else:
