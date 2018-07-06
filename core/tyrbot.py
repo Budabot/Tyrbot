@@ -106,10 +106,12 @@ class Tyrbot(Bot):
         return char_name == self.superadmin
 
     def run(self):
+        start = time.time()
+
         while None is not self.iterate():
             pass
 
-        self.logger.info("Initialization complete")
+        self.logger.info("Login complete (%fs)" % (time.time() - start))
         self.event_manager.fire_event("connect", None)
         self.ready = True
 
