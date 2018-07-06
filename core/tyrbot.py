@@ -109,6 +109,7 @@ class Tyrbot(Bot):
         while None is not self.iterate():
             pass
 
+        self.logger.info("Initialization complete")
         self.event_manager.fire_event("connect", None)
         self.ready = True
 
