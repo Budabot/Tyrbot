@@ -119,7 +119,7 @@ class Tyrbot(Bot):
             try:
                 timestamp = int(time.time())
 
-                # timer events will execute not more often than once per second
+                # timer events will execute no more often than once per second
                 if self.last_timer_event < timestamp:
                     self.last_timer_event = timestamp
                     self.job_scheduler.check_for_scheduled_jobs(timestamp)
