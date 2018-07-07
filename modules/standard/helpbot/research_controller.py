@@ -46,9 +46,8 @@ class ResearchController:
             return
 
         if research_level1 > research_level2:
-            temp = research_level1
-            research_level1 = research_level2
-            research_level2 = temp
+            # swap researches so the lower is research_level1 and higher is research_level2
+            research_level1, research_level2 = research_level2, research_level1
 
         row = self.db.query_single("SELECT SUM(sk) AS total_sk, MAX(levelcap) AS levelcap FROM research WHERE level > ? AND level <= ?", [research_level1, research_level2])
 
