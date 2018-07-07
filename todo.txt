@@ -24,7 +24,7 @@ FUN
 GIT
 GUIDE - almost done, just need to add formatting for !aou guides
 GUILD
-HELPBOT - need !waypoint, !random, !roll, !verify
+HELPBOT - need !waypoint, !roll, !verify
 IMPLANT
 ITEMS
 LEVEL
