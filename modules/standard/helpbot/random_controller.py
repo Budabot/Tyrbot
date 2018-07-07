@@ -1,5 +1,5 @@
 from core.decorators import instance, command
-from core.command_param_types import Any
+from core.command_param_types import Any, Int
 from core.db import DB
 from core.text import Text
 import random
@@ -17,3 +17,14 @@ class RandomController:
         options = args[0].split(" ")
         random.shuffle(options)
         reply(" ".join(options))
+
+    @command(command="roll", params=[Int("start_value", is_optional=True), Int("end_value")], access_level="all",
+             description="Roll a number between 1 and a number")
+    def roll_command(self, channel, sender, reply, args):
+        start = args[0] or 1
+        end = args[1]
+
+        if start > end:
+            start, end = end, start
+
+        reply("Rolling between %d and %d: <highlight>%d<end>" % (start, end, random.randint(start, end)))

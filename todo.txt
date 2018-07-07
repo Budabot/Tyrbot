@@ -10,7 +10,6 @@ BAN
 LIMITS
 PLAYER_LOOKUP - needs guild lookup
 PREFERENCES
-PROFILE - ignore
 SYSTEM
 USAGE - needs !usage command, needs to submit usage
 
@@ -23,8 +22,8 @@ EVENTS
 FUN
 GIT
 GUIDE - almost done, just need to add formatting for !aou guides
-GUILD
-HELPBOT - need !waypoint, !roll, !verify
+GUILD - renamed to ORG
+HELPBOT - need !waypoint, skipping !verify
 IMPLANT
 ITEMS
 LEVEL
@@ -51,6 +50,7 @@ done
 BUDDYLIST - done
 COLORS - done
 CONFIG - done
+PROFILE - ignore
 SETUP - done
 
 BANK - ignore
