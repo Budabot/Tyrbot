@@ -23,7 +23,7 @@ FUN
 GIT
 GUIDE - almost done, just need to add formatting for !aou guides
 GUILD - renamed to ORG
-HELPBOT - need !waypoint, skipping !verify
+HELPBOT - need !waypoint
 IMPLANT
 ITEMS
 LEVEL
