@@ -22,11 +22,7 @@ class AccessManager:
     def get_access_levels(self):
         return self.access_levels
 
-    def get_access_level(self, char):
-        char_id = self.character_manager.resolve_char_to_id(char)
-        if not char_id:
-            return None
-
+    def get_access_level(self, char_id):
         access_level1 = self.get_single_access_level(char_id)
 
         alts = self.alts_manager.get_alts(char_id)
@@ -58,20 +54,23 @@ class AccessManager:
 
         return a2["level"] - a1["level"]
 
-    def compare_char_access_levels(self, char1, char2):
+    def has_sufficient_access_level(self, char_id1, char_id2):
         """
-        Returns a positive number if the access level of char1 is greater than the access level of char2,
-        a negative number if the access level of char1 is less than the access level of char2,
-        and a 0 if the access levels of char1 and char2 are equal.
+        Returns True if char1 has a higher access level than char2, and False otherwise.
 
-        :param char1:
-        :param char2:
+        :param char_id1:
+        :param char_id2:
         :return:
         """
-        a1 = self.get_access_level(char1)
-        a2 = self.get_access_level(char2)
 
-        return a2["level"] - a1["level"]
+        # return True if both chars have the same main
+        if self.alts_manager.get_main(char_id1).char_id == self.alts_manager.get_main(char_id2).char_id:
+            return True
+
+        a1 = self.get_access_level(char_id1)
+        a2 = self.get_access_level(char_id2)
+
+        return a2["level"] - a1["level"] > 0
 
     def get_single_access_level(self, char):
         char_id = self.character_manager.resolve_char_to_id(char)
@@ -93,6 +92,10 @@ class AccessManager:
         return None
 
     def check_access(self, char, access_level_label):
+        char_id = self.character_manager.resolve_char_to_id(char)
+        if not char_id:
+            return None
+
         return self.get_access_level(char)["level"] <= self.get_access_level_by_label(access_level_label)["level"]
 
     def no_access(self, char_id):
