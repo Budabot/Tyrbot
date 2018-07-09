@@ -14,7 +14,6 @@ SYSTEM
 USAGE - needs !usage command, needs to submit usage
 
 ALIEN
-BASIC_CHAT
 BROADCAST
 CITY
 DEV
@@ -53,6 +52,7 @@ PROFILE - ignore
 SETUP - done
 
 BANK - ignore
+BASIC_CHAT - moved to raid
 HELPBOT - done
 ONLINE - done
 PRIVATE_CHANNEL - done
