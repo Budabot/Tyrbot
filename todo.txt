@@ -23,7 +23,6 @@ FUN
 GIT
 GUIDE - almost done, just need to add formatting for !aou guides
 GUILD - renamed to ORG
-HELPBOT - need !waypoint
 IMPLANT
 ITEMS
 LEVEL
@@ -50,11 +49,12 @@ done
 BUDDYLIST - done
 COLORS - done
 CONFIG - done
+HELP - done
 PROFILE - ignore
 SETUP - done
 
 BANK - ignore
-HELP - done
+HELPBOT - done
 ONLINE - done
 PRIVATE_CHANNEL - done
 SHOPPING - ignore

@@ -110,7 +110,7 @@ class CommandManager:
                              [module, command, sub_command, channel])
 
         # save reference to command handler
-        r = re.compile(self.get_regex_from_params(params), re.IGNORECASE)
+        r = re.compile(self.get_regex_from_params(params), re.IGNORECASE | re.DOTALL)
         self.handlers[command_key].append({"regex": r, "callback": handler, "help": help_text, "description": description, "params": params, "check_access": check_access})
 
     def register_command_channel(self, label, value):
