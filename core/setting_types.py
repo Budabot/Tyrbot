@@ -1,4 +1,5 @@
 from core.registry import Registry
+import json
 import re
 
 
@@ -51,6 +52,32 @@ class TextSettingType(SettingType):
 To change this setting:
 
 <highlight>/tell <myname> config setting """ + self.name + """ <i>text</i><end>"""
+
+
+class DictionarySettingType(SettingType):
+    def __init__(self):
+        super().__init__()
+
+    def set_value(self, value):
+        if not value:
+            self._set_raw_value("")
+        elif isinstance(value, dict):
+            self._set_raw_value(json.dumps(value))
+        else:
+            raise Exception("Value must be a dictionary.")
+
+    def get_value(self):
+        value = self._get_raw_value()
+        if value:
+            return json.loads(value)
+        else:
+            return value
+
+    def get_display_value(self):
+        return "<highlight>%s<end>" % (self.get_value() or "&lt;empty&gt;")
+
+    def get_display(self):
+        return """This setting is control by the bot and cannot be set manually."""
 
 
 class HiddenSettingType(TextSettingType):
