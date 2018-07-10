@@ -25,3 +25,14 @@ class ItemsController:
 
         count = 0
         reply(ChatBlob("Item Search Results (%d)" % count, str(ql) + " " + search))
+
+    def get_by_item_id(self, item_id):
+        return self.db.query_single("SELECT * FROM aodb WHERE highid = ? OR lowid = ? ORDER BY highid = ?", [item_id, item_id, item_id])
+
+    def get_item_and_icon(self, item_id, ql=None):
+        item = self.get_by_item_id(item_id)
+
+        if not item:
+            return None
+
+        return self.text.make_image(item.icon) + "\n" + self.text.make_item(item.lowid, item.highid, ql or item.highql, item.name)
