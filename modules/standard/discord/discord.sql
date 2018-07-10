@@ -1,0 +1,2 @@
+CREATE TABLE IF NOT EXISTS discord (`c_id` VARCHAR(64) NOT NULL, `servername` VARCHAR(256) NOT NULL, `channelname` VARCHAR(256) NOT NULL, `relay_ao` TINYINT NOT NULL DEFAULT 0, `relay_dc` TINYINT NOT NULL DEFAULT 0, PRIMARY KEY (`c_id`));
+CREATE TABLE IF NOT EXISTS discord_ignore (`char_id` VARCHAR(256) NOT NULL, PRIMARY KEY (`char_id`));

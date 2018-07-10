@@ -53,6 +53,21 @@ To change this setting:
 
 <highlight>/tell <myname> config setting """ + self.name + """ <i>text</i><end>"""
 
+class HiddenSettingType(TextSettingType):
+    def __init__(self, options=None):
+        super().__init__()
+        self.options = options
+
+    def get_display_value(self):
+        return "<Hidden>"
+
+    def get_display(self):
+        return """For this setting you can enter any text you want (max. 255 characters).
+To change this setting:
+
+<highlight>/tell <myname> config setting """ + self.name + """ <i>text</i><end>
+
+The saved text will not be visible to anyone. This is convenient for secret keys/tokens and passwords, where the value should not be visible to anyone, even if they were to be able to alter this setting."""
 
 class DictionarySettingType(SettingType):
     def __init__(self):
