@@ -1,28 +1,19 @@
 remove timer_event table and store next_run in meta_data column of event_config
-add alts_merging event
-https://www.w3schools.com/charsets/ref_utf_geometric.asp
 add db update/migration
 
-[Tower Battle Outcome] Notum Wars Update: The omni organization Peace In Death lost their base in Stret West Bank.
+ignore offline messages? maybe
+consider a replication strategy
 
 ADMIN
-ALTS
+ALTS - show warning when adding alt that has higher access level than main
 BAN
-BUDDYLIST - done
-COLORS - needs guild color, private channel color, private message, color, blob color
-CONFIG - done
-HELP - done
 LIMITS
 PLAYER_LOOKUP - needs guild lookup
 PREFERENCES
-PROFILE - ignore
-SETUP - needs to handle new config options
 SYSTEM
-USAGE
+USAGE - needs !usage command, needs to submit usage
 
 ALIEN
-BANK - ignore
-BASIC_CHAT
 BROADCAST
 CITY
 DEV
@@ -30,32 +21,44 @@ EVENTS
 FUN
 GIT
 GUIDE - almost done, just need to add formatting for !aou guides
-GUILD
-HELPBOT - !time and !calc are done
+GUILD - renamed to ORG
 IMPLANT
 ITEMS
 LEVEL
 NANO
 NEWS
 NOTES
-ONLINE - needs afk check
 ORGLIST
-PRIVATE_CHANNEL - needs !kick, !kickall, !count
-QUOTE
 RAFFLE
 RAID
 RECIPE
 RELAY
 REPUTATION
-SHOPPING
 SKILLS
 SPIRITS
-TIMERS
+TIMERS - need !timer, !rtimer, ignore !stopwatch
 TOWER
 TRACKER
-TRICKLE - done
 VOTE - renamed to poll
+WHOIS - need !history
+
+done
+----
+BUDDYLIST - done
+COLORS - done
+CONFIG - done
+HELP - done
+PROFILE - ignore
+SETUP - done
+
+BANK - ignore
+BASIC_CHAT - moved to raid
+HELPBOT - done
+ONLINE - done
+PRIVATE_CHANNEL - done
+QUOTE - done
+SHOPPING - ignore
+TRICKLE - done
 WEATHER - ignore
 WHEREIS - done
-WHOIS - need !history
-WHOMPAH
+WHOMPAH - done

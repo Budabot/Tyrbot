@@ -77,30 +77,41 @@ class Tyrbot(Bot):
         self.event_manager.register_event_type("packet")
 
     def start(self):
+        self.setting_manager.register("symbol", "!", "Symbol for executing bot commands", TextSettingType(["!", "#", "*", "@", "$", "+", "-"]), "core.system")
+
         self.setting_manager.register("org_channel_max_page_length", 7500, "Maximum size of blobs in org channel",
                                       NumberSettingType([4500, 6000, 7500, 9000, 10500, 12000]), "core.system")
         self.setting_manager.register("private_message_max_page_length", 7500, "Maximum size of blobs in private messages",
                                       NumberSettingType([4500, 6000, 7500, 9000, 10500, 12000]), "core.system",)
         self.setting_manager.register("private_channel_max_page_length", 7500, "Maximum size of blobs in private channel",
                                       NumberSettingType([4500, 6000, 7500, 9000, 10500, 12000]), "core.system")
+
         self.setting_manager.register("header_color", "#FFFF00", "color for headers", ColorSettingType(), "core.colors")
         self.setting_manager.register("header2_color", "#FCA712", "color for sub-headers", ColorSettingType(), "core.colors")
         self.setting_manager.register("highlight_color", "#FFFFFF", "color for highlight", ColorSettingType(), "core.colors")
+        self.setting_manager.register("notice_color", "#FF8C00", "color for important notices", ColorSettingType(), "core.colors")
+
         self.setting_manager.register("neutral_color", "#E6E1A6", "color for neutral faction", ColorSettingType(), "core.colors")
         self.setting_manager.register("omni_color", "#FA8484", "color for omni faction", ColorSettingType(), "core.colors")
         self.setting_manager.register("clan_color", "#F79410", "color for clan faction", ColorSettingType(), "core.colors")
         self.setting_manager.register("unknown_color", "#FF0000", "color for unknown faction", ColorSettingType(), "core.colors")
-        self.setting_manager.register("notice_color", "#FF8C00", "color for important notices", ColorSettingType(), "core.colors")
-        self.setting_manager.register("symbol", "!", "Symbol for executing bot commands", TextSettingType(["!", "#", "*", "@", "$", "+", "-"]), "core.system")
+
+        self.setting_manager.register("org_channel_color", "#89D2E8", "default org channel color", ColorSettingType(), "core.colors")
+        self.setting_manager.register("private_channel_color", "#89D2E8", "default private channel color", ColorSettingType(), "core.colors")
+        self.setting_manager.register("private_message_color", "#89D2E8", "default private message color", ColorSettingType(), "core.colors")
+        self.setting_manager.register("blob_color", "#FFFFFF", "default blob content color", ColorSettingType(), "core.colors")
 
     def check_superadmin(self, char_id):
         char_name = self.character_manager.resolve_char_to_name(char_id)
         return char_name == self.superadmin
 
     def run(self):
+        start = time.time()
+
         while None is not self.iterate():
             pass
 
+        self.logger.info("Login complete (%fs)" % (time.time() - start))
         self.event_manager.fire_event("connect", None)
         self.ready = True
 
@@ -108,7 +119,7 @@ class Tyrbot(Bot):
             try:
                 timestamp = int(time.time())
 
-                # timer events will execute not more often than once per second
+                # timer events will execute no more often than once per second
                 if self.last_timer_event < timestamp:
                     self.last_timer_event = timestamp
                     self.job_scheduler.check_for_scheduled_jobs(timestamp)
@@ -173,8 +184,9 @@ class Tyrbot(Bot):
         if org_channel_id is None:
             self.logger.warning("Could not send message to org channel, unknown org id")
         else:
+            color = self.setting_manager.get("org_channel_color").get_font_color()
             for page in self.get_text_pages(msg, self.setting_manager.get("org_channel_max_page_length").get_value()):
-                packet = client_packets.PublicChannelMessage(org_channel_id, page, "")
+                packet = client_packets.PublicChannelMessage(org_channel_id, color + page, "")
                 # self.send_packet(packet)
                 self.packet_queue.enqueue(packet)
 
@@ -183,9 +195,10 @@ class Tyrbot(Bot):
         if char_id is None:
             self.logger.warning("Could not send message to %s, could not find char id" % char)
         else:
+            color = self.setting_manager.get("private_message_color").get_font_color()
             for page in self.get_text_pages(msg, self.setting_manager.get("private_message_max_page_length").get_value()):
                 self.logger.log_tell("To", self.character_manager.get_char_name(char_id), page)
-                packet = client_packets.PrivateMessage(char_id, page, "\0")
+                packet = client_packets.PrivateMessage(char_id, color + page, "\0")
                 # self.send_packet(packet)
                 self.packet_queue.enqueue(packet)
 
@@ -197,8 +210,9 @@ class Tyrbot(Bot):
         if private_channel_id is None:
             self.logger.warning("Could not send message to private channel %s, could not find private channel" % private_channel)
         else:
+            color = self.setting_manager.get("private_channel_color").get_font_color()
             for page in self.get_text_pages(msg, self.setting_manager.get("private_channel_max_page_length").get_value()):
-                packet = client_packets.PrivateChannelMessage(private_channel_id, page, "\0")
+                packet = client_packets.PrivateChannelMessage(private_channel_id, color + page, "\0")
                 self.send_packet(packet)
 
     def handle_private_message(self, packet: server_packets.PrivateMessage):

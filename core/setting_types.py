@@ -1,4 +1,5 @@
 from core.registry import Registry
+import json
 import re
 
 
@@ -23,7 +24,7 @@ class SettingType:
         return self._get_raw_value()
 
     def get_display_value(self):
-        return self.get_value()
+        return "<highlight>%s<end>" % self.get_value()
 
     def set_description(self, description):
         self.description = description
@@ -42,6 +43,9 @@ class TextSettingType(SettingType):
             raise Exception("Your text can not be longer than 255 characters.")
         else:
             self._set_raw_value(value)
+
+    def get_display_value(self):
+        return "<highlight>%s<end>" % (self.get_value() or "&lt;empty&gt;")
 
     def get_display(self):
         return """For this setting you can enter any text you want (max. 255 characters).
@@ -65,21 +69,61 @@ To change this setting:
 
 The saved text will not be visible to anyone. This is convenient for secret keys/tokens and passwords, where the value should not be visible to anyone, even if they were to be able to alter this setting."""
 
+class DictionarySettingType(SettingType):
+    def __init__(self):
+        super().__init__()
+
+    def set_value(self, value):
+        if not value:
+            self._set_raw_value("")
+        elif isinstance(value, dict):
+            self._set_raw_value(json.dumps(value))
+        else:
+            raise Exception("Value must be a dictionary.")
+
+    def get_value(self):
+        value = self._get_raw_value()
+        if value:
+            return json.loads(value)
+        else:
+            return value
+
+    def get_display_value(self):
+        return "<highlight>%s<end>" % (self.get_value() or "&lt;empty&gt;")
+
+    def get_display(self):
+        return """This setting is control by the bot and cannot be set manually."""
+
+
+class HiddenSettingType(TextSettingType):
+    def __init__(self, options=None):
+        super().__init__()
+        self.options = options
+
+    def get_display_value(self):
+        return "<highlight>%s<end>" % "&lt;hidden&gt;"
+
+    def get_display(self):
+        return """For this setting you can enter any text you want (max. 255 characters).
+To change this setting:
+
+<highlight>/tell <myname> config setting """ + self.name + """ <i>text</i><end>
+
+The saved text will not be visible to anyone. This is convenient for secret keys/tokens and passwords, where the value should not be visible to anyone, even if they were to be able to alter this setting."""
+
+
 class ColorSettingType(SettingType):
     def __init__(self):
         super().__init__()
 
     def get_display_value(self):
-        return self.get_value()
+        return self.get_font_color() + self.get_value() + "<end>"
 
     def set_value(self, value):
         if re.match("^#([0-9a-fA-F]{6})$", str(value)):
             self._set_raw_value(value)
         else:
             raise Exception("You must enter a valid HTML color.")
-
-    def get_description(self):
-        return self.get_font_color() + super().get_description() + "<end>"
 
     def get_display(self):
         return """For this setting you can set any Color in the HTML Hexadecimal Color Format.
@@ -110,6 +154,9 @@ Or you can choose one of the following colors
 
     def get_font_color(self):
         return "<font color='%s'>" % self.get_value()
+
+    def get_int_value(self):
+        return int(self.get_value().replace("#", ""), 16)
 
 
 class NumberSettingType(SettingType):
@@ -148,7 +195,7 @@ class TimeSettingType(SettingType):
 
     def get_display_value(self):
         util = Registry.get_instance("util")
-        return util.time_to_readable(self.get_value())
+        return "<highlight>%s<end>" % util.time_to_readable(self.get_value())
 
     def set_value(self, value):
         util = Registry.get_instance("util")
@@ -179,7 +226,7 @@ class BooleanSettingType(SettingType):
         return int(self._get_raw_value()) == 1
 
     def get_display_value(self):
-        return "True" if self.get_value() else "False"
+        return "<highlight>%s<end>" % ("True" if self.get_value() else "False")
 
     def set_value(self, value):
         if value.lower() == "true":

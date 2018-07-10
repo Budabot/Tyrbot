@@ -17,7 +17,7 @@ class CharacterInfoController:
         self.character_manager = registry.get_instance("character_manager")
 
     @command(command="whois", params=[Any("character")], access_level="all",
-             description="Get whois information for a character")
+             description="Get whois information for a character", aliases=["w"])
     def whois_cmd(self, channel, sender, reply, args):
         char_name = args[0].capitalize()
         char_info = self.pork_manager.get_character_info(char_name)

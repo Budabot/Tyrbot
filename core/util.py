@@ -1,6 +1,7 @@
 from core.decorators import instance
 import re
 import math
+import locale
 
 
 @instance()
@@ -9,6 +10,9 @@ class Util:
     budatime_unit_regex = re.compile("([0-9]+)([a-z]+)")
 
     def __init__(self):
+        # needed for self.format_number() to work properly
+        locale.setlocale(locale.LC_NUMERIC, '')
+
         self.abilities = [
             "Agility",
             "Intelligence",
@@ -126,3 +130,58 @@ class Util:
 
     def get_all_abilities(self):
         return self.abilities.copy()
+
+    def get_title_level(self, level):
+        if level < 5:
+            return 0
+        elif level < 15:
+            return 1
+        elif level < 50:
+            return 2
+        elif level < 100:
+            return 3
+        elif level < 150:
+            return 4
+        elif level < 190:
+            return 5
+        elif level < 205:
+            return 6
+        else:
+            return 7
+
+    def format_number(self, number):
+        return locale.format("%.*f", (0, number), grouping=True)
+
+    def get_profession(self, search):
+        search = search.lower()
+
+        if search in ["adv", "advy", "adventurer"]:
+            return "Adventurer"
+        elif search in ["agent"]:
+            return "Agent"
+        elif search in ["crat", "bureaucrat"]:
+            return "Bureaucrat"
+        elif search in ["doc", "doctor"]:
+            return "Doctor"
+        elif search in ["enf", "enfo", "enforcer"]:
+            return "Enforcer"
+        elif search in ["eng", "engi", "engy", "engineer"]:
+            return "Engineer"
+        elif search in ["fix", "fixer"]:
+            return "Fixer"
+        elif search in ["keep", "keeper"]:
+            return "Keeper"
+        elif search in ["ma", "martial", "martialartist", "martial artist"]:
+            return "Martial Artist"
+        elif search in ["mp", "meta", "metaphysicist", "meta-physicist"]:
+            return "Meta-Physicist"
+        elif search in ["nt", "nano", "nanotechnician", "nano-technician"]:
+            return "Nano-Technician"
+        elif search in ["sol", "sold", "soldier"]:
+            return "Soldier"
+        elif search in ["tra", "trad", "trader"]:
+            return "Trader"
+        elif search in ["sha", "shade"]:
+            return "Shade"
+        else:
+            return None

@@ -18,10 +18,19 @@ class ItemsController:
         pass
 
     @command(command="items", params=[Int("ql", is_optional=True), Any("search")], access_level="all",
-             description="Search for an item")
+             description="Search for an item", aliases=["i"])
     def items_cmd(self, channel, sender, reply, args):
         ql = args[0]
         search = args[1]
 
         count = 0
         reply(ChatBlob("Item Search Results (%d)" % count, str(ql) + " " + search))
+
+    def get_by_item_id(self, item_id):
+        return self.db.query_single("SELECT * FROM aodb WHERE highid = ? OR lowid = ? ORDER BY highid = ?", [item_id, item_id, item_id])
+
+    def find_by_name(self, name, ql=None):
+        if ql:
+            return self.db.query_single("SELECT * FROM aodb WHERE name = ? AND lowql <= ? AND highql >= ? ORDER BY highid DESC", [name, ql])
+        else:
+            return self.db.query_single("SELECT * FROM aodb WHERE name = ? ORDER BY highql DESC, highid DESC", [name])

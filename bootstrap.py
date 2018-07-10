@@ -20,7 +20,7 @@ try:
     config_file = "./conf/config.hjson"
 
     if not os.path.exists(config_file):
-        config_creator.create_new_cfg(config_file)
+        config_creator.create_new_cfg(config_file, "./conf/config.template.hjson")
 
     logger.debug("Reading config file '%s'" % config_file)
     with open(config_file, "r") as cfg:

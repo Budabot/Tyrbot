@@ -11,7 +11,7 @@ class CountdownController:
         self.job_scheduler = registry.get_instance("job_scheduler")
 
     @command(command="countdown", params=[Any("message", is_optional=True)], access_level="all",
-             description="Start a 5-second countdown")
+             description="Start a 5-second countdown", aliases=["cd"])
     def whois_cmd(self, channel, sender, reply, args):
         message = args[0] if args[0] else "GO GO GO"
         message_format = "%s-------&gt; %s &lt;-------<end>"
