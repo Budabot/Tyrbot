@@ -29,9 +29,13 @@ class ItemsController:
     def get_by_item_id(self, item_id):
         return self.db.query_single("SELECT * FROM aodb WHERE highid = ? OR lowid = ? ORDER BY highid = ?", [item_id, item_id, item_id])
 
-    def get_item_and_icon(self, item_id, ql=None):
-        item = self.get_by_item_id(item_id)
+    def find_by_name(self, name, ql=None):
+        if ql:
+            return self.db.query_single("SELECT * FROM aodb WHERE name = ? AND lowql <= ? AND highql >= ? ORDER BY highid DESC", [name, ql])
+        else:
+            return self.db.query_single("SELECT * FROM aodb WHERE name = ? ORDER BY highql DESC, highid DESC", [name])
 
+    def get_item_and_icon(self, item, ql=None):
         if not item:
             return None
 
