@@ -28,6 +28,17 @@ class Text:
     def make_image(self, image_id, image_db="rdb"):
         return "<img src='%s://%s'>" % (image_db, image_id)
 
+    def format_item(self, item, ql=None, with_icon=True):
+        if not item:
+            return None
+
+        result = self.make_image(item.icon)
+
+        if with_icon:
+            result += "\n" + self.make_item(item.lowid, item.highid, ql or item.highql, item.name)
+
+        return result
+
     def paginate(self, label, msg, max_page_length, max_num_pages=None, footer=None):
         separators = iter(self.separators)
 

@@ -46,7 +46,7 @@ class OfabWeaponsController:
 
         for i in range(1, 7):
             item = self.items_controller.find_by_name("Ofab %s Mk %d" % (weapon_name, i))
-            blob += self.items_controller.get_item_and_icon(item)
+            blob += self.text.format_item(item)
             if i == 1:
                 blob += "  (<highlight>%d<end> VP)" % weapon.vp
             blob += "\n"

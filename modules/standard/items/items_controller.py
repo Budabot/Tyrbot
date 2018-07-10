@@ -34,9 +34,3 @@ class ItemsController:
             return self.db.query_single("SELECT * FROM aodb WHERE name = ? AND lowql <= ? AND highql >= ? ORDER BY highid DESC", [name, ql])
         else:
             return self.db.query_single("SELECT * FROM aodb WHERE name = ? ORDER BY highql DESC, highid DESC", [name])
-
-    def get_item_and_icon(self, item, ql=None):
-        if not item:
-            return None
-
-        return self.text.make_image(item.icon) + "\n" + self.text.make_item(item.lowid, item.highid, ql or item.highql, item.name)
