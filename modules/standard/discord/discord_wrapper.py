@@ -18,16 +18,14 @@ class DiscordWrapper(discord.Client):
         self.db = registry.get_instance("db")
         self.event_manager = registry.get_instance("event_manager")
 
-    @asyncio.coroutine
-    def on_ready(self):
+    async def on_ready(self):
         self.dqueue.append(("discord_ready", "ready"))
         self.dqueue.append(("discord_channels", self.get_all_channels()))
 
         for server in self.servers:
             self.available_servers.append(server)
 
-    @asyncio.coroutine
-    def on_message(self, message):
+    async def on_message(self, message):
         if message.content.startswith("!") and len(message.content) > 1:
             if message.content.find(" ") != -1:
                 command = message.content[1:message.content.index(" ")]
