@@ -75,8 +75,11 @@ class Bot:
             packet_type, packet_length = struct.unpack(">2H", head)
             data = self.read_bytes(packet_length)
 
-            packet = ServerPacket.get_instance(packet_type, data)
-            return packet
+            try:
+                return ServerPacket.get_instance(packet_type, data)
+            except Exception as e:
+                self.logger.error("Error parsing packet parameters for packet_type '%d' and payload: %s" % (packet_type, data), e)
+                return None
 
     def send_packet(self, packet):
         data = packet.to_bytes()
