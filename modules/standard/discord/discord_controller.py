@@ -148,6 +148,8 @@ class DiscordController:
                 blob += " | relaying from AO [%s]\n" % a
                 blob += " | relaying from Discord [%s]\n" % d
 
+        blob += "\n\nDiscord Module written by <highlight>Vladimirovna<end>"
+
         reply(ChatBlob("Discord info", blob))
 
     @command(command="discord", params=[Const("relay")], access_level="moderator", sub_command="manage",
@@ -176,6 +178,8 @@ class DiscordController:
             blob += "<highlight>%s<end> :: <highlight>%s<end>\n" % (channel.server_name, channel.channel_name)
             blob += " | relaying from AO [%s] [%s]\n" % (a, alink)
             blob += " | relaying from Discord [%s] [%s]\n" % (d, dlink)
+
+        blob += "\n\nDiscord Module written by <highlight>Vladimirovna<end>"
 
         reply(ChatBlob("Discord setup", blob))
     
