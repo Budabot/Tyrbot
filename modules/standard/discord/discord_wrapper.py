@@ -1,8 +1,8 @@
 from core.logger import Logger
-from .discord_message import DiscordMessage
 from discord.errors import Forbidden, NotFound
 import discord
 import asyncio
+
 
 class DiscordWrapper(discord.Client):
     def __init__(self, channels, servers, dqueue, aoqueue):

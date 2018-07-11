@@ -1,30 +1,36 @@
-from core.decorators import instance, command, event, timerevent
+from core.decorators import instance, command, event, timerevent, setting
 from core.logger import Logger
-from core.setting_types import HiddenSettingType, BooleanSettingType, TextSettingType, NumberSettingType, ColorSettingType
-from core.command_param_types import Int, Options, Any
+from core.setting_types import HiddenSettingType, BooleanSettingType, TextSettingType, ColorSettingType
+from core.command_param_types import Int, Any, Const, Options
 from core.chat_blob import ChatBlob
 from core.text import Text
-from core.alts.alts_manager import AltsManager
 from core.lookup.character_manager import CharacterManager
 from discord import Member, ChannelType
 from html.parser import HTMLParser
 from .discord_wrapper import DiscordWrapper
 from .discord_channel import DiscordChannel
 from .discord_message import DiscordMessage
-import discord
 import threading
 import datetime
 
+
 class MLStripper(HTMLParser):
+    def error(self, message):
+        pass
+
     def __init__(self):
+        super().__init__()
         self.reset()
         self.strict = False
         self.convert_charrefs= True
         self.fed = []
+
     def handle_data(self, d):
         self.fed.append(d)
+
     def get_data(self):
         return ''.join(self.fed)
+
 
 @instance()
 class DiscordController:
@@ -62,38 +68,55 @@ class DiscordController:
             for row in channels:
                 a = True if row.relay_ao == 1 else False
                 d = True if row.relay_dc == 1 else False
-                self.channels[row.c_id] = DiscordChannel(row.c_id, row.servername, row.channelname, a, d)
+                self.channels[row.channel_id] = DiscordChannel(row.channel_id, row.server_name, row.channel_name, a, d)
 
-    def start(self):
-        self.settings_manager.register("discord_secret", "", "Discord secret token", HiddenSettingType(), "modules.standard.discord")
-        self.settings_manager.register("discord_relay_type", "color", "Type of message relayed to Discord", TextSettingType(options=["embed", "color", "plain"]), "modules.standard.discord")
-        self.settings_manager.register("discord_embed_color", "0", "Embedded color", NumberSettingType(options=[]), "modules.standard.discord")
-        self.settings_manager.register("relay_to_private", "1", "Global setting for relaying of Discord messages to the private channel", NumberSettingType(), "modules.standard.discord")
-        self.settings_manager.register("relay_to_org", "1", "Global setting for relaying of Discord message to the org channel", NumberSettingType(), "modules.standard.discord")
-        self.settings_manager.register("relay_from_private", "1", "Global setting for relaying of private channel messages to the subbed Discord channels", NumberSettingType(), "modules.standard.discord")
-        self.settings_manager.register("relay_from_org", "1", "Global setting for relaying of org channel messages to the subbed Discord channels", NumberSettingType(), "modules.standard.discord")
-        self.settings_manager.register("relay_color_prefix", "#FCA712", "Set the prefix color for relayed messages in org/private channel", ColorSettingType(), "modules.standard.discord")
-        self.settings_manager.register("relay_color_name", "#808080", "Set the color of the name in the relayed message in org/private channel", ColorSettingType(), "modules.standard.discord")
-        self.settings_manager.register("relay_color_message", "#00DE42", "Set the color of the content of the relayed message in org/private channel", ColorSettingType(), "modules.standard.discord")
+    @setting(name="discord_bot_token", value="", description="Discord bot token")
+    def discord_bot_token(self):
+        return HiddenSettingType()
 
-        self.ignore.append(str(self.bot.char_id))
-        ignores = self.db.query("SELECT * FROM discord_ignore")
+    @setting(name="discord_relay_format", value="color", description="Format of message relayed to Discord")
+    def discord_relay_format(self):
+        return TextSettingType(options=["embed", "color", "plain"])
 
-        if ignores is not None:
-            for row in ignores:
-                if row.char_id not in self.ignore:
-                    self.ignore.append(str(row.char_id))
+    @setting(name="discord_embed_color", value="#00FF00", description="Discord embedded message color")
+    def discord_embed_color(self):
+        return ColorSettingType()
 
-        self.update_discord_ignore()
+    @setting(name="relay_to_private", value="true", description="Global setting for relaying of Discord messages to the private channel")
+    def relay_to_private(self):
+        return BooleanSettingType()
 
-    @command(command="dconnect", params=[], access_level="moderator", description="Manually connect to Discord, if not already connected")
-    def dconnect_cmd(self, channel, sender, reply, args):
+    @setting(name="relay_to_org", value="true", description="Global setting for relaying of Discord message to the org channel")
+    def relay_to_org(self):
+        return BooleanSettingType()
+
+    @setting(name="relay_color_prefix", value="#FCA712", description="Set the prefix color for relayed messages in org/private channel")
+    def relay_color_prefix(self):
+        return ColorSettingType()
+
+    @setting(name="relay_color_name", value="#808080", description="Set the color of the name in the relayed message in org/private channel")
+    def relay_color_name(self):
+        return ColorSettingType()
+
+    @setting(name="relay_color_message", value="#00DE42", description="Set the color of the content of the relayed message in org/private channel")
+    def relay_color_message(self):
+        return ColorSettingType()
+
+    @command(command="discord", params=[Const("connect")], access_level="moderator", sub_command="manage",
+             description="Manually connect to Discord")
+    def discord_connect_cmd(self, channel, sender, reply, args):
         if self.client.is_logged_in:
             reply("Already connected to Discord")
         else:
             self.connect_discord_client()
 
-    @command(command="discord", params=[], access_level="member", description="See discord info")
+    @command(command="discord", params=[Const("disconnect")], access_level="moderator", sub_command="manage",
+             description="Manually disconnect from Discord")
+    def discord_connect_cmd(self, channel, sender, reply, args):
+        pass
+
+    @command(command="discord", params=[], access_level="member",
+             description="See discord info")
     def discord_cmd(self, channel, sender, reply, args):
         counter = 0
         for cid, channel in self.channels.items():
@@ -103,16 +126,16 @@ class DiscordController:
         blob = "<header2>Info<end>\n"
         blob += "Status: "
         blob += "<green>Connected<end>\n" if self.client.is_logged_in else "<red>disconnected<end>\n"
-        blob += "Channels available: <highlight>%d<end>\n\n" % (counter)
+        blob += "Channels available: <highlight>%d<end>\n\n" % counter
 
         blob += "<header2>Servers<end>\n"
         if self.servers:
             for server in self.servers:
-                invites = self.text.make_chatcmd("get invite", "/tell <myname> dgetinvite %s" % (server.id))
+                invites = self.text.make_chatcmd("get invite", "/tell <myname> discord getinvite %s" % server.id)
                 owner = server.owner.nick if server.owner.nick is not None else "Insufficient permissions"
                 blob += "%s [%s]\n" % (server.name, invites)
                 blob += " | member count: %s\n" % (str(len(server.members)))
-                blob += " | owner: %s\n\n" % (server.owner.nick)
+                blob += " | owner: %s\n\n" % owner
         else:
             blob += "None\n\n"
 
@@ -121,16 +144,17 @@ class DiscordController:
             if channel.relay_ao or channel.relay_dc:
                 a = "<green>On<end>" if channel.relay_ao else "<red>Off<end>"
                 d = "<green>On<end>" if channel.relay_dc else "<red>Off<end>"
-                blob += "<highlight>%s<end> :: <highlight>%s<end>\n" % (channel.servername, channel.channelname)
-                blob += " | relaying from AO [%s]\n" % (a)
-                blob += " | relaying from Discord [%s]\n" % (d)
+                blob += "<highlight>%s<end> :: <highlight>%s<end>\n" % (channel.server_name, channel.channel_name)
+                blob += " | relaying from AO [%s]\n" % a
+                blob += " | relaying from Discord [%s]\n" % d
 
         reply(ChatBlob("Discord info", blob))
 
-    @command(command="drelaysetup", params=[Any("changes", is_optional=True)], access_level="moderator", description="Setup relaying of channels")
-    def drelaysetup_cmd(self, channel, sender, reply, args):
+    @command(command="discord", params=[Const("relay")], access_level="moderator", sub_command="manage",
+             description="Setup relaying of channels")
+    def discord_relaysetup_cmd(self, channel, sender, reply, args):
         logtext = "logout" if self.client.is_logged_in else "login"
-        logcmdt = "dlogout" if self.client.is_logged_in else "dconnect"
+        logcmdt = "discord disconnect" if self.client.is_logged_in else "discord connect"
         loglink = self.text.make_chatcmd(logtext, "/tell <myname> %s" % logcmdt)
         constatus = "<green>Connected<end>" if self.client.is_logged_in else "<red>disconnected<end>"
 
@@ -146,20 +170,21 @@ class DiscordController:
             arelay = "off" if channel.relay_ao else "on"
             drelay = "off" if channel.relay_dc else "on"
 
-            alink = self.text.make_chatcmd(arelay, "/tell <myname> drelaychange %s %s %s" % (channel.channelid, "ao", arelay))
-            dlink = self.text.make_chatcmd(drelay, "/tell <myname> drelaychange %s %s %s" % (channel.channelid, "discord", drelay))
+            alink = self.text.make_chatcmd(arelay, "/tell <myname> discord relay %s %s %s" % (channel.channel_id, "ao", arelay))
+            dlink = self.text.make_chatcmd(drelay, "/tell <myname> discord relay %s %s %s" % (channel.channel_id, "discord", drelay))
 
-            blob += "<highlight>%s<end> :: <highlight>%s<end>\n" % (channel.servername, channel.channelname)
+            blob += "<highlight>%s<end> :: <highlight>%s<end>\n" % (channel.server_name, channel.channel_name)
             blob += " | relaying from AO [%s] [%s]\n" % (a, alink)
             blob += " | relaying from Discord [%s] [%s]\n" % (d, dlink)
 
         reply(ChatBlob("Discord setup", blob))
     
-    @command(command="drelaychange", params=[Any("channel id/snowflake"), Any("relay type"), Any("on/off")], access_level="moderator", description="Changes relay setting for specific channel")
+    @command(command="discord", params=[Const("relay"), Any("channel_id"), Options(["ao", "discord"]), Options(["on", "off"])], access_level="moderator",
+             description="Changes relay setting for specific channel", sub_command="manage")
     def drelaychange_cmd(self, channel, sender, reply, args):
-        cid = args[0]
-        relaytype = args[1]
-        relay = args[2]
+        cid = args[1]
+        relaytype = args[2]
+        relay = args[3]
 
         channel = self.channels[cid]
 
@@ -173,13 +198,14 @@ class DiscordController:
             reply("Unknown relay type")
             return
 
-        reply("Changed relay for %s to %s" % (channel.channelname, relay))
+        reply("Changed relay for %s to %s" % (channel.channel_name, relay))
 
         self.update_discord_channels()
 
-    @command(command="daddignore", params=[Any("char_id")], access_level="moderator", description="Add char id to relay ignore list")
-    def daddignore_cmd(self, channel, sender, reply, args):
-        char_id = args[0]
+    @command(command="discord", params=[Const("ignore"), Const("add"), Any("char_id")], access_level="moderator",
+             description="Add char id to relay ignore list", sub_command="manage")
+    def discord_ignore_add_cmd(self, channel, sender, reply, args):
+        char_id = args[2]
         
         if char_id not in self.ignore:
             self.ignore.append(char_id)
@@ -189,9 +215,10 @@ class DiscordController:
         else:
             reply("Char id already in ignore list")
 
-    @command(command="dremignore", params=[Any("char_id")], access_level="moderator", description="Remove char id from relay ignore list")
-    def dremignore_cmd(self, channel, sender, reply, args):
-        char_id = args[0]
+    @command(command="discord", params=[Const("ignore"), Const("rem"), Any("char_id")], access_level="moderator",
+             description="Remove char id from relay ignore list", sub_command="manage",)
+    def discord_ignore_remove_cmd(self, channel, sender, reply, args):
+        char_id = args[2]
 
         if char_id not in self.ignore:
             reply("Char id is not in ignore list")
@@ -199,53 +226,49 @@ class DiscordController:
             self.ignore.remove(char_id)
             reply("Removed char id from ignore list")
 
-    @command(command="dignorelist", params=[], access_level="moderator", description="See list of ignored characters")
-    def dignorelist_cmd(self, channel, sender, reply, args):
+    @command(command="discord", params=[Const("ignore")], access_level="moderator",
+             description="See list of ignored characters", sub_command="manage")
+    def discord_ignore_list_cmd(self, channel, sender, reply, args):
         blob = "Characters ignored: <highlight>%d<end>\n\n" % len(self.ignore)
 
         if len(self.ignore) > 0:
             blob += "<header2>Character list<end>\n"
 
-            for id in self.ignore:
-                remove = self.text.make_chatcmd("remove", "/tell <myname> dremignore %s" % (id))
-                name = self.character_manager.resolve_char_to_name(int(id))
-                blob += "<highlight>%s<end> - %s [%s]\n" % (name, id, remove)
+            for char_id in self.ignore:
+                remove = self.text.make_chatcmd("remove", "/tell <myname> discord ignore rem %s" % char_id)
+                name = self.character_manager.resolve_char_to_name(char_id)
+                blob += "<highlight>%s<end> - %s [%s]\n" % (name, char_id, remove)
 
         reply(ChatBlob("Ignore list", blob))
 
-    @command(command="dgetinvite", params=[Any("server_id")], access_level="member", description="Get an invite for specified server")
-    def dgetinvite_cmd(self, channel, sender, reply, args):
-        sid = args[0]
+    @command(command="discord", params=[Const("getinvite"), Int("server_id")], access_level="moderator",
+             description="Get an invite for specified server", sub_command="manage")
+    def discord_getinvite_cmd(self, channel, sender, reply, args):
+        sid = args[1]
 
         if self.servers:
             for server in self.servers:
-                if str(server.id) == sid:
+                if server.id == sid:
                     self.aoqueue.append(("get_invite", (sender.name, server)))
         else:
             reply("No such server")
 
-    @event(event_type="org_message", description="Relay messages to Discord from org channel, if relaying is enabled")
+    @event(event_type="org_message", description="Relay messages to Discord from org channel")
     def handle_org_message_event(self, event_type, event_data):
-        if self.settings_manager.get("relay_from_org").get_value() != 1:
-            return
-
-        if str(event_data.char_id) not in self.ignore:
+        if event_data.char_id not in self.ignore:
             if event_data.message[:1] != "!":
-                msgtype = self.settings_manager.get("discord_relay_type").get_value()
-                msgcolor = self.settings_manager.get("discord_embed_color").get_value()
+                msgtype = self.settings_manager.get("discord_relay_format").get_value()
+                msgcolor = self.settings_manager.get("discord_embed_color").get_int_value()
                 name = self.character_manager.resolve_char_to_name(event_data.char_id)
                 message = DiscordMessage(msgtype, "Org", name, self.strip_html_tags(event_data.message), False, msgcolor)
                 self.aoqueue.append(("org", message))
 
-    @event(event_type="private_channel_message", description="Relay messages to Discord from private channel, if relaying is enabled")
+    @event(event_type="private_channel_message", description="Relay messages to Discord from private channel")
     def handle_private_message_event(self, event_type, event_data):
-        if self.settings_manager.get("relay_from_private").get_value() != 1:
-            return
-
-        if str(event_data.char_id) not in self.ignore:
+        if event_data.char_id not in self.ignore:
             if event_data.message[:1] != "!":
-                msgtype = self.settings_manager.get("discord_relay_type").get_value()
-                msgcolor = self.settings_manager.get("discord_embed_color").get_value()
+                msgtype = self.settings_manager.get("discord_relay_format").get_value()
+                msgcolor = self.settings_manager.get("discord_embed_color").get_int_value()
                 name = self.character_manager.resolve_char_to_name(event_data.char_id)
                 message = DiscordMessage(msgtype, "Private", name, self.strip_html_tags(event_data.message), False, msgcolor)
                 self.aoqueue.append(("priv", message))
@@ -258,6 +281,15 @@ class DiscordController:
 
     @event(event_type="connect", description="Connects the Discord client automatically on startup, if a token exists")
     def handle_connect_event(self, event_type, event_data):
+        self.ignore.append(self.bot.char_id)
+        ignores = self.db.query("SELECT * FROM discord_ignore")
+
+        for row in ignores:
+            if row.char_id not in self.ignore:
+                self.ignore.append(row.char_id)
+
+        self.update_discord_ignore()
+
         self.connect_discord_client()
 
     @event(event_type="discord_channels", description="Updates the list of channels available for relaying")
@@ -268,15 +300,15 @@ class DiscordController:
                 if cid not in self.channels:
                     self.channels[cid] = DiscordChannel(cid, channel.server.name, channel.name, False, False)
                 else:
-                    self.channels[cid].servername = channel.server.name
-                    self.channels[cid].channelname = channel.name
+                    self.channels[cid].server_name = channel.server.name
+                    self.channels[cid].channel_name = channel.name
 
         self.update_discord_channels()
 
     @event(event_type="discord_command", description="Handles discord commands")
     def handle_discord_command_event(self, event_type, message):
-        msgtype = self.settings_manager.get("discord_relay_type").get_value()
-        msgcolor = self.settings_manager.get("discord_embed_color").get_value()
+        msgtype = self.settings_manager.get("discord_relay_format").get_value()
+        msgcolor = self.settings_manager.get("discord_embed_color").get_int_value()
 
         if message == "online":
             message = DiscordMessage(msgtype, "Command", self.bot.char_name, self.get_online_list(), True, msgcolor)
@@ -295,9 +327,10 @@ class DiscordController:
 
         content = "<grey>[<end>%sDiscord<end><grey>][<end>%s%s<end><grey>]<end> %s%s<end><grey>:<end> %s%s<end>" % (chanclr, chanclr, message.channel.name, nameclr, name, mesgclr, message.content)
 
-        if self.settings_manager.get("relay_to_private").get_value() == 1:
+        if self.settings_manager.get("relay_to_private").get_value():
             self.bot.send_private_channel_message(content)
-        if self.settings_manager.get("relay_to_org").get_value() == 1:
+
+        if self.settings_manager.get("relay_to_org").get_value():
             self.bot.send_org_message(content)
 
     @event(event_type="discord_invites", description="Handles invite requests")
@@ -309,16 +342,16 @@ class DiscordController:
 
         if len(invites) > 0:
             for invite in invites:
-                link = self.text.make_chatcmd("join", "/start %s" % (invite.url))
+                link = self.text.make_chatcmd("join", "/start %s" % invite.url)
                 timeleft = "Permanent" if invite.max_age == 0 else str(datetime.timedelta(seconds=invite.max_age))
                 used = str(invite.uses) if invite.uses is not None else "N/A"
                 useleft = str(invite.max_uses) if invite.max_uses is not None else "N/A"
-                channel = " | for channel: %s\n" % (invite.channel.name) if invite.channel is not None else None
+                channel = " | for channel: %s\n" % invite.channel.name if invite.channel is not None else None
 
                 blob += "%s [%s]\n" % (invite.server.name, link)
-                blob += " | life time: %s\n" % (timeleft)
-                blob += " | used: %s\n" % (used)
-                blob += " | uses left: %s\n" % (useleft)
+                blob += " | life time: %s\n" % timeleft
+                blob += " | used: %s\n" % used
+                blob += " | uses left: %s\n" % useleft
                 blob += channel
                 blob += "\n"
         else:
@@ -328,12 +361,11 @@ class DiscordController:
 
     @event(event_type="discord_exception", description="Handles discord exceptions")
     def handle_discord_exception_event(self, event_type, event_data):
-        self.bot.send_private_channel_message("Exception raised: %s" % (event_data))
+        self.bot.send_private_channel_message("Exception raised: %s" % event_data)
         # TODO expand... use DiscordMessage as a general case wrapper for all info that would be needed in the different relays
 
     def connect_discord_client(self):
-        # token = self.settings_manager.get("discord_secret").get_value()
-        token = "MzM5MzU2NjU2NjE1ODE3MjE2.Dhlafg.OXqFaN8SxORbviISVQzCoGJMKbw"
+        token = self.settings_manager.get("discord_bot_token").get_value()
 
         if token is not None:
             self.dthread = threading.Thread(target=self.client.run, args=(token,), daemon=True)
@@ -348,28 +380,29 @@ class DiscordController:
 
         if result is not None:
             for row in result:
-                if row.c_id in self.channels:
-                    channel = self.channels[row.c_id]
-                    self.db.exec("UPDATE discord SET servername = ?, channelname = ?, relay_ao = ?, relay_dc = ? WHERE c_id = ?", [channel.servername, channel.channelname, channel.relay_ao, channel.relay_dc, row.c_id])
-                    worked.append(row.c_id)
+                if row.channel_id in self.channels:
+                    channel = self.channels[row.channel_id]
+                    self.db.exec("UPDATE discord SET server_name = ?, channel_name = ?, relay_ao = ?, relay_dc = ? WHERE channel_id = ?",
+                                 [channel.server_name, channel.channel_name, channel.relay_ao, channel.relay_dc, row.channel_id])
+                    worked.append(row.channel_id)
 
         for cid, channel in self.channels.items():
-            if channel.channelid not in worked:
-                self.db.exec("INSERT INTO discord (c_id, servername, channelname, relay_ao, relay_dc) VALUES(?,?,?,?,?)", [channel.channelid, channel.servername, channel.channelname, channel.relay_ao, channel.relay_dc])
+            if channel.channel_id not in worked:
+                self.db.exec("INSERT INTO discord (channel_id, server_name, channel_name, relay_ao, relay_dc) VALUES (?, ?, ?, ?, ?)",
+                             [channel.channel_id, channel.server_name, channel.channel_name, channel.relay_ao, channel.relay_dc])
 
     def update_discord_ignore(self):
         ignores = self.db.query("SELECT * FROM discord_ignore")
         skip = []
 
-        if ignores is not None:
-            for row in ignores:
-                skip.append(str(row.char_id))
-                if str(row.char_id) not in self.ignore:
-                    self.db.exec("DELETE FROM discord_ignore WHERE char_id = ?", [row.char_id])
+        for row in ignores:
+            skip.append(row.char_id)
+            if row.char_id not in self.ignore:
+                self.db.exec("DELETE FROM discord_ignore WHERE char_id = ?", [row.char_id])
 
         for cid in self.ignore:
             if cid not in skip:
-                self.db.exec("INSERT INTO discord_ignore (char_id) VALUES(?)", [cid])
+                self.db.exec("INSERT INTO discord_ignore (char_id) VALUES (?)", [cid])
 
     def strip_html_tags(self, html):
         s = MLStripper()

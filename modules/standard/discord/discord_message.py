@@ -1,6 +1,7 @@
 from discord import Embed
 
-class DiscordMessage():
+
+class DiscordMessage:
     def __init__(self, dtype, channel, sender, content, command=False, color=None):
         self.dtype = str(dtype)
         self.channel = str(channel)
