@@ -12,6 +12,7 @@ from .discord_channel import DiscordChannel
 from .discord_message import DiscordMessage
 import threading
 import datetime
+import logging
 
 
 class MLStripper(HTMLParser):
@@ -43,6 +44,8 @@ class DiscordController:
         self.aoqueue = []
         self.logger = Logger("discord")
         self.client = DiscordWrapper(self.channels, self.servers, self.dqueue, self.aoqueue)
+
+        logging.getLogger("discord").setLevel(logging.INFO)
 
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
