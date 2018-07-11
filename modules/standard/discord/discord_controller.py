@@ -111,7 +111,12 @@ class DiscordController:
         if self.client.is_logged_in:
             reply("Already connected to Discord")
         else:
-            self.connect_discord_client()
+            token = self.settings_manager.get("discord_bot_token").get_value()
+            if token:
+                self.connect_discord_client(token)
+                reply("Connecting to discord...")
+            else:
+                reply("Cannot connect to discord, no bot token is set.")
 
     @command(command="discord", params=[Const("disconnect")], access_level="moderator", sub_command="manage",
              description="Manually disconnect from Discord")
@@ -157,7 +162,7 @@ class DiscordController:
 
     @command(command="discord", params=[Const("relay")], access_level="moderator", sub_command="manage",
              description="Setup relaying of channels")
-    def discord_relaysetup_cmd(self, channel, sender, reply, args):
+    def discord_relay_setup_cmd(self, channel, sender, reply, args):
         logtext = "logout" if self.client.is_logged_in else "login"
         logcmdt = "discord disconnect" if self.client.is_logged_in else "discord connect"
         loglink = self.text.make_chatcmd(logtext, "/tell <myname> %s" % logcmdt)
@@ -188,7 +193,7 @@ class DiscordController:
     
     @command(command="discord", params=[Const("relay"), Any("channel_id"), Options(["ao", "discord"]), Options(["on", "off"])], access_level="moderator",
              description="Changes relay setting for specific channel", sub_command="manage")
-    def drelaychange_cmd(self, channel, sender, reply, args):
+    def discord_relay_change_cmd(self, channel, sender, reply, args):
         cid = args[1]
         relaytype = args[2]
         relay = args[3]
@@ -297,7 +302,9 @@ class DiscordController:
 
         self.update_discord_ignore()
 
-        self.connect_discord_client()
+        token = self.settings_manager.get("discord_bot_token").get_value()
+        if token:
+            self.connect_discord_client(token)
 
     @event(event_type="discord_channels", description="Updates the list of channels available for relaying")
     def handle_discord_channels_event(self, event_type, message):
@@ -371,15 +378,10 @@ class DiscordController:
         self.bot.send_private_channel_message("Exception raised: %s" % event_data)
         # TODO expand... use DiscordMessage as a general case wrapper for all info that would be needed in the different relays
 
-    def connect_discord_client(self):
-        token = self.settings_manager.get("discord_bot_token").get_value()
-
-        if token is not None:
-            self.dthread = threading.Thread(target=self.client.run, args=(token,), daemon=True)
-            self.dthread.start()
-            self.client.loop.create_task(self.client.relay_message())
-        else:
-            self.logger.error("No token registered, can't connect Discord")
+    def connect_discord_client(self, token):
+        self.dthread = threading.Thread(target=self.client.run, args=(token,), daemon=True)
+        self.dthread.start()
+        self.client.loop.create_task(self.client.relay_message())
 
     def update_discord_channels(self):
         result = self.db.query("SELECT * FROM discord")
