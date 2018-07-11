@@ -1,5 +1,5 @@
 from core.chat_blob import ChatBlob
-from core.command_param_types import Any, Int
+from core.command_param_types import Any
 from core.decorators import instance, command
 from core.text import Text
 
@@ -10,7 +10,6 @@ class LeProcsController:
         self.db = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
         self.util = registry.get_instance("util")
-        self.items_controller = registry.get_instance("items_controller")
 
     @command(command="leprocs", params=[], access_level="all",
              description="Show a list of professions with LE procs")

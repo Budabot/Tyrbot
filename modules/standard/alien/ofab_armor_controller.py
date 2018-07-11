@@ -10,7 +10,6 @@ class OfabArmorController:
         self.db = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
         self.util = registry.get_instance("util")
-        self.items_controller = registry.get_instance("items_controller")
 
     @command(command="ofabarmor", params=[], access_level="all",
              description="Show ofab armor")
