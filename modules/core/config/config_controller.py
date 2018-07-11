@@ -22,7 +22,7 @@ class ConfigController:
         pass
 
     @command(command="config", params=[], access_level="superadmin",
-             description="Shows configuration options for the bot")
+             description="Show configuration options for the bot")
     def config_list_cmd(self, channel, sender, reply, args):
         sql = """SELECT
                 module,
@@ -63,7 +63,7 @@ class ConfigController:
         reply(ChatBlob("Config (%d)" % count, blob))
 
     @command(command="config", params=[Options(["mod", "module"]), Any("module_name")], access_level="superadmin",
-             description="Shows configuration options for a specific module")
+             description="Show configuration options for a specific module")
     def config_module_list_cmd(self, channel, sender, reply, args):
         module = args[1].lower()
 
@@ -124,7 +124,7 @@ class ConfigController:
             reply("Event type <highlight>%s<end> for handler <highlight>%s<end> has been <highlight>%sd<end> successfully." % (event_type, event_handler, action))
 
     @command(command="config", params=[Const("setting"), Any("setting_name"), Any("new_value")], access_level="superadmin",
-             description="Sets new value for a setting")
+             description="Change a setting value")
     def config_setting_update_cmd(self, channel, sender, reply, args):
         setting_name = args[1].lower()
         new_value = args[2]
@@ -141,7 +141,7 @@ class ConfigController:
             reply("Could not find setting <highlight>%s<end>." % setting_name)
 
     @command(command="config", params=[Const("setting"), Any("setting_name")], access_level="superadmin",
-             description="Shows configuration options for a setting")
+             description="Show configuration options for a setting")
     def config_setting_show_cmd(self, channel, sender, reply, args):
         setting_name = args[1].lower()
 
