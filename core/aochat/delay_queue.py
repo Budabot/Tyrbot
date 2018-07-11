@@ -20,3 +20,6 @@ class DelayQueue:
             return self.items.pop()
         else:
             return None
+
+    def __len__(self):
+        return len(self.items)

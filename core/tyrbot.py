@@ -177,6 +177,10 @@ class Tyrbot(Bot):
             self.send_packet(outgoing_packet)
             outgoing_packet = self.packet_queue.dequeue()
 
+        num_messages = len(self.packet_queue)
+        if num_messages > 10:
+            self.logger.warning("%d messages in outgoing message queue" % num_messages)
+
         return packet
 
     def send_org_message(self, msg):
