@@ -48,10 +48,15 @@ class TextSettingType(SettingType):
         return "<highlight>%s<end>" % (self.get_value() or "&lt;empty&gt;")
 
     def get_display(self):
+        text = Registry.get_instance("text")
+        options_str = "\n".join(map(lambda opt: text.make_chatcmd(str(opt), "/tell <myname> config setting %s set %s" % (self.name, opt)), self.options))
+
         return """For this setting you can enter any text you want (max. 255 characters).
 To change this setting:
 
-<highlight>/tell <myname> config setting """ + self.name + """ set <i>_value_</i><end>"""
+<highlight>/tell <myname> config setting """ + self.name + """ set <i>_value_</i><end>
+
+Or choose an option below:\n\n""" + options_str
 
 
 class DictionarySettingType(SettingType):
@@ -94,7 +99,7 @@ To change this setting:
 
 <highlight>/tell <myname> config setting """ + self.name + """ set <i>_value_</i><end>
 
-The saved text will not be visible to anyone. This is convenient for secret keys/tokens and passwords, where the value should not be visible to anyone, even if they were to be able to alter this setting."""
+The saved value is never shown in the config."""
 
 
 class ColorSettingType(SettingType):
