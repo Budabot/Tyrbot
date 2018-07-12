@@ -1,5 +1,6 @@
 from core.decorators import instance, command, event, timerevent, setting
 from core.logger import Logger
+from core.map_object import MapObject
 from core.setting_types import HiddenSettingType, BooleanSettingType, TextSettingType, ColorSettingType
 from core.command_param_types import Int, Any, Const, Options
 from core.chat_blob import ChatBlob
@@ -23,7 +24,7 @@ class MLStripper(HTMLParser):
         super().__init__()
         self.reset()
         self.strict = False
-        self.convert_charrefs= True
+        self.convert_charrefs = True
         self.fed = []
 
     def handle_data(self, d):
@@ -54,10 +55,13 @@ class DiscordController:
         self.event_manager = registry.get_instance("event_manager")
         self.online_controller = registry.get_instance("online_controller")
         self.character_manager: CharacterManager = registry.get_instance("character_manager")
+        self.command_manager = registry.get_instance("command_manager")
+        self.access_manager = registry.get_instance("access_manager")
         self.text: Text = registry.get_instance("text")
         self.client.register(registry)
 
     def pre_start(self):
+        self.command_manager.register_command_channel("Discord", "discord")
         self.event_manager.register_event_type("discord_ready")
         self.event_manager.register_event_type("discord_message")
         self.event_manager.register_event_type("discord_channels")
@@ -120,7 +124,7 @@ class DiscordController:
 
     @command(command="discord", params=[Const("disconnect")], access_level="moderator", sub_command="manage",
              description="Manually disconnect from Discord")
-    def discord_connect_cmd(self, channel, sender, reply, args):
+    def discord_disconnect_cmd(self, channel, sender, reply, args):
         pass
 
     @command(command="discord", params=[], access_level="member",
@@ -324,9 +328,16 @@ class DiscordController:
         msgtype = self.settings_manager.get("discord_relay_format").get_value()
         msgcolor = self.settings_manager.get("discord_embed_color").get_int_value()
 
-        if message == "online":
-            message = DiscordMessage(msgtype, "Command", self.bot.char_name, self.get_online_list(), True, msgcolor)
-            self.aoqueue.append(("command_reply", message))
+        def reply(msg):
+            response = self.strip_html_tags(msg.msg if isinstance(msg, ChatBlob) else msg)
+            discord_message = DiscordMessage(msgtype, "Command", self.bot.char_name, response, True, msgcolor)
+            self.aoqueue.append(("command_reply", discord_message))
+
+        sender = MapObject({"name": "Discord user",
+                            "char_id": 0,
+                            "access_level": self.access_manager.get_access_level_by_label("all")})
+
+        self.command_manager.process_command(message, "discord", sender, reply)
 
     @event(event_type="discord_message", description="Handles relaying of discord messages")
     def handle_discord_message_event(self, event_type, message):

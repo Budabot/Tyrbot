@@ -27,12 +27,7 @@ class DiscordWrapper(discord.Client):
 
     async def on_message(self, message):
         if message.content.startswith("!") and len(message.content) > 1:
-            if message.content.find(" ") != -1:
-                command = message.content[1:message.content.index(" ")]
-                args = message.content[message.content.index(" "):].split() # Add message and args as tuple?
-                self.logger.debug("Found args for %s: %s" % (command, args))
-            else:
-                command = message.content[1:]
+            command = message.content[1:]
             
             self.dqueue.append(("discord_command", command))
 
