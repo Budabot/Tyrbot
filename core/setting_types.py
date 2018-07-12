@@ -40,7 +40,7 @@ class TextSettingType(SettingType):
 
     def set_value(self, value):
         if len(str(value)) > 255:
-            raise Exception("Your text can not be longer than 255 characters.")
+            raise Exception("Setting value cannot be longer than 255 characters.")
         else:
             self._set_raw_value(value)
 
