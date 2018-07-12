@@ -123,18 +123,28 @@ class ConfigController:
         else:
             reply("Event type <highlight>%s<end> for handler <highlight>%s<end> has been <highlight>%sd<end> successfully." % (event_type, event_handler, action))
 
-    @command(command="config", params=[Const("setting"), Any("setting_name"), Any("new_value")], access_level="superadmin",
+    @command(command="config", params=[Const("setting"), Any("setting_name"), Options(["set", "clear"]), Any("new_value", is_optional=True)], access_level="superadmin",
              description="Change a setting value")
     def config_setting_update_cmd(self, channel, sender, reply, args):
         setting_name = args[1].lower()
-        new_value = args[2]
+        op = args[2]
+        new_value = args[3]
+
+        if op == "clear":
+            new_value = ""
+        elif not new_value:
+            reply("Error! New value required to update setting.")
+            return
 
         setting = self.setting_manager.get(setting_name)
 
         if setting:
             try:
                 setting.set_value(new_value)
-                reply("Setting <highlight>%s<end> has been set to <highlight>%s<end>." % (setting_name, new_value))
+                if op == "clear":
+                    reply("Setting <highlight>%s<end> has been cleared." % setting_name)
+                else:
+                    reply("Setting <highlight>%s<end> has been set to <highlight>%s<end>." % (setting_name, new_value))
             except Exception as e:
                 reply("Error! %s" % str(e))
         else:

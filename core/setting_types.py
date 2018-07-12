@@ -51,7 +51,7 @@ class TextSettingType(SettingType):
         return """For this setting you can enter any text you want (max. 255 characters).
 To change this setting:
 
-<highlight>/tell <myname> config setting """ + self.name + """ <i>text</i><end>"""
+<highlight>/tell <myname> config setting """ + self.name + """ set <i>_value_</i><end>"""
 
 
 class DictionarySettingType(SettingType):
@@ -92,7 +92,7 @@ class HiddenSettingType(TextSettingType):
         return """For this setting you can enter any text you want (max. 255 characters).
 To change this setting:
 
-<highlight>/tell <myname> config setting """ + self.name + """ <i>text</i><end>
+<highlight>/tell <myname> config setting """ + self.name + """ set <i>_value_</i><end>
 
 The saved text will not be visible to anyone. This is convenient for secret keys/tokens and passwords, where the value should not be visible to anyone, even if they were to be able to alter this setting."""
 
@@ -114,28 +114,28 @@ class ColorSettingType(SettingType):
         return """For this setting you can set any Color in the HTML Hexadecimal Color Format.
 You can change it manually with the command:
 
-/tell <myname> config setting """ + self.name + """ <i>HTML-Color</i>
+/tell <myname> config setting """ + self.name + """ set <i>_HTML Color_</i>
 
 Or you can choose one of the following colors
 
-<font color='#FF0000'>Red</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #FF0000'>Save it</a>)
-<font color='#FFFFFF'>White</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #FFFFFF'>Save it</a>)
-<font color='#808080'>Grey</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #808080'>Save it</a>)
-<font color='#DDDDDD'>Light Grey</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #DDDDDD'>Save it</a>)
-<font color='#9CC6E7'>Dark Grey</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #9CC6E7'>Save it</a>)
-<font color='#000000'>Black</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #000000'>Save it</a>)
-<font color='#FFFF00'>Yellow</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #FFFF00'>Save it</a>)
-<font color='#8CB5FF'>Blue</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #8CB5FF'>Save it</a>)
-<font color='#00BFFF'>Deep Sky Blue</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #00BFFF'>Save it</a>)
-<font color='#00DE42'>Green</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #00DE42'>Save it</a>)
-<font color='#FCA712'>Orange</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #FCA712'>Save it</a>)
-<font color='#FFD700'>Gold</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #FFD700'>Save it</a>)
-<font color='#FF1493'>Deep Pink</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #FF1493'>Save it</a>)
-<font color='#EE82EE'>Violet</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #EE82EE'>Save it</a>)
-<font color='#8B7355'>Brown</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #8B7355'>Save it</a>)
-<font color='#00FFFF'>Cyan</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #00FFFF'>Save it</a>)
-<font color='#000080'>Navy Blue</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #000080'>Save it</a>)
-<font color='#FF8C00'>Dark Orange</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ #FF8C00'>Save it</a>)"""
+<font color='#FF0000'>Red</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ set #FF0000'>Save it</a>)
+<font color='#FFFFFF'>White</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ set #FFFFFF'>Save it</a>)
+<font color='#808080'>Grey</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ set #808080'>Save it</a>)
+<font color='#DDDDDD'>Light Grey</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ set #DDDDDD'>Save it</a>)
+<font color='#9CC6E7'>Dark Grey</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ set #9CC6E7'>Save it</a>)
+<font color='#000000'>Black</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ set #000000'>Save it</a>)
+<font color='#FFFF00'>Yellow</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ set #FFFF00'>Save it</a>)
+<font color='#8CB5FF'>Blue</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ set #8CB5FF'>Save it</a>)
+<font color='#00BFFF'>Deep Sky Blue</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ set #00BFFF'>Save it</a>)
+<font color='#00DE42'>Green</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ set #00DE42'>Save it</a>)
+<font color='#FCA712'>Orange</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ set #FCA712'>Save it</a>)
+<font color='#FFD700'>Gold</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ set #FFD700'>Save it</a>)
+<font color='#FF1493'>Deep Pink</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ set #FF1493'>Save it</a>)
+<font color='#EE82EE'>Violet</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ set #EE82EE'>Save it</a>)
+<font color='#8B7355'>Brown</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ set #8B7355'>Save it</a>)
+<font color='#00FFFF'>Cyan</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ set #00FFFF'>Save it</a>)
+<font color='#000080'>Navy Blue</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ set #000080'>Save it</a>)
+<font color='#FF8C00'>Dark Orange</font> (<a href='chatcmd:///tell <myname> config setting """ + self.name + """ set #FF8C00'>Save it</a>)"""
 
     def get_font_color(self):
         return "<font color='%s'>" % self.get_value()
@@ -160,12 +160,12 @@ class NumberSettingType(SettingType):
 
     def get_display(self):
         text = Registry.get_instance("text")
-        options_str = "\n".join(map(lambda opt: text.make_chatcmd(str(opt), "/tell <myname> config setting %s %s" % (self.name, opt)), self.options))
+        options_str = "\n".join(map(lambda opt: text.make_chatcmd(str(opt), "/tell <myname> config setting %s set %s" % (self.name, opt)), self.options))
 
         return """For this setting you can set any positive integer.
 To change this setting:
 
-<highlight>/tell <myname> config setting """ + self.name + """ <i>number</i><end>
+<highlight>/tell <myname> config setting """ + self.name + """ set <i>_number_</i><end>
 
 Or choose an option below:\n\n""" + options_str
 
@@ -192,13 +192,13 @@ class TimeSettingType(SettingType):
 
     def get_display(self):
         text = Registry.get_instance("text")
-        options_str = "\n".join(map(lambda opt: text.make_chatcmd(str(opt), "/tell <myname> config setting %s %s" % (self.name, opt)), self.options))
+        options_str = "\n".join(map(lambda opt: text.make_chatcmd(str(opt), "/tell <myname> config setting %s set %s" % (self.name, opt)), self.options))
 
         return """For this setting you must enter a time value. See <a href='chatcmd:///tell <myname> help budatime'>budatime</a> for info on the format of the 'time' parameter.
 
 To change this setting:
 
-<highlight>/tell <myname> config setting """ + self.name + """ <i>time</i><end>
+<highlight>/tell <myname> config setting """ + self.name + """ set <i>_time_</i><end>
 
 Or choose an option below:\n\n""" + options_str
 
@@ -224,5 +224,5 @@ class BooleanSettingType(SettingType):
     def get_display(self):
         return """For this setting you can enter either true or false.
 
-<a href='chatcmd:///tell <myname> config setting """ + self.name + """ true'>True</a>
-<a href='chatcmd:///tell <myname> config setting """ + self.name + """ false'>False</a>"""
+<a href='chatcmd:///tell <myname> config setting """ + self.name + """ set true'>True</a>
+<a href='chatcmd:///tell <myname> config setting """ + self.name + """ set false'>False</a>"""
