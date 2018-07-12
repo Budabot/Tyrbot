@@ -13,8 +13,6 @@ PREFERENCES
 SYSTEM
 USAGE - needs !usage command, needs to submit usage
 
-BROADCAST
-CITY
 DEV
 EVENTS
 FUN
@@ -53,6 +51,8 @@ SETUP - done
 ALIEN - done
 BANK - ignore
 BASIC_CHAT - moved to raid
+BROADCAST - ignore
+CITY - done
 HELPBOT - done
 ONLINE - done
 PRIVATE_CHANNEL - done

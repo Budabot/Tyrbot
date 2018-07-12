@@ -2,6 +2,7 @@ from core.decorators import instance
 import re
 import math
 import locale
+import datetime
 
 
 @instance()
@@ -185,3 +186,7 @@ class Util:
             return "Shade"
         else:
             return None
+
+    def format_timestamp(self, timestamp):
+        value = datetime.datetime.fromtimestamp(timestamp)
+        return value.strftime('%Y-%m-%d %H:%M:%S')
