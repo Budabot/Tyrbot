@@ -44,10 +44,12 @@ class CommandManager:
         self.setting_manager: SettingManager = registry.get_instance("setting_manager")
         self.command_alias_manager = registry.get_instance("command_alias_manager")
         self.usage_manager = registry.get_instance("usage_manager")
+        self.public_channel_manager = registry.get_instance("public_channel_manager")
 
     def pre_start(self):
         self.bot.add_packet_handler(server_packets.PrivateMessage.id, self.handle_private_message)
         self.bot.add_packet_handler(server_packets.PrivateChannelMessage.id, self.handle_private_channel_message)
+        self.bot.add_packet_handler(server_packets.PublicChannelMessage.id, self.handle_public_channel_message)
         self.register_command_channel("Private Message", self.PRIVATE_MESSAGE)
         self.register_command_channel("Org Channel", self.ORG_CHANNEL)
         self.register_command_channel("Private Channel", self.PRIVATE_CHANNEL)
@@ -304,3 +306,19 @@ class CommandManager:
                 self.PRIVATE_CHANNEL,
                 packet.char_id,
                 lambda msg: self.bot.send_private_channel_message(msg))
+
+    def handle_public_channel_message(self, packet: server_packets.PublicChannelMessage):
+        # since the command symbol is required in the org channel,
+        # the command_str must have length of at least 2 in order to be valid,
+        # otherwise it is ignored
+        if len(packet.message) < 2:
+            return
+
+        symbol = packet.message[:1]
+        command_str = packet.message[1:]
+        if symbol == self.setting_manager.get("symbol").get_value() and self.public_channel_manager.is_org_channel_id(packet.channel_id):
+            self.process_command(
+                command_str,
+                self.ORG_CHANNEL,
+                packet.char_id,
+                lambda msg: self.bot.send_org_message(msg))
