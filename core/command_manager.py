@@ -81,7 +81,7 @@ class CommandManager:
             help_text = self.generate_help(command, description, params, extended_description)
 
         if check_access is None:
-            check_access = self.access_manager.check_access
+            check_access = self.check_access
 
         if not self.access_manager.get_access_level_by_label(access_level):
             self.logger.error("Could not add command '%s': could not find access level '%s'" % (command, access_level))
@@ -124,7 +124,7 @@ class CommandManager:
     def is_command_channel(self, channel):
         return channel in self.channels
 
-    def process_command(self, message: str, channel: str, char_id, reply):
+    def process_command(self, message: str, channel: str, sender, reply):
         try:
             message = html.unescape(message)
 
@@ -141,17 +141,16 @@ class CommandManager:
                 # given a list of cmd_configs that are enabled, see if one has regex that matches incoming command_str
                 cmd_config, matches, handler = self.get_matches(cmd_configs, command_args)
                 if matches:
-                    if handler["check_access"](char_id, cmd_config.access_level):
-                        sender = MapObject({"name": self.character_manager.resolve_char_to_name(char_id, "Unknown(%d)" % char_id), "char_id": char_id})
+                    if handler["check_access"](sender.access_level, cmd_config.access_level):
                         handler["callback"](channel, sender, reply, self.process_matches(matches, handler["params"]))
 
                         # record command usage
-                        self.usage_manager.add_usage(command_str, handler["callback"].__qualname__, char_id, channel)
+                        self.usage_manager.add_usage(command_str, handler["callback"].__qualname__, sender.char_id, channel)
                     else:
-                        self.access_denied_response(char_id, cmd_config, reply)
+                        self.access_denied_response(sender.char_id, cmd_config, reply)
                 else:
                     # handlers were found, but no handler regex matched
-                    help_text = self.get_help_text(char_id, command_str, channel)
+                    help_text = self.get_help_text(sender, command_str, channel)
                     if help_text:
                         reply(self.format_help_text(command_str, help_text))
                     else:
@@ -211,13 +210,13 @@ class CommandManager:
             processed.append(param.process_matches(groups))
         return processed
 
-    def get_help_text(self, char, command_str, channel):
+    def get_help_text(self, sender, command_str, channel):
         data = self.db.query("SELECT command, sub_command, access_level FROM command_config "
                              "WHERE command = ? AND channel = ? AND enabled = 1",
                              [command_str, channel])
 
         # filter out commands that character does not have access level for
-        data = filter(lambda row: self.access_manager.check_access(char, row.access_level), data)
+        data = filter(lambda row: self.check_access(sender.access_level, row.access_level), data)
 
         def read_help_text(row):
             command_key = self.get_command_key(row.command, row.sub_command)
@@ -283,11 +282,15 @@ class CommandManager:
         else:
             command_str = packet.message
 
+        char_id = packet.char_id
+
         self.process_command(
-            command_str,
-            self.PRIVATE_MESSAGE,
-            packet.char_id,
-            lambda msg: self.bot.send_private_message(packet.char_id, msg))
+            message=command_str,
+            channel=self.PRIVATE_MESSAGE,
+            sender=MapObject({"name": self.character_manager.resolve_char_to_name(char_id, "Unknown(%d)" % char_id),
+                              "char_id": char_id,
+                              "access_level": self.access_manager.get_access_level(char_id)}),
+            reply=lambda msg: self.bot.send_private_message(packet.char_id, msg))
 
     def handle_private_channel_message(self, packet: server_packets.PrivateChannelMessage):
         # since the command symbol is required in the private channel,
@@ -299,8 +302,17 @@ class CommandManager:
         symbol = packet.message[:1]
         command_str = packet.message[1:]
         if symbol == self.setting_manager.get("symbol").get_value() and packet.private_channel_id == self.bot.char_id:
+            char_id = packet.char_id
+
             self.process_command(
-                command_str,
-                self.PRIVATE_CHANNEL,
-                packet.char_id,
-                lambda msg: self.bot.send_private_channel_message(msg))
+                message=command_str,
+                channel=self.PRIVATE_CHANNEL,
+                sender=MapObject({"name": self.character_manager.resolve_char_to_name(char_id, "Unknown(%d)" % char_id),
+                                  "char_id": char_id,
+                                  "access_level": self.access_manager.get_access_level(char_id)}),
+                reply=lambda msg: self.bot.send_private_channel_message(msg))
+
+    def check_access(self, access_level, acess_level_label):
+        access_level2 = self.access_manager.get_access_level_by_label(acess_level_label)
+
+        return access_level["level"] <= access_level2["level"]
