@@ -13,7 +13,6 @@ PREFERENCES
 SYSTEM
 USAGE - needs !usage command, needs to submit usage
 
-ALIEN
 BROADCAST
 CITY
 DEV
@@ -51,6 +50,7 @@ HELP - done
 PROFILE - ignore
 SETUP - done
 
+ALIEN - done
 BANK - ignore
 BASIC_CHAT - moved to raid
 HELPBOT - done

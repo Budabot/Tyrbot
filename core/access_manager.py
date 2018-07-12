@@ -56,7 +56,7 @@ class AccessManager:
 
     def has_sufficient_access_level(self, char_id1, char_id2):
         """
-        Returns True if char1 has a higher access level than char2, and False otherwise.
+        Returns True if char1 has a higher access level than char2 or if char1 is a verified alt of char2, and False otherwise.
 
         :param char_id1:
         :param char_id2:
