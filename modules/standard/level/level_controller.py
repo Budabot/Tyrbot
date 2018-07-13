@@ -40,23 +40,15 @@ class LevelController:
         else:
             reply("Mission level must be between <highlight>1<end> and <highlight>250<end>.")
 
-    @command(command="xp", params=[Int("level")], access_level="all",
-             description="Show XP needed to level up one level")
-    def xp_single_cmd(self, channel, sender, reply, args):
-        level = args[0]
-        row = self.get_level_info(level)
-
-        if row:
-            reply("At level <highlight>%d<end> you need <highlight>%s<end> %s to level up." % (level, self.util.format_number(row.xpsk), "SK" if level >= 200 else "XP"))
-        else:
-            reply("Level must be between <highlight>1<end> and <highlight>220<end>.")
-
-    @command(command="xp", params=[Int("start_level"), Int("end_level")], access_level="all",
+    @command(command="xp", params=[Int("start_level"), Int("end_level", is_optional=True)], access_level="all",
              description="Show the amount of XP needed to reach a certain level")
     def xp_range_cmd(self, channel, sender, reply, args):
         start_level = args[0]
-        end_level = args[1]
+        end_level = args[1] or start_level + 1
 
+        if start_level == end_level:
+            reply("Start level must be different than end level.")
+            return
         if start_level > end_level:
             start_level, end_level = end_level, start_level
 
@@ -74,7 +66,7 @@ class LevelController:
 
             reply("From the beginning of level <highlight>%d<end> you need %s to reach level <highlight>%d<end>" % (start_level, needed, end_level))
         else:
-            reply("Level must be between <highlight>1<end> and <highlight>220<end>.")
+            reply("Level must be between <highlight>1<end> and <highlight>219<end>.")
 
     @command(command="axp", params=[], access_level="all",
              description="Show information about alien levels")
