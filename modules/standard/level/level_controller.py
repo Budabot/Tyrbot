@@ -1,6 +1,5 @@
 from core.decorators import instance, command
 from core.db import DB
-from core.text import Text
 from core.command_param_types import Int
 
 
@@ -8,7 +7,7 @@ from core.command_param_types import Int
 class LevelController:
     def inject(self, registry):
         self.db: DB = registry.get_instance("db")
-        self.text: Text = registry.get_instance("text")
+        self.util = registry.get_instance("util")
 
     @command(command="level", params=[Int("level")], access_level="all",
              description="Show information about a character level", aliases=["i"])
@@ -16,16 +15,16 @@ class LevelController:
         level = args[0]
         row = self.get_level_info(level)
 
-        if level:
+        if row:
             msg = "<white>L %d: Team %d-%d<end><highlight> | <end><cyan>PvP %d-%d<end><highlight> | <end><orange>Missions %s<end><highlight> | <end><blue>%d token(s)<end>" %\
                   (row.level, row.team_min, row.team_max, row.pvp_min, row.pvp_max, row.missions, row.tokens)
             reply(msg)
         else:
             reply("Level must be between <highlight>1<end> and <highlight>220<end>.")
 
-    @command(command="missions", params=[Int("mission_level")], access_level="all",
+    @command(command="mission", params=[Int("mission_level")], access_level="all",
              description="Show what character levels can roll a specified mission level", aliases=["i"])
-    def level_cmd(self, channel, sender, reply, args):
+    def mission_cmd(self, channel, sender, reply, args):
         level = args[0]
 
         if 1 <= level <= 250:
@@ -39,6 +38,42 @@ class LevelController:
             reply("QL%d missions can be rolled from these levels: %s" % (level, " ".join(levels)))
         else:
             reply("Mission level must be between <highlight>1<end> and <highlight>250<end>.")
+
+    @command(command="xp", params=[Int("level")], access_level="all",
+             description="Show XP needed to level up one level", aliases=["i"])
+    def xp_single_cmd(self, channel, sender, reply, args):
+        level = args[0]
+        row = self.get_level_info(level)
+
+        if row:
+            reply("At level <highlight>%d<end> you need <highlight>%s<end> %s to level up." % (level, self.util.format_number(row.xpsk), "SK" if level >= 200 else "XP"))
+        else:
+            reply("Level must be between <highlight>1<end> and <highlight>220<end>.")
+
+    @command(command="xp", params=[Int("start_level"), Int("end_level")], access_level="all",
+             description="Show the amount of XP needed to reach a certain level", aliases=["i"])
+    def xp_range_cmd(self, channel, sender, reply, args):
+        start_level = args[0]
+        end_level = args[1]
+
+        if start_level > end_level:
+            start_level, end_level = end_level, start_level
+
+        if 1 <= start_level <= 220 and 1 <= end_level <= 220:
+            if end_level <= 200:
+                xp = self.db.query_single("SELECT SUM(xpsk) AS total_xp FROM level WHERE level >= ? AND level < ?", [start_level, end_level])
+                needed = "<highlight>%s<end> XP" % self.util.format_number(xp.total_xp)
+            elif start_level >= 200:
+                sk = self.db.query_single("SELECT SUM(xpsk) AS total_sk FROM level WHERE level >= ? AND level < ?", [start_level, end_level])
+                needed = "<highlight>%s<end> SK" % self.util.format_number(sk.total_sk)
+            else:
+                xp = self.db.query_single("SELECT SUM(xpsk) AS total_xp FROM level WHERE level >= ? AND level < 200", [start_level])
+                sk = self.db.query_single("SELECT SUM(xpsk) AS total_sk FROM level WHERE level >= 200 AND level < ?", [end_level])
+                needed = "<highlight>%s<end> XP and <highlight>%s<end> SK" % (self.util.format_number(xp.total_xp), self.util.format_number(sk.total_sk))
+
+            reply("From the beginning of level <highlight>%d<end> you need %s to reach level <highlight>%d<end>" % (start_level, needed, end_level))
+        else:
+            reply("Level must be between <highlight>1<end> and <highlight>220<end>.")
 
     def get_level_info(self, level):
         return self.db.query_single("SELECT * FROM level WHERE level = ?", [level])
