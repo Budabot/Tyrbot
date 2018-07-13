@@ -1,3 +1,4 @@
+from core.chat_blob import ChatBlob
 from core.decorators import instance, command
 from core.db import DB
 from core.command_param_types import Int
@@ -10,7 +11,7 @@ class LevelController:
         self.util = registry.get_instance("util")
 
     @command(command="level", params=[Int("level")], access_level="all",
-             description="Show information about a character level", aliases=["i"])
+             description="Show information about a character level")
     def level_cmd(self, channel, sender, reply, args):
         level = args[0]
         row = self.get_level_info(level)
@@ -23,7 +24,7 @@ class LevelController:
             reply("Level must be between <highlight>1<end> and <highlight>220<end>.")
 
     @command(command="mission", params=[Int("mission_level")], access_level="all",
-             description="Show what character levels can roll a specified mission level", aliases=["i"])
+             description="Show what character levels can roll a specified mission level")
     def mission_cmd(self, channel, sender, reply, args):
         level = args[0]
 
@@ -40,7 +41,7 @@ class LevelController:
             reply("Mission level must be between <highlight>1<end> and <highlight>250<end>.")
 
     @command(command="xp", params=[Int("level")], access_level="all",
-             description="Show XP needed to level up one level", aliases=["i"])
+             description="Show XP needed to level up one level")
     def xp_single_cmd(self, channel, sender, reply, args):
         level = args[0]
         row = self.get_level_info(level)
@@ -51,7 +52,7 @@ class LevelController:
             reply("Level must be between <highlight>1<end> and <highlight>220<end>.")
 
     @command(command="xp", params=[Int("start_level"), Int("end_level")], access_level="all",
-             description="Show the amount of XP needed to reach a certain level", aliases=["i"])
+             description="Show the amount of XP needed to reach a certain level")
     def xp_range_cmd(self, channel, sender, reply, args):
         start_level = args[0]
         end_level = args[1]
@@ -74,6 +75,17 @@ class LevelController:
             reply("From the beginning of level <highlight>%d<end> you need %s to reach level <highlight>%d<end>" % (start_level, needed, end_level))
         else:
             reply("Level must be between <highlight>1<end> and <highlight>220<end>.")
+
+    @command(command="axp", params=[], access_level="all",
+             description="Show information about alien levels")
+    def axp_single_cmd(self, channel, sender, reply, args):
+        data = self.db.query("SELECT * FROM alien_level ORDER BY alien_level ASC")
+
+        blob = ""
+        for row in data:
+            blob += "AI Level <green>%d<end> - %s - <highlight>%s<end> - Min Level: %d\n" % (row.alien_level, self.util.format_number(row.axp), row.defender_rank, row.min_level)
+
+        reply(ChatBlob("Alien Levels", blob))
 
     def get_level_info(self, level):
         return self.db.query_single("SELECT * FROM level WHERE level = ?", [level])
