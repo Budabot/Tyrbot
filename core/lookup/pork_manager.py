@@ -5,7 +5,6 @@ from core.logger import Logger
 from __init__ import none_to_empty_string
 import requests
 import time
-import os
 
 
 @instance()

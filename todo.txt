@@ -3,6 +3,7 @@ add db update/migration
 
 ignore offline messages? maybe
 consider a replication strategy
+rename managers to services
 
 ADMIN
 ALTS - show warning when adding alt that has higher access level than main
@@ -15,7 +16,7 @@ USAGE - needs !usage command, needs to submit usage
 
 EVENTS
 GUIDE - almost done, just need to add formatting for !aou guides
-GUILD - renamed to ORG
+GUILD - renamed to ORG, needs to be a system module
 IMPLANT
 ITEMS
 NANO
