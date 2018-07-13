@@ -13,10 +13,7 @@ PREFERENCES
 SYSTEM
 USAGE - needs !usage command, needs to submit usage
 
-DEV
 EVENTS
-FUN
-GIT
 GUIDE - almost done, just need to add formatting for !aou guides
 GUILD - renamed to ORG
 IMPLANT
@@ -53,6 +50,9 @@ BANK - ignore
 BASIC_CHAT - moved to raid
 BROADCAST - ignore
 CITY - done
+DEV - ignore
+FUN - ignore
+GIT - ignore
 HELPBOT - done
 ONLINE - done
 PRIVATE_CHANNEL - done
