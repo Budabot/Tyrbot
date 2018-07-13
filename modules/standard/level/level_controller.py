@@ -23,5 +23,22 @@ class LevelController:
         else:
             reply("Level must be between <highlight>1<end> and <highlight>220<end>.")
 
+    @command(command="missions", params=[Int("mission_level")], access_level="all",
+             description="Show what character levels can roll a specified mission level", aliases=["i"])
+    def level_cmd(self, channel, sender, reply, args):
+        level = args[0]
+
+        if 1 <= level <= 250:
+            levels = []
+            data = self.db.query("SELECT * FROM level")
+            str_level = str(level)
+            for row in data:
+                if str_level in row.missions.split(","):
+                    levels.append(str(row.level))
+
+            reply("QL%d missions can be rolled from these levels: %s" % (level, " ".join(levels)))
+        else:
+            reply("Mission level must be between <highlight>1<end> and <highlight>250<end>.")
+
     def get_level_info(self, level):
         return self.db.query_single("SELECT * FROM level WHERE level = ?", [level])
