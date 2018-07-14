@@ -28,7 +28,7 @@ class OrgController:
         for row in self.get_all_org_members():
             self.buddy_manager.add_buddy(row.char_id, self.ORG_BUDDY_TYPE)
 
-    @timerevent(budatime="1m", description="Download the org roster")
+    @timerevent(budatime="24h", description="Download the org roster")
     def handle_connect_event(self, event_type, event_data):
         org_id = self.public_channel_manager.get_org_id()
         if org_id:
@@ -71,15 +71,12 @@ class OrgController:
         return self.db.query("SELECT char_id, mode FROM org_member")
 
     def add_org_member(self, char_id, mode):
-        print("Adding", char_id, mode)
         return self.db.exec("INSERT INTO org_member (char_id, mode) VALUES (?, ?)", [char_id, mode])
 
     def remove_org_member(self, char_id):
-        print("Removing", char_id)
         return self.db.exec("DELETE FROM org_member WHERE char_id = ?", [char_id])
 
     def update_org_member(self, char_id, mode):
-        print("Updating", char_id, mode)
         return self.db.exec("UPDATE org_member SET mode = ? WHERE char_id = ?", [mode, char_id])
 
     def check_org_member(self, char_id):
