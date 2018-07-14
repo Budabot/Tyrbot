@@ -45,6 +45,7 @@ class CommandManager:
         self.command_alias_manager = registry.get_instance("command_alias_manager")
         self.usage_manager = registry.get_instance("usage_manager")
         self.public_channel_manager = registry.get_instance("public_channel_manager")
+        self.ban_manager = registry.get_instance("ban_manager")
 
     def pre_start(self):
         self.bot.add_packet_handler(server_packets.PrivateMessage.id, self.handle_private_message)
@@ -128,6 +129,11 @@ class CommandManager:
 
     def process_command(self, message: str, channel: str, char_id, reply):
         try:
+            if self.ban_manager.get_ban(char_id):
+                # do nothing if character is banned
+                self.logger.info("ignored banned character %d for command '%s'" % (char_id, message))
+                return
+
             message = html.unescape(message)
 
             command_str, command_args = self.get_command_parts(message)
