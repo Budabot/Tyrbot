@@ -28,6 +28,8 @@ class Tyrbot(Bot):
         self.dimension = None
         self.packet_queue = DelayQueue(2, 2.5)
         self.last_timer_event = 0
+        self.start_time = int(time.time())
+        self.version = "0.1-alpha"
 
     def inject(self, registry):
         self.db = registry.get_instance("db")

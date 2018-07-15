@@ -3,3 +3,4 @@ mysql-connector
 pytz
 hjson
 discord
+psutil
