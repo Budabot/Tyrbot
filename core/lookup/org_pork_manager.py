@@ -2,6 +2,7 @@ from core.decorators import instance
 from core.logger import Logger
 from __init__ import none_to_empty_string
 import requests
+import datetime
 
 
 @instance()
@@ -107,4 +108,4 @@ class OrgPorkManager:
 
         return {"org_info": new_org_info,
                 "org_members": members,
-                "last_updated": last_updated}
+                "last_updated": int(datetime.datetime.strptime(last_updated, "%Y/%m/%d %H:%M:%S").timestamp())}
