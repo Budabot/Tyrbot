@@ -178,12 +178,12 @@ class Util:
             return "Meta-Physicist"
         elif search in ["nt", "nano", "nanotechnician", "nano-technician"]:
             return "Nano-Technician"
+        elif search in ["sha", "shade"]:
+            return "Shade"
         elif search in ["sol", "sold", "soldier"]:
             return "Soldier"
         elif search in ["tra", "trad", "trader"]:
             return "Trader"
-        elif search in ["sha", "shade"]:
-            return "Shade"
         else:
             return None
 

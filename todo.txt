@@ -5,10 +5,7 @@ ignore offline messages? maybe
 consider a replication strategy
 rename managers to services
 
-ALTS - show warning when adding alt that has higher access level than main
-PLAYER_LOOKUP - needs guild lookup
 PREFERENCES
-SYSTEM
 USAGE - needs !usage command, needs to submit usage
 
 EVENTS
@@ -36,14 +33,17 @@ WHOIS - need !history
 done
 ----
 ADMIN - done
+ALTS - done, show warning when adding alt that has higher access level than main
 BAN - done
 BUDDYLIST - done
 COLORS - done
 CONFIG - done
 HELP - done
 LIMITS - ignore for now, add restricted_guest as an access level, just above all, for whitelisting, and let limits dictate how "all" access level chars are handled
+PLAYER_LOOKUP - done
 PROFILE - ignore
 SETUP - done
+SYSTEM - done
 
 ALIEN - done
 BANK - ignore

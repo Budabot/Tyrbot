@@ -118,7 +118,7 @@ class PorkManager:
             self.save_character_info(char_info)
 
     def save_character_info(self, char_info):
-        self.db.exec("DELETE FROM player WHERE char_id = ?", [char_info.char_id])
+        self.db.exec("DELETE FROM player WHERE char_id = ?", [char_info["char_id"]])
 
         insert_sql = """
             INSERT INTO player ( char_id, name, first_name, last_name, level, breed, gender, faction, profession,
@@ -127,10 +127,10 @@ class PorkManager:
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """
 
-        self.db.exec(insert_sql, [char_info.char_id, char_info.name, char_info.first_name, char_info.last_name, char_info.level, char_info.breed, char_info.gender,
-                                  char_info.faction, char_info.profession, char_info.profession_title, char_info.ai_rank, char_info.ai_level, char_info.org_id, char_info.org_name,
-                                  char_info.org_rank_name, char_info.org_rank_id, char_info.dimension, char_info.head_id, char_info.pvp_rating, char_info.pvp_title,
-                                  char_info.source, int(time.time())])
+        self.db.exec(insert_sql, [char_info["char_id"], char_info["name"], char_info["first_name"], char_info["last_name"], char_info["level"], char_info["breed"],
+                                  char_info["gender"], char_info["faction"], char_info["profession"], char_info["profession_title"], char_info["ai_rank"], char_info["ai_level"],
+                                  char_info["org_id"], char_info["org_name"], char_info["org_rank_name"], char_info["org_rank_id"], char_info["dimension"], char_info["head_id"],
+                                  char_info["pvp_rating"], char_info["pvp_title"], char_info["source"], int(time.time())])
 
     def get_from_database(self, char_id=None, char_name=None):
         if char_id:
