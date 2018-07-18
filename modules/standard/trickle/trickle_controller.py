@@ -40,7 +40,7 @@ class TrickleController:
     def trickle_skill_cmd(self, channel, sender, reply, args):
         search = args[0]
 
-        data = self.db.query("SELECT * FROM trickle WHERE name <ENHANCED_LIKE> ?", [search])
+        data = self.db.query(*self.db.handle_extended_like("SELECT * FROM trickle WHERE name <EXTENDED_LIKE=0> ?", [search]))
         count = len(data)
 
         if count == 0:

@@ -16,7 +16,7 @@ class DB:
 
     def __init__(self):
         self.conn = None
-        self.enhanced_like_regex = re.compile("(\s+)(\S+)\s+<ENHANCED_LIKE>\s+\?(\s*)", re.IGNORECASE)
+        self.enhanced_like_regex = re.compile("(\s+)(\S+)\s+<EXTENDED_LIKE=(\d+)>\s+\?(\s*)", re.IGNORECASE)
         self.lastrowid = None
         self.logger = Logger("db")
 
@@ -107,26 +107,24 @@ class DB:
             sql = sql.replace("AUTO_INCREMENT", "AUTOINCREMENT")
             sql = sql.replace(" INT ", " INTEGER ")
 
-        if params:
-            return self.handle_extended_like(sql, params)
-        else:
-            return sql, params
+        return sql, params
 
     def handle_extended_like(self, sql, params):
-        # any <ENHANCED_LIKE>s in a query must correspond with the first parameter(s)
-        match = self.enhanced_like_regex.search(sql)
-        if match is not None:
-            field = match.group(2)
-            vals = ["%" + p + "%" for p in params[0].split(" ")]
-            extra_sql = [field + " LIKE ?" for _ in vals]
-            sql = self.enhanced_like_regex.sub(match.group(1) + "(" + " AND ".join(extra_sql) + ")" + match.group(3), sql, 1)
+        original_params = params.copy()
+        params = list(map(lambda x: [x], params))
 
-            # first occurrence has been handled, check for more occurrences with recursive call
-            # then merge params from recursive call
-            sql, remaining_params = self.handle_extended_like(sql, params[1:])
-            return sql, vals + remaining_params
-        else:
-            return sql, params
+        for match in self.enhanced_like_regex.finditer(sql):
+            field = match.group(2)
+            index = int(match.group(3))
+            vals = ["%" + p + "%" for p in original_params[index].split(" ")]
+            extra_sql = [field + " LIKE ?" for _ in vals]
+            sql = self.enhanced_like_regex.sub(match.group(1) + "(" + " AND ".join(extra_sql) + ")" + match.group(4), sql, 1)
+
+            # remove current param and add generated params in its place
+            del params[index]
+            params.insert(index, vals)
+
+        return sql, [item for sublist in params for item in sublist]
 
     def get_connection(self):
         return self.conn

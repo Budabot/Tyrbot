@@ -26,7 +26,7 @@ class ClusterController:
     def cluster_show_cmd(self, channel, sender, reply, args):
         search = args[0]
 
-        data = self.db.query("SELECT ClusterID, LongName FROM Cluster WHERE LongNAme <ENHANCED_LIKE> ?", [search])
+        data = self.db.query(*self.db.handle_extended_like("SELECT ClusterID, LongName FROM Cluster WHERE LongNAme <EXTENDED_LIKE=0> ?", [search]))
         count = len(data)
 
         if count == 0:
