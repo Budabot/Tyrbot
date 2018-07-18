@@ -21,9 +21,7 @@ RAFFLE
 RAID
 RECIPE
 RELAY
-REPUTATION
-SKILLS
-SPIRITS
+SKILLS !nanoinit, !aggdef, !weapon, !specials <type> (add aliases)
 TIMERS - need !timer, !rtimer, ignore !stopwatch
 TOWER
 TRACKER
@@ -58,7 +56,9 @@ LEVEL - done
 ONLINE - done
 PRIVATE_CHANNEL - done
 QUOTE - done
+REPUTATION - ignore
 SHOPPING - ignore
+SPIRITS - ignore
 TRICKLE - done
 WEATHER - ignore
 WHEREIS - done

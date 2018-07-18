@@ -1,0 +1,16 @@
+DROP TABLE IF EXISTS Profession;
+CREATE TABLE Profession (ID INT NOT NULL PRIMARY KEY, Name VARCHAR(20) NOT NULL);
+INSERT INTO Profession (ID, Name) VALUES (1,'Adventurer');
+INSERT INTO Profession (ID, Name) VALUES (2,'Agent');
+INSERT INTO Profession (ID, Name) VALUES (3,'Bureaucrat');
+INSERT INTO Profession (ID, Name) VALUES (4,'Doctor');
+INSERT INTO Profession (ID, Name) VALUES (5,'Enforcer');
+INSERT INTO Profession (ID, Name) VALUES (6,'Engineer');
+INSERT INTO Profession (ID, Name) VALUES (7,'Fixer');
+INSERT INTO Profession (ID, Name) VALUES (8,'Keeper');
+INSERT INTO Profession (ID, Name) VALUES (9,'Martial Artist');
+INSERT INTO Profession (ID, Name) VALUES (10,'Meta-Physicist');
+INSERT INTO Profession (ID, Name) VALUES (11,'Nano-Technician');
+INSERT INTO Profession (ID, Name) VALUES (12,'Shade');
+INSERT INTO Profession (ID, Name) VALUES (13,'Soldier');
+INSERT INTO Profession (ID, Name) VALUES (14,'Trader');

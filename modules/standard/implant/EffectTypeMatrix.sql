@@ -1,0 +1,18 @@
+DROP TABLE IF EXISTS EffectTypeMatrix;
+CREATE TABLE EffectTypeMatrix (ID INT NOT NULL PRIMARY KEY, Name VARCHAR(20) NOT NULL, MinValLow INT NOT NULL, MaxValLow INT NOT NULL, MinValHigh INT NOT NULL, MaxValHigh INT NOT NULL);
+INSERT INTO EffectTypeMatrix (ID, Name, MinValLow, MaxValLow, MinValHigh, MaxValHigh) VALUES (1,'Skill',6,105,106,141);
+INSERT INTO EffectTypeMatrix (ID, Name, MinValLow, MaxValLow, MinValHigh, MaxValHigh) VALUES (2,'Ability',5,55,55,73);
+INSERT INTO EffectTypeMatrix (ID, Name, MinValLow, MaxValLow, MinValHigh, MaxValHigh) VALUES (3,'AC',8,505,508,687);
+INSERT INTO EffectTypeMatrix (ID, Name, MinValLow, MaxValLow, MinValHigh, MaxValHigh) VALUES (4,'Max H/N',7,405,407,550);
+INSERT INTO EffectTypeMatrix (ID, Name, MinValLow, MaxValLow, MinValHigh, MaxValHigh) VALUES (5,'XP',5,7,7,8);
+INSERT INTO EffectTypeMatrix (ID, Name, MinValLow, MaxValLow, MinValHigh, MaxValHigh) VALUES (6,'Add Dmg',5,18,18,22);
+INSERT INTO EffectTypeMatrix (ID, Name, MinValLow, MaxValLow, MinValHigh, MaxValHigh) VALUES (7,'Reflect',5,20,20,25);
+INSERT INTO EffectTypeMatrix (ID, Name, MinValLow, MaxValLow, MinValHigh, MaxValHigh) VALUES (8,'Add Def',6,130,131,175);
+INSERT INTO EffectTypeMatrix (ID, Name, MinValLow, MaxValLow, MinValHigh, MaxValHigh) VALUES (9,'Add Off',5,30,30,39);
+INSERT INTO EffectTypeMatrix (ID, Name, MinValLow, MaxValLow, MinValHigh, MaxValHigh) VALUES (10,'NCU',5,30,30,39);
+INSERT INTO EffectTypeMatrix (ID, Name, MinValLow, MaxValLow, MinValHigh, MaxValHigh) VALUES (11,'Skill Lock',5,-5,-5,-9);
+INSERT INTO EffectTypeMatrix (ID, Name, MinValLow, MaxValLow, MinValHigh, MaxValHigh) VALUES (12,'Interrupt',5,-5,-5,-9);
+INSERT INTO EffectTypeMatrix (ID, Name, MinValLow, MaxValLow, MinValHigh, MaxValHigh) VALUES (13,'Nano Cost',5,-2,-3,-5);
+INSERT INTO EffectTypeMatrix (ID, Name, MinValLow, MaxValLow, MinValHigh, MaxValHigh) VALUES (14,'Range',5,15,15,19);
+INSERT INTO EffectTypeMatrix (ID, Name, MinValLow, MaxValLow, MinValHigh, MaxValHigh) VALUES (15,'Delta',5,55,55,73);
+INSERT INTO EffectTypeMatrix (ID, Name, MinValLow, MaxValLow, MinValHigh, MaxValHigh) VALUES (16,'NanoSkill',6,105,106,141);
