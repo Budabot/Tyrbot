@@ -9,12 +9,13 @@ class TextTest(unittest.TestCase):
         msg = "hello this is a test\nthis is another test as well\nand a third\ntest also\nwhich is\nshort"
         text = Text()
 
-        self.assertEqual(text.get_next_line(msg, {"symbol": "\n", "include": True})[0], 'hello this is a test\n')
-        self.assertEqual(text.get_next_line(msg, {"symbol": " ", "include": False})[0], 'hello')
+        self.assertEqual('hello this is a test\n', text.get_next_line(msg, {"symbol": "\n", "include": True})[0])
+        self.assertEqual('hello', text.get_next_line(msg, {"symbol": " ", "include": False})[0])
 
     def test_paginate(self):
         setting = Mock()
         setting.get_value = MagicMock(return_value="test")
+        setting.get_font_color = MagicMock(return_value="color")
         setting_manager = Mock()
         setting_manager.get = MagicMock(return_value=setting)
 
@@ -22,11 +23,15 @@ class TextTest(unittest.TestCase):
         bot.char_name = "char_name"
         bot.org_name = "org_name"
 
+        public_channel_manager = Mock()
+        public_channel_manager.get_org_name = MagicMock(return_value="org")
+
         text = Text()
         text.setting_manager = setting_manager
         text.bot = bot
+        text.public_channel_manager = public_channel_manager
 
-        msg = "hello this is a test\nthis is another test as well\nand a third\ntest also\nwhich is\nshort"
-        pages = text.paginate("label", msg, 115)
-        self.assertEqual(len(pages), 2)
+        msg = "hello this is a test\nthis is another test as well\nand a third\ntest also\nwhich is very\nshort"
+        pages = text.paginate("label", msg, 110)
+        self.assertEqual(2, len(pages))
         self.assertTrue("text://short" in pages[1])
