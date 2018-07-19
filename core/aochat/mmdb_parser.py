@@ -97,8 +97,8 @@ class MMDBParser:
             data_type = chr(param_arr[0])
             param_arr = param_arr[1:]
             if data_type == "S":
-                size = param_arr[0] * 256 + ord(param_arr[1])
-                args.append(param_arr[2:2 + size])
+                size = param_arr[0] * 256 + param_arr[1]
+                args.append(param_arr[2:2 + size].decode("utf-8"))
                 param_arr = param_arr[2 + size:]
             elif data_type == "s":
                 size = param_arr[0] - 1  # size is 1 less than indicated
