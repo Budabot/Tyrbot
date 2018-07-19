@@ -438,6 +438,7 @@ class PublicChannelMessage(ServerPacket):
     def __str__(self):
         return super().__str__() + ", ExtendedMessage: %s" % self.extended_message
 
+
 class Pong(ServerPacket):
     id = 100
     types = "S"

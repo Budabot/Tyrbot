@@ -88,7 +88,7 @@ class MMDBParser:
     def read_base_85(self, num_str):
         n = 0
         for i in range(0, 5):
-            n = n * 85 + ord(num_str[i]) - 33
+            n = n * 85 + num_str[i] - 33
         return n
 
     def parse_params(self, param_arr):
@@ -97,12 +97,12 @@ class MMDBParser:
             data_type = chr(param_arr[0])
             param_arr = param_arr[1:]
             if data_type == "S":
-                size = ord(param_arr[0]) * 256 + ord(param_arr[1])
+                size = param_arr[0] * 256 + ord(param_arr[1])
                 args.append(param_arr[2:2 + size])
                 param_arr = param_arr[2 + size:]
             elif data_type == "s":
-                size = ord(param_arr[0]) - 1  # size is 1 less than indicated
-                args.append(param_arr[1:1 + size])
+                size = param_arr[0] - 1  # size is 1 less than indicated
+                args.append(param_arr[1:1 + size].decode("utf-8"))
                 param_arr = param_arr[1 + size:]
             elif data_type == "I":
                 args.append(struct.unpack(">I", param_arr[:4])[0])
