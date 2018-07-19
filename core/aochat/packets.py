@@ -21,6 +21,11 @@ def decode_args(types, data):
             result = data[2:2 + length].decode("utf-8")
             data = data[2 + length:]
 
+        elif argtype == "B":
+            length = struct.unpack(">H", data[:2])[0]
+            result = data[2:2 + length]
+            data = data[2 + length:]
+
         elif argtype == "G":
             result, data = data[:5], data[5:]
             # Convert result (5 bytes) to a long.  Can't use

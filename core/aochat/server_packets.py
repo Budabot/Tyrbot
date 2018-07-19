@@ -234,7 +234,7 @@ class SimpleSystemMessage(ServerPacket):
 
 class SystemMessage(ServerPacket):
     id = 37
-    types = "IIIS"
+    types = "IIIB"
 
     def __init__(self, client_id, window_id, message_id, message_args):
         self.client_id = client_id

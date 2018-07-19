@@ -91,42 +91,41 @@ class MMDBParser:
             n = n * 85 + ord(num_str[i]) - 33
         return n
 
-    def parse_params(self, param_str):
-        param_str = param_str + "~"
+    def parse_params(self, param_arr):
         args = []
-        while True:
-            data_type = param_str[0]
-            param_str = param_str[1:]
+        while len(param_arr) > 0:
+            data_type = chr(param_arr[0])
+            param_arr = param_arr[1:]
             if data_type == "S":
-                size = ord(param_str[0]) * 256 + ord(param_str[1])
-                args.append(param_str[2:2 + size])
-                param_str = param_str[2 + size:]
+                size = ord(param_arr[0]) * 256 + ord(param_arr[1])
+                args.append(param_arr[2:2 + size])
+                param_arr = param_arr[2 + size:]
             elif data_type == "s":
-                size = ord(param_str[0]) - 1  # size is 1 less than indicated
-                args.append(param_str[1:1 + size])
-                param_str = param_str[1 + size:]
+                size = ord(param_arr[0]) - 1  # size is 1 less than indicated
+                args.append(param_arr[1:1 + size])
+                param_arr = param_arr[1 + size:]
             elif data_type == "I":
-                args.append(struct.unpack(">I", param_str[:4].encode("utf-8"))[0])
-                param_str = param_str[4:]
+                args.append(struct.unpack(">I", param_arr[:4])[0])
+                param_arr = param_arr[4:]
             elif data_type == "i" or data_type == "u":
-                args.append(self.read_base_85(param_str[:5]))
-                param_str = param_str[5:]
+                args.append(self.read_base_85(param_arr[:5]))
+                param_arr = param_arr[5:]
             elif data_type == "R":
-                category_id = self.read_base_85(param_str[:5])
-                instance_id = self.read_base_85(param_str[5:10])
+                category_id = self.read_base_85(param_arr[:5])
+                instance_id = self.read_base_85(param_arr[5:10])
                 message = self.get_message_string(category_id, instance_id)
                 if not message:
-                    raise Exception("Could not find message string for category '%s' and instance '%s'" % (category_id, instance_id))
+                    raise Exception("Could not find message string for category '%d' and instance '%d'" % (category_id, instance_id))
                 args.append(message)
-                param_str = param_str[10:]
+                param_arr = param_arr[10:]
             elif data_type == "l":
                 category_id = 20000
-                instance_id = struct.unpack(">I", param_str[:4].encode("utf-8"))[0]
+                instance_id = struct.unpack(">I", param_arr[:4])[0]
                 message = self.get_message_string(category_id, instance_id)
                 if not message:
-                    raise Exception("Could not find message string for category '%s' and instance '%s'" % (category_id, instance_id))
+                    raise Exception("Could not find message string for category '%d' and instance '%d'" % (category_id, instance_id))
                 args.append(message)
-                param_str = param_str[4:]
+                param_arr = param_arr[4:]
             elif data_type == "~":
                 break
             else:
