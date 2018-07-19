@@ -146,27 +146,9 @@ class Tyrbot(Bot):
             if isinstance(packet, server_packets.PrivateMessage):
                 self.handle_private_message(packet)
             elif isinstance(packet, server_packets.SystemMessage):
-                try:
-                    category_id = 20000
-                    instance_id = packet.message_id
-                    template = self.mmdb_parser.get_message_string(category_id, instance_id)
-                    params = self.mmdb_parser.parse_params(packet.message_args)
-                    packet.extended_message = ExtendedMessage(category_id, instance_id, template, params)
-                    self.logger.log_chat("SystemMessage", None, packet.extended_message.get_message())
-                except Exception as e:
-                    self.logger.error("Error handling extended message: " + str(packet), e)
+                packet = self.system_message_ext_msg_handling(packet)
             elif isinstance(packet, server_packets.PublicChannelMessage):
-                msg = packet.message
-                if msg.startswith("~&") and msg.endswith("~"):
-                    try:
-                        msg = msg[2:-1]
-                        category_id = self.mmdb_parser.read_base_85(msg[0:5])
-                        instance_id = self.mmdb_parser.read_base_85(msg[5: 10])
-                        template = self.mmdb_parser.get_message_string(category_id, instance_id)
-                        params = self.mmdb_parser.parse_params(msg[10:].encode("utf-8"))
-                        packet.extended_message = ExtendedMessage(category_id, instance_id, template, params)
-                    except Exception as e:
-                        self.logger.error("Error handling extended message for packet: " + str(packet), e)
+                packet = self.public_channel_message_ext_msg_handling(packet)
 
             for handler in self.packet_handlers.get(packet.id, []):
                 handler(packet)
@@ -182,6 +164,34 @@ class Tyrbot(Bot):
         num_messages = len(self.packet_queue)
         if num_messages > 10:
             self.logger.warning("%d messages in outgoing message queue" % num_messages)
+
+        return packet
+
+    def public_channel_message_ext_msg_handling(self, packet: server_packets.PublicChannelMessage):
+        msg = packet.message
+        if msg.startswith("~&") and msg.endswith("~"):
+            try:
+                msg = msg[2:-1].encode("utf-8")
+                category_id = self.mmdb_parser.read_base_85(msg[0:5])
+                instance_id = self.mmdb_parser.read_base_85(msg[5: 10])
+                template = self.mmdb_parser.get_message_string(category_id, instance_id)
+                params = self.mmdb_parser.parse_params(msg[10:])
+                packet.extended_message = ExtendedMessage(category_id, instance_id, template, params)
+            except Exception as e:
+                self.logger.error("Error handling extended message for packet: " + str(packet), e)
+
+        return packet
+
+    def system_message_ext_msg_handling(self, packet: server_packets.SystemMessage):
+        try:
+            category_id = 20000
+            instance_id = packet.message_id
+            template = self.mmdb_parser.get_message_string(category_id, instance_id)
+            params = self.mmdb_parser.parse_params(packet.message_args)
+            packet.extended_message = ExtendedMessage(category_id, instance_id, template, params)
+            self.logger.log_chat("SystemMessage", None, packet.extended_message.get_message())
+        except Exception as e:
+            self.logger.error("Error handling extended message: " + str(packet), e)
 
         return packet
 
