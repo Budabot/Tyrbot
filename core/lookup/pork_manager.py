@@ -10,7 +10,7 @@ import time
 @instance()
 class PorkManager:
     def __init__(self):
-        self.logger = Logger("pork_manager")
+        self.logger = Logger(__name__)
 
     def inject(self, registry):
         self.bot = registry.get_instance("bot")

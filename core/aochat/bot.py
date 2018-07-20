@@ -13,7 +13,7 @@ class Bot:
         self.socket = None
         self.char_id = None
         self.char_name = None
-        self.logger = Logger("aochat")
+        self.logger = Logger(__name__)
         self.packet_last_sent_timestamp = 0
 
     def connect(self, host, port):

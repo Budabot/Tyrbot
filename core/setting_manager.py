@@ -8,7 +8,7 @@ from __init__ import get_attrs
 @instance()
 class SettingManager:
     def __init__(self):
-        self.logger = Logger("setting_manager")
+        self.logger = Logger(__name__)
         self.settings = {}
 
     def inject(self, registry):

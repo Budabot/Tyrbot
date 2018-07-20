@@ -1,7 +1,6 @@
 from core.decorators import instance
 from core.logger import Logger
 from core.aochat import server_packets
-from core.aochat.extended_message import ExtendedMessage
 
 
 @instance()
@@ -16,7 +15,7 @@ class TowerController:
     VICTORY_1 = [42949672962, 0]  # 'The Neutral organization Oldschool attacked the Omni Post Apocalypse at their base in Greater Omni Forest. The attackers won!!', '\x02\x01']
 
     def __init__(self):
-        self.logger = Logger("tower_controller")
+        self.logger = Logger(__name__)
 
     def inject(self, registry):
         self.bot = registry.get_instance("bot")

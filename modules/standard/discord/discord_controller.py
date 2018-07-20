@@ -42,7 +42,7 @@ class DiscordController:
         self.dthread = None
         self.dqueue = []
         self.aoqueue = []
-        self.logger = Logger("discord")
+        self.logger = Logger(__name__)
         self.client = DiscordWrapper(self.channels, self.servers, self.dqueue, self.aoqueue)
 
         logging.getLogger("discord").setLevel(logging.INFO)

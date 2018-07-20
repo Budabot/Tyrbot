@@ -10,7 +10,7 @@ class CacheManager:
 
     def __init__(self):
         Path(os.getcwd() + self.CACHE_DIR).mkdir(parents=True, exist_ok=True)
-        self.logger = Logger("cache_manager")
+        self.logger = Logger(__name__)
 
     def inject(self, registry):
         self.character_manager = registry.get_instance("character_manager")

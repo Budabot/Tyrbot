@@ -8,7 +8,7 @@ import datetime
 @instance()
 class OrgPorkManager:
     def __init__(self):
-        self.logger = Logger("org_pork_manager")
+        self.logger = Logger(__name__)
 
     def inject(self, registry):
         self.bot = registry.get_instance("bot")

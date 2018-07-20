@@ -10,7 +10,7 @@ class PrivateChannelManager:
     LEFT_PRIVATE_CHANNEL_EVENT = "private_channel_left"
 
     def __init__(self):
-        self.logger = Logger("private_channel_manager")
+        self.logger = Logger(__name__)
         self.private_channel_chars = {}
 
     def inject(self, registry):

@@ -6,7 +6,7 @@ import time
 @instance()
 class UsageManager:
     def __init__(self):
-        self.logger = Logger("setting_manager")
+        self.logger = Logger(__name__)
 
     def inject(self, registry):
         self.db = registry.get_instance("db")

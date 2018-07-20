@@ -8,7 +8,7 @@ class PublicChannelManager:
     ORG_MESSAGE_EVENT = "org_message"
 
     def __init__(self):
-        self.logger = Logger("public_channel_manager")
+        self.logger = Logger(__name__)
         self.name_to_id = {}
         self.id_to_name = {}
         self.org_channel_id = None

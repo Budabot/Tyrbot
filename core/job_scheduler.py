@@ -6,7 +6,7 @@ import time
 @instance()
 class JobScheduler:
     def __init__(self):
-        self.logger = Logger("job_scheduler")
+        self.logger = Logger(__name__)
         self.jobs = []
         self.job_id_index = 0
 

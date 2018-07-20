@@ -6,7 +6,7 @@ from core.logger import Logger
 @instance()
 class CommandAliasManager:
     def __init__(self):
-        self.logger = Logger("command_alias_manager")
+        self.logger = Logger(__name__)
 
     def inject(self, registry):
         self.db = registry.get_instance("db")

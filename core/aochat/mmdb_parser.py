@@ -5,7 +5,7 @@ from core.logger import Logger
 class MMDBParser:
     def __init__(self, filename):
         self.filename = filename
-        self.logger = Logger("mmdb_parser")
+        self.logger = Logger(__name__)
 
     def get_message_string(self, category_id, instance_id):
         with open(self.filename, "rb") as file:

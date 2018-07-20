@@ -9,7 +9,7 @@ import time
 class EventManager:
     def __init__(self):
         self.handlers = {}
-        self.logger = Logger("event_manager")
+        self.logger = Logger(__name__)
         self.event_types = []
 
     def inject(self, registry):

@@ -22,7 +22,7 @@ class CommandManager:
 
     def __init__(self):
         self.handlers = collections.defaultdict(list)
-        self.logger = Logger("command_manager")
+        self.logger = Logger(__name__)
         self.channels = {}
         self.ignore_regexes = [
             re.compile(" is AFK \(Away from keyboard\) since ", re.IGNORECASE),
@@ -150,7 +150,8 @@ class CommandManager:
                 cmd_config, matches, handler = self.get_matches(cmd_configs, command_args)
                 if matches:
                     if handler["check_access"](char_id, cmd_config.access_level):
-                        sender = MapObject({"name": self.character_manager.resolve_char_to_name(char_id, "Unknown(%d)" % char_id), "char_id": char_id})
+                        sender = MapObject({"name": self.character_manager.resolve_char_to_name(char_id, "Unknown(%d)" % char_id),
+                                            "char_id": char_id})
                         handler["callback"](channel, sender, reply, self.process_matches(matches, handler["params"]))
 
                         # record command usage

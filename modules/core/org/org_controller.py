@@ -11,7 +11,7 @@ class OrgController:
     MODE_MANUAL = "manual"
 
     def __init__(self):
-        self.logger = Logger("org_controller")
+        self.logger = Logger(__name__)
 
     def inject(self, registry):
         self.db = registry.get_instance("db")

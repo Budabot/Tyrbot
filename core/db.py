@@ -18,7 +18,7 @@ class DB:
         self.conn = None
         self.enhanced_like_regex = re.compile("(\s+)(\S+)\s+<EXTENDED_LIKE=(\d+)>\s+\?(\s*)", re.IGNORECASE)
         self.lastrowid = None
-        self.logger = Logger("db")
+        self.logger = Logger(__name__)
 
     def row_factory(self, cursor: sqlite3.Cursor, row):
         d = {}

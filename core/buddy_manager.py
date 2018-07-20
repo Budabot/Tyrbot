@@ -13,7 +13,7 @@ class BuddyManager:
     def __init__(self):
         self.buddy_list = {}
         self.buddy_list_size = 1000
-        self.logger = Logger("buddy_manager")
+        self.logger = Logger(__name__)
 
     def inject(self, registry):
         self.character_manager: CharacterManager = registry.get_instance("character_manager")

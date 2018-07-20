@@ -7,7 +7,7 @@ import asyncio
 class DiscordWrapper(discord.Client):
     def __init__(self, channels, servers, dqueue, aoqueue):
         super().__init__()
-        self.logger = Logger("discord_wrapper")
+        self.logger = Logger(__name__)
         self.relay_to = {}
         self.dqueue = dqueue
         self.aoqueue = aoqueue
