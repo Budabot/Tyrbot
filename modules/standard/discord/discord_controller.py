@@ -120,7 +120,7 @@ class DiscordController:
 
     @command(command="discord", params=[Const("disconnect")], access_level="moderator", sub_command="manage",
              description="Manually disconnect from Discord")
-    def discord_connect_cmd(self, channel, sender, reply, args):
+    def discord_disconnect_cmd(self, channel, sender, reply, args):
         pass
 
     @command(command="discord", params=[], access_level="member",
