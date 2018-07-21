@@ -1,5 +1,4 @@
 from core.aochat.bot import Bot
-from core.buddy_manager import BuddyManager
 from core.lookup.character_manager import CharacterManager
 from core.public_channel_manager import PublicChannelManager
 from core.setting_manager import SettingManager
@@ -33,7 +32,6 @@ class Tyrbot(Bot):
 
     def inject(self, registry):
         self.db = registry.get_instance("db")
-        self.buddy_manager: BuddyManager = registry.get_instance("buddy_manager")
         self.character_manager: CharacterManager = registry.get_instance("character_manager")
         self.public_channel_manager: PublicChannelManager = registry.get_instance("public_channel_manager")
         self.text: Text = registry.get_instance("text")

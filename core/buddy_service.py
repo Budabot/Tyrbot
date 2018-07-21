@@ -6,7 +6,7 @@ from core.logger import Logger
 
 
 @instance()
-class BuddyManager:
+class BuddyService:
     BUDDY_LOGON_EVENT = "buddy_logon"
     BUDDY_LOGOFF_EVENT = "buddy_logoff"
 

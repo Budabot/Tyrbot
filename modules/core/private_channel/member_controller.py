@@ -1,7 +1,7 @@
 from core.decorators import instance, command, event
 from core.command_param_types import Any, Const, Options
 from core.chat_blob import ChatBlob
-from core.buddy_manager import BuddyManager
+from core.buddy_service import BuddyService
 
 
 @instance()
@@ -15,7 +15,7 @@ class MemberController:
         self.db = registry.get_instance("db")
         self.character_manager = registry.get_instance("character_manager")
         self.private_channel_manager = registry.get_instance("private_channel_manager")
-        self.buddy_manager = registry.get_instance("buddy_manager")
+        self.buddy_service = registry.get_instance("buddy_service")
         self.bot = registry.get_instance("bot")
         self.access_service = registry.get_instance("access_service")
 
@@ -29,7 +29,7 @@ class MemberController:
     def handle_connect_event(self, event_type, event_data):
         for row in self.get_all_members():
             if row.auto_invite == 1:
-                self.buddy_manager.add_buddy(row.char_id, self.MEMBER_BUDDY_TYPE)
+                self.buddy_service.add_buddy(row.char_id, self.MEMBER_BUDDY_TYPE)
 
     @command(command="member", params=[Const("add"), Any("character")], access_level="superadmin",
              description="Add a member")
@@ -80,7 +80,7 @@ class MemberController:
         else:
             reply("You must be a member of this bot to set your auto invite preference.")
 
-    @event(event_type=BuddyManager.BUDDY_LOGON_EVENT, description="Auto invite members to the private channel when they logon")
+    @event(event_type=BuddyService.BUDDY_LOGON_EVENT, description="Auto invite members to the private channel when they logon")
     def handle_buddy_logon(self, event_type, event_data):
         member = self.get_member(event_data.char_id)
         if member and member.auto_invite == 1:
@@ -88,12 +88,12 @@ class MemberController:
             self.private_channel_manager.invite(member.char_id)
 
     def add_member(self, char_id, auto_invite=1):
-        self.buddy_manager.add_buddy(char_id, self.MEMBER_BUDDY_TYPE)
+        self.buddy_service.add_buddy(char_id, self.MEMBER_BUDDY_TYPE)
         if not self.get_member(char_id):
             self.db.exec("INSERT INTO members (char_id, auto_invite) VALUES (?, ?)", [char_id, auto_invite])
 
     def remove_member(self, char_id):
-        self.buddy_manager.remove_buddy(char_id, self.MEMBER_BUDDY_TYPE)
+        self.buddy_service.remove_buddy(char_id, self.MEMBER_BUDDY_TYPE)
         self.db.exec("DELETE FROM members WHERE char_id = ?", [char_id])
 
     def update_auto_invite(self, char_id, auto_invite):

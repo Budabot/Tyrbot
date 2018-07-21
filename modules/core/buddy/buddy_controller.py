@@ -12,7 +12,7 @@ class BuddyController:
         self.bot = registry.get_instance("bot")
         self.character_manager = registry.get_instance("character_manager")
         self.command_manager = registry.get_instance("command_manager")
-        self.buddy_manager = registry.get_instance("buddy_manager")
+        self.buddy_service = registry.get_instance("buddy_service")
 
     def start(self):
         pass
@@ -21,7 +21,7 @@ class BuddyController:
              description="Show characters on the buddy list")
     def buddylist_cmd(self, channel, sender, reply, args):
         buddy_list = []
-        for char_id, buddy in self.buddy_manager.get_all_buddies().items():
+        for char_id, buddy in self.buddy_service.get_all_buddies().items():
             char_name = self.character_manager.resolve_char_to_name(char_id, "Unknown(%d)" % char_id)
             buddy_list.append([char_name, buddy["online"], ",".join(buddy["types"])])
 
@@ -37,7 +37,7 @@ class BuddyController:
 
         char_id = self.character_manager.resolve_char_to_id(char_name)
         if char_id:
-            self.buddy_manager.add_buddy(char_id, _type)
+            self.buddy_service.add_buddy(char_id, _type)
             reply("Character <highlight>%s<end> has been added to the buddy list for type <highlight>%s<end>." % (char_name, _type))
         else:
             reply("Could not find character <highlight>%s<end>." % char_name)
@@ -50,7 +50,7 @@ class BuddyController:
 
         char_id = self.character_manager.resolve_char_to_id(char_name)
         if char_id:
-            self.buddy_manager.remove_buddy(char_id, _type)
+            self.buddy_service.remove_buddy(char_id, _type)
             reply("Character <highlight>%s<end> has been removed from the buddy list for type <highlight>%s<end>." % (char_name, _type))
         else:
             reply("Could not find character <highlight>%s<end>." % char_name)
@@ -59,8 +59,8 @@ class BuddyController:
              description="Remove all characters from the buddy list")
     def buddylist_remove_cmd(self, channel, sender, reply, args):
         count = 0
-        for char_id, buddy in self.buddy_manager.get_all_buddies().items():
-            self.buddy_manager.remove_buddy(char_id, None, True)
+        for char_id, buddy in self.buddy_service.get_all_buddies().items():
+            self.buddy_service.remove_buddy(char_id, None, True)
             count += 1
 
         reply("Removed all <highlight>%d<end> buddies from the buddy list." % count)
@@ -69,9 +69,9 @@ class BuddyController:
              description="Remove all orphaned buddies from the buddy list")
     def buddylist_clean_cmd(self, channel, sender, reply, args):
         count = 0
-        for char_id, buddy in self.buddy_manager.get_all_buddies().items():
+        for char_id, buddy in self.buddy_service.get_all_buddies().items():
             if len(buddy["types"]) == 0:
-                self.buddy_manager.remove_buddy(char_id, None, True)
+                self.buddy_service.remove_buddy(char_id, None, True)
                 count += 1
 
         reply("Removed <highlight>%d<end> orphaned buddies from the buddy list." % count)
@@ -82,7 +82,7 @@ class BuddyController:
         search = args[1].lower()
 
         buddy_list = []
-        for char_id, buddy in self.buddy_manager.get_all_buddies().items():
+        for char_id, buddy in self.buddy_service.get_all_buddies().items():
             char_name = self.character_manager.resolve_char_to_name(char_id, "Unknown(%d)" % char_id)
             if search in char_name.lower():
                 buddy_list.append([char_name, buddy["online"], ",".join(buddy["types"])])

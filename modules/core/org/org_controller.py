@@ -15,7 +15,7 @@ class OrgController:
 
     def inject(self, registry):
         self.db = registry.get_instance("db")
-        self.buddy_manager = registry.get_instance("buddy_manager")
+        self.buddy_service = registry.get_instance("buddy_service")
         self.public_channel_manager = registry.get_instance("public_channel_manager")
         self.access_service = registry.get_instance("access_service")
         self.org_pork_manager = registry.get_instance("org_pork_manager")
@@ -26,7 +26,7 @@ class OrgController:
     @event(event_type="connect", description="Add members as buddies of the bot on startup")
     def handle_connect_event(self, event_type, event_data):
         for row in self.get_all_org_members():
-            self.buddy_manager.add_buddy(row.char_id, self.ORG_BUDDY_TYPE)
+            self.buddy_service.add_buddy(row.char_id, self.ORG_BUDDY_TYPE)
 
     @timerevent(budatime="24h", description="Download the org roster")
     def handle_connect_event(self, event_type, event_data):

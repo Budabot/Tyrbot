@@ -17,7 +17,7 @@ class UtilController:
         self.util = registry.get_instance("util")
         self.character_manager = registry.get_instance("character_manager")
         self.command_manager = registry.get_instance("command_manager")
-        self.buddy_manager = registry.get_instance("buddy_manager")
+        self.buddy_service = registry.get_instance("buddy_service")
         self.access_service = registry.get_instance("access_service")
 
     @command(command="checkaccess", params=[Any("character", is_optional=True)], access_level="all",
@@ -76,7 +76,7 @@ class UtilController:
         blob += "Memory Usage: <highlight>%s KB<end>\n" % self.util.format_number(psutil.Process(os.getpid()).memory_info().rss / 1024)
         blob += "\n"
         blob += "Superadmin: <highlight>%s<end>\n" % self.bot.superadmin
-        blob += "Buddy List: <highlight>%d / %d<end>\n" % (len(self.buddy_manager.buddy_list), self.buddy_manager.buddy_list_size)
+        blob += "Buddy List: <highlight>%d / %d<end>\n" % (len(self.buddy_service.buddy_list), self.buddy_service.buddy_list_size)
         blob += "Uptime: <highlight>%s<end>\n" % self.util.time_to_readable(int(time.time()) - self.bot.start_time, max_levels=4)
 
         reply(ChatBlob("System Info", blob))
