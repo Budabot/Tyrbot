@@ -4,6 +4,7 @@ add db update/migration
 ignore offline messages? maybe
 consider a replication strategy
 rename managers to services
+include access_level in sender obj
 
 PREFERENCES
 USAGE - needs !usage command, needs to submit usage

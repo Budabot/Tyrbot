@@ -5,19 +5,8 @@ import re
 
 
 class Logger:
-    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(name)s - %(message)s')
-    handlers = []
-
-    @classmethod
-    def add_logger(cls, logger):
-        logger.setFormatter(Logger.formatter)
-        Logger.handlers.append(logger)
-
     def __init__(self, name):
         self.logger = logging.getLogger(name)
-        self.logger.setLevel("DEBUG")
-        for handler in Logger.handlers:
-            self.logger.addHandler(handler)
 
     def warning(self, msg, obj: Exception=None):
         self.logger.warning(self.format_message(msg, obj))
