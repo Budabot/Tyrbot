@@ -9,7 +9,7 @@ class BanController:
     def inject(self, registry):
         self.text = registry.get_instance("text")
         self.util = registry.get_instance("util")
-        self.ban_manager = registry.get_instance("ban_manager")
+        self.ban_service = registry.get_instance("ban_service")
         self.character_manager = registry.get_instance("character_manager")
         self.command_alias_manager = registry.get_instance("command_alias_manager")
 
@@ -20,7 +20,7 @@ class BanController:
              description="Show the ban list")
     def ban_list_cmd(self, channel, sender, reply, args):
         t = int(time.time())
-        data = self.ban_manager.get_ban_list()
+        data = self.ban_service.get_ban_list()
         blob = ""
         for row in data:
             ends = "never" if row.finished_at == -1 else self.util.format_timestamp(row.finished_at)
@@ -43,11 +43,11 @@ class BanController:
         if not char_id:
             reply("Could not find <highlight>%s<end>." % char_name)
             return
-        elif not self.ban_manager.get_ban(char_id):
+        elif not self.ban_service.get_ban(char_id):
             reply("<highlight>%s<end> is not banned." % char_name)
             return
         else:
-            self.ban_manager.remove_ban(char_id)
+            self.ban_service.remove_ban(char_id)
             reply("<highlight>%s<end> has been removed from the ban list." % char_name)
 
     @command(command="ban", params=[Const("add", is_optional=True), Any("character"), Time("duration", is_optional=True), Any("reason", is_optional=True)], access_level="moderator",
@@ -61,9 +61,9 @@ class BanController:
         if not char_id:
             reply("Could not find <highlight>%s<end>." % char_name)
             return
-        elif self.ban_manager.get_ban(char_id):
+        elif self.ban_service.get_ban(char_id):
             reply("<highlight>%s<end> is already banned." % char_name)
             return
         else:
-            self.ban_manager.add_ban(char_id, sender.char_id, duration, reason)
+            self.ban_service.add_ban(char_id, sender.char_id, duration, reason)
             reply("<highlight>%s<end> has been added to the ban list." % char_name)

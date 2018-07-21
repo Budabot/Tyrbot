@@ -3,7 +3,7 @@ import time
 
 
 @instance()
-class BanManager:
+class BanService:
     def inject(self, registry):
         self.db = registry.get_instance("db")
 
