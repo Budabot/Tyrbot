@@ -5,7 +5,7 @@ import os
 
 
 @instance()
-class CacheManager:
+class CacheService:
     CACHE_DIR = os.sep + os.path.join("data", "cache")
 
     def __init__(self):
