@@ -9,9 +9,10 @@ import os
 
 
 try:
+    # load logging configuration
     import conf.logging
 
-    Registry.logger = Logger("registry")
+    Registry.logger = Logger("core.registry")
 
     logger = Logger("core.bootstrap")
     logger.info("Starting Tyrbot...")

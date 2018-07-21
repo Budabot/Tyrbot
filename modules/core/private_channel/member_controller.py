@@ -17,10 +17,10 @@ class MemberController:
         self.private_channel_manager = registry.get_instance("private_channel_manager")
         self.buddy_manager = registry.get_instance("buddy_manager")
         self.bot = registry.get_instance("bot")
-        self.access_manager = registry.get_instance("access_manager")
+        self.access_service = registry.get_instance("access_service")
 
     def pre_start(self):
-        self.access_manager.register_access_level("member", 90, self.check_member)
+        self.access_service.register_access_level("member", 90, self.check_member)
 
     def start(self):
         pass

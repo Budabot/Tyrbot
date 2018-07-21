@@ -13,7 +13,7 @@ class ConfigCommandController:
     def inject(self, registry):
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
-        self.access_manager = registry.get_instance("access_manager")
+        self.access_service = registry.get_instance("access_service")
         self.command_manager = registry.get_instance("command_manager")
 
     def start(self):
@@ -59,7 +59,7 @@ class ConfigCommandController:
             reply("Unknown command channel <highlight>%s<end>." % cmd_channel)
             return
 
-        if self.access_manager.get_access_level_by_label(access_level) is None:
+        if self.access_service.get_access_level_by_label(access_level) is None:
             reply("Unknown access level <highlight>%s<end>." % access_level)
             return
 
@@ -108,7 +108,7 @@ class ConfigCommandController:
 
                 # show access level config
                 blob += "\nAccess Level:"
-                for access_level in self.access_manager.access_levels:
+                for access_level in self.access_service.access_levels:
                     # skip "None" access level
                     if access_level["level"] == 0:
                         continue

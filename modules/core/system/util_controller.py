@@ -18,6 +18,7 @@ class UtilController:
         self.character_manager = registry.get_instance("character_manager")
         self.command_manager = registry.get_instance("command_manager")
         self.buddy_manager = registry.get_instance("buddy_manager")
+        self.access_service = registry.get_instance("access_service")
 
     @command(command="checkaccess", params=[Any("character", is_optional=True)], access_level="all",
              description="Check access level for a character")
@@ -29,7 +30,7 @@ class UtilController:
             reply("Could not find character <highlight>%s<end>." % char_name)
             return
 
-        access_level = self.access_manager.get_access_level(char_id)
+        access_level = self.access_service.get_access_level(char_id)
         reply("Access level for <highlight>%s<end> is <highlight>%s<end>." % (char_name, access_level["label"]))
 
     @command(command="macro", params=[Any("command 1|command 2|command 3 ...")], access_level="all",

@@ -1,5 +1,5 @@
 from core.decorators import instance
-from core.access_manager import AccessManager
+from core.access_service import AccessService
 from core.aochat import server_packets
 from core.lookup.character_manager import CharacterManager
 from core.setting_manager import SettingManager
@@ -38,7 +38,7 @@ class CommandManager:
     def inject(self, registry):
         self.db = registry.get_instance("db")
         self.util = registry.get_instance("util")
-        self.access_manager: AccessManager = registry.get_instance("access_manager")
+        self.access_service: AccessService = registry.get_instance("access_service")
         self.bot: Tyrbot = registry.get_instance("bot")
         self.character_manager: CharacterManager = registry.get_instance("character_manager")
         self.setting_manager: SettingManager = registry.get_instance("setting_manager")
@@ -84,9 +84,9 @@ class CommandManager:
             help_text = self.generate_help(command, description, params, extended_description)
 
         if check_access is None:
-            check_access = self.access_manager.check_access
+            check_access = self.access_service.check_access
 
-        if not self.access_manager.get_access_level_by_label(access_level):
+        if not self.access_service.get_access_level_by_label(access_level):
             self.logger.error("Could not add command '%s': could not find access level '%s'" % (command, access_level))
             return
 
@@ -226,7 +226,7 @@ class CommandManager:
                              [command_str, channel])
 
         # filter out commands that character does not have access level for
-        data = filter(lambda row: self.access_manager.check_access(char, row.access_level), data)
+        data = filter(lambda row: self.access_service.check_access(char, row.access_level), data)
 
         def read_help_text(row):
             command_key = self.get_command_key(row.command, row.sub_command)

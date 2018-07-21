@@ -11,7 +11,7 @@ class HelpController:
     def inject(self, registry):
         self.text = registry.get_instance("text")
         self.db = registry.get_instance("db")
-        self.access_manager = registry.get_instance("access_manager")
+        self.access_service = registry.get_instance("access_service")
         self.command_manager = registry.get_instance("command_manager")
         self.command_alias_manager = registry.get_instance("command_alias_manager")
 
@@ -28,9 +28,9 @@ class HelpController:
         current_group = ""
         current_module = ""
         current_command = ""
-        access_level = self.access_manager.get_access_level(sender.char_id)
+        access_level = self.access_service.get_access_level(sender.char_id)
         for row in data:
-            if access_level["level"] > self.access_manager.get_access_level_by_label(row.access_level)["level"]:
+            if access_level["level"] > self.access_service.get_access_level_by_label(row.access_level)["level"]:
                 continue
 
             parts = row.module.split(".")

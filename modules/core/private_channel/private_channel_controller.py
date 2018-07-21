@@ -13,7 +13,7 @@ class PrivateChannelController:
         self.private_channel_manager = registry.get_instance("private_channel_manager")
         self.character_manager = registry.get_instance("character_manager")
         self.job_scheduler = registry.get_instance("job_scheduler")
-        self.access_manager = registry.get_instance("access_manager")
+        self.access_service = registry.get_instance("access_service")
 
     @command(command="join", params=[], access_level="all",
              description="Join the private channel")
@@ -49,7 +49,7 @@ class PrivateChannelController:
             if not self.private_channel_manager.in_private_channel(char_id):
                 reply("<highlight>%s<end> is not in the private channel." % char)
             else:
-                if self.access_manager.has_sufficient_access_level(sender.char_id, char_id):
+                if self.access_service.has_sufficient_access_level(sender.char_id, char_id):
                     self.bot.send_private_message(char_id, "You have been kicked from the private channel by <highlight>%s<end>." % sender.name)
                     self.private_channel_manager.kick(char_id)
                     reply("You have kicked <highlight>%s<end> from the private channel." % char)

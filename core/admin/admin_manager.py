@@ -12,11 +12,11 @@ class AdminManager:
 
     def inject(self, registry):
         self.db = registry.get_instance("db")
-        self.access_manager = registry.get_instance("access_manager")
+        self.access_service = registry.get_instance("access_service")
 
     def pre_start(self):
-        self.access_manager.register_access_level(self.ADMIN, 20, self.check_admin)
-        self.access_manager.register_access_level(self.MODERATOR, 30, self.check_mod)
+        self.access_service.register_access_level(self.ADMIN, 20, self.check_admin)
+        self.access_service.register_access_level(self.MODERATOR, 30, self.check_mod)
 
     def start(self):
         pass

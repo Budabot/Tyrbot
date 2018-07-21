@@ -6,7 +6,6 @@ from core.command_manager import CommandManager
 class SystemController:
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
-        self.access_manager = registry.get_instance("access_manager")
 
     @command(command="shutdown", params=[], access_level="superadmin",
              description="Shutdown the bot")

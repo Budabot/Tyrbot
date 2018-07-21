@@ -17,11 +17,11 @@ class OrgController:
         self.db = registry.get_instance("db")
         self.buddy_manager = registry.get_instance("buddy_manager")
         self.public_channel_manager = registry.get_instance("public_channel_manager")
-        self.access_manager = registry.get_instance("access_manager")
+        self.access_service = registry.get_instance("access_service")
         self.org_pork_manager = registry.get_instance("org_pork_manager")
 
     def pre_start(self):
-        self.access_manager.register_access_level("org", 60, self.check_org_member)
+        self.access_service.register_access_level("org", 60, self.check_org_member)
 
     @event(event_type="connect", description="Add members as buddies of the bot on startup")
     def handle_connect_event(self, event_type, event_data):

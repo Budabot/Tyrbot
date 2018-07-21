@@ -3,7 +3,7 @@ from core.buddy_manager import BuddyManager
 from core.lookup.character_manager import CharacterManager
 from core.public_channel_manager import PublicChannelManager
 from core.setting_manager import SettingManager
-from core.access_manager import AccessManager
+from core.access_service import AccessService
 from core.text import Text
 from core.decorators import instance
 from core.chat_blob import ChatBlob
@@ -38,7 +38,7 @@ class Tyrbot(Bot):
         self.public_channel_manager: PublicChannelManager = registry.get_instance("public_channel_manager")
         self.text: Text = registry.get_instance("text")
         self.setting_manager: SettingManager = registry.get_instance("setting_manager")
-        self.access_manager: AccessManager = registry.get_instance("access_manager")
+        self.access_service: AccessService = registry.get_instance("access_service")
         self.command_manager = registry.get_instance("command_manager")
         self.event_manager = registry.get_instance("event_manager")
         self.job_scheduler = registry.get_instance("job_scheduler")
@@ -74,7 +74,7 @@ class Tyrbot(Bot):
         self.status = BotStatus.RUN
 
     def pre_start(self):
-        self.access_manager.register_access_level("superadmin", 10, self.check_superadmin)
+        self.access_service.register_access_level("superadmin", 10, self.check_superadmin)
         self.event_manager.register_event_type("connect")
         self.event_manager.register_event_type("packet")
 

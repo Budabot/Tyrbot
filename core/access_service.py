@@ -3,7 +3,7 @@ from core.logger import Logger
 
 
 @instance()
-class AccessManager:
+class AccessService:
     def __init__(self):
         self.access_levels = [
             {"label": "none", "level": 0, "handler": self.no_access},

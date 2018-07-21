@@ -12,7 +12,7 @@ class LeaderController:
     def inject(self, registry):
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
-        self.access_manager = registry.get_instance("access_manager")
+        self.access_service = registry.get_instance("access_service")
         self.character_manager = registry.get_instance("character_manager")
 
     @command(command="leader", params=[], access_level="all",
@@ -32,7 +32,7 @@ class LeaderController:
         elif not self.leader:
             reply("You have been set as raidleader.")
             self.leader = sender.char_id
-        elif self.access_manager.has_sufficient_access_level(sender.char_id, self.leader):
+        elif self.access_service.has_sufficient_access_level(sender.char_id, self.leader):
             reply("You have taken leader from <highlight>%s<end>." % self.character_manager.resolve_char_to_name(self.leader))
             self.leader = sender.char_id
         else:
@@ -48,7 +48,7 @@ class LeaderController:
             reply("Could not find <highlight>%s<end>." % char_name)
             return
 
-        if not self.leader or self.access_manager.has_sufficient_access_level(sender.char_id, self.leader):
+        if not self.leader or self.access_service.has_sufficient_access_level(sender.char_id, self.leader):
             reply("<highlight>%s<end> has been set as raidleader." % char_name)
             self.leader = char_id
         else:
