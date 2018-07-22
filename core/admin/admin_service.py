@@ -1,9 +1,8 @@
 from core.decorators import instance
-import os
 
 
 @instance()
-class AdminManager:
+class AdminService:
     ADMIN = "admin"
     MODERATOR = "moderator"
 
