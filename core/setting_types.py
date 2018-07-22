@@ -111,7 +111,7 @@ class ColorSettingType(SettingType):
 
     def set_value(self, value):
         if re.match("^#([0-9a-fA-F]{6})$", str(value)):
-            self._set_raw_value(value)
+            self._set_raw_value(value.upper())
         else:
             raise Exception("You must enter a valid HTML color.")
 

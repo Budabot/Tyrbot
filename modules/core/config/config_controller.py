@@ -143,7 +143,7 @@ class ConfigController:
                 if op == "clear":
                     reply("Setting <highlight>%s<end> has been cleared." % setting_name)
                 else:
-                    reply("Setting <highlight>%s<end> has been set to <highlight>%s<end>." % (setting_name, new_value))
+                    reply("Setting <highlight>%s<end> has been set to %s." % (setting_name, setting.get_display_value()))
             except Exception as e:
                 reply("Error! %s" % str(e))
         else:
