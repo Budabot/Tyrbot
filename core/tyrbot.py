@@ -37,7 +37,7 @@ class Tyrbot(Bot):
         self.text: Text = registry.get_instance("text")
         self.setting_manager: SettingManager = registry.get_instance("setting_manager")
         self.access_service: AccessService = registry.get_instance("access_service")
-        self.event_manager = registry.get_instance("event_manager")
+        self.event_service = registry.get_instance("event_service")
         self.job_scheduler = registry.get_instance("job_scheduler")
 
     def init(self, config, registry, paths, mmdb_parser):
@@ -72,8 +72,8 @@ class Tyrbot(Bot):
 
     def pre_start(self):
         self.access_service.register_access_level("superadmin", 10, self.check_superadmin)
-        self.event_manager.register_event_type("connect")
-        self.event_manager.register_event_type("packet")
+        self.event_service.register_event_type("connect")
+        self.event_service.register_event_type("packet")
 
     def start(self):
         self.setting_manager.register("symbol", "!", "Symbol for executing bot commands", TextSettingType(["!", "#", "*", "@", "$", "+", "-"]), "core.system")
@@ -111,7 +111,7 @@ class Tyrbot(Bot):
             pass
 
         self.logger.info("Login complete (%fs)" % (time.time() - start))
-        self.event_manager.fire_event("connect", None)
+        self.event_service.fire_event("connect", None)
         self.ready = True
 
         while self.status == BotStatus.RUN:
@@ -122,7 +122,7 @@ class Tyrbot(Bot):
                 if self.last_timer_event < timestamp:
                     self.last_timer_event = timestamp
                     self.job_scheduler.check_for_scheduled_jobs(timestamp)
-                    self.event_manager.check_for_timer_events(timestamp)
+                    self.event_service.check_for_timer_events(timestamp)
 
                 self.iterate()
             except (EOFError, OSError) as e:
@@ -150,7 +150,7 @@ class Tyrbot(Bot):
             for handler in self.packet_handlers.get(packet.id, []):
                 handler(packet)
 
-            self.event_manager.fire_event("packet:" + str(packet.id), packet)
+            self.event_service.fire_event("packet:" + str(packet.id), packet)
 
         # check packet queue for outgoing packets
         outgoing_packet = self.packet_queue.dequeue()

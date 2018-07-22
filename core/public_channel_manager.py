@@ -17,14 +17,14 @@ class PublicChannelManager:
 
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
-        self.event_manager = registry.get_instance("event_manager")
+        self.event_service = registry.get_instance("event_service")
         self.character_manager = registry.get_instance("character_manager")
 
     def pre_start(self):
         self.bot.add_packet_handler(server_packets.PublicChannelJoined.id, self.add)
         self.bot.add_packet_handler(server_packets.PublicChannelLeft.id, self.remove)
         self.bot.add_packet_handler(server_packets.PublicChannelMessage.id, self.public_channel_message)
-        self.event_manager.register_event_type(self.ORG_MESSAGE_EVENT)
+        self.event_service.register_event_type(self.ORG_MESSAGE_EVENT)
 
     def get_channel_id(self, channel_name):
         return self.name_to_id.get(channel_name, None)
@@ -54,7 +54,7 @@ class PublicChannelManager:
         if self.is_org_channel_id(packet.channel_id):
             char_name = self.character_manager.get_char_name(packet.char_id)
             self.logger.log_chat("Org Channel", char_name, packet.message)
-            self.event_manager.fire_event(self.ORG_MESSAGE_EVENT, packet)
+            self.event_service.fire_event(self.ORG_MESSAGE_EVENT, packet)
 
     def is_org_channel_id(self, channel_id):
         return channel_id >> 32 == 3

@@ -20,11 +20,11 @@ class TowerController:
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
         self.db = registry.get_instance("db")
-        self.event_manager = registry.get_instance("event_manager")
+        self.event_service = registry.get_instance("event_service")
 
     def pre_start(self):
-        self.event_manager.register_event_type("tower_attack")
-        self.event_manager.register_event_type("tower_victory")
+        self.event_service.register_event_type("tower_attack")
+        self.event_service.register_event_type("tower_victory")
         self.bot.add_packet_handler(server_packets.PublicChannelMessage.id, self.handle_public_channel_message)
 
     def start(self):
@@ -39,7 +39,7 @@ class TowerController:
                 if [packet.extended_message.category_id, packet.extended_message.instance_id] != self.ATTACK_1:
                     # self.logger.info("tower attack: " + str(packet))
                     pass
-                # TODO self.event_manager.fire_event("tower_attack", packet.extended_message)
+                # TODO self.event_service.fire_event("tower_attack", packet.extended_message)
             else:
                 # self.logger.warning("No extended message for towers message: " + str(packet))
                 pass

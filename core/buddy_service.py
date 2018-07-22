@@ -18,23 +18,23 @@ class BuddyService:
     def inject(self, registry):
         self.character_manager: CharacterManager = registry.get_instance("character_manager")
         self.bot = registry.get_instance("bot")
-        self.event_manager = registry.get_instance("event_manager")
+        self.event_service = registry.get_instance("event_service")
 
     def pre_start(self):
         self.bot.add_packet_handler(server_packets.BuddyAdded.id, self.handle_add)
         self.bot.add_packet_handler(server_packets.BuddyRemoved.id, self.handle_remove)
         self.bot.add_packet_handler(server_packets.LoginOK.id, self.handle_login_ok)
-        self.event_manager.register_event_type(self.BUDDY_LOGON_EVENT)
-        self.event_manager.register_event_type(self.BUDDY_LOGOFF_EVENT)
+        self.event_service.register_event_type(self.BUDDY_LOGON_EVENT)
+        self.event_service.register_event_type(self.BUDDY_LOGOFF_EVENT)
 
     def handle_add(self, packet):
         buddy = self.buddy_list.get(packet.char_id, {"types": []})
         buddy["online"] = packet.online
         self.buddy_list[packet.char_id] = buddy
         if packet.online == 1:
-            self.event_manager.fire_event(self.BUDDY_LOGON_EVENT, packet)
+            self.event_service.fire_event(self.BUDDY_LOGON_EVENT, packet)
         else:
-            self.event_manager.fire_event(self.BUDDY_LOGOFF_EVENT, packet)
+            self.event_service.fire_event(self.BUDDY_LOGOFF_EVENT, packet)
 
     def handle_remove(self, packet):
         if packet.char_id in self.buddy_list:

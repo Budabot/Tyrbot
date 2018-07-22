@@ -16,7 +16,6 @@ class DiscordWrapper(discord.Client):
 
     def register(self, registry):
         self.db = registry.get_instance("db")
-        self.event_manager = registry.get_instance("event_manager")
 
     async def on_ready(self):
         self.dqueue.append(("discord_ready", "ready"))

@@ -6,7 +6,7 @@ import time
 
 
 @instance()
-class EventManager:
+class EventService:
     def __init__(self):
         self.handlers = {}
         self.logger = Logger(__name__)

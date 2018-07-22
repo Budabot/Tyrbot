@@ -51,19 +51,19 @@ class DiscordController:
         self.bot = registry.get_instance("bot")
         self.db = registry.get_instance("db")
         self.settings_manager = registry.get_instance("setting_manager")
-        self.event_manager = registry.get_instance("event_manager")
+        self.event_service = registry.get_instance("event_service")
         self.online_controller = registry.get_instance("online_controller")
         self.character_manager: CharacterManager = registry.get_instance("character_manager")
         self.text: Text = registry.get_instance("text")
         self.client.register(registry)
 
     def pre_start(self):
-        self.event_manager.register_event_type("discord_ready")
-        self.event_manager.register_event_type("discord_message")
-        self.event_manager.register_event_type("discord_channels")
-        self.event_manager.register_event_type("discord_command")
-        self.event_manager.register_event_type("discord_invites")
-        self.event_manager.register_event_type("discord_exception")
+        self.event_service.register_event_type("discord_ready")
+        self.event_service.register_event_type("discord_message")
+        self.event_service.register_event_type("discord_channels")
+        self.event_service.register_event_type("discord_command")
+        self.event_service.register_event_type("discord_invites")
+        self.event_service.register_event_type("discord_exception")
 
         channels = self.db.query("SELECT * FROM discord")
 
@@ -289,7 +289,7 @@ class DiscordController:
     def handle_discord_queue_event(self, event_type, event_data):
         if self.dqueue:
             dtype, message = self.dqueue.pop(0)
-            self.event_manager.fire_event(dtype, message)
+            self.event_service.fire_event(dtype, message)
 
     @event(event_type="connect", description="Connects the Discord client automatically on startup, if a token exists")
     def handle_connect_event(self, event_type, event_data):

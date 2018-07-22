@@ -14,7 +14,7 @@ class ConfigController:
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
         self.command_service = registry.get_instance("command_service")
-        self.event_manager = registry.get_instance("event_manager")
+        self.event_service = registry.get_instance("event_service")
         self.setting_manager = registry.get_instance("setting_manager")
 
     def start(self):
@@ -89,7 +89,7 @@ class ConfigController:
         if data:
             blob += "\n<header2>Events<end>\n"
             for row in data:
-                event_type_key = self.event_manager.get_event_type_key(row.event_type, row.event_sub_type)
+                event_type_key = self.event_service.get_event_type_key(row.event_type, row.event_sub_type)
                 blob += row.event_type + " - " + row.description
                 blob += " " + self.text.make_chatcmd("On", "/tell <myname> config event " + event_type_key + " " + row.handler + " enable")
                 blob += " " + self.text.make_chatcmd("Off", "/tell <myname> config event " + event_type_key + " " + row.handler + " disable")
@@ -106,10 +106,10 @@ class ConfigController:
         event_type = args[1].lower()
         event_handler = args[2].lower()
         action = args[3].lower()
-        event_base_type, event_sub_type = self.event_manager.get_event_type_parts(event_type)
+        event_base_type, event_sub_type = self.event_service.get_event_type_parts(event_type)
         enabled = 1 if action == "enable" else 0
 
-        if not self.event_manager.is_event_type(event_base_type):
+        if not self.event_service.is_event_type(event_base_type):
             reply("Unknown event type <highlight>%s<end>." % event_type)
             return
 

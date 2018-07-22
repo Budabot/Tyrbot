@@ -16,10 +16,10 @@ class AltsManager:
         self.db = registry.get_instance("db")
         self.character_manager = registry.get_instance("character_manager")
         self.pork_manager = registry.get_instance("pork_manager")
-        self.event_manager = registry.get_instance("event_manager")
+        self.event_service = registry.get_instance("event_service")
 
     def pre_start(self):
-        self.event_manager.register_event_type(self.MAIN_CHANGED_EVENT_TYPE)
+        self.event_service.register_event_type(self.MAIN_CHANGED_EVENT_TYPE)
 
     def get_alts(self, char_id, status=None):
         if not status:
@@ -43,7 +43,7 @@ class AltsManager:
             # if alt has no other alts, but still has a record in the alts table, delete record
             # so it can be assigned to another group_id
             if len(alts) == 1:
-                self.event_manager.fire_event(self.MAIN_CHANGED_EVENT_TYPE, {"old_main_id": alt_char_id, "new_main_id": self.get_main(sender_char_id)})
+                self.event_service.fire_event(self.MAIN_CHANGED_EVENT_TYPE, {"old_main_id": alt_char_id, "new_main_id": self.get_main(sender_char_id)})
                 self.db.exec("DELETE FROM alts WHERE char_id = ?", [alt_char_id])
 
             if status is None:  # status = 0 is a valid state, so we must explicitly check for None
@@ -59,7 +59,7 @@ class AltsManager:
             self.db.exec("INSERT INTO alts (char_id, group_id, status) VALUES (?, ?, ?)",
                          [sender_char_id, group_id, self.MAIN])
 
-            self.event_manager.fire_event(self.MAIN_CHANGED_EVENT_TYPE, {"old_main_id": alt_char_id, "new_main_id": sender_char_id})
+            self.event_service.fire_event(self.MAIN_CHANGED_EVENT_TYPE, {"old_main_id": alt_char_id, "new_main_id": sender_char_id})
 
             # make sure char info exists in character table
             self.pork_manager.load_character_info(sender_char_id)
