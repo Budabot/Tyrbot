@@ -1,7 +1,7 @@
 from core.decorators import instance, command
 from core.command_param_types import Any, Const, Options
 from core.chat_blob import ChatBlob
-from core.alts.alts_manager import AltsManager
+from core.alts.alts_service import AltsService
 
 
 @instance()
@@ -10,7 +10,7 @@ class AltsController:
         pass
 
     def inject(self, registry):
-        self.alts_manager = registry.get_instance("alts_manager")
+        self.alts_service = registry.get_instance("alts_service")
         self.character_manager = registry.get_instance("character_manager")
 
     def start(self):
@@ -19,7 +19,7 @@ class AltsController:
     @command(command="alts", params=[], access_level="all",
              description="Show your alts")
     def alts_list_cmd(self, channel, sender, reply, args):
-        alts = self.alts_manager.get_alts(sender.char_id)
+        alts = self.alts_service.get_alts(sender.char_id)
         blob = ""
         for alt in alts:
             blob += "<highlight>%s<end> (%d/<green>%d<end>) %s %s%s\n" % (alt.name, alt.level, alt.ai_level, alt.faction, alt.profession, self.get_alt_status(alt.status))
@@ -27,9 +27,9 @@ class AltsController:
         reply(ChatBlob("Alts of %s (%d)" % (alts[0].name, len(alts)), blob))
 
     def get_alt_status(self, status):
-        if status == AltsManager.UNCONFIRMED:
+        if status == AltsService.UNCONFIRMED:
             return " - [unconfirmed]"
-        elif status == AltsManager.CONFIRMED:
+        elif status == AltsService.CONFIRMED:
             return ""
         else:
             return " - [main]"
@@ -48,7 +48,7 @@ class AltsController:
             return
 
         # for now, always add alts as confirmed
-        msg, result = self.alts_manager.add_alt(sender.char_id, alt_char_id, AltsManager.CONFIRMED)
+        msg, result = self.alts_service.add_alt(sender.char_id, alt_char_id, AltsService.CONFIRMED)
         if result:
             reply("<highlight>%s<end> has been added as your alt." % alt_char_name)
         elif msg == "another_main":
@@ -66,7 +66,7 @@ class AltsController:
             reply("Could not find character <highlight>%s<end>." % alt)
             return
 
-        msg, result = self.alts_manager.remove_alt(sender.char_id, alt_char_id)
+        msg, result = self.alts_service.remove_alt(sender.char_id, alt_char_id)
         if result:
             reply("<highlight>%s<end> has been removed as your alt." % alt)
         elif msg == "not_alt":
@@ -87,7 +87,7 @@ class AltsController:
             reply("Could not find character <highlight>%s<end>." % name)
             return
 
-        alts = self.alts_manager.get_alts(char_id)
+        alts = self.alts_service.get_alts(char_id)
         blob = ""
         for alt in alts:
             blob += "<highlight>%s<end> (%d/<green>%d<end>) %s %s\n" % (alt.name, alt.level, alt.ai_level, alt.faction, alt.profession)

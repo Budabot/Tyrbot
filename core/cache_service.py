@@ -14,7 +14,6 @@ class CacheService:
 
     def inject(self, registry):
         self.character_manager = registry.get_instance("character_manager")
-        self.alts_manager = registry.get_instance("alts_manager")
 
     def store(self, group, filename, contents):
         base_path = os.getcwd() + self.CACHE_DIR + os.sep + group

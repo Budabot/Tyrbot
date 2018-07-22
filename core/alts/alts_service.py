@@ -2,7 +2,7 @@ from core.decorators import instance
 
 
 @instance()
-class AltsManager:
+class AltsService:
     UNCONFIRMED = 0
     CONFIRMED = 1
     MAIN = 2
@@ -106,10 +106,10 @@ class AltsManager:
         if not sender_status or not alt_status or sender_status.group_id != alt_status.group_id:
             return ["not_alt", False]
 
-        if sender_status.status < AltsManager.CONFIRMED:
+        if sender_status.status < AltsService.CONFIRMED:
             return ["unconfirmed_sender", False]
 
-        if alt_status.status >= AltsManager.CONFIRMED:
+        if alt_status.status >= AltsService.CONFIRMED:
             return ["already_confirmed", False]
 
         self.db.exec("UPDATE alts SET status = ? WHERE char_id = ?", [self.CONFIRMED, alt_char_id])

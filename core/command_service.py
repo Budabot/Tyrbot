@@ -43,7 +43,7 @@ class CommandService:
         self.character_manager: CharacterManager = registry.get_instance("character_manager")
         self.setting_service: SettingService = registry.get_instance("setting_service")
         self.command_alias_service = registry.get_instance("command_alias_service")
-        self.usage_service = register.get_instance("usage_service")
+        self.usage_service = registry.get_instance("usage_service")
         self.public_channel_service = registry.get_instance("public_channel_service")
         self.ban_service = registry.get_instance("ban_service")
 

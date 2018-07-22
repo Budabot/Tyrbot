@@ -12,7 +12,7 @@ class AccessService:
 
     def inject(self, registry):
         self.character_manager = registry.get_instance("character_manager")
-        self.alts_manager = registry.get_instance("alts_manager")
+        self.alts_service = registry.get_instance("alts_service")
 
     def register_access_level(self, label, level, handler):
         self.logger.debug("Registering access level %d with label '%s'" % (level, label))
@@ -25,7 +25,7 @@ class AccessService:
     def get_access_level(self, char_id):
         access_level1 = self.get_single_access_level(char_id)
 
-        alts = self.alts_manager.get_alts(char_id)
+        alts = self.alts_service.get_alts(char_id)
         if not alts:
             return access_level1
 
@@ -64,7 +64,7 @@ class AccessService:
         """
 
         # return True if both chars have the same main
-        if self.alts_manager.get_main(char_id1).char_id == self.alts_manager.get_main(char_id2).char_id:
+        if self.alts_service.get_main(char_id1).char_id == self.alts_service.get_main(char_id2).char_id:
             return True
 
         a1 = self.get_access_level(char_id1)

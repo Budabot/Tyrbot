@@ -1,5 +1,5 @@
 from core.decorators import instance, command, event
-from core.alts.alts_manager import AltsManager
+from core.alts.alts_service import AltsService
 from core.chat_blob import ChatBlob
 from core.private_channel_service import PrivateChannelService
 from core.public_channel_service import PublicChannelService
@@ -93,7 +93,7 @@ class OnlineController:
               "LEFT JOIN player p2 ON a2.char_id = p2.char_id " \
               "WHERE channel = ?"
 
-        return self.db.query(sql, [AltsManager.MAIN, channel])
+        return self.db.query(sql, [AltsService.MAIN, channel])
 
     @event(PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, "Record in database when someone joins private channel")
     def private_channel_joined_event(self, event_type, event_data):
