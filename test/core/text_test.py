@@ -16,20 +16,20 @@ class TextTest(unittest.TestCase):
         setting = Mock()
         setting.get_value = MagicMock(return_value="test")
         setting.get_font_color = MagicMock(return_value="color")
-        setting_manager = Mock()
-        setting_manager.get = MagicMock(return_value=setting)
+        setting_service = Mock()
+        setting_service.get = MagicMock(return_value=setting)
 
         bot = Mock()
         bot.char_name = "char_name"
         bot.org_name = "org_name"
 
-        public_channel_manager = Mock()
-        public_channel_manager.get_org_name = MagicMock(return_value="org")
+        public_channel_service = Mock()
+        public_channel_service.get_org_name = MagicMock(return_value="org")
 
         text = Text()
-        text.setting_manager = setting_manager
+        text.setting_service = setting_service
         text.bot = bot
-        text.public_channel_manager = public_channel_manager
+        text.public_channel_service = public_channel_service
 
         msg = "hello this is a test\nthis is another test as well\nand a third\ntest also\nwhich is very\nshort"
         pages = text.paginate("label", msg, 110)
