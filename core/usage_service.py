@@ -4,7 +4,7 @@ import time
 
 
 @instance()
-class UsageManager:
+class UsageService:
     def __init__(self):
         self.logger = Logger(__name__)
 

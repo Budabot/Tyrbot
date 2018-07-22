@@ -1,5 +1,5 @@
 from core.decorators import instance
-from core.setting_manager import SettingManager
+from core.setting_service import SettingService
 
 
 @instance()
@@ -10,7 +10,7 @@ class Text:
         pass
 
     def inject(self, registry):
-        self.setting_manager: SettingManager = registry.get_instance("setting_manager")
+        self.setting_service: SettingService = registry.get_instance("setting_service")
         self.bot = registry.get_instance("bot")
         self.public_channel_service = registry.get_instance("public_channel_service")
 
@@ -42,7 +42,7 @@ class Text:
     def paginate(self, label, msg, max_page_length, max_num_pages=None, footer=None):
         separators = iter(self.separators)
 
-        color = self.setting_manager.get("blob_color").get_font_color()
+        color = self.setting_service.get("blob_color").get_font_color()
         msg = ("<header>" + label + "<end>\n\n" + color + msg.strip()).replace("\"", "&quot;")
         msg = self.format_message(msg)
 
@@ -118,10 +118,10 @@ class Text:
 
     def format_message(self, msg):
         return msg\
-            .replace("<header>", self.setting_manager.get("header_color").get_font_color()) \
-            .replace("<header2>", self.setting_manager.get("header2_color").get_font_color()) \
-            .replace("<highlight>", self.setting_manager.get("highlight_color").get_font_color()) \
-            .replace("<notice>", self.setting_manager.get("notice_color").get_font_color()) \
+            .replace("<header>", self.setting_service.get("header_color").get_font_color()) \
+            .replace("<header2>", self.setting_service.get("header2_color").get_font_color()) \
+            .replace("<highlight>", self.setting_service.get("highlight_color").get_font_color()) \
+            .replace("<notice>", self.setting_service.get("notice_color").get_font_color()) \
             \
             .replace("<black>", "<font color='#000000'>") \
             .replace("<white>", "<font color='#FFFFFF'>") \
@@ -134,14 +134,14 @@ class Text:
             .replace("<cyan>", "<font color='#00FFFF'>") \
             .replace("<violet>", "<font color='#8F00FF'>") \
             \
-            .replace("<neutral>", self.setting_manager.get("neutral_color").get_font_color()) \
-            .replace("<omni>", self.setting_manager.get("omni_color").get_font_color()) \
-            .replace("<clan>", self.setting_manager.get("clan_color").get_font_color()) \
-            .replace("<unknown>", self.setting_manager.get("unknown_color").get_font_color()) \
+            .replace("<neutral>", self.setting_service.get("neutral_color").get_font_color()) \
+            .replace("<omni>", self.setting_service.get("omni_color").get_font_color()) \
+            .replace("<clan>", self.setting_service.get("clan_color").get_font_color()) \
+            .replace("<unknown>", self.setting_service.get("unknown_color").get_font_color()) \
             \
             .replace("<myname>", self.bot.char_name) \
             .replace("<myorg>", self.public_channel_service.get_org_name() or "Unknown Org") \
             .replace("<tab>", "    ") \
             .replace("<end>", "</font>") \
-            .replace("<symbol>", self.setting_manager.get("symbol").get_value()) \
+            .replace("<symbol>", self.setting_service.get("symbol").get_value()) \
             .replace("<br>", "\n")

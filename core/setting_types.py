@@ -5,17 +5,17 @@ import re
 
 class SettingType:
     def __init__(self):
-        self.setting_manager = Registry.get_instance("setting_manager")
+        self.setting_service = Registry.get_instance("setting_service")
         self.name = None
 
     def set_name(self, name):
         self.name = name
 
     def _get_raw_value(self):
-        return self.setting_manager.get_value(self.name)
+        return self.setting_service.get_value(self.name)
 
     def _set_raw_value(self, value):
-        self.setting_manager.set_value(self.name, value)
+        self.setting_service.set_value(self.name, value)
 
     def set_value(self, value):
         pass

@@ -50,7 +50,7 @@ class DiscordController:
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
         self.db = registry.get_instance("db")
-        self.settings_manager = registry.get_instance("setting_manager")
+        self.setting_service = registry.get_instance("setting_service")
         self.event_service = registry.get_instance("event_service")
         self.online_controller = registry.get_instance("online_controller")
         self.character_manager: CharacterManager = registry.get_instance("character_manager")
@@ -111,7 +111,7 @@ class DiscordController:
         if self.client.is_logged_in:
             reply("Already connected to Discord")
         else:
-            token = self.settings_manager.get("discord_bot_token").get_value()
+            token = self.setting_service.get("discord_bot_token").get_value()
             if token:
                 self.connect_discord_client(token)
                 reply("Connecting to discord...")
@@ -269,8 +269,8 @@ class DiscordController:
     def handle_org_message_event(self, event_type, event_data):
         if event_data.char_id not in self.ignore:
             if event_data.message[:1] != "!":
-                msgtype = self.settings_manager.get("discord_relay_format").get_value()
-                msgcolor = self.settings_manager.get("discord_embed_color").get_int_value()
+                msgtype = self.setting_service.get("discord_relay_format").get_value()
+                msgcolor = self.setting_service.get("discord_embed_color").get_int_value()
                 name = self.character_manager.resolve_char_to_name(event_data.char_id)
                 message = DiscordMessage(msgtype, "Org", name, self.strip_html_tags(event_data.message), False, msgcolor)
                 self.aoqueue.append(("org", message))
@@ -279,8 +279,8 @@ class DiscordController:
     def handle_private_message_event(self, event_type, event_data):
         if event_data.char_id not in self.ignore:
             if event_data.message[:1] != "!":
-                msgtype = self.settings_manager.get("discord_relay_format").get_value()
-                msgcolor = self.settings_manager.get("discord_embed_color").get_int_value()
+                msgtype = self.setting_service.get("discord_relay_format").get_value()
+                msgcolor = self.setting_service.get("discord_embed_color").get_int_value()
                 name = self.character_manager.resolve_char_to_name(event_data.char_id)
                 message = DiscordMessage(msgtype, "Private", name, self.strip_html_tags(event_data.message), False, msgcolor)
                 self.aoqueue.append(("priv", message))
@@ -302,7 +302,7 @@ class DiscordController:
 
         self.update_discord_ignore()
 
-        token = self.settings_manager.get("discord_bot_token").get_value()
+        token = self.setting_service.get("discord_bot_token").get_value()
         if token:
             self.connect_discord_client(token)
 
@@ -321,8 +321,8 @@ class DiscordController:
 
     @event(event_type="discord_command", description="Handles discord commands")
     def handle_discord_command_event(self, event_type, message):
-        msgtype = self.settings_manager.get("discord_relay_format").get_value()
-        msgcolor = self.settings_manager.get("discord_embed_color").get_int_value()
+        msgtype = self.setting_service.get("discord_relay_format").get_value()
+        msgcolor = self.setting_service.get("discord_embed_color").get_int_value()
 
         if message == "online":
             message = DiscordMessage(msgtype, "Command", self.bot.char_name, self.get_online_list(), True, msgcolor)
@@ -335,16 +335,16 @@ class DiscordController:
         else:
             name = message.author.name
 
-        chanclr = self.settings_manager.get("relay_color_prefix").get_font_color()
-        nameclr = self.settings_manager.get("relay_color_name").get_font_color()
-        mesgclr = self.settings_manager.get("relay_color_message").get_font_color()
+        chanclr = self.setting_service.get("relay_color_prefix").get_font_color()
+        nameclr = self.setting_service.get("relay_color_name").get_font_color()
+        mesgclr = self.setting_service.get("relay_color_message").get_font_color()
 
         content = "<grey>[<end>%sDiscord<end><grey>][<end>%s%s<end><grey>]<end> %s%s<end><grey>:<end> %s%s<end>" % (chanclr, chanclr, message.channel.name, nameclr, name, mesgclr, message.content)
 
-        if self.settings_manager.get("relay_to_private").get_value():
+        if self.setting_service.get("relay_to_private").get_value():
             self.bot.send_private_channel_message(content)
 
-        if self.settings_manager.get("relay_to_org").get_value():
+        if self.setting_service.get("relay_to_org").get_value():
             self.bot.send_org_message(content)
 
     @event(event_type="discord_invites", description="Handles invite requests")

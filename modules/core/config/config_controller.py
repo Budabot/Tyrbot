@@ -15,7 +15,7 @@ class ConfigController:
         self.text: Text = registry.get_instance("text")
         self.command_service = registry.get_instance("command_service")
         self.event_service = registry.get_instance("event_service")
-        self.setting_manager = registry.get_instance("setting_manager")
+        self.setting_service = registry.get_instance("setting_service")
 
     def start(self):
         pass
@@ -72,7 +72,7 @@ class ConfigController:
         if data:
             blob += "<header2>Settings<end>\n"
             for row in data:
-                setting = self.setting_manager.get(row.name)
+                setting = self.setting_service.get(row.name)
                 blob += "%s: %s (%s)\n" % (setting.get_description(), setting.get_display_value(), self.text.make_chatcmd("change", "/tell <myname> config setting " + row.name))
 
         data = self.db.query("SELECT DISTINCT command, sub_command FROM command_config WHERE module = ? ORDER BY command ASC", [module])
@@ -135,7 +135,7 @@ class ConfigController:
             reply("Error! New value required to update setting.")
             return
 
-        setting = self.setting_manager.get(setting_name)
+        setting = self.setting_service.get(setting_name)
 
         if setting:
             try:
@@ -156,7 +156,7 @@ class ConfigController:
 
         blob = ""
 
-        setting = self.setting_manager.get(setting_name)
+        setting = self.setting_service.get(setting_name)
 
         if setting:
             blob += "Current Value: <highlight>%s<end>\n" % str(setting.get_display_value())

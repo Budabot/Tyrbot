@@ -6,7 +6,7 @@ from __init__ import get_attrs
 
 
 @instance()
-class SettingManager:
+class SettingService:
     def __init__(self):
         self.logger = Logger(__name__)
         self.settings = {}

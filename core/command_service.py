@@ -2,7 +2,7 @@ from core.decorators import instance
 from core.access_service import AccessService
 from core.aochat import server_packets
 from core.lookup.character_manager import CharacterManager
-from core.setting_manager import SettingManager
+from core.setting_service import SettingService
 from core.registry import Registry
 from core.logger import Logger
 from core.tyrbot import Tyrbot
@@ -41,9 +41,9 @@ class CommandService:
         self.access_service: AccessService = registry.get_instance("access_service")
         self.bot: Tyrbot = registry.get_instance("bot")
         self.character_manager: CharacterManager = registry.get_instance("character_manager")
-        self.setting_manager: SettingManager = registry.get_instance("setting_manager")
+        self.setting_service: SettingService = registry.get_instance("setting_service")
         self.command_alias_service = registry.get_instance("command_alias_service")
-        self.usage_manager = registry.get_instance("usage_manager")
+        self.usage_service = register.get_instance("usage_service")
         self.public_channel_service = registry.get_instance("public_channel_service")
         self.ban_service = registry.get_instance("ban_service")
 
@@ -155,7 +155,7 @@ class CommandService:
                         handler["callback"](channel, sender, reply, self.process_matches(matches, handler["params"]))
 
                         # record command usage
-                        self.usage_manager.add_usage(command_str, handler["callback"].__qualname__, char_id, channel)
+                        self.usage_service.add_usage(command_str, handler["callback"].__qualname__, char_id, channel)
                     else:
                         self.access_denied_response(char_id, cmd_config, reply)
                 else:
@@ -287,7 +287,7 @@ class CommandService:
             if regex.search(packet.message):
                 return
 
-        if packet.message[:1] == self.setting_manager.get("symbol").get_value():
+        if packet.message[:1] == self.setting_service.get("symbol").get_value():
             command_str = packet.message[1:]
         else:
             command_str = packet.message
@@ -307,7 +307,7 @@ class CommandService:
 
         symbol = packet.message[:1]
         command_str = packet.message[1:]
-        if symbol == self.setting_manager.get("symbol").get_value() and packet.private_channel_id == self.bot.char_id:
+        if symbol == self.setting_service.get("symbol").get_value() and packet.private_channel_id == self.bot.char_id:
             self.process_command(
                 command_str,
                 self.PRIVATE_CHANNEL,
@@ -323,7 +323,7 @@ class CommandService:
 
         symbol = packet.message[:1]
         command_str = packet.message[1:]
-        if symbol == self.setting_manager.get("symbol").get_value() and self.public_channel_service.is_org_channel_id(packet.channel_id):
+        if symbol == self.setting_service.get("symbol").get_value() and self.public_channel_service.is_org_channel_id(packet.channel_id):
             self.process_command(
                 command_str,
                 self.ORG_CHANNEL,
