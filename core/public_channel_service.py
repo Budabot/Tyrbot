@@ -4,7 +4,7 @@ from core.logger import Logger
 
 
 @instance()
-class PublicChannelManager:
+class PublicChannelService:
     ORG_MESSAGE_EVENT = "org_message"
 
     def __init__(self):

@@ -44,7 +44,7 @@ class CommandService:
         self.setting_manager: SettingManager = registry.get_instance("setting_manager")
         self.command_alias_service = registry.get_instance("command_alias_service")
         self.usage_manager = registry.get_instance("usage_manager")
-        self.public_channel_manager = registry.get_instance("public_channel_manager")
+        self.public_channel_service = registry.get_instance("public_channel_service")
         self.ban_service = registry.get_instance("ban_service")
 
     def pre_start(self):
@@ -323,7 +323,7 @@ class CommandService:
 
         symbol = packet.message[:1]
         command_str = packet.message[1:]
-        if symbol == self.setting_manager.get("symbol").get_value() and self.public_channel_manager.is_org_channel_id(packet.channel_id):
+        if symbol == self.setting_manager.get("symbol").get_value() and self.public_channel_service.is_org_channel_id(packet.channel_id):
             self.process_command(
                 command_str,
                 self.ORG_CHANNEL,

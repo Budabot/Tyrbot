@@ -16,7 +16,7 @@ class OrgController:
     def inject(self, registry):
         self.db = registry.get_instance("db")
         self.buddy_service = registry.get_instance("buddy_service")
-        self.public_channel_manager = registry.get_instance("public_channel_manager")
+        self.public_channel_service = registry.get_instance("public_channel_service")
         self.access_service = registry.get_instance("access_service")
         self.org_pork_manager = registry.get_instance("org_pork_manager")
 
@@ -30,7 +30,7 @@ class OrgController:
 
     @timerevent(budatime="24h", description="Download the org roster")
     def handle_connect_event(self, event_type, event_data):
-        org_id = self.public_channel_manager.get_org_id()
+        org_id = self.public_channel_service.get_org_id()
         if org_id:
             db_members = {}
             for row in self.get_all_org_members():

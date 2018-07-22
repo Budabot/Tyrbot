@@ -12,7 +12,7 @@ class Text:
     def inject(self, registry):
         self.setting_manager: SettingManager = registry.get_instance("setting_manager")
         self.bot = registry.get_instance("bot")
-        self.public_channel_manager = registry.get_instance("public_channel_manager")
+        self.public_channel_service = registry.get_instance("public_channel_service")
 
     def make_chatcmd(self, name, msg, style=""):
         msg = msg.strip()
@@ -140,7 +140,7 @@ class Text:
             .replace("<unknown>", self.setting_manager.get("unknown_color").get_font_color()) \
             \
             .replace("<myname>", self.bot.char_name) \
-            .replace("<myorg>", self.public_channel_manager.get_org_name() or "Unknown Org") \
+            .replace("<myorg>", self.public_channel_service.get_org_name() or "Unknown Org") \
             .replace("<tab>", "    ") \
             .replace("<end>", "</font>") \
             .replace("<symbol>", self.setting_manager.get("symbol").get_value()) \

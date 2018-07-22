@@ -1,6 +1,6 @@
 from core.aochat.bot import Bot
 from core.lookup.character_manager import CharacterManager
-from core.public_channel_manager import PublicChannelManager
+from core.public_channel_service import PublicChannelService
 from core.setting_manager import SettingManager
 from core.access_service import AccessService
 from core.text import Text
@@ -33,7 +33,7 @@ class Tyrbot(Bot):
     def inject(self, registry):
         self.db = registry.get_instance("db")
         self.character_manager: CharacterManager = registry.get_instance("character_manager")
-        self.public_channel_manager: PublicChannelManager = registry.get_instance("public_channel_manager")
+        self.public_channel_service: PublicChannelService = registry.get_instance("public_channel_service")
         self.text: Text = registry.get_instance("text")
         self.setting_manager: SettingManager = registry.get_instance("setting_manager")
         self.access_service: AccessService = registry.get_instance("access_service")
@@ -193,7 +193,7 @@ class Tyrbot(Bot):
         return packet
 
     def send_org_message(self, msg):
-        org_channel_id = self.public_channel_manager.org_channel_id
+        org_channel_id = self.public_channel_service.org_channel_id
         if org_channel_id is None:
             self.logger.warning("Could not send message to org channel, unknown org id")
         else:
@@ -233,7 +233,7 @@ class Tyrbot(Bot):
 
     def handle_public_channel_message(self, packet: server_packets.PublicChannelMessage):
         self.logger.log_chat(
-            self.public_channel_manager.get_channel_name(packet.channel_id),
+            self.public_channel_service.get_channel_name(packet.channel_id),
             self.character_manager.get_char_name(packet.char_id),
             packet.message)
 
