@@ -13,7 +13,7 @@ class CacheService:
         self.logger = Logger(__name__)
 
     def inject(self, registry):
-        self.character_manager = registry.get_instance("character_manager")
+        self.character_service = registry.get_instance("character_service")
 
     def store(self, group, filename, contents):
         base_path = os.getcwd() + self.CACHE_DIR + os.sep + group

@@ -1,5 +1,5 @@
 from core.aochat.bot import Bot
-from core.lookup.character_manager import CharacterManager
+from core.lookup.character_service import CharacterService
 from core.public_channel_service import PublicChannelService
 from core.setting_service import SettingService
 from core.access_service import AccessService
@@ -32,7 +32,7 @@ class Tyrbot(Bot):
 
     def inject(self, registry):
         self.db = registry.get_instance("db")
-        self.character_manager: CharacterManager = registry.get_instance("character_manager")
+        self.character_service: CharacterService = registry.get_instance("character_service")
         self.public_channel_service: PublicChannelService = registry.get_instance("public_channel_service")
         self.text: Text = registry.get_instance("text")
         self.setting_service: SettingService = registry.get_instance("setting_service")
@@ -101,7 +101,7 @@ class Tyrbot(Bot):
         self.setting_service.register("blob_color", "#FFFFFF", "default blob content color", ColorSettingType(), "core.colors")
 
     def check_superadmin(self, char_id):
-        char_name = self.character_manager.resolve_char_to_name(char_id)
+        char_name = self.character_service.resolve_char_to_name(char_id)
         return char_name == self.superadmin
 
     def run(self):
@@ -204,13 +204,13 @@ class Tyrbot(Bot):
                 self.packet_queue.enqueue(packet)
 
     def send_private_message(self, char, msg):
-        char_id = self.character_manager.resolve_char_to_id(char)
+        char_id = self.character_service.resolve_char_to_id(char)
         if char_id is None:
             self.logger.warning("Could not send message to %s, could not find char id" % char)
         else:
             color = self.setting_service.get("private_message_color").get_font_color()
             for page in self.get_text_pages(msg, self.setting_service.get("private_message_max_page_length").get_value()):
-                self.logger.log_tell("To", self.character_manager.get_char_name(char_id), page)
+                self.logger.log_tell("To", self.character_service.get_char_name(char_id), page)
                 packet = client_packets.PrivateMessage(char_id, color + page, "\0")
                 # self.send_packet(packet)
                 self.packet_queue.enqueue(packet)
@@ -219,7 +219,7 @@ class Tyrbot(Bot):
         if private_channel is None:
             private_channel = self.char_id
 
-        private_channel_id = self.character_manager.resolve_char_to_id(private_channel)
+        private_channel_id = self.character_service.resolve_char_to_id(private_channel)
         if private_channel_id is None:
             self.logger.warning("Could not send message to private channel %s, could not find private channel" % private_channel)
         else:
@@ -229,12 +229,12 @@ class Tyrbot(Bot):
                 self.send_packet(packet)
 
     def handle_private_message(self, packet: server_packets.PrivateMessage):
-        self.logger.log_tell("From", self.character_manager.get_char_name(packet.char_id), packet.message)
+        self.logger.log_tell("From", self.character_service.get_char_name(packet.char_id), packet.message)
 
     def handle_public_channel_message(self, packet: server_packets.PublicChannelMessage):
         self.logger.log_chat(
             self.public_channel_service.get_channel_name(packet.channel_id),
-            self.character_manager.get_char_name(packet.char_id),
+            self.character_service.get_char_name(packet.char_id),
             packet.message)
 
     def get_text_pages(self, msg, max_page_length):

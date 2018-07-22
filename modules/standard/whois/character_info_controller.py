@@ -13,15 +13,15 @@ class CharacterInfoController:
     def inject(self, registry):
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
-        self.pork_manager = registry.get_instance("pork_manager")
-        self.character_manager = registry.get_instance("character_manager")
+        self.pork_service = registry.get_instance("pork_service")
+        self.character_service = registry.get_instance("character_service")
 
     @command(command="whois", params=[Any("character")], access_level="all",
              description="Get whois information for a character", aliases=["w"])
     def whois_cmd(self, channel, sender, reply, args):
         char_name = args[0].capitalize()
-        char_info = self.pork_manager.get_character_info(char_name)
-        char_id = self.character_manager.resolve_char_to_id(char_name)
+        char_info = self.pork_service.get_character_info(char_name)
+        char_id = self.character_service.resolve_char_to_id(char_name)
         if char_info:
             blob = "Name: %s\n" % self.get_full_name(char_info)
             blob += "Profession: %s\n" % char_info.profession

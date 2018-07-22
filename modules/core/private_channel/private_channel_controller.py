@@ -11,7 +11,7 @@ class PrivateChannelController:
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
         self.private_channel_service = registry.get_instance("private_channel_service")
-        self.character_manager = registry.get_instance("character_manager")
+        self.character_service = registry.get_instance("character_service")
         self.job_scheduler = registry.get_instance("job_scheduler")
         self.access_service = registry.get_instance("access_service")
 
@@ -29,7 +29,7 @@ class PrivateChannelController:
              description="Invite a character to the private channel")
     def invite_cmd(self, channel, sender, reply, args):
         char = args[0].capitalize()
-        char_id = self.character_manager.resolve_char_to_id(char)
+        char_id = self.character_service.resolve_char_to_id(char)
         if char_id:
             if self.private_channel_service.in_private_channel(char_id):
                 reply("<highlight>%s<end> is already in the private channel." % char)
@@ -44,7 +44,7 @@ class PrivateChannelController:
              description="Kick a character from the private channel")
     def kick_cmd(self, channel, sender, reply, args):
         char = args[0].capitalize()
-        char_id = self.character_manager.resolve_char_to_id(char)
+        char_id = self.character_service.resolve_char_to_id(char)
         if char_id:
             if not self.private_channel_service.in_private_channel(char_id):
                 reply("<highlight>%s<end> is not in the private channel." % char)
@@ -66,10 +66,10 @@ class PrivateChannelController:
 
     @event(PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, "Notify private channel when someone joins")
     def private_channel_joined_event(self, event_type, event_data):
-        char_name = self.character_manager.get_char_name(event_data.char_id)
+        char_name = self.character_service.get_char_name(event_data.char_id)
         self.bot.send_private_channel_message("<highlight>%s<end> has joined the private channel." % char_name)
 
     @event(PrivateChannelService.LEFT_PRIVATE_CHANNEL_EVENT, "Notify private channel when someone leaves")
     def private_channel_left_event(self, event_type, event_data):
-        char_name = self.character_manager.get_char_name(event_data.char_id)
+        char_name = self.character_service.get_char_name(event_data.char_id)
         self.bot.send_private_channel_message("<highlight>%s<end> has left the private channel." % char_name)

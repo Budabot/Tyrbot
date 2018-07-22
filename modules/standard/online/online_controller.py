@@ -18,8 +18,8 @@ class OnlineController:
         self.bot = registry.get_instance("bot")
         self.db = registry.get_instance("db")
         self.util = registry.get_instance("util")
-        self.pork_manager = registry.get_instance("pork_manager")
-        self.character_manager = registry.get_instance("character_manager")
+        self.pork_service = registry.get_instance("pork_service")
+        self.character_service = registry.get_instance("character_service")
 
     def start(self):
         self.db.exec("DELETE FROM online")
@@ -97,7 +97,7 @@ class OnlineController:
 
     @event(PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, "Record in database when someone joins private channel")
     def private_channel_joined_event(self, event_type, event_data):
-        self.pork_manager.load_character_info(event_data.char_id)
+        self.pork_service.load_character_info(event_data.char_id)
         self.db.exec("INSERT INTO online (char_id, afk_dt, afk_reason, channel, dt) VALUES (?, ?, ?, ?, ?)",
                      [event_data.char_id, 0, "", self.PRIVATE_CHANNEL, int(time.time())])
 
@@ -119,14 +119,14 @@ class OnlineController:
     def afk_check(self, char_id, message, channel_reply):
         matches = self.afk_regex.search(message)
         if matches:
-            char_name = self.character_manager.resolve_char_to_name(char_id)
+            char_name = self.character_service.resolve_char_to_name(char_id)
             self.set_afk(char_id, int(time.time()), message)
             channel_reply("<highlight>%s<end> is now afk." % char_name)
         else:
             row = self.db.query_single("SELECT * FROM online WHERE char_id = ? AND afk_dt > 0", [char_id])
             if row:
                 self.set_afk(char_id, 0, "")
-                char_name = self.character_manager.resolve_char_to_name(char_id)
+                char_name = self.character_service.resolve_char_to_name(char_id)
                 time_string = self.util.time_to_readable(int(time.time()) - row.afk_dt)
                 channel_reply("<highlight>%s<end> is back after %s." % (char_name, time_string))
 

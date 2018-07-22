@@ -8,14 +8,14 @@ import time
 
 
 @instance()
-class PorkManager:
+class PorkService:
     def __init__(self):
         self.logger = Logger(__name__)
 
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
         self.db = registry.get_instance("db")
-        self.character_manager = registry.get_instance("character_manager")
+        self.character_service = registry.get_instance("character_service")
 
     def pre_start(self):
         self.bot.add_packet_handler(server_packets.CharacterLookup.id, self.update)
@@ -25,8 +25,8 @@ class PorkManager:
         pass
 
     def get_character_info(self, char):
-        char_id = self.character_manager.resolve_char_to_id(char)
-        char_name = self.character_manager.resolve_char_to_name(char)
+        char_id = self.character_service.resolve_char_to_id(char)
+        char_name = self.character_service.resolve_char_to_name(char)
 
         # if we have entry in database and it is less than a day old, use that
         char_info = self.get_from_database(char_id=char_id, char_name=char_name)

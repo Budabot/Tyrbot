@@ -12,14 +12,14 @@ class AdminController:
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
         self.admin_service = registry.get_instance("admin_service")
-        self.character_manager = registry.get_instance("character_manager")
-        self.pork_manager = registry.get_instance("pork_manager")
+        self.character_service = registry.get_instance("character_service")
+        self.pork_service = registry.get_instance("pork_service")
 
     @command(command="admin", params=[], access_level="all",
              description="Show the admin list")
     def admin_list_cmd(self, channel, sender, reply, args):
         admins = seld.admin_service.get_all()
-        superadmin = self.pork_manager.get_character_info(self.bot.superadmin)
+        superadmin = self.pork_service.get_character_info(self.bot.superadmin)
         superadmin.access_level = "superadmin"
         admins.insert(0, superadmin)
 
@@ -38,7 +38,7 @@ class AdminController:
              description="Add an admin", sub_command="modify")
     def admin_add_cmd(self, channel, sender, reply, args):
         name = args[1].capitalize()
-        char_id = self.character_manager.resolve_char_to_id(name)
+        char_id = self.character_service.resolve_char_to_id(name)
 
         if not char_id:
             reply("Could not find character <highlight>%s<end>." % name)
@@ -53,7 +53,7 @@ class AdminController:
              description="Remove an admin", sub_command="modify")
     def admin_remove_cmd(self, channel, sender, reply, args):
         name = args[1].capitalize()
-        char_id = self.character_manager.resolve_char_to_id(name)
+        char_id = self.character_service.resolve_char_to_id(name)
 
         if not char_id:
             reply("Could not find character <highlight>%s<end>." % name)
@@ -68,7 +68,7 @@ class AdminController:
              description="Add a moderator", sub_command="modify")
     def moderator_add_cmd(self, channel, sender, reply, args):
         name = args[1].capitalize()
-        char_id = self.character_manager.resolve_char_to_id(name)
+        char_id = self.character_service.resolve_char_to_id(name)
 
         if not char_id:
             reply("Could not find character <highlight>%s<end>." % name)
@@ -83,7 +83,7 @@ class AdminController:
              description="Remove a moderator", sub_command="modify")
     def moderator_remove_cmd(self, channel, sender, reply, args):
         name = args[1].capitalize()
-        char_id = self.character_manager.resolve_char_to_id(name)
+        char_id = self.character_service.resolve_char_to_id(name)
 
         if not char_id:
             reply("Could not find character <highlight>%s<end>." % name)

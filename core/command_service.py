@@ -1,7 +1,7 @@
 from core.decorators import instance
 from core.access_service import AccessService
 from core.aochat import server_packets
-from core.lookup.character_manager import CharacterManager
+from core.lookup.character_service import CharacterService
 from core.setting_service import SettingService
 from core.registry import Registry
 from core.logger import Logger
@@ -40,7 +40,7 @@ class CommandService:
         self.util = registry.get_instance("util")
         self.access_service: AccessService = registry.get_instance("access_service")
         self.bot: Tyrbot = registry.get_instance("bot")
-        self.character_manager: CharacterManager = registry.get_instance("character_manager")
+        self.character_service: CharacterService = registry.get_instance("character_service")
         self.setting_service: SettingService = registry.get_instance("setting_service")
         self.command_alias_service = registry.get_instance("command_alias_service")
         self.usage_service = registry.get_instance("usage_service")
@@ -150,7 +150,7 @@ class CommandService:
                 cmd_config, matches, handler = self.get_matches(cmd_configs, command_args)
                 if matches:
                     if handler["check_access"](char_id, cmd_config.access_level):
-                        sender = MapObject({"name": self.character_manager.resolve_char_to_name(char_id, "Unknown(%d)" % char_id),
+                        sender = MapObject({"name": self.character_service.resolve_char_to_name(char_id, "Unknown(%d)" % char_id),
                                             "char_id": char_id})
                         handler["callback"](channel, sender, reply, self.process_matches(matches, handler["params"]))
 

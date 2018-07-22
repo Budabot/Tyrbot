@@ -13,7 +13,7 @@ class MemberController:
 
     def inject(self, registry):
         self.db = registry.get_instance("db")
-        self.character_manager = registry.get_instance("character_manager")
+        self.character_service = registry.get_instance("character_service")
         self.private_channel_service = registry.get_instance("private_channel_service")
         self.buddy_service = registry.get_instance("buddy_service")
         self.bot = registry.get_instance("bot")
@@ -35,7 +35,7 @@ class MemberController:
              description="Add a member")
     def member_add_cmd(self, channel, sender, reply, args):
         char = args[1].capitalize()
-        char_id = self.character_manager.resolve_char_to_id(char)
+        char_id = self.character_service.resolve_char_to_id(char)
         if char_id:
             if self.get_member(char_id):
                 reply("<highlight>%s<end> is already a member." % char)
@@ -49,7 +49,7 @@ class MemberController:
              description="Remove a member")
     def member_remove_cmd(self, channel, sender, reply, args):
         char = args[1].capitalize()
-        char_id = self.character_manager.resolve_char_to_id(char)
+        char_id = self.character_service.resolve_char_to_id(char)
         if char_id:
             if self.get_member(char_id):
                 self.remove_member(char_id)

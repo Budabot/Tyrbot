@@ -6,15 +6,15 @@ import datetime
 
 
 @instance()
-class OrgPorkManager:
+class OrgPorkService:
     def __init__(self):
         self.logger = Logger(__name__)
 
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
         self.db = registry.get_instance("db")
-        self.character_manager = registry.get_instance("character_manager")
-        self.pork_manager = registry.get_instance("pork_manager")
+        self.character_service = registry.get_instance("character_service")
+        self.pork_service = registry.get_instance("pork_service")
 
     def get_org_info(self, org_id):
         url = "http://people.anarchy-online.com/org/stats/d/%d/name/%d/basicstats.xml?data_type=json" % (self.bot.dimension, org_id)
@@ -102,7 +102,7 @@ class OrgPorkManager:
                 "source": "people.anarchy-online.com"
             }
 
-            self.pork_manager.save_character_info(char_info)
+            self.pork_service.save_character_info(char_info)
 
             members.append(char_info)
 

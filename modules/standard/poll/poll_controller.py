@@ -18,7 +18,6 @@ class PollController:
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
         self.db = registry.get_instance("db")
-        self.pork_manager = registry.get_instance("pork_manager")
         self.util = registry.get_instance("util")
         self.text = registry.get_instance("text")
 

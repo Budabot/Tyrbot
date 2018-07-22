@@ -8,7 +8,7 @@ class CloakController:
     def inject(self, registry):
         self.db = registry.get_instance("db")
         self.util = registry.get_instance("util")
-        self.character_manager = registry.get_instance("character_manager")
+        self.character_service = registry.get_instance("character_service")
 
     @command(command="cloak", params=[], access_level="all",
              description="Show the current status of the city cloak and the cloak history")
@@ -49,6 +49,6 @@ class CloakController:
         extended_message = event_data.extended_message
         if extended_message and extended_message.category_id == 1001 and extended_message.instance_id == 1:
             char_name = extended_message.params[0]
-            char_id = self.character_manager.resolve_char_to_id(char_name)
+            char_id = self.character_service.resolve_char_to_id(char_name)
             action = extended_message.params[1]
             self.db.exec("INSERT INTO cloak_status (char_id, action, created_at) VALUES (?, ?, ?)", [char_id, action, int(time.time())])

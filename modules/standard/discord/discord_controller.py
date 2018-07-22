@@ -4,7 +4,7 @@ from core.setting_types import HiddenSettingType, BooleanSettingType, TextSettin
 from core.command_param_types import Int, Any, Const, Options
 from core.chat_blob import ChatBlob
 from core.text import Text
-from core.lookup.character_manager import CharacterManager
+from core.lookup.character_service import CharacterService
 from discord import Member, ChannelType
 from html.parser import HTMLParser
 from .discord_wrapper import DiscordWrapper
@@ -53,7 +53,7 @@ class DiscordController:
         self.setting_service = registry.get_instance("setting_service")
         self.event_service = registry.get_instance("event_service")
         self.online_controller = registry.get_instance("online_controller")
-        self.character_manager: CharacterManager = registry.get_instance("character_manager")
+        self.character_service: CharacterService = registry.get_instance("character_service")
         self.text: Text = registry.get_instance("text")
         self.client.register(registry)
 
@@ -248,7 +248,7 @@ class DiscordController:
 
             for char_id in self.ignore:
                 remove = self.text.make_chatcmd("remove", "/tell <myname> discord ignore rem %s" % char_id)
-                name = self.character_manager.resolve_char_to_name(char_id)
+                name = self.character_service.resolve_char_to_name(char_id)
                 blob += "<highlight>%s<end> - %s [%s]\n" % (name, char_id, remove)
 
         reply(ChatBlob("Ignore list", blob))
@@ -271,7 +271,7 @@ class DiscordController:
             if event_data.message[:1] != "!":
                 msgtype = self.setting_service.get("discord_relay_format").get_value()
                 msgcolor = self.setting_service.get("discord_embed_color").get_int_value()
-                name = self.character_manager.resolve_char_to_name(event_data.char_id)
+                name = self.character_service.resolve_char_to_name(event_data.char_id)
                 message = DiscordMessage(msgtype, "Org", name, self.strip_html_tags(event_data.message), False, msgcolor)
                 self.aoqueue.append(("org", message))
 
@@ -281,7 +281,7 @@ class DiscordController:
             if event_data.message[:1] != "!":
                 msgtype = self.setting_service.get("discord_relay_format").get_value()
                 msgcolor = self.setting_service.get("discord_embed_color").get_int_value()
-                name = self.character_manager.resolve_char_to_name(event_data.char_id)
+                name = self.character_service.resolve_char_to_name(event_data.char_id)
                 message = DiscordMessage(msgtype, "Private", name, self.strip_html_tags(event_data.message), False, msgcolor)
                 self.aoqueue.append(("priv", message))
 

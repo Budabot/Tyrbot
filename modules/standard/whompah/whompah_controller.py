@@ -13,7 +13,6 @@ class WhompahController:
     def inject(self, registry):
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
-        self.pork_manager = registry.get_instance("pork_manager")
 
     @command(command="whompah", params=[], access_level="all",
              description="Show list of whompah cities")

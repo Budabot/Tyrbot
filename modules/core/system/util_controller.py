@@ -15,7 +15,7 @@ class UtilController:
         self.bot = registry.get_instance("bot")
         self.db = registry.get_instance("db")
         self.util = registry.get_instance("util")
-        self.character_manager = registry.get_instance("character_manager")
+        self.character_service = registry.get_instance("character_service")
         self.command_service = registry.get_instance("command_service")
         self.buddy_service = registry.get_instance("buddy_service")
         self.access_service = registry.get_instance("access_service")
@@ -24,7 +24,7 @@ class UtilController:
              description="Check access level for a character")
     def checkaccess_cmd(self, channel, sender, reply, args):
         char_name = args[0].capitalize() if args[0] else sender.name
-        char_id = self.character_manager.resolve_char_to_id(char_name)
+        char_id = self.character_service.resolve_char_to_id(char_name)
 
         if not char_id:
             reply("Could not find character <highlight>%s<end>." % char_name)
@@ -51,7 +51,7 @@ class UtilController:
         char_name = args[0].capitalize()
         command_str = args[1]
 
-        char_id = self.character_manager.resolve_char_to_id(char_name)
+        char_id = self.character_service.resolve_char_to_id(char_name)
 
         if not char_id:
             reply("Could not find <highlight>%s<end>." % char_name)

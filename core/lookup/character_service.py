@@ -2,12 +2,11 @@ from core.decorators import instance
 from core.aochat.client_packets import CharacterLookup
 from core.aochat import server_packets
 from core.db import DB
-import os
 import time
 
 
 @instance()
-class CharacterManager:
+class CharacterService:
     def __init__(self):
         self.name_to_id = {}
         self.id_to_name = {}

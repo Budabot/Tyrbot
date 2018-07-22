@@ -1,5 +1,5 @@
 from core.decorators import instance
-from core.lookup.character_manager import CharacterManager
+from core.lookup.character_service import CharacterService
 from core.aochat import server_packets
 from core.aochat import client_packets
 from core.logger import Logger
@@ -16,7 +16,7 @@ class BuddyService:
         self.logger = Logger(__name__)
 
     def inject(self, registry):
-        self.character_manager: CharacterManager = registry.get_instance("character_manager")
+        self.character_service: CharacterService = registry.get_instance("character_service")
         self.bot = registry.get_instance("bot")
         self.event_service = registry.get_instance("event_service")
 
@@ -71,11 +71,11 @@ class BuddyService:
             return False
 
     def get_buddy(self, char):
-        char_id = self.character_manager.resolve_char_to_id(char)
+        char_id = self.character_service.resolve_char_to_id(char)
         return self.buddy_list.get(char_id, None)
 
     def is_online(self, char):
-        char_id = self.character_manager.resolve_char_to_id(char)
+        char_id = self.character_service.resolve_char_to_id(char)
         buddy = self.get_buddy(char_id)
         if buddy is None:
             return None

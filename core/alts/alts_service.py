@@ -14,8 +14,8 @@ class AltsService:
 
     def inject(self, registry):
         self.db = registry.get_instance("db")
-        self.character_manager = registry.get_instance("character_manager")
-        self.pork_manager = registry.get_instance("pork_manager")
+        self.character_service = registry.get_instance("character_service")
+        self.pork_service = registry.get_instance("pork_service")
         self.event_service = registry.get_instance("event_service")
 
     def pre_start(self):
@@ -62,12 +62,12 @@ class AltsService:
             self.event_service.fire_event(self.MAIN_CHANGED_EVENT_TYPE, {"old_main_id": alt_char_id, "new_main_id": sender_char_id})
 
             # make sure char info exists in character table
-            self.pork_manager.load_character_info(sender_char_id)
+            self.pork_service.load_character_info(sender_char_id)
 
             params = [alt_char_id, group_id, status if status else self.CONFIRMED]
 
         # make sure char info exists in character table
-        self.pork_manager.load_character_info(alt_char_id)
+        self.pork_service.load_character_info(alt_char_id)
         self.db.exec("INSERT INTO alts (char_id, group_id, status) VALUES (?, ?, ?)", params)
         return ["success", True]
 

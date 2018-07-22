@@ -12,7 +12,6 @@ class TopicController:
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
         self.util = registry.get_instance("util")
-        self.character_manager = registry.get_instance("character_manager")
 
     @setting(name="topic", value="", description="The bot topic")
     def topic(self):

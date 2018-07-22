@@ -18,7 +18,7 @@ class OrgController:
         self.buddy_service = registry.get_instance("buddy_service")
         self.public_channel_service = registry.get_instance("public_channel_service")
         self.access_service = registry.get_instance("access_service")
-        self.org_pork_manager = registry.get_instance("org_pork_manager")
+        self.org_pork_service = registry.get_instance("org_pork_service")
 
     def pre_start(self):
         self.access_service.register_access_level("org", 60, self.check_org_member)
@@ -37,7 +37,7 @@ class OrgController:
                 db_members[row.char_id] = row.mode
 
             self.logger.info("Updating org roster for org_id %d" % org_id)
-            org_info = self.org_pork_manager.get_org_info(org_id)
+            org_info = self.org_pork_service.get_org_info(org_id)
             if org_info:
                 for roster_member in org_info["org_members"]:
                     char_id = roster_member["char_id"]

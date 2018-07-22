@@ -10,7 +10,7 @@ class BanController:
         self.text = registry.get_instance("text")
         self.util = registry.get_instance("util")
         self.ban_service = registry.get_instance("ban_service")
-        self.character_manager = registry.get_instance("character_manager")
+        self.character_service = registry.get_instance("character_service")
         self.command_alias_service = registry.get_instance("command_alias_service")
 
     def start(self):
@@ -38,7 +38,7 @@ class BanController:
              description="Remove a character from the ban list")
     def ban_remove_cmd(self, channel, sender, reply, args):
         char_name = args[1].capitalize()
-        char_id = self.character_manager.resolve_char_to_id(char_name)
+        char_id = self.character_service.resolve_char_to_id(char_name)
 
         if not char_id:
             reply("Could not find <highlight>%s<end>." % char_name)
@@ -56,7 +56,7 @@ class BanController:
         char_name = args[1].capitalize()
         duration = args[2]
         reason = args[3] or ""
-        char_id = self.character_manager.resolve_char_to_id(char_name)
+        char_id = self.character_service.resolve_char_to_id(char_name)
 
         if not char_id:
             reply("Could not find <highlight>%s<end>." % char_name)

@@ -12,7 +12,7 @@ class CharacterHistoryController:
     def inject(self, registry):
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
-        self.pork_manager = registry.get_instance("pork_manager")
+        self.pork_service = registry.get_instance("pork_service")
 
     @command(command="history", params=[Any("character"), Int("server_num", is_optional=True)], access_level="all",
              description="Get history of character")

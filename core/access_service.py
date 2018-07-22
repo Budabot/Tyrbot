@@ -11,7 +11,7 @@ class AccessService:
         self.logger = Logger(__name__)
 
     def inject(self, registry):
-        self.character_manager = registry.get_instance("character_manager")
+        self.character_service = registry.get_instance("character_service")
         self.alts_service = registry.get_instance("alts_service")
 
     def register_access_level(self, label, level, handler):
@@ -73,7 +73,7 @@ class AccessService:
         return a2["level"] - a1["level"] > 0
 
     def get_single_access_level(self, char):
-        char_id = self.character_manager.resolve_char_to_id(char)
+        char_id = self.character_service.resolve_char_to_id(char)
         for access_level in self.access_levels:
             if access_level["handler"](char_id):
                 return access_level
@@ -92,7 +92,7 @@ class AccessService:
         return None
 
     def check_access(self, char, access_level_label):
-        char_id = self.character_manager.resolve_char_to_id(char)
+        char_id = self.character_service.resolve_char_to_id(char)
         if not char_id:
             return None
 

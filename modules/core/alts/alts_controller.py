@@ -11,7 +11,7 @@ class AltsController:
 
     def inject(self, registry):
         self.alts_service = registry.get_instance("alts_service")
-        self.character_manager = registry.get_instance("character_manager")
+        self.character_service = registry.get_instance("character_service")
 
     def start(self):
         pass
@@ -38,7 +38,7 @@ class AltsController:
              description="Add an alt")
     def alts_add_cmd(self, channel, sender, reply, args):
         alt_char_name = args[1].capitalize()
-        alt_char_id = self.character_manager.resolve_char_to_id(alt_char_name)
+        alt_char_id = self.character_service.resolve_char_to_id(alt_char_name)
 
         if not alt_char_id:
             reply("Could not find character <highlight>%s<end>." % alt_char_name)
@@ -60,7 +60,7 @@ class AltsController:
              description="Remove an alt")
     def alts_remove_cmd(self, channel, sender, reply, args):
         alt = args[1].capitalize()
-        alt_char_id = self.character_manager.resolve_char_to_id(alt)
+        alt_char_id = self.character_service.resolve_char_to_id(alt)
 
         if not alt_char_id:
             reply("Could not find character <highlight>%s<end>." % alt)
@@ -82,7 +82,7 @@ class AltsController:
              description="Show alts of another character", sub_command="show")
     def alts_list_other_cmd(self, channel, sender, reply, args):
         name = args[0].capitalize()
-        char_id = self.character_manager.resolve_char_to_id(name)
+        char_id = self.character_service.resolve_char_to_id(name)
         if not char_id:
             reply("Could not find character <highlight>%s<end>." % name)
             return

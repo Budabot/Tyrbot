@@ -10,7 +10,7 @@ class BuddyController:
 
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
-        self.character_manager = registry.get_instance("character_manager")
+        self.character_service = registry.get_instance("character_service")
         self.buddy_service = registry.get_instance("buddy_service")
 
     def start(self):
@@ -21,7 +21,7 @@ class BuddyController:
     def buddylist_cmd(self, channel, sender, reply, args):
         buddy_list = []
         for char_id, buddy in self.buddy_service.get_all_buddies().items():
-            char_name = self.character_manager.resolve_char_to_name(char_id, "Unknown(%d)" % char_id)
+            char_name = self.character_service.resolve_char_to_name(char_id, "Unknown(%d)" % char_id)
             buddy_list.append([char_name, buddy["online"], ",".join(buddy["types"])])
 
         blob = self.format_buddies(buddy_list)
@@ -34,7 +34,7 @@ class BuddyController:
         char_name = args[1].capitalize()
         _type = args[2].lower()
 
-        char_id = self.character_manager.resolve_char_to_id(char_name)
+        char_id = self.character_service.resolve_char_to_id(char_name)
         if char_id:
             self.buddy_service.add_buddy(char_id, _type)
             reply("Character <highlight>%s<end> has been added to the buddy list for type <highlight>%s<end>." % (char_name, _type))
@@ -47,7 +47,7 @@ class BuddyController:
         char_name = args[1].capitalize()
         _type = args[2].lower()
 
-        char_id = self.character_manager.resolve_char_to_id(char_name)
+        char_id = self.character_service.resolve_char_to_id(char_name)
         if char_id:
             self.buddy_service.remove_buddy(char_id, _type)
             reply("Character <highlight>%s<end> has been removed from the buddy list for type <highlight>%s<end>." % (char_name, _type))
@@ -82,7 +82,7 @@ class BuddyController:
 
         buddy_list = []
         for char_id, buddy in self.buddy_service.get_all_buddies().items():
-            char_name = self.character_manager.resolve_char_to_name(char_id, "Unknown(%d)" % char_id)
+            char_name = self.character_service.resolve_char_to_name(char_id, "Unknown(%d)" % char_id)
             if search in char_name.lower():
                 buddy_list.append([char_name, buddy["online"], ",".join(buddy["types"])])
 

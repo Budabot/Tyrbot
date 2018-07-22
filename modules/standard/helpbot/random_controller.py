@@ -12,7 +12,7 @@ class RandomController:
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
         self.util = registry.get_instance("util")
-        self.character_manager = registry.get_instance("character_manager")
+        self.character_service = registry.get_instance("character_service")
         self.command_alias_service = registry.get_instance("command_alias_service")
 
     def start(self):
@@ -51,5 +51,5 @@ class RandomController:
             reply("Could not find roll with id <highlight>%d<end>." % roll_id)
         else:
             time_string = self.util.time_to_readable(int(time.time()) - row.created_at)
-            name = self.character_manager.resolve_char_to_name(row.char_id)
+            name = self.character_service.resolve_char_to_name(row.char_id)
             reply("Rolling between %d and %d: <highlight>%d<end>. %s ago for %s." % (row.min_value, row.max_value, row.result, time_string, name))
