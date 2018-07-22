@@ -14,7 +14,7 @@ class ConfigCommandController:
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
         self.access_service = registry.get_instance("access_service")
-        self.command_manager = registry.get_instance("command_manager")
+        self.command_service = registry.get_instance("command_service")
 
     def start(self):
         pass
@@ -25,10 +25,10 @@ class ConfigCommandController:
         cmd_name = args[1].lower()
         action = args[2].lower()
         cmd_channel = args[3].lower()
-        command_str, sub_command_str = self.command_manager.get_command_key_parts(cmd_name)
+        command_str, sub_command_str = self.command_service.get_command_key_parts(cmd_name)
         enabled = 1 if action == "enable" else 0
 
-        if cmd_channel != "all" and not self.command_manager.is_command_channel(cmd_channel):
+        if cmd_channel != "all" and not self.command_service.is_command_channel(cmd_channel):
             reply("Unknown command channel <highlight>%s<end>." % cmd_channel)
             return
 
@@ -53,9 +53,9 @@ class ConfigCommandController:
         cmd_name = args[1].lower()
         cmd_channel = args[3].lower()
         access_level = args[4].lower()
-        command_str, sub_command_str = self.command_manager.get_command_key_parts(cmd_name)
+        command_str, sub_command_str = self.command_service.get_command_key_parts(cmd_name)
 
-        if cmd_channel != "all" and not self.command_manager.is_command_channel(cmd_channel):
+        if cmd_channel != "all" and not self.command_service.is_command_channel(cmd_channel):
             reply("Unknown command channel <highlight>%s<end>." % cmd_channel)
             return
 
@@ -82,11 +82,11 @@ class ConfigCommandController:
              description="Show command configuration")
     def config_cmd_show_cmd(self, channel, sender, reply, args):
         cmd_name = args[1].lower()
-        command_str, sub_command_str = self.command_manager.get_command_key_parts(cmd_name)
+        command_str, sub_command_str = self.command_service.get_command_key_parts(cmd_name)
 
         blob = ""
-        for command_channel, channel_label in self.command_manager.channels.items():
-            cmd_configs = self.command_manager.get_command_configs(command=command_str,
+        for command_channel, channel_label in self.command_service.channels.items():
+            cmd_configs = self.command_service.get_command_configs(command=command_str,
                                                                    sub_command=sub_command_str,
                                                                    channel=command_channel,
                                                                    enabled=None)
@@ -120,7 +120,7 @@ class ConfigCommandController:
 
         if blob:
             # include help text
-            blob += "\n\n".join(map(lambda handler: handler["help"], self.command_manager.get_handlers(cmd_name)))
+            blob += "\n\n".join(map(lambda handler: handler["help"], self.command_service.get_handlers(cmd_name)))
             reply(ChatBlob("Command (%s)" % cmd_name, blob))
         else:
             reply("Could not find command <highlight>%s<end>." % cmd_name)

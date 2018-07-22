@@ -11,7 +11,6 @@ class BuddyController:
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
         self.character_manager = registry.get_instance("character_manager")
-        self.command_manager = registry.get_instance("command_manager")
         self.buddy_service = registry.get_instance("buddy_service")
 
     def start(self):

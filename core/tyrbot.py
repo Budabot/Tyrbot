@@ -37,7 +37,6 @@ class Tyrbot(Bot):
         self.text: Text = registry.get_instance("text")
         self.setting_manager: SettingManager = registry.get_instance("setting_manager")
         self.access_service: AccessService = registry.get_instance("access_service")
-        self.command_manager = registry.get_instance("command_manager")
         self.event_manager = registry.get_instance("event_manager")
         self.job_scheduler = registry.get_instance("job_scheduler")
 

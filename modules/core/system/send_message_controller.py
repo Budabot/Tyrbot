@@ -7,7 +7,7 @@ class SendMessageController:
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
         self.character_manager = registry.get_instance("character_manager")
-        self.command_manager = registry.get_instance("command_manager")
+        self.command_service = registry.get_instance("command_service")
 
     @command(command="sendtell", params=[Any("character"), Any("message")], access_level="superadmin",
              description="Send a tell to another character from the bot")

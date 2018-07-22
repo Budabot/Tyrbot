@@ -13,7 +13,7 @@ class ConfigController:
     def inject(self, registry):
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
-        self.command_manager = registry.get_instance("command_manager")
+        self.command_service = registry.get_instance("command_service")
         self.event_manager = registry.get_instance("event_manager")
         self.setting_manager = registry.get_instance("setting_manager")
 
@@ -79,7 +79,7 @@ class ConfigController:
         if data:
             blob += "\n<header2>Commands<end>\n"
             for row in data:
-                command_key = self.command_manager.get_command_key(row.command, row.sub_command)
+                command_key = self.command_service.get_command_key(row.command, row.sub_command)
                 blob += self.text.make_chatcmd(command_key, "/tell <myname> config cmd " + command_key) + "\n"
 
         data = self.db.query("SELECT event_type, event_sub_type, handler, description "

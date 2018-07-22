@@ -7,7 +7,7 @@ class RunasController:
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
         self.character_manager = registry.get_instance("character_manager")
-        self.command_manager = registry.get_instance("command_manager")
+        self.command_service = registry.get_instance("command_service")
         self.setting_manager = registry.get_instance("setting_manager")
 
     @command(command="runas", params=[Any("character"), Any("command")], access_level="superadmin",
@@ -18,4 +18,4 @@ class RunasController:
         if command_str[0] == self.setting_manager.get("symbol").get_value():
             command_str = command_str[1:]
         char_id = self.character_manager.resolve_char_to_id(char_name)
-        self.command_manager.process_command(command_str, channel, char_id, reply)
+        self.command_service.process_command(command_str, channel, char_id, reply)

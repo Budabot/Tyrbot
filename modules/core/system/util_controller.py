@@ -16,7 +16,7 @@ class UtilController:
         self.db = registry.get_instance("db")
         self.util = registry.get_instance("util")
         self.character_manager = registry.get_instance("character_manager")
-        self.command_manager = registry.get_instance("command_manager")
+        self.command_service = registry.get_instance("command_service")
         self.buddy_service = registry.get_instance("buddy_service")
         self.access_service = registry.get_instance("access_service")
 
@@ -38,7 +38,7 @@ class UtilController:
     def macro_cmd(self, channel, sender, reply, args):
         commands = args[0].split("|")
         for command_str in commands:
-            self.command_manager.process_command(command_str, channel, sender.char_id, reply)
+            self.command_service.process_command(command_str, channel, sender.char_id, reply)
 
     @command(command="echo", params=[Any("message")], access_level="all",
              description="Echo back a message")
@@ -60,7 +60,7 @@ class UtilController:
         reply("Command <highlight>%s<end> output has been sent to <highlight>%s<end>." % (command_str, char_name))
         self.bot.send_private_message(char_id, "<highlight>%s<end> is showing you output for command <highlight>%s<end>:" % (sender.name, command_str))
 
-        self.command_manager.process_command(command_str, channel, sender.char_id, lambda msg: self.bot.send_private_message(char_id, msg))
+        self.command_service.process_command(command_str, channel, sender.char_id, lambda msg: self.bot.send_private_message(char_id, msg))
 
     @command(command="system", params=[], access_level="admin",
              description="Show system information")

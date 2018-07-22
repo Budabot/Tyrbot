@@ -15,7 +15,7 @@ import html
 
 
 @instance()
-class CommandManager:
+class CommandService:
     PRIVATE_CHANNEL = "priv"
     ORG_CHANNEL = "org"
     PRIVATE_MESSAGE = "msg"

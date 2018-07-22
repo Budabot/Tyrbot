@@ -1,5 +1,5 @@
 from core.decorators import instance, command
-from core.command_manager import CommandManager
+from core.command_service import CommandService
 
 
 @instance()
@@ -13,7 +13,7 @@ class SystemController:
         msg = "The bot is shutting down..."
         self.bot.send_org_message(msg)
         self.bot.send_private_channel_message(msg)
-        if channel not in [CommandManager.ORG_CHANNEL, CommandManager.PRIVATE_CHANNEL]:
+        if channel not in [CommandService.ORG_CHANNEL, CommandService.PRIVATE_CHANNEL]:
             reply(msg)
         self.bot.shutdown()
 
@@ -23,6 +23,6 @@ class SystemController:
         msg = "The bot is restarting..."
         self.bot.send_org_message(msg)
         self.bot.send_private_channel_message(msg)
-        if channel not in [CommandManager.ORG_CHANNEL, CommandManager.PRIVATE_CHANNEL]:
+        if channel not in [CommandService.ORG_CHANNEL, CommandService.PRIVATE_CHANNEL]:
             reply(msg)
         self.bot.restart()

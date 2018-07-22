@@ -1,5 +1,4 @@
 from core.decorators import instance
-from core.command_manager import CommandManager
 from core.logger import Logger
 
 
@@ -10,7 +9,6 @@ class CommandAliasService:
 
     def inject(self, registry):
         self.db = registry.get_instance("db")
-        self.command_manager: CommandManager = registry.get_instance("command_manager")
 
     def check_for_alias(self, command_str):
         row = self.get_alias(command_str)

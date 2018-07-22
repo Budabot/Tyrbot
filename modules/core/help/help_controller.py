@@ -12,7 +12,7 @@ class HelpController:
         self.text = registry.get_instance("text")
         self.db = registry.get_instance("db")
         self.access_service = registry.get_instance("access_service")
-        self.command_manager = registry.get_instance("command_manager")
+        self.command_service = registry.get_instance("command_service")
         self.command_alias_service = registry.get_instance("command_alias_service")
 
     def start(self):
@@ -60,8 +60,8 @@ class HelpController:
         if alias:
             help_topic = alias
 
-        help_text = self.command_manager.get_help_text(sender.char_id, help_topic, channel)
+        help_text = self.command_service.get_help_text(sender.char_id, help_topic, channel)
         if help_text:
-            reply(self.command_manager.format_help_text(help_topic, help_text))
+            reply(self.command_service.format_help_text(help_topic, help_text))
         else:
             reply("Could not find help on <highlight>" + help_topic + "<end>.")
