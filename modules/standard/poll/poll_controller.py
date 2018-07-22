@@ -1,9 +1,6 @@
-from core.decorators import instance, command, event
+from core.decorators import instance, command
 from core.command_param_types import Const, Any, Time, Int
-from core.alts.alts_manager import AltsManager
 from core.chat_blob import ChatBlob
-from core.private_channel_manager import PrivateChannelManager
-import os
 import time
 
 

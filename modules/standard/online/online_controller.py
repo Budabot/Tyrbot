@@ -1,7 +1,7 @@
 from core.decorators import instance, command, event
 from core.alts.alts_manager import AltsManager
 from core.chat_blob import ChatBlob
-from core.private_channel_manager import PrivateChannelManager
+from core.private_channel_service import PrivateChannelService
 from core.public_channel_manager import PublicChannelManager
 import time
 import re
@@ -95,18 +95,18 @@ class OnlineController:
 
         return self.db.query(sql, [AltsManager.MAIN, channel])
 
-    @event(PrivateChannelManager.JOINED_PRIVATE_CHANNEL_EVENT, "Record in database when someone joins private channel")
+    @event(PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, "Record in database when someone joins private channel")
     def private_channel_joined_event(self, event_type, event_data):
         self.pork_manager.load_character_info(event_data.char_id)
         self.db.exec("INSERT INTO online (char_id, afk_dt, afk_reason, channel, dt) VALUES (?, ?, ?, ?, ?)",
                      [event_data.char_id, 0, "", self.PRIVATE_CHANNEL, int(time.time())])
 
-    @event(PrivateChannelManager.LEFT_PRIVATE_CHANNEL_EVENT, "Record in database when someone leaves private channel")
+    @event(PrivateChannelService.LEFT_PRIVATE_CHANNEL_EVENT, "Record in database when someone leaves private channel")
     def private_channel_left_event(self, event_type, event_data):
         self.db.exec("DELETE FROM online WHERE char_id = ? AND channel = ?",
                      [event_data.char_id, self.PRIVATE_CHANNEL])
 
-    @event(PrivateChannelManager.PRIVATE_CHANNEL_MESSAGE_EVENT, "Check for afk messages in private channel")
+    @event(PrivateChannelService.PRIVATE_CHANNEL_MESSAGE_EVENT, "Check for afk messages in private channel")
     def afk_check_private_channel_event(self, event_type, event_data):
         if event_data.char_id != self.bot.char_id:
             self.afk_check(event_data.char_id, event_data.message, lambda msg: self.bot.send_private_channel_message(msg))

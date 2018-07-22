@@ -4,7 +4,7 @@ from core.aochat import server_packets, client_packets
 
 
 @instance()
-class PrivateChannelManager:
+class PrivateChannelService:
     PRIVATE_CHANNEL_MESSAGE_EVENT = "private_channel_message"
     JOINED_PRIVATE_CHANNEL_EVENT = "private_channel_joined"
     LEFT_PRIVATE_CHANNEL_EVENT = "private_channel_left"

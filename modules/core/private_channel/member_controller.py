@@ -14,7 +14,7 @@ class MemberController:
     def inject(self, registry):
         self.db = registry.get_instance("db")
         self.character_manager = registry.get_instance("character_manager")
-        self.private_channel_manager = registry.get_instance("private_channel_manager")
+        self.private_channel_service = registry.get_instance("private_channel_service")
         self.buddy_service = registry.get_instance("buddy_service")
         self.bot = registry.get_instance("bot")
         self.access_service = registry.get_instance("access_service")
@@ -85,7 +85,7 @@ class MemberController:
         member = self.get_member(event_data.char_id)
         if member and member.auto_invite == 1:
             self.bot.send_private_message(member.char_id, "You have been auto-invited to the private channel.")
-            self.private_channel_manager.invite(member.char_id)
+            self.private_channel_service.invite(member.char_id)
 
     def add_member(self, char_id, auto_invite=1):
         self.buddy_service.add_buddy(char_id, self.MEMBER_BUDDY_TYPE)
