@@ -13,7 +13,7 @@ class HelpController:
         self.db = registry.get_instance("db")
         self.access_service = registry.get_instance("access_service")
         self.command_manager = registry.get_instance("command_manager")
-        self.command_alias_manager = registry.get_instance("command_alias_manager")
+        self.command_alias_service = registry.get_instance("command_alias_service")
 
     def start(self):
         pass
@@ -56,7 +56,7 @@ class HelpController:
         help_topic = args[0].lower()
 
         # check for alias
-        alias = self.command_alias_manager.check_for_alias(help_topic)
+        alias = self.command_alias_service.check_for_alias(help_topic)
         if alias:
             help_topic = alias
 

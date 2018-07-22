@@ -11,10 +11,10 @@ class BanController:
         self.util = registry.get_instance("util")
         self.ban_service = registry.get_instance("ban_service")
         self.character_manager = registry.get_instance("character_manager")
-        self.command_alias_manager = registry.get_instance("command_alias_manager")
+        self.command_alias_service = registry.get_instance("command_alias_service")
 
     def start(self):
-        self.command_alias_manager.add_alias("unban", "ban rem")
+        self.command_alias_service.add_alias("unban", "ban rem")
 
     @command(command="ban", params=[Const("list", is_optional=True)], access_level="moderator",
              description="Show the ban list")

@@ -42,7 +42,7 @@ class CommandManager:
         self.bot: Tyrbot = registry.get_instance("bot")
         self.character_manager: CharacterManager = registry.get_instance("character_manager")
         self.setting_manager: SettingManager = registry.get_instance("setting_manager")
-        self.command_alias_manager = registry.get_instance("command_alias_manager")
+        self.command_alias_service = registry.get_instance("command_alias_service")
         self.usage_manager = registry.get_instance("usage_manager")
         self.public_channel_manager = registry.get_instance("public_channel_manager")
         self.ban_service = registry.get_instance("ban_service")
@@ -68,7 +68,7 @@ class CommandManager:
 
                     if aliases:
                         for alias in aliases:
-                            self.command_alias_manager.add_alias(alias, cmd_name)
+                            self.command_alias_service.add_alias(alias, cmd_name)
 
     def register(self, handler, command, params, access_level, description, module, help_text=None, sub_command=None, extended_description=None, check_access=None):
         command = command.lower()
@@ -139,7 +139,7 @@ class CommandManager:
             command_str, command_args = self.get_command_parts(message)
 
             # check for command alias
-            command_alias = self.command_alias_manager.check_for_alias(command_str)
+            command_alias = self.command_alias_service.check_for_alias(command_str)
 
             if command_alias:
                 command_str, command_args = self.get_command_parts(command_alias + " " + command_args if command_args else command_alias)

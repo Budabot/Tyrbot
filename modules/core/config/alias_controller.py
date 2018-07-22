@@ -9,7 +9,7 @@ class AliasController:
         pass
 
     def inject(self, registry):
-        self.command_alias_manager = registry.get_instance("command_alias_manager")
+        self.command_alias_service = registry.get_instance("command_alias_service")
 
     def start(self):
         pass
@@ -18,7 +18,7 @@ class AliasController:
              description="List command aliases")
     def alias_list_cmd(self, channel, sender, reply, args):
         blob = ""
-        data = self.command_alias_manager.get_enabled_aliases()
+        data = self.command_alias_service.get_enabled_aliases()
         count = len(data)
         for row in data:
             blob += row.alias + " - " + row.command + "\n"
@@ -30,7 +30,7 @@ class AliasController:
     def alias_add_cmd(self, channel, sender, reply, args):
         alias = args[1]
         command = args[2]
-        if self.command_alias_manager.add_alias(alias, command):
+        if self.command_alias_service.add_alias(alias, command):
             reply("Alias <highlight>%s<end> for command <highlight>%s<end> added successfully." % (alias, command))
         else:
             reply("Cannot add alias <highlight>%s<end> since there is already an active alias with that name." % alias)
@@ -39,7 +39,7 @@ class AliasController:
              description="Remove a command alias", sub_command="modify")
     def alias_remove_cmd(self, channel, sender, reply, args):
         alias = args[1]
-        if self.command_alias_manager.remove_alias(alias):
+        if self.command_alias_service.remove_alias(alias):
             reply("Alias <highlight>%s<end> has been removed successfully." % alias)
         else:
             reply("Could not find alias <highlight>%s<end>." % alias)

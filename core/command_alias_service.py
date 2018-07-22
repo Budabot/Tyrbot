@@ -4,7 +4,7 @@ from core.logger import Logger
 
 
 @instance()
-class CommandAliasManager:
+class CommandAliasService:
     def __init__(self):
         self.logger = Logger(__name__)
 

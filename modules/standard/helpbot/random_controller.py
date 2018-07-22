@@ -13,10 +13,10 @@ class RandomController:
         self.text: Text = registry.get_instance("text")
         self.util = registry.get_instance("util")
         self.character_manager = registry.get_instance("character_manager")
-        self.command_alias_manager = registry.get_instance("command_alias_manager")
+        self.command_alias_service = registry.get_instance("command_alias_service")
 
     def start(self):
-        self.command_alias_manager.add_alias("verify", "roll verify")
+        self.command_alias_service.add_alias("verify", "roll verify")
 
     @command(command="random", params=[Any("items")], access_level="all",
              description="Randomly order a list of elements", extended_description="Enter a space-delimited list of items to randomize")
