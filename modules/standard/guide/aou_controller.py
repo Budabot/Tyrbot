@@ -25,11 +25,22 @@ class AOUController:
         xml = ElementTree.fromstring(r.content)
 
         if xml.findall("./error"):
-            reply("Could not found AO-Universe guide with id <highlight>%d<end>." % guide_id)
+            reply("Could not find AO-Universe guide with id <highlight>%d<end>." % guide_id)
             return
 
         guide_info = self.get_guide_info(xml)
-        reply(ChatBlob(guide_info["name"], self.format_guide(guide_info)))
+
+        blob = ""
+        blob += "Id: " + self.text.make_chatcmd(guide_info["id"], "/start https://www.ao-universe.com/main.php?site=knowledge&id=%s" % guide_info["id"]) + "\n"
+        blob += "Updated: <highlight>%s<end>\n" % guide_info["update"]
+        blob += "Profession: <highlight>%s<end>\n" % guide_info["class"]
+        blob += "Faction: <highlight>%s<end>\n" % guide_info["faction"]
+        blob += "Level: <highlight>%s<end>\n" % guide_info["level"]
+        blob += "Author: <highlight>%s<end>\n\n" % guide_info["author"]
+        blob += self.format_aou_markup(guide_info["text"])
+        blob += "\n\n<highlight>Powered by<end> " + self.text.make_chatcmd("AO-Universe.com", "/start https://www.ao-universe.com")
+
+        reply(ChatBlob(guide_info["name"], blob))
 
     @command(command="aou", params=[Const("all", is_optional=True), Any("search")], access_level="all",
              description="Search for an AO-Universe guides")
@@ -100,5 +111,17 @@ class AOUController:
     def get_xml_child(self, xml, child_tag):
         return xml.findall("./%s" % child_tag)[0]
 
-    def format_guide(self, guide_info):
-        return guide_info["text"]
+    def format_aou_markup(self, text):
+        text = text.replace("[center]", "<center>")
+        text = text.replace("[/center]", "</center>")
+        text = text.replace("[i]", "<i>")
+        text = text.replace("[/i]", "</i>")
+        text = text.replace("[b]", "<highlight>")
+        text = text.replace("[/b]", "<end>")
+        text = text.replace("[ts_ts]", " + ")
+        text = text.replace("[ts_ts2]", " = ")
+        text = text.replace("[cttd]", " | ")
+        text = text.replace("[cttr]", "\n")
+        text = text.replace("[br]", "\n")
+
+        return text
