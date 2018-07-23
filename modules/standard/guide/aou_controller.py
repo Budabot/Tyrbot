@@ -4,6 +4,8 @@ from core.command_param_types import Any, Const, Int
 from xml.etree import ElementTree
 import os
 import requests
+import re
+import bbcode
 
 
 @instance()
@@ -11,10 +13,29 @@ class AOUController:
     AOU_URL = "https://www.ao-universe.com/mobile/parser.php?bot=budabot"
 
     def __init__(self):
-        pass
+        self.item_regex = re.compile(r"\[(item|itemname|itemicon)( nolink)?\](\d+)\[\/(item|itemname|itemicon)\]", re.IGNORECASE)
+        self.guide_id_regex = re.compile(r"pid=(\d+)", re.IGNORECASE)
+
+        # initialize bbcode parser
+        self.parser = bbcode.Parser(install_defaults=False, newline="\n", replace_links=False, replace_cosmetic=False, drop_unrecognized=True)
+        self.parser.add_simple_formatter("i", "<i>%(value)s</i>")
+        self.parser.add_simple_formatter("b", "<highlight>%(value)s<end>")
+        self.parser.add_simple_formatter("ts_ts", " + ", standalone=True)
+        self.parser.add_simple_formatter("ts_ts2", " = ", standalone=True)
+        self.parser.add_simple_formatter("ct", " | ", standalone=True)
+        self.parser.add_simple_formatter("cttd", " | ", standalone=True)
+        self.parser.add_simple_formatter("cttr", "\n | ", standalone=True)
+        self.parser.add_simple_formatter("br", "\n", standalone=True)
+        self.parser.add_formatter("img", self.bbcode_render_image)
+        self.parser.add_formatter("url", self.bbcode_render_url)
+        self.parser.add_formatter("item", self.bbcode_render_item)
+        self.parser.add_formatter("itemname", self.bbcode_render_item)
+        self.parser.add_formatter("itemicon", self.bbcode_render_item)
+        self.parser.add_formatter("waypoint", self.bbcode_render_waypoint)
 
     def inject(self, registry):
         self.text = registry.get_instance("text")
+        self.items_controller = registry.get_instance("items_controller")
 
     @command(command="aou", params=[Int("guide_id")], access_level="all",
              description="Show an AO-Universe guide")
@@ -36,8 +57,8 @@ class AOUController:
         blob += "Profession: <highlight>%s<end>\n" % guide_info["class"]
         blob += "Faction: <highlight>%s<end>\n" % guide_info["faction"]
         blob += "Level: <highlight>%s<end>\n" % guide_info["level"]
-        blob += "Author: <highlight>%s<end>\n\n" % guide_info["author"]
-        blob += self.format_aou_markup(guide_info["text"])
+        blob += "Author: <highlight>%s<end>\n\n" % self.format_bbcode_code(guide_info["author"])
+        blob += self.format_bbcode_code(guide_info["text"])
         blob += "\n\n<highlight>Powered by<end> " + self.text.make_chatcmd("AO-Universe.com", "/start https://www.ao-universe.com")
 
         reply(ChatBlob(guide_info["name"], blob))
@@ -111,17 +132,32 @@ class AOUController:
     def get_xml_child(self, xml, child_tag):
         return xml.findall("./%s" % child_tag)[0]
 
-    def format_aou_markup(self, text):
-        text = text.replace("[center]", "<center>")
-        text = text.replace("[/center]", "</center>")
-        text = text.replace("[i]", "<i>")
-        text = text.replace("[/i]", "</i>")
-        text = text.replace("[b]", "<highlight>")
-        text = text.replace("[/b]", "<end>")
-        text = text.replace("[ts_ts]", " + ")
-        text = text.replace("[ts_ts2]", " = ")
-        text = text.replace("[cttd]", " | ")
-        text = text.replace("[cttr]", "\n")
-        text = text.replace("[br]", "\n")
+    def format_bbcode_code(self, bbcode_str):
+        return self.parser.format(bbcode_str)
 
-        return text
+    # BBCode formatters
+    def bbcode_render_image(self, tag_name, value, options, parent, context):
+        return "-image-"
+
+    def bbcode_render_url(self, tag_name, value, options, parent, context):
+        url = options["url"]
+        guide_id_match = self.guide_id_regex.search(url)
+        if guide_id_match:
+            return self.text.make_chatcmd(value, "/tell <myname> aou " + guide_id_match.group(1))
+        else:
+            return self.text.make_chatcmd(value, "/start " + url)
+
+    def bbcode_render_item(self, tag_name, value, options, parent, context):
+        item = self.items_controller.get_by_item_id(value)
+        if not item:
+            return "Unknown Item(%s)" % value
+        else:
+            include_icon = tag_name == "item" or tag_name == "itemicon"
+            return self.text.format_item(item, with_icon=include_icon)
+
+    def bbcode_render_waypoint(self, tag_name, value, options, parent, context):
+        x_coord = options["x"]
+        y_coord = options["y"]
+        pf_id = options["pf"]
+
+        return self.text.make_chatcmd("%s (%sx%s)" % (value, x_coord, y_coord), "/waypoint %s %s %s" % (x_coord, y_coord, pf_id))

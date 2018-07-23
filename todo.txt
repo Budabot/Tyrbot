@@ -8,7 +8,6 @@ PREFERENCES
 USAGE - needs !usage command, needs to submit usage
 
 EVENTS
-GUIDE - almost done, just need to add formatting for !aou guides
 GUILD - renamed to ORG, needs to be a system module
 IMPLANT
 ITEMS
@@ -50,6 +49,7 @@ CITY - done
 DEV - ignore
 FUN - ignore
 GIT - ignore
+GUIDE - done
 HELPBOT - done
 LEVEL - done
 ONLINE - done

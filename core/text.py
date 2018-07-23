@@ -32,10 +32,12 @@ class Text:
         if not item:
             return None
 
-        result = self.make_image(item.icon)
+        ql = ql or item["highql"]
+
+        result = self.make_item(item["lowid"], item["highid"], ql, item["name"])
 
         if with_icon:
-            result += "\n" + self.make_item(item.lowid, item.highid, ql or item.highql, item.name)
+            result = self.make_image(item["icon"]) + "\n" + result
 
         return result
 

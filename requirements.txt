@@ -4,3 +4,4 @@ pytz
 hjson
 discord
 psutil
+bbcode
