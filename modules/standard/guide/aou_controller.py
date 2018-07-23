@@ -1,7 +1,6 @@
 from core.decorators import instance, command
 from core.chat_blob import ChatBlob
 from core.command_param_types import Any, Const, Int
-from core.map_object import MapObject
 from xml.etree import ElementTree
 import os
 import requests
@@ -30,7 +29,7 @@ class AOUController:
             return
 
         guide_info = self.get_guide_info(xml)
-        reply(ChatBlob(guide_info.name, self.format_guide(guide_info)))
+        reply(ChatBlob(guide_info["name"], self.format_guide(guide_info)))
 
     @command(command="aou", params=[Const("all", is_optional=True), Any("search")], access_level="all",
              description="Search for an AO-Universe guides")
@@ -47,14 +46,14 @@ class AOUController:
             category = self.get_category(section)
             found = False
             for guide in self.get_guides(section):
-                if include_all_matches or self.check_matches(category + " " + guide.name + " " + guide.description, search):
+                if include_all_matches or self.check_matches(category + " " + guide["name"] + " " + guide["description"], search):
                     # don't show category unless we have at least one guide for it
                     if not found:
                         blob += "\n<header2>%s<end>\n" % category
                         found = True
 
                     count += 1
-                    blob += "%s - %s\n" % (self.text.make_chatcmd(guide.name, "/tell <myname> aou %s" % guide.id), guide.description)
+                    blob += "%s - %s\n" % (self.text.make_chatcmd(guide["name"], "/tell <myname> aou %s" % guide["id"]), guide["description"])
         blob += "\n\nProvided by %s" % self.text.make_chatcmd("AO-Universe.com", "/start https://www.ao-universe.com")
 
         if count == 0:
@@ -64,7 +63,7 @@ class AOUController:
 
     def get_guide_info(self, xml):
         content = self.get_xml_child(xml, "section/content")
-        return MapObject({
+        return {
             "id": self.get_xml_child(content, "id").text,
             "category": self.get_category(self.get_xml_child(xml, "section")),
             "name": self.get_xml_child(content, "name").text,
@@ -74,15 +73,14 @@ class AOUController:
             "level": self.get_xml_child(content, "level").text,
             "author": self.get_xml_child(content, "author").text,
             "text": self.get_xml_child(content, "text").text
-        })
+        }
 
     def check_matches(self, haystack, needle):
-        try:
-            for n in needle.split():
-                haystack.index(n)
-            return True
-        except ValueError:
-            return False
+        haystack = haystack.lower()
+        for n in needle.split():
+            if n in haystack:
+                return True
+        return False
 
     def get_base_path(self):
         return os.path.dirname(os.path.realpath(__file__)) + os.sep + "guides"
@@ -90,17 +88,17 @@ class AOUController:
     def get_guides(self, section):
         result = []
         for guide in section.findall("./guidelist/guide"):
-            result.append(MapObject({"id": guide[0].text, "name": guide[1].text, "description": guide[2].text}))
+            result.append({"id": guide[0].text, "name": guide[1].text, "description": guide[2].text})
         return result
 
     def get_category(self, section):
         result = []
         for folder_names in section.findall("./folderlist/folder/name"):
             result.append(folder_names.text)
-        return " - ".join(result)
+        return " - ".join(reversed(result))
 
     def get_xml_child(self, xml, child_tag):
         return xml.findall("./%s" % child_tag)[0]
 
     def format_guide(self, guide_info):
-        return guide_info.text
+        return guide_info["text"]

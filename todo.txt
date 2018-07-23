@@ -1,9 +1,7 @@
 remove timer_event table and store next_run in meta_data column of event_config
 add db update/migration
 
-ignore offline messages? maybe
 consider a replication strategy
-rename managers to services
 include access_level in sender obj
 
 PREFERENCES
