@@ -1,22 +1,17 @@
-class MapObject:
-    def __init__(self, row):
-        self.row = row
+class MapObject(dict):
+    def __init__(self, *args, **kw):
+        super().__init__(*args, **kw)
 
-    def get_row_value(self, name):
-        val = self.row[name]
-        if isinstance(val, dict):
-            return MapObject(val)
-        else:
-            return val
+    def get_value(self, name):
+        val = self[name]
+        if isinstance(val, dict) and not isinstance(val, MapObject):
+            self[name] = MapObject(val)
+            val = self[name]
 
-    def __getitem__(self, name):
-        return self.get_row_value(name)
+        return val
 
     def __getattr__(self, name):
-        return self.get_row_value(name)
+        return self.get_value(name)
 
-    def __repr__(self):
-        return self.__str__()
-
-    def __str__(self):
-        return self.row.__str__()
+    def __setattr__(self, key, value):
+        self[key] = value

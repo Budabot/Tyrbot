@@ -2,12 +2,12 @@ from core.decorators import instance
 from core.access_service import AccessService
 from core.aochat import server_packets
 from core.lookup.character_service import CharacterService
+from core.sender_obj import SenderObj
 from core.setting_service import SettingService
 from core.registry import Registry
 from core.logger import Logger
 from core.tyrbot import Tyrbot
 from core.chat_blob import ChatBlob
-from core.map_object import MapObject
 from __init__ import flatmap, get_attrs
 import collections
 import re
@@ -150,8 +150,7 @@ class CommandService:
                 cmd_config, matches, handler = self.get_matches(cmd_configs, command_args)
                 if matches:
                     if handler["check_access"](char_id, cmd_config.access_level):
-                        sender = MapObject({"name": self.character_service.resolve_char_to_name(char_id, "Unknown(%d)" % char_id),
-                                            "char_id": char_id})
+                        sender = SenderObj(char_id, self.character_service.resolve_char_to_name(char_id, "Unknown(%d)" % char_id))
                         handler["callback"](channel, sender, reply, self.process_matches(matches, handler["params"]))
 
                         # record command usage

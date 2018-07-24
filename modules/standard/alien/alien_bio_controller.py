@@ -22,9 +22,9 @@ class AlienBioController:
     @command(command="bio", params=[Item("bio_material")], access_level="all",
              description="Show info about Kyr'Ozch Bio-Material")
     def bio_command(self, channel, sender, reply, args):
-        low_id = args[0]
-        high_id = args[1]
-        ql = args[2]
+        item = args[0]
+        high_id = item.high_id
+        ql = item.ql
 
         if high_id == 247707 or high_id == 247708:
             bio_type = "1"
