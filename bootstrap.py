@@ -1,6 +1,6 @@
 from core.registry import Registry
 from core import config_creator
-from core.map_object import MapObject
+from core.dict_object import DictObject
 from core.logger import Logger
 from core.aochat.mmdb_parser import MMDBParser
 import hjson
@@ -23,7 +23,7 @@ try:
 
     logger.debug("Reading config file '%s'" % config_file)
     with open(config_file, "r") as cfg:
-        config = MapObject(hjson.load(cfg))
+        config = DictObject(hjson.load(cfg))
 
     # paths to search for instances: core + module_paths
     paths = ["core"]

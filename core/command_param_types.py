@@ -1,6 +1,6 @@
 import re
 from core.registry import Registry
-from core.map_object import MapObject
+from core.dict_object import DictObject
 
 
 class CommandParam:
@@ -181,7 +181,7 @@ class Item(CommandParam):
 
     def process_matches(self, params):
         if params.pop(0):
-            return MapObject({
+            return DictObject({
                 "low_id": int(params.pop(0)),
                 "high_id": int(params.pop(0)),
                 "ql": int(params.pop(0)),

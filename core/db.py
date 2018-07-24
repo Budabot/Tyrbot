@@ -1,5 +1,5 @@
 from core.decorators import instance
-from core.map_object import MapObject
+from core.dict_object import DictObject
 from core.logger import Logger
 from pkg_resources import parse_version
 import mysql.connector
@@ -67,7 +67,7 @@ class DB:
 
         def map_result(cur):
             row = cur.fetchone()
-            return row if row is None else MapObject(row)
+            return row if row is None else DictObject(row)
 
         return self._execute_wrapper(sql, params, map_result)
 
@@ -77,7 +77,7 @@ class DB:
         sql, params = self.format_sql(sql, params)
 
         def map_result(cur):
-            return list(map(lambda row: MapObject(row), cur.fetchall()))
+            return list(map(lambda row: DictObject(row), cur.fetchall()))
 
         return self._execute_wrapper(sql, params, map_result)
 

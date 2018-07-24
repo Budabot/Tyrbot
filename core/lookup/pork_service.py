@@ -1,5 +1,5 @@
 from core.decorators import instance
-from core.map_object import MapObject
+from core.dict_object import DictObject
 from core.aochat import server_packets
 from core.logger import Logger
 from __init__ import none_to_empty_string
@@ -53,7 +53,7 @@ class PorkService:
             char_info_json = json[0]
             org_info_json = json[1] if json[1] else {}
 
-            char_info = MapObject({
+            char_info = DictObject({
                 "name": char_info_json["NAME"],
                 "char_id": char_info_json["CHAR_INSTANCE"],
                 "first_name": char_info_json["FIRSTNAME"],
@@ -92,7 +92,7 @@ class PorkService:
     def load_character_info(self, char_id):
         char_info = self.get_character_info(char_id)
         if not char_info:
-            char_info = MapObject({
+            char_info = DictObject({
                 "name": "Unknown:" + str(char_id),
                 "char_id": char_id,
                 "first_name": "",

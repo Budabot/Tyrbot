@@ -1,11 +1,11 @@
-class MapObject(dict):
+class DictObject(dict):
     def __init__(self, *args, **kw):
         super().__init__(*args, **kw)
 
     def get_value(self, name):
         val = self[name]
-        if isinstance(val, dict) and not isinstance(val, MapObject):
-            self[name] = MapObject(val)
+        if isinstance(val, dict) and not isinstance(val, DictObject):
+            self[name] = DictObject(val)
             val = self[name]
 
         return val
