@@ -10,12 +10,6 @@ class JobScheduler:
         self.jobs = []
         self.job_id_index = 0
 
-    def inject(self, registry):
-        pass
-
-    def start(self):
-        pass
-
     def check_for_scheduled_jobs(self, timestamp):
         while self.jobs and self.jobs[0]["time"] <= timestamp:
             try:
