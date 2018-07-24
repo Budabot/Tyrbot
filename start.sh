@@ -8,5 +8,5 @@ set -o pipefail -o errexit
 # Should be restarted until it returns an exit code of zero.
 while true; do
     python3 bootstrap.py && exit
-    sleep 5
+    sleep 1
 done

@@ -13,5 +13,5 @@ while true; do
     git pull
     pip install -U -r requirements.txt
     python3 bootstrap.py && exit
-    sleep 5
+    sleep 1
 done
