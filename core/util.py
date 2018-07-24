@@ -187,6 +187,9 @@ class Util:
         else:
             return None
 
-    def format_timestamp(self, timestamp):
+    def format_timestamp(self, timestamp, include_time=True):
         value = datetime.datetime.fromtimestamp(timestamp)
-        return value.strftime('%Y-%m-%d %H:%M:%S')
+        if include_time:
+            return value.strftime('%Y-%m-%d %H:%M:%S')
+        else:
+            return value.strftime('%Y-%m-%d')

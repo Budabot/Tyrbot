@@ -1,5 +1,6 @@
 remove timer_event table and store next_run in meta_data column of event_config
 add db update/migration
+add caching for all remote calls
 
 consider a replication strategy
 include access_level in sender obj
@@ -24,7 +25,6 @@ TIMERS - need !timer, !rtimer, ignore !stopwatch
 TOWER
 TRACKER
 VOTE - renamed to poll
-WHOIS - need !history
 
 done
 ----
@@ -61,4 +61,5 @@ SPIRITS - ignore
 TRICKLE - done
 WEATHER - ignore
 WHEREIS - done
+WHOIS - done
 WHOMPAH - done
