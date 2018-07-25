@@ -107,11 +107,16 @@ class Tyrbot(Bot):
     def run(self):
         start = time.time()
 
-        while None is not self.iterate():
+        # wait for flood of packets from login to stop sending
+        while self.iterate():
             pass
 
         self.logger.info("Login complete (%fs)" % (time.time() - start))
+
+        start = time.time()
         self.event_service.fire_event("connect", None)
+        self.logger.info("Connect events finished (%fs)" % (time.time() - start))
+
         self.ready = True
 
         while self.status == BotStatus.RUN:
