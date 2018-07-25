@@ -12,10 +12,20 @@ class SqlController:
 
     @command(command="sql", params=[Const("query"), Any("sql_statement")], access_level="superadmin",
              description="Execute a SQL query and return the results")
-    def sql_cmd(self, channel, sender, reply, args):
+    def sql_query_cmd(self, channel, sender, reply, args):
         sql = args[1]
         try:
             results = list(map(lambda x: x.row, self.db.query(sql)))
             reply(ChatBlob("Results (%d)" % len(results), json.dumps(results, indent=4, sort_keys=True)))
+        except Exception as e:
+            reply("There was an error executing your query: %s" % str(e))
+
+    @command(command="sql", params=[Const("exec"), Any("sql_statement")], access_level="superadmin",
+             description="Execute a SQL query and return number of affected rows")
+    def sql_exec_cmd(self, channel, sender, reply, args):
+        sql = args[1]
+        try:
+            row_count = self.db.exec(sql)
+            reply("%d row(s) affected." % row_count)
         except Exception as e:
             reply("There was an error executing your query: %s" % str(e))
