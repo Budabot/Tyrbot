@@ -24,7 +24,6 @@ SKILLS !nanoinit, !aggdef, !weapon, !specials <type> (add aliases)
 TIMERS - need !timer, !rtimer, ignore !stopwatch
 TOWER
 TRACKER
-VOTE - renamed to poll
 
 done
 ----
@@ -59,6 +58,7 @@ REPUTATION - ignore
 SHOPPING - ignore
 SPIRITS - ignore
 TRICKLE - done
+VOTE - done, renamed to poll
 WEATHER - ignore
 WHEREIS - done
 WHOIS - done

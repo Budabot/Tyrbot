@@ -33,7 +33,7 @@ class CloakController:
                 if time_since_change >= one_hour:
                     msg = "The cloaking device is <green>enabled<end>. It is possible to disable it."
                 else:
-                    msg = "The cloaking device is <green>enabled<end>. It is possible to enable it in %s." % time_string
+                    msg = "The cloaking device is <green>enabled<end>. It is possible to disable it in %s." % time_string
 
             reply(msg)
 
