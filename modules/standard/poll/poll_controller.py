@@ -33,7 +33,7 @@ class PollController:
             else:
                 time_string = self.util.time_to_readable(t - poll.finished_at) + " ago"
 
-            blob += "%d. %s - %s\n" % (poll["id"], self.text.make_chatcmd(poll["question"], "/tell <myname> poll %d" % poll["id"]), time_string)
+            blob += "%d. %s (%d) - %s\n" % (poll.id, self.text.make_chatcmd(poll.question, "/tell <myname> poll %d" % poll.id), poll.total_cnt, time_string)
 
         reply(ChatBlob("Polls (%d)" % len(polls), blob))
 
@@ -134,32 +134,37 @@ class PollController:
 
     def show_poll_details_blob(self, poll):
         blob = ""
-        blob += "Duration: <highlight>%s<end>\n" % self.util.time_to_readable(poll["duration"])
-        blob += "Created: <highlight>%s<end>\n" % poll["created_at"]
-        if poll["finished_at"]:
-            blob += "Finished: <highlight>%s<end>\n" % poll["finished_at"]
+        blob += "Duration: <highlight>%s<end>\n" % self.util.time_to_readable(poll.duration)
+        blob += "Created: <highlight>%s<end>\n" % poll.created_at
+        blob += "Finished: <highlight>%s<end>\n" % poll.finished_at
 
         blob += "\n<header2>Choices<end>\n\n"
         idx = 1
-        for choice in poll["choices"]:
-            blob += "%d. %s (%d)\n" % (idx, self.text.make_chatcmd(choice["choice"], "/tell <myname> poll %d vote %d" % (poll["id"], choice["id"])), choice["cnt"])
+        for choice in self.get_choices(poll.id):
+            blob += "%d. %s (%d)\n" % (idx, self.text.make_chatcmd(choice.choice, "/tell <myname> poll %d vote %d" % (poll.id, choice.id)), choice.cnt)
+            for vote in self.get_votes(choice.id):
+                blob += "<tab>%s\n" % self.text.format_char_info(vote)
             idx += 1
 
-        return ChatBlob("Poll ID %d: %s" % (poll["id"], poll["question"]), blob)
+        return ChatBlob("Poll ID %d: %s" % (poll.id, poll.question), blob)
 
     def get_polls(self):
-        return self.db.query("SELECT * FROM poll ORDER BY finished_at DESC")
+        return self.db.query("SELECT p.*, (SELECT COUNT(1) FROM poll_vote v WHERE v.poll_id = p.id) AS total_cnt FROM poll p ORDER BY finished_at DESC")
 
     def get_poll(self, poll_id):
-        poll = self.db.query_single("SELECT * FROM poll WHERE id = ?", [poll_id])
-        if poll:
-            poll.row["choices"] = self.db.query("SELECT c.id, c.choice, COUNT(v.char_id) AS cnt FROM poll_choice c "
-                                                "LEFT JOIN poll_vote v ON c.id = v.choice_id "
-                                                "WHERE c.poll_id = ? "
-                                                "GROUP BY c.id, c.choice "
-                                                "ORDER BY c.id ASC", [poll_id])
+        return self.db.query_single("SELECT * FROM poll WHERE id = ?", [poll_id])
 
-        return poll
+    def get_choices(self, poll_id):
+        return self.db.query("SELECT c.id, c.choice, COUNT(v.char_id) AS cnt FROM poll_choice c "
+                             "LEFT JOIN poll_vote v ON c.id = v.choice_id "
+                             "WHERE c.poll_id = ? "
+                             "GROUP BY c.id, c.choice "
+                             "ORDER BY c.id ASC", [poll_id])
+
+    def get_votes(self, choice_id):
+        return self.db.query("SELECT p.* FROM poll_vote v "
+                             "LEFT JOIN player p ON v.char_id = p.char_id "
+                             "WHERE v.choice_id = ?", [choice_id])
 
     def add_poll(self, question, char_id, duration, min_access_level="all"):
         t = int(time.time())
@@ -174,11 +179,11 @@ class PollController:
         return self.db.last_insert_id()
 
     def create_scheduled_job(self, poll):
-        self.job_scheduler.scheduled_job(self.show_results, poll["finished_at"], poll["id"])
+        self.job_scheduler.scheduled_job(self.show_results, poll.finished_at, poll.id)
 
     def show_results(self, t, poll_id):
         self.end_poll(self.get_poll(poll_id))
 
     def end_poll(self, poll):
-        self.bot.send_private_message(poll["char_id"], "Your poll <highlight>%d. %s<end> has finished." % (poll["id"], poll["question"]))
-        self.db.exec("UPDATE poll SET is_finished = 1 WHERE id = ?", [poll["id"]])
+        self.bot.send_private_message(poll.char_id, "Your poll <highlight>%d. %s<end> has finished." % (poll.id, poll.question))
+        self.db.exec("UPDATE poll SET is_finished = 1 WHERE id = ?", [poll.id])
