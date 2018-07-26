@@ -14,7 +14,7 @@ class PollController:
         self.job_scheduler = registry.get_instance("job_scheduler")
 
     @command(command="poll", params=[], access_level="all",
-             description="List the polls")
+             description="List the polls", aliases=["vote"])
     def poll_list_cmd(self, channel, sender, reply, args):
         blob = ""
         t = int(time.time())
