@@ -18,7 +18,7 @@ class AdminController:
     @command(command="admin", params=[], access_level="all",
              description="Show the admin list")
     def admin_list_cmd(self, channel, sender, reply, args):
-        admins = seld.admin_service.get_all()
+        admins = self.admin_service.get_all()
         superadmin = self.pork_service.get_character_info(self.bot.superadmin)
         superadmin.access_level = "superadmin"
         admins.insert(0, superadmin)
@@ -44,7 +44,7 @@ class AdminController:
             reply("Could not find character <highlight>%s<end>." % name)
             return
 
-        if seld.admin_service.add(char_id, AdminService.ADMIN):
+        if self.admin_service.add(char_id, AdminService.ADMIN):
             reply("Character <highlight>%s<end> added as <highlight>%s<end> successfully." % (name, AdminService.ADMIN))
         else:
             reply("Could not add character <highlight>%s<end> as <highlight>%s<end>." % (name, AdminService.ADMIN))
@@ -59,7 +59,7 @@ class AdminController:
             reply("Could not find character <highlight>%s<end>." % name)
             return
 
-        if seld.admin_service.remove(char_id):
+        if self.admin_service.remove(char_id):
             reply("Character <highlight>%s<end> removed as <highlight>%s<end> successfully." % (name, AdminService.ADMIN))
         else:
             reply("Could not remove character <highlight>%s<end> as <highlight>%s<end>." % (name, AdminService.ADMIN))
@@ -74,7 +74,7 @@ class AdminController:
             reply("Could not find character <highlight>%s<end>." % name)
             return
 
-        if seld.admin_service.add(char_id, AdminService.MODERATOR):
+        if self.admin_service.add(char_id, AdminService.MODERATOR):
             reply("Character <highlight>%s<end> added as <highlight>%s<end> successfully." % (name, AdminService.MODERATOR))
         else:
             reply("Could not add character <highlight>%s<end> as <highlight>%s<end>." % (name, AdminService.MODERATOR))
@@ -89,7 +89,7 @@ class AdminController:
             reply("Could not find character <highlight>%s<end>." % name)
             return
 
-        if seld.admin_service.remove(char_id):
+        if self.admin_service.remove(char_id):
             reply("Character <highlight>%s<end> removed as <highlight>%s<end> successfully." % (name, AdminService.MODERATOR))
         else:
             reply("Could not remove character <highlight>%s<end> as <highlight>%s<end>." % (name, AdminService.MODERATOR))
