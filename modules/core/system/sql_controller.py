@@ -15,7 +15,7 @@ class SqlController:
     def sql_query_cmd(self, channel, sender, reply, args):
         sql = args[1]
         try:
-            results = list(map(lambda x: x.row, self.db.query(sql)))
+            results = self.db.query(sql)
             reply(ChatBlob("Results (%d)" % len(results), json.dumps(results, indent=4, sort_keys=True)))
         except Exception as e:
             reply("There was an error executing your query: %s" % str(e))
