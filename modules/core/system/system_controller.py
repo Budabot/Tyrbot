@@ -1,4 +1,4 @@
-from core.decorators import instance, command
+from core.decorators import instance, command, event
 from core.command_service import CommandService
 
 
@@ -26,3 +26,7 @@ class SystemController:
         if channel not in [CommandService.ORG_CHANNEL, CommandService.PRIVATE_CHANNEL]:
             reply(msg)
         self.bot.restart()
+
+    @event(event_type="connect", description="Notify superadmin that bot has come online")
+    def connect_event(self, event_type, event_data):
+        self.bot.send_private_message(self.bot.superadmin, "<myname> is now <green>online<end>.")
