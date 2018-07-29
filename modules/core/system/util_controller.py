@@ -77,6 +77,6 @@ class UtilController:
         blob += "\n"
         blob += "Superadmin: <highlight>%s<end>\n" % self.bot.superadmin
         blob += "Buddy List: <highlight>%d / %d<end>\n" % (len(self.buddy_service.buddy_list), self.buddy_service.buddy_list_size)
-        blob += "Uptime: <highlight>%s<end>\n" % self.util.time_to_readable(int(time.time()) - self.bot.start_time, max_levels=4)
+        blob += "Uptime: <highlight>%s<end>\n" % self.util.time_to_readable(int(time.time()) - self.bot.start_time, max_levels=None)
 
         reply(ChatBlob("System Info", blob))

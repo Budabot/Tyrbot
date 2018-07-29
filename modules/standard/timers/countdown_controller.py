@@ -4,9 +4,6 @@ from core.command_param_types import Any
 
 @instance()
 class CountdownController:
-    def __init__(self):
-        pass
-
     def inject(self, registry):
         self.job_scheduler = registry.get_instance("job_scheduler")
 
