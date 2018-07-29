@@ -219,7 +219,11 @@ class BooleanSettingType(SettingType):
         return "<highlight>%s<end>" % ("True" if self.get_value() else "False")
 
     def set_value(self, value):
-        if value.lower() == "true":
+        if value is True:
+            self._set_raw_value(1)
+        elif value is False:
+            self._set_raw_value(0)
+        elif value.lower() == "true":
             self._set_raw_value(1)
         elif value.lower() == "false":
             self._set_raw_value(0)
