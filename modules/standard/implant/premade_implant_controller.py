@@ -11,19 +11,42 @@ class PremadeImplantController:
     def inject(self, registry):
         self.db = registry.get_instance("db")
         self.util = registry.get_instance("util")
+        self.text = registry.get_instance("text")
+
+    @command(command="premade", params=[], access_level="all",
+             description="Search for implants in the premade implant booths")
+    def premade_list_cmd(self, channel, sender, reply, args):
+        blob = "<header2>Professions<end>\n"
+        for row in self.db.query("SELECT Name FROM Profession WHERE ID IN (SELECT ProfessionID FROM premade_implant) ORDER BY Name ASC"):
+            blob += self.text.make_chatcmd(row.Name, "/tell <myname> premade %s" % row.Name) + "\n"
+
+        blob += "\n<header2>Slots<end>\n"
+        for row in self.db.query("SELECT * FROM ImplantType ORDER BY ImplantTypeID ASC"):
+            blob += self.text.make_chatcmd(row.Name, "/tell <myname> premade %s" % row.ShortName) + "\n"
+
+        blob += "\n<header2>Modifiers<end>\n"
+        sql = "SELECT LongName FROM Cluster WHERE ClusterID IN " \
+              "(SELECT ShinyClusterID From premade_implant UNION SELECT BrightClusterID FROM premade_implant UNION SELECT FadedClusterID FROM premade_implant) " \
+              "AND ClusterID != 0 " \
+              "ORDER BY LongName ASC"
+        for row in self.db.query(sql):
+            blob += self.text.make_chatcmd(row.LongName, "/tell <myname> premade %s" % row.LongName) + "\n"
+
+        reply(ChatBlob("Premade Implant", blob))
 
     @command(command="premade", params=[Any("search")], access_level="all",
-             description="Search for implants in the premade implant booths", extended_description="Search can be a profession, implant slot, or ability/skill")
-    def premade_cmd(self, channel, sender, reply, args):
+             description="Search for implants in the premade implant booths", extended_description="Search can be a profession, implant slot, or modifier (ability/skill)")
+    def premade_show_cmd(self, channel, sender, reply, args):
         search = args[0].lower()
 
         prof = self.util.get_profession(search)
+        slot = self.get_slot(search)
         if prof:
             blob = "Search by profession: <highlight>%s<end>\n\n" % prof
             results = self.search_by_profession(prof)
-        elif search in self.slots:
-            blob = "Search by slot: <highlight>%s<end>\n\n" % search
-            results = self.search_by_slot(search)
+        elif slot:
+            blob = "Search by slot: <highlight>%s<end>\n\n" % slot.ShortName
+            results = self.search_by_slot(slot.ShortName)
         else:
             blob = "Search by modifier: <highlight>%s<end>\n\n" % search
             results = self.search_by_modifier(search)
@@ -91,3 +114,6 @@ class PremadeImplantController:
             WHERE c1.LongName <EXTENDED_LIKE=0> ? OR c2.LongName <EXTENDED_LIKE=1> ? OR c3.LongName <EXTENDED_LIKE=2> ?"""
 
         return self.db.query(*self.db.handle_extended_like(sql, [modifier, modifier, modifier]))
+
+    def get_slot(self, search):
+        return self.db.query_single("SELECT * FROM ImplantType WHERE ShortName LIKE ?", [search])

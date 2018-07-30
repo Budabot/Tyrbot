@@ -187,6 +187,10 @@ class Util:
         else:
             return None
 
+    def get_all_professions(self):
+        return ["Adventurer", "Agent", "Bureaucrat", "Doctor", "Enforcer", "Engineer", "Fixer", "Keeper",
+                "Martial Artist", "Meta-Physicist", "Nano-Technician", "Shade", "Soldier", "Trader"]
+
     def format_timestamp(self, timestamp, include_time=True):
         value = datetime.datetime.fromtimestamp(timestamp)
         if include_time:
