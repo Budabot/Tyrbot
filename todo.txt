@@ -22,7 +22,7 @@ RAID
 RECIPE
 RELAY
 SKILLS - !nanoinit, !aggdef, !weapon, !specials <type> (add aliases)
-TIMERS - need !timer, !rtimer, ignore !stopwatch
+TIMERS - need !rtimer
 TOWER
 TRACKER
 
