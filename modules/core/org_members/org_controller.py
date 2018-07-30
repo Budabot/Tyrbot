@@ -4,7 +4,7 @@ from core.logger import Logger
 
 @instance()
 class OrgController:
-    ORG_BUDDY_TYPE = "org"
+    ORG_BUDDY_TYPE = "org_members"
 
     MODE_AUTO = "auto"
     MODE_IGNORE = "ignore"
@@ -21,14 +21,14 @@ class OrgController:
         self.org_pork_service = registry.get_instance("org_pork_service")
 
     def pre_start(self):
-        self.access_service.register_access_level("org", 60, self.check_org_member)
+        self.access_service.register_access_level("org_members", 60, self.check_org_member)
 
     @event(event_type="connect", description="Add members as buddies of the bot on startup")
     def handle_connect_event(self, event_type, event_data):
         for row in self.get_all_org_members():
             self.buddy_service.add_buddy(row.char_id, self.ORG_BUDDY_TYPE)
 
-    @timerevent(budatime="24h", description="Download the org roster")
+    @timerevent(budatime="24h", description="Download the org_members roster")
     def handle_connect_event(self, event_type, event_data):
         org_id = self.public_channel_service.get_org_id()
         if org_id:
@@ -36,7 +36,7 @@ class OrgController:
             for row in self.get_all_org_members():
                 db_members[row.char_id] = row.mode
 
-            self.logger.info("Updating org roster for org_id %d" % org_id)
+            self.logger.info("Updating org_members roster for org_id %d" % org_id)
             org_info = self.org_pork_service.get_org_info(org_id)
             if org_info:
                 for roster_member in org_info["org_members"]:
