@@ -24,7 +24,7 @@ class OrgPorkService:
             json = r.json()
         except ValueError as e:
             self.logger.warning("Error marshalling value as json: %s" % r.text, e)
-            json = None
+            return None
 
         org_info = json[0]
         org_members = json[1]
