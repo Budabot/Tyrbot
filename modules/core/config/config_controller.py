@@ -90,7 +90,7 @@ class ConfigController:
             blob += "\n<header2>Events<end>\n"
             for row in data:
                 event_type_key = self.event_service.get_event_type_key(row.event_type, row.event_sub_type)
-                blob += row.event_type + " - " + row.description
+                blob += "%s - %s" % (self.format_event_type(row), row.description)
                 blob += " " + self.text.make_chatcmd("On", "/tell <myname> config event " + event_type_key + " " + row.handler + " enable")
                 blob += " " + self.text.make_chatcmd("Off", "/tell <myname> config event " + event_type_key + " " + row.handler + " disable")
                 blob += "\n"
@@ -165,3 +165,9 @@ class ConfigController:
             reply(ChatBlob("Setting (%s)" % setting_name, blob))
         else:
             reply("Could not find setting <highlight>%s<end>." % setting_name)
+
+    def format_event_type(self, row):
+        if row.event_sub_type:
+            return row.event_type + ":" + row.event_sub_type
+        else:
+            return row.event_type
