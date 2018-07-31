@@ -72,6 +72,14 @@ class BuddyService:
 
     def get_buddy(self, char):
         char_id = self.character_service.resolve_char_to_id(char)
+
+        # if char is bot
+        if char_id == self.bot.char_id:
+            return {
+                "online": True,
+                "types": []
+            }
+
         return self.buddy_list.get(char_id, None)
 
     def is_online(self, char):
