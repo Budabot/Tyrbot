@@ -1,4 +1,5 @@
 from core.decorators import instance
+from core.dict_object import DictObject
 from core.logger import Logger
 from __init__ import none_to_empty_string
 import requests
@@ -30,7 +31,7 @@ class OrgPorkService:
         org_members = json[1]
         last_updated = json[2]
 
-        new_org_info = {
+        new_org_info = DictObject({
             "counts": {
                 "gender": {
                     "Female": org_info["FEMALECOUNT"],
@@ -74,11 +75,11 @@ class OrgPorkService:
             "name": org_info["NAME"],
             "faction": org_info["SIDE_NAME"],
             "faction_id": org_info["SIDE"],
-        }
+        })
 
-        members = []
+        members = {}
         for org_member in org_members:
-            char_info = {
+            char_info = DictObject({
                 "name": org_member["NAME"],
                 "char_id": org_member["CHAR_INSTANCE"],
                 "first_name": org_member["FIRSTNAME"],
@@ -100,12 +101,12 @@ class OrgPorkService:
                 "org_rank_name": org_member.get("RANK_TITLE", ""),
                 "org_rank_id": org_member.get("RANK", 0),
                 "source": "people.anarchy-online.com"
-            }
+            })
 
             self.pork_service.save_character_info(char_info)
 
-            members.append(char_info)
+            members[char_info.char_id] = char_info
 
-        return {"org_info": new_org_info,
-                "org_members": members,
-                "last_updated": int(datetime.datetime.strptime(last_updated, "%Y/%m/%d %H:%M:%S").timestamp())}
+        return DictObject({"org_info": new_org_info,
+                           "org_members": members,
+                           "last_updated": int(datetime.datetime.strptime(last_updated, "%Y/%m/%d %H:%M:%S").timestamp())})
