@@ -4,10 +4,14 @@ from core.logger import Logger
 from __init__ import none_to_empty_string
 import requests
 import datetime
+import json
 
 
 @instance()
 class OrgPorkService:
+    CACHE_GROUP = "org_roster"
+    CACHE_MAX_AGE = 86400
+
     def __init__(self):
         self.logger = Logger(__name__)
 
@@ -16,20 +20,38 @@ class OrgPorkService:
         self.db = registry.get_instance("db")
         self.character_service = registry.get_instance("character_service")
         self.pork_service = registry.get_instance("pork_service")
+        self.cache_service = registry.get_instance("cache_service")
 
     def get_org_info(self, org_id):
-        url = "http://people.anarchy-online.com/org/stats/d/%d/name/%d/basicstats.xml?data_type=json" % (self.bot.dimension, org_id)
+        cache_key = "%d.%d.json" % (org_id, self.bot.dimension)
 
-        r = requests.get(url)
-        try:
-            json = r.json()
-        except ValueError as e:
-            self.logger.warning("Error marshalling value as json: %s" % r.text, e)
+        # check cache for fresh value
+        cache_result = self.cache_service.retrieve(self.CACHE_GROUP, cache_key, self.CACHE_MAX_AGE)
+        if cache_result:
+            result = json.loads(cache_result)
+        else:
+            url = "http://people.anarchy-online.com/org/stats/d/%d/name/%d/basicstats.xml?data_type=json" % (self.bot.dimension, org_id)
+
+            r = requests.get(url)
+            try:
+                result = r.json()
+            except ValueError as e:
+                self.logger.warning("Error marshalling value as json: %s" % r.text, e)
+                result = None
+
+            if result:
+                # store result in cache
+                self.cache_service.store(self.CACHE_GROUP, cache_key, json.dumps(result))
+            else:
+                # check cache for any value, even expired
+                result = self.cache_service.retrieve(self.CACHE_GROUP, cache_key)
+
+        if not result:
             return None
 
-        org_info = json[0]
-        org_members = json[1]
-        last_updated = json[2]
+        org_info = result[0]
+        org_members = result[1]
+        last_updated = result[2]
 
         new_org_info = DictObject({
             "counts": {
@@ -65,7 +87,7 @@ class OrgPorkService:
             "min_level": org_info["MINLVL"],
             "num_members": org_info["NUMMEMBERS"],
             "dimension": org_info["ORG_DIMENSION"],
-            "governing_name": org_info["GOVERNINGNAME"],
+            "governing_type": org_info["GOVERNINGNAME"],
             "max_level": org_info["MAXLVL"],
             "org_id": org_info["ORG_INSTANCE"],
             "objective": org_info["OBJECTIVE"],
