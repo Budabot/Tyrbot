@@ -1,14 +1,18 @@
+from core.buddy_service import BuddyService
 from core.decorators import instance, event, timerevent
 from core.logger import Logger
 
 
 @instance()
-class OrgController:
+class OrgMemberController:
     ORG_BUDDY_TYPE = "org_members"
 
     MODE_AUTO = "auto"
     MODE_IGNORE = "ignore"
     MODE_MANUAL = "manual"
+
+    ORG_MEMBER_LOGON_EVENT = "org_member_logon"
+    ORG_MEMBER_LOGOFF_EVENT = "org_member_logoff"
 
     def __init__(self):
         self.logger = Logger(__name__)
@@ -19,14 +23,27 @@ class OrgController:
         self.public_channel_service = registry.get_instance("public_channel_service")
         self.access_service = registry.get_instance("access_service")
         self.org_pork_service = registry.get_instance("org_pork_service")
+        self.event_service = registry.get_instance("event_service")
 
     def pre_start(self):
+        self.event_service.register_event_type(self.ORG_MEMBER_LOGON_EVENT)
+        self.event_service.register_event_type(self.ORG_MEMBER_LOGOFF_EVENT)
         self.access_service.register_access_level("org_members", 60, self.check_org_member)
 
     @event(event_type="connect", description="Add members as buddies of the bot on startup")
     def handle_connect_event(self, event_type, event_data):
         for row in self.get_all_org_members():
             self.buddy_service.add_buddy(row.char_id, self.ORG_BUDDY_TYPE)
+
+    @event(event_type=BuddyService.BUDDY_LOGON_EVENT, description="Check if buddy is an org member")
+    def handle_buddy_logon_event(self, event_type, event_data):
+        if self.get_org_member(event_data.char_id):
+            self.event_service.fire_event(self.ORG_MEMBER_LOGON_EVENT, event_data)
+
+    @event(event_type=BuddyService.BUDDY_LOGOFF_EVENT, description="Check if buddy is an org member")
+    def handle_buddy_logoff_event(self, event_type, event_data):
+        if self.get_org_member(event_data.char_id):
+            self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, event_data)
 
     @timerevent(budatime="24h", description="Download the org_members roster")
     def handle_connect_event(self, event_type, event_data):

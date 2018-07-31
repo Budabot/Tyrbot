@@ -6,9 +6,12 @@ from core.public_channel_service import PublicChannelService
 import time
 import re
 
+from modules.core.org_members.org_member_controller import OrgMemberController
+
 
 @instance()
 class OnlineController:
+    ORG_CHANNEL = "Org"
     PRIVATE_CHANNEL = "Private"
 
     def __init__(self):
@@ -29,8 +32,8 @@ class OnlineController:
     def online_cmd(self, channel, sender, reply, args):
         blob = ""
         count = 0
-        for channel in [self.PRIVATE_CHANNEL]:
-            online_list = self.get_online_characters(self.PRIVATE_CHANNEL)
+        for channel in [self.ORG_CHANNEL, self.PRIVATE_CHANNEL]:
+            online_list = self.get_online_characters(channel)
             if len(online_list) > 0:
                 blob += "<header2>%s Channel<end>\n" % channel
 
@@ -46,6 +49,7 @@ class OnlineController:
                     afk = " - <highlight>%s (%s ago)<end>" % (row.afk_reason, self.util.time_to_readable(int(time.time()) - row.afk_dt))
 
                 blob += " | <highlight>%s<end> (%d/<green>%d<end>) %s %s%s\n" % (row.name, row.level or 0, row.ai_level or 0, row.faction, row.profession, afk)
+            blob += "\n\n"
 
         reply(ChatBlob("Online (%d)" % count, blob))
 
@@ -105,6 +109,17 @@ class OnlineController:
     def private_channel_left_event(self, event_type, event_data):
         self.db.exec("DELETE FROM online WHERE char_id = ? AND channel = ?",
                      [event_data.char_id, self.PRIVATE_CHANNEL])
+
+    @event(OrgMemberController.ORG_MEMBER_LOGON_EVENT, "Record in database when org member logs on")
+    def org_member_logon_event(self, event_type, event_data):
+        self.pork_service.load_character_info(event_data.char_id)
+        self.db.exec("INSERT INTO online (char_id, afk_dt, afk_reason, channel, dt) VALUES (?, ?, ?, ?, ?)",
+                     [event_data.char_id, 0, "", self.ORG_CHANNEL, int(time.time())])
+
+    @event(OrgMemberController.ORG_MEMBER_LOGOFF_EVENT, "Record in database when org member logs off")
+    def org_member_logoff_event(self, event_type, event_data):
+        self.db.exec("DELETE FROM online WHERE char_id = ? AND channel = ?",
+                     [event_data.char_id, self.ORG_CHANNEL])
 
     @event(PrivateChannelService.PRIVATE_CHANNEL_MESSAGE_EVENT, "Check for afk messages in private channel")
     def afk_check_private_channel_event(self, event_type, event_data):

@@ -5,16 +5,10 @@ from core.chat_blob import ChatBlob
 
 @instance()
 class BuddyController:
-    def __init__(self):
-        pass
-
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
         self.character_service = registry.get_instance("character_service")
         self.buddy_service = registry.get_instance("buddy_service")
-
-    def start(self):
-        pass
 
     @command(command="buddylist", params=[], access_level="superadmin",
              description="Show characters on the buddy list")
