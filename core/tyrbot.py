@@ -157,6 +157,11 @@ class Tyrbot(Bot):
 
             self.event_service.fire_event("packet:" + str(packet.id), packet)
 
+        self.check_outgoing_message_queue()
+
+        return packet
+
+    def check_outgoing_message_queue(self):
         # check packet queue for outgoing packets
         outgoing_packet = self.packet_queue.dequeue()
         while outgoing_packet:
@@ -166,8 +171,6 @@ class Tyrbot(Bot):
         num_messages = len(self.packet_queue)
         if num_messages > 10:
             self.logger.warning("%d messages in outgoing message queue" % num_messages)
-
-        return packet
 
     def public_channel_message_ext_msg_handling(self, packet: server_packets.PublicChannelMessage):
         msg = packet.message
@@ -207,6 +210,7 @@ class Tyrbot(Bot):
                 packet = client_packets.PublicChannelMessage(org_channel_id, color + page, "")
                 # self.send_packet(packet)
                 self.packet_queue.enqueue(packet)
+                self.check_outgoing_message_queue()
 
     def send_private_message(self, char, msg):
         char_id = self.character_service.resolve_char_to_id(char)
@@ -219,6 +223,7 @@ class Tyrbot(Bot):
                 packet = client_packets.PrivateMessage(char_id, color + page, "\0")
                 # self.send_packet(packet)
                 self.packet_queue.enqueue(packet)
+                self.check_outgoing_message_queue()
 
     def send_private_channel_message(self, msg, private_channel=None):
         if private_channel is None:
