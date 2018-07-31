@@ -27,8 +27,10 @@ class OrgPorkService:
 
         # check cache for fresh value
         cache_result = self.cache_service.retrieve(self.CACHE_GROUP, cache_key, self.CACHE_MAX_AGE)
+        is_cache = False
         if cache_result:
             result = json.loads(cache_result)
+            is_cache = True
         else:
             url = "http://people.anarchy-online.com/org/stats/d/%d/name/%d/basicstats.xml?data_type=json" % (self.bot.dimension, org_id)
 
@@ -44,7 +46,10 @@ class OrgPorkService:
                 self.cache_service.store(self.CACHE_GROUP, cache_key, json.dumps(result))
             else:
                 # check cache for any value, even expired
-                result = self.cache_service.retrieve(self.CACHE_GROUP, cache_key)
+                cache_result = self.cache_service.retrieve(self.CACHE_GROUP, cache_key)
+                if cache_result:
+                    result = json.loads(cache_result)
+                    is_cache = True
 
         if not result:
             return None
@@ -125,7 +130,8 @@ class OrgPorkService:
                 "source": "people.anarchy-online.com"
             })
 
-            self.pork_service.save_character_info(char_info)
+            if not is_cache:
+                self.pork_service.save_character_info(char_info)
 
             members[char_info.char_id] = char_info
 
