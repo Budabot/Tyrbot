@@ -32,9 +32,9 @@ class DB:
         self.exec("SET collation_connection = 'utf8_general_ci'")
         self.create_db_version_table()
 
-    def connect_sqlite(self, name):
+    def connect_sqlite(self, filename):
         self.type = self.SQLITE
-        self.conn = sqlite3.connect("./data/" + name, isolation_level=None)
+        self.conn = sqlite3.connect(filename, isolation_level=None)
         self.conn.row_factory = self.row_factory
         self.create_db_version_table()
 
@@ -166,6 +166,19 @@ class DB:
             self.conn.commit()
 
     # transaction support
+    def transaction(self):
+        return self
+
+    def __enter__(self):
+        self.begin_transaction()
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        if exc_type is None:
+            self.commit_transaction()
+        else:
+            self.rollback_transaction()
+        return False
+
     def begin_transaction(self):
         self.exec("BEGIN;")
 

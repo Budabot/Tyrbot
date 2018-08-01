@@ -1,8 +1,11 @@
 from core.db import DB
 import unittest
+import os
 
 
 class DbTest(unittest.TestCase):
+    DB_FILE = "./test.db"
+
     def test_handle_extended_like(self):
         sql = "SELECT * FROM table WHERE param1 = ?"
         params = ["param1"]
@@ -33,3 +36,104 @@ class DbTest(unittest.TestCase):
                          "AND param2 = ? "
                          "AND (param3 LIKE ? AND param3 LIKE ?) "
                          "AND param4 = ?", new_sql)
+
+    def test_sqlite_simple_ddl(self):
+        self.delete_db_file()
+
+        db = DB()
+        db.connect_sqlite(self.DB_FILE)
+        db.exec("CREATE TABLE test1 (name VARCHAR, value VARCHAR)")
+        db.exec("INSERT INTO test1 (name, value) VALUES (?, ?)", ["tyrbot", "1"])
+        db.get_connection().close()
+
+        db.connect_sqlite(self.DB_FILE)
+        self.assertEqual([{'name': 'tyrbot', 'value': '1'}], db.query("SELECT * FROM test1"))
+
+        db.get_connection().close()
+        self.delete_db_file()
+
+    def test_sqlite_transaction_commit(self):
+        self.delete_db_file()
+
+        db = DB()
+        db.connect_sqlite(self.DB_FILE)
+
+        db.exec("CREATE TABLE test1 (name VARCHAR, value VARCHAR)")
+
+        db.begin_transaction()
+        db.exec("INSERT INTO test1 (name, value) VALUES (?, ?)", ["tyrbot", "1"])
+        db.commit_transaction()
+        db.get_connection().close()
+
+        db.connect_sqlite(self.DB_FILE)
+        self.assertEqual([{'name': 'tyrbot', 'value': '1'}], db.query("SELECT * FROM test1"))
+
+        db.get_connection().close()
+        self.delete_db_file()
+
+    def test_sqlite_transaction_commit_using_with(self):
+        self.delete_db_file()
+
+        db = DB()
+        db.connect_sqlite(self.DB_FILE)
+
+        db.exec("CREATE TABLE test1 (name VARCHAR, value VARCHAR)")
+
+        with db.transaction():
+            db.exec("INSERT INTO test1 (name, value) VALUES (?, ?)", ["tyrbot", "1"])
+
+        db.get_connection().close()
+
+        db.connect_sqlite(self.DB_FILE)
+        self.assertEqual([{'name': 'tyrbot', 'value': '1'}], db.query("SELECT * FROM test1"))
+
+        db.get_connection().close()
+        self.delete_db_file()
+
+    def test_sqlite_transaction_rollback(self):
+        self.delete_db_file()
+
+        db = DB()
+        db.connect_sqlite(self.DB_FILE)
+
+        db.exec("CREATE TABLE test1 (name VARCHAR, value VARCHAR)")
+
+        db.begin_transaction()
+        db.exec("INSERT INTO test1 (name, value) VALUES (?, ?)", ["tyrbot", "1"])
+        db.rollback_transaction()
+        db.get_connection().close()
+
+        db.connect_sqlite(self.DB_FILE)
+        self.assertEqual([], db.query("SELECT * FROM test1"))
+
+        db.get_connection().close()
+        self.delete_db_file()
+
+    def test_sqlite_transaction_rollback_using_with(self):
+        self.delete_db_file()
+
+        db = DB()
+        db.connect_sqlite(self.DB_FILE)
+
+        db.exec("CREATE TABLE test1 (name VARCHAR, value VARCHAR)")
+
+        try:
+            with db.transaction():
+                db.exec("INSERT INTO test1 (name, value) VALUES (?, ?)", ["tyrbot", "1"])
+                raise Exception("Testing")
+        except Exception:
+            pass
+
+        db.get_connection().close()
+
+        db.connect_sqlite(self.DB_FILE)
+        self.assertEqual([], db.query("SELECT * FROM test1"))
+
+        db.get_connection().close()
+        self.delete_db_file()
+
+    def delete_db_file(self):
+        try:
+            os.remove(self.DB_FILE)
+        except OSError:
+            pass

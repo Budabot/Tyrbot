@@ -104,38 +104,37 @@ class OrgPorkService:
             "faction_id": org_info["SIDE"],
         })
 
-        self.db.begin_transaction()
-        members = {}
-        for org_member in org_members:
-            char_info = DictObject({
-                "name": org_member["NAME"],
-                "char_id": org_member["CHAR_INSTANCE"],
-                "first_name": org_member["FIRSTNAME"],
-                "last_name": org_member["LASTNAME"],
-                "level": org_member["LEVELX"],
-                "breed": org_member["BREED"],
-                "dimension": org_member["CHAR_DIMENSION"],
-                "gender": org_member["SEX"],
-                "faction": org_info["SIDE_NAME"],
-                "profession": org_member["PROF"],
-                "profession_title": org_member["PROF_TITLE"],
-                "ai_rank": org_member["DEFENDER_RANK_TITLE"],
-                "ai_level": org_member["ALIENLEVEL"],
-                "pvp_rating": org_member["PVPRATING"],
-                "pvp_title": none_to_empty_string(org_member["PVPTITLE"]),
-                "head_id": org_member["HEADID"],
-                "org_id": org_info.get("ORG_INSTANCE", 0),
-                "org_name": org_info.get("NAME", ""),
-                "org_rank_name": org_member.get("RANK_TITLE", ""),
-                "org_rank_id": org_member.get("RANK", 0),
-                "source": "people.anarchy-online.com"
-            })
+        with self.db.transaction():
+            members = {}
+            for org_member in org_members:
+                char_info = DictObject({
+                    "name": org_member["NAME"],
+                    "char_id": org_member["CHAR_INSTANCE"],
+                    "first_name": org_member["FIRSTNAME"],
+                    "last_name": org_member["LASTNAME"],
+                    "level": org_member["LEVELX"],
+                    "breed": org_member["BREED"],
+                    "dimension": org_member["CHAR_DIMENSION"],
+                    "gender": org_member["SEX"],
+                    "faction": org_info["SIDE_NAME"],
+                    "profession": org_member["PROF"],
+                    "profession_title": org_member["PROF_TITLE"],
+                    "ai_rank": org_member["DEFENDER_RANK_TITLE"],
+                    "ai_level": org_member["ALIENLEVEL"],
+                    "pvp_rating": org_member["PVPRATING"],
+                    "pvp_title": none_to_empty_string(org_member["PVPTITLE"]),
+                    "head_id": org_member["HEADID"],
+                    "org_id": org_info.get("ORG_INSTANCE", 0),
+                    "org_name": org_info.get("NAME", ""),
+                    "org_rank_name": org_member.get("RANK_TITLE", ""),
+                    "org_rank_id": org_member.get("RANK", 0),
+                    "source": "people.anarchy-online.com"
+                })
 
-            if not is_cache:
-                self.pork_service.save_character_info(char_info)
+                if not is_cache:
+                    self.pork_service.save_character_info(char_info)
 
-            members[char_info.char_id] = char_info
-        self.db.commit_transaction()
+                members[char_info.char_id] = char_info
 
         return DictObject({"org_info": new_org_info,
                            "org_members": members,
