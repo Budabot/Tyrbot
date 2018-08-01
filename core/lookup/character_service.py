@@ -10,6 +10,7 @@ class CharacterService:
     def __init__(self):
         self.name_to_id = {}
         self.id_to_name = {}
+        self.waiting_for_response = set()
 
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
@@ -19,18 +20,19 @@ class CharacterService:
         self.bot.add_packet_handler(server_packets.CharacterLookup.id, self.update)
         self.bot.add_packet_handler(server_packets.CharacterName.id, self.update)
 
-    def start(self):
-        pass
-
     def get_char_id(self, char_name):
         char_name = char_name.capitalize()
         if char_name in self.name_to_id:
             return self.name_to_id[char_name]
         else:
-            self.bot.send_packet(CharacterLookup(char_name))
+            if char_name not in self.waiting_for_response:
+                self.waiting_for_response.add(char_name)
+                self.bot.send_packet(CharacterLookup(char_name))
+
             while char_name not in self.name_to_id:
                 self.bot.iterate()
 
+            self.waiting_for_response.discard(char_name)
             return self.name_to_id.get(char_name, None)
 
     def resolve_char_to_id(self, char):
