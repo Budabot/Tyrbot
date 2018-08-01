@@ -34,7 +34,7 @@ class DB:
 
     def connect_sqlite(self, name):
         self.type = self.SQLITE
-        self.conn = sqlite3.connect("./data/" + name)
+        self.conn = sqlite3.connect("./data/" + name, isolation_level=None)
         self.conn.row_factory = self.row_factory
         self.create_db_version_table()
 
@@ -57,7 +57,6 @@ class DB:
 
         result = callback(cur)
         cur.close()
-        self.conn.commit()
         return result
 
     def query_single(self, sql, params=None):
@@ -165,3 +164,13 @@ class DB:
                     cur.execute(sql)
             cur.close()
             self.conn.commit()
+
+    # transaction support
+    def begin_transaction(self):
+        self.exec("BEGIN;")
+
+    def commit_transaction(self):
+        self.exec("COMMIT;")
+
+    def rollback_transaction(self):
+        self.exec("ROLLBACK;")

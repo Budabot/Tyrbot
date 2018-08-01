@@ -104,6 +104,7 @@ class OrgPorkService:
             "faction_id": org_info["SIDE"],
         })
 
+        self.db.begin_transaction()
         members = {}
         for org_member in org_members:
             char_info = DictObject({
@@ -134,6 +135,7 @@ class OrgPorkService:
                 self.pork_service.save_character_info(char_info)
 
             members[char_info.char_id] = char_info
+        self.db.commit_transaction()
 
         return DictObject({"org_info": new_org_info,
                            "org_members": members,
