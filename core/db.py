@@ -170,13 +170,19 @@ class DB:
         return self
 
     def __enter__(self):
+        # called when entering `with` code block
         self.begin_transaction()
 
     def __exit__(self, exc_type, exc_val, exc_tb):
+        # called when exiting `with` code block
+        # if exc_type, exc_val or exc_tb is not None, there was an exception
+        # otherwise the code block exited normally
         if exc_type is None:
             self.commit_transaction()
         else:
             self.rollback_transaction()
+
+        # False here indicates that if there was an exception, it should not be suppressed but instead propagated
         return False
 
     def begin_transaction(self):
