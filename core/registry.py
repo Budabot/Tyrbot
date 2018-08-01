@@ -42,8 +42,12 @@ class Registry:
                 cls._registry[key].start()
 
     @classmethod
-    def get_instance(cls, name):
-        return cls._registry.get(name)
+    def get_instance(cls, name, is_optional=False):
+        instance = cls._registry.get(name)
+        if instance or is_optional:
+            return instance
+        else:
+            raise Exception("Missing required dependency '%s'" % name)
 
     @classmethod
     def get_all_instances(cls):
