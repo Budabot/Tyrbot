@@ -8,9 +8,6 @@ from core.buddy_service import BuddyService
 class MemberController:
     MEMBER_BUDDY_TYPE = "member"
 
-    def __init__(self):
-        pass
-
     def inject(self, registry):
         self.db = registry.get_instance("db")
         self.character_service = registry.get_instance("character_service")
@@ -21,9 +18,6 @@ class MemberController:
 
     def pre_start(self):
         self.access_service.register_access_level("member", 90, self.check_member)
-
-    def start(self):
-        pass
 
     @event(event_type="connect", description="Add members as buddies of the bot on startup")
     def handle_connect_event(self, event_type, event_data):

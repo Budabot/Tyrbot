@@ -21,9 +21,6 @@ class PorkService:
         self.bot.add_packet_handler(server_packets.CharacterLookup.id, self.update)
         self.bot.add_packet_handler(server_packets.CharacterName.id, self.update)
 
-    def start(self):
-        pass
-
     def get_character_info(self, char):
         char_id = self.character_service.resolve_char_to_id(char)
         char_name = self.character_service.resolve_char_to_name(char)
@@ -84,9 +81,6 @@ class PorkService:
             return char_info
 
     def get_character_history(self, char):
-        pass
-
-    def get_org_info(self, org_id):
         pass
 
     def load_character_info(self, char_id):

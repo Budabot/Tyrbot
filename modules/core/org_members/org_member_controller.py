@@ -56,8 +56,7 @@ class OrgMemberController:
             self.logger.info("Updating org_members roster for org_id %d" % org_id)
             org_info = self.org_pork_service.get_org_info(org_id)
             if org_info:
-                for roster_member in org_info.org_members:
-                    char_id = roster_member.char_id
+                for char_id, roster_member in org_info.org_members.items():
                     db_member = db_members.get(char_id, None)
 
                     if not db_member:
