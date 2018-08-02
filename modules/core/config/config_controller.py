@@ -113,9 +113,7 @@ class ConfigController:
             reply("Unknown event type <highlight>%s<end>." % event_type)
             return
 
-        count = self.db.exec("UPDATE event_config SET enabled = ? "
-                             "WHERE event_type = ? AND event_sub_type = ? AND handler LIKE ?",
-                             [enabled, event_base_type, event_sub_type, event_handler])
+        count = self.event_service.update_event(event_base_type, event_sub_type, event_handler, enabled)
 
         if count == 0:
             reply("Could not find event for type <highlight>%s<end> and handler <highlight>%s<end>." % (event_type, event_handler))
