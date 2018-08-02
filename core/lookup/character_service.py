@@ -20,20 +20,14 @@ class CharacterService:
         self.bot.add_packet_handler(server_packets.CharacterLookup.id, self.update)
         self.bot.add_packet_handler(server_packets.CharacterName.id, self.update)
 
-    def get_char_id(self, char_name):
-        char_name = char_name.capitalize()
-        if char_name in self.name_to_id:
-            return self.name_to_id[char_name]
-        else:
-            if char_name not in self.waiting_for_response:
-                self.waiting_for_response.add(char_name)
-                self.bot.send_packet(CharacterLookup(char_name))
+    def _wait_for_char_id(self, char_name):
+        # char_name must be .capitalize()'ed
 
-            while char_name not in self.name_to_id:
-                self.bot.iterate()
+        packet = self.bot.iterate()
+        while packet and char_name not in self.name_to_id:
+            packet = self.bot.iterate()
 
-            self.waiting_for_response.discard(char_name)
-            return self.name_to_id.get(char_name, None)
+        return self.name_to_id.get(char_name, None)
 
     def resolve_char_to_id(self, char):
         if isinstance(char, int):
@@ -41,7 +35,12 @@ class CharacterService:
         elif char.isdigit():
             return int(char)
         else:
-            return self.get_char_id(char)
+            char_name = char.capitalize()
+            if char_name in self.name_to_id:
+                return self.name_to_id[char_name]
+            else:
+                self._send_lookup_if_needed(char_name)
+                return self._wait_for_char_id(char_name)
 
     def resolve_char_to_name(self, char, default=None):
         if isinstance(char, int):
@@ -54,6 +53,8 @@ class CharacterService:
         return self.id_to_name.get(char_id, None)
 
     def update(self, packet):
+        self.waiting_for_response.discard(packet.name)
+
         if packet.char_id == 4294967295:
             self.name_to_id[packet.name] = None
         else:
@@ -67,3 +68,9 @@ class CharacterService:
             self.db.exec("INSERT IGNORE INTO name_history (name, char_id, created_at) VALUES (?, ?, ?)", params)
         else:
             self.db.exec("INSERT OR IGNORE INTO name_history (name, char_id, created_at) VALUES (?, ?, ?)", params)
+
+    def _send_lookup_if_needed(self, char_name):
+        # char_name must be .capitalize()'ed
+        if char_name not in self.name_to_id and char_name not in self.waiting_for_response:
+            self.waiting_for_response.add(char_name)
+            self.bot.send_packet(CharacterLookup(char_name))

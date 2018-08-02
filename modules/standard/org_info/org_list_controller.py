@@ -38,23 +38,15 @@ class OrgListController:
         reply("Downloading org roster for org id %d..." % org_id)
 
         self.orglist = self.org_pork_service.get_org_info(org_id)
-        self.orglist.reply = reply
 
         if not self.orglist:
             reply("Could not find org with ID <highlight>%d<end>." % org_id)
             return
 
+        self.orglist.reply = reply
         self.orglist.finished_org_members = {}
 
         reply("Checking online status for %d members of <highlight>%s<end>..." % (len(self.orglist.org_members), self.orglist.org_info.name))
-
-        # prefetch char ids from chat server
-        for char_id, org_member in self.orglist.org_members.items():
-            self.character_service.get_char_id(org_member.name)
-
-        # process char lookup packets
-        while self.bot.iterate():
-            pass
 
         self.iterate_org_members()
 

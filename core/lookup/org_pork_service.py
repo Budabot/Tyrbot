@@ -27,6 +27,7 @@ class OrgPorkService:
 
         # check cache for fresh value
         cache_result = self.cache_service.retrieve(self.CACHE_GROUP, cache_key, self.CACHE_MAX_AGE)
+
         is_cache = False
         if cache_result:
             result = json.loads(cache_result)
@@ -37,6 +38,10 @@ class OrgPorkService:
             r = requests.get(url)
             try:
                 result = r.json()
+
+                # if org has no members, org does not exist
+                if result[0]["NUMMEMBERS"] == 0:
+                    result = None
             except ValueError as e:
                 self.logger.warning("Error marshalling value as json: %s" % r.text, e)
                 result = None
@@ -134,8 +139,14 @@ class OrgPorkService:
                 if not is_cache:
                     self.pork_service.save_character_info(char_info)
 
+                # prefetch char ids from chat server
+                self.character_service._send_lookup_if_needed(char_info.name)
+
                 members[char_info.char_id] = char_info
 
-        return DictObject({"org_info": new_org_info,
-                           "org_members": members,
-                           "last_updated": int(datetime.datetime.strptime(last_updated, "%Y/%m/%d %H:%M:%S").timestamp())})
+        if len(members) == 0:
+            return None
+        else:
+            return DictObject({"org_info": new_org_info,
+                               "org_members": members,
+                               "last_updated": int(datetime.datetime.strptime(last_updated, "%Y/%m/%d %H:%M:%S").timestamp())})
