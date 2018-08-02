@@ -44,6 +44,7 @@ class OrgListController:
             return
 
         self.orglist.reply = reply
+        self.orglist.waiting_org_members = {}
         self.orglist.finished_org_members = {}
 
         reply("Checking online status for %d members of <highlight>%s<end>..." % (len(self.orglist.org_members), self.orglist.org_info.name))
@@ -67,9 +68,9 @@ class OrgListController:
             self.check_for_orglist_end()
 
     def update_online_status(self, char_id, status):
-        self.orglist.finished_org_members[char_id] = self.orglist.org_members[char_id]
+        self.orglist.finished_org_members[char_id] = self.orglist.waiting_org_members[char_id]
         self.orglist.finished_org_members[char_id].online = status
-        del self.orglist.org_members[char_id]
+        del self.orglist.waiting_org_members[char_id]
 
     def check_for_orglist_end(self):
         if self.orglist.org_members:
@@ -116,6 +117,8 @@ class OrgListController:
     def iterate_org_members(self):
         # add org_members that we don't have online status for as buddies
         for char_id, org_member in self.orglist.org_members.copy().items():
+            self.orglist.waiting_org_members[char_id] = self.orglist.org_members[char_id]
+            del self.orglist.org_members[char_id]
             is_online = self.buddy_service.is_online(char_id)
             if is_online is None:
                 if self.character_service.resolve_char_to_id(org_member.name):
