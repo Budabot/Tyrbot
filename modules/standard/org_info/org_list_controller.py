@@ -50,7 +50,11 @@ class OrgListController:
 
         # prefetch char ids from chat server
         for char_id, org_member in self.orglist.org_members.items():
-            self.bot.send_packet(CharacterLookup(org_member.name))
+            self.character_service.get_char_id(org_member.name)
+
+        # process char lookup packets
+        while self.bot.iterate():
+            pass
 
         self.iterate_org_members()
 
