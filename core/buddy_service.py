@@ -70,9 +70,7 @@ class BuddyService:
         else:
             return False
 
-    def get_buddy(self, char):
-        char_id = self.character_service.resolve_char_to_id(char)
-
+    def get_buddy(self, char_id):
         # if char is bot
         if char_id == self.bot.char_id:
             return {
@@ -82,8 +80,7 @@ class BuddyService:
 
         return self.buddy_list.get(char_id, None)
 
-    def is_online(self, char):
-        char_id = self.character_service.resolve_char_to_id(char)
+    def is_online(self, char_id):
         buddy = self.get_buddy(char_id)
         if buddy is None:
             return None
