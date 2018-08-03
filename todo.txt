@@ -13,7 +13,7 @@ USAGE - needs !usage command, needs to submit usage
 EVENTS
 GUILD - renamed to ORG, needs to be a system module
 IMPLANT
-ITEMS
+ITEMS - needs !boss and !bossloot
 NANO
 NEWS
 NOTES
