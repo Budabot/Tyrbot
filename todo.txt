@@ -13,7 +13,6 @@ USAGE - needs !usage command, needs to submit usage
 EVENTS
 GUILD - renamed to ORG, needs to be a system module
 IMPLANT
-NANO
 NEWS
 NOTES
 ORGLIST
@@ -53,6 +52,7 @@ GUIDE - done
 HELPBOT - done
 ITEMS - done
 LEVEL - done
+NANO - done
 ONLINE - done
 PRIVATE_CHANNEL - done
 QUOTE - done
