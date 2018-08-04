@@ -7,10 +7,15 @@ import requests
 import re
 import bbcode
 
+from core.dict_object import DictObject
+
 
 @instance()
 class AOUController:
     AOU_URL = "https://www.ao-universe.com/mobile/parser.php?bot=budabot"
+
+    CACHE_GROUP = "aou"
+    CACHE_MAX_AGE = 604800
 
     def __init__(self):
         self.item_regex = re.compile(r"\[(item|itemname|itemicon)( nolink)?\](\d+)\[\/(item|itemname|itemicon)\]", re.IGNORECASE)
@@ -36,32 +41,30 @@ class AOUController:
     def inject(self, registry):
         self.text = registry.get_instance("text")
         self.items_controller = registry.get_instance("items_controller")
+        self.cache_service = registry.get_instance("cache_service")
 
     @command(command="aou", params=[Int("guide_id")], access_level="all",
              description="Show an AO-Universe guide")
     def aou_show_cmd(self, channel, sender, reply, args):
         guide_id = args[0]
 
-        r = requests.get(self.AOU_URL + "&mode=view&id=" + str(guide_id))
-        xml = ElementTree.fromstring(r.content)
+        guide_info = self.retrieve_guide(guide_id)
 
-        if xml.findall("./error"):
+        if not guide_info:
             reply("Could not find AO-Universe guide with id <highlight>%d<end>." % guide_id)
             return
 
-        guide_info = self.get_guide_info(xml)
-
         blob = ""
-        blob += "Id: " + self.text.make_chatcmd(guide_info["id"], "/start https://www.ao-universe.com/main.php?site=knowledge&id=%s" % guide_info["id"]) + "\n"
-        blob += "Updated: <highlight>%s<end>\n" % guide_info["update"]
+        blob += "Id: " + self.text.make_chatcmd(guide_info.id, "/start https://www.ao-universe.com/main.php?site=knowledge&id=%s" % guide_info.id) + "\n"
+        blob += "Updated: <highlight>%s<end>\n" % guide_info.update
         blob += "Profession: <highlight>%s<end>\n" % guide_info["class"]
-        blob += "Faction: <highlight>%s<end>\n" % guide_info["faction"]
-        blob += "Level: <highlight>%s<end>\n" % guide_info["level"]
-        blob += "Author: <highlight>%s<end>\n\n" % self.format_bbcode_code(guide_info["author"])
-        blob += self.format_bbcode_code(guide_info["text"])
+        blob += "Faction: <highlight>%s<end>\n" % guide_info.faction
+        blob += "Level: <highlight>%s<end>\n" % guide_info.level
+        blob += "Author: <highlight>%s<end>\n\n" % self.format_bbcode_code(guide_info.author)
+        blob += self.format_bbcode_code(guide_info.text)
         blob += "\n\n<highlight>Powered by<end> " + self.text.make_chatcmd("AO-Universe.com", "/start https://www.ao-universe.com")
 
-        reply(ChatBlob(guide_info["name"], blob))
+        reply(ChatBlob(guide_info.name, blob))
 
     @command(command="aou", params=[Const("all", is_optional=True), Any("search")], access_level="all",
              description="Search for an AO-Universe guides")
@@ -86,16 +89,45 @@ class AOUController:
 
                     count += 1
                     blob += "%s - %s\n" % (self.text.make_chatcmd(guide["name"], "/tell <myname> aou %s" % guide["id"]), guide["description"])
-        blob += "\n\nProvided by %s" % self.text.make_chatcmd("AO-Universe.com", "/start https://www.ao-universe.com")
+        blob += "\n\nPowered by %s" % self.text.make_chatcmd("AO-Universe.com", "/start https://www.ao-universe.com")
 
         if count == 0:
             reply("Could not find any AO-Universe guides for search <highlight>%s<end>." % search)
         else:
             reply(ChatBlob("%sAOU Guides containing '%s' (%d)" % ("All " if include_all_matches else "", search, count), blob))
 
+    def retrieve_guide(self, guide_id):
+        cache_key = "%d.xml" % guide_id
+
+        # check cache for fresh value
+        cache_result = self.cache_service.retrieve(self.CACHE_GROUP, cache_key, self.CACHE_MAX_AGE)
+
+        if cache_result:
+            result = ElementTree.fromstring(cache_result)
+        else:
+            response = requests.get(self.AOU_URL + "&mode=view&id=" + str(guide_id))
+            result = ElementTree.fromstring(response.content)
+
+            if result.findall("./error"):
+                result = None
+
+            if result:
+                # store result in cache
+                self.cache_service.store(self.CACHE_GROUP, cache_key, ElementTree.tostring(result, encoding="unicode"))
+            else:
+                # check cache for any value, even expired
+                cache_result = self.cache_service.retrieve(self.CACHE_GROUP, cache_key)
+                if cache_result:
+                    result = ElementTree.fromstring(cache_result)
+
+        if result:
+            return self.get_guide_info(result)
+        else:
+            return None
+
     def get_guide_info(self, xml):
         content = self.get_xml_child(xml, "section/content")
-        return {
+        return DictObject({
             "id": self.get_xml_child(content, "id").text,
             "category": self.get_category(self.get_xml_child(xml, "section")),
             "name": self.get_xml_child(content, "name").text,
@@ -105,7 +137,7 @@ class AOUController:
             "level": self.get_xml_child(content, "level").text,
             "author": self.get_xml_child(content, "author").text,
             "text": self.get_xml_child(content, "text").text
-        }
+        })
 
     def check_matches(self, haystack, needle):
         haystack = haystack.lower()
