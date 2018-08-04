@@ -1,7 +1,7 @@
 import unittest
 
 from core.text import Text
-from modules.standard.guide.aou_controller import AOUController
+from modules.standard.aou.aou_controller import AOUController
 
 
 class AOUControllerTest(unittest.TestCase):
