@@ -5,7 +5,8 @@ from core.logger import Logger
 
 @instance()
 class OrgMemberController:
-    ORG_BUDDY_TYPE = "org_members"
+    ORG_BUDDY_TYPE = "org_member"
+    ORG_ACCESS_LEVEL = "org_member"
 
     MODE_AUTO = "auto"
     MODE_IGNORE = "ignore"
@@ -28,7 +29,7 @@ class OrgMemberController:
     def pre_start(self):
         self.event_service.register_event_type(self.ORG_MEMBER_LOGON_EVENT)
         self.event_service.register_event_type(self.ORG_MEMBER_LOGOFF_EVENT)
-        self.access_service.register_access_level("org_members", 60, self.check_org_member)
+        self.access_service.register_access_level(self.ORG_ACCESS_LEVEL, 60, self.check_org_member)
 
     @event(event_type="connect", description="Add members as buddies of the bot on startup")
     def handle_connect_event(self, event_type, event_data):
