@@ -14,7 +14,6 @@ EVENTS
 GUILD - renamed to ORG, needs to be a system module
 IMPLANT
 NEWS
-NOTES - needs !links
 ORGLIST
 RAFFLE
 RAID
@@ -53,6 +52,7 @@ HELPBOT - done
 ITEMS - done
 LEVEL - done
 NANO - done
+NOTES - done
 ONLINE - done
 PRIVATE_CHANNEL - done
 QUOTE - done
