@@ -157,11 +157,19 @@ class DB:
     def _load_file(self, filename):
         with open(filename, "r") as f:
             cur = self.conn.cursor()
-            for line in f.readlines():
-                sql, _ = self.format_sql(line)
-                sql = sql.strip()
-                if sql and not sql.startswith("--"):
-                    cur.execute(sql)
+
+            try:
+                cur.execute("BEGIN;")
+                for line in f.readlines():
+                    sql, _ = self.format_sql(line)
+                    sql = sql.strip()
+                    if sql and not sql.startswith("--"):
+                        cur.execute(sql)
+                cur.execute("COMMIT;")
+            except Exception:
+                cur.execute("ROLLBACK;")
+                raise
+
             cur.close()
             self.conn.commit()
 
