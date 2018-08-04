@@ -56,8 +56,8 @@ class AOUController:
 
         blob = ""
         blob += "Id: " + self.text.make_chatcmd(guide_info.id, "/start https://www.ao-universe.com/main.php?site=knowledge&id=%s" % guide_info.id) + "\n"
-        blob += "Updated: <highlight>%s<end>\n" % guide_info.update
-        blob += "Profession: <highlight>%s<end>\n" % guide_info["class"]
+        blob += "Updated: <highlight>%s<end>\n" % guide_info.updated
+        blob += "Profession: <highlight>%s<end>\n" % guide_info.profession
         blob += "Faction: <highlight>%s<end>\n" % guide_info.faction
         blob += "Level: <highlight>%s<end>\n" % guide_info.level
         blob += "Author: <highlight>%s<end>\n\n" % self.format_bbcode_code(guide_info.author)
@@ -131,8 +131,8 @@ class AOUController:
             "id": self.get_xml_child(content, "id").text,
             "category": self.get_category(self.get_xml_child(xml, "section")),
             "name": self.get_xml_child(content, "name").text,
-            "update": self.get_xml_child(content, "update").text,
-            "class": self.get_xml_child(content, "class").text,
+            "updated": self.get_xml_child(content, "update").text,
+            "profession": self.get_xml_child(content, "class").text,
             "faction": self.get_xml_child(content, "faction").text,
             "level": self.get_xml_child(content, "level").text,
             "author": self.get_xml_child(content, "author").text,
