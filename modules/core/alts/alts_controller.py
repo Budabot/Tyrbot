@@ -6,15 +6,10 @@ from core.alts.alts_service import AltsService
 
 @instance()
 class AltsController:
-    def __init__(self):
-        pass
-
     def inject(self, registry):
+        self.bot = registry.get_instance("bot")
         self.alts_service = registry.get_instance("alts_service")
         self.character_service = registry.get_instance("character_service")
-
-    def start(self):
-        pass
 
     @command(command="alts", params=[], access_level="all",
              description="Show your alts")
@@ -27,12 +22,10 @@ class AltsController:
         reply(ChatBlob("Alts of %s (%d)" % (alts[0].name, len(alts)), blob))
 
     def get_alt_status(self, status):
-        if status == AltsService.UNCONFIRMED:
-            return " - [unconfirmed]"
-        elif status == AltsService.CONFIRMED:
-            return ""
-        else:
+        if status == AltsService.MAIN:
             return " - [main]"
+        else:
+            return ""
 
     @command(command="alts", params=[Const("add"), Any("character")], access_level="all",
              description="Add an alt")
@@ -47,10 +40,10 @@ class AltsController:
             reply("You cannot register yourself as an alt.")
             return
 
-        # for now, always add alts as confirmed
-        msg, result = self.alts_service.add_alt(sender.char_id, alt_char_id, AltsService.CONFIRMED)
+        msg, result = self.alts_service.add_alt(sender.char_id, alt_char_id)
         if result:
             reply("<highlight>%s<end> has been added as your alt." % alt_char_name)
+            self.bot.send_private_message(alt_char_id, "<highlight>%s<end> has added you as an alt." % sender.name)
         elif msg == "another_main":
             reply("<highlight>%s<end> already has alts." % alt_char_name)
         else:
