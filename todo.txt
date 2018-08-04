@@ -14,7 +14,7 @@ EVENTS
 GUILD - renamed to ORG, needs to be a system module
 IMPLANT
 NEWS
-NOTES
+NOTES - needs !links
 ORGLIST
 RAFFLE
 RAID

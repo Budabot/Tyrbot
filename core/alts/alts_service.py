@@ -9,9 +9,6 @@ class AltsService:
 
     MAIN_CHANGED_EVENT_TYPE = "main_changed"
 
-    def __init__(self):
-        pass
-
     def inject(self, registry):
         self.db = registry.get_instance("db")
         self.character_service = registry.get_instance("character_service")
