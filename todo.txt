@@ -13,7 +13,6 @@ USAGE - needs !usage command, needs to submit usage
 EVENTS
 GUILD - renamed to ORG, needs to be a system module
 IMPLANT
-ITEMS - needs !boss and !bossloot
 NANO
 NEWS
 NOTES
@@ -52,6 +51,7 @@ FUN - ignore
 GIT - ignore
 GUIDE - done
 HELPBOT - done
+ITEMS - done
 LEVEL - done
 ONLINE - done
 PRIVATE_CHANNEL - done

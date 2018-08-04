@@ -1,5 +1,3 @@
-import math
-
 from core.decorators import instance, command
 from core.db import DB
 from core.text import Text
@@ -9,15 +7,9 @@ from core.command_param_types import Int, Any, Regex
 
 @instance()
 class ItemsController:
-    def __init__(self):
-        pass
-
     def inject(self, registry):
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
-
-    def start(self):
-        pass
 
     @command(command="items", params=[Regex("page=#", "(\s+page=(\d+))?", is_optional=True, num_groups=2), Int("ql", is_optional=True), Any("search")], access_level="all",
              description="Search for an item", aliases=["i"])
