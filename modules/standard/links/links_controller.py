@@ -9,7 +9,6 @@ class LinksController:
     def inject(self, registry):
         self.db = registry.get_instance("db")
         self.text = registry.get_instance("text")
-        self.alts_service = registry.get_instance("alts_service")
 
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS links ("

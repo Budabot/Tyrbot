@@ -15,7 +15,6 @@ GUILD - renamed to ORG, needs to be a system module
 IMPLANT
 NEWS
 ORGLIST
-RAFFLE
 RAID
 RECIPE
 RELAY
@@ -56,6 +55,7 @@ NOTES - done
 ONLINE - done
 PRIVATE_CHANNEL - done
 QUOTE - done
+RAFFLE - done
 REPUTATION - ignore
 SHOPPING - ignore
 SPIRITS - ignore
