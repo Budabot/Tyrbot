@@ -45,8 +45,12 @@ class SystemController:
     @event(event_type="connect", description="Notify superadmin that bot has come online")
     def connect_event(self, event_type, event_data):
         if self.expected_shutdown().get_value():
-            self.bot.send_private_message(self.bot.superadmin, "<myname> is now <green>online<end>.")
+            msg = "<myname> is now <green>online<end>."
         else:
-            self.bot.send_private_message(self.bot.superadmin, "<myname> is now <green>online<end> but may have shut down unexpectedly. Please check the logs.")
+            msg = "<myname> is now <green>online<end> but may have shut down or restarted unexpectedly. Please check the logs."
+
+        self.bot.send_private_message(self.bot.superadmin, msg)
+        self.bot.send_org_message(msg)
+        self.bot.send_private_channel_message(msg)
 
         self.expected_shutdown().set_value(False)

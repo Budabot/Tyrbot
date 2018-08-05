@@ -96,10 +96,6 @@ class DB:
         return self.lastrowid
 
     def format_sql(self, sql, params=None):
-        sql = sql.replace("<dim>", "")
-        sql = sql.replace("<myname>", "")
-        sql = sql.replace("<myguild>", "")
-
         # TODO check for AUTOINCREMENT in sql and log warning
 
         if self.type == self.SQLITE:
