@@ -91,7 +91,10 @@ class HiddenSettingType(TextSettingType):
         self.options = options
 
     def get_display_value(self):
-        return "<highlight>%s<end>" % "&lt;hidden&gt;"
+        if self.get_value():
+            return "<highlight>&lt;hidden&gt;<end>"
+        else:
+            return "<highlight>&lt;empty&gt;<end>"
 
     def get_display(self):
         return """For this setting you can enter any text you want (max. 255 characters).
