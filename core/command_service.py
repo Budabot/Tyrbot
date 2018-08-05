@@ -142,7 +142,7 @@ class CommandService:
             command_alias = self.command_alias_service.check_for_alias(command_str)
 
             if command_alias:
-                command_str, command_args = self.get_command_parts(command_alias + " " + command_args if command_args else command_alias)
+                command_str, command_args = self.get_command_parts(command_alias + command_args)
 
             cmd_configs = self.get_command_configs(command_str, channel, 1)
             if cmd_configs:
@@ -176,7 +176,7 @@ class CommandService:
     def get_command_parts(self, message):
         parts = message.split(" ", 1)
         if len(parts) == 2:
-            return parts[0].lower(), parts[1]
+            return parts[0].lower(), " " + parts[1]
         else:
             return parts[0].lower(), ""
 
@@ -198,9 +198,6 @@ class CommandService:
         return self.db.query(sql, params)
 
     def get_matches(self, cmd_configs, command_args):
-        if command_args:
-            command_args = " " + command_args
-
         for row in cmd_configs:
             command_key = self.get_command_key(row.command, row.sub_command)
             handlers = self.handlers[command_key]

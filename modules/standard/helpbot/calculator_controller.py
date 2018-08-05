@@ -8,6 +8,12 @@ class CalculatorController:
     def __init__(self):
         self.allow_chars_regex = re.compile("^[0123456789.,+\-*%()/ &|^~<>]+$")
 
+    def inject(self, registry):
+        self.discord_controller = registry.get_instance("discord_controller")
+
+    def start(self):
+        self.discord_controller.register_discord_command_handler(self.calc_discord_cmd, "calc", [Any("formula")])
+
     @command(command="calc", params=[Any("formula")], access_level="all",
              description="Perform a calculation")
     def calc_cmd(self, channel, sender, reply, args):
@@ -19,3 +25,6 @@ class CalculatorController:
                 reply("Invalid formula supplied.")
         else:
             reply("Invalid character detected.")
+
+    def calc_discord_cmd(self, reply, args):
+        self.calc_cmd(None, None, reply, args)

@@ -331,11 +331,18 @@ class DiscordController:
         for handler in self.command_handlers:
             if handler.command == command_str:
                 matches = handler.regex.search(command_args)
-                if matches:
-                    def reply(content):
-                        self.aoqueue.append(("command_reply", DiscordMessage(msgtype, "Command", self.bot.char_name, content, True, msgcolor)))
 
+                def reply(content, title="Command"):
+                    self.aoqueue.append(("command_reply", DiscordMessage(msgtype, title, self.bot.char_name, content, True, msgcolor)))
+
+                if matches:
                     handler.callback(reply, self.command_service.process_matches(matches, handler.params))
+                else:
+                    reply(self.generate_help(command_str, handler.params), "Command Help")
+                break
+
+    def generate_help(self, command_str, params):
+        return "!" + command_str + " " + " ".join(map(lambda x: x.get_name().replace("<highlight>", "").replace("<end>", ""), params))
 
     @event(event_type="discord_message", description="Handles relaying of discord messages")
     def handle_discord_message_event(self, event_type, message):

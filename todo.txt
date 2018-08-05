@@ -8,6 +8,11 @@ consider a replication strategy
 include access_level in sender obj
 show status of events in !config
 
+def online_cmd(self, channel, sender, reply, args): -> def online_cmd(self, cmd_call_info, reply, arg1, arg2, arg3):
+cmd_call_info.sender
+cmd_call_info.channel
+cmd_call_info.command_str
+
 PREFERENCES
 USAGE - needs !usage command, needs to submit usage
 
