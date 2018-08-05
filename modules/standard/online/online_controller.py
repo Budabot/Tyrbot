@@ -23,9 +23,11 @@ class OnlineController:
         self.util = registry.get_instance("util")
         self.pork_service = registry.get_instance("pork_service")
         self.character_service = registry.get_instance("character_service")
+        self.discord_controller = registry.get_instance("discord_controller")
 
     def start(self):
         self.db.exec("DELETE FROM online")
+        self.discord_controller.register_discord_command_handler(self.online_discord_cmd, "online", [])
 
     @command(command="online", params=[], access_level="all",
              description="Show the list of online characters", aliases=["o"])
@@ -147,3 +149,20 @@ class OnlineController:
 
     def set_afk(self, char_id, dt, reason):
         self.db.exec("UPDATE online SET afk_dt = ?, afk_reason = ? WHERE char_id = ?", [dt, reason, char_id])
+
+    def online_discord_cmd(self, reply, args):
+        blob = ""
+        count = 0
+
+        online_list = self.get_online_characters("Private")
+
+        current_main = ""
+        for row in online_list:
+            if current_main != row.main:
+                count += 1
+                blob += "\n[%s]\n" % row.main
+                current_main = row.main
+
+            blob += " | %s (%d/%d) %s %s\n" % (row.name, row.level or 0, row.ai_level or 0, row.faction, row.profession)
+
+        reply(blob)

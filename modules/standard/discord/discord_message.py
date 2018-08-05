@@ -19,12 +19,12 @@ class DiscordMessage:
 
     def build_command_message(self):
         if self.dtype == "embed":
-            content = "Online list\n" + self.content
+            content = self.content
 
             self.message = Embed(title="Command", description=content, color=self.color)
 
         elif self.dtype == "color":
-            self.message = "```apache\n%s\n%s\n```" % ("Online list", self.content)
+            self.message = "```apache\n%s\n```" % self.content
         else:
             self.message = ""
 

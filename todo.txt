@@ -6,6 +6,7 @@ add 24h event to remove orphaned buddies, already verified that connect events r
 
 consider a replication strategy
 include access_level in sender obj
+show status of events in !config
 
 PREFERENCES
 USAGE - needs !usage command, needs to submit usage

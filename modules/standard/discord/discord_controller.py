@@ -1,4 +1,5 @@
 from core.decorators import instance, command, event, timerevent, setting
+from core.dict_object import DictObject
 from core.logger import Logger
 from core.setting_types import HiddenSettingType, BooleanSettingType, TextSettingType, ColorSettingType
 from core.command_param_types import Int, Any, Const, Options
@@ -13,6 +14,7 @@ from .discord_message import DiscordMessage
 import threading
 import datetime
 import logging
+import re
 
 
 class MLStripper(HTMLParser):
@@ -44,6 +46,7 @@ class DiscordController:
         self.aoqueue = []
         self.logger = Logger(__name__)
         self.client = DiscordWrapper(self.channels, self.servers, self.dqueue, self.aoqueue)
+        self.command_handlers = []
 
         logging.getLogger("discord").setLevel(logging.INFO)
 
@@ -52,9 +55,9 @@ class DiscordController:
         self.db = registry.get_instance("db")
         self.setting_service = registry.get_instance("setting_service")
         self.event_service = registry.get_instance("event_service")
-        self.online_controller = registry.get_instance("online_controller")
         self.character_service: CharacterService = registry.get_instance("character_service")
         self.text: Text = registry.get_instance("text")
+        self.command_service = registry.get_instance("command_service")
         self.client.register(registry)
 
     def pre_start(self):
@@ -324,9 +327,15 @@ class DiscordController:
         msgtype = self.setting_service.get("discord_relay_format").get_value()
         msgcolor = self.setting_service.get("discord_embed_color").get_int_value()
 
-        if message == "online":
-            message = DiscordMessage(msgtype, "Command", self.bot.char_name, self.get_online_list(), True, msgcolor)
-            self.aoqueue.append(("command_reply", message))
+        command_str, command_args = self.command_service.get_command_parts(message)
+        for handler in self.command_handlers:
+            if handler.command == command_str:
+                matches = handler.regex.search(command_args)
+                if matches:
+                    def reply(content):
+                        self.aoqueue.append(("command_reply", DiscordMessage(msgtype, "Command", self.bot.char_name, content, True, msgcolor)))
+
+                    handler.callback(reply, self.command_service.process_matches(matches, handler.params))
 
     @event(event_type="discord_message", description="Handles relaying of discord messages")
     def handle_discord_message_event(self, event_type, message):
@@ -378,6 +387,10 @@ class DiscordController:
         self.bot.send_private_channel_message("Exception raised: %s" % event_data)
         # TODO expand... use DiscordMessage as a general case wrapper for all info that would be needed in the different relays
 
+    def register_discord_command_handler(self, callback, command_str, params):
+        r = re.compile(self.command_service.get_regex_from_params(params), re.IGNORECASE | re.DOTALL)
+        self.command_handlers.append(DictObject({"callback": callback, "command": command_str, "params": params, "regex": r}))
+
     def connect_discord_client(self, token):
         self.dthread = threading.Thread(target=self.client.run, args=(token,), daemon=True)
         self.dthread.start()
@@ -418,22 +431,4 @@ class DiscordController:
         s.feed(html)
         return s.get_data()
 
-    def get_online_list(self):
-        blob = ""
-        count = 0
-
-        online_list = self.online_controller.get_online_characters("Private")
-
-        current_main = ""
-        for row in online_list:
-            if current_main != row.main:
-                count += 1
-                blob += "\n[%s]\n" % row.main
-                current_main = row.main
-
-            blob += " | %s (%d/%d) %s %s\n" % (row.name, row.level or 0, row.ai_level or 0, row.faction, row.profession)
-
-        return blob
-
 # TODO !dinvite
-# TODO !online from discord
