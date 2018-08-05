@@ -1,0 +1,34 @@
+Name: Quality Kolt 58 Magnum
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'Quality Kolt 58 Magnum'
+The Construction kit. must be between Quality Level  101 and  120.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+ Add in following order:
+
+ 1. Pistol Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  404 ->  480
+
+ 2. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  252 ->  300
+
+ 3. Lock and Stock. SkillTo Assemble: Weapon Smt:  404 ->  480
+
+ 4. Nano Pylon. SkillTo Assemble: Mech. Engi:  252 ->  300
+
+ 5. Hyper Carbo-Ceramic Cooling System. SkillTo Assemble: Weapon Smt:  404 ->  480
+
+ 6. Nano Pylon. SkillTo Assemble: Mech. Engi:  252 ->  300
+
+ 7. Rapid-Reload-And-Fire Gyro. SkillTo Assemble: Weapon Smt:  404 ->  480
+
+ 8. Jandawit Cleanup Cluster. SkillTo Assemble: Weapon Smt:  354 ->  420
+
+ 9. Explosion Propulsion Containment Chamber. SkillTo Assemble: Mech. Engi:  354 ->  420
+
+ 10. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  252 ->  300
+
+ 11. Composite Barrel. SkillTo Assemble: Weapon Smt:  379 ->  450
+
+ 12. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  152 ->  180

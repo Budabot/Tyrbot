@@ -1,0 +1,40 @@
+Name: Cast-Off Subturbine
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+  'Cast-Off Subturbine'
+ The Construction kit. must be between Quality Level  21 and  40.
+ All other pieces must be of AT LEAST that level range... 
+ Add them using shift+right-click.
+  Add in following order:
+ 
+  1. AssaultRifle Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  84 ->  160
+ 
+  2. Lock and Stock. SkillTo Assemble: Weapon Smt:  84 ->  160
+ 
+  3. Notum Enriched Nano Paste - 4x Layer. SkillTo Assemble: Nano Progra:  52 ->  100
+ 
+  4. Nano Pylon. SkillTo Assemble: Mech. Engi:  52 ->  100
+ 
+  5. Self-Cleaning KO-CR Device. SkillTo Assemble: Weapon Smt:  74 ->  140
+ 
+  6. Hyper Carbo-Ceramic Cooling System. SkillTo Assemble: Weapon Smt:  84 ->  160
+ 
+  7. Nano Pylon. SkillTo Assemble: Mech. Engi:  52 ->  100
+ 
+  8. Explosion Propulsion Containment Chamber. SkillTo Assemble: Mech. Engi:  74 ->  140
+ 
+  9. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  52 ->  100
+ 
+  10. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  32 ->  60
+ 
+  11. Gyro Stabilizing Unit. SkillTo Assemble: Weapon Smt:  94 ->  180
+ 
+  12. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  42 ->  80
+ 
+  13. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  52 ->  100
+ 
+  14. Short Composite Barrel. SkillTo Assemble: Weapon Smt:  68 ->  130
+ 
+  15. Triple Pulse Enabler. SkillTo Assemble: Weapon Smt:  89 ->  170

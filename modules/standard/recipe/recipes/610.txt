@@ -1,0 +1,129 @@
+Name: Alappaa shoulderpads
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients </font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+</font><font color=#FF0000> *** </font><font color=#FFFF00> You'll get parts for upgrade in Alappaa and in Dustbrigade Outpost. There are 3 different types you can upgrade them into. But first you need to unfreeze them.
+</font><font color=#FF0000> *** </font><font color=#009B00>
+
+#L "Frozen Shoulderpads" "269896"
+<img src=rdb://269968>
+
+#L "Permafrost Melting Tool" "269805"
+<img src=rdb://269844>
+
+#L "Permafrost Armor Component" "269937"
+<img src=rdb://269936>
+
+#L "Combat Program" "269946"
+<img src=rdb://269949>
+</font><font color=#FFFFFF>or</font><font color=#009B00>
+#L "Nano Technology Program" "269945"
+<img src=rdb://269950>
+</font><font color=#FFFFFF>or</font><font color=#009B00>
+#L "Melee Program" "269947"
+<img src=rdb://269948>
+
+</font><font color=#FFFFFF>-And the upgrades-</font><font color=#009B00>
+
+#L "Master Combat Program" "269960"
+<img src=rdb://269949>
+</font><font color=#FFFFFF>or</font><font color=#009B00>
+#L "Master Nano Technology Program" "269959"
+<img src=rdb://269950>
+</font><font color=#FFFFFF>or</font><font color=#009B00>
+#L "Master Melee Program" "269961"
+<img src=rdb://269948>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe </font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+</font><font color=#FFFF00> Unfreezing the shoulderpads </font><font color=#009B00>
+
+Frozen Shoulderpads
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Permafrost Melting Tool
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://269968>
+#L "Shoulderpads of the Icy Wastes" "269897"
+</font><font color=#FFFF00>Skills: | None | </font><font color=#009B00>
+
+</font><font color=#FFFF00> Superior Icy Shoulderpads of Explosive Power </font><font color=#009B00>
+
+Combat Program
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Permafrost Armor Component
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://269936>
+#L "Combat Attuned Permafrost Armor Component" "269938"
+</font><font color=#FFFF00>Skills: | 1500 ME | </font><font color=#009B00>
+
+Shoulderpads of the Icy Wastes
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Combat Attuned Permafrost Armor Component
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://269963>
+#L "Icy Shoulderpads of Explosive Power" "269898"
+</font><font color=#FFFF00>Skills: | none | </font><font color=#009B00>
+
+Icy Shoulderpads of Explosive Power
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Master Combat Program
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://269963>
+#L "Superior Icy Shoulderpads of Explosive Power" "269899"
+</font><font color=#FFFF00>Skills: | none | </font><font color=#009B00>
+
+</font><font color=#FFFF00> Superior Icy Shoulderpads of the Powerful Mind </font><font color=#009B00>
+
+Nano Technology Program
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Permafrost Armor Component
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://269936>
+#L "Nano Attuned Permafrost Armor Component" "269939"
+</font><font color=#FFFF00>Skills: | 1500 ME | </font><font color=#009B00>
+
+Shoulderpads of the Icy Wastes
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Nano Attuned Permafrost Armor Component
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://269962>
+#L "Icy Shoulderpads of Explosive Power" "269898"
+</font><font color=#FFFF00>Skills: | none | </font><font color=#009B00>
+
+Icy Shoulderpads of the Powerful Mind
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Master Nano Technology Program
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://269962>
+#L "Superior Icy Shoulderpads of the Powerful Mind" "269900"
+</font><font color=#FFFF00>Skills: | none | </font><font color=#009B00>
+
+</font><font color=#FFFF00> Superior Icy Shoulderpads of Brawn </font><font color=#009B00>
+
+Melee Program
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Permafrost Armor Component
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://269936>
+#L "Melee Attuned Permafrost Armor Component" "269940"
+</font><font color=#FFFF00>Skills: | 1500 ME | </font><font color=#009B00>
+
+Shoulderpads of the Icy Wastes
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Melee Attuned Permafrost Armor Component
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://269964>
+#L "Icy Shoulderpads of Brawn" "269902"
+</font><font color=#FFFF00>Skills: | none | </font><font color=#009B00>
+
+Icy Shoulderpads of Brawn
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Master Melee Program
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://269964>
+#L "Superior Icy Shoulderpads of Brawn" "269903"
+</font><font color=#FFFF00>Skills: | none | </font><font color=#009B00>

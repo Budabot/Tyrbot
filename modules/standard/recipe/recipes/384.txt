@@ -1,0 +1,34 @@
+Name: Premium Flamethrower
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'Premium Flamethrower'
+The Construction kit. must be between Quality Level  200 and  200.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+ Add in following order:
+
+ 1. AssaultRifle Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  800 ->  800
+
+ 2. Nano Pylon. SkillTo Assemble: Mech. Engi:  500 ->  500
+
+ 3. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  500 ->  500
+
+ 4. Self-Cleaning KO-CR Device. SkillTo Assemble: Weapon Smt:  700 ->  700
+
+ 5. Plasma Streamer Interface Nozzle. SkillTo Assemble: Chemistry:  800 ->  800
+
+ 6. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  300 ->  300
+
+ 7. Compression Chamber for Chemicals. SkillTo Assemble: Weapon Smt:  850 ->  850
+
+ 8. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  400 ->  400
+
+ 9. Short Composite Barrel. SkillTo Assemble: Weapon Smt:  650 ->  650
+
+ 10. Nano Pylon. SkillTo Assemble: Mech. Engi:  500 ->  500
+
+ 11. Auto Targeting Computer -IIR 1. SkillTo Assemble: Elec. Engi:  450 ->  450
+
+ 12. Primitive Freon Bag Cooling System. SkillTo Assemble: Weapon Smt:  800 ->  800

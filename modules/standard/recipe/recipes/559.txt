@@ -1,0 +1,114 @@
+Name: ICC Shuttleport Weapons
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Antonio's Adaptation Factory" "248306"
+<img src=rdb://205493>
+
+a Startup weapon
+( ie : #L "Solar-Powered Shotgun" "121570" )
+<img src=rdb://113988>
+
+a special item
+( ie : #L "Stalker Limb" "248314" )
+<img src=rdb://130881>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Antonio's Adaptation Factory
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+a special item
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://130870>
+a special upgrade
+( ie : #L "Polishing Tool" "248313" )
+</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+a special upgrade
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+a Startup weapon
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://113988>
+an upgraded startup weapon
+( ie : #L "Polished Eliminator" "248345" )
+</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Details</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Caustic Meta Shield" "248342":
+#L "Salamander Bile" "248337"
+#L "Bile Cartridge" "248336"
+
+#L "Shaolin Sporting Bow" "248354":
+#L "Rollerrat Intestines" "248333"
+#L "Gut Bowstring" "248332"
+
+#L "Balanced War Hammer" "248353":
+#L "Malle Skull" "248330"
+#L "Reinforced Hammer Head" "248331"
+
+#L "Stabilized Silent Spitter" "248344":
+#L "Bone Plates" "248310"
+#L "Bone Stock" "248312"
+
+#L "Leet Spine Sword" "248351":
+#L "Spinal Section" "248323"
+#L "Bone Cross Guard" "248324"
+
+#L "Wailing Bat" "248341":
+#L "Reet Beak" "248328"
+#L "Reet Beak Whistling Plug" "248327"
+
+#L "Injector Dirk" "248350":
+#L "Venom Sample" "248322"
+#L "Venom Cartridge" "248321"
+
+#L "Polished Eliminator" "248345":
+#L "Stalker Limb" "248314"
+#L "Polishing Tool" "248313"
+
+#L "Cerset Zapper Rifle" "248348":
+#L "Optical Enhancer" "248318"
+#L "Recalibrated Scope Unit" "248317"
+
+#L "Nizno's Bomb Thrower" "248346":
+#L "Compression Chamber" "248334"
+#L "Pneumatic Compression Chamber" "248335"
+
+#L "BO-18 (Blue Offset)" "248347":
+#L "Fluid Sample" "248315"
+#L "Chemical Tempering Fluid" "248316"
+
+#L "Surge Baseball Bat" "248355":
+#L "Power Supply" "248307"
+#L "Adapted Power Supply" "248308"
+
+#L "Salamander Grip Sword" "248352":
+#L "Swatch of Salamander Skin" "248325"
+#L "Salamander Skin Grip Tape" "248326"
+
+#L "Electrical Surge Pistol" "248343":
+#L "Power Supply" "248307"
+#L "Adapted Power Supply" "248308"
+
+#L "Solar-Powered Shotgun" "121570"
+#L "Screwdriver" "150922"
+#L "Improved Solar Trader Shotgun" "243846"
+
+#L "Tiny Sword" "218404"
+#L "Bone Cross Guard" "248324"
+#L "Leet Spine Sword" "248351"
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Upgrade your startup weapons.

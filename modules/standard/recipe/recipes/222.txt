@@ -1,0 +1,30 @@
+Name: Compu-Seeker Long Axe -Y1000
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+  'Compu-Seeker Long Axe -Y1000'
+ The Construction kit. must be between Quality Level  116 and  138.
+ All other pieces must be of AT LEAST that level range... 
+ Add them using shift+right-click.
+  Add in following order:
+ 
+  1. Two Handed Edged Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  464 ->  552
+ 
+  2. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  232 ->  276
+ 
+  3. Notum Enriched Nano Paste - 4x Layer. SkillTo Assemble: Nano Progra:  290 ->  345
+ 
+  4. 2h Edged Cluster - Faded (Waist). SkillTo Assemble: Nano Progra:  116 ->  138
+ 
+  5. Optimized Co-Weapon Interface. SkillTo Assemble: Comp. Liter:  348 ->  414
+ 
+  6. Medium Handle. SkillTo Assemble: Weapon Smt:  426 ->  507
+ 
+  7. Run Speed Cluster - Faded (Leg). SkillTo Assemble: Nano Progra:  116 ->  138
+ 
+  8. 8x Layer Carbon-Notum Alloy Blade. SkillTo Assemble: Weapon Smt:  406 ->  483
+ 
+  9. 4x Layer Carbon-Notum Alloy Blade. SkillTo Assemble: Weapon Smt:  348 ->  414
+ 
+  10. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  174 ->  207

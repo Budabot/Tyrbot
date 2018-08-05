@@ -1,0 +1,30 @@
+Name: Quality Sleekblaster Minor
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'Quality Sleekblaster Minor'
+The Construction kit. must be between Quality Level  101 and  120.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+ Add in following order:
+
+ 1. Energy Weapons Construction kit. SkillTo Assemble: Weapon Smt:  404 ->  480
+
+ 2. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  202 ->  240
+
+ 3. Flake Tubing Base Cooling System. SkillTo Assemble: Weapon Smt:  404 ->  480
+
+ 4. Jandawit Cleanup Cluster. SkillTo Assemble: Weapon Smt:  354 ->  420
+
+ 5. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  152 ->  180
+
+ 6. Energy Conduction Rack. SkillTo Assemble: Quantum FT:  328 ->  390
+
+ 7. Rapid-Reload-And-Fire Gyro. SkillTo Assemble: Weapon Smt:  404 ->  480
+
+ 8. Short Composite Barrel. SkillTo Assemble: Weapon Smt:  328 ->  390
+
+ 9. Energy Pack Interface. SkillTo Assemble: Elec. Engi:  404 ->  480
+
+ 10. Nano Pylon. SkillTo Assemble: Mech. Engi:  252 ->  300

@@ -1,0 +1,42 @@
+Name: Personal Lock Pick
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Lock Pick" "95577"
+<img src=rdb://12709>
+
+#L "ID-extractor" "156339"
+<img src=rdb://156324>
+
+#L "Expendable Hologram Camera" "156054"
+<img src=rdb://156092>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+ID-extractor
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Expendable Hologram Camera
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://156323>
+#L "ID-data" "156340"
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+ID-data
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Lock Pick
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://12709>
+#L "Personal Lock Pick" "156639"
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+This recipe is simplest to make, even a lvl 1 can make it. In fact i don't know which skill is used... It transforms your Standard Lockpick in a NODROP one and nothing else. By this way, you can make a bag NODROP too by putting your lockpick inside.

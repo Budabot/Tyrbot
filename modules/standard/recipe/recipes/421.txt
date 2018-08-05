@@ -1,0 +1,36 @@
+Name: Quality Blackened Blaster Rifle
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'Quality Blackened Blaster Rifle'
+The Construction kit. must be between Quality Level 101 and 120.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+Add the pieces in the following order:
+
+ 1. Rifle Weapons Construction kit.
+
+ 2. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 152-180
+
+ 3. Primitive Freon Bag Cooling System. . SkillTo Assemble: Weapon Smt: 404-480
+
+ 4. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 252-300
+
+ 5. Notum Enriched Nano Paste - 4x Layer. . SkillTo Assemble: Nano Progra: 252-300
+
+ 6. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 202-240
+
+ 7. Nano Pylon. . SkillTo Assemble: Mech. Engi: 252-300
+
+ 8. Ultra-Long Composite Barrel. . SkillTo Assemble: Weapon Smt: 429-510
+
+ 9. Lock and Stock. . SkillTo Assemble: Weapon Smt: 404-480
+
+ 10. Energy Conduction Rack. . SkillTo Assemble: Quantum FT: 328-390
+
+ 11. Rapid-Reload-And-Fire Gyro. . SkillTo Assemble: Weapon Smt: 404-480
+
+ 12. Auto Targeting Computer -IIR 1. . SkillTo Assemble: Elec. Engi: 227-270
+
+ 13. Jandawit Cleanup Cluster. . SkillTo Assemble: Weapon Smt: 354-420

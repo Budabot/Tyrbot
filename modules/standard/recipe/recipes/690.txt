@@ -1,0 +1,38 @@
+Name: Spirit Infused Yutto's Modified NCU
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients </font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+</font><font color=#FFFF00> These nifty new NCU will be a great upgrade for your yuttos NCU. You can find the parts in Albtraum. You can find the guide for the tool needed #L "here" "/tell <myname> recipe 594". </font><font color=#009B00>
+
+#L "Ancient Engineering Device" "267751"
+<img src=rdb://156095>
+
+#L "Dormant Ancient Circuit" "267794"
+<img src=rdb://158233>
+
+#L "Yuttos Modified NCU" "238921"
+<img src=rdb://205500>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe </font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Ancient Engineering Device
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Dormant Ancient Circuit
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://158233>
+#L "Active Ancient Circuit" "267795"
+</font><font color=#FFFF00>Skills: | 1500 ME | </font><font color=#009B00>
+
+Active Ancient Circuit
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Yuttos Modified NCU
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://205500>
+#L "Spirit Infused Yuttos Modified NCU" "267797"
+</font><font color=#FFFF00>Skills: | 6X the QL of ME | </font><font color=#009B00>
+
+</font><font color=#FFFF00>To make a QL 220 NCU into a QL 300 you will need 1800ME.</font><font color=#009B00>

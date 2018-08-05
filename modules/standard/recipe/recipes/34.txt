@@ -1,0 +1,136 @@
+Name: Coffee Machines
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Hacker Tool" "87814" x 2
+<img src=rdb://99282>
+
+#L "Sealing Cell Kit" "157275"
+<img src=rdb://157282>
+
+#L "White Wine" "130589"
+<img src=rdb://37937>
+
+#L "Expendable Hologram Camera" "156054"
+<img src=rdb://156092>
+
+#L "ID-extractor" "156339"
+<img src=rdb://156324>
+
+#L "Omni-Tek Multi-Form" "156344"
+<img src=rdb://156343>
+
+#L "Small Titan Message Container" "157222"
+<img src=rdb://131266>
+
+#L "Fink Fragrant Morning Enhanced Coffee Block" "157281"
+<img src=rdb://156506>
+</font><font color=#FFFFFF>or</font><font color=#009B00>
+#L "Carioso Menthol Pseudo-Coffee Block" "157277"
+<img src=rdb://156510>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+ID-extractor
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Expendable Hologram Camera
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://156323>
+#L "ID-data" "156340"
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>
+
+Hacker Tool
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Small Titan Message Container
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://157369>
+#L "Sealed Bioplast Folder" "157341"
+</font><font color=#FFFF00>Skills: |  BE  |</font><font color=#009B00>
+
+</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>
+
+Hacker Tool
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Sealed Bioplast Folder
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://157283>
+#L "Open Bioplast Folder with a Folded Note" "157272"
+</font><font color=#FFFF00>Skills: |  BE  |</font><font color=#009B00>
+
+</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>
+
+White Wine
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Open Bioplast Folder with a Folded Note
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://154678>
+#L "Folded Note" "157273"
+</font><font color=#FFFF00>Skills: | PS120 |</font><font color=#009B00>
+
+</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>
+
+ID-data
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Folded Note
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://156325>
+#L "Personal Folded Note" "157274"
+</font><font color=#FFFF00>Skills: | PS300 |</font><font color=#009B00>
+
+</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>
+
+Personal Folded Note
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Sealing Cell Kit
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://156325>
+#L "Sealed Personal Note" "157278"
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>
+
+Sealed Personal Note
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Omni-Tek Multi-Form
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://155965>
+#L "New Miyashiro Superior Coffee Machine" "157276"
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>
+
+Now you must decide what kind of coffee your machine will produce:
+
+<highlight>For normal coffee:<end>
+
+Fink Fragrant Morning Enhanced Coffee Block
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+New Miyashiro Superior Coffee Machine
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://155965>
+#L "Miyashiro Superior Enhanced Coffee Machine" "157340"
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>
+
+<highlight>Or mentholed one:<end>
+
+Carioso Menthol Pseudo-Coffee Block
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+New Miyashiro Superior Coffee Machine
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://155965>
+#L "Miyashiro Superior Menthol Coffee Machine" "157339"
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+This machine is used to produce ... Coffee ...

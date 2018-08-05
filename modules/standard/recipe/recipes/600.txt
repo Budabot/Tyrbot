@@ -1,0 +1,86 @@
+Name: Frozen Yutto Remedies
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients </font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+</font><font color=#FF0000> *** </font><font color=#FFFF00> With items gathered during the Penumbra quests and found in Alappaa, you can create 3 different kinds of Yutto Remedies. The base for all is the same, just the last components differ depending which type you wish to build. 
+Note: Every step requires 1100 in Pharmacy skill and every product comes in stack of 5.
+</font><font color=#FF0000> *** </font><font color=#009B00>
+
+#L "Yuttos Filter" "269884"
+<img src=rdb://205505>
+
+#L "Permafrost Residue" "269872"
+<img src=rdb://72768>
+
+#L "Empty Permafrost Stimulant Chamber" "269891"
+<img src=rdb://100323>
+
+#L "Volatile Permafrost Chemicals" "269893"
+<img src=rdb://100330>
+</font><font color=#FFFFFF>or</font><font color=#009B00>
+#L "Viscous Permafrost Chemicals" "269894"
+<img src=rdb://100337>
+</font><font color=#FFFFFF>or</font><font color=#009B00>
+#L "Regenerative Permafrost Chemicals" "269895"
+<img src=rdb://100333>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe </font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+<highlight>The Base:<end>
+
+Yuttos Filter
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Permafrost Residue
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://100323>
+#L "Filtered Permafrost Residue" "269890"
+</font><font color=#FFFF00>Skills: | PH |</font><font color=#009B00>
+
+Filtered Permafrost Residue
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Empty Permafrost Stimulant Chamber
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://100315>
+#L "Full Permafrost Stimulant Chamber" "269892"
+</font><font color=#FFFF00>Skills: | PH |</font><font color=#009B00>
+
+</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>
+
+<highlight>The variations:<end>
+
+</font><font color=#FFFF00>Cold damage</font><font color=#009B00>
+Full Permafrost Stimulant Chamber
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Volatile Permafrost Chemicals
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://100314>
+#L "Frozen Yuttos Remedy - Bane" "269865"
+</font><font color=#FFFF00>Skills: |  PH  |</font><font color=#009B00>
+</font><font color=#FFFF00>Note: Runs Vengeful Ward of Penumbra in your NCU (+50 cold damage, +500 Cold AC)</font><font color=#009B00>
+</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>
+
+</font><font color=#FFFF00>Add all defence</font><font color=#009B00>
+Full Permafrost Stimulant Chamber
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Viscous Permafrost Chemicals
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://100314>
+#L "Frozen Yuttos Remedy - Icy Scales" "269866"
+</font><font color=#FFFF00>Skills: |  PH  |</font><font color=#009B00>
+</font><font color=#FFFF00>Note: Runs Protective Ward of Penumbra in your NCU (+5 AAD, +500 Cold AC)</font><font color=#009B00>
+</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>
+
+</font><font color=#FFFF00>Heal and Nano Delta</font><font color=#009B00>
+Full Permafrost Stimulant Chamber
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Regenerative Permafrost Chemicals
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://100314>
+#L "Frozen Yuttos Remedy - Tonic" "269867"
+</font><font color=#FFFF00>Skills: |  PH  |</font><font color=#009B00>
+</font><font color=#FFFF00>Note: Runs Regenerative Ward of Penumbra in your NCU (+2 heal delta, +2 nano delta, +500 Cold AC)</font><font color=#009B00>
+</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>

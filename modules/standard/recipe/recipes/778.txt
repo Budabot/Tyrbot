@@ -1,0 +1,79 @@
+Name: Bastion
+Author: Kapacuk (RK2)
+<img src=rdb://291379><img src=rdb://293723><img src=rdb://291371>
+
+<yellow>------------------------------
+<cyan>Ingredients <green>
+<yellow>------------------------------
+
+<green>- 3x <img src=rdb://292793> #L "Inert Bacteriophage" "292507"
+- 1x <img src=rdb://292775> #L "Virus Programming: Bacteriophage M73" "292509"
+- 1x <img src=rdb://292776> #L "Virus Programming: Bacteriophage Phi X 3957" "292508"
+- 1x <img src=rdb://292774> #L "Virus Programming: Bacteriophage F9" "292510"
+- 1x <img src=rdb://292764> #L "Red Data Crystal" "292514"
+- 1x <img src=rdb://292780> #L "Blue Data Crystal" "292515"
+- 1x <img src=rdb://292792> #L "Green Data Crystal" "292516"
+- 3x <img src=rdb://292762> #L "Pattern Conversion Device" "292517"
+- 3x <img src=rdb://292760> #L "Nickel-Cobalt Ferrous Alloy" "292532"
+- 3x <img src=rdb://292788> #L "Dacite Fiber" "292533"
+- 3x <img src=rdb://292779> #L "Sealed Packet of Bilayer Graphene Sheets" "292529"
+- 3x <img src=rdb://292759> #L "Mu-Negative Novictum Enriched Metamaterial" "292530"
+- 3x <img src=rdb://292772> #L "Synchotronic Recombinator - Pocket Edition (Empty)" "292538"
+- 3x <img src=rdb://292784> #L "Compressed Silane" "292524"
+- 3x <img src=rdb://292763> #L "Potassium Nitrate" "292525"
+- 3x <img src=rdb://292777> #L "VLS Synthesis Catalyst" "292526"
+- 3x <img src=rdb://292778> #L "Bi-Isotropic Nano Media" "292528"
+
+<yellow>------------------------------
+<cyan>Recipe<yellow>
+<yellow>------------------------------<green>
+
+<green>Tradeskill process Step 1. 
+- |  | <img src=rdb://292793> + <img src=rdb://292775> = <img src=rdb://292802> | #L "Inert Bacteriophage" "292507" + #L "Virus Programming: Bacteriophage M73" "292509" = #L "Suppressed Bacteriophage M73" "292512"
+- |  | <img src=rdb://292802> + <img src=rdb://292764> = <img src=rdb://292794> | #L "Suppressed Bacteriophage M73" "292512" + #L "Red Data Crystal" "292514" = #L "Contained Fatou Pattern" "292518"
+- |  | <img src=rdb://292794> + <img src=rdb://292762> = <img src=rdb://292789> | #L "Contained Fatou Pattern" "292518" + #L "Pattern Conversion Device" "292517" = #L "Fatou Pattern Programming Utility Device" "292521"
+Step 2. 
+- |  | <img src=rdb://292793> + <img src=rdb://292776> = <img src=rdb://292803> | #L "Inert Bacteriophage" "292507" + #L "Virus Programming: Bacteriophage Phi X 3957" "292508" = #L "Suppressed Bacteriophage Phi X 3957" "292511"
+- |  | <img src=rdb://292803> + <img src=rdb://292780> = <img src=rdb://292787> | #L "Suppressed Bacteriophage Phi X 3957" "292511" + #L "Blue Data Crystal" "292515" = #L "Contained Mandelbrot Pattern" "292519"
+- |  | <img src=rdb://292787> + <img src=rdb://292762> = <img src=rdb://292757> | #L "Contained Mandelbrot Pattern" "292519" + #L "Pattern Conversion Device" "292517" = #L "Mandelbrot Pattern Programming Utility Device" "292522"
+Step 3. 
+- |  | <img src=rdb://292793> + <img src=rdb://292774> = <img src=rdb://292801> | #L "Inert Bacteriophage" "292507" + #L "Virus Programming: Bacteriophage F9" "292510" = #L "Suppressed Bacteriophage F9" "292513"
+- |  | <img src=rdb://292801> + <img src=rdb://292792> = <img src=rdb://292785> | #L "Suppressed Bacteriophage F9" "292513" + #L "Green Data Crystal" "292516" = #L "Contained Collatz Pattern" "292520"
+- |  | <img src=rdb://292785> + <img src=rdb://292762> = <img src=rdb://292781> | #L "Contained Collatz Pattern" "292520" + #L "Pattern Conversion Device" "292517" = #L "Collatz Pattern Programming Utility Device" "292523"
+Step 4. (REPEAT 3 times) 
+- |  | <img src=rdb://292760> + <img src=rdb://292788> = <img src=rdb://292791> | #L "Nickel-Cobalt Ferrous Alloy" "292532" + #L "Dacite Fiber" "292533" = #L "Ferrous Dacite Fiber" "292534"
+- |  | <img src=rdb://292779> + <img src=rdb://292759> = <img src=rdb://292761> | #L "Sealed Packet of Bilayer Graphene Sheets" "292529" + #L "Mu-Negative Novictum Enriched Metamaterial" "292530" = #L "Novictum-Enriched Graphene Metamaterial" "292531"
+- |  | <img src=rdb://292791> + <img src=rdb://292761> = <img src=rdb://292783> | #L "Ferrous Dacite Fiber" "292534" + #L "Novictum-Enriched Graphene Metamaterial" "292531" = #L "Compressed Composite Weave" "292527"
+Step 5. (REPEAT 3 TIMES) 
+- |  | <img src=rdb://292784> + <img src=rdb://292772> = <img src=rdb://292768> | #L "Compressed Silane" "292524" + #L "Synchotronic Recombinator - Pocket Edition (Empty)" "292538" = #L "Synchotronic Recombinator - Pocket Edition (One of Five)" "292539"
+- |  | <img src=rdb://292763> + <img src=rdb://292768> = <img src=rdb://292769> | #L "Potassium Nitrate" "292525" + #L "Synchotronic Recombinator - Pocket Edition (One of Five)" "292539" = #L "Synchotronic Recombinator - Pocket Edition (Two of Five)" "292540"
+- |  | <img src=rdb://292777> + <img src=rdb://292769> = <img src=rdb://292770> | #L "VLS Synthesis Catalyst" "292526" + #L "Synchotronic Recombinator - Pocket Edition (Two of Five)" "292540" = #L "Synchotronic Recombinator - Pocket Edition (Three of Five)" "292541"
+- |  | <img src=rdb://292783> + <img src=rdb://292770> = <img src=rdb://292771> | #L "Compressed Composite Weave" "292527" + #L "Synchotronic Recombinator - Pocket Edition (Three of Five)" "292541" = #L "Synchotronic Recombinator - Pocket Edition (Four of Five)" "292542"
+- |  | <img src=rdb://292778> + <img src=rdb://292771> = <img src=rdb://292773> | #L "Bi-Isotropic Nano Media" "292528" + #L "Synchotronic Recombinator - Pocket Edition (Four of Five)" "292542" = #L "Synchotronic Recombinator - Pocket Edition (Filled)" "292543"
+Step 6. 
+- |  | <img src=rdb://292789> + <img src=rdb://292773> = <img src=rdb://292790> | #L "Fatou Pattern Programming Utility Device" "292521" + #L "Synchotronic Recombinator - Pocket Edition (Filled)" "292543" = #L "Fatou Upgrade Plate" "292535"
+Step 7. 
+- |  | <img src=rdb://292757> + <img src=rdb://292773> = <img src=rdb://292758> | #L "Mandelbrot Pattern Programming Utility Device" "292522" + #L "Synchotronic Recombinator - Pocket Edition (Filled)" "292543" = #L "Mandelbrot Upgrade Plate" "292536"
+Step 8. 
+- |  | <img src=rdb://292781> + <img src=rdb://292773> = <img src=rdb://292782> | #L "Collatz Pattern Programming Utility Device" "292523" + #L "Synchotronic Recombinator - Pocket Edition (Filled)" "292543" = #L "Collatz Upgrade Plate" "292537"
+Step 9. 
+- |  | <img src=rdb://291379> + <img src=rdb://292790> = <img src=rdb://291379> | #L "SSC &quote;Bastion&quote; Back Armor - Inactive" "293638" + #L "Fatou Upgrade Plate" "292535" = #L "SSC &quote;Bastion&quote; Back Armor - Fatou" "293634"
+or 
+- |  | <img src=rdb://293723> + <img src=rdb://292790> = <img src=rdb://293723> | #L "SSC &quote;Bastion&quote; Left Shoulder Armor - Inactive" "293643" + #L "Fatou Upgrade Plate" "292535" = #L "SSC &quote;Bastion&quote; Left Shoulder Armor - Fatou" "293641"
+or 
+- |  | <img src=rdb://291371> + <img src=rdb://292790> = <img src=rdb://291371> | #L "SSC &quote;Bastion&quote; Right Shoulder Armor - Inactive" "293653" + #L "Fatou Upgrade Plate" "292535" = #L "SSC &quote;Bastion&quote; Right Shoulder Armor - Fatou" "293651"
+Step 10. 
+- |  | <img src=rdb://291379> + <img src=rdb://292758> = <img src=rdb://291379> | #L "SSC &quote;Bastion&quote; Back Armor - Fatou" "293634" + #L "Mandelbrot Upgrade Plate" "292536" = #L "SSC &quote;Bastion&quote; Back Armor - Mandelbrot" "293633"
+or 
+- |  | <img src=rdb://293723> + <img src=rdb://292758> = <img src=rdb://293723> | #L "SSC &quote;Bastion&quote; Left Shoulder Armor - Fatou" "293641" + #L "Mandelbrot Upgrade Plate" "292536" = #L "SSC &quote;Bastion&quote; Left Shoulder Armor - Mandelbrot" "293642"
+or 
+- |  | <img src=rdb://291371> + <img src=rdb://292758> = <img src=rdb://291371> | #L "SSC &quote;Bastion&quote; Right Shoulder Armor - Fatou" "293651" + #L "Mandelbrot Upgrade Plate" "292536" = #L "SSC &quote;Bastion&quote; Right Shoulder Armor - Mandelbrot" "293649"
+Step 11. 
+- |  | <img src=rdb://291379> + <img src=rdb://292782> = <img src=rdb://291379> | #L "SSC &quote;Bastion&quote; Back Armor - Mandelbrot" "293633" + #L "Collatz Upgrade Plate" "292537" = #L "SSC &quote;Bastion&quote; Back Armor - Collatz" "292194"
+or 
+- |  | <img src=rdb://293723> + <img src=rdb://292782> = <img src=rdb://293723> | #L "SSC &quote;Bastion&quote; Left Shoulder Armor - Mandelbrot" "293642" + #L "Collatz Upgrade Plate" "292537" = #L "SSC &quote;Bastion&quote; Left Shoulder Armor - Collatz" "291932"
+or 
+- |  | <img src=rdb://291371> + <img src=rdb://292782> = <img src=rdb://291371> | #L "SSC &quote;Bastion&quote; Right Shoulder Armor - Mandelbrot" "293649" + #L "Collatz Upgrade Plate" "292537" = #L "SSC &quote;Bastion&quote; Right Shoulder Armor - Collatz" "291931"
+<yellow>
+No tradeskills required.Not sure =)
+<end>

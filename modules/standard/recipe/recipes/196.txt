@@ -1,0 +1,22 @@
+Name: Cast-Off Slank Chop
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+  'Cast-Off Slank Chop'
+ The Construction kit. must be between Quality Level 21 and 40.
+ All other pieces must be of AT LEAST that level range... 
+ Add them using shift+right-click.
+ Add the pieces in the following order:
+ 
+  1. Piercing Weapons Construction kit.
+ 
+  2. Short Handle. . SkillTo Assemble: Weapon Smt: 74-140
+ 
+  3. Hyper-Optimized Co-Weapon Interface. . SkillTo Assemble: Comp. Liter: 84-160
+ 
+  4. 4x Layer Carbon-Notum Alloy Blade. . SkillTo Assemble: Weapon Smt: 63-120
+ 
+  5. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 42-80
+ 
+  6. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 32-60

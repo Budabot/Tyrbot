@@ -1,0 +1,32 @@
+Name: Quality Kolt PDW-37
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'Quality Kolt PDW-37'
+The Construction kit. must be between Quality Level  101 and  120.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+ Add in following order:
+
+ 1. Pistol Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  404 ->  480
+
+ 2. Rapid-Reload-And-Fire Gyro. SkillTo Assemble: Weapon Smt:  404 ->  480
+
+ 3. Hyper Carbo-Ceramic Cooling System. SkillTo Assemble: Weapon Smt:  404 ->  480
+
+ 4. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  252 ->  300
+
+ 5. Energy Pack Interface. SkillTo Assemble: Elec. Engi:  404 ->  480
+
+ 6. Nano Pylon. SkillTo Assemble: Mech. Engi:  252 ->  300
+
+ 7. Energy Conduction Rack. SkillTo Assemble: Quantum FT:  328 ->  390
+
+ 8. Short Composite Barrel. SkillTo Assemble: Weapon Smt:  328 ->  390
+
+ 9. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  202 ->  240
+
+ 10. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  152 ->  180
+
+ 11. Triple Pulse Enabler. SkillTo Assemble: Weapon Smt:  429 ->  510

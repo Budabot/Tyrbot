@@ -1,0 +1,22 @@
+Name: Premium Slank Chop
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'Premium Slank Chop'
+The Construction kit. must be between Quality Level 200 and 200.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+Add the pieces in the following order:
+
+ 1. Piercing Weapons Construction kit.
+
+ 2. Hyper-Optimized Co-Weapon Interface. . SkillTo Assemble: Comp. Liter: 800-800
+
+ 3. 4x Layer Carbon-Notum Alloy Blade. . SkillTo Assemble: Weapon Smt: 600-600
+
+ 4. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 400-400
+
+ 5. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 300-300
+
+ 6. Short Handle. . SkillTo Assemble: Weapon Smt: 700-700

@@ -1,0 +1,32 @@
+Name: ANEX - Mathis Multi-Energy Rifle
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'ANEX - Mathis Multi-Energy Rifle'
+The Construction kit. must be between Quality Level 1 and 20.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+Add the pieces in the following order:
+
+ 1. Rifle Weapons Construction kit.
+
+ 2. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 2-30
+
+ 3. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 2-40
+
+ 4. Nano Pylon. . SkillTo Assemble: Mech. Engi: 2-50
+
+ 5. Hyper Carbo-Ceramic Cooling System. . SkillTo Assemble: Weapon Smt: 4-80
+
+ 6. Ultra-Long Composite Barrel. . SkillTo Assemble: Weapon Smt: 4-85
+
+ 7. Energy Conduction Rack. . SkillTo Assemble: Quantum FT: 3-65
+
+ 8. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 2-50
+
+ 9. Energy Pack Interface. . SkillTo Assemble: Elec. Engi: 4-80
+
+ 10. Runtime Critical Area Analyzer. . SkillTo Assemble: Weapon Smt: 4-80
+
+ 11. Nano Pylon. . SkillTo Assemble: Mech. Engi: 2-50

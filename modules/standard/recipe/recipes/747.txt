@@ -1,0 +1,48 @@
+Name: Anger of the Xan
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients </font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+</font><font color=#FFFF00> The Xan Weapon Upgrade Device which drops from the Mitaar Hero, Ground Chief Vortexx and 12-Man instances can be tradeskilled with 30 different Shadowlands weapons/</font><font color=#009B00>
+
+#L "Xan Weapon Upgrade Device" "280786"
+<img src=rdb://246391>
+
+#L "Lord of Anger" "244802"
+<img src=rdb://210184>
+</font><font color=#FFFFFF>or</font><font color=#009B00>
+#L "Lady of Anger" "244801"
+<img src=rdb://210184>
+</font><font color=#FFFFFF>or</font><font color=#009B00>
+#L "Superior Rebuilt Perennium Blaster" "260706"
+<img src=rdb://244931>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe </font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Xan Weapon Upgrade Device
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Lord of Anger
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://280915>
+#L "Anger of the Xan" "280722"
+
+</font><font color=#FFFFFF>or</font><font color=#009B00>
+
+Xan Weapon Upgrade Device
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Lady of Anger
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://280915>
+#L "Anger of the Xan" "280722"
+
+</font><font color=#FFFFFF>or</font><font color=#009B00>
+
+Xan Weapon Upgrade Device
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Superior Rebuilt Perennium Blaster
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://280915>
+#L "Anger of the Xan" "280722"

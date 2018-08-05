@@ -1,0 +1,42 @@
+Name: Trimmer - Increase Aggressiveness
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "XU-11 Serum" "154909"
+<img src=rdb://100338>
+
+#L "Chemical Impact Injector" "142911"
+<img src=rdb://130815>
+
+#L "Trimmer Casing" "154938"
+<img src=rdb://154935>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+XU-11 Serum
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Chemical Impact Injector
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://130814>
+#L "Modified Chemical Impact Injector" "154911"
+</font><font color=#FFFF00>Skills: |  CH  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Modified Chemical Impact Injector
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Trimmer Casing
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://12697>
+#L "Trimmer - Increase Aggressiveness" "154940"
+</font><font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+An extremely important item for Engineers.  Select your bot and use this item.  The effect should stay on your pet and make it more aggressive.  A level 200 one of these works VERY well for engis when they are taking on 'real mean' and 'ace' mobs.

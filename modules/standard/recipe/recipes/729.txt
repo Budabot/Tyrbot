@@ -1,0 +1,25 @@
+Name: Twice Augmented Hellspinner Shock Cannon
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients </font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+</font><font color=#FFFF00> The Notum Amplification Coil drops in Alien Playfields and can be used for various tradeskill processes.</font><font color=#009B00>
+
+#L "Notum Amplification Coil" "257963"
+<img src=rdb://257195>
+
+#L "Augmented Hellspinner Shock Cannon" "201939"
+<img src=rdb://154361>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe </font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Notum Amplification Coil
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Augmented Hellspinner Shock Cannon
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://154361>
+#L "Twice Augmented Hellspinner Shock Cannon" "257124"
+</font><font color=#FFFF00>Skills: | 1250 CL |</font><font color=#009B00>

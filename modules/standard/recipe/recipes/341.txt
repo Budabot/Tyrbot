@@ -1,0 +1,26 @@
+Name: Nightspear Grandmaster
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'Nightspear Grandmaster'
+The Construction kit. must be between Quality Level 185 and 199.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+Add the pieces in the following order:
+
+ 1. Piercing Weapons Construction kit.
+
+ 2. Max Health Cluster - Shiny (Chest). . SkillTo Assemble: Nano Progra: 555-597
+
+ 3. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 370-398
+
+ 4. Sneak Atck Cluster - Shiny (Feet). . SkillTo Assemble: Nano Progra: 555-597
+
+ 5. Notum Enriched Nano Paste - 4x Layer. . SkillTo Assemble: Nano Progra: 462-498
+
+ 6. Medium Handle. . SkillTo Assemble: Weapon Smt: 680-731
+
+ 7. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 278-298
+
+ 8. Optimized Co-Weapon Interface. . SkillTo Assemble: Comp. Liter: 555-597

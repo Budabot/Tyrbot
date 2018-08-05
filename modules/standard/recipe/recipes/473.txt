@@ -1,0 +1,34 @@
+Name: Second-Hand Heavy Grinner
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'Second-Hand Heavy Grinner'
+The Construction kit. must be between Quality Level  61 and  80.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+ Add in following order:
+
+ 1. Pistol Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  244 ->  320
+
+ 2. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  152 ->  200
+
+ 3. Explosion Propulsion Containment Chamber. SkillTo Assemble: Mech. Engi:  214 ->  280
+
+ 4. Triple Pulse Enabler. SkillTo Assemble: Weapon Smt:  259 ->  340
+
+ 5. Lock and Stock. SkillTo Assemble: Weapon Smt:  244 ->  320
+
+ 6. Composite Barrel. SkillTo Assemble: Weapon Smt:  229 ->  300
+
+ 7. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  122 ->  160
+
+ 8. Nano Pylon. SkillTo Assemble: Mech. Engi:  152 ->  200
+
+ 9. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  92 ->  120
+
+ 10. Nano Pylon. SkillTo Assemble: Mech. Engi:  152 ->  200
+
+ 11. Self-Cleaning KO-CR Device. SkillTo Assemble: Weapon Smt:  214 ->  280
+
+ 12. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  152 ->  200

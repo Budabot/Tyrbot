@@ -1,0 +1,42 @@
+Name: Prohibited Hand Mortar of Bacam-Xum
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Barrel of Bacam-Xum" "246874"
+<img src=rdb://130706>
+
+#L "Ignition chamber of Bacam-Xum" "246875"
+<img src=rdb://130672>
+
+#L "Stock of Bacam-Xum" "246877"
+<img src=rdb://130872>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Ignition chamber of Bacam-Xum
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Barrel of Bacam-Xum
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://130705>
+#L "Half-Finished Hand-Mortar of Bacam-Xum" "246876"
+</font><font color=#FFFF00>Skills: |  1750WS,1250ME  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Stock of Bacam-Xum
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Half-Finished Hand-Mortar of Bacam-Xum
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://233213>
+#L "Prohibited Hand-Mortar of Bacam-Xum" "246873"
+</font><font color=#FFFF00>Skills: |  1750WS,1250ME  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Extremely hard (if not impossible) to equip at level 205 without some seriously expensive buffing armor on.  As if the Tradeskilling wasnt hard enough for this item.

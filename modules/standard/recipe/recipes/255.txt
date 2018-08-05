@@ -1,0 +1,28 @@
+Name: Enhanced Polearm
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+  'Enhanced Polearm'
+ The Construction kit. must be between Quality Level  93 and  115.
+ All other pieces must be of AT LEAST that level range... 
+ Add them using shift+right-click.
+  Add in following order:
+ 
+  1. Two Handed Edged Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  372 ->  460
+ 
+  2. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  140 ->  172
+ 
+  3. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  186 ->  230
+ 
+  4. Notum Enriched Nano Paste - 4x Layer. SkillTo Assemble: Nano Progra:  232 ->  288
+ 
+  5. Optimized Co-Weapon Interface. SkillTo Assemble: Comp. Liter:  279 ->  345
+ 
+  6. Medium Handle. SkillTo Assemble: Weapon Smt:  342 ->  423
+ 
+  7. Run Speed Cluster - Faded (Leg). SkillTo Assemble: Nano Progra:  93 ->  115
+ 
+  8. 8x Layer Carbon-Notum Alloy Blade. SkillTo Assemble: Weapon Smt:  326 ->  402
+ 
+  9. 4x Layer Carbon-Notum Alloy Blade. SkillTo Assemble: Weapon Smt:  279 ->  345

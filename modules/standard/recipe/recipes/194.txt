@@ -1,0 +1,30 @@
+Name: Cast-Off Plasmaprojector
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+  'Cast-Off Plasmaprojector'
+ The Construction kit. must be between Quality Level  21 and  40.
+ All other pieces must be of AT LEAST that level range... 
+ Add them using shift+right-click.
+  Add in following order:
+ 
+  1. AssaultRifle Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  84 ->  160
+ 
+  2. Long Composite Barrel. SkillTo Assemble: Weapon Smt:  84 ->  160
+ 
+  3. Runtime Critical Area Analyzer. SkillTo Assemble: Weapon Smt:  84 ->  160
+ 
+  4. Hyper Carbo-Ceramic Cooling System. SkillTo Assemble: Weapon Smt:  84 ->  160
+ 
+  5. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  42 ->  80
+ 
+  6. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  32 ->  60
+ 
+  7. Nano Pylon. SkillTo Assemble: Mech. Engi:  52 ->  100
+ 
+  8. Energy Conduction Rack. SkillTo Assemble: Quantum FT:  68 ->  130
+ 
+  9. Notum Enriched Nano Paste - 4x Layer. SkillTo Assemble: Nano Progra:  52 ->  100
+ 
+  10. Energy Pack Interface. SkillTo Assemble: Elec. Engi:  84 ->  160

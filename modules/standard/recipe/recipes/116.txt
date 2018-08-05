@@ -1,0 +1,44 @@
+Name: Swim Stim
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Mimicking Cellular Oil" "154268"
+<img src=rdb://100306>
+
+#L "Receptive Bots" "154266"
+<img src=rdb://11755>
+
+#L "Shining Nano Knot of Swimming" "154385"
+<img src=rdb://19855>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Mimicking Cellular Oil
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Receptive Bots
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://11754>
+#L "Purple Glowing Stim" "154274"
+</font><font color=#FFFF00>Skills: |  PT  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Shining Nano Knot of Swimming
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Purple Glowing Stim
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://11707>
+#L "Swim Stim" "154384"
+</font><font color=#FFFF00>Skills: |  PT  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+With ql 36 ones, i buff my swimming skill of 400pts !!! It may be very useful for low level without yalm. Or for swimming competition, but beware of the drug test..
+
+Its also handy for all that swimming you have to do questing in Adonis.

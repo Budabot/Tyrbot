@@ -1,0 +1,34 @@
+Name: Fine-Tuned Mausser Particle Streamer
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+  'Fine-Tuned Mausser Particle Streamer'
+ The Construction kit. must be between Quality Level 141 and 160.
+ All other pieces must be of AT LEAST that level range... 
+ Add them using shift+right-click.
+ Add the pieces in the following order:
+ 
+  1. Submachinegun Weapons Construction kit.
+ 
+  2. Nano Pylon. . SkillTo Assemble: Mech. Engi: 352-400
+ 
+  3. Nano Pylon. . SkillTo Assemble: Mech. Engi: 352-400
+ 
+  4. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 352-400
+ 
+  5. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 212-240
+ 
+  6. Auto Targeting Computer -IIR 1. . SkillTo Assemble: Elec. Engi: 317-360
+ 
+  7. Lock and Stock. . SkillTo Assemble: Weapon Smt: 564-640
+ 
+  8. Ultra-Long Composite Barrel. . SkillTo Assemble: Weapon Smt: 599-680
+ 
+  9. Triple Pulse Enabler. . SkillTo Assemble: Weapon Smt: 599-680
+ 
+  10. Explosion Propulsion Containment Chamber. . SkillTo Assemble: Mech. Engi: 494-560
+ 
+  11. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 352-400
+ 
+  12. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 282-320

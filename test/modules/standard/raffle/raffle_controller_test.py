@@ -4,7 +4,7 @@ from modules.standard.raffle.raffle_controller import RaffleController
 
 class RaffleControllerTest(unittest.TestCase):
 
-    def test_calc_cmd(self):
+    def test_get_item_name(self):
         raffle_controller = RaffleController()
 
         self.assertEqual("testing", raffle_controller.get_item_name("testing"))

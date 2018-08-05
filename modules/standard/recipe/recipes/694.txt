@@ -1,0 +1,150 @@
+Name: Masterpiece Ancient Combat Tuner
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients </font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+</font><font color=#FFFF00> All parts required for this process can be found in Albtraum.
+The tuners at each phase are NO DROP, so make sure you have enough Computer Literacy for those bits! </font><font color=#009B00>
+
+#L "Empty Ancient Device" "267709"
+<img src=rdb://218753>
+
+#L "Ancient Scrap of Spirit Knowledge" "267677" x 4
+<img src=rdb://163575>
+
+#L "Ancient Scrap of Saturated Spirit Knowledge" "267679" x 4
+<img src=rdb://163575>
+
+#L "Crystalised Memories of a Technician" "267698"
+<img src=rdb://72770>
+
+#L "Crystalised Memories of a Mechanic" "267701"
+<img src=rdb://72771>
+
+#L "Crystalised Memories of an Instructor" "267710"
+<img src=rdb://72771>
+
+#L "Crystalised Memories of a Sniper" "267704"
+<img src=rdb://72771>
+
+#L "Crystalised Memories of a Warrior" "267697"
+<img src=rdb://72771>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe </font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+<highlight>Ancient Combat Tuner<end>
+
+Empty Ancient Device
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Crystalised Memories of an Instructor
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://218765>
+#L "Ancient Combat Tuner" "267678"
+</font><font color=#FFFF00>Skills: | 1250 CL |</font><font color=#009B00>
+
+<highlight>Enhanced Ancient Combat Tuner<end>
+
+Ancient Scrap of Spirit Knowledge
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Ancient Scrap of Saturated Spirit Knowledge
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://163575>
+#L "Ancient Scrap of Condensed Spirit Knowledge" "267680"
+</font><font color=#FFFF00>Skills: | 1750 PT |</font><font color=#009B00>
+
+Ancient Combat Tuner
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Ancient Scrap of Condensed Spirit Knowledge
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://218766>
+#L "Enhanced Ancient Combat Tuner" "267656"
+</font><font color=#FFFF00>Skills: | 1250 CL |</font><font color=#009B00>
+
+<highlight>Advanced Ancient Combat Tuner<end>
+
+Ancient Scrap of Spirit Knowledge
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Ancient Scrap of Saturated Spirit Knowledge
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://163575>
+#L "Ancient Scrap of Condensed Spirit Knowledge" "267680"
+</font><font color=#FFFF00>Skills: | 1750 PT |</font><font color=#009B00>
+
+Enhanced Ancient Combat Tuner
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Ancient Scrap of Condensed Spirit Knowledge
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://218767>
+#L "Advanced Ancient Combat Tuner" "267682"
+</font><font color=#FFFF00>Skills: | 1250 CL |</font><font color=#009B00>
+
+<highlight>Superior Ancient Combat Tuner<end>
+
+Ancient Scrap of Spirit Knowledge
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Ancient Scrap of Saturated Spirit Knowledge
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://163575>
+#L "Ancient Scrap of Condensed Spirit Knowledge" "267680"
+</font><font color=#FFFF00>Skills: | 1750 PT |</font><font color=#009B00>
+
+Crystalised Memories of a Sniper
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Crystalised Memories of a Warrior
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://72769>
+#L "Combined Crystalised Combat Memories" "267705"
+</font><font color=#FFFF00>Skills: | 1250 NP |</font><font color=#009B00>
+
+Combined Crystalised Combat Memories
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Ancient Scrap of Condensed Spirit Knowledge
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://163575>
+#L "Ancient Scrap of Spirit Combat Knowledge" "267681"
+</font><font color=#FFFF00>Skills: | 1250 CL |</font><font color=#009B00>
+
+Advanced Ancient Combat Tuner
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Ancient Scrap of Spirit Combat Knowledge
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://218768>
+#L "Superior Ancient Combat Tuner" "267695"
+</font><font color=#FFFF00>Skills: | 1250 CL |</font><font color=#009B00>
+
+<highlight>Masterpiece Ancient Combat Tuner<end>
+
+Ancient Scrap of Spirit Knowledge
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Ancient Scrap of Saturated Spirit Knowledge
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://163575>
+#L "Ancient Scrap of Condensed Spirit Knowledge" "267680"
+</font><font color=#FFFF00>Skills: | 1750 PT |</font><font color=#009B00>
+
+Crystalised Memories of a Technician
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Crystalised Memories of a Mechanic
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://72769>
+#L "Combined Crystalised Technical Memories" "267702"
+</font><font color=#FFFF00>Skills: | 1875 NP |</font><font color=#009B00>
+
+Combined Crystalised Technical Memories
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Ancient Scrap of Condensed Spirit Knowledge
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://163575>
+#L "Ancient Scrap of Spirit Technical Knowledge" "267681"
+</font><font color=#FFFF00>Skills: | 1875 NP |</font><font color=#009B00>
+
+Superior Ancient Combat Tuner
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Ancient Scrap of Spirit Technical Knowledge
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://218764>
+#L "Masterpiece Ancient Combat Tuner" "267696"
+</font><font color=#FFFF00>Skills: | 1250 CL |</font><font color=#009B00>

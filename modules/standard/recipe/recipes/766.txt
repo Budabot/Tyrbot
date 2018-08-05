@@ -1,0 +1,49 @@
+Name: Box of Silirrion Scones
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients </font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+</font><font color=#FFFF00> Note: While only title 7 traders can make these, any title level 6+ character can use them. It will give the user a boost to their health.</font><font color=#009B00>
+
+#L "Sealed Container of Foodstuffs" "258581"
+<img src=rdb://99662>
+
+#L "Multi-Form" "156345"
+<img src=rdb://156341>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe </font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Sealed Container of Foodstuffs
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Right Click
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://99662>
+#L "Sealed Container of Foodstuffs Awaiting Credentials" "25895"
+
+Sealed Container of Foodstuffs Awaiting Credentials
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Multi-Form
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://99290>
+#L "Box of Silirrion Scones" "258582"
+
+</font><font color=#FFFF00>Note: Sometimes right clicking the container will result in a:</font><font color=#009B00>
+
+<img src=rdb://99662>
+#L "Cease and Desist Order" "258601"
+
+This item is used for the #L "Trader Pet Mission" "/tell <myname> recipe XXX"
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments </font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Eating one of Scones will lock your Pharma Tech skill for 1800 seconds, but more importantly it will also boost your Health:
++1000 Health for 3 min
++800 Health for next 3 min
++600 Health for next 3 min
++400 Health for next 3 min
++200 Health for last 3 min

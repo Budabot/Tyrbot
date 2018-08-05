@@ -1,0 +1,29 @@
+Name: Half Digested Human Parts
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients </font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------
+
+a Half Digested Human Parts
+( ie : #L "Half Digested Human Torso" "223567" )
+<img src=rdb://144701>
+
+#L "Advanced Bio-Comminutor" "154332"
+<img src=rdb://149951>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe </font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Advanced Bio-Comminutor
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Half Digested Human Parts
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+an Implant
+</font><font color=#FFFF00>Skills: | BE,CL |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+There is a large chance to obtain a jobe implant. you can convert the Half Digested Human Parts by right clicking on it , but that way of processing is not sure.

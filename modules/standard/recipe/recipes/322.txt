@@ -1,0 +1,26 @@
+Name: Long-Axe Hyper 200x
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+  'Long-Axe Hyper 200x'
+ The Construction kit. must be between Quality Level  24 and  46.
+ All other pieces must be of AT LEAST that level range... 
+ Add them using shift+right-click.
+  Add in following order:
+ 
+  1. Two Handed Edged Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  96 ->  184
+ 
+  2. Notum Enriched Nano Paste - 4x Layer. SkillTo Assemble: Nano Progra:  60 ->  115
+ 
+  3. Optimized Co-Weapon Interface. SkillTo Assemble: Comp. Liter:  72 ->  138
+ 
+  4. Medium Handle. SkillTo Assemble: Weapon Smt:  88 ->  169
+ 
+  5. 4x Layer Carbon-Notum Alloy Blade. SkillTo Assemble: Weapon Smt:  72 ->  138
+ 
+  6. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  36 ->  69
+ 
+  7. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  48 ->  92
+ 
+  8. 8x Layer Carbon-Notum Alloy Blade. SkillTo Assemble: Weapon Smt:  84 ->  161

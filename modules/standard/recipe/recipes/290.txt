@@ -1,0 +1,32 @@
+Name: High Quality MTI Aleph 99
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+  'High Quality MTI Aleph 99'
+ The Construction kit. must be between Quality Level 151 and 199.
+ All other pieces must be of AT LEAST that level range... 
+ Add them using shift+right-click.
+ Add the pieces in the following order:
+ 
+  1. Submachinegun Weapons Construction kit.
+ 
+  2. Nano Pylon. . SkillTo Assemble: Mech. Engi: 378-498
+ 
+  3. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 226-298
+ 
+  4. Ultra-Long Composite Barrel. . SkillTo Assemble: Weapon Smt: 642-846
+ 
+  5. Triple Pulse Enabler. . SkillTo Assemble: Weapon Smt: 642-846
+ 
+  6. Stamina Cluster - Faded (Waist). . SkillTo Assemble: Nano Progra: 151-199
+ 
+  7. Lock and Stock. . SkillTo Assemble: Weapon Smt: 604-796
+ 
+  8. Nano Pylon. . SkillTo Assemble: Mech. Engi: 378-498
+ 
+  9. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 378-498
+ 
+  10. Explosion Propulsion Containment Chamber. . SkillTo Assemble: Mech. Engi: 528-696
+ 
+  11. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 302-398

@@ -1,0 +1,34 @@
+Name: Cast-Off Minigrinner
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+  'Cast-Off Minigrinner'
+ The Construction kit. must be between Quality Level  21 and  40.
+ All other pieces must be of AT LEAST that level range... 
+ Add them using shift+right-click.
+  Add in following order:
+ 
+  1. Pistol Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  84 ->  160
+ 
+  2. Triple Pulse Enabler. SkillTo Assemble: Weapon Smt:  89 ->  170
+ 
+  3. Gyro Stabilizing Unit. SkillTo Assemble: Weapon Smt:  94 ->  180
+ 
+  4. Hyper Carbo-Ceramic Cooling System. SkillTo Assemble: Weapon Smt:  84 ->  160
+ 
+  5. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  32 ->  60
+ 
+  6. Nano Pylon. SkillTo Assemble: Mech. Engi:  52 ->  100
+ 
+  7. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  52 ->  100
+ 
+  8. Explosion Propulsion Containment Chamber. SkillTo Assemble: Mech. Engi:  74 ->  140
+ 
+  9. Self-Cleaning KO-CR Device. SkillTo Assemble: Weapon Smt:  74 ->  140
+ 
+  10. Ultra Short Composite Barrel. SkillTo Assemble: Weapon Smt:  63 ->  120
+ 
+  11. Lock and Stock. SkillTo Assemble: Weapon Smt:  84 ->  160
+ 
+  12. Nano Pylon. SkillTo Assemble: Mech. Engi:  52 ->  100

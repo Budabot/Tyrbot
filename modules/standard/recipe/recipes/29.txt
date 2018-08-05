@@ -1,0 +1,101 @@
+Name: Bureaucrat Suits
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients </font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Hacker Tool" "87814"
+<img src=rdb://99282>
+
+#L "Sealed Order BLCG-7791" "156330" (For Clan)
+</font><font color=#FFFFFF>or</font><font color=#009B00>
+#L "Sealed Order XITL-0127" "156328" (For OMNI)
+<img src=rdb://156326>
+
+#L "Expendable Hologram Camera" "156054"
+<img src=rdb://156092>
+
+#L "ID-extractor" "156339"
+<img src=rdb://156324>
+
+A Multi-Form needed
+( ie #L "Omni-Tek Multi-Form" "156344" )
+<img src=rdb://156343>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe </font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Hacker Tool
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Sealed Order
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://154678>
+Hacked Order
+( ie : #L "Hacked Order BLCG-7791" "156336" )
+</font><font color=#FFFF00>Skills: |  BE  |</font><font color=#009B00>
+
+</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>
+
+ID-extractor
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Expendable Hologram Camera
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://156323>
+#L "ID-data" "156340"
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>
+
+ID-data
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Hacked Order
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://156325>
+Personal Order
+( ie : #L "Personal Order BLCG-7791" "156352" )
+</font><font color=#FFFF00>Skills: |  PS  |</font><font color=#009B00>
+
+</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>
+
+Multi-Form
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Personal Order
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://156357>
+Bureaucrat Suits
+</font><font color=#FFFF00>Skills: |  PS  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Details</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Sealed Order XITL-0127" "156328"
+#L "Omni-Tek Multi-Form" "156344"
+->
+#L "OT Standard Executive Secretary Suit" "156528"
+<img src=rdb://156357>
+
+#L "Sealed Order BLCG-7791" "156330"
+#L "Clans Multi-Form" "156346"
+->
+#L "Standard Clans Administration Suit" "156530"
+<img src=rdb://156356>
+
+#L "Sealed Order XITL-0127" "156328"
+#L "Clans Multi-Form" "156345"
+->
+#L "Universal Office Worker Suit" "156538"
+<img src=rdb://156355>
+
+#L "Sealed Order BLCG-7791" "156330"
+#L "Omni-Tek Multi-Form" "156344"
+->
+#L "Universal Office Worker Suit" "156538"
+<img src=rdb://156355>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Nice buffs and they look great too.

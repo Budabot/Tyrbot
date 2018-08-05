@@ -1,0 +1,36 @@
+Name: Quality Blackened Blaster
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'Quality Blackened Blaster'
+The Construction kit. must be between Quality Level 101 and 120.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+Add the pieces in the following order:
+
+ 1. Rifle Weapons Construction kit.
+
+ 2. Nano Pylon. . SkillTo Assemble: Mech. Engi: 252-300
+
+ 3. Hyper Carbo-Ceramic Cooling System. . SkillTo Assemble: Weapon Smt: 404-480
+
+ 4. Self-Cleaning KO-CR Device. . SkillTo Assemble: Weapon Smt: 354-420
+
+ 5. Energy Conduction Rack. . SkillTo Assemble: Quantum FT: 328-390
+
+ 6. Rapid-Reload-And-Fire Gyro. . SkillTo Assemble: Weapon Smt: 404-480
+
+ 7. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 252-300
+
+ 8. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 202-240
+
+ 9. Ultra-Long Composite Barrel. . SkillTo Assemble: Weapon Smt: 429-510
+
+ 10. Energy Pack Interface. . SkillTo Assemble: Elec. Engi: 404-480
+
+ 11. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 152-180
+
+ 12. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 252-300
+
+ 13. Nano Pylon. . SkillTo Assemble: Mech. Engi: 252-300

@@ -1,0 +1,29 @@
+Name: Salabim Shotgun
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Fused Biotech Material" "251217"
+<img src=rdb://246096>
+
+#L "Biomaterial Tubing" "253151"
+<img src=rdb://156553>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Fused Biotech Material
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Biomaterial Tubing
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://113991>
+#L "Salabim Shotgun" "253236"
+</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Uber Trader shotgun!

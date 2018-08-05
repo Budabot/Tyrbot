@@ -1,0 +1,42 @@
+Name: Reanimator's Cloak
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Pit Demon Heart" "245171"
+<img src=rdb://231393>
+
+#L "Necromancer Cloak" "245170"
+<img src=rdb://22892>
+
+#L "Bio-Comminutor" "154332"
+<img src=rdb://149951>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Bio-Comminutor
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Pit Demon Heart
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://100335>
+#L "Indigo Carmine" "245270"
+</font><font color=#FFFF00>Skills: | CH525 |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Indigo Carmine
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Necromancer Cloak
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://22892>
+#L "Reanimator's Cloak" "245260"
+</font><font color=#FFFF00>Skills: | CL450 |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Great back item which you can level by right clicking it.

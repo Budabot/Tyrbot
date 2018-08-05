@@ -1,0 +1,34 @@
+Name: Second-Hand Flamethrower
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'Second-Hand Flamethrower'
+The Construction kit. must be between Quality Level  61 and  80.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+ Add in following order:
+
+ 1. AssaultRifle Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  244 ->  320
+
+ 2. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  92 ->  120
+
+ 3. Compression Chamber for Chemicals. SkillTo Assemble: Weapon Smt:  259 ->  340
+
+ 4. Nano Pylon. SkillTo Assemble: Mech. Engi:  152 ->  200
+
+ 5. Plasma Streamer Interface Nozzle. SkillTo Assemble: Chemistry:  244 ->  320
+
+ 6. Primitive Freon Bag Cooling System. SkillTo Assemble: Weapon Smt:  244 ->  320
+
+ 7. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  122 ->  160
+
+ 8. Short Composite Barrel. SkillTo Assemble: Weapon Smt:  198 ->  260
+
+ 9. Nano Pylon. SkillTo Assemble: Mech. Engi:  152 ->  200
+
+ 10. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  152 ->  200
+
+ 11. Auto Targeting Computer -IIR 1. SkillTo Assemble: Elec. Engi:  137 ->  180
+
+ 12. Self-Cleaning KO-CR Device. SkillTo Assemble: Weapon Smt:  214 ->  280

@@ -1,0 +1,26 @@
+Name: Sharp Notum Staff
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'Sharp Notum Staff'
+The Construction kit. must be between Quality Level 121 and 140.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+Add the pieces in the following order:
+
+ 1. Two Handed Blunt Weapons Construction kit.
+
+ 2. 8x Layer Carbon-Notum Alloy Rod. . SkillTo Assemble: Weapon Smt: 575-665
+
+ 3. Notum Enriched Nano Paste - 4x Layer. . SkillTo Assemble: Nano Progra: 302-350
+
+ 4. Short Handle. . SkillTo Assemble: Weapon Smt: 424-490
+
+ 5. Basic Co-Weapon Interface. . SkillTo Assemble: Comp. Liter: 272-315
+
+ 6. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 182-210
+
+ 7. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 242-280
+
+ 8. 4x Layer Carbon-Notum Alloy Rod. . SkillTo Assemble: Weapon Smt: 544-630

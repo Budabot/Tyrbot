@@ -1,0 +1,28 @@
+Name: De-Hacked Frederickson Micro-kinetic Sleeves
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients </font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+</font><font color=#FF0000> *** </font><font color=#FFFF00> Hack the sleeves with a hacker tool in order to make the clan
+version of the omni sleeves. Neutrals can not wear them.
+No trade skills required and the QL of the hacker tool does not matter.
+</font><font color=#FF0000> *** </font><font color=#009B00>
+
+#L "Frederickson Micro-kinetic Sleeves" "152710"
+<img src=rdb://81990>
+
+#L "Advanced Hacker Tool" "87814"
+<img src=rdb://99282>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe </font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Frederickson Micro-kinetic Sleeves
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Advanced Hacker Tool
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://81990>
+#L "De-Hacked Frederickson Micro-kinetic Sleeves" "286303"
+</font><font color=#FFFF00>Skills: No skills required.</font><font color=#009B00>

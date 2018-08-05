@@ -1,0 +1,71 @@
+Name: CAS Symbiotic Armor
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+2 pieces of Notum
+#L "Notum Fragment" "136624"
+<img src=rdb://25795>
+</font><font color=#FFFFFF>or</font><font color=#009B00>
+#L "Notum Chip" "136622"
+<img src=rdb://25794>
+
+#L "Nano Programming Interface" "161699"
+<img src=rdb://99279>
+
+#L "Inactive OT Metamorphing Liquid Nanobots" "164952"
+<img src=rdb://156496>
+
+A Graft Armor part
+( ie : #L "Flawless Graft Armor Boots" "142685" )
+<img src=rdb://99787>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Nano Programming Interface
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Inactive OT Metamorphing Liquid Nanobots
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://156492>
+#L "Activated OT Metamorphing Liquid Nanobots" "164954"
+</font><font color=#FFFF00>Skills: | NP,CH |</font><font color=#009B00>
+
+</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>
+
+Notum piece
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Activated OT Metamorphing Liquid Nanobots
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://164949>
+#L "Stabilized OT Metamorphing Liquid Nanobots" "164956"
+</font><font color=#FFFF00>Skills: | NP,CH |</font><font color=#009B00>
+
+</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>
+
+Notum piece
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Stabilized OT Metamorphing Liquid Nanobots
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://164950>
+#L "Super-Stabilized OT Metamorphing Liquid Nanobots" "164958"
+</font><font color=#FFFF00>Skills: | NP,CH |</font><font color=#009B00>
+
+</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>
+
+Super-Stabilized OT Metamorphing Liquid Nanobots
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Graft Armor
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://37596>
+CAS Symbiotic Armor
+( ie : #L "CAS Symbiotic Armor Boots" "165000" )
+</font><font color=#FFFF00>Skills: | NP,CH |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Popular Froob armor

@@ -1,0 +1,65 @@
+Name: Personal Service Tower
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Multi-Purpose Tuner" "202575"
+<img src=rdb://203583>
+
+a Service Tower Library
+( ie : #L "Android Service Tower Library" "202532" )
+<img src=rdb://83296>
+
+#L "Service Tower Shell" "202581"
+<img src=rdb://203582>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Multi-Purpose Tuner
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Service Tower Library
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://203577>
+Service Tower Brain
+( ie #L "Android Service Tower Brain" "202526" )
+</font><font color=#FFFF00>Skills: | ME,EE |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Service Tower Shell
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Service Tower Brain
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://208131>
+Inactive Service Tower
+( ie #L "Inactive Android Service Tower" "203108" )
+</font><font color=#FFFF00>Skills: | ME,EE |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Details</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Android Service Tower Library" "202532"
+</font><font color=#FFFFFF>-></font><font color=#009B00>
+#L "Inactive Android Service Tower" "203108"
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+#L "Cyborg Service Tower Library" "202570"
+</font><font color=#FFFFFF>-></font><font color=#009B00>
+#L "Inactive Cyborg Service Tower" "203110"
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+#L "Nano-Supervised Service Tower Library" "202577"
+</font><font color=#FFFFFF>-></font><font color=#009B00>
+#L "Inactive Nano Service Tower" "203111"
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+#L "Semi-Sentient Service Tower Library" "202579"
+</font><font color=#FFFFFF>-></font><font color=#009B00>
+#L "Inactive Semi-Sentient Service Tower" "203109"
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Nice AC buffs for you.  Great for use in tower battles.

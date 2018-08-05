@@ -1,0 +1,29 @@
+Name: The Pioneer Backpack
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "The Pioneer Backpack" "152039"
+<img src=rdb://151882>
+
+#L "Screwdriver" "150922"
+<img src=rdb://151011>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Screwdriver
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+The Pioneer Backpack
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://151882>
+#L "The Pioneer Backpack (Modified Version)" "156831"
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+You can switch it back to the normal version using the Screwdriver on it again.

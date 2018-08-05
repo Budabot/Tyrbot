@@ -1,0 +1,20 @@
+Name: Cast-Off Mini Axe
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+  'Cast-Off Mini Axe'
+ The Construction kit. must be between Quality Level 21 and 40.
+ All other pieces must be of AT LEAST that level range... 
+ Add them using shift+right-click.
+ Add the pieces in the following order:
+ 
+  1. One Handed Edged Weapons Construction kit.
+ 
+  2. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 32-60
+ 
+  3. Optimized Co-Weapon Interface. . SkillTo Assemble: Comp. Liter: 63-120
+ 
+  4. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 42-80
+ 
+  5. Short Handle. . SkillTo Assemble: Weapon Smt: 74-140

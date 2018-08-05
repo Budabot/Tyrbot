@@ -1,0 +1,34 @@
+Name: Premium Blackhole Mk IX
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'Premium Blackhole Mk IX'
+The Construction kit. must be between Quality Level  200 and  200.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+ Add in following order:
+
+ 1. Shotgun Weapons Construction kit. SkillTo Assemble: Weapon Smt:  800 ->  800
+
+ 2. Notum Enriched Nano Paste - 4x Layer. SkillTo Assemble: Nano Progra:  500 ->  500
+
+ 3. Ultra-Long Composite Barrel. SkillTo Assemble: Weapon Smt:  850 ->  850
+
+ 4. Energy Conduction Rack. SkillTo Assemble: Quantum FT:  650 ->  650
+
+ 5. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  300 ->  300
+
+ 6. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  400 ->  400
+
+ 7. Nano Pylon. SkillTo Assemble: Mech. Engi:  500 ->  500
+
+ 8. Nano Pylon. SkillTo Assemble: Mech. Engi:  500 ->  500
+
+ 9. Energy Pack Interface. SkillTo Assemble: Elec. Engi:  800 ->  800
+
+ 10. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  500 ->  500
+
+ 11. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  500 ->  500
+
+ 12. Rapid-Reload-And-Fire Gyro. SkillTo Assemble: Weapon Smt:  800 ->  800

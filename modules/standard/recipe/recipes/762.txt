@@ -1,0 +1,26 @@
+Name: Android NCU Injector
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients </font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+</font><font color=#FFFF00> The NCU Injector adds 150 NCU to your pet. The Permafrost Melting Tool is a reward for quests in Penumbra and Frozen Android NCU drops in Alappaa.</font><font color=#009B00>
+
+#L "Permafrost Melting Tool" "269805"
+<img src=rdb://269844>
+</font><font color=#FFFF00>Note:To build your Permafrost Melting Tool, go here: #L "Permafrost Melting Tool" "/tell <myname> recipe 763"</font><font color=#009B00>
+
+#L "Frozen Android NCU Injector" "269841"
+<img src=rdb://43134>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe </font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Permafrost Melting Tool
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Frozen Android NCU Injector
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://43129>
+#L "Android NCU Injector" "269840"
+</font><font color=#FFFF00>Skills: | ME 1200 |</font><font color=#009B00>

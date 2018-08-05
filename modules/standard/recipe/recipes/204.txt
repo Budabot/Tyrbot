@@ -1,0 +1,38 @@
+Name: Charged Bolter M9 42mm
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+  'Charged Bolter M9 42mm'
+ The Construction kit. must be between Quality Level 93 and 115.
+ All other pieces must be of AT LEAST that level range... 
+ Add them using shift+right-click.
+ Add the pieces in the following order:
+ 
+  1. AssaultRifle Weapons Construction kit.
+ 
+  2. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 232-288
+ 
+  3. Gyro Stabilizing Unit. . SkillTo Assemble: Weapon Smt: 418-518
+ 
+  4. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 186-230
+ 
+  5. Primitive Freon Bag Cooling System. . SkillTo Assemble: Weapon Smt: 372-460
+ 
+  6. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 140-172
+ 
+  7. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 232-288
+ 
+  8. Auto Targeting Computer -IIR 1. . SkillTo Assemble: Elec. Engi: 209-259
+ 
+  9. Nano Pylon. . SkillTo Assemble: Mech. Engi: 232-288
+ 
+  10. Lock and Stock. . SkillTo Assemble: Weapon Smt: 372-460
+ 
+  11. Triple Pulse Enabler. . SkillTo Assemble: Weapon Smt: 395-489
+ 
+  12. Explosion Propulsion Containment Chamber. . SkillTo Assemble: Mech. Engi: 326-402
+ 
+  13. Short Composite Barrel. . SkillTo Assemble: Weapon Smt: 302-374
+ 
+  14. Nano Pylon. . SkillTo Assemble: Mech. Engi: 232-288

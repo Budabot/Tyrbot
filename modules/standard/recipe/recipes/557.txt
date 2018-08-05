@@ -1,0 +1,29 @@
+Name: Arctic Metaplast Mace
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Viral Weapon Upgrade" "248517"
+<img src=rdb://100335>
+
+#L "Metaplast Mace" "142854"
+<img src=rdb://13333>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Viral Weapon Upgrade
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Metaplast Mace
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://13333>
+#L "Premium Arctic Metaplast Mace" "249035"
+</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Weapon with HP buff.

@@ -1,0 +1,42 @@
+Name: Silvertail Dagger
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Snake Bile" "227172"
+<img src=rdb://156493>
+
+#L "Silvertail Horn" "227169" 
+<img src=rdb://218708>
+
+#L "Handle-Shaped Gofle Toe Bone" "227175"
+<img src=rdb://130862>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Snake Bile
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Handle-Shaped Gofle Toe Bone
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://130862>
+#L "Bone Handle" "227177"
+</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Bone Handle
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Silvertail Horn
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://218708>
+#L "Silvertail Dagger" "227095"
+</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+These are excellent start-weapons for Shades.

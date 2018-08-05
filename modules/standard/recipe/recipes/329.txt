@@ -1,0 +1,26 @@
+Name: Loose Whings
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+  'Loose Whings'
+ The Construction kit. must be between Quality Level  41 and  60.
+ All other pieces must be of AT LEAST that level range... 
+ Add them using shift+right-click.
+  Add in following order:
+ 
+  1. Two Handed Edged Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  164 ->  240
+ 
+  2. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  82 ->  120
+ 
+  3. Notum Enriched Nano Paste - 4x Layer. SkillTo Assemble: Nano Progra:  102 ->  150
+ 
+  4. Long Handle. SkillTo Assemble: Weapon Smt:  154 ->  225
+ 
+  5. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  62 ->  90
+ 
+  6. 8x Layer Carbon-Notum Alloy Blade. SkillTo Assemble: Weapon Smt:  144 ->  210
+ 
+  7. Optimized Co-Weapon Interface. SkillTo Assemble: Comp. Liter:  123 ->  180
+ 
+  8. 4x Layer Carbon-Notum Alloy Blade. SkillTo Assemble: Weapon Smt:  123 ->  180

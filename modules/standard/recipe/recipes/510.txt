@@ -1,0 +1,32 @@
+Name: Simple Abigail
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'Simple Abigail'
+The Construction kit. must be between Quality Level 31 and 60.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+Add the pieces in the following order:
+
+ 1. Rifle Weapons Construction kit.
+
+ 2. Explosion Propulsion Containment Chamber. . SkillTo Assemble: Mech. Engi: 108-210
+
+ 3. Runtime Critical Area Analyzer. . SkillTo Assemble: Weapon Smt: 124-240
+
+ 4. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 62-120
+
+ 5. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 78-150
+
+ 6. Self-Repairing Ultra-X. . SkillTo Assemble: Weapon Smt: 108-210
+
+ 7. Short Composite Barrel. . SkillTo Assemble: Weapon Smt: 101-195
+
+ 8. Nano-Interfaced Cooling System. . SkillTo Assemble: Weapon Smt: 124-240
+
+ 9. Nano Pylon. . SkillTo Assemble: Mech. Engi: 78-150
+
+ 10. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 46-90
+
+ 11. Lock and Stock. . SkillTo Assemble: Weapon Smt: 124-240

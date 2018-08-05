@@ -1,0 +1,30 @@
+Name: Irreparable Light Beamer Pistol
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+  'Irreparable Light Beamer Pistol'
+ The Construction kit. must be between Quality Level  35 and  50.
+ All other pieces must be of AT LEAST that level range... 
+ Add them using shift+right-click.
+  Add in following order:
+ 
+  1. Pistol Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  140 ->  200
+ 
+  2. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  52 ->  75
+ 
+  3. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  70 ->  100
+ 
+  4. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  88 ->  125
+ 
+  5. Nano Pylon. SkillTo Assemble: Mech. Engi:  88 ->  125
+ 
+  6. Energy Conduction Rack. SkillTo Assemble: Quantum FT:  114 ->  162
+ 
+  7. Short Composite Barrel. SkillTo Assemble: Weapon Smt:  114 ->  162
+ 
+  8. Self-Cleaning KO-CR Device. SkillTo Assemble: Weapon Smt:  122 ->  175
+ 
+  9. Plasma Streamer Interface Nozzle. SkillTo Assemble: Chemistry:  140 ->  200
+ 
+  10. Hyper Carbo-Ceramic Cooling System. SkillTo Assemble: Weapon Smt:  140 ->  200

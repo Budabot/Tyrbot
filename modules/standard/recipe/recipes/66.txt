@@ -1,0 +1,68 @@
+Name: Mausser Chemical Streamer
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Mausser Particle Streamer" "122443"
+<img src=rdb://31807>
+
+#L "Hacker Tool" "87814"
+<img src=rdb://99282>
+
+#L "Sheet of Curved Carbonum Plating" "156017"
+<img src=rdb://156091>
+
+#L "Composite Barrel" "137236"
+<img src=rdb://130708>
+
+#L "Compression Chamber for Chemicals" "137248"
+<img src=rdb://130687>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Hacker Tool
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Mausser Particle Streamer
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://157696>
+#L "Mausser Particle Streamer Base" "157718"
+</font><font color=#FFFF00>Skills: |  BE  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Compression Chamber for Chemicals
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Mausser Particle Streamer Base
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://157697>
+#L "Mausser Chemical Streamer - Step 1" "157720"
+</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Composite Barrel
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Mausser Chemical Streamer - Step 1
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://157698>
+#L "Mausser Chemical Streamer - Step 2" "157722"
+</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Sheet of Curved Carbonum Plating
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Mausser Chemical Streamer - Step 2
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://33154>
+#L "Mausser Chemical Streamer" "157716"
+</font><font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+This weapon can only be built. It increases the damage of the mausser, but in addition it inflicts chemical damage and its clip is slightly larger. A very good weapon.

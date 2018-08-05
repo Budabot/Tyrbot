@@ -1,0 +1,102 @@
+Name: Rollerrat Helmets
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "screwdriver" "150922"
+<img src=rdb://151011>
+</font><font color=#FFFFFF>or</font><font color=#009B00>
+#L "Mass Relocating Robot (Shape Hard Armor)" "162218" (#L "recipe" "/tell <myname> recipe 30")
+<img src=rdb://163856>
+
+#L "Hacker Tool" "87814"
+<img src=rdb://99282>
+
+#L "B.B.I. - Nano Enhanced B-12 Tanning Acid" "162247"
+<img src=rdb://156490>
+
+#L "Undamaged Piece of Rubbery Rollerrat Flesh" "206886"
+<img src=rdb://144702>
+
+#L "MasterComm - Personalization Device" "156025"
+<img src=rdb://11618>
+
+#L "Ancarim Sun Tan Lotion" "205874"
+<img src=rdb://156504>
+
+#L "Carbonum Plate Helmet" "162437"  (#L "recipe" "/tell <myname> recipe 30")
+<img src=rdb://10833>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+B.B.I. - Nano Enhanced B-12 Tanning Acid
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Undamaged Piece of Rubbery Rollerrat Flesh
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://144701>
+#L "Tanned Piece of Rollerrat Flesh" "206890"
+</font><font color=#FFFF00>Skills: | AG,CH |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Hacker Tool
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+MasterComm - Personalization Device
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://11606>
+#L "Communication Device" "206891"
+</font><font color=#FFFF00>Skills: |  BE  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Communication Device
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Tanned Piece of Rollerrat Flesh
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://205768>
+#L "Fragile Rollerrat Helmet" "206892"
+</font><font color=#FFFF00>Skills: |  BE  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Ancarim Sun Tan Lotion
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Fragile Rollerrat Helmet
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://205768>
+#L "Simple Rollerrat Helmet" "206876"
+</font><font color=#FFFF00>Skills: |  BE  |</font><font color=#009B00>
+
+You can use 9 another Tanned Piece of Rollerrat Flesh on your Simple Rollerrat Helmet, then you get ...
+
+#L "Excellent Rollerrat Helmet" "206885"
+<img src=rdb://205768>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Screwdriver
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Excellent Rollerrat Helmet
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://205517>
+#L "Disassembled Rollerrat Helmet" "206898"
+</font><font color=#FFFF00>Skills: | ME,EE |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Disassembled Rollerrat Helmet
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Carbonum Plate Helmet
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://205769>
+#L "Rollerrat Carbonum Helmet" "206897"
+</font><font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+A very very very very strange looking hat :D

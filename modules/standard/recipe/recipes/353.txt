@@ -1,0 +1,38 @@
+Name: Over-Tuned Disaffiliation Sniper
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'Over-Tuned Disaffiliation Sniper'
+The Construction kit. must be between Quality Level 41 and 60.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+Add the pieces in the following order:
+
+ 1. Rifle Weapons Construction kit.
+
+ 2. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 102-150
+
+ 3. Lock and Stock. . SkillTo Assemble: Weapon Smt: 164-240
+
+ 4. Nano Pylon. . SkillTo Assemble: Mech. Engi: 102-150
+
+ 5. Auto Targeting Computer -IIR 2-Groper-. . SkillTo Assemble: Elec. Engi: 102-150
+
+ 6. Runtime Critical Area Analyzer. . SkillTo Assemble: Weapon Smt: 164-240
+
+ 7. Ultra-Long Composite Barrel. . SkillTo Assemble: Weapon Smt: 174-255
+
+ 8. Explosion Propulsion Containment Chamber. . SkillTo Assemble: Mech. Engi: 144-210
+
+ 9. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 62-90
+
+ 10. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 102-150
+
+ 11. Nano Pylon. . SkillTo Assemble: Mech. Engi: 102-150
+
+ 12. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 82-120
+
+ 13. Primitive Freon Bag Cooling System. . SkillTo Assemble: Weapon Smt: 164-240
+
+ 14. Notum Enriched Nano Paste - 4x Layer. . SkillTo Assemble: Nano Progra: 102-150

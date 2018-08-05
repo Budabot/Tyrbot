@@ -1,0 +1,38 @@
+Name: Deluxe Disaffiliation Sniper
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+  'Deluxe Disaffiliation Sniper'
+ The Construction kit. must be between Quality Level 161 and 199.
+ All other pieces must be of AT LEAST that level range... 
+ Add them using shift+right-click.
+ Add the pieces in the following order:
+ 
+  1. Rifle Weapons Construction kit.
+ 
+  2. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 242-298
+ 
+  3. Nano Pylon. . SkillTo Assemble: Mech. Engi: 402-498
+ 
+  4. Runtime Critical Area Analyzer. . SkillTo Assemble: Weapon Smt: 644-796
+ 
+  5. Notum Enriched Nano Paste - 4x Layer. . SkillTo Assemble: Nano Progra: 402-498
+ 
+  6. Explosion Propulsion Containment Chamber. . SkillTo Assemble: Mech. Engi: 564-696
+ 
+  7. Lock and Stock. . SkillTo Assemble: Weapon Smt: 644-796
+ 
+  8. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 402-498
+ 
+  9. Nano Pylon. . SkillTo Assemble: Mech. Engi: 402-498
+ 
+  10. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 322-398
+ 
+  11. Auto Targeting Computer -IIR 2-Groper-. . SkillTo Assemble: Elec. Engi: 402-498
+ 
+  12. Primitive Freon Bag Cooling System. . SkillTo Assemble: Weapon Smt: 644-796
+ 
+  13. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 402-498
+ 
+  14. Ultra-Long Composite Barrel. . SkillTo Assemble: Weapon Smt: 684-846

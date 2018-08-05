@@ -1,0 +1,34 @@
+Name: Second-Hand Supernova Mk VI
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'Second-Hand Supernova Mk VI'
+The Construction kit. must be between Quality Level 61 and 80.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+Add the pieces in the following order:
+
+ 1. Energy Weapons Construction kit.
+
+ 2. Runtime Critical Area Analyzer. . SkillTo Assemble: Weapon Smt: 244-320
+
+ 3. Auto Targeting C. -IIR 5 -Powermolder-. . SkillTo Assemble: Elec. Engi: 198-260
+
+ 4. Energy Pack Interface. . SkillTo Assemble: Elec. Engi: 244-320
+
+ 5. Energy Conduction Rack. . SkillTo Assemble: Quantum FT: 198-260
+
+ 6. Ultra-Long Composite Barrel. . SkillTo Assemble: Weapon Smt: 259-340
+
+ 7. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 92-120
+
+ 8. Nano Pylon. . SkillTo Assemble: Mech. Engi: 152-200
+
+ 9. Auto Targeting Computer -IIR 4 -Ultra-. . SkillTo Assemble: Elec. Engi: 183-240
+
+ 10. Nano Pylon. . SkillTo Assemble: Mech. Engi: 152-200
+
+ 11. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 152-200
+
+ 12. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 152-200

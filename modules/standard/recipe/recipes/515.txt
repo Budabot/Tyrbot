@@ -1,0 +1,36 @@
+Name: Strong Luxembourg Inferno Rifle
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'Strong Luxembourg Inferno Rifle'
+The Construction kit. must be between Quality Level  91 and  120.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+ Add in following order:
+
+ 1. Rifle Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  364 ->  480
+
+ 2. Rapid-Reload-And-Fire Gyro. SkillTo Assemble: Weapon Smt:  364 ->  480
+
+ 3. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  136 ->  180
+
+ 4. Hyper Carbo-Ceramic Cooling System. SkillTo Assemble: Weapon Smt:  364 ->  480
+
+ 5. Nano Pylon. SkillTo Assemble: Mech. Engi:  228 ->  300
+
+ 6. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  182 ->  240
+
+ 7. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  228 ->  300
+
+ 8. Long Composite Barrel. SkillTo Assemble: Weapon Smt:  364 ->  480
+
+ 9. Plasma Streamer Interface Nozzle. SkillTo Assemble: Chemistry:  364 ->  480
+
+ 10. Nano Pylon. SkillTo Assemble: Mech. Engi:  228 ->  300
+
+ 11. Jandawit Cleanup Cluster. SkillTo Assemble: Weapon Smt:  318 ->  420
+
+ 12. Compression Chamber for Chemicals. SkillTo Assemble: Weapon Smt:  387 ->  510
+
+ 13. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  228 ->  300

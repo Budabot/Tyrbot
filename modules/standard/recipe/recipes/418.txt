@@ -1,0 +1,32 @@
+Name: Quality Abigail
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'Quality Abigail'
+The Construction kit. must be between Quality Level 121 and 150.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+Add the pieces in the following order:
+
+ 1. Rifle Weapons Construction kit.
+
+ 2. Nano Pylon. . SkillTo Assemble: Mech. Engi: 302-375
+
+ 3. Explosion Propulsion Containment Chamber. . SkillTo Assemble: Mech. Engi: 424-525
+
+ 4. Self-Repairing Ultra-X. . SkillTo Assemble: Weapon Smt: 424-525
+
+ 5. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 182-225
+
+ 6. Short Composite Barrel. . SkillTo Assemble: Weapon Smt: 393-488
+
+ 7. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 242-300
+
+ 8. Nano-Interfaced Cooling System. . SkillTo Assemble: Weapon Smt: 484-600
+
+ 9. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 302-375
+
+ 10. Lock and Stock. . SkillTo Assemble: Weapon Smt: 484-600
+
+ 11. Runtime Critical Area Analyzer. . SkillTo Assemble: Weapon Smt: 484-600

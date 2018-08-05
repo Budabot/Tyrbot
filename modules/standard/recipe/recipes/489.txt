@@ -1,0 +1,34 @@
+Name: Second-Hand Triplejolt
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'Second-Hand Triplejolt'
+The Construction kit. must be between Quality Level  61 and  80.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+ Add in following order:
+
+ 1. Shotgun Weapons Construction kit. SkillTo Assemble: Weapon Smt:  244 ->  320
+
+ 2. Energy Conduction Rack. SkillTo Assemble: Quantum FT:  198 ->  260
+
+ 3. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  92 ->  120
+
+ 4. Jandawit Cleanup Cluster. SkillTo Assemble: Weapon Smt:  214 ->  280
+
+ 5. Ultra Short Composite Barrel. SkillTo Assemble: Weapon Smt:  183 ->  240
+
+ 6. Radioactive Isotope Fusion System. SkillTo Assemble: Quantum FT:  244 ->  320
+
+ 7. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  122 ->  160
+
+ 8. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  152 ->  200
+
+ 9. Nano Pylon. SkillTo Assemble: Mech. Engi:  152 ->  200
+
+ 10. Nano Pylon. SkillTo Assemble: Mech. Engi:  152 ->  200
+
+ 11. Hyper Carbo-Ceramic Cooling System. SkillTo Assemble: Weapon Smt:  244 ->  320
+
+ 12. Rapid-Reload-And-Fire Gyro. SkillTo Assemble: Weapon Smt:  244 ->  320

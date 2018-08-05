@@ -1,0 +1,163 @@
+Name: Special Turrets
+Author: 
+<highlight>Type 1: Cold Laser Turret<end>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Cloud of Infuriated Nanobots" "202534"
+<img src=rdb://203581>
+
+#L "Turret Construction Base" "202583" 
+<img src=rdb://203578>
+
+#L "HSR Compressed Regenerating Bioplate" "202540"
+<img src=rdb://203584>
+
+#L "Revolving Cold Laser" "202780"
+<img src=rdb://13329>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Cloud of Infuriated Nanobots
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Turret Construction Base
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://203579>
+#L "Turret Controller" "202584"
+</font><font color=#FFFF00>Skills: | ME,NP |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Turret Controller
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Revolving Cold Laser
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://203580>
+#L "Cold Laser Turret Controller" "202588"
+</font><font color=#FFFF00>Skills: | ME,WS |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+HSR Compressed Regenerating Bioplate
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Cold Laser Turret Controller
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://202242>
+#L "Cold Laser Turret" "203080"
+</font><font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+
+<highlight>Type 2: Corrosive Turret<end>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Cloud of Infuriated Nanobots" "202534"
+<img src=rdb://203581>
+
+#L "Turret Construction Base" "202583" 
+<img src=rdb://203578>
+
+#L "HSR Compressed Regenerating Bioplate" "202540"
+<img src=rdb://203584>
+
+#L "Sentient Corrosion Sprayer" "202783"
+<img src=rdb://33161>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Cloud of Infuriated Nanobots
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Turret Construction Base
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://203579>
+#L "Turret Controller" "202584"
+</font><font color=#FFFF00>Skills: | ME,NP |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Turret Controller
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Sentient Corrosion Sprayer
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://203580>
+#L "Sentient Corrosion Turret Controller" "202590"
+</font><font color=#FFFF00>Skills: | ME,WS |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+HSR Compressed Regenerating Bioplate
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Sentient Corrosion Turret Controller
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://202227>
+#L "Sentient Corrosive Turret" "203085"
+</font><font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+
+<highlight>Type 3: X-11 Ejector Turret<end>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Cloud of Infuriated Nanobots" "202534"
+<img src=rdb://203581>
+
+#L "Turret Construction Base" "202583" 
+<img src=rdb://203578>
+
+#L "HSR Compressed Regenerating Bioplate" "202540"
+<img src=rdb://203584>
+
+#L "Augias X-11 Ejector" "202785"
+<img src=rdb://31808>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Cloud of Infuriated Nanobots
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Turret Construction Base
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://203579>
+#L "Turret Controller" "202584"
+</font><font color=#FFFF00>Skills: | ME,NP |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Turret Controller
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Augias X-11 Ejector
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://203580>
+#L "X-11 Ejector Turret Controller" "202592"
+</font><font color=#FFFF00>Skills: | ME,WS |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+HSR Compressed Regenerating Bioplate
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+X-11 Ejector Turret Controller
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://202210>
+#L "X-11 Ejector Turret" "203089"
+</font><font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+The best towers in the game are the ones you build yourself, and these are no exception.  The weapons used in the process are difficult to get your hands on though.

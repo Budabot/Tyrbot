@@ -1,0 +1,31 @@
+Name: Cutting Valuable Stones
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+a Valuable Stone
+(ie: #L "Gem" "136641")
+<img src=rdb://136593>
+
+#L "Jensen Gem Cutter" "151366"
+<img src=rdb://149941>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Jensen Gem Cutter
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+a Valuable Stone
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://136593>
+Perfectly Cut Valuable Stone
+(ie:#L "Perfectly Cut Gem" "151552")
+</font><font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+This process transforms the Valuable Stone into a Perfectly Cut one, thus doubling its value. The result can also be used in the making of #L "Jewels" "/tell <myname> recipe 62".

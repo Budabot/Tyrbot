@@ -1,0 +1,34 @@
+Name: Ill-Treated Heavy Grinner
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+  'Ill-Treated Heavy Grinner'
+ The Construction kit. must be between Quality Level  1 and  20.
+ All other pieces must be of AT LEAST that level range... 
+ Add them using shift+right-click.
+  Add in following order:
+ 
+  1. Pistol Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  4 ->  80
+ 
+  2. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  2 ->  50
+ 
+  3. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  2 ->  50
+ 
+  4. Triple Pulse Enabler. SkillTo Assemble: Weapon Smt:  4 ->  85
+ 
+  5. Nano Pylon. SkillTo Assemble: Mech. Engi:  2 ->  50
+ 
+  6. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  2 ->  30
+ 
+  7. Composite Barrel. SkillTo Assemble: Weapon Smt:  4 ->  75
+ 
+  8. Lock and Stock. SkillTo Assemble: Weapon Smt:  4 ->  80
+ 
+  9. Explosion Propulsion Containment Chamber. SkillTo Assemble: Mech. Engi:  4 ->  70
+ 
+  10. Nano Pylon. SkillTo Assemble: Mech. Engi:  2 ->  50
+ 
+  11. Self-Cleaning KO-CR Device. SkillTo Assemble: Weapon Smt:  4 ->  70
+ 
+  12. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  2 ->  40

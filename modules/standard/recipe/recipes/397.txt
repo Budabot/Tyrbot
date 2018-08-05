@@ -1,0 +1,26 @@
+Name: Premium Notum Staff
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'Premium Notum Staff'
+The Construction kit. must be between Quality Level 200 and 200.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+Add the pieces in the following order:
+
+ 1. Two Handed Blunt Weapons Construction kit.
+
+ 2. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 300-300
+
+ 3. Basic Co-Weapon Interface. . SkillTo Assemble: Comp. Liter: 450-450
+
+ 4. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 400-400
+
+ 5. Notum Enriched Nano Paste - 4x Layer. . SkillTo Assemble: Nano Progra: 500-500
+
+ 6. 8x Layer Carbon-Notum Alloy Rod. . SkillTo Assemble: Weapon Smt: 950-950
+
+ 7. 4x Layer Carbon-Notum Alloy Rod. . SkillTo Assemble: Weapon Smt: 900-900
+
+ 8. Short Handle. . SkillTo Assemble: Weapon Smt: 700-700

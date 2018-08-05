@@ -1,0 +1,26 @@
+Name: Chipped Notum Staff
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+  'Chipped Notum Staff'
+ The Construction kit. must be between Quality Level 81 and 100.
+ All other pieces must be of AT LEAST that level range... 
+ Add them using shift+right-click.
+ Add the pieces in the following order:
+ 
+  1. Two Handed Blunt Weapons Construction kit.
+ 
+  2. Notum Enriched Nano Paste - 4x Layer. . SkillTo Assemble: Nano Progra: 202-250
+ 
+  3. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 162-200
+ 
+  4. Short Handle. . SkillTo Assemble: Weapon Smt: 284-350
+ 
+  5. 8x Layer Carbon-Notum Alloy Rod. . SkillTo Assemble: Weapon Smt: 385-475
+ 
+  6. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 122-150
+ 
+  7. 4x Layer Carbon-Notum Alloy Rod. . SkillTo Assemble: Weapon Smt: 364-450
+ 
+  8. Basic Co-Weapon Interface. . SkillTo Assemble: Comp. Liter: 182-225

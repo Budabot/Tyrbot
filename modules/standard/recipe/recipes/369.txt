@@ -1,0 +1,30 @@
+Name: Over-Tuned Sleekblaster Minor
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'Over-Tuned Sleekblaster Minor'
+The Construction kit. must be between Quality Level  41 and  60.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+ Add in following order:
+
+ 1. Energy Weapons Construction kit. SkillTo Assemble: Weapon Smt:  164 ->  240
+
+ 2. Nano Pylon. SkillTo Assemble: Mech. Engi:  102 ->  150
+
+ 3. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  62 ->  90
+
+ 4. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  82 ->  120
+
+ 5. Rapid-Reload-And-Fire Gyro. SkillTo Assemble: Weapon Smt:  164 ->  240
+
+ 6. Jandawit Cleanup Cluster. SkillTo Assemble: Weapon Smt:  144 ->  210
+
+ 7. Energy Pack Interface. SkillTo Assemble: Elec. Engi:  164 ->  240
+
+ 8. Energy Conduction Rack. SkillTo Assemble: Quantum FT:  133 ->  195
+
+ 9. Flake Tubing Base Cooling System. SkillTo Assemble: Weapon Smt:  164 ->  240
+
+ 10. Short Composite Barrel. SkillTo Assemble: Weapon Smt:  133 ->  195

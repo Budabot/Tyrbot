@@ -1,0 +1,36 @@
+Name: First-Rate Sleekblaster Major
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'First-Rate Sleekblaster Major'
+The Construction kit. must be between Quality Level  161 and  199.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+ Add in following order:
+
+ 1. Energy Weapons Construction kit. SkillTo Assemble: Weapon Smt:  644 ->  796
+
+ 2. Rapid-Reload-And-Fire Gyro. SkillTo Assemble: Weapon Smt:  644 ->  796
+
+ 3. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  322 ->  398
+
+ 4. Nano Pylon. SkillTo Assemble: Mech. Engi:  402 ->  498
+
+ 5. Energy Conduction Rack. SkillTo Assemble: Quantum FT:  523 ->  647
+
+ 6. Composite Barrel. SkillTo Assemble: Weapon Smt:  604 ->  746
+
+ 7. Nano Pylon. SkillTo Assemble: Mech. Engi:  402 ->  498
+
+ 8. Energy Pack Interface. SkillTo Assemble: Elec. Engi:  644 ->  796
+
+ 9. Flake Tubing Base Cooling System. SkillTo Assemble: Weapon Smt:  644 ->  796
+
+ 10. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  402 ->  498
+
+ 11. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  242 ->  298
+
+ 12. Self-Cleaning KO-CR Device. SkillTo Assemble: Weapon Smt:  564 ->  696
+
+ 13. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  402 ->  498

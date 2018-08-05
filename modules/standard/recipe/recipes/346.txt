@@ -1,0 +1,28 @@
+Name: Notum Bladestaff
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'Notum Bladestaff'
+The Construction kit. must be between Quality Level  185 and  199.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+ Add in following order:
+
+ 1. Two Handed Edged Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  740 ->  796
+
+ 2. 8x Layer Carbon-Notum Alloy Blade. SkillTo Assemble: Weapon Smt:  648 ->  696
+
+ 3. Optimized Co-Weapon Interface. SkillTo Assemble: Comp. Liter:  555 ->  597
+
+ 4. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  278 ->  298
+
+ 5. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  370 ->  398
+
+ 6. 4x Layer Carbon-Notum Alloy Blade. SkillTo Assemble: Weapon Smt:  555 ->  597
+
+ 7. Notum Enriched Nano Paste - 4x Layer. SkillTo Assemble: Nano Progra:  462 ->  498
+
+ 8. 2h Edged Cluster - Shiny (Right-Arm). SkillTo Assemble: Nano Progra:  555 ->  597
+
+ 9. Medium Handle. SkillTo Assemble: Weapon Smt:  680 ->  731

@@ -1,0 +1,29 @@
+Name: Repairing Nano Crystals
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients </font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+</font><font color=#FFFF00> There are several different types of damaged nano crystals, 
+but they all have 1 thing in common: they have a chance of not uploading when you use them.
+Most however, can be repaired:</font><font color=#009B00>
+
+#L "Nano Programming Interface" "161699"
+<img src=rdb://99279>
+
+#L "Dirty Money Shadow Crystal (Supervisor-Grade Secretary-Droid)" "221987"
+<img src=rdb://220411>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe </font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Nano Programming Interface
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Dirty Money Shadow Crystal (Supervisor-Grade Secretary-Droid)
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://42450>
+#L "Nano Crystal (Supervisor-Grade Secretary-Droid)" "46421"
+</font><font color=#FFFF00>Skills: | 7 x QL NP |</font><font color=#009B00>
+</font><font color=#FFFF00>Note: Weird looking XXX can be repaired, however since they actually upload Improved versions of nano programs, so even with chance of not uplading, they are better and more valuable in damaged form.
+- adventurer SL map crystals like Badly Corroded Crystal (A Clear Sense of Scheol) can't be repaired.</font><font color=#009B00>

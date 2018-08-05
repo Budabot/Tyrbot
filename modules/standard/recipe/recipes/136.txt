@@ -1,0 +1,32 @@
+Name: Asia Toys - Mathis Multi-Energy Rifle
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'Asia Toys - Mathis Multi-Energy Rifle'
+The Construction kit. must be between Quality Level 61 and 80.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+Add the pieces in the following order:
+
+ 1. Rifle Weapons Construction kit.
+
+ 2. Ultra-Long Composite Barrel. . SkillTo Assemble: Weapon Smt: 259-340
+
+ 3. Hyper Carbo-Ceramic Cooling System. . SkillTo Assemble: Weapon Smt: 244-320
+
+ 4. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 122-160
+
+ 5. Energy Conduction Rack. . SkillTo Assemble: Quantum FT: 198-260
+
+ 6. Runtime Critical Area Analyzer. . SkillTo Assemble: Weapon Smt: 244-320
+
+ 7. Energy Pack Interface. . SkillTo Assemble: Elec. Engi: 244-320
+
+ 8. Nano Pylon. . SkillTo Assemble: Mech. Engi: 152-200
+
+ 9. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 92-120
+
+ 10. Nano Pylon. . SkillTo Assemble: Mech. Engi: 152-200
+
+ 11. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 152-200

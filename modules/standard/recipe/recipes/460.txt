@@ -1,0 +1,38 @@
+Name: Rusty Bolter 42mm
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'Rusty Bolter 42mm'
+The Construction kit. must be between Quality Level 24 and 46.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+Add the pieces in the following order:
+
+ 1. AssaultRifle Weapons Construction kit.
+
+ 2. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 60-115
+
+ 3. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 48-92
+
+ 4. Nano Pylon. . SkillTo Assemble: Mech. Engi: 60-115
+
+ 5. Explosion Propulsion Containment Chamber. . SkillTo Assemble: Mech. Engi: 84-161
+
+ 6. Lock and Stock. . SkillTo Assemble: Weapon Smt: 96-184
+
+ 7. Short Composite Barrel. . SkillTo Assemble: Weapon Smt: 78-150
+
+ 8. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 60-115
+
+ 9. Triple Pulse Enabler. . SkillTo Assemble: Weapon Smt: 102-196
+
+ 10. Auto Targeting Computer -IIR 1. . SkillTo Assemble: Elec. Engi: 54-104
+
+ 11. Primitive Freon Bag Cooling System. . SkillTo Assemble: Weapon Smt: 96-184
+
+ 12. Gyro Stabilizing Unit. . SkillTo Assemble: Weapon Smt: 108-207
+
+ 13. Nano Pylon. . SkillTo Assemble: Mech. Engi: 60-115
+
+ 14. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 36-69

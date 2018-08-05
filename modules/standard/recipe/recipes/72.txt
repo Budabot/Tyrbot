@@ -1,0 +1,61 @@
+Name: Modernized ICC Cloaks
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+A piece of Notum
+#L "Notum Fragment" "136624"
+<img src=rdb://25795>
+</font><font color=#FFFFFF>or</font><font color=#009B00>
+#L "Notum Chip" "136622"
+<img src=rdb://25794>
+
+#L "Nano Programming Interface" "161699"
+<img src=rdb://99279>
+
+#L "Inactive OT Metamorphing Liquid Nanobots" "164952"
+<img src=rdb://156496>
+
+An ICC Cloak
+( ie: #L "Worn ICC Bodyguard Cloak" "158750" )
+<img src=rdb://22893>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Nano Programming Interface
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Inactive OT Metamorphing Liquid Nanobots
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://156492>
+#L "Activated OT Metamorphing Liquid Nanobots" "164954"
+</font><font color=#FFFF00>Skills: | NP,CH |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Notum
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Activated OT Metamorphing Liquid Nanobots
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://164949>
+#L "Stabilized OT Metamorphing Liquid Nanobots" "164956"
+</font><font color=#FFFF00>Skills: | NP,CH |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Stabilized OT Metamorphing Liquid Nanobots
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+ICC Cloak = Modernized ICC Cloaks
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://205930>
+Modernized ICC Cloaks
+#L "Modernized ICC Bodyguard Cloak" "164972"
+</font><font color=#FFFF00>Skills: | NP,CH |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+It's only useful to change the look of the old ICC cloaks, nothing else.

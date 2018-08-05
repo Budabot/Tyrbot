@@ -1,0 +1,88 @@
+Name: Improving Ofab Weapons
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Kyr'Ozch Bio-Material - Type 18" "265322"
+1h Edge, 2h Edge, Piercing 
+<img src=rdb://247101>
+
+#L "Kyr'Ozch Bio-Material - Type 34" "265324"
+1h Blunt, 2h Blunt
+<img src=rdb://247101>
+
+#L "Kyr'Ozch Bio-Material - Type 687" "265328"
+Rifle, Assault Rifle, Shotgun
+<img src=rdb://247101>
+
+#L "Kyr'Ozch Bio-Material - Type 812" "265326"
+Pistol, SMG, Bow
+<img src=rdb://247101>
+
+An Ofab Weapon
+(eg: #L "Ofab Shark Mk 1" "265068")
+<img src=rdb://264834>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Kyr'Ozch Bio-Material - Type 687
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+an ofab weapon (eg: Ofab Shark Mk 1)
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://264835>
+a Mk 2 Ofab Weapon
+(ie: #L "Ofab Shark Mk 2" "265075")
+</font><font color=#FFFF00>Skills: |  --  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Kyr'Ozch Bio-Material - Type 687
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+a Mk 2 ofab weapon (eg: Ofab Shark Mk 2)
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://264836>
+a Mk 3 Ofab Weapon
+(eg: #L "Ofab Shark Mk 3" "265082")
+</font><font color=#FFFF00>Skills: |  --  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Kyr'Ozch Bio-Material - Type 687
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+a Mk 3 ofab weapon (eg: Ofab Shark Mk 3)
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://264837>
+a Mk 4 Ofab Weapon
+(eg: #L "Ofab Shark Mk 4" "265089")
+</font><font color=#FFFF00>Skills: |  --  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Kyr'Ozch Bio-Material - Type 687
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+a Mk 4 ofab weapon (eg: Ofab Shark Mk 4)
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://264838>
+a Mk 5 Ofab Weapon
+(eg: #L "Ofab Shark Mk 5" "265096")
+</font><font color=#FFFF00>Skills: |  --  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Kyr'Ozch Bio-Material - Type 687
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+a Mk 5 ofab weapon (eg: Ofab Shark Mk 5)
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://264839>
+a Mk 6 Ofab Weapon
+(eg: #L "Ofab Shark Mk 6" "265103")
+</font><font color=#FFFF00>Skills: |  --  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+These upgrades require no tradeskills.  Simply combine the ofab piece with the bio-material and you're set.  **NOTE** (taken from AOUniverse) The tradeskill process itself it pretty straightforward. The ql % needed to update a certain ql weapon is still unknown. It may be possible that each upgrade requires a different ql clump as well. For example, to update a ql 175 weapon from MK2-MK3, a ql 30 clump is needed.

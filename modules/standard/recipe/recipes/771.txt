@@ -1,0 +1,23 @@
+Name: Adapting Notum Lever
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients </font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Viral Weapon Upgrade" "248517"
+<img src=rdb://100335>
+
+#L "Premium Notum Lever" "130124"
+<img src=rdb://33163>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe </font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Viral Weapon Upgrade
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Premium Notum Lever
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://33163>
+#L "Premium Adapting Notum Lever" "250163"
+</font><font color=#FFFF00>Skills: |  |</font><font color=#009B00>

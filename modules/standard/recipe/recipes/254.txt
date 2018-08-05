@@ -1,0 +1,38 @@
+Name: Enhanced Bolter - The Hammer X9 42mm
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+  'Enhanced Bolter - The Hammer X9 42mm'
+ The Construction kit. must be between Quality Level 116 and 138.
+ All other pieces must be of AT LEAST that level range... 
+ Add them using shift+right-click.
+ Add the pieces in the following order:
+ 
+  1. AssaultRifle Weapons Construction kit.
+ 
+  2. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 174-207
+ 
+  3. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 290-345
+ 
+  4. Auto Targeting Computer -IIR 1. . SkillTo Assemble: Elec. Engi: 261-310
+ 
+  5. Nano Pylon. . SkillTo Assemble: Mech. Engi: 290-345
+ 
+  6. Lock and Stock. . SkillTo Assemble: Weapon Smt: 464-552
+ 
+  7. Triple Pulse Enabler. . SkillTo Assemble: Weapon Smt: 493-586
+ 
+  8. Explosion Propulsion Containment Chamber. . SkillTo Assemble: Mech. Engi: 406-483
+ 
+  9. Short Composite Barrel. . SkillTo Assemble: Weapon Smt: 377-448
+ 
+  10. Nano Pylon. . SkillTo Assemble: Mech. Engi: 290-345
+ 
+  11. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 290-345
+ 
+  12. Gyro Stabilizing Unit. . SkillTo Assemble: Weapon Smt: 522-621
+ 
+  13. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 232-276
+ 
+  14. Primitive Freon Bag Cooling System. . SkillTo Assemble: Weapon Smt: 464-552

@@ -1,0 +1,43 @@
+Name: Hacked Light Omni-Tek Artillery Tank Armor
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients </font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+</font><font color=#FF0000> *** </font><font color=#FFFF00> Since the standard issue can only be worn by Omni-Tek
+personnel, several groups started to develop ways of enabling it to be worn
+by any faction.
+Soon, not one, but two methods were developed which removed the OT
+restriction. Unfortunately both processes double the run speed handicap.
+</font><font color=#FF0000> *** </font><font color=#009B00>
+
+#L "Light Omni-Tek Artillery Tank Armor" "204987"
+<img src=rdb://41170>
+
+#L "Advanced Hacker Tool" "87814"
+<img src=rdb://99282>
+
+#L "Field Quantum Physics All-Purpose Tool" "164558"
+<img src=rdb://20410>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe </font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Light Omni-Tek Artillery Tank Armor
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Advanced Hacker Tool
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://22393>
+#L "Hacked Light Omni-Tek Artillery Tank Armor" "204990"
+</font><font color=#FFFF00>Skills: Hacker tool needs to be at least 40% the ql of Tank Armor.
+You'll need 5x Breaking and Entering skill to hack it.</font><font color=#009B00>
+
+Light Omni-Tek Artillery Tank Armor
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Field Quantum Physics All-Purpose Tool
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://22393>
+#L "Hacked Light Omni-Tek Artillery Tank Armor" "204990"
+FQP tool needs to be at least 40% the ql of Tank Armor. You'll need 5x Field
+Quantum Physics skill to hack it.

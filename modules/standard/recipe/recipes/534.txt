@@ -1,0 +1,30 @@
+Name: Worn Light Beamer Pistol
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'Worn Light Beamer Pistol'
+The Construction kit. must be between Quality Level  99 and  114.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+ Add in following order:
+
+ 1. Pistol Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  396 ->  456
+
+ 2. Energy Conduction Rack. SkillTo Assemble: Quantum FT:  322 ->  370
+
+ 3. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  198 ->  228
+
+ 4. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  248 ->  285
+
+ 5. Self-Cleaning KO-CR Device. SkillTo Assemble: Weapon Smt:  346 ->  399
+
+ 6. Short Composite Barrel. SkillTo Assemble: Weapon Smt:  322 ->  370
+
+ 7. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  148 ->  171
+
+ 8. Nano Pylon. SkillTo Assemble: Mech. Engi:  248 ->  285
+
+ 9. Hyper Carbo-Ceramic Cooling System. SkillTo Assemble: Weapon Smt:  396 ->  456
+
+ 10. Plasma Streamer Interface Nozzle. SkillTo Assemble: Chemistry:  396 ->  456

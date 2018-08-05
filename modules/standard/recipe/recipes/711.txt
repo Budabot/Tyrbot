@@ -1,0 +1,44 @@
+Name: Alien Utilities
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients </font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+</font><font color=#FFFF00> All parts required for this process can be found Sector 10.</font><font color=#009B00>
+
+#L "Alien Activation Crystal" "268478"
+<img src=rdb://12252>
+
+#L "Inactive Alien Battery" "268496"
+<img src=rdb://220416>
+
+#L "Inactive Alien Reflex Modifier" "268499"
+<img src=rdb://220416>
+
+#L "Inactive Alien Beacon" "268494"
+<img src=rdb://220416>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe </font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Alien Activation Crystal
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Inactive Alien Battery
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://220419>
+#L "Alien Battery" "268497"
+
+Alien Activation Crystal
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Inactive Alien Reflex Modifier
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://220417>
+#L "Alien Reflex Modifier" "268498"
+
+Alien Activation Crystal
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Inactive Alien Beacon
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://220420>
+#L "Alien Beacon" "268495"

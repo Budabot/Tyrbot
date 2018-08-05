@@ -1,0 +1,32 @@
+Name: Fine-Tuned Mini-Shotgun
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+  'Fine-Tuned Mini-Shotgun'
+ The Construction kit. must be between Quality Level  141 and  160.
+ All other pieces must be of AT LEAST that level range... 
+ Add them using shift+right-click.
+  Add in following order:
+ 
+  1. Shotgun Weapons Construction kit. SkillTo Assemble: Weapon Smt:  564 ->  640
+ 
+  2. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  352 ->  400
+ 
+  3. Rapid-Reload-And-Fire Gyro. SkillTo Assemble: Weapon Smt:  564 ->  640
+ 
+  4. Nano Pylon. SkillTo Assemble: Mech. Engi:  352 ->  400
+ 
+  5. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  212 ->  240
+ 
+  6. Explosion Propulsion Containment Chamber. SkillTo Assemble: Quantum FT:  529 ->  600
+ 
+  7. Nano Pylon. SkillTo Assemble: Mech. Engi:  352 ->  400
+ 
+  8. Lock and Stock. SkillTo Assemble: Weapon Smt:  564 ->  640
+ 
+  9. Short Composite Barrel. SkillTo Assemble: Weapon Smt:  458 ->  520
+ 
+  10. Self-Cleaning KO-CR Device. SkillTo Assemble: Weapon Smt:  494 ->  560
+ 
+  11. Nano-Interfaced Cooling System. SkillTo Assemble: Weapon Smt:  564 ->  640

@@ -1,0 +1,84 @@
+Name: AI Yalms
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients </font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+</font><font color=#FFFF00> Looking for a snazzy new yalm? Our friend Uncle Bazzit is selling a few new yalm upgrades, for a price of course.
+Head to Meetmedere, to Uncle Bazzit's shop. The upgrades are found in the shop terminal, in the back left of the room.</font><font color=#009B00>
+
+#L "Yalmaha 29600 - Obsidian Upgrade Kit" "254817"
+<img src=rdb://20406>
+
+#L "Yalmaha 29600 - Pearl Upgrade Kit" "254818"
+<img src=rdb://20406>
+
+#L "Yalmaha 29610 - Sunrise Upgrade Kit" "254819"
+<img src=rdb://81786>
+
+#L "Yalmaha 29610 - Daylight Upgrade Kit" "254820"
+<img src=rdb://81786>
+
+#L "Yalmaha 29610 - Sunset Upgrade Kit" "254821"
+<img src=rdb://81786>
+
+#L "Yalmaha 29610 - Dusk Upgrade Kit" "254823"
+<img src=rdb://81786>
+
+#L "Yalmaha XL - 29478" "96088"
+<img src=rdb://38023>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe </font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+</font><font color=#FFFF00>Note:End QL of the yalm is determined by Comp Lit. To make a ql300 (results in lowest vehicle air), you will need 1500 CL.
+You will need at least 750 Computer Literature to make lowest ql available. Ql of Yalmaha XL - 29478 you use, doesn not matter</font><font color=#009B00>
+
+Yalmaha 29600 - Obsidian Upgrade Kit
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Yalmaha XL - 29478
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://255895>
+#L "Yalmaha - 29600 - Obsidian" "253582"
+</font><font color=#FFFF00>Skills: | CL |</font><font color=#009B00>
+
+Yalmaha 29600 - Pearl Upgrade Kit
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Yalmaha XL - 29478
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://255900>
+#L "Yalmaha - 29600 - Pearl" "253584"
+</font><font color=#FFFF00>Skills: | CL |</font><font color=#009B00>
+
+Yalmaha 29610 - Sunrise Upgrade Kit
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Yalmaha XL - 29478
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://255896>
+#L "Yalmaha - 29610 - Sunrise" "253574"
+</font><font color=#FFFF00>Skills: | CL |</font><font color=#009B00>
+
+Yalmaha 29610 - Daylight Upgrade Kit
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Yalmaha XL - 29478
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://255898>
+#L "Yalmaha - 29610 - Daylight" "253576"
+</font><font color=#FFFF00>Skills: | CL |</font><font color=#009B00>
+
+Yalmaha 29610 - Sunset Upgrade Kit
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Yalmaha XL - 29478
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://255897>
+#L "Yalmaha - 29610 - Sunset" "253578"
+</font><font color=#FFFF00>Skills: | CL |</font><font color=#009B00>
+
+Yalmaha 29610 - Dusk Upgrade Kit
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Yalmaha XL - 29478
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://255899>
+#L "Yalmaha - 29600 - Dusk" "253580"
+</font><font color=#FFFF00>Skills: | CL |</font><font color=#009B00>

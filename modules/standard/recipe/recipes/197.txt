@@ -1,0 +1,36 @@
+Name: Cast-Off Sleekblaster
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+  'Cast-Off Sleekblaster'
+ The Construction kit. must be between Quality Level  21 and  40.
+ All other pieces must be of AT LEAST that level range... 
+ Add them using shift+right-click.
+  Add in following order:
+ 
+  1. Energy Weapons Construction kit. SkillTo Assemble: Weapon Smt:  84 ->  160
+ 
+  2. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  52 ->  100
+ 
+  3. Energy Conduction Rack. SkillTo Assemble: Quantum FT:  68 ->  130
+ 
+  4. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  32 ->  60
+ 
+  5. Rapid-Reload-And-Fire Gyro. SkillTo Assemble: Weapon Smt:  84 ->  160
+ 
+  6. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  42 ->  80
+ 
+  7. Nano Pylon. SkillTo Assemble: Mech. Engi:  52 ->  100
+ 
+  8. Composite Barrel. SkillTo Assemble: Weapon Smt:  79 ->  150
+ 
+  9. Energy Pack Interface. SkillTo Assemble: Elec. Engi:  84 ->  160
+ 
+  10. Nano Pylon. SkillTo Assemble: Mech. Engi:  52 ->  100
+ 
+  11. Hyper Carbo-Ceramic Cooling System. SkillTo Assemble: Weapon Smt:  84 ->  160
+ 
+  12. Jandawit Cleanup Cluster. SkillTo Assemble: Weapon Smt:  74 ->  140
+ 
+  13. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  52 ->  100

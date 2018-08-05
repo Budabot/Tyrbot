@@ -1,0 +1,67 @@
+Name: Professional Stellar Nanodeck
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients </font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+</font><font color=#FFFF00> Most of these items can only be acquired if you have access to Mitaar Hero, Ground Chief Vortexx and the 12-Man encounters,
+as well as a few key items from various high-level encounters/quests bits! </font><font color=#009B00>
+
+#L "Unknown Mixture" "281095"
+<img src=rdb://281093>
+
+#L "A piece of cloth" "281098"
+<img src=rdb://281096>
+
+#L "Nanodeck Activation Device" "280785"
+<img src=rdb://280784>
+
+#L "Kenneth's Polishing Gel" "255555"
+<img src=rdb://156504>
+
+#L "xxx Nanodeck" "270762"
+<img src=rdb://270749>
+
+#L "Star of xxx" "244691"
+<img src=rdb://131260>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe </font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+</font><font color=#FFFF00>Note: for demonstration purposes we'll show how to build MA nanodeck:</font><font color=#009B00>
+
+Unknown Mixture
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Kenneth's Polishing Gel
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://281092>
+#L "Grostad's Polishing Gel" "281094"
+
+Grostad's Polishing Gel
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+A piece of cloth
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://281097>
+#L "Grostad's piece of polishing cloth" "281099"
+
+Grostad's piece of polishing cloth
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Star of Equanimity
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://281044>
+#L "Stellar Equanimity" "281046"
+
+Nanodeck Activation Device
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Martial-Artist Nanodeck
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://281042>
+#L "Activated Martial-Artist Nanodeck" "280764"
+
+Stellar Equanimity
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Activated Martial-Artist Nanodeck
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://281043>
+#L "Stellar Martial-Artist Nanodeck" "280778"

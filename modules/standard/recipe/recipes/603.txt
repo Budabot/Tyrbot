@@ -1,0 +1,159 @@
+Name: Cloak of the Reanimated
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients </font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+</font><font color=#FF0000> *** </font><font color=#FFFF00> This cloak comes in 6 different types. Each are made in the
+same way, apart from the Soul that determines the type of cloak you wish to
+make.
+The Reanimator's Cloak can be found in the Crypt of Home dungeon and the
+items to upgrade it to a Cloak of the Reanimated drop off the Escaped
+Prisoners in Milky Way.
+You will only need 1 Soul to make the base cloak. To further upgrade it you
+will need 4 of each type.
+</font><font color=#FF0000> *** </font><font color=#009B00>
+
+#L "Reanimator's Cloak" "245260"
+<img src=rdb://22892>
+
+#L "Soul of the Jester" "274653"
+<img src=rdb://274674>
+
+#L "Soul of the Ranger" "274654"
+<img src=rdb://274675>
+
+#L "Soul of the Summoner" "274651"
+<img src=rdb://274677>
+
+#L "Soul of the Healer" "274656"
+<img src=rdb://274672>
+
+#L "Soul of the Gladiator" "274655"
+<img src=rdb://274670>
+
+#L "Soul of the Illusionist" "274652"
+<img src=rdb://274670>
+
+#L "Empty Spirit Vest" "274646"
+<img src=rdb://274678>
+
+#L "Soul Ripper" "274650"
+<img src=rdb://274684>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe </font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+<highlight>The Base Cloak of the Reanimated XXX:<end>
+
+Reanimator's Cloak
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Soul Ripper
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://227530>
+#L "Explosion of Light" "274728"
+</font><font color=#FFFF00>Skills: | ? |</font><font color=#009B00>
+</font><font color=#FFFF00>Note: Right clicking the Explosion of light will result in:</font><font color=#009B00>
+
+#L "Soul of the Reanimator" "274649"
+<img src=rdb://274676>
+</font><font color=#FFFFFF>and</font><font color=#009B00>
+#L "Grey Cloak" "274647"
+<img src=rdb://274671>
+
+</font><font color=#FF0000>Note: At this point you will set the type of your Cloak. Use the Soul of
+XXX (any of the 6 types) on your Soul of the Reanimator to make a Cloak of
+that type.</font><font color=#009B00>
+
+Soul of the Reanimator
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Soul of the Jester
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://274674>
+#L "Soul of the Reanimated Jester" "274660"
+</font><font color=#FFFF00>Skills: | ? |</font><font color=#009B00>
+
+Empty Spirit Vest
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Soul of the Reanimated Jester
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://274686>
+#L "Jester's Spirit Vest" "274668"
+
+Grey Cloak
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Jester's Spirit Vest
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://274687>
+#L "Cloak of the Reanimated Jester (1/5)" "274718"
+
+</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>
+
+<highlight>Upgrading the Cloak of the Reanimated XXX:<end>
+
+Soul of the Ranger
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Soul of the Gladiator
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://274673>
+#L "Dull Combined Soul Crystal" "274723"
+
+Dull Combined Soul Crystal
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Soul of the Healer
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://274673>
+#L "Dim Combined Soul Crystal" "274724"
+
+Dim Combined Soul Crystal
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Soul of the Summoner
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://274673>
+#L "Sparkling Combined Soul Crystal" "274725"
+
+Sparkling Combined Soul Crystal
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Soul of the Illusionist
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://274673>
+#L "Shining Combined Soul Crystal" "274726"
+
+Shining Combined Soul Crystal
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Soul of the Jester
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://274673>
+#L "Awakened Soul Crystal" "274727"
+
+</font><font color=#FFFF00>Repeat this step 4 times to end up with 4 Awakened Soul Crystals. Now
+apply them to you cloak.</font><font color=#009B00>
+
+Awakened Soul Crystal
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Cloak of the Reanimated Jester (1/5)
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://274687>
+#L "Cloak of the Reanimated Jester (2/5)" "274719"
+
+Awakened Soul Crystal
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Cloak of the Reanimated Jester (2/5)
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://274687>
+#L "Cloak of the Reanimated Jester (3/5)" "274720"
+
+Awakened Soul Crystal
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Cloak of the Reanimated Jester (3/5)
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://274687>
+#L "Cloak of the Reanimated Jester (4/5)" "274721"
+
+Awakened Soul Crystal
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Cloak of the Reanimated Jester (4/5)
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://274687>
+#L "Cloak of the Reanimated Jester (5/5)" "274722"

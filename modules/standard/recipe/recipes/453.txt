@@ -1,0 +1,32 @@
+Name: Quality Suppressor
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'Quality Suppressor'
+The Construction kit. must be between Quality Level 101 and 120.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+Add the pieces in the following order:
+
+ 1. Submachinegun Weapons Construction kit.
+
+ 2. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 252-300
+
+ 3. Gyro Stabilizing Unit. . SkillTo Assemble: Weapon Smt: 454-540
+
+ 4. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 252-300
+
+ 5. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 152-180
+
+ 6. Explosion Propulsion Containment Chamber. . SkillTo Assemble: Mech. Engi: 354-420
+
+ 7. Lock and Stock. . SkillTo Assemble: Weapon Smt: 404-480
+
+ 8. Triple Pulse Enabler. . SkillTo Assemble: Weapon Smt: 429-510
+
+ 9. Ultra-Long Composite Barrel. . SkillTo Assemble: Weapon Smt: 429-510
+
+ 10. Nano Pylon. . SkillTo Assemble: Mech. Engi: 252-300
+
+ 11. Nano Pylon. . SkillTo Assemble: Mech. Engi: 252-300

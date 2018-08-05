@@ -1,0 +1,38 @@
+Name: Mass Lead Bolter 42mm
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+  'Mass Lead Bolter 42mm'
+ The Construction kit. must be between Quality Level 139 and 161.
+ All other pieces must be of AT LEAST that level range... 
+ Add them using shift+right-click.
+ Add the pieces in the following order:
+ 
+  1. AssaultRifle Weapons Construction kit.
+ 
+  2. Nano Pylon. . SkillTo Assemble: Mech. Engi: 348-402
+ 
+  3. Lock and Stock. . SkillTo Assemble: Weapon Smt: 556-644
+ 
+  4. Triple Pulse Enabler. . SkillTo Assemble: Weapon Smt: 591-684
+ 
+  5. Explosion Propulsion Containment Chamber. . SkillTo Assemble: Mech. Engi: 486-564
+ 
+  6. Short Composite Barrel. . SkillTo Assemble: Weapon Smt: 452-523
+ 
+  7. Nano Pylon. . SkillTo Assemble: Mech. Engi: 348-402
+ 
+  8. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 348-402
+ 
+  9. Gyro Stabilizing Unit. . SkillTo Assemble: Weapon Smt: 626-724
+ 
+  10. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 278-322
+ 
+  11. Primitive Freon Bag Cooling System. . SkillTo Assemble: Weapon Smt: 556-644
+ 
+  12. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 208-242
+ 
+  13. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 348-402
+ 
+  14. Auto Targeting Computer -IIR 1. . SkillTo Assemble: Elec. Engi: 313-362

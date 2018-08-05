@@ -1,0 +1,59 @@
+Name: Focus-Funneling Helper
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients </font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------
+
+#L "Focus-Funneling Device" "246206"
+<img src=rdb://205507>
+
+#L "Focus-Funneling Spirit" "246207"
+<img src=rdb://205507>
+
+And to upgrade it:
+
+#L "Spirit Training Program" "246209"
+<img src=rdb://205512>
+
+#L "Spirit Training Program" "246211"
+<img src=rdb://205512>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe </font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Focus-Funneling Device
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Focus-Funneling Spirit
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://205510>
+#L "Primitive Focus-Funneling Helper" "246208"
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>
+
+<highlight>Then you can update it to fit in a different Hud (in order to wear 3 of them !!)<end>
+
+Spirit Training Program (Love)
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Primitive Focus-Funneling Helper
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://205511>
+#L "Loving Focus-Funneling Helper" "246210" ( for HUD 3 )
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFFFF>OR</font><font color=#009B00>
+
+Spirit Training Program (Hate)
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Primitive Focus-Funneling Helper
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://205511>
+#L "Rancorous Focus-Funneling Helper" "246212" ( for HUD 1 )
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Awesome item for twinking.

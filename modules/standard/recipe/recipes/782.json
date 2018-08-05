@@ -1,0 +1,178 @@
+{
+	"name":"Pyramid of Home",
+	"author":"Illork",
+	"items":[
+		{
+			"alias":"Portable Notum Infusion Device",
+			"item_id":302932,
+			"ql":300
+		},
+		{
+			"alias":"Inert Sigil of Alighieri",
+			"item_id":302926,
+			"ql":300
+		},
+		{
+			"alias":"Charged Sigil of Alighieri",
+			"item_id":302927,
+			"ql":300
+		},
+		{
+			"alias":"Armplates of Elimination",
+			"item_id":244712,
+			"ql":300
+		},
+		{
+			"alias":"Awakened Armplates of Elimination",
+			"item_id":302724,
+			"ql":300
+		},
+		{
+			"alias":"Boots of Concourse",
+			"item_id":244714,
+			"ql":300
+		},
+		{
+			"alias":"Awakened Boots of Concourse",
+			"item_id":302726,
+			"ql":300
+		},
+		{
+			"alias":"Gauntlets of Deformation",
+			"item_id":244704,
+			"ql":300
+		},
+		{
+			"alias":"Awakened Gauntlets of Deformation",
+			"item_id":302722,
+			"ql":300
+		},
+		{
+			"alias":"Greaves of Malfeasance",
+			"item_id":244715,
+			"ql":300
+		},
+		{
+			"alias":"Awakened Greaves of Malfeasance",
+			"item_id":302727,
+			"ql":300
+		},
+		{
+			"alias":"Sleeves of Senseless Violence",
+			"item_id":244705,
+			"ql":300
+		},
+		{
+			"alias":"Awakened Sleeves of Senseless Violence",
+			"item_id":302723,
+			"ql":300
+		},
+		{
+			"alias":"Inert Sigil of Machiavelli",
+			"item_id":302928,
+			"ql":300
+		},
+		{
+			"alias":"Charged Sigil of Machiavelli",
+			"item_id":302929,
+			"ql":300
+		},
+		{
+			"alias":"Burden of Competence",
+			"item_id":244718,
+			"ql":300
+		},
+		{
+			"alias":"Awakened Burden of Competence",
+			"item_id":302730,
+			"ql":300
+		},
+		{
+			"alias":"Cuirass of Obstinacy",
+			"item_id":244717,
+			"ql":300
+		},
+		{
+			"alias":"Awakened Cuirass of Obstinacy",
+			"item_id":302729,
+			"ql":300
+		},
+		{
+			"alias":"Helmet of Hypocrisy",
+			"item_id":244716,
+			"ql":300
+		},
+		{
+			"alias":"Awakened Helmet of Hypocrisy",
+			"item_id":302728,
+			"ql":300
+		},
+		{
+			"alias":"Shoulderplates of Sabotage",
+			"item_id":244713,
+			"ql":300
+		},
+		{
+			"alias":"Awakened Shoulderplates of Sabotage",
+			"item_id":302725,
+			"ql":300
+		}
+	],
+	"steps":[
+		{
+			"source":"Portable Notum Infusion Device",
+			"target":"Inert Sigil of Alighieri",
+			"result":"Charged Sigil of Alighieri"
+		},
+		{
+			"source":"Charged Sigil of Alighieri",
+			"target":"Armplates of Elimination",
+			"result":"Awakened Armplates of Elimination"
+		},
+		{
+			"source":"Charged Sigil of Alighieri",
+			"target":"Boots of Concourse",
+			"result":"Awakened Boots of Concourse"
+		},
+		{
+			"source":"Charged Sigil of Alighieri",
+			"target":"Gauntlets of Deformation",
+			"result":"Awakened Gauntlets of Deformation"
+		},
+		{
+			"source":"Charged Sigil of Alighieri",
+			"target":"Greaves of Malfeasance",
+			"result":"Awakened Greaves of Malfeasance"
+		},
+		{
+			"source":"Charged Sigil of Alighieri",
+			"target":"Sleeves of Senseless Violence",
+			"result":"Awakened Sleeves of Senseless Violence"
+		},
+		{
+			"source":"Portable Notum Infusion Device",
+			"target":"Inert Sigil of Machiavelli",
+			"result":"Charged Sigil of Machiavelli"
+		},
+		{
+			"source":"Charged Sigil of Machiavelli",
+			"target":"Burden of Competence",
+			"result":"Awakened Burden of Competence"
+		},
+		{
+			"source":"Charged Sigil of Machiavelli",
+			"target":"Cuirass of Obstinacy",
+			"result":"Awakened Cuirass of Obstinacy"
+		},
+		{
+			"source":"Charged Sigil of Machiavelli",
+			"target":"Helmet of Hypocrisy",
+			"result":"Awakened Helmet of Hypocrisy"
+		},
+		{
+			"source":"Charged Sigil of Machiavelli",
+			"target":"Shoulderplates of Sabotage",
+			"result":"Awakened Shoulderplates of Sabotage"
+		}
+	]
+}

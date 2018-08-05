@@ -1,0 +1,50 @@
+Name: Nano Input Hood
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Inactive Nano Input Hood" "248815"
+<img src=rdb://23003>
+
+a Swatch of Alien Fabric
+( ie : #L "Fuzzy Swatch of Alien Fabric" "249704" )
+<img src=rdb://161077>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+a special upgrade
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Inactive Nano Input Hood
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://41154>
+a Special Hood
+( ie : #L "Fuzzy Nano Input Hood" "248764" )
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Details</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Fuzzy Swatch of Alien Fabric" "249704"
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+#L "Fuzzy Nano Input Hood" "250460"
+<img src=rdb://41154>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+#L "Wrinkled Swatch of Alien Fabric" "248822"
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+#L "Wrinkled Nano Input Hood" "248758"
+<img src=rdb://82922>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+#L "Phasing Swatch of Alien Fabric" "248776"
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+#L "Phasing Nano Input Hood" "248814"
+<img src=rdb://41160>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Great head item which you can level by right clicking it.

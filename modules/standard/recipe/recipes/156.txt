@@ -1,0 +1,30 @@
+Name: Balanced Plasmaprojector
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+  'Balanced Plasmaprojector'
+ The Construction kit. must be between Quality Level  121 and  140.
+ All other pieces must be of AT LEAST that level range... 
+ Add them using shift+right-click.
+  Add in following order:
+ 
+  1. AssaultRifle Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  484 ->  560
+ 
+  2. Energy Pack Interface. SkillTo Assemble: Elec. Engi:  484 ->  560
+ 
+  3. Energy Conduction Rack. SkillTo Assemble: Quantum FT:  393 ->  455
+ 
+  4. Hyper Carbo-Ceramic Cooling System. SkillTo Assemble: Weapon Smt:  484 ->  560
+ 
+  5. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  242 ->  280
+ 
+  6. Nano Pylon. SkillTo Assemble: Mech. Engi:  302 ->  350
+ 
+  7. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  182 ->  210
+ 
+  8. Notum Enriched Nano Paste - 4x Layer. SkillTo Assemble: Nano Progra:  302 ->  350
+ 
+  9. Runtime Critical Area Analyzer. SkillTo Assemble: Weapon Smt:  484 ->  560
+ 
+  10. Long Composite Barrel. SkillTo Assemble: Weapon Smt:  484 ->  560

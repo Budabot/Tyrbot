@@ -1,0 +1,55 @@
+Name: Massive Steel Body Armor
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Hacker Tool" "87814"
+<img src=rdb://99282>
+
+#L "Expendable Hologram Camera" "156054"
+<img src=rdb://156092>
+
+#L "ID-extractor" "156339"
+<img src=rdb://156324>
+
+#L "Massive Steel Body Armor" "204855"
+<img src=rdb://22972>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+ID-extractor
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Expendable Hologram Camera
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://156323>
+#L "ID-data" "156340"
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Hacker Tool
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Massive Steel Body Armor
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://22972>
+#L "Hacked Massive Steel Body Armor" "204856"
+</font><font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+ID-data
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Hacked Massive Steel Body Armor
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://22972>
+#L "Massive Steel Body Armor" "204854"
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Male only...

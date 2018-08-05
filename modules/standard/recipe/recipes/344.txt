@@ -1,0 +1,26 @@
+Name: Nightspear Novice
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+  'Nightspear Novice'
+ The Construction kit. must be between Quality Level 93 and 115.
+ All other pieces must be of AT LEAST that level range... 
+ Add them using shift+right-click.
+ Add the pieces in the following order:
+ 
+  1. Piercing Weapons Construction kit.
+ 
+  2. Medium Handle. . SkillTo Assemble: Weapon Smt: 342-423
+ 
+  3. Max Health Cluster - Shiny (Chest). . SkillTo Assemble: Nano Progra: 279-345
+ 
+  4. Optimized Co-Weapon Interface. . SkillTo Assemble: Comp. Liter: 279-345
+ 
+  5. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 140-172
+ 
+  6. Notum Enriched Nano Paste - 4x Layer. . SkillTo Assemble: Nano Progra: 232-288
+ 
+  7. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 186-230
+ 
+  8. Sneak Atck Cluster - Faded (Eye). . SkillTo Assemble: Nano Progra: 93-115

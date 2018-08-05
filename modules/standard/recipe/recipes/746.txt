@@ -1,0 +1,48 @@
+Name: Abandonment of the Xan
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients </font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+</font><font color=#FFFF00> The Xan Weapon Upgrade Device which drops from the Mitaar Hero, Ground Chief Vortexx and 12-Man instances can be tradeskilled with 30 different Shadowlands weapons/</font><font color=#009B00>
+
+#L "Xan Weapon Upgrade Device" "280786"
+<img src=rdb://246391>
+
+#L "Notum Enriched Nano Paste - 16x Layer" "137312"
+<img src=rdb://130757>
+
+#L "Lord of Abandonment" "244742"
+<img src=rdb://245083>
+</font><font color=#FFFFFF>or</font><font color=#009B00>
+#L "Lady of Abandonment" "244743"
+<img src=rdb://245083>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe </font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Xan Weapon Upgrade Device
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Lord of Abandonment
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://280914>
+#L "Abandonment of the Xan" "280717"
+
+</font><font color=#FFFFFF>or</font><font color=#009B00>
+
+Xan Weapon Upgrade Device
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Lady of Abandonment
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://280914>
+#L "Abandonment of the Xan" "280717"
+
+</font><font color=#FFFF00>Note: The Abandonment can be further upgraded with ql150+ shop bought items:</font><font color=#009B00>
+
+Notum Enriched Nano Paste - 16x Layer
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Abandonment of the Xan
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://280914>
+#L "Kur'Ush Mallet" "281503"

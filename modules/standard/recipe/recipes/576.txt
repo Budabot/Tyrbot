@@ -1,0 +1,52 @@
+Name: Range Meter
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Antonio's Adaptation Factory" "248306" x 2
+<img src=rdb://205493>
+
+#L "Power Supply" "248307"
+<img src=rdb://20412>
+
+#L "Optical Enhancer" "248318"
+<img src=rdb://130837>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Antonio's Adaptation Factory
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Power Supply
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://20402>
+#L "Adapted Power Supply" "248308"
+</font><font color=#FFFF00>Skills: | CL20 |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Antonio's Adaptation Factory
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Optical Enhancer
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://130777>
+#L "Recalibrated Scope Unit" "248317"
+</font><font color=#FFFF00>Skills: | CL20 |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Adapted Power Supply
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Recalibrated Scope Unit
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://99262>
+#L "Range Meter" "248374"
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Crit Increase item.

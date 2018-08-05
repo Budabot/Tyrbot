@@ -1,0 +1,90 @@
+Name: De'Valos Protection Ring
+Author: Illork
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients </font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+<img src=rdb://234537>
+#L "Lava Protection Boots and Skin Galvanizer" "231235"
+
+
+<img src=rdb://234536>
+#L "Hyper-Radiation Protection Skin and Glasses" "231236"
+
+
+<img src=rdb://230855>
+#L "Metawater Repellent Spiritech Suit" "227633"
+
+
+<img src=rdb://257197>
+#L "Energy Redistribution Unit" "257961"
+
+
+<img src=rdb://235270>
+#L "Visible Light Remodulation Device" "257964"
+
+
+<img src=rdb://205508>
+#L "Dynamic Gas Redistribution Valves" "257962"
+
+
+<img src=rdb://234505>
+#L "Hold Hell at Bay" "231234"
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe </font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+
+Lava Protection Boots and Skin Galvanizer
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Energy Redistribution Unit
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://281266>
+#L "De'Valos Lava Protection Ring" "257116"
+</font><font color=#FFFF00>Skills: | None | </font><font color=#009B00>
+
+
+Hyper-Radiation Protection Skin and Glasses
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Visible Light Remodulation Device
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://281266>
+#L "De'Valos Radiation Protection Ring" "257117"
+</font><font color=#FFFF00>Skills: | None | </font><font color=#009B00>
+
+
+"Metawater Repellent Spiritech Suit
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Dynamic Gas Redistribution Valves
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://301130>
+#L "De'Valos Water Protection Ring" "301132"
+</font><font color=#FFFF00>Skills: | None | </font><font color=#009B00>
+
+
+De'Valos Water Protection Ring
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+De'Valos Radiation Protection Ring
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://301131>
+#L "De'Valos Radiation and Water Protection Ring" "301133"
+</font><font color=#FFFF00>Skills: | None | </font><font color=#009B00>
+
+
+De'Valos Radiation and Water Protection Ring
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+De'Valos Lava Protection Ring
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://301129>
+#L "De'Valos Radiation, Water and Lava Protection Ring" "281264"
+</font><font color=#FFFF00>Skills: | None | </font><font color=#009B00>
+
+
+De'Valos Radiation, Water and Lava Protection Ring
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Hold Hell at Bay
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://281266>
+#L "De'Valos Protection Ring" "281267"
+</font><font color=#FFFF00>Skills: | None | </font><font color=#009B00>

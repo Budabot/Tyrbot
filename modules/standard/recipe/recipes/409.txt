@@ -1,0 +1,20 @@
+Name: Professional Amytlo Executioner
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'Professional Amytlo Executioner'
+The Construction kit. must be between Quality Level 121 and 160.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+Add the pieces in the following order:
+
+ 1. One Handed Edged Weapons Construction kit.
+
+ 2. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 242-320
+
+ 3. Medium Handle. . SkillTo Assemble: Weapon Smt: 445-588
+
+ 4. Optimized Co-Weapon Interface. . SkillTo Assemble: Comp. Liter: 363-480
+
+ 5. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 182-240

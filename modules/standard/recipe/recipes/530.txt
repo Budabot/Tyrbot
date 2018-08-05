@@ -1,0 +1,20 @@
+Name: Useless Triple-Blade
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'Useless Triple-Blade'
+The Construction kit. must be between Quality Level  1 and  23.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+ Add in following order:
+
+ 1. One Handed Edged Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  4 ->  92
+
+ 2. Short Handle. SkillTo Assemble: Weapon Smt:  4 ->  80
+
+ 3. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  2 ->  46
+
+ 4. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  2 ->  34
+
+ 5. Optimized Co-Weapon Interface. SkillTo Assemble: Comp. Liter:  3 ->  69

@@ -1,0 +1,36 @@
+Name: Nomad 21.7 BMG Ranger
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'Nomad 21.7 BMG Ranger'
+The Construction kit. must be between Quality Level 21 and 79.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+Add the pieces in the following order:
+
+ 1. Rifle Weapons Construction kit.
+
+ 2. Notum Enriched Nano Paste - 4x Layer. . SkillTo Assemble: Nano Progra: 52-198
+
+ 3. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 42-158
+
+ 4. Nano Pylon. . SkillTo Assemble: Mech. Engi: 52-198
+
+ 5. Nano Pylon. . SkillTo Assemble: Mech. Engi: 52-198
+
+ 6. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 52-198
+
+ 7. Explosion Propulsion Containment Chamber. . SkillTo Assemble: Mech. Engi: 74-276
+
+ 8. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 32-118
+
+ 9. Self-Cleaning KO-CR Device. . SkillTo Assemble: Weapon Smt: 74-276
+
+ 10. Ultra-Long Composite Barrel. . SkillTo Assemble: Weapon Smt: 89-336
+
+ 11. Lock and Stock. . SkillTo Assemble: Weapon Smt: 84-316
+
+ 12. Runtime Critical Area Analyzer. . SkillTo Assemble: Weapon Smt: 84-316
+
+ 13. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 52-198

@@ -1,0 +1,84 @@
+Name: Ancient Technical Bracer
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients </font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+</font><font color=#FFFF00> All parts required for this process can be found in Albtraum. 
+You will need to build an Ancient Engineering Device as well if you do not have one already. 
+A link to this tradeskill process is included</font><font color=#009B00>
+
+#L "Crystalised Memories of a Technician" "267698"
+<img src=rdb://72770>
+
+#L "Crystalised Memories of a Mechanic" "267701"
+<img src=rdb://72771>
+
+#L "Ancient Scrap of Spirit Knowledge" "267677"
+<img src=rdb://163575>
+
+#L "Ancient Scrap of Saturated Spirit Knowledge" "267679"
+<img src=rdb://163575>
+
+#L "Inactive Ancient Bracer" "267746"
+<img src=rdb://290853>
+
+#L "Inert Knowledge Crystal" "267737"
+<img src=rdb://151030>
+
+#L "Ancient Engineering Device" "267751"
+<img src=rdb://156095>
+</font><font color=#FFFF00>Note:To build your Ancient Engineering Device, go here:
+#L "Ancient Engineering Device" "/tell <myname> recipe 594"</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe </font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Crystalised Memories of a Technician
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Crystalised Memories of a Mechanic
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://72769>
+#L "Combined Crystalised Technical Memories" "267702"
+</font><font color=#FFFF00>Skills: | 1875 NP |</font><font color=#009B00>
+
+Ancient Scrap of Spirit Knowledge
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Ancient Scrap of Saturated Spirit Knowledge
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://163575>
+#L "Ancient Scrap of Condensed Spirit Knowledge" "267680"
+</font><font color=#FFFF00>Skills: | 1750 PT |</font><font color=#009B00>
+
+Combined Crystalised Technical Memories
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Ancient Scrap of Condensed Spirit Knowledge
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://163575>
+#L "Ancient Scrap of Spirit Technical Knowledge" "267703"
+</font><font color=#FFFF00>Skills: | 1875 NP |</font><font color=#009B00>
+
+Ancient Scrap of Spirit Technical Knowledge
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Inert Knowledge Crystal
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://151030>
+#L "Technical Knowledge Crystal" "267740"
+</font><font color=#FFFF00>Skills: | 1750 CH |</font><font color=#009B00>
+
+Ancient Engineering Device
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Inactive Ancient Bracer
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://290847>
+#L "Active Ancient Bracer" "267747"
+</font><font color=#FFFF00>Skills: | 1500 ME |</font><font color=#009B00>
+
+Active Ancient Bracer
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Technical Knowledge Crystal
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://290852>
+#L "Ancient Technical Bracer" "267754"
+</font><font color=#FFFF00>Skills: | 1250 ME |</font><font color=#009B00>

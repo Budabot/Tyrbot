@@ -1,0 +1,59 @@
+Name: Sided Carbonum Armor
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+A piece of Carbonum Armor (#L "recipe" "/tell <myname> recipe 30")
+<img src=rdb://162421>
+
+#L "Omnifier" "208312"
+<img src=rdb://156479>
+</font><font color=#FFFFFF>or</font><font color=#009B00>
+#L "Clanalizer" "208262"
+<img src=rdb://156479>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Omnifier
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Carbonum Armor
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://13251>
+Omni Carbonum Armor
+</font><font color=#FFFF00>Skills: |  CH  |</font><font color=#009B00>
+
+</font><font color=#FFFFFF>OR</font><font color=#009B00>
+
+Clanalizer
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Carbonum Armor
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://162421>
+Storm Carbonum Armor
+</font><font color=#FFFF00>Skills: |  CH  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Details</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Helmet: #L "Omni" "208293", #L "Storm" "208262"
+Sleeves: #L "Omni" "208285", #L "Storm" "208254"
+Breastplate: #L "Omni" "208287", #L "Storm" "208255"
+Pants: #L "Omni" "208295", #L "Storm" "208264"
+Boots: #L "Omni" "208289", #L "Storm" "208258"
+Gloves: #L "Omni" "208291", #L "Storm" "208260"
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+<highlight>Omni Carbonum<end>
+wear : not clan 
+bonus : max health
+
+<highlight>Storm Carbonum<end>
+wear : not omni
+bonus : nano resist

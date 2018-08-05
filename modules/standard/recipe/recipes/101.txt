@@ -1,0 +1,29 @@
+Name: Rebuilt NCU Wrist Implant
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Outdated NCU Wrist Implant" "204979"
+<img src=rdb://20412>
+
+#L "Field Quantum Physics All-Purpose Tool" "164558"
+<img src=rdb://20410>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Field Quantum Physics All-Purpose Tool
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Outdated NCU Wrist Implant
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://20412>
+#L "Rebuilt NCU Wrist Implant" "204981"
+</font><font color=#FFFF00>Skills: |  QT  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Implant some NCU into character...

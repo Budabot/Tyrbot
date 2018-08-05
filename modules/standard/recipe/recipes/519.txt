@@ -1,0 +1,34 @@
+Name: Superior Fiddle Rifle
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'Superior Fiddle Rifle'
+The Construction kit. must be between Quality Level 181 and 181.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+Add the pieces in the following order:
+
+ 1. Rifle Weapons Construction kit.
+
+ 2. Hyper Carbo-Ceramic Cooling System. . SkillTo Assemble: Weapon Smt: 724-724
+
+ 3. Nano Pylon. . SkillTo Assemble: Mech. Engi: 452-452
+
+ 4. Ultra-Long Composite Barrel. . SkillTo Assemble: Weapon Smt: 769-769
+
+ 5. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 452-452
+
+ 6. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 272-272
+
+ 7. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 452-452
+
+ 8. Runtime Critical Area Analyzer. . SkillTo Assemble: Weapon Smt: 724-724
+
+ 9. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 362-362
+
+ 10. Nano Pylon. . SkillTo Assemble: Mech. Engi: 452-452
+
+ 11. Lock and Stock. . SkillTo Assemble: Weapon Smt: 724-724
+
+ 12. Explosion Propulsion Containment Chamber. . SkillTo Assemble: Mech. Engi: 634-634

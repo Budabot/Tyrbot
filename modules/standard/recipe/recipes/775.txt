@@ -1,0 +1,90 @@
+Name: Rebuilt Perennium Weapons
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients </font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+</font><font color=#FFFF00> Parts from the Beast and the Spirit Quest from Inferno allow you to upgrade your Perennium weapon. Later on it can also be upgraded to a Xan weapon</font><font color=#009B00>
+
+#L "Superior Perennium Blaster" "246428"
+<img src=rdb://45783>
+</font><font color=#FFFFFF>or</font><font color=#009B00>
+#L "Superior Perennium Sniper" "246414"
+<img src=rdb://45782>
+</font><font color=#FFFFFF>or</font><font color=#009B00>
+#L "Superior Perennium Beamer" "246421"
+<img src=rdb://45783>
+
+#L "Perennium Blaster Rebuild Kit" "260724"
+<img src=rdb://205502>
+</font><font color=#FFFFFF>or</font><font color=#009B00>
+#L "Perennium Sniper Rebuild Kit" "260726"
+<img src=rdb://205502>
+</font><font color=#FFFFFF>or</font><font color=#009B00>
+#L "Perennium Beamer Rebuild Kit" "260725"
+<img src=rdb://205502>
+
+#L "Lord of Anger" "244802"
+<img src=rdb://210184>
+</font><font color=#FFFFFF>or</font><font color=#009B00>
+#L "Lord of Angst" "244821"
+<img src=rdb://245082>
+</font><font color=#FFFFFF>or</font><font color=#009B00>
+#L "Lord of Envy" "244836"
+<img src=rdb://245082>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe </font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+<highlight>Superior Rebuilt Perennium Sniper<end>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Lord of Angst
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Perennium Sniper Rebuild Kit
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://205501>
+#L "Perennium Sniper Rebuild Kit" "260727"
+
+Perennium Sniper Rebuild Kit
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Superior Perennium Sniper
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://245082>
+#L "Superior Rebuilt Perennium Sniper" "260720"
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+<highlight>Superior Rebuilt Perennium Beamer<end>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Lord of Envy
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Perennium Beamer Rebuild Kit
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://205501>
+#L "Perennium Beamer Rebuild Kit" "260728"
+
+Perennium Sniper Rebuild Kit
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Superior Perennium Beamer
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://244836>
+#L "Superior Rebuilt Perennium Beamer" "260713"
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+<highlight>Superior Rebuilt Perennium Blaster<end>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Lord of Envy
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Perennium Blaster Rebuild Kit
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://205501>
+#L "Perennium Blaster Rebuild Kit" "260729"
+
+Perennium Sniper Rebuild Kit
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Superior Perennium Blaster
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://244931>
+#L "Superior Rebuilt Perennium Blaster" "260706"

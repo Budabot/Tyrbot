@@ -1,0 +1,33 @@
+Name: Turn Spirit Weapon
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+an Upgraded Inamorata or Sacrosanct Weapon (#L "see here" "/tell <myname> recipe 108")
+eg: #L "Sacrosanct Bhotaar Blaster" "212247"
+<img src=rdb://210185>
+
+#L "Turn Spirit Flesh Pouch" "246236"
+<img src=rdb://246237>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Extract a Turn Spirit from the Turn Spirit Flesh Pouch by right clicking on it.
+
+Turn Spirit
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+an Upgraded Inamorata or Sacrosanct Weapon
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://210173>
+a Turn Spirit weapon
+(eg: #L "Metropolis Blaster" "214201")
+</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Further upgrade your Inamorata or Sacrosanct Weapons.

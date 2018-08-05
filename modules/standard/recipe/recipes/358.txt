@@ -1,0 +1,34 @@
+Name: Over-Tuned Heavy Grinner
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'Over-Tuned Heavy Grinner'
+The Construction kit. must be between Quality Level  41 and  60.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+ Add in following order:
+
+ 1. Pistol Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  164 ->  240
+
+ 2. Nano Pylon. SkillTo Assemble: Mech. Engi:  102 ->  150
+
+ 3. Self-Cleaning KO-CR Device. SkillTo Assemble: Weapon Smt:  144 ->  210
+
+ 4. Nano Pylon. SkillTo Assemble: Mech. Engi:  102 ->  150
+
+ 5. Lock and Stock. SkillTo Assemble: Weapon Smt:  164 ->  240
+
+ 6. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  62 ->  90
+
+ 7. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  82 ->  120
+
+ 8. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  102 ->  150
+
+ 9. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  102 ->  150
+
+ 10. Triple Pulse Enabler. SkillTo Assemble: Weapon Smt:  174 ->  255
+
+ 11. Explosion Propulsion Containment Chamber. SkillTo Assemble: Mech. Engi:  144 ->  210
+
+ 12. Composite Barrel. SkillTo Assemble: Weapon Smt:  154 ->  225

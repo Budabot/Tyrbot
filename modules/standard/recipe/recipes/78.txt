@@ -1,0 +1,52 @@
+Name: Notum Threaded Backpack
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Notum Threaded Zodiacal Blanket" "164563"
+<img src=rdb://161084>
+
+#L "Field Quantum Physics All-Purpose Tool" "164558" x 2
+<img src=rdb://20410>
+
+#L "Hacker Tool" "87814"
+<img src=rdb://99282>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Hacker Tool
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Field Quantum Physics All-Purpose Tool
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://20406>
+#L "Hacked Field Quantum Physics Tool" "164560"
+</font><font color=#FFFF00>Skills: |  BE  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Field Quantum Physics All-Purpose Tool
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Hacked Field Quantum Physics Tool
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://20412>
+#L "Unstable Space Reduction Chamber" "164562"
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Notum Threaded Zodiacal Blanket
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Unstable Space Reduction Chamber
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://99660>
+#L "Notum Threaded Backpack" "164564"
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Nice back-pack for players level 75 and higher.  Blankets drop from medusas.

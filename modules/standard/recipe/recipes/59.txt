@@ -1,0 +1,61 @@
+Name: Junkmetal Armor
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Precious Metal Reclaimer" "150929"
+<img src=rdb://149942>
+
+#L "Robot Junk" "42619"
+<img src=rdb://144715>
+
+HSR - Sketch and Etch
+( ie :#L "HSR - Sketch and Etch - Chestpiece" "162290" )
+<img src=rdb://162275>
+
+#L "screwdriver" "150922"
+<img src=rdb://151011>
+</font><font color=#FFFFFF>or</font><font color=#009B00>
+#L "Mass Relocating Robot (Shape Hard Armor)" "162218" (#L "recipe" "/tell <myname> recipe 30")
+<img src=rdb://163856>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Precious Metal Reclaimer
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Robot Junk
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://156091>
+#L "Sheet of Junkmetal" "206703"
+</font><font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>
+
+</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>
+
+HSR - Sketch and Etch
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Sheet of Junkmetal
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://162297>
+Etched Pattern for Junkmetal
+( ie : #L "Etched Pattern for Junkmetal Breastplate" "206695" )
+</font><font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>
+
+</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>
+
+Mass Relocating Robot (Shape Hard Armor)
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Etched Pattern for Junkmetal
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://13251>
+Junkmetal Armor
+( ie #L "Junkmetal Breastplate" "206679" )
+</font><font color=#FFFF00>Skills: | EE,ME |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Increases your max health.

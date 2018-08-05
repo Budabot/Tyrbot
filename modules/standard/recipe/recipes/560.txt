@@ -1,0 +1,29 @@
+Name: Kaetan Supernova
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Viral Weapon Upgrade" "248517"
+<img src=rdb://100335>
+
+#L "Supernova Mk VI" "122595"
+<img src=rdb://33146>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Viral Weapon Upgrade
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Supernova Mk VI
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://33146>
+#L "Kaetans Supernova" "248577"
+</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+More Viral Weapon upgrades.

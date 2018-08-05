@@ -1,0 +1,44 @@
+{
+	"name":"Perfected Diamondine Kick Pistol",
+	"author":"Illork",
+	"items":[
+		{
+			"alias":"Diamondine Kick Pistol",
+			"item_id":165168,
+			"ql":200
+		},
+		{
+			"alias":"Inertial Adjustment Processing Unit",
+			"item_id":257959,
+			"ql":250
+		},
+		{
+			"alias":"Screwdriver",
+			"item_id":150922,
+			"ql":10
+		},
+		{
+			"alias":"Low Recoil Diamondine Kick Pistol",
+			"item_id":257109,
+			"ql":300
+		},
+		{
+			"alias":"Perfected Diamondine Kick Pistol",
+			"item_id":301901,
+			"ql":300
+		}
+	],
+	"steps":[
+		{
+			"source":"Inertial Adjustment Processing Unit",
+			"target":"Diamondine Kick Pistol",
+			"result":"Low Recoil Diamondine Kick Pistol"
+		},
+		{
+			"source":"Screwdriver",
+			"target":"Low Recoil Diamondine Kick Pistol",
+			"result":"Perfected Diamondine Kick Pistol",
+			"skills":"2250 WS,2175 ME,2100 EE"
+		}
+	]
+}

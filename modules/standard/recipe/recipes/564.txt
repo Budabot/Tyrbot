@@ -1,0 +1,29 @@
+Name: Nizno Bomb Blaster
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Explosif Device" "251810"
+<img src=rdb://72783>
+
+#L "Biomaterial Tubing" "253151"
+<img src=rdb://156553>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Explosif Device
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Biomaterial Tubing
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://13336>
+#L "Nizno's Bomb Blaster" "253233"
+</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Engy make things go boom.

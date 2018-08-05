@@ -1,0 +1,208 @@
+Name: Yalmaha 29500 - The Stiletto
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Cold Stone" "136649" x 36
+<img src=rdb://25800>
+
+#L "Reinforced NotuComm Wire" "203646" x 6
+<img src=rdb://151017>
+
+#L "Nano Programming Interface" "161699"
+<img src=rdb://99279>
+
+#L "Yalmaha 29500 - Stiletto Building Kit" "203828"
+<img src=rdb://203520>
+
+#L "Ganimedes Flux - Multi-Surface Engine" "203638"
+<img src=rdb://203511>
+
+#L "Klang Orbiter MK" "203636"
+<img src=rdb://203515>
+
+#L "BSEC" "203480"
+<img src=rdb://203507>
+
+#L "Steiner Flexipus Chassis" "203472"
+<img src=rdb://203519>
+
+#L "Stiletto Registar" "203817"
+<img src=rdb://163069>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+<highlight>Repeat for the 36 Cold Stones:<end>
+
+Nano Programming Interface
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Cold Stone
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://25800>
+#L "Sentient Cold Stone" "203648"
+</font><font color=#FFFF00>Skills: |  NP  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+<highlight>Repeat for the 6 Reinforced NotuComm Wires:<end>
+
+Sentient Cold Stone
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Reinforced NotuComm Wire
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://130729>
+#L "NotuComm Circuitry with One Sensor" "203630"
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Sentient Cold Stone
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+NotuComm Circuitry with One Sensor
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://130726>
+#L "NotuComm Circuitry with Two Sensors" "203626"
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Sentient Cold Stone
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+NotuComm Circuitry with Two Sensors
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://130730>
+#L "NotuComm Circuitry with Three Sensors" "203628"
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Sentient Cold Stone
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+NotuComm Circuitry with Three Sensors
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://130733>
+#L "NotuComm Circuitry with Four Sensors" "203632"
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Sentient Cold Stone
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+NotuComm Circuitry with Four Sensors
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://130732>
+#L "NotuComm Circuitry with Five Sensors" "203634"
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Sentient Cold Stone
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+NotuComm Circuitry with Five Sensors
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://130728>
+#L "Complete NotuComm Circuitry" "203642"
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+<highlight>Repeat for the 6 Complete NotuComm Circuitries:<end>
+
+Complete NotuComm Circuitry
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Complete NotuComm Circuitry
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://130727>
+#L "Double NotuComm Circuitry" "203640"
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Double NotumComm Circuitry
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Double NotumComm Circuitry
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://130731>
+#L "Quadruple NotuComm Circuitry" "203644"
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Quadruple NotuComm Circuitry
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Double NotumComm Circuitry
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://130790>
+#L "NotuComm Mesh" "203624"
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Steiner Flexipus Chassis
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Yalmaha 29500 - Stiletto Building Kit
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://203520>
+#L "Yalmaha 29500 - Stiletto Building Kit - Step 1" "203827"
+</font><font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Ganimedes Flux -Multi-Surface Engine
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Yalmaha 29500 - Stiletto Building Kit - Step 1
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://203520>
+#L "Yalmaha 29500 - Stiletto Building Kit - Step 2" "203825"
+</font><font color=#FFFF00>Skills: |  QT  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Klang Orbiter MK
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Yalmaha 29500 - Stiletto Building Kit - Step 2
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://203520>
+#L "Yalmaha 29500 - Stiletto Building Kit - Step 3" "203823"
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+BSEC
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Yalmaha 29500 - Stiletto Building Kit - Step 3
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://203520>
+#L "Yalmaha 29500 - Stiletto Building Kit - Step 4" "203821"
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+NotuComm Mesh
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Yalmaha 29500 - Stiletto Building Kit - Step 4
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://203498>
+#L "Unmarked Yalmaha 29500 - The Stiletto" "203819"
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Stiletto Registar
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Unmarked Yalmaha 29500 - The Stiletto
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://203498>
+#L "Yalmaha - 29500 - The Stiletto" "203556"
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+You didnt think it would be easy (or cheap) did you?
+
+Dont forget that the last step makes it NODROP, so if you are planning to sell it dont add the registrar.. sell that with it.

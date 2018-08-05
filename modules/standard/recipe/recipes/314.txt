@@ -1,0 +1,34 @@
+Name: Irreparable Minigrinner
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+  'Irreparable Minigrinner'
+ The Construction kit. must be between Quality Level  1 and  20.
+ All other pieces must be of AT LEAST that level range... 
+ Add them using shift+right-click.
+  Add in following order:
+ 
+  1. Pistol Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  4 ->  80
+ 
+  2. Self-Cleaning KO-CR Device. SkillTo Assemble: Weapon Smt:  4 ->  70
+ 
+  3. Lock and Stock. SkillTo Assemble: Weapon Smt:  4 ->  80
+ 
+  4. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  2 ->  50
+ 
+  5. Ultra Short Composite Barrel. SkillTo Assemble: Weapon Smt:  3 ->  60
+ 
+  6. Hyper Carbo-Ceramic Cooling System. SkillTo Assemble: Weapon Smt:  4 ->  80
+ 
+  7. Nano Pylon. SkillTo Assemble: Mech. Engi:  2 ->  50
+ 
+  8. Gyro Stabilizing Unit. SkillTo Assemble: Weapon Smt:  4 ->  90
+ 
+  9. Triple Pulse Enabler. SkillTo Assemble: Weapon Smt:  4 ->  85
+ 
+  10. Explosion Propulsion Containment Chamber. SkillTo Assemble: Mech. Engi:  4 ->  70
+ 
+  11. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  2 ->  30
+ 
+  12. Nano Pylon. SkillTo Assemble: Mech. Engi:  2 ->  50

@@ -1,0 +1,42 @@
+Name: Crawler Armor
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+a Patch of Skincrawler Hide
+( ie : #L "Patch of Hard Skincrawler Hide" "245211" )
+<img src=rdb://161077>
+
+#L "Mass Relocating Robot (Shape Soft Armor)" "162220"
+<img src=rdb://163857>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Mass Relocating Robot (Shape Soft Armor)
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+a Patch of Skincrawler Hide
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://13259>
+a piece of Crawler Armor
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Details</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Crawler Armor Gloves" "245118"
+#L "Crawler Armor Sleeves" "245119"
+#L "Crawler Armor Pants" "245120"
+#L "Crawler Armor Boots" "245122"
+#L "Crawler Body Armor" "245123"
+#L "Crawler Armor Hood" "245124"
+#L "Crawler Armor Shoulder Pad" "245125"
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Another great example of crafted armor.  The hide can be found in CoH.

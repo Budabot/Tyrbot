@@ -1,0 +1,38 @@
+Name: Cracked  Bolter 42mm
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+  'Cracked  Bolter 42mm'
+ The Construction kit. must be between Quality Level 1 and 23.
+ All other pieces must be of AT LEAST that level range... 
+ Add them using shift+right-click.
+ Add the pieces in the following order:
+ 
+  1. AssaultRifle Weapons Construction kit.
+ 
+  2. Nano Pylon. . SkillTo Assemble: Mech. Engi: 2-58
+ 
+  3. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 2-34
+ 
+  4. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 2-58
+ 
+  5. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 2-46
+ 
+  6. Nano Pylon. . SkillTo Assemble: Mech. Engi: 2-58
+ 
+  7. Explosion Propulsion Containment Chamber. . SkillTo Assemble: Mech. Engi: 4-80
+ 
+  8. Lock and Stock. . SkillTo Assemble: Weapon Smt: 4-92
+ 
+  9. Short Composite Barrel. . SkillTo Assemble: Weapon Smt: 3-75
+ 
+  10. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 2-58
+ 
+  11. Triple Pulse Enabler. . SkillTo Assemble: Weapon Smt: 4-98
+ 
+  12. Auto Targeting Computer -IIR 1. . SkillTo Assemble: Elec. Engi: 2-52
+ 
+  13. Primitive Freon Bag Cooling System. . SkillTo Assemble: Weapon Smt: 4-92
+ 
+  14. Gyro Stabilizing Unit. . SkillTo Assemble: Weapon Smt: 4-104

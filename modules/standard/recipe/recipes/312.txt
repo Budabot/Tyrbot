@@ -1,0 +1,34 @@
+Name: Irreparable Kolt 58 Magnum
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+  'Irreparable Kolt 58 Magnum'
+ The Construction kit. must be between Quality Level  1 and  20.
+ All other pieces must be of AT LEAST that level range... 
+ Add them using shift+right-click.
+  Add in following order:
+ 
+  1. Pistol Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  4 ->  80
+ 
+  2. Explosion Propulsion Containment Chamber. SkillTo Assemble: Mech. Engi:  4 ->  70
+ 
+  3. Composite Barrel. SkillTo Assemble: Weapon Smt:  4 ->  75
+ 
+  4. Nano Pylon. SkillTo Assemble: Mech. Engi:  2 ->  50
+ 
+  5. Hyper Carbo-Ceramic Cooling System. SkillTo Assemble: Weapon Smt:  4 ->  80
+ 
+  6. Lock and Stock. SkillTo Assemble: Weapon Smt:  4 ->  80
+ 
+  7. Jandawit Cleanup Cluster. SkillTo Assemble: Weapon Smt:  4 ->  70
+ 
+  8. Rapid-Reload-And-Fire Gyro. SkillTo Assemble: Weapon Smt:  4 ->  80
+ 
+  9. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  2 ->  50
+ 
+  10. Nano Pylon. SkillTo Assemble: Mech. Engi:  2 ->  50
+ 
+  11. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  2 ->  30
+ 
+  12. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  2 ->  50

@@ -1,0 +1,29 @@
+Name: Enhanced Queen Blade
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Queen Blade" "157761"
+<img src=rdb://158239>
+
+#L "Diamond-Matrix Mesh" "202266"
+<img src=rdb://11615>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Diamond-Matrix Mesh
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Queen Blade
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://158239>
+#L "Enhanced Queen Blade" "202264"
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Nice weapon if you can get the parts.

@@ -1,0 +1,34 @@
+Name: Quality Heavy Grinner
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'Quality Heavy Grinner'
+The Construction kit. must be between Quality Level  101 and  120.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+ Add in following order:
+
+ 1. Pistol Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  404 ->  480
+
+ 2. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  202 ->  240
+
+ 3. Explosion Propulsion Containment Chamber. SkillTo Assemble: Mech. Engi:  354 ->  420
+
+ 4. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  252 ->  300
+
+ 5. Nano Pylon. SkillTo Assemble: Mech. Engi:  252 ->  300
+
+ 6. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  152 ->  180
+
+ 7. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  252 ->  300
+
+ 8. Nano Pylon. SkillTo Assemble: Mech. Engi:  252 ->  300
+
+ 9. Self-Cleaning KO-CR Device. SkillTo Assemble: Weapon Smt:  354 ->  420
+
+ 10. Triple Pulse Enabler. SkillTo Assemble: Weapon Smt:  429 ->  510
+
+ 11. Lock and Stock. SkillTo Assemble: Weapon Smt:  404 ->  480
+
+ 12. Composite Barrel. SkillTo Assemble: Weapon Smt:  379 ->  450

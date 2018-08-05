@@ -1,0 +1,24 @@
+Name: Monofilament Tripler
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+  'Monofilament Tripler'
+ The Construction kit. must be between Quality Level 200 and 200.
+ All other pieces must be of AT LEAST that level range... 
+ Add them using shift+right-click.
+ Add the pieces in the following order:
+ 
+  1. One Handed Edged Weapons Construction kit.
+ 
+  2. Optimized Co-Weapon Interface. . SkillTo Assemble: Comp. Liter: 600-600
+ 
+  3. 1h Edged Weapon Cluster - Shiny (Right-Arm). . SkillTo Assemble: Nano Progra: 600-600
+ 
+  4. Max Health Cluster - Shiny (Chest). . SkillTo Assemble: Nano Progra: 600-600
+ 
+  5. Short Handle. . SkillTo Assemble: Weapon Smt: 700-700
+ 
+  6. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 300-300
+ 
+  7. Piercing Cluster - Shiny (Right-Arm). . SkillTo Assemble: Nano Progra: 600-600

@@ -1,0 +1,32 @@
+Name: Advanced Abigail
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+  'Advanced Abigail'
+ The Construction kit. must be between Quality Level 151 and 180.
+ All other pieces must be of AT LEAST that level range... 
+ Add them using shift+right-click.
+ Add the pieces in the following order:
+ 
+  1. Rifle Weapons Construction kit.
+ 
+  2. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 378-450
+ 
+  3. Nano-Interfaced Cooling System. . SkillTo Assemble: Weapon Smt: 604-720
+ 
+  4. Explosion Propulsion Containment Chamber. . SkillTo Assemble: Mech. Engi: 528-630
+ 
+  5. Self-Repairing Ultra-X. . SkillTo Assemble: Weapon Smt: 528-630
+ 
+  6. Runtime Critical Area Analyzer. . SkillTo Assemble: Weapon Smt: 604-720
+ 
+  7. Short Composite Barrel. . SkillTo Assemble: Weapon Smt: 491-585
+ 
+  8. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 302-360
+ 
+  9. Nano Pylon. . SkillTo Assemble: Mech. Engi: 378-450
+ 
+  10. Lock and Stock. . SkillTo Assemble: Weapon Smt: 604-720
+ 
+  11. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 226-270

@@ -1,0 +1,29 @@
+Name: Veil of the Revoked
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Spirit Tech Circlet of Cerubin" "245139"
+<img src=rdb://130733>
+
+#L "Cloak of the Revoked" "245135"
+<img src=rdb://22896>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Spirit Tech Circlet of Cerubin
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Cloak of the Revoked
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://246888>
+#L "Veil of the Revoked" "247081"
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Very nice item for Traders and Enforcers!

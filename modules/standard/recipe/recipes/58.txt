@@ -1,0 +1,164 @@
+Name: Jobe Armor Tier 1
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+a part of Jobe Armor
+( #L "see here" "/tell <myname> recipe 542" )
+<img src=rdb://214750>
+
+#L "Consanguineal Embryo of Annwn" "239835"
+<img src=rdb://144701>
+
+#L "Canister Of Pure Liquid Notum" "223446"
+<img src=rdb://100305>
+
+a special Novictum
+( ie : #L "Novictum Mud" "218472" )
+<img src=rdb://20407>
+
+Vision x 3
+( ie #L "Visions of The Reposeful " "239466" )
+<img src=rdb://151032>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>First</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Go to jobe and give the Consanguineal Embryo of Annwn and the Three Visions to your Profession IPS, he will give you a Yellow Glyph:
+
+
+Example:
+
+#L "Yellow Glyph of Aban" "218339" ).
+<img src=rdb://227531>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Canister Of Pure Liquid Notum
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Yellow Glyph
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://227530>
+Yellow Glyph - Awakened
+( ie #L "Yellow Glyph of Aban - Awakened" "227624" )
+</font><font color=#FFFF00>Skills: |  QP  |</font><font color=#009B00>
+
+</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>
+
+Novictum
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Yellow Glyph - Awakened
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://227584>
+Glyph
+( ie #L "Glyph of the One" "227758" )
+</font><font color=#FFFF00>Skills: |  PS  |</font><font color=#009B00>
+
+</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>
+
+Glyph
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+a part of Jobe Armor
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://213493>
+a part of Jobe Tier 1 Armor
+( ie #L "First Tier Adventurer Jobe Suit Body" "213446" )
+</font><font color=#FFFF00>Skills: |  PS  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Details</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Adventurer:
+#L "Visions of The Reposeful" "239466"
+<img src=rdb://151032>
+#L "Novictum Mud" "218472"
+<img src=rdb://20407>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+Agent:
+#L "Visions of the Tempestuous" "239467"
+<img src=rdb://151031>
+#L "Transparent Novictum Gas" "218468"
+<img src=rdb://20407>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+Bureaucrat:
+#L "Visions of the Tempestuous" "239467"
+<img src=rdb://151031>
+#L "Radiant Novictum Gas" "218469"
+<img src=rdb://20407>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+Doctor:
+#L "Visions of The Reposeful" "239466"
+<img src=rdb://151032>
+#L "Pure Novictum Liquid" "218470"
+<img src=rdb://20407>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+Enforcer:
+#L "Visions of the Unshakable" "239468"
+<img src=rdb://151033>
+#L "Compact Novictum Stone" "218473"
+<img src=rdb://20407>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+Engineer:
+#L "Visions of the Unshakable" "239468"
+<img src=rdb://151033>
+#L "Crystalized Novictum" "218480"
+<img src=rdb://20407>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+Fixer:
+#L "Visions of The Reposeful" "239466"
+<img src=rdb://151032>
+#L "Mist of Novictum" "218477"
+<img src=rdb://20407>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+Keeper:
+#L "Visions of the Unshakable" "239468"
+<img src=rdb://151033>
+#L "Spongy Novictum" "218474"
+<img src=rdb://20407>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+Martial Artist:
+#L "Visions of the Unshakable" "239468"
+<img src=rdb://151033>
+#L "Novictum Sand" "218478"
+<img src=rdb://20407>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+Meta Physicist:
+#L "Visions of The Reposeful" "239466"
+<img src=rdb://151032>
+#L "Plastic Novictum""218475"
+<img src=rdb://20407>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+Nano Technician:
+#L "Visions of the Tempestuous" "239467"
+<img src=rdb://151031>
+#L "Caustic Novictum" "218476"
+<img src=rdb://20407>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+Shade:
+#L "Visions of the Unshakable" "239468"
+<img src=rdb://151033>
+#L "Carbonized Novictum Stone" "218471"
+<img src=rdb://20407>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+Soldier:
+#L "Visions of the Tempestuous" "239467"
+<img src=rdb://151031>
+#L "Porous Novictum Stone" "218479"
+<img src=rdb://20407>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+Trader:
+#L "Visions of The Reposeful" "239466"
+<img src=rdb://151032>
+#L "Fragmented Novictum Crystal" "218467"
+<img src=rdb://20407>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Tier one is complete ... move on to #L "Tier 2" "/tell <myname> recipe 56" ...

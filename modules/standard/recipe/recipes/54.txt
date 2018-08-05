@@ -1,0 +1,83 @@
+Name: Improving Weapons
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Robot Instruction Disc (Improve Weapons)
+( ie #L "Robot Instruction Disc (Improve Slashing Weapons)" "155533" )
+<img src=rdb://83446>
+
+#L "Mass Relocating Robot" "155592"
+<img src=rdb://155928>
+
+#L "Symbol Library - Space" "144790"
+<img src=rdb://72782>
+
+#L "Photon Particle Emitter" "144812"
+<img src=rdb://83869>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Robot Instruction Disc (Improve Weapons)
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Symbol Library - Space
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://83151>
+Robot Compiled Algorithm (Improve Weapons)
+( ie : #L "Robot Compiled Algorithm (Improve Slashing Weapons)" "155534" )
+</font><font color=#FFFF00>Skills: | NP,CL |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Photon Particle Emitter
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Robot Compiled Algorithm (Improve Weapons)
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://83739>
+Programmed Photon Particle Emitter (Improve Weapons)
+( ie : #L "Programmed Photon Particle Emitter (Improve Slashing Weapons)" "155544" )
+</font><font color=#FFFF00>Skills: |  NP  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Mass Relocating Robot
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Programmed Photon Particle Emitter (Improve Weapons)
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://155929>
+Mass Relocating Robot (Improve Weapons)
+( ie : #L "Mass Relocating Robot (Improve Slashing Weapons)" "155594" )
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Uses</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Once you have your Mass Relocating Robot (Improve Weapons), you can now use it to improve some weapons, of which you'll find the list, depending of the the type of your Mass Relocating Robot.
+
+<highlight>Improve Crushing Weapons<end>
+Advanced Baseballbat
+Club
+Stun-Baton
+   
+<highlight>Improve Slashing Weapons<end>
+Tripler
+Whings
+Cutlass
+Meatcleaver
+Zenith Taichi
+Burning Crescent
+
+<highlight>Improve Thrusting Weapons<end>
+Slank Chop
+Gofleprod
+Click Stabber
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+The best thing to do is compare, before the process : #L "Grandmaster Click Stabber" "152776", and afterward :#L "Much Improved Click Stabber" "157820".

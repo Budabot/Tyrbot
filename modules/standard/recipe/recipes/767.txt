@@ -1,0 +1,55 @@
+Name: Crude Upgrades
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients </font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+</font><font color=#FFFF00> Crude Upgrade Kits drop from Escaped Prisoners.</font><font color=#009B00>
+
+#L "Crude Upgrade Kit" "274975"
+<img src=rdb://218768>
+
+#L "Reflex Pistol" "274977"
+<img src=rdb://264785>
+
+#L "Black Clan Heavy Tank Armor" "206662"
+<img src=rdb://22395>
+
+#L "Hacked Medi-Blade" "274974"
+<img src=rdb://264782>
+
+#L "Infused Solar-Powered Master Engineer Pistol" "274557"
+<img src=rdb://264789>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe </font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Reflex Pistol
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Crude Upgrade Kit
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://264785>
+#L "Twitch Pistol" "274979"
+
+Black Clan Heavy Tank Armor
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Crude Upgrade Kit
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://22395>
+#L "Improved Black Clan Heavy Tank Armor" "274987"
+
+Hacked Medi-Blade
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Crude Upgrade Kit
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://264780>
+#L "Improved Hacked Medi-Blade" "274978"
+
+Infused Solar-Powered Master Engineer Pistol
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Crude Upgrade Kit
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://264789>
+#L "Augmented Master Engineer Pistol" "274973"
+</font><font color=#FFFF00>Skills: | 1350 WS,  2100 ME and 2100 EE | </font><font color=#009B00> 

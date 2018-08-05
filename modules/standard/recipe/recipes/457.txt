@@ -1,0 +1,28 @@
+Name: Refitted Polearm
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'Refitted Polearm'
+The Construction kit. must be between Quality Level 1 and 23.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+Add the pieces in the following order:
+
+ 1. Two Handed Edged Weapons Construction kit.
+
+ 2. Optimized Co-Weapon Interface. . SkillTo Assemble: Comp. Liter: 3-69
+
+ 3. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 2-46
+
+ 4. 8x Layer Carbon-Notum Alloy Blade. . SkillTo Assemble: Weapon Smt: 4-80
+
+ 5. Medium Handle. . SkillTo Assemble: Weapon Smt: 4-85
+
+ 6. 4x Layer Carbon-Notum Alloy Blade. . SkillTo Assemble: Weapon Smt: 3-69
+
+ 7. Notum Enriched Nano Paste - 4x Layer. . SkillTo Assemble: Nano Progra: 2-58
+
+ 8. 2h Edged Cluster - Faded (Waist). . SkillTo Assemble: Nano Progra: 1-23
+
+ 9. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 2-34

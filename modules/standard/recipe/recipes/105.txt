@@ -1,0 +1,165 @@
+Name: Sealed Weapon Receptacles
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+A Sealed Weapon Receptacle
+(ie : #L "Sealed Weapon Receptacle - Alsaqri Chemical Rifle" "157670"
+<img src=rdb://157448>
+
+#L "Hacker Tool" "87814"
+<img src=rdb://99282>
+
+<highlight>The Missing Part...<end>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+The first thing to do is to pry open the Sealed receptacle to get the unfinished weapon.
+
+Hacker Tool
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Sealed Weapon Receptacle
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+Unfinished Weapon
+</font><font color=#FFFF00>Skills: |  BE  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Next, you must apply to the Unfinished Weapon the required missing Part. Here is the list of all theses parts:
+
+<img src=rdb://13312>
+#L "Unfinished Alsaqri Chemical Rifle" "157668"
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+<img src=rdb://130741>
+#L "Self-Repairing Ultra-X" "137284"
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://13312>
+#L "Alsaqri Chemical Rifle" "157661"
+</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+<img src=rdb://29116>
+#L "Unfinished HSR Explorer 661" "157674"
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+<img src=rdb://130693>
+#L "Generic Magnetic Propulsion System" "137246"
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://29116>
+#L "HSR Explorer 661" "157666"
+</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+<img src=rdb://13313>
+#L "Unfinished IMI Tellus TT" "157646"
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+<img src=rdb://130787>
+#L "Flake Tubing Super-Coolant System" "137250"
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://13313>
+#L "IMI Tellus TT" "157628"
+</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+<img src=rdb://113989>
+#L "Unfinished Ithaca Ki12 Vulture" "162907"
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+<img src=rdb://130746>
+#L "Nano-Interfaced Cooling System" "137270"
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://113989>
+#L "Ithaca Ki12 Vulture" "162902"
+</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+<img src=rdb://29116>
+#L "Unfinished River Seasons XP" "162937"
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+<img src=rdb://130713>
+#L "Ultra Short Composite Barrel" "137232"
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://29116>
+#L "River Seasons XP" "162933"
+</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+<img src=rdb://113995>
+#L "Unfinished Soft Pepper Pistol" "157656"
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+<img src=rdb://130748>
+#L "Nano Pylon" "137278"
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://113995>
+#L "Soft Pepper Pistol" "157644"
+</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+<img src=rdb://33154>
+#L "Unfinished Sol Chironis Systems" "157652"
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+<img src=rdb://130685>
+#L "Energy Pack Interface" "137258"
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://33154>
+#L "Sol Chironis Systems" "157635"
+</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+For the Last one, it's a bit more subtle since you have four possibilities
+
+<img src=rdb://33156>
+#L "Unfinished Summer SMP" "157452"
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+<img src=rdb://130699>
+#L "Triple Pulse Enabler" "137298"
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://33156>
+#L "Summer Burst SMP" "157286"
+</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Unfinished Summer SMP
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+<img src=rdb://130697>
+#L "Gyro Stabilizing Unit" "137296"
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+#L "Summer FA SMP" "157292"
+</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Unfinished Summer SMP
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+<img src=rdb://130700>
+#L "Rapid-Reload-And-Fire Gyro" "137314"
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+#L "Summer Fling SMP" "157289"
+</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Unfinished Summer SMP
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+<img src=rdb://130694>
+#L "Shells Magazine" "137260"
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+#L "Summer Shells SMP" "157295"
+</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+I'm not aware of the effiency of theses weapons. But if you want to try them, it's the only way to get one...
+
+All the parts needed in theses recipes (except the Sealed Receptacles, of course) are available in the Ranged Weapons Components Shop.

@@ -1,0 +1,20 @@
+Name: Layered Right Slice
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+  'Layered Right Slice'
+ The Construction kit. must be between Quality Level 121 and 140.
+ All other pieces must be of AT LEAST that level range... 
+ Add them using shift+right-click.
+ Add the pieces in the following order:
+ 
+  1. One Handed Edged Weapons Construction kit.
+ 
+  2. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 242-280
+ 
+  3. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 182-210
+ 
+  4. Optimized Co-Weapon Interface. . SkillTo Assemble: Comp. Liter: 363-420
+ 
+  5. Short Handle. . SkillTo Assemble: Weapon Smt: 424-490

@@ -1,0 +1,36 @@
+Name: Cheap Luxembourg Inferno Rifle
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+  'Cheap Luxembourg Inferno Rifle'
+ The Construction kit. must be between Quality Level  1 and  30.
+ All other pieces must be of AT LEAST that level range... 
+ Add them using shift+right-click.
+  Add in following order:
+ 
+  1. Rifle Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  4 ->  120
+ 
+  2. Hyper Carbo-Ceramic Cooling System. SkillTo Assemble: Weapon Smt:  4 ->  120
+ 
+  3. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  2 ->  45
+ 
+  4. Jandawit Cleanup Cluster. SkillTo Assemble: Weapon Smt:  4 ->  105
+ 
+  5. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  2 ->  60
+ 
+  6. Long Composite Barrel. SkillTo Assemble: Weapon Smt:  4 ->  120
+ 
+  7. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  2 ->  75
+ 
+  8. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  2 ->  75
+ 
+  9. Plasma Streamer Interface Nozzle. SkillTo Assemble: Chemistry:  4 ->  120
+ 
+  10. Compression Chamber for Chemicals. SkillTo Assemble: Weapon Smt:  4 ->  128
+ 
+  11. Nano Pylon. SkillTo Assemble: Mech. Engi:  2 ->  75
+ 
+  12. Rapid-Reload-And-Fire Gyro. SkillTo Assemble: Weapon Smt:  4 ->  120
+ 
+  13. Nano Pylon. SkillTo Assemble: Mech. Engi:  2 ->  75

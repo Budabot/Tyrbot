@@ -1,0 +1,32 @@
+Name: Uptuned Abigail
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'Uptuned Abigail'
+The Construction kit. must be between Quality Level 91 and 120.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+Add the pieces in the following order:
+
+ 1. Rifle Weapons Construction kit.
+
+ 2. Explosion Propulsion Containment Chamber. . SkillTo Assemble: Mech. Engi: 318-420
+
+ 3. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 228-300
+
+ 4. Short Composite Barrel. . SkillTo Assemble: Weapon Smt: 296-390
+
+ 5. Nano Pylon. . SkillTo Assemble: Mech. Engi: 228-300
+
+ 6. Lock and Stock. . SkillTo Assemble: Weapon Smt: 364-480
+
+ 7. Runtime Critical Area Analyzer. . SkillTo Assemble: Weapon Smt: 364-480
+
+ 8. Nano-Interfaced Cooling System. . SkillTo Assemble: Weapon Smt: 364-480
+
+ 9. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 136-180
+
+ 10. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 182-240
+
+ 11. Self-Repairing Ultra-X. . SkillTo Assemble: Weapon Smt: 318-420

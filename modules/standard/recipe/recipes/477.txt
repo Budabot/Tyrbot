@@ -1,0 +1,30 @@
+Name: Second-Hand Light Beamer Pistol
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'Second-Hand Light Beamer Pistol'
+The Construction kit. must be between Quality Level  83 and  98.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+ Add in following order:
+
+ 1. Pistol Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  332 ->  392
+
+ 2. Nano Pylon. SkillTo Assemble: Mech. Engi:  208 ->  245
+
+ 3. Short Composite Barrel. SkillTo Assemble: Weapon Smt:  270 ->  318
+
+ 4. Plasma Streamer Interface Nozzle. SkillTo Assemble: Chemistry:  332 ->  392
+
+ 5. Self-Cleaning KO-CR Device. SkillTo Assemble: Weapon Smt:  290 ->  343
+
+ 6. Hyper Carbo-Ceramic Cooling System. SkillTo Assemble: Weapon Smt:  332 ->  392
+
+ 7. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  166 ->  196
+
+ 8. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  208 ->  245
+
+ 9. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  124 ->  147
+
+ 10. Energy Conduction Rack. SkillTo Assemble: Quantum FT:  270 ->  318

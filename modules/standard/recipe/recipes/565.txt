@@ -1,0 +1,55 @@
+Name: Nano Cube of Death
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Nophex Cube" "255542"
+<img src=rdb://233133>
+
+a special Pattern of Death
+( ie : #L "Pattern of Approaching Death" "255550" )
+<img src=rdb://231182>
+
+#L "Kenneth's Polishing Gel" "255555"
+<img src=rdb://156504>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Pattern of Death
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Nophex Cube
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://233135>
+Nophex Cube of Death
+( ie : #L "Nophex Cube of Approaching Death" "255545" )
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Kenneth's Polishing Gel
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Nophex Cube of Death
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://233132>
+Nano Cube
+( ie : #L "Nano Cube (Cellular Re-Structure)" "254433" )
+</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Details</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Nano Cube (Cellular Re-Structure)" "254433": #L "Pattern of Approaching Death" "255550"
+#L "Nano Cube (Poisoned Thorns)" "254436": #L "Pattern of Impending Death" "255551"
+#L "Nano Cube (Frost Blades)" "254438": #L "Pattern of Inevitable Death" "255552"
+#L "Nano Cube (Magma Covering)" "254440": #L "Pattern of Imminent Death" "255553"
+#L "Nano Cube (Self Illumination)" "254442": #L "Pattern of the Occurence of Death" "255554"
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+NT secret weapons...

@@ -1,0 +1,31 @@
+Name: Hacked Graft
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+a Boosted-Graft or a Symbio-Graft
+( ie : #L "Symbio-Graft: 1H Blunt Weapon Expertise" "127241" )
+<img src=rdb://11647>
+
+#L "Hacker Tool" "87814"
+<img src=rdb://99282>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Hacker Tool
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Graft
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://11647>
+a Hacked Boosted-Graft
+( ie : #L "Hacked Symbio-Graft: 1H Blunt Weapon Expertise" "127242" )
+</font><font color=#FFFF00>Skills: |  BE  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Override the profession requirement.

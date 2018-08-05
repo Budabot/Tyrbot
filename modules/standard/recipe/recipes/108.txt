@@ -1,0 +1,53 @@
+Name: Inamorata and Sacrosanct Weapons
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+a Grey Glyph
+( ie : #L "Grey Glyph of Aban" "218372" )
+<img src=rdb://25802>
+
+an Inamorata or Sacrosanct Weapon
+( ie : #L "Inamorata Assault Rifle" "212302" )
+<img src=rdb://210174>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Grey Glyph
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Inamorata Weapon
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://210174>
+an improved Inamorata Weapon
+( ie : #L "Inamorata Bhotaar Assault Rifle" "212282" )
+</font><font color=#FFFF00>Skills: | ME,EE |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Details</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Grey Glyph of Aban" "218372" : Adds Sneak Attack
+#L "Grey Glyph of Ocra-Bhotaar" "218380" : Adds Burst and Fling Shot 
+#L "Grey Glyph of Aban-Shere" "218392" : Adds Sneak Attack, Fast Attack and Brawl
+#L "Grey Glyph of Ocra-Roch" "218382" : Adds Fling Shot and Fullauto 
+#L "Grey Glyph of Aban-Thar" "218390" : Adds Sneak Attack and Fast Attack
+#L "Grey Glyph of Ocra-Shere" "218378" : Adds Fling Shot and Aimed Shot 
+#L "Grey Glyph of Bhotaar" "218364" : Adds Burst
+#L "Grey Glyph of Ocra-Xum" "218384" : Adds Burst and Fullauto 
+#L "Grey Glyph of Enel" "218370" : Adds Brawl
+#L "Grey Glyph of Roch" "218366" : Adds Fullauto 
+#L "Grey Glyph of Enel-Thar" "218388" : Adds Brawl and Fast Attack
+#L "Grey Glyph of Shere" "218368" : Adds Aimed Shot 
+#L "Grey Glyph of Enel-Xum" "218386" : Adds Brawl and Dimach
+#L "Grey Glyph of Thar" "218374" : Adds Fast Attack 
+#L "Grey Glyph of Ocra" "218362" : Adds Fling Shot 
+#L "Grey Glyph of Xum" "218376" : Adds Dimach
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+see also #L "Turn Spirit Weapon" "/tell <myname> recipe 569" recipe.

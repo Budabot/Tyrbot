@@ -1,0 +1,72 @@
+Name: Repairman's Hat
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Some Notum 
+#L "Notum Fragment" "136624"
+<img src=rdb://25795>
+</font><font color=#FFFFFF>or</font><font color=#009B00>
+#L "Notum Chip" "136622"
+<img src=rdb://25794>
+
+#L "Salesman's Hat" "205738"
+<img src=rdb://205771>
+
+#L "Nano Programming Interface" "161699"
+<img src=rdb://99279>
+
+#L "Inactive OT Metamorphing Liquid Nanobots" "164952"
+<img src=rdb://156496>
+
+#L "Field Quantum Physics All-Purpose Tool" "164558"
+<img src=rdb://20410>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Field Quantum Physics All-Purpose Tool
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Salesman's Hat
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://205772>
+#L "Transformed Salesman's Hat" "205741"
+</font><font color=#FFFF00>Skills: | NP,CH |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Nano Programming Interface
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Inactive OT Metamorphing Liquid Nanobots
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://156492>
+#L "Activated OT Metamorphing Liquid Nanobots" "164954"
+</font><font color=#FFFF00>Skills: | NP,CH |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Notum
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Activated OT Metamorphing Liquid Nanobots
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://164949>
+#L "Stabilized OT Metamorphing Liquid Nanobots" "164956"
+</font><font color=#FFFF00>Skills: | NP,CH |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Stabilized OT Metamorphing Liquid Nanobots
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Transformed Salesman's Hat
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://205772>
+#L "Repairman's Hat" "205743"
+</font><font color=#FFFF00>Skills: | NP,CH |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+You can right-clic it to upgrad it up to QL50.

@@ -1,0 +1,36 @@
+Name: Professional Michael Patriot Ffi 29A
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+ 'Professional Michael Patriot Ffi 29A'
+The Construction kit. must be between Quality Level 61 and 80.
+All other pieces must be of AT LEAST that level range... 
+Add them using shift+right-click.
+Add the pieces in the following order:
+
+ 1. Submachinegun Weapons Construction kit.
+
+ 2. Flake Tubing Base Cooling System. . SkillTo Assemble: Weapon Smt: 244-320
+
+ 3. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 122-160
+
+ 4. Jandawit Cleanup Cluster. . SkillTo Assemble: Weapon Smt: 214-280
+
+ 5. Ultra-Long Composite Barrel. . SkillTo Assemble: Weapon Smt: 259-340
+
+ 6. Plasma Streamer Interface Nozzle. . SkillTo Assemble: Chemistry: 244-320
+
+ 7. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 152-200
+
+ 8. Nano Pylon. . SkillTo Assemble: Mech. Engi: 152-200
+
+ 9. Explosion Propulsion Containment Chamber. . SkillTo Assemble: Mech. Engi: 214-280
+
+ 10. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 92-120
+
+ 11. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 152-200
+
+ 12. Triple Pulse Enabler. . SkillTo Assemble: Weapon Smt: 259-340
+
+ 13. Nano Pylon. . SkillTo Assemble: Mech. Engi: 152-200

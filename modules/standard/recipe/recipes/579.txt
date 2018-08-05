@@ -1,0 +1,81 @@
+Name: AC Buff Stim
+Author: 
+<highlight>1. Polymerizing Stim<end>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Gas Bladder" "245115"
+<img src=rdb://37970>
+
+#L "Empty Stim Unit" "247235"
+<img src=rdb://11716>
+
+#L "Mimicking Cellular Oil" "154268"
+<img src=rdb://100306>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Gas Bladder
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Empty Stim Unit
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://100338>
+#L "Chemical Poison Sample" "245274"
+</font><font color=#FFFF00>Skills: | CH450 |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Chemical Poison Sample
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Mimicking Cellular Oil
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://100310>
+#L "Polymerizing Stim" "245167"
+</font><font color=#FFFF00>Skills: | CH525 |</font><font color=#009B00>
+
+<highlight>2. Bioremediation Stim<end>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Pit Demon Spit" "245169"
+<img src=rdb://154417>
+
+#L "Empty Stim Unit" "247235"
+<img src=rdb://11716>
+
+#L "Mimicking Cellular Oil" "154268"
+<img src=rdb://100306>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Pit Demon Spit
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Empty Stim Unit
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://100330>
+#L "Deinococcus Radiodurans" "245168"
+</font><font color=#FFFF00>Skills: | PH450 |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Deinococcus Radiodurans
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Mimicking Cellular Oil
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://11710>
+#L "Bioremediation Stim" "245156"
+</font><font color=#FFFF00>Skills: | PH450 |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Enhance your ubahness.

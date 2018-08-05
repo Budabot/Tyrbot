@@ -1,0 +1,27 @@
+Name: Sabotaging Surgeons Cloak
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients </font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+</font><font color=#FF0000> *** </font><font color=#FFFF00> In order to sabotage anything, you need to get your hands on it first. In case of Omni-Med Field Surgeons Cloak, it drops off Dyna and mission bosses. It drops in various ql, highest found so far being ql 200. Whole sabotaging business is actually really easy, all you need is Advanced Hacker Tool. </font><font color=#FF0000> *** </font><font color=#009B00>
+
+#L "Omni-Med Field Surgeons Cloak" "201235"
+<img src=rdb://120623>
+
+#L "Advanced Hacker Tool" "87814"
+<img src=rdb://99282>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe </font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Omni-Med Field Surgeons Cloak
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Advanced Hacker Tool
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://120623>
+#L "Sabotaged Omni-Med Field Surgeons Cloak" "201238"
+</font><font color=#FFFF00>Skills: | 4.75 BE 3.25x CL based on QL | </font><font color=#009B00>
+
+</font><font color=#FFFF00> If person doing tradeskills have high enough skills, end product can be higher ql as 200. Hacking the cloak also results in loosing Omni tag and BiologicalMetamorphosis buff. </font><font color=#009B00>

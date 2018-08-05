@@ -1,0 +1,26 @@
+Name: Nightspear Follower
+Author: 
+</font><font color=#009B00>
+
+This Instruction Manual will teach you how to assemble a:
+  'Nightspear Follower'
+ The Construction kit. must be between Quality Level 139 and 161.
+ All other pieces must be of AT LEAST that level range... 
+ Add them using shift+right-click.
+ Add the pieces in the following order:
+ 
+  1. Piercing Weapons Construction kit.
+ 
+  2. Medium Handle. . SkillTo Assemble: Weapon Smt: 511-592
+ 
+  3. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 208-242
+ 
+  4. Optimized Co-Weapon Interface. . SkillTo Assemble: Comp. Liter: 417-483
+ 
+  5. Max Health Cluster - Shiny (Chest). . SkillTo Assemble: Nano Progra: 417-483
+ 
+  6. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 278-322
+ 
+  7. Sneak Atck Cluster - Bright (Right-Wrist). . SkillTo Assemble: Nano Progra: 278-322
+ 
+  8. Notum Enriched Nano Paste - 4x Layer. . SkillTo Assemble: Nano Progra: 348-402

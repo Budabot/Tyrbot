@@ -1,0 +1,216 @@
+Name: Masterpiece Ancient Bracer
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+#L "Ancient Scrap of Spirit Knowledge" "267677" x 3
+<img src=rdb://163575>
+
+#L "Ancient Scrap of Saturated Spirit Knowledge" "267679" x 3
+<img src=rdb://163575>
+
+#L "Inert Knowledge Crystal" "267737" x 3
+<img src=rdb://151030>
+
+#L "Inactive Bracer" "267746"
+<img src=rdb://84048>
+
+#L "Ancient Engineering Device" "267751" #L "Recipe" "/tell <myname> recipe 594"
+<img src=rdb://156095>
+
+#L "Crystalised Memories of a Sniper" "267704"
+<img src=rdb://72771>
+
+#L "Crystalised Memories of a Warrior" "267697"
+<img src=rdb://72771>
+
+#L "Crystalised Memories of a Doctor" "267726"
+<img src=rdb://72771>
+
+#L "Crystalised Memories of a Surgeon" "267728"
+<img src=rdb://72771>
+
+#L "Crystalised Memories of a Technician" "267698"
+<img src=rdb://72771>
+
+#L "Crystalised Memories of a Mechanic" "267701"
+<img src=rdb://72771>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+<highlight>Part 1:<end>
+
+Crystalised Memories of a Sniper
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Crystalised Memories of a Warrior
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://72769>
+#L "Combined Crystalised Combat Memories" "267705"
+</font><font color=#FFFF00>Skills: | NP1250 |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Ancient Scrap of Spirit Knowledge
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Ancient Scrap of Saturated Spirit Knowledge
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://163575>
+#L "Ancient Scrap of Condensed Spirit Knowledge" "267680"
+</font><font color=#FFFF00>Skills: | PT1750 |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Combined Crystalised Combat Memories
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Ancient Scrap of Condensed Spirit Knowledge
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://163575>
+#L "Ancient Scrap of Spirit Combat Knowledge" "267681"
+</font><font color=#FFFF00>Skills: | CL1250 |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Ancient Scrap of Spirit Combat Knowledge
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Inert Knowledge Crystal
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://151030>
+#L "Combat Knowledge Crystal" "267739"
+</font><font color=#FFFF00>Skills: | CL1250 |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+<highlight>Part 2:<end>
+
+Crystalised Memories of a Doctor
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Crystalised Memories of a Surgeon
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://72769>
+#L "Combined Crystalised Medical Memories" "267729"
+</font><font color=#FFFF00>Skills: | CH1750 |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Ancient Scrap of Spirit Knowledge
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Ancient Scrap of Saturated Spirit Knowledge
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://163575>
+#L "Ancient Scrap of Condensed Spirit Knowledge" "267680"
+</font><font color=#FFFF00>Skills: | PT1750 |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Combined Crystalised Medical Memories
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Ancient Scrap of Condensed Spirit Knowledge
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://163575>
+#L "Ancient Scrap of Spirit Medical Knowledge" "267727"
+</font><font color=#FFFF00>Skills: | CH1750 |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Ancient Scrap of Spirit Medical Knowledge
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Inert Knowledge Crystal
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://151030>
+#L "Medical Knowledge Crystal" "267738"
+</font><font color=#FFFF00>Skills: | CH1750 |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+<highlight>Part 3:<end>
+
+Crystalised Memories of a Technician
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Crystalised Memories of a Mechanic
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://72769>
+#L "Combined Crystalised Technical Memories" "267702"
+</font><font color=#FFFF00>Skills: | NP1875 |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Ancient Scrap of Spirit Knowledge
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Ancient Scrap of Saturated Spirit Knowledge
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://163575>
+#L "Ancient Scrap of Condensed Spirit Knowledge" "267680"
+</font><font color=#FFFF00>Skills: | PT1750 |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Combined Crystalised Technical Memories
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Ancient Scrap of Condensed Spirit Knowledge
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://163575>
+#L "Ancient Scrap of Spirit Technical Knowledge" "267703"
+</font><font color=#FFFF00>Skills: | NP1875 |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Ancient Scrap of Spirit Technical Knowledge
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Inert Knowledge Crystal
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://151030>
+#L "Technical Knowledge Crystal" "267740"
+</font><font color=#FFFF00>Skills: | CH1750 |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+<highlight>Next we combine the Knowledge Crystals:<end>
+
+Combat Knowledge Crystal
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Medical Knowledge Crystal
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://156511>
+#L "Incomplete Crystalised Memories" "267781"
+</font><font color=#FFFF00>Skills: | QT1562 |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Incomplete Crystalised Memories
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Technical Knowledge Crystal
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://156511>
+#L "Complete Crystalised Memories" "267778"
+</font><font color=#FFFF00>Skills: | QT1562 |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+<highlight>Activate the Bracer and combine with Completed Memories:<end>
+
+Inactive Bracer
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Ancient Engineering Device
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://84048>
+#L "Active Ancient Bracer" "267747"
+</font><font color=#FFFF00>Skills: | ME1500 |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Active Ancient Bracer
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Complete Crystalised Memories
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://84062>
+#L "Masterpiece Ancient Bracer" "267780"
+</font><font color=#FFFF00>Skills: | CL1250 |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+I know what you are thinking.. and yes.. that IS a lot of steps :P

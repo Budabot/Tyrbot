@@ -1,0 +1,87 @@
+Name: Steps of Madness upgrades
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients </font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+</font><font color=#FFFF00> Mobs in Steps of Madness drop a lot of Nightmare XXX Ethers. Those are used for upgrading 3 items that Neleb drops:
+namely Fractured Sanity, Neleb's Notum Battlerod and Neleb's Nano-circuit Robe.</font><font color=#009B00>
+
+#L "Nightmare Tidal Ether" "274879"
+<img src=rdb://290662>
+
+#L "Nightmare Arachnid Ether" "274958"
+<img src=rdb://290657>
+
+#L "Nightmare Spacial Ether" "274959"
+<img src=rdb://290661>
+
+#L "Nightmare Burning Ether" "274960"
+<img src=rdb://290660>
+
+#L "Nightmare Tidal Ether" "274961"
+<img src=rdb://290659>
+
+#L "Fractured Sanity" "151896"
+<img src=rdb://84068>
+
+#L "Neleb's Notum Battlerod" "152026"
+<img src=rdb://33165>
+
+#L "Neleb's Nano-circuit Robe" "151895"
+<img src=rdb://151898>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe </font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Nightmare Tidal Ether
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Nightmare Arachnid Ether
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://290658>
+#L "Combined Nightmare Ether" "274967"
+
+Combined Nightmare Ether
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Nightmare Spacial Ether
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://290658>
+#L "Combined Nightmare Ether" "274968"
+
+Combined Nightmare Ether
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Nightmare Burning Ether
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://290658>
+#L "Combined Nightmare Ether" "274969"
+
+Combined Nightmare Ether
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Nightmare Darkness Ether
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://290656>
+#L "Complete Nightmare Ether" "274970"
+
+</font><font color=#FFFF00>Now combine Neleb's items with the ethers:</font><font color=#009B00>
+
+Fractured Sanity
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Complete Nightmare Ether
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://84068>
+#L "Fractured Nightmare" "274957"
+
+Neleb's Notum Battlerod
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Complete Nightmare Ether
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://33165>
+#L "Neleb's Nightmare Battlerod" "274955"
+
+Neleb's Nano-circuit Robe
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Complete Nightmare Ether
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://151898>
+#L "Neleb's Nano-master Robe" "274956"

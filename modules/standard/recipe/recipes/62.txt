@@ -1,0 +1,115 @@
+Name: Jewels
+Author: 
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Ingredients</font><font color=#009B00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+a Ring or Bracer
+(ie:#L "Engagement Ring" "136603")
+<img src=rdb://84061>
+
+#L "Generic Ring Template" "151365"
+<img src=rdb://84063>
+
+#L "Personal Furnace" "150930"
+<img src=rdb://149949>
+
+#L "Precious Metal Reclaimer" "150929"
+<img src=rdb://149942>
+
+#L "Wire Drawing Machine" "150917"
+<img src=rdb://149952>
+
+And, if you want to crimp it :
+#L "Perfectly Cut Gem" "151552" #L "Recipe" "/tell <myname> recipe 117"
+<img src=rdb://136593>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Recipe</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Precious Metal Reclaimer
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+a Ring or Bracer
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://151012>
+an Ingot
+(ie:#L "Small Gold Ingot" "151369")
+</font><font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>
+
+</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>
+
+Personal Furnace
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+an Ingot
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://149950>
+Liquid Metal
+(ie:#L "Liquid Gold" "151372")
+</font><font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>
+
+</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>
+
+Wire Drawing Machine
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Liquid Metal
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://151015>
+Metal Wire
+(ie:#L "Gold Filigree Wire" "151368")
+</font><font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>
+
+</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>
+
+Generic Ring Template
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Metal Wire
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://151923>
+Precious Metal Filigree Ring
+(ie:#L "Gold Filigree Ring" "151375")
+</font><font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>
+
+</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>
+
+From this point, two paths are possible... either sell this ring or crimp it with a Valuable Stone to make it even more valuable. to crimp it, follow this recipe:
+
+</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>
+
+Perfectly Cut Stone
+</font><font color=#FFFFFF>+</font><font color=#009B00>
+Precious Metal Filigree Ring
+</font><font color=#FFFFFF>=</font><font color=#009B00>
+<img src=rdb://84061>
+Crimped Ring
+(ie:#L "Gold Filigree Ring set with a Perfectly Cut Gem" "151541")
+</font><font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>
+
+</font><font color=#FFFF00>------------------------------
+</font><font color=#FF0000>Comments</font><font color=#FFFF00>
+</font><font color=#FFFF00>------------------------------</font><font color=#009B00>
+
+Considering the time involved in the matching of QLs and the actual crafting, it's not really worth it for me. But if you have some Mechanical Engineering Skill, it may still be interesting...
+
+Making Jewels with SL stones will give you some little buff according to this :
+    
+<highlight>Almandine<end> - Strength / Agility  
+<highlight>Amber<end> - Melee init / Psychic Init / Ranged Init  
+<highlight>Aquamarine<end> - SensoryImp. / Psycho Mod / MaxHealth  
+<highlight>Balas Ruby<end> - AddAllOff  
+<highlight>Black Opal<end> - AddAllDef  
+<highlight>Chrysoberyl<end> - Max Health / Heal Delta  
+<highlight>Coral<end> - Nano Delta / Heal Delta / Max health  
+<highlight>Demantoid<end> - MeleeDamageMod / ProjectileDamageM / EnergyDamageMod  
+<highlight>Diamond<end> - SpaceTime / PshychoMod  
+<highlight>Emerald<end> - BiologicalMet. / SensoryImprov.  
+<highlight>Fire Opal<end> - FireAc / MaxHealth  
+<highlight>Jet<end> - MaterialMet. / NanoC.Init  
+<highlight>Pearl<end> - ChemicalAC / ColdDamageMod.  
+<highlight>Red Beryl<end> - Stamina / Intelligence  
+<highlight>Ruby Pearl<end> - Sense / Intelligence  
+<highlight>Sapphire<end> - MaterialMet. / BiologicalMet / MaxNcu  
+<highlight>Star Ruby<end> - MaterialCreation / SpaceTime / MaxNanoEnergy  
+<highlight>Topaz<end> - EnergyAC / ProjectileAC  
+<highlight>Water Opal<end> - NanoDelta / MaxNanoEnergy  
+<highlight>White Opal<end> - ColdAC / PoisonAC
