@@ -1,3 +1,4 @@
+from core.registry import Registry
 from core.setting_types import BooleanSettingType
 import unittest
 
@@ -15,8 +16,8 @@ class MockSettingService:
 
 class SettingTypesTest(unittest.TestCase):
     def test_boolean_setting_type(self):
+        Registry.add_instance("setting_service", MockSettingService())
         setting = BooleanSettingType()
-        setting.setting_service = MockSettingService()
 
         setting.set_value("true")
         self.assertTrue(setting.get_value())
