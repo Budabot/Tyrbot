@@ -40,7 +40,7 @@ class TopicController:
         topic_message = args[1]
 
         topic = {"topic_message": topic_message,
-                 "created_by": sender.row,
+                 "created_by": sender,
                  "created_at": int(time.time())}
 
         self.topic().set_value(topic)

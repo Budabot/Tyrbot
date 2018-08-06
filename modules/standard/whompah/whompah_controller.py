@@ -46,7 +46,7 @@ class WhompahController:
         for city in data:
             rel = cities.get(city.id, {}).get("rel", [])
             rel.append(city.city_rel)
-            cities[city.id] = city.row
+            cities[city.id] = city
             cities[city.id]["rel"] = rel
 
         path = self.format_path(self.find_path(cities, city1.id, city2.id))
