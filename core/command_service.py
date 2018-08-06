@@ -16,6 +16,8 @@ import html
 
 @instance()
 class CommandService:
+    NO_RESPONSE_SYMBOL = type('', (object,), {})()
+
     PRIVATE_CHANNEL = "priv"
     ORG_CHANNEL = "org"
     PRIVATE_MESSAGE = "msg"
@@ -151,7 +153,12 @@ class CommandService:
                 if matches:
                     if handler["check_access"](char_id, cmd_config.access_level):
                         sender = SenderObj(char_id, self.character_service.resolve_char_to_name(char_id, "Unknown(%d)" % char_id))
-                        handler["callback"](channel, sender, reply, self.process_matches(matches, handler["params"]))
+                        response = handler["callback"](channel, sender, reply, self.process_matches(matches, handler["params"]))
+                        if response != self.NO_RESPONSE_SYMBOL:
+                            if response:
+                                reply(response)
+                            else:
+                                self.logger.warning("No response returned for cmd: '%s'" % message)
 
                         # record command usage
                         self.usage_service.add_usage(command_str, handler["callback"].__qualname__, char_id, channel)

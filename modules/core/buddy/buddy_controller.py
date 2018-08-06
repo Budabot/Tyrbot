@@ -20,7 +20,7 @@ class BuddyController:
 
         blob = self.format_buddies(buddy_list)
 
-        reply(ChatBlob("Buddy List (%d)" % len(buddy_list), blob))
+        return ChatBlob("Buddy List (%d)" % len(buddy_list), blob)
 
     @command(command="buddylist", params=[Const("add"), Any("character"), Any("type")], access_level="superadmin",
              description="Add a character to the buddy list")
@@ -31,9 +31,9 @@ class BuddyController:
         char_id = self.character_service.resolve_char_to_id(char_name)
         if char_id:
             self.buddy_service.add_buddy(char_id, _type)
-            reply("Character <highlight>%s<end> has been added to the buddy list for type <highlight>%s<end>." % (char_name, _type))
+            return "Character <highlight>%s<end> has been added to the buddy list for type <highlight>%s<end>." % (char_name, _type)
         else:
-            reply("Could not find character <highlight>%s<end>." % char_name)
+            return "Could not find character <highlight>%s<end>." % char_name
 
     @command(command="buddylist", params=[Options(["rem", "remove"]), Any("character"), Any("type")], access_level="superadmin",
              description="Remove a character from the buddy list")
@@ -44,9 +44,9 @@ class BuddyController:
         char_id = self.character_service.resolve_char_to_id(char_name)
         if char_id:
             self.buddy_service.remove_buddy(char_id, _type)
-            reply("Character <highlight>%s<end> has been removed from the buddy list for type <highlight>%s<end>." % (char_name, _type))
+            return "Character <highlight>%s<end> has been removed from the buddy list for type <highlight>%s<end>." % (char_name, _type)
         else:
-            reply("Could not find character <highlight>%s<end>." % char_name)
+            return "Could not find character <highlight>%s<end>." % char_name
 
     @command(command="buddylist", params=[Options(["remall", "removeall"])], access_level="superadmin",
              description="Remove all characters from the buddy list")
@@ -56,7 +56,7 @@ class BuddyController:
             self.buddy_service.remove_buddy(char_id, None, True)
             count += 1
 
-        reply("Removed all <highlight>%d<end> buddies from the buddy list." % count)
+        return "Removed all <highlight>%d<end> buddies from the buddy list." % count
 
     @command(command="buddylist", params=[Const("clean")], access_level="superadmin",
              description="Remove all orphaned buddies from the buddy list")
@@ -67,7 +67,7 @@ class BuddyController:
                 self.buddy_service.remove_buddy(char_id, None, True)
                 count += 1
 
-        reply("Removed <highlight>%d<end> orphaned buddies from the buddy list." % count)
+        return "Removed <highlight>%d<end> orphaned buddies from the buddy list." % count
 
     @command(command="buddylist", params=[Const("search"), Any("character")], access_level="superadmin",
              description="Remove all characters from the buddy list")
@@ -82,7 +82,7 @@ class BuddyController:
 
         blob = self.format_buddies(buddy_list)
 
-        reply(ChatBlob("Buddy List Search Results (%d)" % len(buddy_list), blob))
+        return ChatBlob("Buddy List Search Results (%d)" % len(buddy_list), blob)
 
     def format_buddies(self, buddy_list):
         buddy_list = sorted(buddy_list, key=lambda x: x[0])

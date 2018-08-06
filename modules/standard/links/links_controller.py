@@ -30,7 +30,7 @@ class LinksController:
                                                        row.name,
                                                        self.text.make_chatcmd("Remove", "/tell <myname> links remove %d" % row.id))
 
-        reply(ChatBlob("Links (%d)" % len(data), blob))
+        return ChatBlob("Links (%d)" % len(data), blob)
 
     @command(command="links", params=[Const("add"), Any("website"), Any("comment")], access_level="moderator",
              description="Add a link")
@@ -39,11 +39,10 @@ class LinksController:
         comment = args[2]
 
         if not website.startswith("https://") and not website.startswith("http://"):
-            reply("Website must start with 'http://' or 'https://'.")
-            return
+            return "Website must start with 'http://' or 'https://'."
 
         self.db.exec("INSERT INTO links (char_id, website, comments, created_at) VALUES (?, ?, ?, ?)", [sender.char_id, website, comment, int(time.time())])
-        reply("Link added successfully.")
+        return "Link added successfully."
 
     @command(command="links", params=[Options(["rem", "remove"]), Int("link_id")], access_level="moderator",
              description="Remove a link")
@@ -52,8 +51,7 @@ class LinksController:
 
         link = self.db.query_single("SELECT * FROM links WHERE id = ?", [link_id])
         if not link:
-            reply("Could not find link with ID <highlight>%d<end>." % link_id)
-            return
+            return "Could not find link with ID <highlight>%d<end>." % link_id
 
         self.db.exec("DELETE FROM links WHERE id = ?", [link_id])
-        reply("Link has been deleted")
+        return "Link has been deleted"

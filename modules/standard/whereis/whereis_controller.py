@@ -28,9 +28,9 @@ class WhereisController:
                     blob += " " + self.text.make_chatcmd("waypoint: %sx%s %s" % (row.xcoord, row.ycoord, row.short_name),
                                                          "/waypoint %s %s %d" % (row.xcoord, row.ycoord, row.playfield_id))
                 blob += "\n\n"
-            reply(ChatBlob("Whereis '%s' (%d)" % (search, count), blob, "this is a footer"))
+            return ChatBlob("Whereis '%s' (%d)" % (search, count), blob, "this is a footer")
         else:
-            reply("Could not find any results for your search.")
+            return "Could not find any results for your search."
 
     def search_whereis(self, search):
         return self.db.query(

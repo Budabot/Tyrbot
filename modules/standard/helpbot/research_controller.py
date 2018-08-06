@@ -18,8 +18,7 @@ class ResearchController:
         research_level = args[0]
 
         if research_level > 10 or research_level < 1:
-            reply("Research level must be between 1 and 10.")
-            return
+            return "Research level must be between 1 and 10."
 
         row = self.db.query_single("SELECT * FROM research WHERE level = ?", [research_level])
 
@@ -30,7 +29,7 @@ class ResearchController:
         blob += "This equals <highlight>%s XP<end>.\n\n" % (self.util.format_number(row.sk * 1000))
         blob += "Your research will cap at <highlight>%s XP<end> or <highlight>%s SK<end>." % (self.util.format_number(capsk * 1000), self.util.format_number(capsk))
 
-        reply(ChatBlob("Research Level %d" % research_level, blob))
+        return ChatBlob("Research Level %d" % research_level, blob)
 
     @command(command="research", params=[Int("research_level"), Int("research_level")], access_level="all",
              description="Show the amount of SK needed from one research level to another")
@@ -39,11 +38,9 @@ class ResearchController:
         research_level2 = args[1]
 
         if research_level1 > 10 or research_level1 < 1 or research_level2 > 10 or research_level2 < 1:
-            reply("Research level must be between 1 and 10.")
-            return
+            return "Research level must be between 1 and 10."
         elif research_level1 == research_level2:
-            reply("You must specify different research levels.")
-            return
+            return "You must specify different research levels."
 
         if research_level1 > research_level2:
             # swap researches so the lower is research_level1 and higher is research_level2
@@ -56,4 +53,4 @@ class ResearchController:
                 % (self.util.format_number(row.total_sk), research_level1, research_level2)
         blob += "This equals <highlight>%s XP<end>." % self.util.format_number(row.total_sk * 1000)
 
-        reply(ChatBlob("Research Levels %d - %d" % (research_level1, research_level2), blob))
+        return ChatBlob("Research Levels %d - %d" % (research_level1, research_level2), blob)

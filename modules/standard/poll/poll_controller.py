@@ -35,7 +35,7 @@ class PollController:
 
             blob += "%d. %s (%d) - %s\n" % (poll.id, self.text.make_chatcmd(poll.question, "/tell <myname> poll %d" % poll.id), poll.total_cnt, time_string)
 
-        reply(ChatBlob("Polls (%d)" % len(polls), blob))
+        return ChatBlob("Polls (%d)" % len(polls), blob)
 
     @command(command="poll", params=[Int("poll_id")], access_level="all",
              description="View a poll", extended_description="View information for a poll")
@@ -44,10 +44,9 @@ class PollController:
         poll = self.get_poll(poll_id)
 
         if not poll:
-            reply("Could not find poll with ID <highlight>%d<end>." % poll_id)
-            return
+            return "Could not find poll with ID <highlight>%d<end>." % poll_id
 
-        reply(self.show_poll_details_blob(poll))
+        return self.show_poll_details_blob(poll)
 
     @command(command="poll", params=[Const("add"), Any("duration|poll_question|option1|option2|...")], access_level="all",
              description="Add a poll")
@@ -55,8 +54,7 @@ class PollController:
         options = args[1].split("|")
 
         if len(options) < 4:
-            reply("You must enter a duration, a poll question, and at least two choices.")
-            return
+            return "You must enter a duration, a poll question, and at least two choices."
 
         time_str = options.pop(0)
         question = options.pop(0)
@@ -64,8 +62,7 @@ class PollController:
 
         duration = self.util.parse_time(time_str)
         if duration == 0:
-            reply("You must enter a valid duration.")
-            return
+            return "You must enter a valid duration."
 
         poll_id = self.add_poll(question, sender.char_id, duration)
         for choice in choices:
@@ -73,7 +70,7 @@ class PollController:
 
         self.create_scheduled_job(self.get_poll(poll_id))
 
-        reply(self.show_poll_details_blob(self.get_poll(poll_id)))
+        return self.show_poll_details_blob(self.get_poll(poll_id))
 
     @command(command="poll", params=[Int("poll_id"), Const("vote"), Int("choice_id")], access_level="all",
              description="Vote on a poll")
@@ -83,21 +80,19 @@ class PollController:
 
         poll = self.get_poll(poll_id)
         if not poll:
-            reply("Could not find poll with id <highlight>%d<end>." % poll_id)
-            return
+            return "Could not find poll with id <highlight>%d<end>." % poll_id
 
         choice = self.db.query_single("SELECT * FROM poll_choice WHERE poll_id = ? AND id = ?", [poll_id, choice_id])
         if not choice:
-            reply("Could not find choice with id <highlight>%d<end> for poll id <highlight>%d<end>." % (choice_id, poll_id))
-            return
+            return "Could not find choice with id <highlight>%d<end> for poll id <highlight>%d<end>." % (choice_id, poll_id)
 
         cnt = self.db.exec("DELETE FROM poll_vote WHERE poll_id = ? AND char_id = ?", [poll_id, sender.char_id])
         self.db.exec("INSERT INTO poll_vote (poll_id, choice_id, char_id) VALUES (?, ?, ?)", [poll_id, choice_id, sender.char_id])
 
         if cnt > 0:
-            reply("Your vote has been updated.")
+            return "Your vote has been updated."
         else:
-            reply("Your vote has been saved.")
+            return "Your vote has been saved."
 
     @command(command="poll", params=[Int("poll_id"), Const("remvote")], access_level="all",
              description="Remove your vote on a poll")
@@ -106,14 +101,13 @@ class PollController:
 
         poll = self.get_poll(poll_id)
         if not poll:
-            reply("Could not find poll with id <highlight>%d<end>." % poll_id)
-            return
+            return "Could not find poll with id <highlight>%d<end>." % poll_id
 
         cnt = self.db.exec("DELETE FROM poll_vote WHERE poll_id = ? AND char_id = ?", [poll_id, sender.char_id])
         if cnt > 0:
-            reply("Your vote has been removed.")
+            return "Your vote has been removed."
         else:
-            reply("You have not voted for that choice.")
+            return "You have not voted for that choice."
 
     @event(event_type="connect", description="Check for finished polls")
     def connect_event(self, event_type, event_data):

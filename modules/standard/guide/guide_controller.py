@@ -24,7 +24,7 @@ class GuideController:
         for guide in guides:
             blob += self.text.make_chatcmd(guide, "/tell <myname> guides " + guide) + "\n"
 
-        reply(ChatBlob("Guides (%d)" % len(guides), blob))
+        return ChatBlob("Guides (%d)" % len(guides), blob)
 
     @command(command="guides", params=[Any("guide")], access_level="all",
              description="Show the guide details")
@@ -34,9 +34,9 @@ class GuideController:
 
         try:
             with open(file_path, "r") as f:
-                reply(ChatBlob(guide.capitalize(), f.read()))
+                return ChatBlob(guide.capitalize(), f.read())
         except FileNotFoundError:
-            reply("Could not find guide <highlight>%s<end>." % guide)
+            return "Could not find guide <highlight>%s<end>." % guide
 
     def get_base_path(self):
         return os.path.dirname(os.path.realpath(__file__)) + os.sep + "guides"

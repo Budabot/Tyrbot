@@ -27,9 +27,9 @@ class ItemsController:
 
         if cnt == 0:
             if ql:
-                reply("No QL <highlight>%d<end> items found matching <highlight>%s<end>." % (ql, search))
+                return "No QL <highlight>%d<end> items found matching <highlight>%s<end>." % (ql, search)
             else:
-                reply("No items found matching <highlight>%s<end>." % search)
+                return "No items found matching <highlight>%s<end>." % search
         else:
             blob = ""
             blob += "Version: <highlight>%s<end>\n" % "unknown"
@@ -41,7 +41,7 @@ class ItemsController:
             blob += self.format_items(items, ql)
             blob += "\nItem DB rips created using the %s tool." % self.text.make_chatcmd("Budabot Items Extractor", "/start https://github.com/Budabot/ItemsExtractor")
 
-            reply(ChatBlob("Item Search Results (%d - %d of %d)" % (offset + 1, min(offset + page_size, len(all_items)), len(all_items)), blob))
+            return ChatBlob("Item Search Results (%d - %d of %d)" % (offset + 1, min(offset + page_size, len(all_items)), len(all_items)), blob)
 
     def format_items(self, items, ql=None):
         blob = ""

@@ -30,7 +30,7 @@ class AlienArmorController:
         blob += self.text.make_chatcmd("Combined Scout's Armor", "/tell <myname> aiarmor cs") + "\n"
         blob += self.text.make_chatcmd("Combined Sharpshooter's Armor", "/tell <myname> aiarmor css")
 
-        reply(ChatBlob("Alien Armor", blob))
+        return ChatBlob("Alien Armor", blob)
 
     @command(command="aiarmor", params=[Options(["strong", "supple", "enduring", "observant", "arithmetic", "spiritual"]), Int("ql", is_optional=True)], access_level="all",
              description="Show the process for making normal alien armor")
@@ -148,7 +148,7 @@ class AlienArmorController:
         blob += "<highlight>Required Skills:<end>\n"
         blob += "- %d Psychology\n\n" % math.floor(ql * 6)
 
-        reply(ChatBlob("Building process for %d %s" % (ql, armor_type), blob))
+        return ChatBlob("Building process for %d %s" % (ql, armor_type), blob)
 
     @command(command="aiarmor", params=[Options(["cc", "cm", "co", "cp", "cs", "css", "ss"]), Int("ql", is_optional=True)], access_level="all",
              description="Show the process for making combined alien armor", extended_description="CSS and SS both refer to Combined Sharpshooters")
@@ -222,7 +222,7 @@ class AlienArmorController:
         blob += "%s QL%d" % (self.text.format_item(self.items_controller.get_by_item_id(target_armor_id), target_ql), target_ql)
         blob += " (%s)" % self.text.make_chatcmd("Tradeskill process for this item", "/tell <myname> aiarmor %s %d" % (name_target, target_ql))
 
-        reply(ChatBlob("Building process for %d %s" % (target_ql, result_item.name), blob))
+        return ChatBlob("Building process for %d %s" % (target_ql, result_item.name), blob)
 
     def display_item_by_name(self, name, ql):
         return self.text.format_item(self.items_controller.find_by_name(name, ql), ql)

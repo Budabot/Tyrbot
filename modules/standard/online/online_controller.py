@@ -53,7 +53,7 @@ class OnlineController:
                 blob += " | <highlight>%s<end> (%d/<green>%d<end>) %s %s%s\n" % (row.name, row.level or 0, row.ai_level or 0, row.faction, row.profession, afk)
             blob += "\n\n"
 
-        reply(ChatBlob("Online (%d)" % count, blob))
+        return ChatBlob("Online (%d)" % count, blob)
 
     @command(command="count", params=[], access_level="all",
              description="Show counts of players by title level, profession, and organization")
@@ -89,7 +89,7 @@ class OnlineController:
             if count > 0:
                 blob += "%s: %d\n" % (org, count)
 
-        reply(ChatBlob("Count (%d)" % len(data), blob))
+        return ChatBlob("Count (%d)" % len(data), blob)
 
     def get_online_characters(self, channel):
         sql = "SELECT p1.*, o.afk_dt, o.afk_reason, COALESCE(p2.name, p1.name, o.char_id) AS main, IFNULL(p1.name, o.char_id) AS name FROM online o " \

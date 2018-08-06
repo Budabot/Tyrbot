@@ -23,7 +23,7 @@ class WhompahController:
         for city in cities:
             blob += "%s (%s)\n" % (city.city_name, self.text.make_chatcmd(city.short_name, "/tell <myname> whompah %s" % city.short_name))
 
-        reply(ChatBlob("Whompah Cities", blob))
+        return ChatBlob("Whompah Cities", blob)
 
     @command(command="whompah", params=[Any("city1"), Any("city2")], access_level="all",
              description="Show whompah route between two cities")
@@ -34,11 +34,9 @@ class WhompahController:
         city2 = self.get_whompah_city(city_name2)
 
         if not city1:
-            reply("Could not find whompah city <highlight>%s<end>." % city_name1)
-            return
+            return "Could not find whompah city <highlight>%s<end>." % city_name1
         elif not city2:
-            reply("Could not find whompah city <highlight>%s<end>." % city_name2)
-            return
+            return "Could not find whompah city <highlight>%s<end>." % city_name2
 
         data = self.db.query("SELECT w1.*, w2.city2_id AS city_rel FROM whompah_cities w1 JOIN whompah_cities_rel w2 ON w1.id = w2.city1_id")
 
@@ -50,7 +48,7 @@ class WhompahController:
             cities[city.id]["rel"] = rel
 
         path = self.format_path(self.find_path(cities, city1.id, city2.id))
-        reply(" -> ".join(path))
+        return " -> ".join(path)
 
     @command(command="whompah", params=[Any("city")], access_level="all",
              description="Show whompah destinations for a city")
@@ -59,13 +57,12 @@ class WhompahController:
         city = self.get_whompah_city(city_name)
 
         if not city:
-            reply("Could not find whompah city <highlight>%s<end>." % city_name)
-            return
+            return "Could not find whompah city <highlight>%s<end>." % city_name
 
         cities = self.db.query("SELECT w2.* FROM whompah_cities_rel w1 JOIN whompah_cities w2 ON w1.city2_id = w2.id WHERE w1.city1_id = ?", [city.id])
         msg = "From %s you can get to: " % city.city_name
         msg += ", ".join(map(lambda x: "<highlight>%s<end> (%s)" % (x.city_name, x.short_name), cities))
-        reply(msg)
+        return msg
 
     def get_whompah_city(self, city):
         return self.db.query_single("SELECT id, city_name, zone, faction, short_name FROM whompah_cities WHERE city_name LIKE ? OR short_name LIKE ?", [city, city])

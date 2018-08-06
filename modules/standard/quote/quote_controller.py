@@ -18,9 +18,9 @@ class QuoteController:
         quote = self.get_quote_info()
 
         if quote:
-            reply(quote)
+            return quote
         else:
-            reply("There are no quotes to display.")
+            return "There are no quotes to display."
 
     @command(command="quote", params=[Int("quote_id")], access_level="all",
              description="Show a specific quote")
@@ -30,9 +30,9 @@ class QuoteController:
         quote = self.get_quote_info(quote_id)
 
         if quote:
-            reply(quote)
+            return quote
         else:
-            reply("Could not find quote with ID <highlight>%d<end>." % quote_id)
+            return "Could not find quote with ID <highlight>%d<end>." % quote_id
 
     @command(command="quote", params=[Const("add"), Any("quote")], access_level="all",
              description="Show a specific quote")
@@ -40,12 +40,11 @@ class QuoteController:
         quote = args[1]
 
         if len(quote) > 4096:
-            reply("Your quote must be less than 4096 characters.")
-            return
+            return "Your quote must be less than 4096 characters."
 
         self.db.exec("INSERT INTO quote (char_id, created_at, content) VALUES (?, ?, ?)", [sender.char_id, int(time.time()), quote])
 
-        reply("Your quote has been added successfully.")
+        return "Your quote has been added successfully."
 
     def get_quote_info(self, quote_id=None):
         stats = self.db.query_single("SELECT COUNT(1) AS count, MAX(id) AS max FROM quote")

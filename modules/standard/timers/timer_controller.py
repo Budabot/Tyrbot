@@ -35,7 +35,7 @@ class TimerController:
             blob += "Time left: <highlight>%s<end>\n" % self.util.time_to_readable(timer.created_at + timer.duration - t, max_levels=None)
             blob += "Owner: <highlight>%s<end>\n\n" % timer.char_name
 
-        reply(ChatBlob("Timers (%d)" % len(data), blob))
+        return ChatBlob("Timers (%d)" % len(data), blob)
 
     @command(command="timers", params=[Const("add", is_optional=True), Time("time"), Any("name", is_optional=True)], access_level="all",
              description="Add a timer")
@@ -44,12 +44,11 @@ class TimerController:
         timer_name = args[2] or self.get_timer_name(sender.name)
 
         if self.get_timer(timer_name):
-            reply("A timer named <highlight>%s<end> is already running." % timer_name)
-            return
+            return "A timer named <highlight>%s<end> is already running." % timer_name
 
         self.add_timer(timer_name, sender.char_id, channel, duration)
 
-        reply("Timer <highlight>%s<end> has been set for %s." % (timer_name, self.util.time_to_readable(duration, max_levels=None)))
+        return "Timer <highlight>%s<end> has been set for %s." % (timer_name, self.util.time_to_readable(duration, max_levels=None))
 
     def get_timer_name(self, base_name):
         # attempt base name first

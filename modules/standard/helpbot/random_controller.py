@@ -23,7 +23,7 @@ class RandomController:
     def random_command(self, channel, sender, reply, args):
         options = args[0].split(" ")
         random.shuffle(options)
-        reply(" ".join(options))
+        return " ".join(options)
 
     @command(command="roll", params=[Int("start_value", is_optional=True), Int("end_value")], access_level="all",
              description="Roll a number between 1 and a number")
@@ -38,7 +38,7 @@ class RandomController:
 
         self.db.exec("INSERT INTO roll (char_id, min_value, max_value, result, created_at) VALUES (?, ?, ?, ?, ?)", [sender.char_id, start, end, result, int(time.time())])
 
-        reply("Rolling between %d and %d: <highlight>%d<end>. /tell <myname> roll verify %d" % (start, end, result, self.db.last_insert_id()))
+        return "Rolling between %d and %d: <highlight>%d<end>. /tell <myname> roll verify %d" % (start, end, result, self.db.last_insert_id())
 
     @command(command="roll", params=[Const("verify"), Int("roll_id")], access_level="all",
              description="Verify a roll that happened")
@@ -48,8 +48,8 @@ class RandomController:
         row = self.db.query_single("SELECT * FROM roll WHERE id = ?", [roll_id])
 
         if not row:
-            reply("Could not find roll with id <highlight>%d<end>." % roll_id)
+            return "Could not find roll with id <highlight>%d<end>." % roll_id
         else:
             time_string = self.util.time_to_readable(int(time.time()) - row.created_at)
             name = self.character_service.resolve_char_to_name(row.char_id)
-            reply("Rolling between %d and %d: <highlight>%d<end>. %s ago for %s." % (row.min_value, row.max_value, row.result, time_string, name))
+            return "Rolling between %d and %d: <highlight>%d<end>. %s ago for %s." % (row.min_value, row.max_value, row.result, time_string, name)

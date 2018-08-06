@@ -16,9 +16,9 @@ class SqlController:
         sql = args[1]
         try:
             results = self.db.query(sql)
-            reply(ChatBlob("Results (%d)" % len(results), json.dumps(results, indent=4, sort_keys=True)))
+            return ChatBlob("Results (%d)" % len(results), json.dumps(results, indent=4, sort_keys=True))
         except Exception as e:
-            reply("There was an error executing your query: %s" % str(e))
+            return "There was an error executing your query: %s" % str(e)
 
     @command(command="sql", params=[Const("exec"), Any("sql_statement")], access_level="superadmin",
              description="Execute a SQL query and return number of affected rows")
@@ -26,6 +26,6 @@ class SqlController:
         sql = args[1]
         try:
             row_count = self.db.exec(sql)
-            reply("%d row(s) affected." % row_count)
+            return "%d row(s) affected." % row_count
         except Exception as e:
-            reply("There was an error executing your query: %s" % str(e))
+            return "There was an error executing your query: %s" % str(e)

@@ -21,10 +21,9 @@ class CharacterHistoryController:
 
         data = self.character_history_service.get_character_history(name, server_num)
         if not data:
-            reply("Could not find history for <highlight>%s<end> on server <highlight>%d<end>." % (name, server_num))
-            return
+            return "Could not find history for <highlight>%s<end> on server <highlight>%d<end>." % (name, server_num)
 
-        reply(ChatBlob("History of %s (RK%d)" % (name, server_num), self.format_character_history(name, data)))
+        return ChatBlob("History of %s (RK%d)" % (name, server_num), self.format_character_history(name, data))
 
     def format_character_history(self, name, history):
         blob = "Date           Level    AI     Faction    Breed        Guild (rank)\n"

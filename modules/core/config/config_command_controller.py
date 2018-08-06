@@ -29,8 +29,7 @@ class ConfigCommandController:
         enabled = 1 if action == "enable" else 0
 
         if cmd_channel != "all" and not self.command_service.is_command_channel(cmd_channel):
-            reply("Unknown command channel <highlight>%s<end>." % cmd_channel)
-            return
+            return "Unknown command channel <highlight>%s<end>." % cmd_channel
 
         sql = "UPDATE command_config SET enabled = ? WHERE command = ? AND sub_command = ?"
         params = [enabled, command_str, sub_command_str]
@@ -40,12 +39,12 @@ class ConfigCommandController:
 
         count = self.db.exec(sql, params)
         if count == 0:
-            reply("Could not find command <highlight>%s<end> for channel <highlight>%s<end>." % (cmd_name, cmd_channel))
+            return "Could not find command <highlight>%s<end> for channel <highlight>%s<end>." % (cmd_name, cmd_channel)
         else:
             if cmd_channel == "all":
-                reply("Command <highlight>%s<end> has been <highlight>%sd<end> successfully." % (cmd_name, action))
+                return "Command <highlight>%s<end> has been <highlight>%sd<end> successfully." % (cmd_name, action)
             else:
-                reply("Command <highlight>%s<end> for channel <highlight>%s<end> has been <highlight>%sd<end> successfully." % (cmd_name, channel, action))
+                return "Command <highlight>%s<end> for channel <highlight>%s<end> has been <highlight>%sd<end> successfully." % (cmd_name, channel, action)
 
     @command(command="config", params=[Const("cmd"), Any("cmd_name"), Const("access_level"), Any("channel"), Any("access_level")], access_level="superadmin",
              description="Change access_level for a command")
@@ -56,12 +55,10 @@ class ConfigCommandController:
         command_str, sub_command_str = self.command_service.get_command_key_parts(cmd_name)
 
         if cmd_channel != "all" and not self.command_service.is_command_channel(cmd_channel):
-            reply("Unknown command channel <highlight>%s<end>." % cmd_channel)
-            return
+            return "Unknown command channel <highlight>%s<end>." % cmd_channel
 
         if self.access_service.get_access_level_by_label(access_level) is None:
-            reply("Unknown access level <highlight>%s<end>." % access_level)
-            return
+            return "Unknown access level <highlight>%s<end>." % access_level
 
         sql = "UPDATE command_config SET access_level = ? WHERE command = ? AND sub_command = ?"
         params = [access_level, command_str, sub_command_str]
@@ -71,12 +68,12 @@ class ConfigCommandController:
 
         count = self.db.exec(sql, params)
         if count == 0:
-            reply("Could not find command <highlight>%s<end> for channel <highlight>%s<end>." % (cmd_name, cmd_channel))
+            return "Could not find command <highlight>%s<end> for channel <highlight>%s<end>." % (cmd_name, cmd_channel)
         else:
             if cmd_channel == "all":
-                reply("Access level <highlight>%s<end> for command <highlight>%s<end> has been set successfully." % (access_level, cmd_name))
+                return "Access level <highlight>%s<end> for command <highlight>%s<end> has been set successfully." % (access_level, cmd_name)
             else:
-                reply("Access level <highlight>%s<end> for command <highlight>%s<end> on channel <highlight>%s<end> has been set successfully." % (access_level, cmd_name, channel))
+                return "Access level <highlight>%s<end> for command <highlight>%s<end> on channel <highlight>%s<end> has been set successfully." % (access_level, cmd_name, channel)
 
     @command(command="config", params=[Const("cmd"), Any("cmd_name")], access_level="superadmin",
              description="Show command configuration")
@@ -121,6 +118,6 @@ class ConfigCommandController:
         if blob:
             # include help text
             blob += "\n\n".join(map(lambda handler: handler["help"], self.command_service.get_handlers(cmd_name)))
-            reply(ChatBlob("Command (%s)" % cmd_name, blob))
+            return ChatBlob("Command (%s)" % cmd_name, blob)
         else:
-            reply("Could not find command <highlight>%s<end>." % cmd_name)
+            return "Could not find command <highlight>%s<end>." % cmd_name

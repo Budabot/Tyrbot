@@ -19,7 +19,7 @@ class AlienGeneralController:
         for general in generals:
             blob += self.text.make_chatcmd(general, "/tell <myname> aigen %s" % general) + "\n"
 
-        reply(ChatBlob("Alien Generals", blob))
+        return ChatBlob("Alien Generals", blob)
 
     @command(command="aigen", params=[Options(["ankari", "ilari", "rimah", "jaax", "xoch", "cha"])], access_level="all",
              description="Show info about an alien city ground general")
@@ -66,4 +66,4 @@ class AlienGeneralController:
             blob += self.text.format_item(self.items_controller.get_by_item_id(247696)) + "\n\n"  # type 13
             blob += self.text.format_item(self.items_controller.get_by_item_id(247674))  # type 76
 
-        reply(ChatBlob("General %s" % general, blob))
+        return ChatBlob("General %s" % general, blob)

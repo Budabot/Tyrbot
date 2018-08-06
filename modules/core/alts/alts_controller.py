@@ -19,7 +19,7 @@ class AltsController:
         for alt in alts:
             blob += "<highlight>%s<end> (%d/<green>%d<end>) %s %s%s\n" % (alt.name, alt.level, alt.ai_level, alt.faction, alt.profession, self.get_alt_status(alt.status))
 
-        reply(ChatBlob("Alts of %s (%d)" % (alts[0].name, len(alts)), blob))
+        return ChatBlob("Alts of %s (%d)" % (alts[0].name, len(alts)), blob)
 
     def get_alt_status(self, status):
         if status == AltsService.MAIN:
@@ -34,18 +34,16 @@ class AltsController:
         alt_char_id = self.character_service.resolve_char_to_id(alt_char_name)
 
         if not alt_char_id:
-            reply("Could not find character <highlight>%s<end>." % alt_char_name)
-            return
+            return "Could not find character <highlight>%s<end>." % alt_char_name
         elif alt_char_id == sender.char_id:
-            reply("You cannot register yourself as an alt.")
-            return
+            return "You cannot register yourself as an alt."
 
         msg, result = self.alts_service.add_alt(sender.char_id, alt_char_id)
         if result:
-            reply("<highlight>%s<end> has been added as your alt." % alt_char_name)
             self.bot.send_private_message(alt_char_id, "<highlight>%s<end> has added you as an alt." % sender.name)
+            return "<highlight>%s<end> has been added as your alt." % alt_char_name
         elif msg == "another_main":
-            reply("<highlight>%s<end> already has alts." % alt_char_name)
+            return "<highlight>%s<end> already has alts." % alt_char_name
         else:
             raise Exception("Unknown msg: " + msg)
 
@@ -56,18 +54,17 @@ class AltsController:
         alt_char_id = self.character_service.resolve_char_to_id(alt)
 
         if not alt_char_id:
-            reply("Could not find character <highlight>%s<end>." % alt)
-            return
+            return "Could not find character <highlight>%s<end>." % alt
 
         msg, result = self.alts_service.remove_alt(sender.char_id, alt_char_id)
         if result:
-            reply("<highlight>%s<end> has been removed as your alt." % alt)
+            return "<highlight>%s<end> has been removed as your alt." % alt
         elif msg == "not_alt":
-            reply("<highlight>%s<end> is not your alt." % alt)
+            return "<highlight>%s<end> is not your alt." % alt
         elif msg == "unconfirmed_sender":
-            reply("You cannot remove alts from an unconfirmed alt.")
+            return "You cannot remove alts from an unconfirmed alt."
         elif msg == "remove_main":
-            reply("You cannot remove your main.")
+            return "You cannot remove your main."
         else:
             raise Exception("Unknown msg: " + msg)
 
@@ -77,12 +74,11 @@ class AltsController:
         name = args[0].capitalize()
         char_id = self.character_service.resolve_char_to_id(name)
         if not char_id:
-            reply("Could not find character <highlight>%s<end>." % name)
-            return
+            return "Could not find character <highlight>%s<end>." % name
 
         alts = self.alts_service.get_alts(char_id)
         blob = ""
         for alt in alts:
             blob += "<highlight>%s<end> (%d/<green>%d<end>) %s %s\n" % (alt.name, alt.level, alt.ai_level, alt.faction, alt.profession)
 
-        reply(ChatBlob("Alts of %s (%d)" % (alts[0].name, len(alts)), blob))
+        return ChatBlob("Alts of %s (%d)" % (alts[0].name, len(alts)), blob)

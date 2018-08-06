@@ -32,13 +32,13 @@ class PrivateChannelController:
         char_id = self.character_service.resolve_char_to_id(char)
         if char_id:
             if self.private_channel_service.in_private_channel(char_id):
-                reply("<highlight>%s<end> is already in the private channel." % char)
+                return "<highlight>%s<end> is already in the private channel." % char
             else:
                 self.bot.send_private_message(char_id, "You have been invited to the private channel by <highlight>%s<end>." % sender.name)
                 self.private_channel_service.invite(char_id)
-                reply("You have invited <highlight>%s<end> to the private channel." % char)
+                return "You have invited <highlight>%s<end> to the private channel." % char
         else:
-            reply("Could not find character <highlight>%s<end>." % char)
+            return "Could not find character <highlight>%s<end>." % char
 
     @command(command="kick", params=[Any("character")], access_level="admin",
              description="Kick a character from the private channel")
@@ -47,16 +47,16 @@ class PrivateChannelController:
         char_id = self.character_service.resolve_char_to_id(char)
         if char_id:
             if not self.private_channel_service.in_private_channel(char_id):
-                reply("<highlight>%s<end> is not in the private channel." % char)
+                return "<highlight>%s<end> is not in the private channel." % char
             else:
                 if self.access_service.has_sufficient_access_level(sender.char_id, char_id):
                     self.bot.send_private_message(char_id, "You have been kicked from the private channel by <highlight>%s<end>." % sender.name)
                     self.private_channel_service.kick(char_id)
-                    reply("You have kicked <highlight>%s<end> from the private channel." % char)
+                    return "You have kicked <highlight>%s<end> from the private channel." % char
                 else:
-                    reply("You do not have the required access level to kick <highlight>%s<end>." % char)
+                    return "You do not have the required access level to kick <highlight>%s<end>." % char
         else:
-            reply("Could not find character <highlight>%s<end>." % char)
+            return "Could not find character <highlight>%s<end>." % char
 
     @command(command="kickall", params=[], access_level="admin",
              description="Kick all characters from the private channel")

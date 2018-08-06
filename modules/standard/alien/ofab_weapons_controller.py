@@ -20,7 +20,7 @@ class OfabWeaponsController:
         for row in data:
             blob += "<pagebreak>%s - Type %d\n" % (self.text.make_chatcmd(row.name, "/tell <myname> ofabweapons %s" % row.name), row.type)
 
-        reply(ChatBlob("Ofab Weapons", blob))
+        return ChatBlob("Ofab Weapons", blob)
 
     @command(command="ofabweapons", params=[Any("weapon"), Int("ql", is_optional=True)], access_level="all",
              description="Show info about an ofab weapon")
@@ -31,8 +31,7 @@ class OfabWeaponsController:
         weapon = self.db.query_single("SELECT type, vp FROM ofab_weapons w, ofab_weapons_cost c WHERE w.name LIKE ? AND c.ql = ?", [weapon_name, ql])
 
         if not weapon:
-            reply("Could not find ofab weapon <highlight>%s<end>." % weapon_name)
-            return
+            return "Could not find ofab weapon <highlight>%s<end>." % weapon_name
 
         type_ql = round(ql * 0.8)
         type_link = self.text.make_chatcmd("Kyr'Ozch Bio-Material - Type %d" % weapon.type, "/tell <myname> bioinfo %d %d" % (weapon.type, type_ql))
@@ -51,4 +50,4 @@ class OfabWeaponsController:
                 blob += "  (<highlight>%d<end> VP)" % weapon.vp
             blob += "\n"
 
-        reply(ChatBlob("Ofab %s (QL %d)" % (weapon_name, ql), blob))
+        return ChatBlob("Ofab %s (QL %d)" % (weapon_name, ql), blob)

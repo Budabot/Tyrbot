@@ -27,9 +27,6 @@ class TowerController:
         self.event_service.register_event_type("tower_victory")
         self.bot.add_packet_handler(server_packets.PublicChannelMessage.id, self.handle_public_channel_message)
 
-    def start(self):
-        pass
-
     def handle_public_channel_message(self, packet: server_packets.PublicChannelMessage):
         if packet.channel_id == self.TOWER_BATTLE_OUTCOME_ID:
             # self.logger.info("tower battle outcome: " + str(packet))

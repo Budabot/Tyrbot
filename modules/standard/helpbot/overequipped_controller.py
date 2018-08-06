@@ -39,4 +39,4 @@ class OverequippedController:
         blob += "25%%: <highlight>%d<end> to <highlight>%d<end>\n" % (oe50 + 1, oe25)
         blob += "0%%: <highlight>%d<end> or higher\n" % (oe25 - 1)
 
-        reply(ChatBlob("%d - %d - %d" % (oe100low, skill_level, oe100), blob))
+        return ChatBlob("%d - %d - %d" % (oe100low, skill_level, oe100), blob)

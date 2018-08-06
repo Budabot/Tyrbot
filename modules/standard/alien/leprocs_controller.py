@@ -22,7 +22,7 @@ class LeProcsController:
 
         blob += "\nProc info provided by Wolfbiter (RK1), Gatester (RK2), DrUrban"
 
-        reply(ChatBlob("LE Procs", blob))
+        return ChatBlob("LE Procs", blob)
 
     @command(command="leprocs", params=[Any("profession")], access_level="all",
              description="Show LE proc information for a specific profession")
@@ -31,8 +31,7 @@ class LeProcsController:
         profession = self.util.get_profession(prof_name)
 
         if not profession:
-            reply("Could not find profession <highlight>%s<end>." % prof_name)
-            return
+            return "Could not find profession <highlight>%s<end>." % prof_name
 
         data = self.db.query("SELECT * FROM leprocs WHERE profession LIKE ? ORDER BY proc_type ASC, research_lvl DESC", [profession])
         proc_type = ""
@@ -47,4 +46,4 @@ class LeProcsController:
         blob += "\n\nNote: Offensive procs have a 5% chance of firing every time you attack; Defensive procs have a 10% chance of firing every time something attacks you."
         blob += "\n\nProc info provided by Wolfbiter (RK1), Gatester (RK2)"
 
-        reply(ChatBlob("%s LE Procs" % profession, blob))
+        return ChatBlob("%s LE Procs" % profession, blob)

@@ -2,8 +2,7 @@ from core.decorators import instance, command
 from core.db import DB
 from core.text import Text
 from core.chat_blob import ChatBlob
-from core.command_param_types import Int, Any, Regex
-import os
+from core.command_param_types import Any, Regex
 import re
 
 
@@ -26,14 +25,14 @@ class TrickleController:
     def trickle_ability_cmd1(self, channel, sender, reply, args):
         abilities_map = self.get_abilities_map(args[0][0], False)
         trickle_amounts = self.get_trickle_amounts(abilities_map)
-        reply(self.format_trickle_output(abilities_map, trickle_amounts))
+        return self.format_trickle_output(abilities_map, trickle_amounts)
 
     @command(command="trickle", params=[Regex("amount ability", "(( ([0-9]+) ([a-z]+))+)")], access_level="all",
              description="Show skill increases due to trickle")
     def trickle_ability_cmd2(self, channel, sender, reply, args):
         abilities_map = self.get_abilities_map(args[0][0], True)
         trickle_amounts = self.get_trickle_amounts(abilities_map)
-        reply(self.format_trickle_output(abilities_map, trickle_amounts))
+        return self.format_trickle_output(abilities_map, trickle_amounts)
 
     @command(command="trickle", params=[Any("skill")], access_level="all",
              description="Show how much ability is needed to trickle a skill")
@@ -44,15 +43,15 @@ class TrickleController:
         count = len(data)
 
         if count == 0:
-            reply("Could not find any skills for <highlight>%s<end>." % search)
+            return "Could not find any skills for <highlight>%s<end>." % search
         elif count == 1:
             row = data[0]
-            reply(self.format_trickle_amounts(row))
+            return self.format_trickle_amounts(row)
         else:
             blob = ""
             for row in data:
                 blob += self.format_trickle_amounts(row) + "\n"
-            reply(ChatBlob("Trickle Info for <highlight>%s<end>" % search, blob))
+            return ChatBlob("Trickle Info for <highlight>%s<end>" % search, blob)
 
     def format_trickle_amounts(self, row):
         msg = "<highlight>%s<end> " % row.name

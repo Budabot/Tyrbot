@@ -37,7 +37,7 @@ class NanoController:
             blob += "%s [%d] %s\n" % (self.text.make_item(row.lowid, row.lowid, row.lowql, row.name), row.lowql, row.location)
         blob += self.get_footer()
 
-        reply(ChatBlob("Nano Search Results for '%s' (%d)" % (search, cnt), blob))
+        return ChatBlob("Nano Search Results for '%s' (%d)" % (search, cnt), blob)
 
     @command(command="nanoloc", params=[], access_level="all",
              description="Show all nano locations")
@@ -49,7 +49,7 @@ class NanoController:
             blob += "%s (%d)\n" % (self.text.make_chatcmd(row.location, "/tell <myname> nanoloc %s" % row.location), row.cnt)
         blob += self.get_footer()
 
-        reply(ChatBlob("Nano Locations", blob))
+        return ChatBlob("Nano Locations", blob)
 
     @command(command="nanoloc", params=[Any("location")], access_level="all",
              description="Show nanos by location")
@@ -70,7 +70,7 @@ class NanoController:
                 blob += " - <highight>%s<end>" % row.profession
             blob += "\n"
 
-        reply(ChatBlob("Nanos for Location '%s' (%d)" % (location, cnt), blob))
+        return ChatBlob("Nanos for Location '%s' (%d)" % (location, cnt), blob)
 
     @command(command="nanolines", params=[], access_level="all",
              description="Show nanos by nanoline")
@@ -82,7 +82,7 @@ class NanoController:
             blob += self.text.make_chatcmd(row.profession, "/tell <myname> nanolines %s" % row.profession) + "\n"
         blob += self.get_footer()
 
-        reply(ChatBlob("Nanolines", blob))
+        return ChatBlob("Nanolines", blob)
 
     @command(command="nanolines", params=[Int("nanoline_id")], access_level="all",
              description="Show nanos by nanoline id")
@@ -91,8 +91,7 @@ class NanoController:
         nanoline = self.db.query_single("SELECT * FROM nanolines WHERE id = ?", [nanoline_id])
 
         if not nanoline:
-            reply("Could not find nanoline with ID <highlight>%d<end>." % nanoline_id)
-            return
+            return "Could not find nanoline with ID <highlight>%d<end>." % nanoline_id
 
         data = self.db.query("SELECT n1.lowid, n1.lowql, n1.name, n1.location "
                              "FROM nanos n1 JOIN nanos_nanolines_ref n2 ON n1.lowid = n2.lowid "
@@ -104,7 +103,7 @@ class NanoController:
             blob += "%s [%d] %s\n" % (self.text.make_item(row.lowid, row.lowid, row.lowql, row.name), row.lowql, row.location)
         blob += self.get_footer()
 
-        reply(ChatBlob("%s %s Nanos" % (nanoline.profession, nanoline.name), blob))
+        return ChatBlob("%s %s Nanos" % (nanoline.profession, nanoline.name), blob)
 
     @command(command="nanolines", params=[Any("profession")], access_level="all",
              description="Show nanolines by profession")
@@ -113,8 +112,7 @@ class NanoController:
 
         profession = self.util.get_profession(prof_name)
         if not profession:
-            reply("Could not find profession <highlight>%s<end>." % prof_name)
-            return
+            return "Could not find profession <highlight>%s<end>." % prof_name
 
         data = self.db.query("SELECT * FROM nanolines WHERE profession = ? ORDER BY name ASC", [profession])
 
@@ -123,7 +121,7 @@ class NanoController:
             blob += self.text.make_chatcmd(row.name, "/tell <myname> nanolines %d" % row.id) + "\n"
         blob += self.get_footer()
 
-        reply(ChatBlob("%s Nanolines" % profession, blob))
+        return ChatBlob("%s Nanolines" % profession, blob)
 
     def get_footer(self):
         return "\n\nNanos DB provided by Saavick & Lucier"

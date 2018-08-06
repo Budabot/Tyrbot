@@ -35,7 +35,7 @@ class NotesController:
                 for row in data:
                     blob += "%s %s\n\n" % (row.note, self.text.make_chatcmd("Remove", "/tell <myname> notes remove %d" % row.id))
 
-        reply(ChatBlob("Notes for %s (%d)" % (alts[0].name, cnt), blob))
+        return ChatBlob("Notes for %s (%d)" % (alts[0].name, cnt), blob)
 
     @command(command="notes", params=[Const("add"), Any("note")], access_level="all",
              description="Add a note")
@@ -44,7 +44,7 @@ class NotesController:
 
         self.db.exec("INSERT INTO notes (char_id, note, created_at) VALUES (?, ?, ?)", [sender.char_id, note, int(time.time())])
 
-        reply("Note added successfully.")
+        return "Note added successfully."
 
     @command(command="notes", params=[Options(["rem", "remove"]), Int("note_id")], access_level="all",
              description="Remove a note")
@@ -54,13 +54,11 @@ class NotesController:
         note = self.db.query_single("SELECT n.*, p.name FROM notes n LEFT JOIN player P ON n.char_id = p.char_id WHERE n.id = ?", [note_id])
 
         if not note:
-            reply("Could not find note with ID <highlight>%d<end>." % note_id)
-            return
+            return "Could not find note with ID <highlight>%d<end>." % note_id
 
         if self.alts_service.get_main(sender.char_id).char_id != self.alts_service.get_main(note.char_id).char_id:
-            reply("You must be a confirmed alt of <highlight>%s<end> to remove this note." % note.name)
-            return
+            return "You must be a confirmed alt of <highlight>%s<end> to remove this note." % note.name
 
         self.db.exec("DELETE FROM notes WHERE id = ?", [note_id])
 
-        reply("Note with ID <highlight>%d<end> deleted successfully." % note_id)
+        return "Note with ID <highlight>%d<end> deleted successfully." % note_id

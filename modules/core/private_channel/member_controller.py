@@ -32,12 +32,12 @@ class MemberController:
         char_id = self.character_service.resolve_char_to_id(char)
         if char_id:
             if self.get_member(char_id):
-                reply("<highlight>%s<end> is already a member." % char)
+                return "<highlight>%s<end> is already a member." % char
             else:
                 self.add_member(char_id)
-                reply("<highlight>%s<end> has been added as a member." % char)
+                return "<highlight>%s<end> has been added as a member." % char
         else:
-            reply("Could not find character <highlight>%s<end>." % char)
+            return "Could not find character <highlight>%s<end>." % char
 
     @command(command="member", params=[Options(["rem", "remove"]), Any("character")], access_level="superadmin",
              description="Remove a member")
@@ -47,11 +47,11 @@ class MemberController:
         if char_id:
             if self.get_member(char_id):
                 self.remove_member(char_id)
-                reply("<highlight>%s<end> has been removed as a member." % char)
+                return "<highlight>%s<end> has been removed as a member." % char
             else:
-                reply("<highlight>%s<end> is not a member." % char)
+                return "<highlight>%s<end> is not a member." % char
         else:
-            reply("Could not find character <highlight>%s<end>." % char)
+            return "Could not find character <highlight>%s<end>." % char
 
     @command(command="member", params=[Const("list")], access_level="superadmin",
              description="List members")
@@ -61,7 +61,7 @@ class MemberController:
         blob = ""
         for row in data:
             blob += str(row.char_id) + "\n"
-        reply(ChatBlob("Members (%d)" % count, blob))
+        return ChatBlob("Members (%d)" % count, blob)
 
     @command(command="autoinvite", params=[Options(["on", "off"])], access_level="all",
              description="Set your auto invite preference")
@@ -70,9 +70,9 @@ class MemberController:
         member = self.get_member(sender.char_id)
         if member:
             self.update_auto_invite(sender.char_id, 1 if pref == "on" else 0)
-            reply("Your auto invite preference has been set to <highlight>%s<end>." % pref)
+            return "Your auto invite preference has been set to <highlight>%s<end>." % pref
         else:
-            reply("You must be a member of this bot to set your auto invite preference.")
+            return "You must be a member of this bot to set your auto invite preference."
 
     @event(event_type=BuddyService.BUDDY_LOGON_EVENT, description="Auto invite members to the private channel when they logon")
     def handle_buddy_logon(self, event_type, event_data):

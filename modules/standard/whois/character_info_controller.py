@@ -44,15 +44,14 @@ class CharacterInfoController:
             blob += "Status: %s\n" % ("<green>Active<end>" if char_id else "<red>Inactive<end>")
             more_info = self.text.paginate("More Info", blob, 5000, 1)[0]
 
-            msg = self.text.format_char_info(char_info) + " " + more_info
-            reply(msg)
+            return self.text.format_char_info(char_info) + " " + more_info
         elif char_id:
             blob = "<notice>Note: Could not retrieve detailed info for character.<end>\n\n"
             blob += "Name: <highlight>%s<end>\n" % char_name
             blob += "Character ID: <highlight>%d<end>" % char_id
-            reply(ChatBlob("Basic Info for %s" % char_name, blob))
+            return ChatBlob("Basic Info for %s" % char_name, blob)
         else:
-            reply("Could not find info for character <highlight>%s<end>." % char_name)
+            return "Could not find info for character <highlight>%s<end>." % char_name
 
     def get_full_name(self, char_info):
         name = ""

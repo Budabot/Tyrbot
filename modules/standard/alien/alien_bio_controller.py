@@ -63,9 +63,9 @@ class AlienBioController:
 
         bio_info = self.get_bio_info(bio_type, ql)
         if bio_info:
-            reply(bio_info)
+            return bio_info
         else:
-            reply("Bio-Material type unknown or not a bio-material.")
+            return "Bio-Material type unknown or not a bio-material."
 
     @command(command="bioinfo", params=[], access_level="all",
              description="Show list of Kyr'Ozch Bio-Material types")
@@ -85,7 +85,7 @@ class AlienBioController:
         blob += "\n<header2>Serum<end>\n"
         blob += self.get_type_blob(["serum"])
 
-        reply(ChatBlob("Bio-Material Types", blob))
+        return ChatBlob("Bio-Material Types", blob)
 
     def get_type_blob(self, bio_types):
         blob = ""
@@ -101,9 +101,9 @@ class AlienBioController:
 
         bio_info = self.get_bio_info(bio_type, ql)
         if bio_info:
-            reply(bio_info)
+            return bio_info
         else:
-            reply("Unknown bio-material type <highlight>%s<end>." % bio_type)
+            return "Unknown bio-material type <highlight>%s<end>." % bio_type
 
     def get_bio_info(self, bio_type, ql):
         if bio_type in self.ofab_armor_types:

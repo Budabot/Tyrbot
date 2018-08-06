@@ -21,7 +21,7 @@ class DynaController:
         for row in data:
             blob += "%s (%d - %d)\n" % (self.text.make_chatcmd(row.mob, "/tell <myname> dyna %s" % row.mob), row.minQl, row.maxQl)
 
-        reply(ChatBlob("Dyna Mobs (%d)" % len(data), blob))
+        return ChatBlob("Dyna Mobs (%d)" % len(data), blob)
 
     @command(command="dyna", params=[Int("level")], access_level="all",
              description="Show a list of dyna camps +/- 25 of QL")
@@ -37,7 +37,7 @@ class DynaController:
         url = "http://creativestudent.com/ao/files-helpfiles.html"
         blob += "Dyna camp information taken from CSP help files: " + self.text.make_chatcmd(url, "/start " + url)
 
-        reply(ChatBlob("Dyna Camps (%d)" % len(data), blob))
+        return ChatBlob("Dyna Camps (%d)" % len(data), blob)
 
     @command(command="dyna", params=[Any("search")], access_level="all",
              description="Search for dyna camps based on playfield or mob type")
@@ -54,7 +54,7 @@ class DynaController:
         url = "http://creativestudent.com/ao/files-helpfiles.html"
         blob += "Dyna camp information taken from CSP help files: " + self.text.make_chatcmd(url, "/start " + url)
 
-        reply(ChatBlob("Dyna Camps (%d)" % len(data), blob))
+        return ChatBlob("Dyna Camps (%d)" % len(data), blob)
 
     def format_results(self, data):
         blob = ""

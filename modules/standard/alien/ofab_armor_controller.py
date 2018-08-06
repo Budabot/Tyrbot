@@ -20,7 +20,7 @@ class OfabArmorController:
         for row in data:
             blob += "<pagebreak>%s - Type %d\n" % (self.text.make_chatcmd(row.profession, "/tell <myname> ofabarmor %s" % row.profession), row.type)
 
-        reply(ChatBlob("Ofab Armor", blob))
+        return ChatBlob("Ofab Armor", blob)
 
     @command(command="ofabarmor", params=[Any("profession"), Int("ql", is_optional=True)], access_level="all",
              description="Show info about ofab armor")
@@ -30,8 +30,7 @@ class OfabArmorController:
         ql = args[1] or 300
 
         if not profession:
-            reply("Could not find profession <highlight>%s<end>." % prof_name)
-            return
+            return "Could not find profession <highlight>%s<end>." % prof_name
 
         upgrade_type = self.db.query_single("SELECT type FROM ofab_armor_type WHERE profession = ?", [profession]).type
 
@@ -63,4 +62,4 @@ class OfabArmorController:
 
         blob += "\nVP cost for full set: <highlight>%d<end>" % total_vp
 
-        reply(ChatBlob("%s Ofab Armor (QL %d)" % (profession, ql), blob))
+        return ChatBlob("%s Ofab Armor (QL %d)" % (profession, ql), blob)

@@ -51,8 +51,7 @@ class AOUController:
         guide_info = self.retrieve_guide(guide_id)
 
         if not guide_info:
-            reply("Could not find AO-Universe guide with id <highlight>%d<end>." % guide_id)
-            return
+            return "Could not find AO-Universe guide with id <highlight>%d<end>." % guide_id
 
         blob = ""
         blob += "Id: " + self.text.make_chatcmd(guide_info.id, "/start https://www.ao-universe.com/main.php?site=knowledge&id=%s" % guide_info.id) + "\n"
@@ -64,7 +63,7 @@ class AOUController:
         blob += self.format_bbcode_code(guide_info.text)
         blob += "\n\n<highlight>Powered by<end> " + self.text.make_chatcmd("AO-Universe.com", "/start https://www.ao-universe.com")
 
-        reply(ChatBlob(guide_info.name, blob))
+        return ChatBlob(guide_info.name, blob)
 
     @command(command="aou", params=[Const("all", is_optional=True), Any("search")], access_level="all",
              description="Search for an AO-Universe guides")
@@ -92,9 +91,9 @@ class AOUController:
         blob += "\n\nPowered by %s" % self.text.make_chatcmd("AO-Universe.com", "/start https://www.ao-universe.com")
 
         if count == 0:
-            reply("Could not find any AO-Universe guides for search <highlight>%s<end>." % search)
+            return "Could not find any AO-Universe guides for search <highlight>%s<end>." % search
         else:
-            reply(ChatBlob("%sAOU Guides containing '%s' (%d)" % ("All " if include_all_matches else "", search, count), blob))
+            return ChatBlob("%sAOU Guides containing '%s' (%d)" % ("All " if include_all_matches else "", search, count), blob)
 
     def retrieve_guide(self, guide_id):
         cache_key = "%d.xml" % guide_id

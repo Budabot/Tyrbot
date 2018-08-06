@@ -95,10 +95,9 @@ class RecipeController:
 
         recipe = self.get_recipe(recipe_id)
         if not recipe:
-            reply("Could not find recipe with ID <highlight>%d<end>." % recipe_id)
-            return
+            return "Could not find recipe with ID <highlight>%d<end>." % recipe_id
 
-        reply(self.format_recipe(recipe))
+        return self.format_recipe(recipe)
 
     @command(command="recipe", params=[Any("search")], access_level="all",
              description="Search for a recipe")
@@ -111,7 +110,7 @@ class RecipeController:
         for row in data:
             blob += self.text.make_chatcmd(row.name, "/tell <myname> recipe %d" % row.id) + "\n"
 
-        reply(ChatBlob("Recipes Matching '%s' (%d)" % (search, len(data)), blob))
+        return ChatBlob("Recipes Matching '%s' (%d)" % (search, len(data)), blob)
 
     def get_recipe(self, recipe_id):
         return self.db.query_single("SELECT * FROM recipe WHERE id = ?", [recipe_id])

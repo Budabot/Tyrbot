@@ -23,16 +23,16 @@ class TopicController:
         topic = self.topic().get_value()
         if topic:
             time_string = self.util.time_to_readable(int(time.time()) - topic["created_at"])
-            reply("Topic: <highlight>%s<end> [set by <highlight>%s<end>][%s ago]" % (topic["topic_message"], topic["created_by"]["name"], time_string))
+            return "Topic: <highlight>%s<end> [set by <highlight>%s<end>][%s ago]" % (topic["topic_message"], topic["created_by"]["name"], time_string)
         else:
-            reply("There is no current topic.")
+            return "There is no current topic."
 
     @command(command="topic", params=[Const("clear")], access_level="all",
              description="Clears the current topic")
     def topic_clear_command(self, channel, sender, reply, args):
         self.topic().set_value("")
 
-        reply("The topic has been cleared.")
+        return "The topic has been cleared."
 
     @command(command="topic", params=[Const("set", is_optional=True), Any("topic_message")], access_level="all",
              description="Set the current topic")
@@ -45,4 +45,4 @@ class TopicController:
 
         self.topic().set_value(topic)
 
-        reply("The topic has been set.")
+        return "The topic has been set."

@@ -1,4 +1,5 @@
 from core.command_param_types import Any, Int, Const, Options, Time
+from core.command_service import CommandService
 from core.decorators import instance, command
 from core.chat_blob import ChatBlob
 from core.dict_object import DictObject
@@ -23,56 +24,48 @@ class RaffleController:
              description="Show current raffle")
     def raffle_show_cmd(self, channel, sender, reply, args):
         if not self.raffle:
-            reply("There is no active raffle.")
-            return
+            return "There is no active raffle."
 
         t = int(time.time())
 
-        reply(self.get_raffle_display(t))
+        return self.get_raffle_display(t)
 
     @command(command="raffle", params=[Const("cancel")], access_level="all",
              description="Cancel the raffle")
     def raffle_cancel_cmd(self, channel, sender, reply, args):
         if not self.raffle:
-            reply("There is no active raffle.")
-            return
+            return "There is no active raffle."
 
         self.job_scheduler.cancel_job(self.raffle.scheduled_job.id)
         self.raffle = None
 
         msg = "The raffle has been cancelled."
         self.spam_raffle_channels(msg)
-
-        if channel == "msg":
-            reply(msg)
+        return CommandService.NO_RESPONSE_SYMBOL
 
     @command(command="raffle", params=[Const("join")], access_level="all",
              description="Join the raffle")
     def raffle_join_cmd(self, channel, sender, reply, args):
         if not self.raffle:
-            reply("There is no active raffle.")
-            return
+            return "There is no active raffle."
 
         if sender.name in self.raffle.members:
-            reply("You are already in the raffle.")
-            return
+            return "You are already in the raffle."
 
         self.raffle.members.append(sender.name)
-        reply("You have joined the raffle.")
+        return "You have joined the raffle."
 
     @command(command="raffle", params=[Const("leave")], access_level="all",
              description="Leave the raffle")
     def raffle_leave_cmd(self, channel, sender, reply, args):
         if not self.raffle:
-            reply("There is no active raffle.")
-            return
+            return "There is no active raffle."
 
         if sender.name not in self.raffle.members:
-            reply("You are not in the raffle.")
-            return
+            return "You are not in the raffle."
 
         self.raffle.members.remove(sender.name)
-        reply("You have been removed from the raffle.")
+        return "You have been removed from the raffle."
 
     @command(command="raffle", params=[Const("start", is_optional=True), Any("item")], access_level="all",
              description="Raffle an item")
@@ -81,8 +74,7 @@ class RaffleController:
         item = args[1]
 
         if self.raffle:
-            reply("There is already a raffle in progress.")
-            return
+            return "There is already a raffle in progress."
 
         t = int(time.time())
 
@@ -101,8 +93,7 @@ class RaffleController:
 
         self.spam_raffle_channels(chatblob)
 
-        if channel == "msg":
-            reply(chatblob)
+        return CommandService.NO_RESPONSE_SYMBOL
 
     def get_raffle_display(self, t):
         time_left_str = self.util.time_to_readable(self.raffle.finished_at - t)

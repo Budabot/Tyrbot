@@ -23,7 +23,7 @@ class AliasController:
         for row in data:
             blob += row.alias + " - " + row.command + "\n"
 
-        reply(ChatBlob("Aliases (%d)" % count, blob))
+        return ChatBlob("Aliases (%d)" % count, blob)
 
     @command(command="alias", params=[Const("add"), Any("alias"), Any("command")], access_level="superadmin",
              description="Add a command alias", sub_command="modify")
@@ -31,15 +31,15 @@ class AliasController:
         alias = args[1]
         command = args[2]
         if self.command_alias_service.add_alias(alias, command):
-            reply("Alias <highlight>%s<end> for command <highlight>%s<end> added successfully." % (alias, command))
+            return "Alias <highlight>%s<end> for command <highlight>%s<end> added successfully." % (alias, command)
         else:
-            reply("Cannot add alias <highlight>%s<end> since there is already an active alias with that name." % alias)
+            return "Cannot add alias <highlight>%s<end> since there is already an active alias with that name." % alias
 
     @command(command="alias", params=[Options(["rem", "remove"]), Any("alias")], access_level="superadmin",
              description="Remove a command alias", sub_command="modify")
     def alias_remove_cmd(self, channel, sender, reply, args):
         alias = args[1]
         if self.command_alias_service.remove_alias(alias):
-            reply("Alias <highlight>%s<end> has been removed successfully." % alias)
+            return "Alias <highlight>%s<end> has been removed successfully." % alias
         else:
-            reply("Could not find alias <highlight>%s<end>." % alias)
+            return "Could not find alias <highlight>%s<end>." % alias

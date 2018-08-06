@@ -112,14 +112,14 @@ class DiscordController:
              description="Manually connect to Discord")
     def discord_connect_cmd(self, channel, sender, reply, args):
         if self.client.is_logged_in:
-            reply("Already connected to Discord")
+            return "Already connected to Discord."
         else:
             token = self.setting_service.get("discord_bot_token").get_value()
             if token:
                 self.connect_discord_client(token)
-                reply("Connecting to discord...")
+                return "Connecting to discord..."
             else:
-                reply("Cannot connect to discord, no bot token is set.")
+                return "Cannot connect to discord, no bot token is set."
 
     @command(command="discord", params=[Const("disconnect")], access_level="moderator", sub_command="manage",
              description="Manually disconnect from Discord")
@@ -161,7 +161,7 @@ class DiscordController:
 
         blob += "\n\nDiscord Module written by <highlight>Vladimirovna<end>"
 
-        reply(ChatBlob("Discord info", blob))
+        return ChatBlob("Discord info", blob)
 
     @command(command="discord", params=[Const("relay")], access_level="moderator", sub_command="manage",
              description="Setup relaying of channels")
@@ -192,7 +192,7 @@ class DiscordController:
 
         blob += "\n\nDiscord Module written by <highlight>Vladimirovna<end>"
 
-        reply(ChatBlob("Discord setup", blob))
+        return ChatBlob("Discord setup", blob)
     
     @command(command="discord", params=[Const("relay"), Any("channel_id"), Options(["ao", "discord"]), Options(["on", "off"])], access_level="moderator",
              description="Changes relay setting for specific channel", sub_command="manage")
@@ -210,12 +210,11 @@ class DiscordController:
             if channel is not None:
                 channel.relay_dc = True if relay == "on" else False
         else:
-            reply("Unknown relay type")
-            return
-
-        reply("Changed relay for %s to %s" % (channel.channel_name, relay))
+            return "Unknown relay type."
 
         self.update_discord_channels()
+
+        return "Changed relay for %s to %s." % (channel.channel_name, relay)
 
     @command(command="discord", params=[Const("ignore"), Const("add"), Any("char_id")], access_level="moderator",
              description="Add char id to relay ignore list", sub_command="manage")
@@ -226,9 +225,9 @@ class DiscordController:
             self.ignore.append(char_id)
             self.update_discord_ignore()
 
-            reply("Added char id %s to ignore list" % (char_id))
+            return "Added char id %s to ignore list." % (char_id)
         else:
-            reply("Char id already in ignore list")
+            return "Char id already in ignore list."
 
     @command(command="discord", params=[Const("ignore"), Const("rem"), Any("char_id")], access_level="moderator",
              description="Remove char id from relay ignore list", sub_command="manage",)
@@ -236,10 +235,10 @@ class DiscordController:
         char_id = args[2]
 
         if char_id not in self.ignore:
-            reply("Char id is not in ignore list")
+            return "Char id is not in ignore list."
         else:
             self.ignore.remove(char_id)
-            reply("Removed char id from ignore list")
+            return "Removed char id from ignore list."
 
     @command(command="discord", params=[Const("ignore")], access_level="moderator",
              description="See list of ignored characters", sub_command="manage")
@@ -254,7 +253,7 @@ class DiscordController:
                 name = self.character_service.resolve_char_to_name(char_id)
                 blob += "<highlight>%s<end> - %s [%s]\n" % (name, char_id, remove)
 
-        reply(ChatBlob("Ignore list", blob))
+        return ChatBlob("Ignore list", blob)
 
     @command(command="discord", params=[Const("getinvite"), Int("server_id")], access_level="moderator",
              description="Get an invite for specified server", sub_command="manage")
@@ -266,7 +265,7 @@ class DiscordController:
                 if server.id == sid:
                     self.aoqueue.append(("get_invite", (sender.name, server)))
         else:
-            reply("No such server")
+            return "No such server."
 
     @event(event_type="org_message", description="Relay messages to Discord from org channel")
     def handle_org_message_event(self, event_type, event_data):

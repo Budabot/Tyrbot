@@ -20,11 +20,11 @@ class CalculatorController:
         forumla = args[0]
         if self.allow_chars_regex.match(forumla):
             try:
-                reply("%s = %s" % (forumla, round(eval(forumla), 4)))
+                return "%s = %s" % (forumla, round(eval(forumla), 4))
             except SyntaxError:
-                reply("Invalid formula supplied.")
+                return "Invalid formula supplied."
         else:
-            reply("Invalid character detected.")
+            return "Invalid character detected."
 
     def calc_discord_cmd(self, reply, args):
         self.calc_cmd(None, None, reply, args)

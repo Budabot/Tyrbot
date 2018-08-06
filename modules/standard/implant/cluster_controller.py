@@ -19,7 +19,7 @@ class ClusterController:
         for row in data:
             blob += self.text.make_chatcmd(row["LongName"], "/tell <myname> cluster %s" % row["LongName"]) + "\n"
 
-        reply(ChatBlob("Cluster List (%d)" % len(data), blob))
+        return ChatBlob("Cluster List (%d)" % len(data), blob)
 
     @command(command="cluster", params=[Any("skill")], access_level="all",
              description="Show which clusters buff a particular skill")
@@ -30,7 +30,7 @@ class ClusterController:
         count = len(data)
 
         if count == 0:
-            reply("No skills found that match <highlight>%s<end>." % search)
+            return "No skills found that match <highlight>%s<end>." % search
         else:
             blob = ""
             for row in data:
@@ -46,4 +46,4 @@ class ClusterController:
                     blob += "%s: <highlight>%s<end><tab>" % (row2["ClusterType"].capitalize(), row2["Slot"])
                 blob += "\n\n"
 
-            reply(ChatBlob("Cluster Search Results (%d)" % count, blob))
+            return ChatBlob("Cluster Search Results (%d)" % count, blob)

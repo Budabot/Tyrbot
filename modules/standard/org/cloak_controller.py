@@ -16,7 +16,7 @@ class CloakController:
         data = self.db.query("SELECT c.*, p.name FROM cloak_status c LEFT JOIN player p ON c.char_id = p.char_id ORDER BY created_at DESC LIMIT 20")
 
         if len(data) == 0:
-            reply("Unknown status on cloak.")
+            return "Unknown status on cloak."
         else:
             one_hour = 3600
 
@@ -42,7 +42,7 @@ class CloakController:
                 action = "<green>on<end>" if row.action == "on" else "<orange>off<end>"
                 blob += "%s turned the device %s at %s.\n" % (row.name, action, self.util.format_timestamp(row.created_at))
 
-            reply(ChatBlob("Cloak History", blob))
+            return ChatBlob("Cloak History", blob)
 
     @event(event_type="org_message", description="Record when the city cloak is turned off and on")
     def city_cloak_event(self, event_type, event_data):

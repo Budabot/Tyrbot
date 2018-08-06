@@ -31,7 +31,7 @@ class TimeController:
 
             blob += "%s => %s\n" % (city, dt.astimezone(pytz.timezone(tz)).strftime(self.time_format))
 
-        reply(ChatBlob("Timezones", blob))
+        return ChatBlob("Timezones", blob)
 
     @command(command="time", params=[Any("timezone")], access_level="all",
              description="Show time for the specified timezone")
@@ -41,4 +41,4 @@ class TimeController:
             if tz.lower() == timezone_str:
                 reply("%s => %s" % (tz, datetime.now(tz=pytz.timezone(tz)).strftime(self.time_format)))
                 return
-        reply("Unknown timezone.")
+        return "Unknown timezone."

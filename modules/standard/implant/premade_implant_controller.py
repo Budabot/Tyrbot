@@ -32,7 +32,7 @@ class PremadeImplantController:
         for row in self.db.query(sql):
             blob += self.text.make_chatcmd(row.LongName, "/tell <myname> premade %s" % row.LongName) + "\n"
 
-        reply(ChatBlob("Premade Implant", blob))
+        return ChatBlob("Premade Implant", blob)
 
     @command(command="premade", params=[Any("search")], access_level="all",
              description="Search for implants in the premade implant booths", extended_description="Search can be a profession, implant slot, or modifier (ability/skill)")
@@ -54,7 +54,7 @@ class PremadeImplantController:
         for row in results:
             blob += "<header2>%s<end> %s <highlight>%s<end> %s, %s, %s\n" % (row.profession, row.slot, row.ability, row.shiny, row.bright, row.faded)
 
-        reply(ChatBlob("Premade Implant Search Results (%d)" % len(results), blob))
+        return ChatBlob("Premade Implant Search Results (%d)" % len(results), blob)
 
     def search_by_profession(self, profession):
         sql = """SELECT

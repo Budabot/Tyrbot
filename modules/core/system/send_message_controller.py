@@ -17,6 +17,6 @@ class SendMessageController:
         char_id = self.character_service.resolve_char_to_id(char_name)
         if char_id:
             self.bot.send_private_message(char_id, message)
-            reply("Your message has been sent.")
+            return "Your message has been sent."
         else:
-            reply("Could not find character <highlight>%s<end>." % char_name)
+            return "Could not find character <highlight>%s<end>." % char_name

@@ -59,7 +59,7 @@ class ConfigController:
                 blob += "<red>Disabled<end>"
             blob += "\n"
 
-        reply(ChatBlob("Config (%d)" % count, blob))
+        return ChatBlob("Config (%d)" % count, blob)
 
     @command(command="config", params=[Options(["mod", "module"]), Any("module_name")], access_level="superadmin",
              description="Show configuration options for a specific module")
@@ -96,9 +96,9 @@ class ConfigController:
                 blob += "\n"
 
         if blob:
-            reply(ChatBlob("Module (" + module + ")", blob))
+            return ChatBlob("Module (" + module + ")", blob)
         else:
-            reply("Could not find module <highlight>%s<end>" % module)
+            return "Could not find module <highlight>%s<end>" % module
 
     @command(command="config", params=[Const("event"), Any("event_type"), Any("event_handler"), Options(["enable", "disable"])], access_level="superadmin",
              description="Enable or disable an event")
@@ -110,15 +110,14 @@ class ConfigController:
         enabled = 1 if action == "enable" else 0
 
         if not self.event_service.is_event_type(event_base_type):
-            reply("Unknown event type <highlight>%s<end>." % event_type)
-            return
+            return "Unknown event type <highlight>%s<end>." % event_type
 
         count = self.event_service.update_event(event_base_type, event_sub_type, event_handler, enabled)
 
         if count == 0:
-            reply("Could not find event for type <highlight>%s<end> and handler <highlight>%s<end>." % (event_type, event_handler))
+            return "Could not find event for type <highlight>%s<end> and handler <highlight>%s<end>." % (event_type, event_handler)
         else:
-            reply("Event type <highlight>%s<end> for handler <highlight>%s<end> has been <highlight>%sd<end> successfully." % (event_type, event_handler, action))
+            return "Event type <highlight>%s<end> for handler <highlight>%s<end> has been <highlight>%sd<end> successfully." % (event_type, event_handler, action)
 
     @command(command="config", params=[Const("setting"), Any("setting_name"), Options(["set", "clear"]), Any("new_value", is_optional=True)], access_level="superadmin",
              description="Change a setting value")
@@ -130,8 +129,7 @@ class ConfigController:
         if op == "clear":
             new_value = ""
         elif not new_value:
-            reply("Error! New value required to update setting.")
-            return
+            return "Error! New value required to update setting."
 
         setting = self.setting_service.get(setting_name)
 
@@ -139,13 +137,13 @@ class ConfigController:
             try:
                 setting.set_value(new_value)
                 if op == "clear":
-                    reply("Setting <highlight>%s<end> has been cleared." % setting_name)
+                    return "Setting <highlight>%s<end> has been cleared." % setting_name
                 else:
-                    reply("Setting <highlight>%s<end> has been set to %s." % (setting_name, setting.get_display_value()))
+                    return "Setting <highlight>%s<end> has been set to %s." % (setting_name, setting.get_display_value())
             except Exception as e:
-                reply("Error! %s" % str(e))
+                return "Error! %s" % str(e)
         else:
-            reply("Could not find setting <highlight>%s<end>." % setting_name)
+            return "Could not find setting <highlight>%s<end>." % setting_name
 
     @command(command="config", params=[Const("setting"), Any("setting_name")], access_level="superadmin",
              description="Show configuration options for a setting")
@@ -160,9 +158,9 @@ class ConfigController:
             blob += "Current Value: <highlight>%s<end>\n" % str(setting.get_display_value())
             blob += "Description: <highlight>%s<end>\n\n" % setting.get_description()
             blob += setting.get_display()
-            reply(ChatBlob("Setting (%s)" % setting_name, blob))
+            return ChatBlob("Setting (%s)" % setting_name, blob)
         else:
-            reply("Could not find setting <highlight>%s<end>." % setting_name)
+            return "Could not find setting <highlight>%s<end>." % setting_name
 
     def format_event_type(self, row):
         if row.event_sub_type:

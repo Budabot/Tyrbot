@@ -32,7 +32,7 @@ class BanController:
             blob += "Ends: <highlight>%s<end>%s\n" % (ends, time_left)
             blob += "Reason: <highlight>%s<end>\n\n" % row.reason
 
-        reply(ChatBlob("Ban List (%d)" % len(data), blob))
+        return ChatBlob("Ban List (%d)" % len(data), blob)
 
     @command(command="ban", params=[Options(["rem", "remove"]), Any("character")], access_level="moderator",
              description="Remove a character from the ban list")
@@ -41,14 +41,12 @@ class BanController:
         char_id = self.character_service.resolve_char_to_id(char_name)
 
         if not char_id:
-            reply("Could not find <highlight>%s<end>." % char_name)
-            return
+            return "Could not find <highlight>%s<end>." % char_name
         elif not self.ban_service.get_ban(char_id):
-            reply("<highlight>%s<end> is not banned." % char_name)
-            return
+            return "<highlight>%s<end> is not banned." % char_name
         else:
             self.ban_service.remove_ban(char_id)
-            reply("<highlight>%s<end> has been removed from the ban list." % char_name)
+            return "<highlight>%s<end> has been removed from the ban list." % char_name
 
     @command(command="ban", params=[Const("add", is_optional=True), Any("character"), Time("duration", is_optional=True), Any("reason", is_optional=True)], access_level="moderator",
              description="Add a character to the ban list")
@@ -59,11 +57,9 @@ class BanController:
         char_id = self.character_service.resolve_char_to_id(char_name)
 
         if not char_id:
-            reply("Could not find <highlight>%s<end>." % char_name)
-            return
+            return "Could not find <highlight>%s<end>." % char_name
         elif self.ban_service.get_ban(char_id):
-            reply("<highlight>%s<end> is already banned." % char_name)
-            return
+            return "<highlight>%s<end> is already banned." % char_name
         else:
             self.ban_service.add_ban(char_id, sender.char_id, duration, reason)
-            reply("<highlight>%s<end> has been added to the ban list." % char_name)
+            return "<highlight>%s<end> has been added to the ban list." % char_name

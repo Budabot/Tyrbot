@@ -25,7 +25,7 @@ class BosslootController:
             blob += self.format_boss(row)
             blob += "\n\n"
 
-        reply(ChatBlob("Boss Search Results for '%s' (%d)" % (search, cnt), blob))
+        return ChatBlob("Boss Search Results for '%s' (%d)" % (search, cnt), blob)
 
     @command(command="bossloot", params=[Any("search")], access_level="all",
              description="Show loot for a boss")
@@ -43,7 +43,7 @@ class BosslootController:
             blob += self.format_boss(row)
             blob += "\n\n"
 
-        reply(ChatBlob("Bossloot Search Results for '%s' (%d)" % (search, cnt), blob))
+        return ChatBlob("Bossloot Search Results for '%s' (%d)" % (search, cnt), blob)
 
     def format_boss(self, row):
         data = self.db.query("SELECT * FROM boss_loot b LEFT JOIN aodb a ON b.item_name = a.name WHERE b.boss_id = ? ORDER BY b.item_name ASC", [row.id])

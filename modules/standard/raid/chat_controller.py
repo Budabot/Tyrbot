@@ -15,4 +15,4 @@ class ChatController:
     def loud_command(self, channel, sender, reply, args):
         message = args[0]
 
-        reply("\n<yellow>---------------------\n<red>%s<end>\n<yellow>---------------------" % message)
+        return "\n<yellow>---------------------\n<red>%s<end>\n<yellow>---------------------" % message

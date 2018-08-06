@@ -48,7 +48,7 @@ class HelpController:
                 current_command = row.command
                 blob += " " + self.text.make_chatcmd(row.command, "/tell <myname> help " + row.command)
 
-        reply(ChatBlob("Help (main)", blob))
+        return ChatBlob("Help (main)", blob)
 
     @command(command="help", params=[Any("command")], access_level="all",
              description="Show help for a specific command")
@@ -62,6 +62,6 @@ class HelpController:
 
         help_text = self.command_service.get_help_text(sender.char_id, help_topic, channel)
         if help_text:
-            reply(self.command_service.format_help_text(help_topic, help_text))
+            return self.command_service.format_help_text(help_topic, help_text)
         else:
-            reply("Could not find help on <highlight>" + help_topic + "<end>.")
+            return "Could not find help on <highlight>" + help_topic + "<end>."

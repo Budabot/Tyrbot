@@ -20,7 +20,7 @@ class WhatBuffsController:
             blob += self.text.make_chatcmd(row.name, "/tell <myname> whatbuffs %s" % row.name) + "\n"
 
         blob += self.get_footer()
-        reply(ChatBlob("Whatbuffs Skill List", blob))
+        return ChatBlob("Whatbuffs Skill List", blob)
 
     @command(command="whatbuffs", params=[
         Options(["arms", "back", "chest", "deck", "feet", "fingers", "hands", "head", "hud", "legs", "nano", "neck", "shoulders", "unknown", "util", "weapon", "wrists"]),
@@ -30,7 +30,7 @@ class WhatBuffsController:
         item_type = args[0].capitalize()
         skill_name = args[1]
 
-        reply(self.show_search_results(item_type, skill_name))
+        return self.show_search_results(item_type, skill_name)
 
     @command(command="whatbuffs", params=[Any("skill")], access_level="all",
              description="Find items or nanos that buff a skill (or ability)")
@@ -39,7 +39,7 @@ class WhatBuffsController:
 
         skills = self.search_for_skill(skill_name)
         if len(skills) == 0:
-            reply("Could not find skill <highlight>%s<end>." % skill_name)
+            return "Could not find skill <highlight>%s<end>." % skill_name
         elif len(skills) == 1:
             skill = skills.pop()
 
@@ -58,14 +58,14 @@ class WhatBuffsController:
                 blob += "%s (%d)\n" % (self.text.make_chatcmd(row.item_type, "/tell <myname> whatbuffs %s %s" % (row.item_type, skill.name)), row.cnt)
 
             blob += self.get_footer()
-            reply(ChatBlob("Whatbuffs %s - Choose Type" % skill.name, blob))
+            return ChatBlob("Whatbuffs %s - Choose Type" % skill.name, blob)
         else:
             blob = "Choose a skill:\n\n"
             for skill in skills:
                 blob += self.text.make_chatcmd(skill.name, "/tell <myname> whatbuffs %s" % skill.name) + "\n"
 
             blob += self.get_footer()
-            reply(ChatBlob("Whatbuffs - Choose Skill", blob))
+            return ChatBlob("Whatbuffs - Choose Skill", blob)
 
     def search_for_skill(self, skill_name):
         skill_name = skill_name.lower()

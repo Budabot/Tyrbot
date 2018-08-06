@@ -32,7 +32,7 @@ class AdminController:
 
             blob += row.name + "\n"
 
-        reply(ChatBlob("Admin List (%d)" % len(admins), blob))
+        return ChatBlob("Admin List (%d)" % len(admins), blob)
 
     @command(command="admin", params=[Const("add"), Any("character")], access_level="superadmin",
              description="Add an admin", sub_command="modify")
@@ -41,13 +41,12 @@ class AdminController:
         char_id = self.character_service.resolve_char_to_id(name)
 
         if not char_id:
-            reply("Could not find character <highlight>%s<end>." % name)
-            return
+            return "Could not find character <highlight>%s<end>." % name
 
         if self.admin_service.add(char_id, AdminService.ADMIN):
-            reply("Character <highlight>%s<end> added as <highlight>%s<end> successfully." % (name, AdminService.ADMIN))
+            return "Character <highlight>%s<end> added as <highlight>%s<end> successfully." % (name, AdminService.ADMIN)
         else:
-            reply("Could not add character <highlight>%s<end> as <highlight>%s<end>." % (name, AdminService.ADMIN))
+            return "Could not add character <highlight>%s<end> as <highlight>%s<end>." % (name, AdminService.ADMIN)
 
     @command(command="admin", params=[Options(["remove", "rem"]), Any("character")], access_level="superadmin",
              description="Remove an admin", sub_command="modify")
@@ -56,13 +55,12 @@ class AdminController:
         char_id = self.character_service.resolve_char_to_id(name)
 
         if not char_id:
-            reply("Could not find character <highlight>%s<end>." % name)
-            return
+            return "Could not find character <highlight>%s<end>." % name
 
         if self.admin_service.remove(char_id):
-            reply("Character <highlight>%s<end> removed as <highlight>%s<end> successfully." % (name, AdminService.ADMIN))
+            return "Character <highlight>%s<end> removed as <highlight>%s<end> successfully." % (name, AdminService.ADMIN)
         else:
-            reply("Could not remove character <highlight>%s<end> as <highlight>%s<end>." % (name, AdminService.ADMIN))
+            return "Could not remove character <highlight>%s<end> as <highlight>%s<end>." % (name, AdminService.ADMIN)
 
     @command(command="moderator", params=[Const("add"), Any("character")], access_level="superadmin",
              description="Add a moderator", sub_command="modify")
@@ -71,13 +69,12 @@ class AdminController:
         char_id = self.character_service.resolve_char_to_id(name)
 
         if not char_id:
-            reply("Could not find character <highlight>%s<end>." % name)
-            return
+            return "Could not find character <highlight>%s<end>." % name
 
         if self.admin_service.add(char_id, AdminService.MODERATOR):
-            reply("Character <highlight>%s<end> added as <highlight>%s<end> successfully." % (name, AdminService.MODERATOR))
+            return "Character <highlight>%s<end> added as <highlight>%s<end> successfully." % (name, AdminService.MODERATOR)
         else:
-            reply("Could not add character <highlight>%s<end> as <highlight>%s<end>." % (name, AdminService.MODERATOR))
+            return "Could not add character <highlight>%s<end> as <highlight>%s<end>." % (name, AdminService.MODERATOR)
 
     @command(command="moderator", params=[Options(["remove", "rem"]), Any("character")], access_level="superadmin",
              description="Remove a moderator", sub_command="modify")
@@ -86,10 +83,9 @@ class AdminController:
         char_id = self.character_service.resolve_char_to_id(name)
 
         if not char_id:
-            reply("Could not find character <highlight>%s<end>." % name)
-            return
+            return "Could not find character <highlight>%s<end>." % name
 
         if self.admin_service.remove(char_id):
-            reply("Character <highlight>%s<end> removed as <highlight>%s<end> successfully." % (name, AdminService.MODERATOR))
+            return "Character <highlight>%s<end> removed as <highlight>%s<end> successfully." % (name, AdminService.MODERATOR)
         else:
-            reply("Could not remove character <highlight>%s<end> as <highlight>%s<end>." % (name, AdminService.MODERATOR))
+            return "Could not remove character <highlight>%s<end> as <highlight>%s<end>." % (name, AdminService.MODERATOR)

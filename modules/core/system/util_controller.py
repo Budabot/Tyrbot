@@ -27,11 +27,10 @@ class UtilController:
         char_id = self.character_service.resolve_char_to_id(char_name)
 
         if not char_id:
-            reply("Could not find character <highlight>%s<end>." % char_name)
-            return
+            return "Could not find character <highlight>%s<end>." % char_name
 
         access_level = self.access_service.get_access_level(char_id)
-        reply("Access level for <highlight>%s<end> is <highlight>%s<end>." % (char_name, access_level["label"]))
+        return "Access level for <highlight>%s<end> is <highlight>%s<end>." % (char_name, access_level["label"])
 
     @command(command="macro", params=[Any("command 1|command 2|command 3 ...")], access_level="all",
              description="Execute multiple commands at once")
@@ -43,7 +42,7 @@ class UtilController:
     @command(command="echo", params=[Any("message")], access_level="all",
              description="Echo back a message")
     def echo_cmd(self, channel, sender, reply, args):
-        reply(html.escape(args[0]))
+        return html.escape(args[0])
 
     @command(command="showcommand", params=[Any("character"), Any("message")], access_level="superadmin",
              description="Show command output to another character")
@@ -54,13 +53,13 @@ class UtilController:
         char_id = self.character_service.resolve_char_to_id(char_name)
 
         if not char_id:
-            reply("Could not find <highlight>%s<end>." % char_name)
-            return
+            return "Could not find <highlight>%s<end>." % char_name
 
-        reply("Command <highlight>%s<end> output has been sent to <highlight>%s<end>." % (command_str, char_name))
         self.bot.send_private_message(char_id, "<highlight>%s<end> is showing you output for command <highlight>%s<end>:" % (sender.name, command_str))
 
         self.command_service.process_command(command_str, channel, sender.char_id, lambda msg: self.bot.send_private_message(char_id, msg))
+
+        return "Command <highlight>%s<end> output has been sent to <highlight>%s<end>." % (command_str, char_name)
 
     @command(command="system", params=[], access_level="admin",
              description="Show system information")
@@ -69,7 +68,6 @@ class UtilController:
         blob += "Version: <highlight>Tyrbot %s<end>\n" % self.bot.version
         blob += "Name: <highlight><myname><end>\n"
         blob += "\n"
-        blob
         blob += "OS: <highlight>%s %s<end>\n" % (platform.system(), platform.release())
         blob += "Python: <highlight>%d.%d.%d %s<end>\n" % (sys.version_info.major, sys.version_info.minor, sys.version_info.micro, sys.version_info.releaselevel)
         blob += "Database: <highlight>%s<end>\n" % self.db.type
@@ -79,4 +77,4 @@ class UtilController:
         blob += "Buddy List: <highlight>%d / %d<end>\n" % (len(self.buddy_service.buddy_list), self.buddy_service.buddy_list_size)
         blob += "Uptime: <highlight>%s<end>\n" % self.util.time_to_readable(int(time.time()) - self.bot.start_time, max_levels=None)
 
-        reply(ChatBlob("System Info", blob))
+        return ChatBlob("System Info", blob)
