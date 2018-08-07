@@ -158,9 +158,6 @@ class CommandService:
                         response = handler["callback"](CommandRequest(channel, sender, reply), *self.process_matches(matches, handler["params"]))
                         if response is not None:
                             reply(response)
-                        else:
-                            self.logger.warning("No response returned for message '%s' by handler '%s.%s'" %
-                                                (message, handler["callback"].__module__, handler["callback"].__name__))
 
                         # record command usage
                         self.usage_service.add_usage(command_str, handler["callback"].__qualname__, char_id, channel)
