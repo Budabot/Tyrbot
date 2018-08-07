@@ -26,3 +26,6 @@ logging.root.setLevel(logging.DEBUG)
 logging.root.addHandler(file_handler)
 logging.root.addHandler(console_out)
 logging.root.addHandler(console_err)
+
+# reduce discord spam
+logging.getLogger("websockets").setLevel(logging.INFO)
