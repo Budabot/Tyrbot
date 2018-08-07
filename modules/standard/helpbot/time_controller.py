@@ -39,6 +39,6 @@ class TimeController:
         timezone_str = timezone_str.lower()
         for tz in pytz.common_timezones:
             if tz.lower() == timezone_str:
-                reply("%s => %s" % (tz, datetime.now(tz=pytz.timezone(tz)).strftime(self.time_format)))
-                return
+                return "%s => %s" % (tz, datetime.now(tz=pytz.timezone(tz)).strftime(self.time_format))
+
         return "Unknown timezone."

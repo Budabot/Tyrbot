@@ -67,9 +67,9 @@ class MemberController:
              description="Set your auto invite preference")
     def autoinvite_cmd(self, request, pref):
         pref = pref.lower()
-        member = self.get_member(sender.char_id)
+        member = self.get_member(request.sender.char_id)
         if member:
-            self.update_auto_invite(sender.char_id, 1 if pref == "on" else 0)
+            self.update_auto_invite(request.sender.char_id, 1 if pref == "on" else 0)
             return "Your auto invite preference has been set to <highlight>%s<end>." % pref
         else:
             return "You must be a member of this bot to set your auto invite preference."

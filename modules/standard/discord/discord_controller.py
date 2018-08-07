@@ -253,7 +253,7 @@ class DiscordController:
         if self.servers:
             for server in self.servers:
                 if server.id == server_id:
-                    self.aoqueue.append(("get_invite", (sender.name, server)))
+                    self.aoqueue.append(("get_invite", (request.sender.name, server)))
         else:
             return "No such server."
 

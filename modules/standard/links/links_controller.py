@@ -38,7 +38,7 @@ class LinksController:
         if not website.startswith("https://") and not website.startswith("http://"):
             return "Website must start with 'http://' or 'https://'."
 
-        self.db.exec("INSERT INTO links (char_id, website, comments, created_at) VALUES (?, ?, ?, ?)", [sender.char_id, website, comment, int(time.time())])
+        self.db.exec("INSERT INTO links (char_id, website, comments, created_at) VALUES (?, ?, ?, ?)", [request.sender.char_id, website, comment, int(time.time())])
         return "Link added successfully."
 
     @command(command="links", params=[Options(["rem", "remove"]), Int("link_id")], access_level="moderator",

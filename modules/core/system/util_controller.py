@@ -23,7 +23,7 @@ class UtilController:
     @command(command="checkaccess", params=[Any("character", is_optional=True)], access_level="all",
              description="Check access level for a character")
     def checkaccess_cmd(self, request, char_name):
-        char_name = char_name.capitalize() if char_name else sender.name
+        char_name = char_name.capitalize() if char_name else request.sender.name
         char_id = self.character_service.resolve_char_to_id(char_name)
 
         if not char_id:
@@ -37,7 +37,7 @@ class UtilController:
     def macro_cmd(self, request, commands):
         commands = commands.split("|")
         for command_str in commands:
-            self.command_service.process_command(command_str, channel, sender.char_id, reply)
+            self.command_service.process_command(command_str, request.channel, request.sender.char_id, request.reply)
 
     @command(command="echo", params=[Any("message")], access_level="all",
              description="Echo back a message")
@@ -54,9 +54,9 @@ class UtilController:
         if not char_id:
             return "Could not find <highlight>%s<end>." % char_name
 
-        self.bot.send_private_message(char_id, "<highlight>%s<end> is showing you output for command <highlight>%s<end>:" % (sender.name, command_str))
+        self.bot.send_private_message(char_id, "<highlight>%s<end> is showing you output for command <highlight>%s<end>:" % (request.sender.name, command_str))
 
-        self.command_service.process_command(command_str, channel, sender.char_id, lambda msg: self.bot.send_private_message(char_id, msg))
+        self.command_service.process_command(command_str, request.channel, request.sender.char_id, lambda msg: self.bot.send_private_message(char_id, msg))
 
         return "Command <highlight>%s<end> output has been sent to <highlight>%s<end>." % (command_str, char_name)
 

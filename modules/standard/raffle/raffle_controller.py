@@ -49,10 +49,10 @@ class RaffleController:
         if not self.raffle:
             return "There is no active raffle."
 
-        if sender.name in self.raffle.members:
+        if request.sender.name in self.raffle.members:
             return "You are already in the raffle."
 
-        self.raffle.members.append(sender.name)
+        self.raffle.members.append(request.sender.name)
         return "You have joined the raffle."
 
     @command(command="raffle", params=[Const("leave")], access_level="all",
@@ -61,10 +61,10 @@ class RaffleController:
         if not self.raffle:
             return "There is no active raffle."
 
-        if sender.name not in self.raffle.members:
+        if request.sender.name not in self.raffle.members:
             return "You are not in the raffle."
 
-        self.raffle.members.remove(sender.name)
+        self.raffle.members.remove(request.sender.name)
         return "You have been removed from the raffle."
 
     @command(command="raffle", params=[Const("start", is_optional=True), Any("item")], access_level="all",
@@ -78,13 +78,13 @@ class RaffleController:
         t = int(time.time())
 
         self.raffle = DictObject({
-            "owner": sender,
+            "owner": request.sender,
             "item": self.get_item_name(item),
             "started_at": t,
             "duration": duration,
             "finished_at": t + duration,
             "members": [],
-            "reply": reply,
+            "reply": request.reply,
             "scheduled_job": self.job_scheduler.scheduled_job(self.alert_raffle_status, t + 60)
         })
 

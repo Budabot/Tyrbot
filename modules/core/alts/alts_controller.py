@@ -14,7 +14,7 @@ class AltsController:
     @command(command="alts", params=[], access_level="all",
              description="Show your alts")
     def alts_list_cmd(self, request):
-        alts = self.alts_service.get_alts(sender.char_id)
+        alts = self.alts_service.get_alts(request.sender.char_id)
         blob = ""
         for alt in alts:
             blob += "<highlight>%s<end> (%d/<green>%d<end>) %s %s%s\n" % (alt.name, alt.level, alt.ai_level, alt.faction, alt.profession, self.get_alt_status(alt.status))
@@ -35,12 +35,12 @@ class AltsController:
 
         if not alt_char_id:
             return "Could not find character <highlight>%s<end>." % alt_char_name
-        elif alt_char_id == sender.char_id:
+        elif alt_char_id == request.sender.char_id:
             return "You cannot register yourself as an alt."
 
-        msg, result = self.alts_service.add_alt(sender.char_id, alt_char_id)
+        msg, result = self.alts_service.add_alt(request.sender.char_id, alt_char_id)
         if result:
-            self.bot.send_private_message(alt_char_id, "<highlight>%s<end> has added you as an alt." % sender.name)
+            self.bot.send_private_message(alt_char_id, "<highlight>%s<end> has added you as an alt." % request.sender.name)
             return "<highlight>%s<end> has been added as your alt." % alt_char_name
         elif msg == "another_main":
             return "<highlight>%s<end> already has alts." % alt_char_name
@@ -56,7 +56,7 @@ class AltsController:
         if not alt_char_id:
             return "Could not find character <highlight>%s<end>." % alt_char_name
 
-        msg, result = self.alts_service.remove_alt(sender.char_id, alt_char_id)
+        msg, result = self.alts_service.remove_alt(request.sender.char_id, alt_char_id)
         if result:
             return "<highlight>%s<end> has been removed as your alt." % alt_char_name
         elif msg == "not_alt":

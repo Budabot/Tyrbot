@@ -73,7 +73,7 @@ class LevelController:
         for row in data:
             blob += "AI Level <green>%d<end> - %s - <highlight>%s<end> - Min Level: %d\n" % (row.alien_level, self.util.format_number(row.axp), row.defender_rank, row.min_level)
 
-        reply(ChatBlob("Alien Levels", blob))
+        return ChatBlob("Alien Levels", blob)
 
     def get_level_info(self, level):
         return self.db.query_single("SELECT * FROM level WHERE level = ?", [level])

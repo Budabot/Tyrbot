@@ -40,12 +40,12 @@ class TimerController:
     @command(command="timers", params=[Const("add", is_optional=True), Time("time"), Any("name", is_optional=True)], access_level="all",
              description="Add a timer")
     def timers_add_cmd(self, request, _, duration, timer_name):
-        timer_name = timer_name or self.get_timer_name(sender.name)
+        timer_name = timer_name or self.get_timer_name(request.sender.name)
 
         if self.get_timer(timer_name):
             return "A timer named <highlight>%s<end> is already running." % timer_name
 
-        self.add_timer(timer_name, sender.char_id, channel, duration)
+        self.add_timer(timer_name, request.sender.char_id, request.channel, duration)
 
         return "Timer <highlight>%s<end> has been set for %s." % (timer_name, self.util.time_to_readable(duration, max_levels=None))
 

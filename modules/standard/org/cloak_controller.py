@@ -35,7 +35,7 @@ class CloakController:
                 else:
                     msg = "The cloaking device is <green>enabled<end>. It is possible to disable it in %s." % time_string
 
-            reply(msg)
+            request.reply(msg)
 
             blob = ""
             for row in data:

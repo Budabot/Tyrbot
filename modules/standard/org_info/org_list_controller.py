@@ -34,19 +34,18 @@ class OrgListController:
     @command(command="orglist", params=[Int("org_id")], access_level="all",
              description="Show online status of characters in an org")
     def orglist_cmd(self, request, org_id):
-        reply("Downloading org roster for org id %d..." % org_id)
+        request.reply("Downloading org roster for org id %d..." % org_id)
 
         self.orglist = self.org_pork_service.get_org_info(org_id)
 
         if not self.orglist:
-            reply("Could not find org with ID <highlight>%d<end>." % org_id)
-            return
+            return "Could not find org with ID <highlight>%d<end>." % org_id
 
-        self.orglist.reply = reply
+        self.orglist.reply = request.reply
         self.orglist.waiting_org_members = {}
         self.orglist.finished_org_members = {}
 
-        reply("Checking online status for %d members of <highlight>%s<end>..." % (len(self.orglist.org_members), self.orglist.org_info.name))
+        request.reply("Checking online status for %d members of <highlight>%s<end>..." % (len(self.orglist.org_members), self.orglist.org_info.name))
 
         self.iterate_org_members()
 

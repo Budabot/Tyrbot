@@ -18,12 +18,12 @@ class PrivateChannelController:
     @command(command="join", params=[], access_level="all",
              description="Join the private channel")
     def join_cmd(self, request):
-        self.private_channel_service.invite(sender.char_id)
+        self.private_channel_service.invite(request.sender.char_id)
 
     @command(command="leave", params=[], access_level="all",
              description="Leave the private channel")
     def leave_cmd(self, request):
-        self.private_channel_service.kick(sender.char_id)
+        self.private_channel_service.kick(request.sender.char_id)
 
     @command(command="invite", params=[Any("character")], access_level="all",
              description="Invite a character to the private channel")
@@ -34,7 +34,7 @@ class PrivateChannelController:
             if self.private_channel_service.in_private_channel(char_id):
                 return "<highlight>%s<end> is already in the private channel." % char_name
             else:
-                self.bot.send_private_message(char_id, "You have been invited to the private channel by <highlight>%s<end>." % sender.name)
+                self.bot.send_private_message(char_id, "You have been invited to the private channel by <highlight>%s<end>." % request.sender.name)
                 self.private_channel_service.invite(char_id)
                 return "You have invited <highlight>%s<end> to the private channel." % char_name
         else:
@@ -49,8 +49,8 @@ class PrivateChannelController:
             if not self.private_channel_service.in_private_channel(char_id):
                 return "<highlight>%s<end> is not in the private channel." % char_name
             else:
-                if self.access_service.has_sufficient_access_level(sender.char_id, char_id):
-                    self.bot.send_private_message(char_id, "You have been kicked from the private channel by <highlight>%s<end>." % sender.name)
+                if self.access_service.has_sufficient_access_level(request.sender.char_id, char_id):
+                    self.bot.send_private_message(char_id, "You have been kicked from the private channel by <highlight>%s<end>." % request.sender.name)
                     self.private_channel_service.kick(char_id)
                     return "You have kicked <highlight>%s<end> from the private channel." % char_name
                 else:
@@ -61,7 +61,7 @@ class PrivateChannelController:
     @command(command="kickall", params=[], access_level="admin",
              description="Kick all characters from the private channel")
     def kickall_cmd(self, request):
-        self.bot.send_private_channel_message("Everyone will be kicked from this channel in 10 seconds. [by <highlight>%s<end>]" % sender.name)
+        self.bot.send_private_channel_message("Everyone will be kicked from this channel in 10 seconds. [by <highlight>%s<end>]" % request.sender.name)
         self.job_scheduler.delayed_job(lambda t: self.private_channel_service.kickall(), 10)
 
     @event(PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, "Notify private channel when someone joins")

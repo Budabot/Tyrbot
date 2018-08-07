@@ -21,7 +21,7 @@ class NotesController:
     @command(command="notes", params=[], access_level="all",
              description="Show your notes")
     def notes_list_cmd(self, request):
-        alts = self.alts_service.get_alts(sender.char_id)
+        alts = self.alts_service.get_alts(request.sender.char_id)
 
         cnt = 0
         blob = ""
@@ -40,7 +40,7 @@ class NotesController:
     @command(command="notes", params=[Const("add"), Any("note")], access_level="all",
              description="Add a note")
     def notes_add_cmd(self, request, _, note):
-        self.db.exec("INSERT INTO notes (char_id, note, created_at) VALUES (?, ?, ?)", [sender.char_id, note, int(time.time())])
+        self.db.exec("INSERT INTO notes (char_id, note, created_at) VALUES (?, ?, ?)", [request.sender.char_id, note, int(time.time())])
 
         return "Note added successfully."
 
@@ -52,7 +52,7 @@ class NotesController:
         if not note:
             return "Could not find note with ID <highlight>%d<end>." % note_id
 
-        if self.alts_service.get_main(sender.char_id).char_id != self.alts_service.get_main(note.char_id).char_id:
+        if self.alts_service.get_main(request.sender.char_id).char_id != self.alts_service.get_main(note.char_id).char_id:
             return "You must be a confirmed alt of <highlight>%s<end> to remove this note." % note.name
 
         self.db.exec("DELETE FROM notes WHERE id = ?", [note_id])

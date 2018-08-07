@@ -38,7 +38,7 @@ class QuoteController:
         if len(quote) > 4096:
             return "Your quote must be less than 4096 characters."
 
-        self.db.exec("INSERT INTO quote (char_id, created_at, content) VALUES (?, ?, ?)", [sender.char_id, int(time.time()), quote])
+        self.db.exec("INSERT INTO quote (char_id, created_at, content) VALUES (?, ?, ?)", [request.sender.char_id, int(time.time()), quote])
 
         return "Your quote has been added successfully."
 

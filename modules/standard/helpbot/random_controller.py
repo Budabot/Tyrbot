@@ -35,7 +35,7 @@ class RandomController:
 
         result = random.randint(start_value, end_value)
 
-        self.db.exec("INSERT INTO roll (char_id, min_value, max_value, result, created_at) VALUES (?, ?, ?, ?, ?)", [sender.char_id, start_value, end_value, result, int(time.time())])
+        self.db.exec("INSERT INTO roll (char_id, min_value, max_value, result, created_at) VALUES (?, ?, ?, ?, ?)", [request.sender.char_id, start_value, end_value, result, int(time.time())])
 
         return "Rolling between %d and %d: <highlight>%d<end>. /tell <myname> roll verify %d" % (start_value, end_value, result, self.db.last_insert_id())
 

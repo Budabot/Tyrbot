@@ -28,7 +28,7 @@ class HelpController:
         current_group = ""
         current_module = ""
         current_command = ""
-        access_level = self.access_service.get_access_level(sender.char_id)
+        access_level = self.access_service.get_access_level(request.sender.char_id)
         for row in data:
             if access_level["level"] > self.access_service.get_access_level_by_label(row.access_level)["level"]:
                 continue
@@ -60,7 +60,7 @@ class HelpController:
         if alias:
             help_topic = alias
 
-        help_text = self.command_service.get_help_text(sender.char_id, help_topic, channel)
+        help_text = self.command_service.get_help_text(request.sender.char_id, help_topic, request.channel)
         if help_text:
             return self.command_service.format_help_text(help_topic, help_text)
         else:

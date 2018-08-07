@@ -206,8 +206,7 @@ class AlienArmorController:
             target_armor_id = 246622  # Supple Body Armor
             name_target = "supple"
         else:
-            reply("Unknown armor type <highlight>%s<end>" % armor_type)
-            return
+            return "Unknown armor type <highlight>%s<end>" % armor_type
 
         result_item = self.items_controller.get_by_item_id(result_armor_id)
 

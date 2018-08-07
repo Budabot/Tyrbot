@@ -22,8 +22,8 @@ class SystemController:
         # set expected flag
         self.expected_shutdown().set_value(True)
 
-        if channel not in [CommandService.ORG_CHANNEL, CommandService.PRIVATE_CHANNEL]:
-            reply(msg)
+        if request.channel not in [CommandService.ORG_CHANNEL, CommandService.PRIVATE_CHANNEL]:
+            request.reply(msg)
 
         self.bot.shutdown()
 
@@ -37,8 +37,8 @@ class SystemController:
         # set expected flag
         self.expected_shutdown().set_value(True)
 
-        if channel not in [CommandService.ORG_CHANNEL, CommandService.PRIVATE_CHANNEL]:
-            reply(msg)
+        if request.channel not in [CommandService.ORG_CHANNEL, CommandService.PRIVATE_CHANNEL]:
+            request.reply(msg)
 
         self.bot.restart()
 

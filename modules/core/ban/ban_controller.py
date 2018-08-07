@@ -60,5 +60,5 @@ class BanController:
         elif self.ban_service.get_ban(char_id):
             return "<highlight>%s<end> is already banned." % char_name
         else:
-            self.ban_service.add_ban(char_id, sender.char_id, duration, reason)
+            self.ban_service.add_ban(char_id, request.sender.char_id, duration, reason)
             return "<highlight>%s<end> has been added to the ban list." % char_name

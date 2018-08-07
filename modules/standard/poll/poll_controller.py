@@ -63,7 +63,7 @@ class PollController:
         if duration == 0:
             return "You must enter a valid duration."
 
-        poll_id = self.add_poll(question, sender.char_id, duration)
+        poll_id = self.add_poll(question, request.sender.char_id, duration)
         for choice in choices:
             self.add_poll_choice(poll_id, choice)
 
@@ -82,8 +82,8 @@ class PollController:
         if not choice:
             return "Could not find choice with id <highlight>%d<end> for poll id <highlight>%d<end>." % (choice_id, poll_id)
 
-        cnt = self.db.exec("DELETE FROM poll_vote WHERE poll_id = ? AND char_id = ?", [poll_id, sender.char_id])
-        self.db.exec("INSERT INTO poll_vote (poll_id, choice_id, char_id) VALUES (?, ?, ?)", [poll_id, choice_id, sender.char_id])
+        cnt = self.db.exec("DELETE FROM poll_vote WHERE poll_id = ? AND char_id = ?", [poll_id, request.sender.char_id])
+        self.db.exec("INSERT INTO poll_vote (poll_id, choice_id, char_id) VALUES (?, ?, ?)", [poll_id, choice_id, request.sender.char_id])
 
         if cnt > 0:
             return "Your vote has been updated."
@@ -97,7 +97,7 @@ class PollController:
         if not poll:
             return "Could not find poll with id <highlight>%d<end>." % poll_id
 
-        cnt = self.db.exec("DELETE FROM poll_vote WHERE poll_id = ? AND char_id = ?", [poll_id, sender.char_id])
+        cnt = self.db.exec("DELETE FROM poll_vote WHERE poll_id = ? AND char_id = ?", [poll_id, request.sender.char_id])
         if cnt > 0:
             return "Your vote has been removed."
         else:
