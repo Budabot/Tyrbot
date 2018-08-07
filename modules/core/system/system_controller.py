@@ -1,10 +1,14 @@
 from core.decorators import instance, command, event, setting
 from core.command_service import CommandService
+from core.logger import Logger
 from core.setting_types import BooleanSettingType
 
 
 @instance()
 class SystemController:
+    def __init__(self):
+        self.logger = Logger(__name__)
+
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
 
@@ -47,7 +51,8 @@ class SystemController:
         if self.expected_shutdown().get_value():
             msg = "<myname> is now <green>online<end>."
         else:
-            msg = "<myname> is now <green>online<end> but may have shut down or restarted unexpectedly. Please check the logs."
+            self.logger.error("the bot has recovered from an unexpected shutdown or restart")
+            msg = "<myname> is now <green>online<end> but may have shut down or restarted unexpectedly."
 
         self.bot.send_private_message(self.bot.superadmin, msg)
         self.bot.send_org_message(msg)
