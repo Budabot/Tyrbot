@@ -1,8 +1,6 @@
-from core.aochat.client_packets import CharacterLookup
 from core.buddy_service import BuddyService
 from core.chat_blob import ChatBlob
-from core.command_param_types import Any, Int
-from core.command_service import CommandService
+from core.command_param_types import Int
 from core.decorators import instance, command, event
 from core.dict_object import DictObject
 
@@ -50,8 +48,6 @@ class OrgListController:
         self.iterate_org_members()
 
         self.check_for_orglist_end()
-
-        return CommandService.NO_RESPONSE_SYMBOL
 
     @event(event_type=BuddyService.BUDDY_LOGON_EVENT, description="Detect online buddies for orglist command")
     def buddy_logon_event(self, event_type, event_data):

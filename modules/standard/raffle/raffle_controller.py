@@ -1,5 +1,4 @@
-from core.command_param_types import Any, Int, Const, Options, Time
-from core.command_service import CommandService
+from core.command_param_types import Any, Const
 from core.decorators import instance, command
 from core.chat_blob import ChatBlob
 from core.dict_object import DictObject
@@ -41,7 +40,6 @@ class RaffleController:
 
         msg = "The raffle has been cancelled."
         self.spam_raffle_channels(msg)
-        return CommandService.NO_RESPONSE_SYMBOL
 
     @command(command="raffle", params=[Const("join")], access_level="all",
              description="Join the raffle")
@@ -91,8 +89,6 @@ class RaffleController:
         chatblob = self.get_raffle_display(t)
 
         self.spam_raffle_channels(chatblob)
-
-        return CommandService.NO_RESPONSE_SYMBOL
 
     def get_raffle_display(self, t):
         time_left_str = self.util.time_to_readable(self.raffle.finished_at - t)

@@ -1,4 +1,3 @@
-from core.command_service import CommandService
 from core.decorators import instance, command
 from core.command_param_types import Any, Character
 
@@ -20,4 +19,3 @@ class RunasController:
             return "Could not find character <highlight>%s<end>" % char.name
         else:
             self.command_service.process_command(command_str, request.channel, char.char_id, request.reply)
-            return CommandService.NO_RESPONSE_SYMBOL
