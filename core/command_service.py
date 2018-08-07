@@ -12,6 +12,7 @@ from __init__ import flatmap, get_attrs
 import collections
 import re
 import html
+import inspect
 
 
 @instance()
@@ -67,6 +68,8 @@ class CommandService:
                     module = self.util.get_module_name(handler)
                     help_text = self.get_help_file(module, help_file)
                     self.register(handler, cmd_name, params, access_level, description, module, help_text, sub_command, extended_description, check_access)
+                    if len(inspect.signature(handler).parameters) != len(params) + 3:
+                        raise Exception("Invalid number of parameters for handler '%s.%s()'" % (handler.__module__, handler.__name__))
 
                     if aliases:
                         for alias in aliases:
@@ -158,7 +161,8 @@ class CommandService:
                             if response:
                                 reply(response)
                             else:
-                                self.logger.warning("No response returned for cmd: '%s'" % message)
+                                self.logger.warning("No response returned for message '%s' by handler '%s.%s'" %
+                                                    (message, handler["callback"].__module__, handler["callback"].__name__))
 
                         # record command usage
                         self.usage_service.add_usage(command_str, handler["callback"].__qualname__, char_id, channel)

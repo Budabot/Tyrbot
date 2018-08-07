@@ -43,9 +43,7 @@ class LinksController:
 
     @command(command="links", params=[Options(["rem", "remove"]), Int("link_id")], access_level="moderator",
              description="Remove a link")
-    def links_remove_cmd(self, channel, sender, reply, args):
-        link_id = args[1]
-
+    def links_remove_cmd(self, channel, sender, reply, _, link_id):
         link = self.db.query_single("SELECT * FROM links WHERE id = ?", [link_id])
         if not link:
             return "Could not find link with ID <highlight>%d<end>." % link_id

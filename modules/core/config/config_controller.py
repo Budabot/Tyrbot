@@ -57,7 +57,7 @@ class ConfigController:
 
     @command(command="config", params=[Options(["mod", "module"]), Any("module_name")], access_level="superadmin",
              description="Show configuration options for a specific module")
-    def config_module_list_cmd(self, channel, sender, reply, module):
+    def config_module_list_cmd(self, channel, sender, reply, _, module):
         module = module.lower()
 
         blob = ""
