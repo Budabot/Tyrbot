@@ -10,7 +10,6 @@ class MemberController:
 
     def inject(self, registry):
         self.db = registry.get_instance("db")
-        self.character_service = registry.get_instance("character_service")
         self.private_channel_service = registry.get_instance("private_channel_service")
         self.buddy_service = registry.get_instance("buddy_service")
         self.bot = registry.get_instance("bot")
@@ -27,29 +26,27 @@ class MemberController:
 
     @command(command="member", params=[Const("add"), Character("character")], access_level="superadmin",
              description="Add a member")
-    def member_add_cmd(self, request, _, char_name):
-        char_id = self.character_service.resolve_char_to_id(char_name)
-        if char_id:
-            if self.get_member(char_id):
-                return "<highlight>%s<end> is already a member." % char_name
+    def member_add_cmd(self, request, _, char):
+        if char.char_id:
+            if self.get_member(char.char_id):
+                return "<highlight>%s<end> is already a member." % char.name
             else:
-                self.add_member(char_id)
-                return "<highlight>%s<end> has been added as a member." % char_name
+                self.add_member(char.char_id)
+                return "<highlight>%s<end> has been added as a member." % char.name
         else:
-            return "Could not find character <highlight>%s<end>." % char_name
+            return "Could not find character <highlight>%s<end>." % char.name
 
     @command(command="member", params=[Options(["rem", "remove"]), Character("character")], access_level="superadmin",
              description="Remove a member")
-    def member_remove_cmd(self, request, _, char_name):
-        char_id = self.character_service.resolve_char_to_id(char_name)
-        if char_id:
-            if self.get_member(char_id):
-                self.remove_member(char_id)
-                return "<highlight>%s<end> has been removed as a member." % char_name
+    def member_remove_cmd(self, request, _, char):
+        if char.char_id:
+            if self.get_member(char.char_id):
+                self.remove_member(char.char_id)
+                return "<highlight>%s<end> has been removed as a member." % char.name
             else:
-                return "<highlight>%s<end> is not a member." % char_name
+                return "<highlight>%s<end> is not a member." % char.name
         else:
-            return "Could not find character <highlight>%s<end>." % char_name
+            return "Could not find character <highlight>%s<end>." % char.name
 
     @command(command="member", params=[Const("list")], access_level="superadmin",
              description="List members")

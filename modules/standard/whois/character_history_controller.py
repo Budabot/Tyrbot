@@ -15,14 +15,14 @@ class CharacterHistoryController:
 
     @command(command="history", params=[Character("character"), Int("server_num", is_optional=True)], access_level="all",
              description="Get history of character")
-    def handle_history_cmd1(self, request, char_name, server_num):
+    def handle_history_cmd1(self, request, char, server_num):
         server_num = server_num or self.bot.dimension
 
-        data = self.character_history_service.get_character_history(char_name, server_num)
+        data = self.character_history_service.get_character_history(char.name, server_num)
         if not data:
-            return "Could not find history for <highlight>%s<end> on server <highlight>%d<end>." % (char_name, server_num)
+            return "Could not find history for <highlight>%s<end> on server <highlight>%d<end>." % (char.name, server_num)
 
-        return ChatBlob("History of %s (RK%d)" % (char_name, server_num), self.format_character_history(char_name, data))
+        return ChatBlob("History of %s (RK%d)" % (char.name, server_num), self.format_character_history(char.name, data))
 
     def format_character_history(self, name, history):
         blob = "Date           Level    AI     Faction    Breed        Guild (rank)\n"

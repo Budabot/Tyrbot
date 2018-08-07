@@ -27,34 +27,32 @@ class PrivateChannelController:
 
     @command(command="invite", params=[Character("character")], access_level="all",
              description="Invite a character to the private channel")
-    def invite_cmd(self, request, char_name):
-        char_id = self.character_service.resolve_char_to_id(char_name)
-        if char_id:
-            if self.private_channel_service.in_private_channel(char_id):
-                return "<highlight>%s<end> is already in the private channel." % char_name
+    def invite_cmd(self, request, char):
+        if char.char_id:
+            if self.private_channel_service.in_private_channel(char.char_id):
+                return "<highlight>%s<end> is already in the private channel." % char.name
             else:
-                self.bot.send_private_message(char_id, "You have been invited to the private channel by <highlight>%s<end>." % request.sender.name)
-                self.private_channel_service.invite(char_id)
-                return "You have invited <highlight>%s<end> to the private channel." % char_name
+                self.bot.send_private_message(char.char_id, "You have been invited to the private channel by <highlight>%s<end>." % request.sender.name)
+                self.private_channel_service.invite(char.char_id)
+                return "You have invited <highlight>%s<end> to the private channel." % char.name
         else:
-            return "Could not find character <highlight>%s<end>." % char_name
+            return "Could not find character <highlight>%s<end>." % char.name
 
     @command(command="kick", params=[Character("character")], access_level="admin",
              description="Kick a character from the private channel")
-    def kick_cmd(self, request, char_name):
-        char_id = self.character_service.resolve_char_to_id(char_name)
-        if char_id:
-            if not self.private_channel_service.in_private_channel(char_id):
-                return "<highlight>%s<end> is not in the private channel." % char_name
+    def kick_cmd(self, request, char):
+        if char.char_id:
+            if not self.private_channel_service.in_private_channel(char.char_id):
+                return "<highlight>%s<end> is not in the private channel." % char.name
             else:
-                if self.access_service.has_sufficient_access_level(request.sender.char_id, char_id):
-                    self.bot.send_private_message(char_id, "You have been kicked from the private channel by <highlight>%s<end>." % request.sender.name)
-                    self.private_channel_service.kick(char_id)
-                    return "You have kicked <highlight>%s<end> from the private channel." % char_name
+                if self.access_service.has_sufficient_access_level(request.sender.char_id, char.char_id):
+                    self.bot.send_private_message(char.char_id, "You have been kicked from the private channel by <highlight>%s<end>." % request.sender.name)
+                    self.private_channel_service.kick(char.char_id)
+                    return "You have kicked <highlight>%s<end> from the private channel." % char.name
                 else:
-                    return "You do not have the required access level to kick <highlight>%s<end>." % char_name
+                    return "You do not have the required access level to kick <highlight>%s<end>." % char.name
         else:
-            return "Could not find character <highlight>%s<end>." % char_name
+            return "Could not find character <highlight>%s<end>." % char.name
 
     @command(command="kickall", params=[], access_level="admin",
              description="Kick all characters from the private channel")

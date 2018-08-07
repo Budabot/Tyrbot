@@ -24,27 +24,25 @@ class BuddyController:
 
     @command(command="buddylist", params=[Const("add"), Character("character"), Any("type")], access_level="superadmin",
              description="Add a character to the buddy list")
-    def buddylist_add_cmd(self, request, _, char_name, buddy_type):
+    def buddylist_add_cmd(self, request, _, char, buddy_type):
         buddy_type = buddy_type.lower()
 
-        char_id = self.character_service.resolve_char_to_id(char_name)
-        if char_id:
-            self.buddy_service.add_buddy(char_id, buddy_type)
-            return "Character <highlight>%s<end> has been added to the buddy list for type <highlight>%s<end>." % (char_name, buddy_type)
+        if char.char_id:
+            self.buddy_service.add_buddy(char.char_id, buddy_type)
+            return "Character <highlight>%s<end> has been added to the buddy list for type <highlight>%s<end>." % (char.name, buddy_type)
         else:
-            return "Could not find character <highlight>%s<end>." % char_name
+            return "Could not find character <highlight>%s<end>." % char.name
 
     @command(command="buddylist", params=[Options(["rem", "remove"]), Character("character"), Any("type")], access_level="superadmin",
              description="Remove a character from the buddy list")
-    def buddylist_remove_cmd(self, request, _, char_name, buddy_type):
+    def buddylist_remove_cmd(self, request, _, char, buddy_type):
         buddy_type = buddy_type.lower()
 
-        char_id = self.character_service.resolve_char_to_id(char_name)
-        if char_id:
-            self.buddy_service.remove_buddy(char_id, buddy_type)
-            return "Character <highlight>%s<end> has been removed from the buddy list for type <highlight>%s<end>." % (char_name, buddy_type)
+        if char.char_id:
+            self.buddy_service.remove_buddy(char.char_id, buddy_type)
+            return "Character <highlight>%s<end> has been removed from the buddy list for type <highlight>%s<end>." % (char.name, buddy_type)
         else:
-            return "Could not find character <highlight>%s<end>." % char_name
+            return "Could not find character <highlight>%s<end>." % char.name
 
     @command(command="buddylist", params=[Options(["remall", "removeall"])], access_level="superadmin",
              description="Remove all characters from the buddy list")

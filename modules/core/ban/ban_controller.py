@@ -10,7 +10,6 @@ class BanController:
         self.text = registry.get_instance("text")
         self.util = registry.get_instance("util")
         self.ban_service = registry.get_instance("ban_service")
-        self.character_service = registry.get_instance("character_service")
         self.command_alias_service = registry.get_instance("command_alias_service")
 
     def start(self):
@@ -36,27 +35,24 @@ class BanController:
 
     @command(command="ban", params=[Options(["rem", "remove"]), Character("character")], access_level="moderator",
              description="Remove a character from the ban list")
-    def ban_remove_cmd(self, request, _, char_name):
-        char_id = self.character_service.resolve_char_to_id(char_name)
-
-        if not char_id:
-            return "Could not find <highlight>%s<end>." % char_name
-        elif not self.ban_service.get_ban(char_id):
-            return "<highlight>%s<end> is not banned." % char_name
+    def ban_remove_cmd(self, request, _, char):
+        if not char.char_id:
+            return "Could not find <highlight>%s<end>." % char.name
+        elif not self.ban_service.get_ban(char.char_id):
+            return "<highlight>%s<end> is not banned." % char.name
         else:
-            self.ban_service.remove_ban(char_id)
-            return "<highlight>%s<end> has been removed from the ban list." % char_name
+            self.ban_service.remove_ban(char.char_id)
+            return "<highlight>%s<end> has been removed from the ban list." % char.name
 
     @command(command="ban", params=[Const("add", is_optional=True), Character("character"), Time("duration", is_optional=True), Any("reason", is_optional=True)], access_level="moderator",
              description="Add a character to the ban list")
-    def ban_add_cmd(self, request, _, char_name, duration, reason):
+    def ban_add_cmd(self, request, _, char, duration, reason):
         reason = reason or ""
-        char_id = self.character_service.resolve_char_to_id(char_name)
 
-        if not char_id:
-            return "Could not find <highlight>%s<end>." % char_name
-        elif self.ban_service.get_ban(char_id):
-            return "<highlight>%s<end> is already banned." % char_name
+        if not char.char_id:
+            return "Could not find <highlight>%s<end>." % char.name
+        elif self.ban_service.get_ban(char.char_id):
+            return "<highlight>%s<end> is already banned." % char.name
         else:
-            self.ban_service.add_ban(char_id, request.sender.char_id, duration, reason)
-            return "<highlight>%s<end> has been added to the ban list." % char_name
+            self.ban_service.add_ban(char.char_id, request.sender.char_id, duration, reason)
+            return "<highlight>%s<end> has been added to the ban list." % char.name

@@ -12,7 +12,6 @@ class AdminController:
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
         self.admin_service = registry.get_instance("admin_service")
-        self.character_service = registry.get_instance("character_service")
         self.pork_service = registry.get_instance("pork_service")
 
     @command(command="admin", params=[], access_level="all",
@@ -36,52 +35,44 @@ class AdminController:
 
     @command(command="admin", params=[Const("add"), Character("character")], access_level="superadmin",
              description="Add an admin", sub_command="modify")
-    def admin_add_cmd(self, request, _, char_name):
-        char_id = self.character_service.resolve_char_to_id(char_name)
+    def admin_add_cmd(self, request, _, char):
+        if not char.char_id:
+            return "Could not find character <highlight>%s<end>." % char.name
 
-        if not char_id:
-            return "Could not find character <highlight>%s<end>." % char_name
-
-        if self.admin_service.add(char_id, AdminService.ADMIN):
-            return "Character <highlight>%s<end> added as <highlight>%s<end> successfully." % (char_name, AdminService.ADMIN)
+        if self.admin_service.add(char.char_id, AdminService.ADMIN):
+            return "Character <highlight>%s<end> added as <highlight>%s<end> successfully." % (char.name, AdminService.ADMIN)
         else:
-            return "Could not add character <highlight>%s<end> as <highlight>%s<end>." % (char_name, AdminService.ADMIN)
+            return "Could not add character <highlight>%s<end> as <highlight>%s<end>." % (char.name, AdminService.ADMIN)
 
     @command(command="admin", params=[Options(["remove", "rem"]), Character("character")], access_level="superadmin",
              description="Remove an admin", sub_command="modify")
-    def admin_remove_cmd(self, request, _, char_name):
-        char_id = self.character_service.resolve_char_to_id(char_name)
+    def admin_remove_cmd(self, request, _, char):
+        if not char.char_id:
+            return "Could not find character <highlight>%s<end>." % char.name
 
-        if not char_id:
-            return "Could not find character <highlight>%s<end>." % char_name
-
-        if self.admin_service.remove(char_id):
-            return "Character <highlight>%s<end> removed as <highlight>%s<end> successfully." % (char_name, AdminService.ADMIN)
+        if self.admin_service.remove(char.char_id):
+            return "Character <highlight>%s<end> removed as <highlight>%s<end> successfully." % (char.name, AdminService.ADMIN)
         else:
-            return "Could not remove character <highlight>%s<end> as <highlight>%s<end>." % (char_name, AdminService.ADMIN)
+            return "Could not remove character <highlight>%s<end> as <highlight>%s<end>." % (char.name, AdminService.ADMIN)
 
     @command(command="moderator", params=[Const("add"), Character("character")], access_level="superadmin",
              description="Add a moderator", sub_command="modify")
-    def moderator_add_cmd(self, request, _, char_name):
-        char_id = self.character_service.resolve_char_to_id(char_name)
+    def moderator_add_cmd(self, request, _, char):
+        if not char.char_id:
+            return "Could not find character <highlight>%s<end>." % char.name
 
-        if not char_id:
-            return "Could not find character <highlight>%s<end>." % char_name
-
-        if self.admin_service.add(char_id, AdminService.MODERATOR):
-            return "Character <highlight>%s<end> added as <highlight>%s<end> successfully." % (char_name, AdminService.MODERATOR)
+        if self.admin_service.add(char.char_id, AdminService.MODERATOR):
+            return "Character <highlight>%s<end> added as <highlight>%s<end> successfully." % (char.name, AdminService.MODERATOR)
         else:
-            return "Could not add character <highlight>%s<end> as <highlight>%s<end>." % (char_name, AdminService.MODERATOR)
+            return "Could not add character <highlight>%s<end> as <highlight>%s<end>." % (char.name, AdminService.MODERATOR)
 
     @command(command="moderator", params=[Options(["remove", "rem"]), Character("character")], access_level="superadmin",
              description="Remove a moderator", sub_command="modify")
-    def moderator_remove_cmd(self, request, _, char_name):
-        char_id = self.character_service.resolve_char_to_id(char_name)
+    def moderator_remove_cmd(self, request, _, char):
+        if not char.char_id:
+            return "Could not find character <highlight>%s<end>." % char.name
 
-        if not char_id:
-            return "Could not find character <highlight>%s<end>." % char_name
-
-        if self.admin_service.remove(char_id):
-            return "Character <highlight>%s<end> removed as <highlight>%s<end> successfully." % (char_name, AdminService.MODERATOR)
+        if self.admin_service.remove(char.char_id):
+            return "Character <highlight>%s<end> removed as <highlight>%s<end> successfully." % (char.name, AdminService.MODERATOR)
         else:
-            return "Could not remove character <highlight>%s<end> as <highlight>%s<end>." % (char_name, AdminService.MODERATOR)
+            return "Could not remove character <highlight>%s<end> as <highlight>%s<end>." % (char.name, AdminService.MODERATOR)

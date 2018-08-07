@@ -40,14 +40,12 @@ class LeaderController:
 
     @command(command="leader", params=[Const("set", is_optional=True), Character("character")], access_level="all",
              description="Set another character as raidleader")
-    def leader_set_other_command(self, request, _, char_name):
-        char_id = self.character_service.resolve_char_to_id(char_name)
-
-        if not char_id:
-            return "Could not find <highlight>%s<end>." % char_name
+    def leader_set_other_command(self, request, _, char):
+        if not char.char_id:
+            return "Could not find <highlight>%s<end>." % char.name
 
         if not self.leader or self.access_service.has_sufficient_access_level(request.sender.char_id, self.leader):
-            self.leader = char_id
-            return "<highlight>%s<end> has been set as raidleader." % char_name
+            self.leader = char.char_id
+            return "<highlight>%s<end> has been set as raidleader." % char.name
         else:
             return "You do not have a high enough access level to take raidleader from <highlight>%s<end>." % self.character_service.resolve_char_to_name(self.leader)

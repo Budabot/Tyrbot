@@ -15,22 +15,20 @@ class UtilController:
         self.bot = registry.get_instance("bot")
         self.db = registry.get_instance("db")
         self.util = registry.get_instance("util")
-        self.character_service = registry.get_instance("character_service")
         self.command_service = registry.get_instance("command_service")
         self.buddy_service = registry.get_instance("buddy_service")
         self.access_service = registry.get_instance("access_service")
 
     @command(command="checkaccess", params=[Character("character", is_optional=True)], access_level="all",
              description="Check access level for a character")
-    def checkaccess_cmd(self, request, char_name):
-        char_name = char_name or request.sender.name
-        char_id = self.character_service.resolve_char_to_id(char_name)
+    def checkaccess_cmd(self, request, char):
+        char = char or request.sender
 
-        if not char_id:
-            return "Could not find character <highlight>%s<end>." % char_name
+        if not char.char_id:
+            return "Could not find character <highlight>%s<end>." % char.name
 
-        access_level = self.access_service.get_access_level(char_id)
-        return "Access level for <highlight>%s<end> is <highlight>%s<end>." % (char_name, access_level["label"])
+        access_level = self.access_service.get_access_level(char.char_id)
+        return "Access level for <highlight>%s<end> is <highlight>%s<end>." % (char.name, access_level["label"])
 
     @command(command="macro", params=[Any("command 1|command 2|command 3 ...")], access_level="all",
              description="Execute multiple commands at once")
@@ -46,17 +44,15 @@ class UtilController:
 
     @command(command="showcommand", params=[Character("character"), Any("message")], access_level="superadmin",
              description="Show command output to another character")
-    def showcommand_cmd(self, request, char_name, command_str):
-        char_id = self.character_service.resolve_char_to_id(char_name)
+    def showcommand_cmd(self, request, char, command_str):
+        if not char.char_id:
+            return "Could not find <highlight>%s<end>." % char.name
 
-        if not char_id:
-            return "Could not find <highlight>%s<end>." % char_name
+        self.bot.send_private_message(char.char_id, "<highlight>%s<end> is showing you output for command <highlight>%s<end>:" % (request.sender.name, command_str))
 
-        self.bot.send_private_message(char_id, "<highlight>%s<end> is showing you output for command <highlight>%s<end>:" % (request.sender.name, command_str))
+        self.command_service.process_command(command_str, request.channel, request.sender.char_id, lambda msg: self.bot.send_private_message(char.char_id, msg))
 
-        self.command_service.process_command(command_str, request.channel, request.sender.char_id, lambda msg: self.bot.send_private_message(char_id, msg))
-
-        return "Command <highlight>%s<end> output has been sent to <highlight>%s<end>." % (command_str, char_name)
+        return "Command <highlight>%s<end> output has been sent to <highlight>%s<end>." % (command_str, char.name)
 
     @command(command="system", params=[], access_level="admin",
              description="Show system information")

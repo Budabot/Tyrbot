@@ -1,6 +1,7 @@
 import re
 from core.registry import Registry
 from core.dict_object import DictObject
+from core.sender_obj import SenderObj
 
 
 class CommandParam:
@@ -209,4 +210,5 @@ class Character(Any):
         if val is None:
             return None
         else:
-            return val.capitalize()
+            character_service = Registry.get_instance("character_service")
+            return SenderObj(character_service.resolve_char_to_id(val), val.capitalize())
