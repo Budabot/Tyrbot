@@ -21,7 +21,7 @@ class AlienBioController:
 
     @command(command="bio", params=[Item("bio_material")], access_level="all",
              description="Show info about Kyr'Ozch Bio-Material")
-    def bio_command(self, channel, sender, reply, item):
+    def bio_command(self, request, item):
         high_id = item.high_id
         ql = item.ql
 
@@ -68,7 +68,7 @@ class AlienBioController:
 
     @command(command="bioinfo", params=[], access_level="all",
              description="Show list of Kyr'Ozch Bio-Material types")
-    def bioinfo_list_command(self, channel, sender, reply):
+    def bioinfo_list_command(self, request):
         blob = "<header2>OFAB Armor Types<end>\n"
         blob += self.get_type_blob(self.ofab_armor_types)
 
@@ -94,7 +94,7 @@ class AlienBioController:
 
     @command(command="bioinfo", params=[Any("bio_type"), Int("ql", is_optional=True)], access_level="all",
              description="Show info about a bio-material type")
-    def bioinfo_show_command(self, channel, sender, reply, bio_type, ql):
+    def bioinfo_show_command(self, request, bio_type, ql):
         ql = ql or 300
 
         bio_info = self.get_bio_info(bio_type, ql)

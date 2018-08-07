@@ -12,7 +12,7 @@ class BuddyController:
 
     @command(command="buddylist", params=[], access_level="superadmin",
              description="Show characters on the buddy list")
-    def buddylist_cmd(self, channel, sender, reply):
+    def buddylist_cmd(self, request):
         buddy_list = []
         for char_id, buddy in self.buddy_service.get_all_buddies().items():
             char_name = self.character_service.resolve_char_to_name(char_id, "Unknown(%d)" % char_id)
@@ -24,7 +24,7 @@ class BuddyController:
 
     @command(command="buddylist", params=[Const("add"), Any("character"), Any("type")], access_level="superadmin",
              description="Add a character to the buddy list")
-    def buddylist_add_cmd(self, channel, sender, reply, _, char_name, buddy_type):
+    def buddylist_add_cmd(self, request, _, char_name, buddy_type):
         char_name = char_name.capitalize()
         buddy_type = buddy_type.lower()
 
@@ -37,7 +37,7 @@ class BuddyController:
 
     @command(command="buddylist", params=[Options(["rem", "remove"]), Any("character"), Any("type")], access_level="superadmin",
              description="Remove a character from the buddy list")
-    def buddylist_remove_cmd(self, channel, sender, reply, _, char_name, buddy_type):
+    def buddylist_remove_cmd(self, request, _, char_name, buddy_type):
         char_name = char_name.capitalize()
         buddy_type = buddy_type.lower()
 
@@ -50,7 +50,7 @@ class BuddyController:
 
     @command(command="buddylist", params=[Options(["remall", "removeall"])], access_level="superadmin",
              description="Remove all characters from the buddy list")
-    def buddylist_remove_cmd(self, channel, sender, reply, _):
+    def buddylist_remove_cmd(self, request, _):
         count = 0
         for char_id, buddy in self.buddy_service.get_all_buddies().items():
             self.buddy_service.remove_buddy(char_id, None, True)
@@ -60,7 +60,7 @@ class BuddyController:
 
     @command(command="buddylist", params=[Const("clean")], access_level="superadmin",
              description="Remove all orphaned buddies from the buddy list")
-    def buddylist_clean_cmd(self, channel, sender, reply, _):
+    def buddylist_clean_cmd(self, request, _):
         count = 0
         for char_id, buddy in self.buddy_service.get_all_buddies().items():
             if len(buddy["types"]) == 0:
@@ -71,7 +71,7 @@ class BuddyController:
 
     @command(command="buddylist", params=[Const("search"), Any("character")], access_level="superadmin",
              description="Remove all characters from the buddy list")
-    def buddylist_search_cmd(self, channel, sender, reply, _, search):
+    def buddylist_search_cmd(self, request, _, search):
         search = search.lower()
 
         buddy_list = []

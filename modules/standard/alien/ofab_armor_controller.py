@@ -13,7 +13,7 @@ class OfabArmorController:
 
     @command(command="ofabarmor", params=[], access_level="all",
              description="Show ofab armor")
-    def ofabarmor_list_command(self, channel, sender, reply):
+    def ofabarmor_list_command(self, request):
         data = self.db.query("SELECT type, profession FROM ofab_armor_type ORDER BY profession ASC")
 
         blob = ""
@@ -24,7 +24,7 @@ class OfabArmorController:
 
     @command(command="ofabarmor", params=[Any("profession"), Int("ql", is_optional=True)], access_level="all",
              description="Show info about ofab armor")
-    def ofabarmor_show_command(self, channel, sender, reply, prof_name, ql):
+    def ofabarmor_show_command(self, request, prof_name, ql):
         profession = self.util.get_profession(prof_name)
         ql = ql or 300
 

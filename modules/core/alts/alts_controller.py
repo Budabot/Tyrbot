@@ -13,7 +13,7 @@ class AltsController:
 
     @command(command="alts", params=[], access_level="all",
              description="Show your alts")
-    def alts_list_cmd(self, channel, sender, reply):
+    def alts_list_cmd(self, request):
         alts = self.alts_service.get_alts(sender.char_id)
         blob = ""
         for alt in alts:
@@ -29,7 +29,7 @@ class AltsController:
 
     @command(command="alts", params=[Const("add"), Any("character")], access_level="all",
              description="Add an alt")
-    def alts_add_cmd(self, channel, sender, reply, _, alt_char_name):
+    def alts_add_cmd(self, request, _, alt_char_name):
         alt_char_name = alt_char_name.capitalize()
         alt_char_id = self.character_service.resolve_char_to_id(alt_char_name)
 
@@ -49,7 +49,7 @@ class AltsController:
 
     @command(command="alts", params=[Options(["rem", "remove"]), Any("character")], access_level="all",
              description="Remove an alt")
-    def alts_remove_cmd(self, channel, sender, reply, _, alt_char_name):
+    def alts_remove_cmd(self, request, _, alt_char_name):
         alt_char_name = alt_char_name.capitalize()
         alt_char_id = self.character_service.resolve_char_to_id(alt_char_name)
 
@@ -70,7 +70,7 @@ class AltsController:
 
     @command(command="alts", params=[Any("character")], access_level="member",
              description="Show alts of another character", sub_command="show")
-    def alts_list_other_cmd(self, channel, sender, reply, char_name):
+    def alts_list_other_cmd(self, request, char_name):
         char_name = char_name.capitalize()
         char_id = self.character_service.resolve_char_to_id(char_name)
         if not char_id:

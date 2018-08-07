@@ -22,21 +22,21 @@ class TrickleController:
 
     @command(command="trickle", params=[Regex("ability amount", "(( ([a-z]+) ([0-9]+))+)")], access_level="all",
              description="Show skill increases due to trickle")
-    def trickle_ability_cmd1(self, channel, sender, reply, regex):
+    def trickle_ability_cmd1(self, request, regex):
         abilities_map = self.get_abilities_map(regex[0], False)
         trickle_amounts = self.get_trickle_amounts(abilities_map)
         return self.format_trickle_output(abilities_map, trickle_amounts)
 
     @command(command="trickle", params=[Regex("amount ability", "(( ([0-9]+) ([a-z]+))+)")], access_level="all",
              description="Show skill increases due to trickle")
-    def trickle_ability_cmd2(self, channel, sender, reply, regex):
+    def trickle_ability_cmd2(self, request, regex):
         abilities_map = self.get_abilities_map(regex[0], True)
         trickle_amounts = self.get_trickle_amounts(abilities_map)
         return self.format_trickle_output(abilities_map, trickle_amounts)
 
     @command(command="trickle", params=[Any("skill")], access_level="all",
              description="Show how much ability is needed to trickle a skill")
-    def trickle_skill_cmd(self, channel, sender, reply, search):
+    def trickle_skill_cmd(self, request, search):
         data = self.db.query(*self.db.handle_extended_like("SELECT * FROM trickle WHERE name <EXTENDED_LIKE=0> ?", [search]))
         count = len(data)
 

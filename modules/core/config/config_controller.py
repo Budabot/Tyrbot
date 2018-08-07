@@ -16,7 +16,7 @@ class ConfigController:
 
     @command(command="config", params=[], access_level="superadmin",
              description="Show configuration options for the bot")
-    def config_list_cmd(self, channel, sender, reply):
+    def config_list_cmd(self, request):
         sql = """SELECT
                 module,
                 SUM(CASE WHEN enabled = 1 THEN 1 ELSE 0 END) count_enabled,
@@ -57,7 +57,7 @@ class ConfigController:
 
     @command(command="config", params=[Options(["mod", "module"]), Any("module_name")], access_level="superadmin",
              description="Show configuration options for a specific module")
-    def config_module_list_cmd(self, channel, sender, reply, _, module):
+    def config_module_list_cmd(self, request, _, module):
         module = module.lower()
 
         blob = ""
@@ -96,7 +96,7 @@ class ConfigController:
 
     @command(command="config", params=[Const("event"), Any("event_type"), Any("event_handler"), Options(["enable", "disable"])], access_level="superadmin",
              description="Enable or disable an event")
-    def config_event_status_cmd(self, channel, sender, reply, _, event_type, event_handler, action):
+    def config_event_status_cmd(self, request, _, event_type, event_handler, action):
         event_type = event_type.lower()
         event_handler = event_handler.lower()
         action = action.lower()
@@ -115,7 +115,7 @@ class ConfigController:
 
     @command(command="config", params=[Const("setting"), Any("setting_name"), Options(["set", "clear"]), Any("new_value", is_optional=True)], access_level="superadmin",
              description="Change a setting value")
-    def config_setting_update_cmd(self, channel, sender, reply, _, setting_name, op, new_value):
+    def config_setting_update_cmd(self, request, _, setting_name, op, new_value):
         setting_name = setting_name.lower()
 
         if op == "clear":
@@ -139,7 +139,7 @@ class ConfigController:
 
     @command(command="config", params=[Const("setting"), Any("setting_name")], access_level="superadmin",
              description="Show configuration options for a setting")
-    def config_setting_show_cmd(self, channel, sender, reply, _, setting_name):
+    def config_setting_show_cmd(self, request, _, setting_name):
         setting_name = setting_name.lower()
 
         blob = ""

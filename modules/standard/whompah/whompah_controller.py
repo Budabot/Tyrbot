@@ -16,7 +16,7 @@ class WhompahController:
 
     @command(command="whompah", params=[], access_level="all",
              description="Show list of whompah cities")
-    def whompah_list_cmd(self, channel, sender, reply):
+    def whompah_list_cmd(self, request):
         cities = self.db.query("SELECT id, city_name, zone, faction, short_name FROM whompah_cities ORDER BY city_name ASC")
 
         blob = ""
@@ -27,7 +27,7 @@ class WhompahController:
 
     @command(command="whompah", params=[Any("city1"), Any("city2")], access_level="all",
              description="Show whompah route between two cities")
-    def whompah_travel_cmd(self, channel, sender, reply, city_name1, city_name2):
+    def whompah_travel_cmd(self, request, city_name1, city_name2):
         city1 = self.get_whompah_city(city_name1)
         city2 = self.get_whompah_city(city_name2)
 
@@ -50,7 +50,7 @@ class WhompahController:
 
     @command(command="whompah", params=[Any("city")], access_level="all",
              description="Show whompah destinations for a city")
-    def whompah_city_cmd(self, channel, sender, reply, city_name):
+    def whompah_city_cmd(self, request, city_name):
         city = self.get_whompah_city(city_name)
 
         if not city:

@@ -11,7 +11,7 @@ class SendMessageController:
 
     @command(command="sendtell", params=[Any("character"), Any("message")], access_level="superadmin",
              description="Send a tell to another character from the bot")
-    def sendtell_cmd(self, channel, sender, reply, char_name, message):
+    def sendtell_cmd(self, request, char_name, message):
         char_name = char_name.capitalize()
         char_id = self.character_service.resolve_char_to_id(char_name)
         if char_id:

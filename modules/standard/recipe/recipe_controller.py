@@ -90,7 +90,7 @@ class RecipeController:
 
     @command(command="recipe", params=[Int("recipe_id")], access_level="all",
              description="Show a recipe")
-    def recipe_show_cmd(self, channel, sender, reply, recipe_id):
+    def recipe_show_cmd(self, request, recipe_id):
         recipe = self.get_recipe(recipe_id)
         if not recipe:
             return "Could not find recipe with ID <highlight>%d<end>." % recipe_id
@@ -99,7 +99,7 @@ class RecipeController:
 
     @command(command="recipe", params=[Any("search")], access_level="all",
              description="Search for a recipe")
-    def recipe_search_cmd(self, channel, sender, reply, search):
+    def recipe_search_cmd(self, request, search):
         data = self.db.query(*self.db.handle_extended_like("SELECT * FROM recipe WHERE recipe <EXTENDED_LIKE=0> ? ORDER BY name ASC", [search]))
 
         blob = ""

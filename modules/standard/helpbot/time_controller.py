@@ -13,7 +13,7 @@ class TimeController:
 
     @command(command="time", params=[], access_level="all",
              description="Show the current time in every timezone")
-    def time_cmd(self, channel, sender, reply):
+    def time_cmd(self, request):
         blob = "Unixtime => %d\n\n" % int(time.time())
         current_region = ""
         dt = datetime.now()
@@ -35,7 +35,7 @@ class TimeController:
 
     @command(command="time", params=[Any("timezone")], access_level="all",
              description="Show time for the specified timezone")
-    def time_zone_cmd(self, channel, sender, reply, timezone_str):
+    def time_zone_cmd(self, request, timezone_str):
         timezone_str = timezone_str.lower()
         for tz in pytz.common_timezones:
             if tz.lower() == timezone_str:

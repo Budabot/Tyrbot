@@ -15,7 +15,7 @@ class ConfigCommandController:
 
     @command(command="config", params=[Const("cmd"), Any("cmd_name"), Options(["enable", "disable"]), Any("channel")], access_level="superadmin",
              description="Enable or disable a command")
-    def config_cmd_status_cmd(self, channel, sender, reply, _, cmd_name, action, cmd_channel):
+    def config_cmd_status_cmd(self, request, _, cmd_name, action, cmd_channel):
         cmd_name = cmd_name.lower()
         action = action.lower()
         cmd_channel = cmd_channel.lower()
@@ -42,7 +42,7 @@ class ConfigCommandController:
 
     @command(command="config", params=[Const("cmd"), Any("cmd_name"), Const("access_level"), Any("channel"), Any("access_level")], access_level="superadmin",
              description="Change access_level for a command")
-    def config_cmd_access_level_cmd(self, channel, sender, reply, _1, cmd_name, _2, cmd_channel, access_level):
+    def config_cmd_access_level_cmd(self, request, _1, cmd_name, _2, cmd_channel, access_level):
         cmd_name = cmd_name.lower()
         cmd_channel = cmd_channel.lower()
         access_level = access_level.lower()
@@ -71,7 +71,7 @@ class ConfigCommandController:
 
     @command(command="config", params=[Const("cmd"), Any("cmd_name")], access_level="superadmin",
              description="Show command configuration")
-    def config_cmd_show_cmd(self, channel, sender, reply, _, cmd_name):
+    def config_cmd_show_cmd(self, request, _, cmd_name):
         cmd_name = cmd_name.lower()
         command_str, sub_command_str = self.command_service.get_command_key_parts(cmd_name)
 

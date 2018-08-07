@@ -14,7 +14,7 @@ class ResearchController:
 
     @command(command="research", params=[Int("research_level")], access_level="all",
              description="Show information about a specific research level")
-    def research_command(self, channel, sender, reply, research_level):
+    def research_command(self, request, research_level):
         if research_level > 10 or research_level < 1:
             return "Research level must be between 1 and 10."
 
@@ -31,7 +31,7 @@ class ResearchController:
 
     @command(command="research", params=[Int("research_level"), Int("research_level")], access_level="all",
              description="Show the amount of SK needed from one research level to another")
-    def research_span_command(self, channel, sender, reply, research_level1, research_level2):
+    def research_span_command(self, request, research_level1, research_level2):
         if research_level1 > 10 or research_level1 < 1 or research_level2 > 10 or research_level2 < 1:
             return "Research level must be between 1 and 10."
         elif research_level1 == research_level2:

@@ -20,7 +20,7 @@ class LinksController:
 
     @command(command="links", params=[], access_level="all",
              description="Show links")
-    def links_list_cmd(self, channel, sender, reply):
+    def links_list_cmd(self, request):
         data = self.db.query("SELECT l.*, p.name FROM links l LEFT JOIN player p ON l.char_id = p.char_id ORDER BY name ASC")
 
         blob = ""
@@ -34,7 +34,7 @@ class LinksController:
 
     @command(command="links", params=[Const("add"), Any("website"), Any("comment")], access_level="moderator",
              description="Add a link")
-    def links_add_cmd(self, channel, sender, reply, _, website, comment):
+    def links_add_cmd(self, request, _, website, comment):
         if not website.startswith("https://") and not website.startswith("http://"):
             return "Website must start with 'http://' or 'https://'."
 
@@ -43,7 +43,7 @@ class LinksController:
 
     @command(command="links", params=[Options(["rem", "remove"]), Int("link_id")], access_level="moderator",
              description="Remove a link")
-    def links_remove_cmd(self, channel, sender, reply, _, link_id):
+    def links_remove_cmd(self, request, _, link_id):
         link = self.db.query_single("SELECT * FROM links WHERE id = ?", [link_id])
         if not link:
             return "Could not find link with ID <highlight>%d<end>." % link_id

@@ -31,7 +31,7 @@ class OnlineController:
 
     @command(command="online", params=[], access_level="all",
              description="Show the list of online characters", aliases=["o"])
-    def online_cmd(self, channel, sender, reply):
+    def online_cmd(self, request):
         blob = ""
         count = 0
         for channel in [self.ORG_CHANNEL, self.PRIVATE_CHANNEL]:
@@ -57,7 +57,7 @@ class OnlineController:
 
     @command(command="count", params=[], access_level="all",
              description="Show counts of players by title level, profession, and organization")
-    def count_cmd(self, channel, sender, reply):
+    def count_cmd(self, request):
         data = self.db.query("SELECT p.*, o.channel, COALESCE(p.name, o.char_id) AS name FROM online o LEFT JOIN player p ON o.char_id = p.char_id ORDER BY channel ASC")
 
         title_levels = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0}

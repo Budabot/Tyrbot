@@ -16,7 +16,7 @@ class CalculatorController:
 
     @command(command="calc", params=[Any("formula")], access_level="all",
              description="Perform a calculation")
-    def calc_cmd(self, channel, sender, reply, formula):
+    def calc_cmd(self, request, formula):
         if self.allow_chars_regex.match(formula):
             try:
                 return "%s = %s" % (formula, round(eval(formula), 4))

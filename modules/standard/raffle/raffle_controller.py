@@ -22,7 +22,7 @@ class RaffleController:
 
     @command(command="raffle", params=[], access_level="all",
              description="Show current raffle")
-    def raffle_show_cmd(self, channel, sender, reply):
+    def raffle_show_cmd(self, request):
         if not self.raffle:
             return "There is no active raffle."
 
@@ -32,7 +32,7 @@ class RaffleController:
 
     @command(command="raffle", params=[Const("cancel")], access_level="all",
              description="Cancel the raffle")
-    def raffle_cancel_cmd(self, channel, sender, reply, _):
+    def raffle_cancel_cmd(self, request, _):
         if not self.raffle:
             return "There is no active raffle."
 
@@ -45,7 +45,7 @@ class RaffleController:
 
     @command(command="raffle", params=[Const("join")], access_level="all",
              description="Join the raffle")
-    def raffle_join_cmd(self, channel, sender, reply, _):
+    def raffle_join_cmd(self, request, _):
         if not self.raffle:
             return "There is no active raffle."
 
@@ -57,7 +57,7 @@ class RaffleController:
 
     @command(command="raffle", params=[Const("leave")], access_level="all",
              description="Leave the raffle")
-    def raffle_leave_cmd(self, channel, sender, reply, _):
+    def raffle_leave_cmd(self, request, _):
         if not self.raffle:
             return "There is no active raffle."
 
@@ -69,7 +69,7 @@ class RaffleController:
 
     @command(command="raffle", params=[Const("start", is_optional=True), Any("item")], access_level="all",
              description="Raffle an item")
-    def raffle_start_cmd(self, channel, sender, reply, _, item):
+    def raffle_start_cmd(self, request, _, item):
         duration = 180  # 3 minutes
 
         if self.raffle:

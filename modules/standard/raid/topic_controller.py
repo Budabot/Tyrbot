@@ -19,7 +19,7 @@ class TopicController:
 
     @command(command="topic", params=[], access_level="all",
              description="Show the current topic")
-    def topic_show_command(self, channel, sender, reply):
+    def topic_show_command(self, request):
         topic = self.topic().get_value()
         if topic:
             time_string = self.util.time_to_readable(int(time.time()) - topic["created_at"])
@@ -29,14 +29,14 @@ class TopicController:
 
     @command(command="topic", params=[Const("clear")], access_level="all",
              description="Clears the current topic")
-    def topic_clear_command(self, channel, sender, reply, _):
+    def topic_clear_command(self, request, _):
         self.topic().set_value("")
 
         return "The topic has been cleared."
 
     @command(command="topic", params=[Const("set", is_optional=True), Any("topic_message")], access_level="all",
              description="Set the current topic")
-    def topic_set_command(self, channel, sender, reply, _, topic_message):
+    def topic_set_command(self, request, _, topic_message):
         topic = {"topic_message": topic_message,
                  "created_by": sender,
                  "created_at": int(time.time())}

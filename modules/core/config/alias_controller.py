@@ -16,7 +16,7 @@ class AliasController:
 
     @command(command="alias", params=[Const("list")], access_level="all",
              description="List command aliases")
-    def alias_list_cmd(self, channel, sender, reply, _):
+    def alias_list_cmd(self, request, _):
         blob = ""
         data = self.command_alias_service.get_enabled_aliases()
         count = len(data)
@@ -27,7 +27,7 @@ class AliasController:
 
     @command(command="alias", params=[Const("add"), Any("alias"), Any("command")], access_level="superadmin",
              description="Add a command alias", sub_command="modify")
-    def alias_add_cmd(self, channel, sender, reply, _, alias, command_str):
+    def alias_add_cmd(self, request, _, alias, command_str):
         if self.command_alias_service.add_alias(alias, command_str):
             return "Alias <highlight>%s<end> for command <highlight>%s<end> added successfully." % (alias, command_str)
         else:
@@ -35,7 +35,7 @@ class AliasController:
 
     @command(command="alias", params=[Options(["rem", "remove"]), Any("alias")], access_level="superadmin",
              description="Remove a command alias", sub_command="modify")
-    def alias_remove_cmd(self, channel, sender, reply, _, alias):
+    def alias_remove_cmd(self, request, _, alias):
         if self.command_alias_service.remove_alias(alias):
             return "Alias <highlight>%s<end> has been removed successfully." % alias
         else:

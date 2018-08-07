@@ -45,7 +45,7 @@ class AOUController:
 
     @command(command="aou", params=[Int("guide_id")], access_level="all",
              description="Show an AO-Universe guide")
-    def aou_show_cmd(self, channel, sender, reply, guide_id):
+    def aou_show_cmd(self, request, guide_id):
         guide_info = self.retrieve_guide(guide_id)
 
         if not guide_info:
@@ -65,7 +65,7 @@ class AOUController:
 
     @command(command="aou", params=[Const("all", is_optional=True), Any("search")], access_level="all",
              description="Search for an AO-Universe guides")
-    def aou_search_cmd(self, channel, sender, reply, include_all_matches, search):
+    def aou_search_cmd(self, request, include_all_matches, search):
         include_all_matches = include_all_matches or False
 
         r = requests.get(self.AOU_URL + "&mode=search&search=" + search)

@@ -1,3 +1,4 @@
+from core.command_request import CommandRequest
 from core.decorators import instance
 from core.access_service import AccessService
 from core.aochat import server_packets
@@ -68,8 +69,8 @@ class CommandService:
                     module = self.util.get_module_name(handler)
                     help_text = self.get_help_file(module, help_file)
                     self.register(handler, cmd_name, params, access_level, description, module, help_text, sub_command, extended_description, check_access)
-                    if len(inspect.signature(handler).parameters) != len(params) + 3:
-                        raise Exception("Invalid number of parameters for handler '%s.%s()'" % (handler.__module__, handler.__name__))
+                    if len(inspect.signature(handler).parameters) != len(params) + 1:
+                        raise Exception("Incorrect number of arguments for handler '%s.%s()'" % (handler.__module__, handler.__name__))
 
                     if aliases:
                         for alias in aliases:
@@ -156,7 +157,7 @@ class CommandService:
                 if matches:
                     if handler["check_access"](char_id, cmd_config.access_level):
                         sender = SenderObj(char_id, self.character_service.resolve_char_to_name(char_id, "Unknown(%d)" % char_id))
-                        response = handler["callback"](channel, sender, reply, *self.process_matches(matches, handler["params"]))
+                        response = handler["callback"](CommandRequest(channel, sender, reply), *self.process_matches(matches, handler["params"]))
                         if response != self.NO_RESPONSE_SYMBOL:
                             if response:
                                 reply(response)

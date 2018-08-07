@@ -9,7 +9,7 @@ class CountdownController:
 
     @command(command="countdown", params=[Any("message", is_optional=True)], access_level="all",
              description="Start a 5-second countdown", aliases=["cd"])
-    def whois_cmd(self, channel, sender, reply, message):
+    def whois_cmd(self, request, message):
         message = message or "GO GO GO"
         message_format = "%s-------&gt; %s &lt;-------<end>"
 

@@ -27,7 +27,7 @@ class MemberController:
 
     @command(command="member", params=[Const("add"), Any("character")], access_level="superadmin",
              description="Add a member")
-    def member_add_cmd(self, channel, sender, reply, _, char_name):
+    def member_add_cmd(self, request, _, char_name):
         char_name = char_name.capitalize()
         char_id = self.character_service.resolve_char_to_id(char_name)
         if char_id:
@@ -41,7 +41,7 @@ class MemberController:
 
     @command(command="member", params=[Options(["rem", "remove"]), Any("character")], access_level="superadmin",
              description="Remove a member")
-    def member_remove_cmd(self, channel, sender, reply, _, char_name):
+    def member_remove_cmd(self, request, _, char_name):
         char_name = char_name.capitalize()
         char_id = self.character_service.resolve_char_to_id(char_name)
         if char_id:
@@ -55,7 +55,7 @@ class MemberController:
 
     @command(command="member", params=[Const("list")], access_level="superadmin",
              description="List members")
-    def member_list_cmd(self, channel, sender, reply, _):
+    def member_list_cmd(self, request, _):
         data = self.get_all_members()
         count = len(data)
         blob = ""
@@ -65,7 +65,7 @@ class MemberController:
 
     @command(command="autoinvite", params=[Options(["on", "off"])], access_level="all",
              description="Set your auto invite preference")
-    def autoinvite_cmd(self, channel, sender, reply, pref):
+    def autoinvite_cmd(self, request, pref):
         pref = pref.lower()
         member = self.get_member(sender.char_id)
         if member:

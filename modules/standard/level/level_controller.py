@@ -12,7 +12,7 @@ class LevelController:
 
     @command(command="level", params=[Int("level")], access_level="all",
              description="Show information about a character level")
-    def level_cmd(self, channel, sender, reply, level):
+    def level_cmd(self, request, level):
         row = self.get_level_info(level)
 
         if row:
@@ -24,7 +24,7 @@ class LevelController:
 
     @command(command="mission", params=[Int("mission_level")], access_level="all",
              description="Show what character levels can roll a specified mission level")
-    def mission_cmd(self, channel, sender, reply, level):
+    def mission_cmd(self, request, level):
         if 1 <= level <= 250:
             levels = []
             data = self.db.query("SELECT * FROM level")
@@ -39,7 +39,7 @@ class LevelController:
 
     @command(command="xp", params=[Int("start_level"), Int("end_level", is_optional=True)], access_level="all",
              description="Show the amount of XP needed to reach a certain level")
-    def xp_range_cmd(self, channel, sender, reply, start_level, end_level):
+    def xp_range_cmd(self, request, start_level, end_level):
         end_level = end_level or start_level + 1
 
         if start_level == end_level:
@@ -66,7 +66,7 @@ class LevelController:
 
     @command(command="axp", params=[], access_level="all",
              description="Show information about alien levels")
-    def axp_single_cmd(self, channel, sender, reply):
+    def axp_single_cmd(self, request):
         data = self.db.query("SELECT * FROM alien_level ORDER BY alien_level ASC")
 
         blob = ""

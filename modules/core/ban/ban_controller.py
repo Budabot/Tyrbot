@@ -18,7 +18,7 @@ class BanController:
 
     @command(command="ban", params=[Const("list", is_optional=True)], access_level="moderator",
              description="Show the ban list")
-    def ban_list_cmd(self, channel, sender, reply, _):
+    def ban_list_cmd(self, request, _):
         t = int(time.time())
         data = self.ban_service.get_ban_list()
         blob = ""
@@ -36,7 +36,7 @@ class BanController:
 
     @command(command="ban", params=[Options(["rem", "remove"]), Any("character")], access_level="moderator",
              description="Remove a character from the ban list")
-    def ban_remove_cmd(self, channel, sender, reply, _, char_name):
+    def ban_remove_cmd(self, request, _, char_name):
         char_name = char_name.capitalize()
         char_id = self.character_service.resolve_char_to_id(char_name)
 
@@ -50,7 +50,7 @@ class BanController:
 
     @command(command="ban", params=[Const("add", is_optional=True), Any("character"), Time("duration", is_optional=True), Any("reason", is_optional=True)], access_level="moderator",
              description="Add a character to the ban list")
-    def ban_add_cmd(self, channel, sender, reply, _, char_name, duration, reason):
+    def ban_add_cmd(self, request, _, char_name, duration, reason):
         char_name = char_name.capitalize()
         reason = reason or ""
         char_id = self.character_service.resolve_char_to_id(char_name)

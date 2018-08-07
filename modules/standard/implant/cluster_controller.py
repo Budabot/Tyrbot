@@ -12,7 +12,7 @@ class ClusterController:
 
     @command(command="cluster", params=[], access_level="all",
              description="Show a list of skills that can be buffed with an implant cluster")
-    def cluster_list_cmd(self, channel, sender, reply):
+    def cluster_list_cmd(self, request):
         data = self.db.query("SELECT ClusterID, LongName FROM Cluster ORDER BY LongName ASC")
 
         blob = ""
@@ -23,7 +23,7 @@ class ClusterController:
 
     @command(command="cluster", params=[Any("skill")], access_level="all",
              description="Show which clusters buff a particular skill")
-    def cluster_show_cmd(self, channel, sender, reply, skill):
+    def cluster_show_cmd(self, request, skill):
         data = self.db.query(*self.db.handle_extended_like("SELECT ClusterID, LongName FROM Cluster WHERE LongNAme <EXTENDED_LIKE=0> ?", [skill]))
         count = len(data)
 

@@ -22,7 +22,7 @@ class UtilController:
 
     @command(command="checkaccess", params=[Any("character", is_optional=True)], access_level="all",
              description="Check access level for a character")
-    def checkaccess_cmd(self, channel, sender, reply, char_name):
+    def checkaccess_cmd(self, request, char_name):
         char_name = char_name.capitalize() if char_name else sender.name
         char_id = self.character_service.resolve_char_to_id(char_name)
 
@@ -34,19 +34,19 @@ class UtilController:
 
     @command(command="macro", params=[Any("command 1|command 2|command 3 ...")], access_level="all",
              description="Execute multiple commands at once")
-    def macro_cmd(self, channel, sender, reply, commands):
+    def macro_cmd(self, request, commands):
         commands = commands.split("|")
         for command_str in commands:
             self.command_service.process_command(command_str, channel, sender.char_id, reply)
 
     @command(command="echo", params=[Any("message")], access_level="all",
              description="Echo back a message")
-    def echo_cmd(self, channel, sender, reply, message):
+    def echo_cmd(self, request, message):
         return html.escape(message)
 
     @command(command="showcommand", params=[Any("character"), Any("message")], access_level="superadmin",
              description="Show command output to another character")
-    def showcommand_cmd(self, channel, sender, reply, char_name, command_str):
+    def showcommand_cmd(self, request, char_name, command_str):
         char_name = char_name.capitalize()
 
         char_id = self.character_service.resolve_char_to_id(char_name)
@@ -62,7 +62,7 @@ class UtilController:
 
     @command(command="system", params=[], access_level="admin",
              description="Show system information")
-    def system_cmd(self, channel, sender, reply):
+    def system_cmd(self, request):
         blob = ""
         blob += "Version: <highlight>Tyrbot %s<end>\n" % self.bot.version
         blob += "Name: <highlight><myname><end>\n"

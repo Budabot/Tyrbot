@@ -16,7 +16,7 @@ class GuideController:
 
     @command(command="guides", params=[], access_level="all",
              description="Show the list of guides")
-    def guide_list_cmd(self, channel, sender, reply):
+    def guide_list_cmd(self, request):
         dir_path = self.get_base_path()
         guides = [f[:-len(self.GUIDE_FILE_EXT)] for f in os.listdir(dir_path) if f.endswith(self.GUIDE_FILE_EXT)]
 
@@ -28,7 +28,7 @@ class GuideController:
 
     @command(command="guides", params=[Any("guide")], access_level="all",
              description="Show the guide details")
-    def guide_show_cmd(self, channel, sender, reply, guide):
+    def guide_show_cmd(self, request, guide):
         guide = guide.lower()
         file_path = self.get_base_path() + os.sep + guide + self.GUIDE_FILE_EXT
 

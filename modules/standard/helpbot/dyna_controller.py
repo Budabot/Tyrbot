@@ -14,7 +14,7 @@ class DynaController:
 
     @command(command="dyna", params=[], access_level="all",
              description="Show a list of dyna mob types")
-    def dyna_mob_types_command(self, channel, sender, reply):
+    def dyna_mob_types_command(self, request):
         data = self.db.query("SELECT mob, MIN(minQl) AS minQl, MAX(maxQl) AS maxQl FROM dynadb GROUP BY mob ORDER BY mob ASC")
 
         blob = ""
@@ -25,7 +25,7 @@ class DynaController:
 
     @command(command="dyna", params=[Int("level")], access_level="all",
              description="Show a list of dyna camps +/- 25 of QL")
-    def dyna_level_command(self, channel, sender, reply, level):
+    def dyna_level_command(self, request, level):
         min_level = level - 25
         max_level = level + 25
 
@@ -40,7 +40,7 @@ class DynaController:
 
     @command(command="dyna", params=[Any("search")], access_level="all",
              description="Search for dyna camps based on playfield or mob type")
-    def dyna_search_command(self, channel, sender, reply, search):
+    def dyna_search_command(self, request, search):
         search_param = "%" + search + "%"
         data = self.db.query("SELECT * FROM dynadb d JOIN playfields p ON d.playfield_id = p.id "
                              "WHERE p.long_name LIKE ? OR p.short_name LIKE ? OR d.mob LIKE ? ORDER BY d.minQl",

@@ -26,7 +26,7 @@ class TimerController:
 
     @command(command="timers", params=[], access_level="all",
              description="Show current timers", aliases=["timer"])
-    def timers_list_cmd(self, channel, sender, reply):
+    def timers_list_cmd(self, request):
         t = int(time.time())
         data = self.db.query("SELECT t.*, p.name AS char_name FROM timer t LEFT JOIN player p ON t.char_id = p.char_id ORDER BY t.finished_at ASC")
         blob = ""
@@ -39,7 +39,7 @@ class TimerController:
 
     @command(command="timers", params=[Const("add", is_optional=True), Time("time"), Any("name", is_optional=True)], access_level="all",
              description="Add a timer")
-    def timers_add_cmd(self, channel, sender, reply, _, duration, timer_name):
+    def timers_add_cmd(self, request, _, duration, timer_name):
         timer_name = timer_name or self.get_timer_name(sender.name)
 
         if self.get_timer(timer_name):

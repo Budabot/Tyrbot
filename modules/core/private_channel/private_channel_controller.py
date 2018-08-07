@@ -17,17 +17,17 @@ class PrivateChannelController:
 
     @command(command="join", params=[], access_level="all",
              description="Join the private channel")
-    def join_cmd(self, channel, sender, reply):
+    def join_cmd(self, request):
         self.private_channel_service.invite(sender.char_id)
 
     @command(command="leave", params=[], access_level="all",
              description="Leave the private channel")
-    def leave_cmd(self, channel, sender, reply):
+    def leave_cmd(self, request):
         self.private_channel_service.kick(sender.char_id)
 
     @command(command="invite", params=[Any("character")], access_level="all",
              description="Invite a character to the private channel")
-    def invite_cmd(self, channel, sender, reply, char_name):
+    def invite_cmd(self, request, char_name):
         char_name = char_name.capitalize()
         char_id = self.character_service.resolve_char_to_id(char_name)
         if char_id:
@@ -42,7 +42,7 @@ class PrivateChannelController:
 
     @command(command="kick", params=[Any("character")], access_level="admin",
              description="Kick a character from the private channel")
-    def kick_cmd(self, channel, sender, reply, char_name):
+    def kick_cmd(self, request, char_name):
         char_name = char_name.capitalize()
         char_id = self.character_service.resolve_char_to_id(char_name)
         if char_id:
@@ -60,7 +60,7 @@ class PrivateChannelController:
 
     @command(command="kickall", params=[], access_level="admin",
              description="Kick all characters from the private channel")
-    def kickall_cmd(self, channel, sender, reply):
+    def kickall_cmd(self, request):
         self.bot.send_private_channel_message("Everyone will be kicked from this channel in 10 seconds. [by <highlight>%s<end>]" % sender.name)
         self.job_scheduler.delayed_job(lambda t: self.private_channel_service.kickall(), 10)
 

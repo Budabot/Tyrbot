@@ -12,7 +12,7 @@ class RunasController:
 
     @command(command="runas", params=[Any("character"), Any("command")], access_level="superadmin",
              description="Run a command as another character")
-    def shutdown_cmd(self, channel, sender, reply, char_name, command_str):
+    def shutdown_cmd(self, request, char_name, command_str):
         char_name = char_name.capitalize()
         if command_str[0] == self.setting_service.get("symbol").get_value():
             command_str = command_str[1:]

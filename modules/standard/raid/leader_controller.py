@@ -17,7 +17,7 @@ class LeaderController:
 
     @command(command="leader", params=[], access_level="all",
              description="Show the current raidleader")
-    def leader_show_command(self, channel, sender, reply):
+    def leader_show_command(self, request):
         if self.leader:
             return "The current raidleader is <highlight>%s<end>." % self.character_service.resolve_char_to_name(self.leader)
         else:
@@ -25,7 +25,7 @@ class LeaderController:
 
     @command(command="leader", params=[Const("set")], access_level="all",
              description="Set yourself as raidleader")
-    def leader_set_self_command(self, channel, sender, reply, _):
+    def leader_set_self_command(self, request, _):
         if self.leader == sender.char_id:
             self.leader = None
             return "You have been removed as raidleader."
@@ -40,7 +40,7 @@ class LeaderController:
 
     @command(command="leader", params=[Const("set", is_optional=True), Any("character")], access_level="all",
              description="Set another character as raidleader")
-    def leader_set_other_command(self, channel, sender, reply, _, char_name):
+    def leader_set_other_command(self, request, _, char_name):
         char_name = char_name.capitalize()
         char_id = self.character_service.resolve_char_to_id(char_name)
 

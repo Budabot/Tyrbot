@@ -13,7 +13,7 @@ class ItemsController:
 
     @command(command="items", params=[Regex("page=#", "(\s+page=(\d+))?", is_optional=True, num_groups=2), Int("ql", is_optional=True), Any("search")], access_level="all",
              description="Search for an item", aliases=["i"])
-    def items_cmd(self, channel, sender, reply, regex, ql, search):
+    def items_cmd(self, request, regex, ql, search):
         page = int(regex[1] or 1)
 
         page_size = 40

@@ -33,7 +33,7 @@ class OrgListController:
 
     @command(command="orglist", params=[Int("org_id")], access_level="all",
              description="Show online status of characters in an org")
-    def orglist_cmd(self, channel, sender, reply, org_id):
+    def orglist_cmd(self, request, org_id):
         reply("Downloading org roster for org id %d..." % org_id)
 
         self.orglist = self.org_pork_service.get_org_info(org_id)

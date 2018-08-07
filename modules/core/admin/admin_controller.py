@@ -17,7 +17,7 @@ class AdminController:
 
     @command(command="admin", params=[], access_level="all",
              description="Show the admin list")
-    def admin_list_cmd(self, channel, sender, reply):
+    def admin_list_cmd(self, request):
         admins = self.admin_service.get_all()
         superadmin = self.pork_service.get_character_info(self.bot.superadmin)
         superadmin.access_level = "superadmin"
@@ -36,7 +36,7 @@ class AdminController:
 
     @command(command="admin", params=[Const("add"), Any("character")], access_level="superadmin",
              description="Add an admin", sub_command="modify")
-    def admin_add_cmd(self, channel, sender, reply, _, char_name):
+    def admin_add_cmd(self, request, _, char_name):
         char_name = char_name.capitalize()
         char_id = self.character_service.resolve_char_to_id(char_name)
 
@@ -50,7 +50,7 @@ class AdminController:
 
     @command(command="admin", params=[Options(["remove", "rem"]), Any("character")], access_level="superadmin",
              description="Remove an admin", sub_command="modify")
-    def admin_remove_cmd(self, channel, sender, reply, _, char_name):
+    def admin_remove_cmd(self, request, _, char_name):
         char_name = char_name.capitalize()
         char_id = self.character_service.resolve_char_to_id(char_name)
 
@@ -64,7 +64,7 @@ class AdminController:
 
     @command(command="moderator", params=[Const("add"), Any("character")], access_level="superadmin",
              description="Add a moderator", sub_command="modify")
-    def moderator_add_cmd(self, channel, sender, reply, _, char_name):
+    def moderator_add_cmd(self, request, _, char_name):
         char_name = char_name.capitalize()
         char_id = self.character_service.resolve_char_to_id(char_name)
 
@@ -78,7 +78,7 @@ class AdminController:
 
     @command(command="moderator", params=[Options(["remove", "rem"]), Any("character")], access_level="superadmin",
              description="Remove a moderator", sub_command="modify")
-    def moderator_remove_cmd(self, channel, sender, reply, _, char_name):
+    def moderator_remove_cmd(self, request, _, char_name):
         char_name = char_name.capitalize()
         char_id = self.character_service.resolve_char_to_id(char_name)
 

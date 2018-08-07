@@ -13,7 +13,7 @@ class WhatBuffsController:
 
     @command(command="whatbuffs", params=[], access_level="all",
              description="Find items or nanos that buff a skill (or ability)")
-    def whatbuffs_list_cmd(self, channel, sender, reply):
+    def whatbuffs_list_cmd(self, request):
         data = self.db.query("SELECT name FROM skills ORDER BY name ASC")
         blob = ""
         for row in data:
@@ -26,14 +26,14 @@ class WhatBuffsController:
         Options(["arms", "back", "chest", "deck", "feet", "fingers", "hands", "head", "hud", "legs", "nano", "neck", "shoulders", "unknown", "util", "weapon", "wrists"]),
         Any("skill")], access_level="all",
              description="Find items or nanos that buff a skill (or ability)")
-    def whatbuffs_detail_cmd(self, channel, sender, reply, item_type, skill_name):
+    def whatbuffs_detail_cmd(self, request, item_type, skill_name):
         item_type = item_type.capitalize()
 
         return self.show_search_results(item_type, skill_name)
 
     @command(command="whatbuffs", params=[Any("skill")], access_level="all",
              description="Find items or nanos that buff a skill (or ability)")
-    def whatbuffs_skill_cmd(self, channel, sender, reply, skill_name):
+    def whatbuffs_skill_cmd(self, request, skill_name):
         skills = self.search_for_skill(skill_name)
         if len(skills) == 0:
             return "Could not find skill <highlight>%s<end>." % skill_name

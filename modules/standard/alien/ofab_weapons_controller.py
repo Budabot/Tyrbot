@@ -13,7 +13,7 @@ class OfabWeaponsController:
 
     @command(command="ofabweapons", params=[], access_level="all",
              description="Show ofab weapons")
-    def ofabweapons_list_command(self, channel, sender, reply):
+    def ofabweapons_list_command(self, request):
         data = self.db.query("SELECT type, name FROM ofab_weapons ORDER BY name ASC")
 
         blob = ""
@@ -24,7 +24,7 @@ class OfabWeaponsController:
 
     @command(command="ofabweapons", params=[Any("weapon"), Int("ql", is_optional=True)], access_level="all",
              description="Show info about an ofab weapon")
-    def ofabweapons_show_command(self, channel, sender, reply, weapon_name, ql):
+    def ofabweapons_show_command(self, request, weapon_name, ql):
         weapon_name = weapon_name.capitalize()
         ql = ql or 300
 

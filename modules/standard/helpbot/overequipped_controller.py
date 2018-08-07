@@ -14,7 +14,7 @@ class OverequippedController:
 
     @command(command="oe", params=[Int("skill_level")], access_level="all",
              description="Show the current time in every timezone")
-    def oe_command(self, channel, sender, reply, skill_level):
+    def oe_command(self, request, skill_level):
         oe100 = int(math.floor(skill_level / 0.8))
         oe100low = int(math.floor(skill_level * 0.8))
         oe75 = int(math.floor(skill_level / 0.6))

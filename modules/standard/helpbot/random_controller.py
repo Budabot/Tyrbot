@@ -20,14 +20,14 @@ class RandomController:
 
     @command(command="random", params=[Any("items")], access_level="all",
              description="Randomly order a list of elements", extended_description="Enter a space-delimited list of items to randomize")
-    def random_command(self, channel, sender, reply, items):
+    def random_command(self, request, items):
         items = items.split(" ")
         random.shuffle(items)
         return " ".join(items)
 
     @command(command="roll", params=[Int("start_value", is_optional=True), Int("end_value")], access_level="all",
              description="Roll a number between 1 and a number")
-    def roll_command(self, channel, sender, reply, start_value, end_value):
+    def roll_command(self, request, start_value, end_value):
         start_value = start_value or 1
 
         if start_value > end_value:
@@ -41,7 +41,7 @@ class RandomController:
 
     @command(command="roll", params=[Const("verify"), Int("roll_id")], access_level="all",
              description="Verify a roll that happened")
-    def roll_verify_command(self, channel, sender, reply, _, roll_id):
+    def roll_verify_command(self, request, _, roll_id):
         row = self.db.query_single("SELECT * FROM roll WHERE id = ?", [roll_id])
 
         if not row:

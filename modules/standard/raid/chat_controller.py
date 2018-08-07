@@ -12,5 +12,5 @@ class ChatController:
 
     @command(command="loud", params=[Any("message")], access_level="all",
              description="Show a highly visible message", extended_description="This command is similar to <symbol>cmd in Budabot", aliases=["cmd"])
-    def loud_command(self, channel, sender, reply, message):
+    def loud_command(self, request, message):
         return "\n<yellow>---------------------\n<red>%s<end>\n<yellow>---------------------" % message

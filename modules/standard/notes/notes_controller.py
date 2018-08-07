@@ -20,7 +20,7 @@ class NotesController:
 
     @command(command="notes", params=[], access_level="all",
              description="Show your notes")
-    def notes_list_cmd(self, channel, sender, reply):
+    def notes_list_cmd(self, request):
         alts = self.alts_service.get_alts(sender.char_id)
 
         cnt = 0
@@ -39,14 +39,14 @@ class NotesController:
 
     @command(command="notes", params=[Const("add"), Any("note")], access_level="all",
              description="Add a note")
-    def notes_add_cmd(self, channel, sender, reply, _, note):
+    def notes_add_cmd(self, request, _, note):
         self.db.exec("INSERT INTO notes (char_id, note, created_at) VALUES (?, ?, ?)", [sender.char_id, note, int(time.time())])
 
         return "Note added successfully."
 
     @command(command="notes", params=[Options(["rem", "remove"]), Int("note_id")], access_level="all",
              description="Remove a note")
-    def notes_remove_cmd(self, channel, sender, reply, _, note_id):
+    def notes_remove_cmd(self, request, _, note_id):
         note = self.db.query_single("SELECT n.*, p.name FROM notes n LEFT JOIN player P ON n.char_id = p.char_id WHERE n.id = ?", [note_id])
 
         if not note:

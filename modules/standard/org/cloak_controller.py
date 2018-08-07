@@ -12,7 +12,7 @@ class CloakController:
 
     @command(command="cloak", params=[], access_level="all",
              description="Show the current status of the city cloak and the cloak history")
-    def cloak_show_command(self, channel, sender, reply):
+    def cloak_show_command(self, request):
         data = self.db.query("SELECT c.*, p.name FROM cloak_status c LEFT JOIN player p ON c.char_id = p.char_id ORDER BY created_at DESC LIMIT 20")
 
         if len(data) == 0:
