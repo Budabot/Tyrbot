@@ -12,9 +12,7 @@ class NanoController:
 
     @command(command="nano", params=[Any("search")], access_level="all",
              description="Search for a nano")
-    def nano_cmd(self, channel, sender, reply, args):
-        search = args[0]
-
+    def nano_cmd(self, channel, sender, reply, search):
         sql = "SELECT n1.lowid, n1.lowql, n1.name, n1.location, n1.profession, n3.id AS nanoline_id, n3.name AS nanoline_name " \
               "FROM nanos n1 " \
               "LEFT JOIN nanos_nanolines_ref n2 ON n1.lowid = n2.lowid " \
@@ -41,7 +39,7 @@ class NanoController:
 
     @command(command="nanoloc", params=[], access_level="all",
              description="Show all nano locations")
-    def nanoloc_list_cmd(self, channel, sender, reply, args):
+    def nanoloc_list_cmd(self, channel, sender, reply):
         data = self.db.query("SELECT location, COUNT(location) AS cnt FROM nanos GROUP BY location ORDER BY location ASC")
 
         blob = ""
@@ -53,9 +51,7 @@ class NanoController:
 
     @command(command="nanoloc", params=[Any("location")], access_level="all",
              description="Show nanos by location")
-    def nanoloc_show_cmd(self, channel, sender, reply, args):
-        location = args[0]
-
+    def nanoloc_show_cmd(self, channel, sender, reply, location):
         sql = "SELECT n1.lowid, n1.lowql, n1.name, n1.location, n3.profession " \
               "FROM nanos n1 LEFT JOIN nanos_nanolines_ref n2 ON n1.lowid = n2.lowid LEFT JOIN nanolines n3 ON n2.nanolines_id = n3.id " \
               "WHERE n1.location LIKE ? " \
@@ -74,7 +70,7 @@ class NanoController:
 
     @command(command="nanolines", params=[], access_level="all",
              description="Show nanos by nanoline")
-    def nanolines_list_cmd(self, channel, sender, reply, args):
+    def nanolines_list_cmd(self, channel, sender, reply):
         data = self.db.query("SELECT DISTINCT profession FROM nanolines ORDER BY profession ASC")
 
         blob = ""
@@ -86,8 +82,7 @@ class NanoController:
 
     @command(command="nanolines", params=[Int("nanoline_id")], access_level="all",
              description="Show nanos by nanoline id")
-    def nanolines_id_cmd(self, channel, sender, reply, args):
-        nanoline_id = args[0]
+    def nanolines_id_cmd(self, channel, sender, reply, nanoline_id):
         nanoline = self.db.query_single("SELECT * FROM nanolines WHERE id = ?", [nanoline_id])
 
         if not nanoline:
@@ -107,9 +102,7 @@ class NanoController:
 
     @command(command="nanolines", params=[Any("profession")], access_level="all",
              description="Show nanolines by profession")
-    def nanolines_profession_cmd(self, channel, sender, reply, args):
-        prof_name = args[0]
-
+    def nanolines_profession_cmd(self, channel, sender, reply, prof_name):
         profession = self.util.get_profession(prof_name)
         if not profession:
             return "Could not find profession <highlight>%s<end>." % prof_name

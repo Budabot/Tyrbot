@@ -27,35 +27,35 @@ class MemberController:
 
     @command(command="member", params=[Const("add"), Any("character")], access_level="superadmin",
              description="Add a member")
-    def member_add_cmd(self, channel, sender, reply, args):
-        char = args[1].capitalize()
-        char_id = self.character_service.resolve_char_to_id(char)
+    def member_add_cmd(self, channel, sender, reply, _, char_name):
+        char_name = char_name.capitalize()
+        char_id = self.character_service.resolve_char_to_id(char_name)
         if char_id:
             if self.get_member(char_id):
-                return "<highlight>%s<end> is already a member." % char
+                return "<highlight>%s<end> is already a member." % char_name
             else:
                 self.add_member(char_id)
-                return "<highlight>%s<end> has been added as a member." % char
+                return "<highlight>%s<end> has been added as a member." % char_name
         else:
-            return "Could not find character <highlight>%s<end>." % char
+            return "Could not find character <highlight>%s<end>." % char_name
 
     @command(command="member", params=[Options(["rem", "remove"]), Any("character")], access_level="superadmin",
              description="Remove a member")
-    def member_remove_cmd(self, channel, sender, reply, args):
-        char = args[1].capitalize()
-        char_id = self.character_service.resolve_char_to_id(char)
+    def member_remove_cmd(self, channel, sender, reply, _, char_name):
+        char_name = char_name.capitalize()
+        char_id = self.character_service.resolve_char_to_id(char_name)
         if char_id:
             if self.get_member(char_id):
                 self.remove_member(char_id)
-                return "<highlight>%s<end> has been removed as a member." % char
+                return "<highlight>%s<end> has been removed as a member." % char_name
             else:
-                return "<highlight>%s<end> is not a member." % char
+                return "<highlight>%s<end> is not a member." % char_name
         else:
-            return "Could not find character <highlight>%s<end>." % char
+            return "Could not find character <highlight>%s<end>." % char_name
 
     @command(command="member", params=[Const("list")], access_level="superadmin",
              description="List members")
-    def member_list_cmd(self, channel, sender, reply, args):
+    def member_list_cmd(self, channel, sender, reply, _):
         data = self.get_all_members()
         count = len(data)
         blob = ""
@@ -65,8 +65,8 @@ class MemberController:
 
     @command(command="autoinvite", params=[Options(["on", "off"])], access_level="all",
              description="Set your auto invite preference")
-    def autoinvite_cmd(self, channel, sender, reply, args):
-        pref = args[0].lower()
+    def autoinvite_cmd(self, channel, sender, reply, pref):
+        pref = pref.lower()
         member = self.get_member(sender.char_id)
         if member:
             self.update_auto_invite(sender.char_id, 1 if pref == "on" else 0)

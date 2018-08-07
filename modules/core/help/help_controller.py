@@ -20,7 +20,7 @@ class HelpController:
 
     @command(command="help", params=[], access_level="all",
              description="Show a list of commands to get help with")
-    def help_list_cmd(self, channel, sender, reply, args):
+    def help_list_cmd(self, channel, sender, reply):
         data = self.db.query("SELECT command, module, access_level FROM command_config "
                              "WHERE enabled = 1 "
                              "ORDER BY module ASC, command ASC")
@@ -52,8 +52,8 @@ class HelpController:
 
     @command(command="help", params=[Any("command")], access_level="all",
              description="Show help for a specific command")
-    def help_detail_cmd(self, channel, sender, reply, args):
-        help_topic = args[0].lower()
+    def help_detail_cmd(self, channel, sender, reply, help_topic):
+        help_topic = help_topic.lower()
 
         # check for alias
         alias = self.command_alias_service.check_for_alias(help_topic)

@@ -15,7 +15,7 @@ class PremadeImplantController:
 
     @command(command="premade", params=[], access_level="all",
              description="Search for implants in the premade implant booths")
-    def premade_list_cmd(self, channel, sender, reply, args):
+    def premade_list_cmd(self, channel, sender, reply):
         blob = "<header2>Professions<end>\n"
         for row in self.db.query("SELECT Name FROM Profession WHERE ID IN (SELECT ProfessionID FROM premade_implant) ORDER BY Name ASC"):
             blob += self.text.make_chatcmd(row.Name, "/tell <myname> premade %s" % row.Name) + "\n"
@@ -36,8 +36,8 @@ class PremadeImplantController:
 
     @command(command="premade", params=[Any("search")], access_level="all",
              description="Search for implants in the premade implant booths", extended_description="Search can be a profession, implant slot, or modifier (ability/skill)")
-    def premade_show_cmd(self, channel, sender, reply, args):
-        search = args[0].lower()
+    def premade_show_cmd(self, channel, sender, reply, search):
+        search = search.lower()
 
         prof = self.util.get_profession(search)
         slot = self.get_slot(search)

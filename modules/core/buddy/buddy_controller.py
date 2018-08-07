@@ -12,7 +12,7 @@ class BuddyController:
 
     @command(command="buddylist", params=[], access_level="superadmin",
              description="Show characters on the buddy list")
-    def buddylist_cmd(self, channel, sender, reply, args):
+    def buddylist_cmd(self, channel, sender, reply):
         buddy_list = []
         for char_id, buddy in self.buddy_service.get_all_buddies().items():
             char_name = self.character_service.resolve_char_to_name(char_id, "Unknown(%d)" % char_id)
@@ -24,33 +24,33 @@ class BuddyController:
 
     @command(command="buddylist", params=[Const("add"), Any("character"), Any("type")], access_level="superadmin",
              description="Add a character to the buddy list")
-    def buddylist_add_cmd(self, channel, sender, reply, args):
-        char_name = args[1].capitalize()
-        _type = args[2].lower()
+    def buddylist_add_cmd(self, channel, sender, reply, _, char_name, buddy_type):
+        char_name = char_name.capitalize()
+        buddy_type = buddy_type.lower()
 
         char_id = self.character_service.resolve_char_to_id(char_name)
         if char_id:
-            self.buddy_service.add_buddy(char_id, _type)
-            return "Character <highlight>%s<end> has been added to the buddy list for type <highlight>%s<end>." % (char_name, _type)
+            self.buddy_service.add_buddy(char_id, buddy_type)
+            return "Character <highlight>%s<end> has been added to the buddy list for type <highlight>%s<end>." % (char_name, buddy_type)
         else:
             return "Could not find character <highlight>%s<end>." % char_name
 
     @command(command="buddylist", params=[Options(["rem", "remove"]), Any("character"), Any("type")], access_level="superadmin",
              description="Remove a character from the buddy list")
-    def buddylist_remove_cmd(self, channel, sender, reply, args):
-        char_name = args[1].capitalize()
-        _type = args[2].lower()
+    def buddylist_remove_cmd(self, channel, sender, reply, _, char_name, buddy_type):
+        char_name = char_name.capitalize()
+        buddy_type = buddy_type.lower()
 
         char_id = self.character_service.resolve_char_to_id(char_name)
         if char_id:
-            self.buddy_service.remove_buddy(char_id, _type)
-            return "Character <highlight>%s<end> has been removed from the buddy list for type <highlight>%s<end>." % (char_name, _type)
+            self.buddy_service.remove_buddy(char_id, buddy_type)
+            return "Character <highlight>%s<end> has been removed from the buddy list for type <highlight>%s<end>." % (char_name, buddy_type)
         else:
             return "Could not find character <highlight>%s<end>." % char_name
 
     @command(command="buddylist", params=[Options(["remall", "removeall"])], access_level="superadmin",
              description="Remove all characters from the buddy list")
-    def buddylist_remove_cmd(self, channel, sender, reply, args):
+    def buddylist_remove_cmd(self, channel, sender, reply, _):
         count = 0
         for char_id, buddy in self.buddy_service.get_all_buddies().items():
             self.buddy_service.remove_buddy(char_id, None, True)
@@ -60,7 +60,7 @@ class BuddyController:
 
     @command(command="buddylist", params=[Const("clean")], access_level="superadmin",
              description="Remove all orphaned buddies from the buddy list")
-    def buddylist_clean_cmd(self, channel, sender, reply, args):
+    def buddylist_clean_cmd(self, channel, sender, reply, _):
         count = 0
         for char_id, buddy in self.buddy_service.get_all_buddies().items():
             if len(buddy["types"]) == 0:
@@ -71,8 +71,8 @@ class BuddyController:
 
     @command(command="buddylist", params=[Const("search"), Any("character")], access_level="superadmin",
              description="Remove all characters from the buddy list")
-    def buddylist_search_cmd(self, channel, sender, reply, args):
-        search = args[1].lower()
+    def buddylist_search_cmd(self, channel, sender, reply, _, search):
+        search = search.lower()
 
         buddy_list = []
         for char_id, buddy in self.buddy_service.get_all_buddies().items():

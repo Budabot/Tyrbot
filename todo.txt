@@ -13,6 +13,8 @@ cmd_call_info.sender
 cmd_call_info.channel
 cmd_call_info.command_str
 
+add CharacterNameSettingType to automatically .capitalize() char_name...or return object with char_id already resolved
+
 PREFERENCES
 USAGE - needs !usage command, needs to submit usage
 

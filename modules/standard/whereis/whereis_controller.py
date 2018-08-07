@@ -15,8 +15,7 @@ class WhereisController:
 
     @command(command="whereis", params=[Any("search")], access_level="all",
              description="Find locations of NPCs and places")
-    def handle_whereis_cmd(self, channel, sender, reply, args):
-        search = args[0]
+    def handle_whereis_cmd(self, channel, sender, reply, search):
         data = self.search_whereis(search)
 
         count = len(data)

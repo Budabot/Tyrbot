@@ -20,7 +20,7 @@ class LinksController:
 
     @command(command="links", params=[], access_level="all",
              description="Show links")
-    def links_list_cmd(self, channel, sender, reply, args):
+    def links_list_cmd(self, channel, sender, reply):
         data = self.db.query("SELECT l.*, p.name FROM links l LEFT JOIN player p ON l.char_id = p.char_id ORDER BY name ASC")
 
         blob = ""
@@ -34,10 +34,7 @@ class LinksController:
 
     @command(command="links", params=[Const("add"), Any("website"), Any("comment")], access_level="moderator",
              description="Add a link")
-    def links_add_cmd(self, channel, sender, reply, args):
-        website = args[1]
-        comment = args[2]
-
+    def links_add_cmd(self, channel, sender, reply, _, website, comment):
         if not website.startswith("https://") and not website.startswith("http://"):
             return "Website must start with 'http://' or 'https://'."
 

@@ -7,24 +7,18 @@ from core.command_param_types import Const, Any, Options
 
 @instance()
 class ConfigCommandController:
-    def __init__(self):
-        pass
-
     def inject(self, registry):
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
         self.access_service = registry.get_instance("access_service")
         self.command_service = registry.get_instance("command_service")
 
-    def start(self):
-        pass
-
     @command(command="config", params=[Const("cmd"), Any("cmd_name"), Options(["enable", "disable"]), Any("channel")], access_level="superadmin",
              description="Enable or disable a command")
-    def config_cmd_status_cmd(self, channel, sender, reply, args):
-        cmd_name = args[1].lower()
-        action = args[2].lower()
-        cmd_channel = args[3].lower()
+    def config_cmd_status_cmd(self, channel, sender, reply, _, cmd_name, action, cmd_channel):
+        cmd_name = cmd_name.lower()
+        action = action.lower()
+        cmd_channel = cmd_channel.lower()
         command_str, sub_command_str = self.command_service.get_command_key_parts(cmd_name)
         enabled = 1 if action == "enable" else 0
 
@@ -48,10 +42,10 @@ class ConfigCommandController:
 
     @command(command="config", params=[Const("cmd"), Any("cmd_name"), Const("access_level"), Any("channel"), Any("access_level")], access_level="superadmin",
              description="Change access_level for a command")
-    def config_cmd_access_level_cmd(self, channel, sender, reply, args):
-        cmd_name = args[1].lower()
-        cmd_channel = args[3].lower()
-        access_level = args[4].lower()
+    def config_cmd_access_level_cmd(self, channel, sender, reply, _1, cmd_name, _2, cmd_channel, access_level):
+        cmd_name = cmd_name.lower()
+        cmd_channel = cmd_channel.lower()
+        access_level = access_level.lower()
         command_str, sub_command_str = self.command_service.get_command_key_parts(cmd_name)
 
         if cmd_channel != "all" and not self.command_service.is_command_channel(cmd_channel):
@@ -77,8 +71,8 @@ class ConfigCommandController:
 
     @command(command="config", params=[Const("cmd"), Any("cmd_name")], access_level="superadmin",
              description="Show command configuration")
-    def config_cmd_show_cmd(self, channel, sender, reply, args):
-        cmd_name = args[1].lower()
+    def config_cmd_show_cmd(self, channel, sender, reply, _, cmd_name):
+        cmd_name = cmd_name.lower()
         command_str, sub_command_str = self.command_service.get_command_key_parts(cmd_name)
 
         blob = ""

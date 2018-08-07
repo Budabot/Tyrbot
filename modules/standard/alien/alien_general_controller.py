@@ -12,7 +12,7 @@ class AlienGeneralController:
 
     @command(command="aigen", params=[], access_level="all",
              description="List alien city ground generals")
-    def aigen_list_command(self, channel, sender, reply, args):
+    def aigen_list_command(self, channel, sender, reply):
         generals = ["Ankari", "Ilari", "Rimah", "Jaax", "Xoch", "Cha"]
 
         blob = ""
@@ -23,8 +23,8 @@ class AlienGeneralController:
 
     @command(command="aigen", params=[Options(["ankari", "ilari", "rimah", "jaax", "xoch", "cha"])], access_level="all",
              description="Show info about an alien city ground general")
-    def aigen_show_command(self, channel, sender, reply, args):
-        general = args[0].capitalize()
+    def aigen_show_command(self, channel, sender, reply, general):
+        general = general.capitalize()
 
         blob = ""
 

@@ -13,7 +13,7 @@ class LeProcsController:
 
     @command(command="leprocs", params=[], access_level="all",
              description="Show a list of professions with LE procs")
-    def leprocs_list_command(self, channel, sender, reply, args):
+    def leprocs_list_command(self, channel, sender, reply):
         data = self.db.query("SELECT DISTINCT profession FROM leprocs ORDER BY profession ASC")
 
         blob = ""
@@ -26,8 +26,7 @@ class LeProcsController:
 
     @command(command="leprocs", params=[Any("profession")], access_level="all",
              description="Show LE proc information for a specific profession")
-    def leprocs_show_command(self, channel, sender, reply, args):
-        prof_name = args[0]
+    def leprocs_show_command(self, channel, sender, reply, prof_name):
         profession = self.util.get_profession(prof_name)
 
         if not profession:

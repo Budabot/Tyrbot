@@ -110,7 +110,7 @@ class DiscordController:
 
     @command(command="discord", params=[Const("connect")], access_level="moderator", sub_command="manage",
              description="Manually connect to Discord")
-    def discord_connect_cmd(self, channel, sender, reply, args):
+    def discord_connect_cmd(self, channel, sender, reply, _):
         if self.client.is_logged_in:
             return "Already connected to Discord."
         else:
@@ -123,12 +123,12 @@ class DiscordController:
 
     @command(command="discord", params=[Const("disconnect")], access_level="moderator", sub_command="manage",
              description="Manually disconnect from Discord")
-    def discord_disconnect_cmd(self, channel, sender, reply, args):
+    def discord_disconnect_cmd(self, channel, sender, reply, _):
         pass
 
     @command(command="discord", params=[], access_level="member",
              description="See discord info")
-    def discord_cmd(self, channel, sender, reply, args):
+    def discord_cmd(self, channel, sender, reply):
         counter = 0
         for cid, channel in self.channels.items():
             if channel.relay_ao or channel.relay_dc:
@@ -165,7 +165,7 @@ class DiscordController:
 
     @command(command="discord", params=[Const("relay")], access_level="moderator", sub_command="manage",
              description="Setup relaying of channels")
-    def discord_relay_setup_cmd(self, channel, sender, reply, args):
+    def discord_relay_setup_cmd(self, channel, sender, reply, _):
         logtext = "logout" if self.client.is_logged_in else "login"
         logcmdt = "discord disconnect" if self.client.is_logged_in else "discord connect"
         loglink = self.text.make_chatcmd(logtext, "/tell <myname> %s" % logcmdt)
@@ -196,17 +196,13 @@ class DiscordController:
     
     @command(command="discord", params=[Const("relay"), Any("channel_id"), Options(["ao", "discord"]), Options(["on", "off"])], access_level="moderator",
              description="Changes relay setting for specific channel", sub_command="manage")
-    def discord_relay_change_cmd(self, channel, sender, reply, args):
-        cid = args[1]
-        relaytype = args[2]
-        relay = args[3]
+    def discord_relay_change_cmd(self, channel, sender, reply, _, channel_id, relay_type, relay):
+        channel = self.channels[channel_id]
 
-        channel = self.channels[cid]
-
-        if relaytype == "ao":
+        if relay_type == "ao":
             if channel is not None:
                 channel.relay_ao = True if relay == "on" else False
-        elif relaytype == "discord":
+        elif relay_type == "discord":
             if channel is not None:
                 channel.relay_dc = True if relay == "on" else False
         else:
@@ -218,22 +214,18 @@ class DiscordController:
 
     @command(command="discord", params=[Const("ignore"), Const("add"), Any("char_id")], access_level="moderator",
              description="Add char id to relay ignore list", sub_command="manage")
-    def discord_ignore_add_cmd(self, channel, sender, reply, args):
-        char_id = args[2]
-        
+    def discord_ignore_add_cmd(self, channel, sender, reply, _1, _2, char_id):
         if char_id not in self.ignore:
             self.ignore.append(char_id)
             self.update_discord_ignore()
 
-            return "Added char id %s to ignore list." % (char_id)
+            return "Added char id %s to ignore list." % char_id
         else:
             return "Char id already in ignore list."
 
     @command(command="discord", params=[Const("ignore"), Const("rem"), Any("char_id")], access_level="moderator",
              description="Remove char id from relay ignore list", sub_command="manage",)
-    def discord_ignore_remove_cmd(self, channel, sender, reply, args):
-        char_id = args[2]
-
+    def discord_ignore_remove_cmd(self, channel, sender, reply, _1, _2, char_id):
         if char_id not in self.ignore:
             return "Char id is not in ignore list."
         else:
@@ -242,7 +234,7 @@ class DiscordController:
 
     @command(command="discord", params=[Const("ignore")], access_level="moderator",
              description="See list of ignored characters", sub_command="manage")
-    def discord_ignore_list_cmd(self, channel, sender, reply, args):
+    def discord_ignore_list_cmd(self, channel, sender, reply, _):
         blob = "Characters ignored: <highlight>%d<end>\n\n" % len(self.ignore)
 
         if len(self.ignore) > 0:
@@ -257,12 +249,10 @@ class DiscordController:
 
     @command(command="discord", params=[Const("getinvite"), Int("server_id")], access_level="moderator",
              description="Get an invite for specified server", sub_command="manage")
-    def discord_getinvite_cmd(self, channel, sender, reply, args):
-        sid = args[1]
-
+    def discord_getinvite_cmd(self, channel, sender, reply, _, server_id):
         if self.servers:
             for server in self.servers:
-                if server.id == sid:
+                if server.id == server_id:
                     self.aoqueue.append(("get_invite", (sender.name, server)))
         else:
             return "No such server."

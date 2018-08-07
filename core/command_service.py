@@ -153,7 +153,7 @@ class CommandService:
                 if matches:
                     if handler["check_access"](char_id, cmd_config.access_level):
                         sender = SenderObj(char_id, self.character_service.resolve_char_to_name(char_id, "Unknown(%d)" % char_id))
-                        response = handler["callback"](channel, sender, reply, self.process_matches(matches, handler["params"]))
+                        response = handler["callback"](channel, sender, reply, *self.process_matches(matches, handler["params"]))
                         if response != self.NO_RESPONSE_SYMBOL:
                             if response:
                                 reply(response)

@@ -14,7 +14,7 @@ class SystemController:
 
     @command(command="shutdown", params=[], access_level="superadmin",
              description="Shutdown the bot")
-    def shutdown_cmd(self, channel, sender, reply, args):
+    def shutdown_cmd(self, channel, sender, reply):
         msg = "The bot is shutting down..."
         self.bot.send_org_message(msg)
         self.bot.send_private_channel_message(msg)
@@ -29,7 +29,7 @@ class SystemController:
 
     @command(command="restart", params=[], access_level="superadmin",
              description="Restart the bot")
-    def restart_cmd(self, channel, sender, reply, args):
+    def restart_cmd(self, channel, sender, reply):
         msg = "The bot is restarting..."
         self.bot.send_org_message(msg)
         self.bot.send_private_channel_message(msg)

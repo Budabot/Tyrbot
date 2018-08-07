@@ -7,9 +7,6 @@ from core.command_param_types import Const, Any, Options
 
 @instance()
 class ConfigController:
-    def __init__(self):
-        pass
-
     def inject(self, registry):
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
@@ -17,12 +14,9 @@ class ConfigController:
         self.event_service = registry.get_instance("event_service")
         self.setting_service = registry.get_instance("setting_service")
 
-    def start(self):
-        pass
-
     @command(command="config", params=[], access_level="superadmin",
              description="Show configuration options for the bot")
-    def config_list_cmd(self, channel, sender, reply, args):
+    def config_list_cmd(self, channel, sender, reply):
         sql = """SELECT
                 module,
                 SUM(CASE WHEN enabled = 1 THEN 1 ELSE 0 END) count_enabled,
@@ -63,8 +57,8 @@ class ConfigController:
 
     @command(command="config", params=[Options(["mod", "module"]), Any("module_name")], access_level="superadmin",
              description="Show configuration options for a specific module")
-    def config_module_list_cmd(self, channel, sender, reply, args):
-        module = args[1].lower()
+    def config_module_list_cmd(self, channel, sender, reply, module):
+        module = module.lower()
 
         blob = ""
 
@@ -102,10 +96,10 @@ class ConfigController:
 
     @command(command="config", params=[Const("event"), Any("event_type"), Any("event_handler"), Options(["enable", "disable"])], access_level="superadmin",
              description="Enable or disable an event")
-    def config_event_status_cmd(self, channel, sender, reply, args):
-        event_type = args[1].lower()
-        event_handler = args[2].lower()
-        action = args[3].lower()
+    def config_event_status_cmd(self, channel, sender, reply, _, event_type, event_handler, action):
+        event_type = event_type.lower()
+        event_handler = event_handler.lower()
+        action = action.lower()
         event_base_type, event_sub_type = self.event_service.get_event_type_parts(event_type)
         enabled = 1 if action == "enable" else 0
 
@@ -121,10 +115,8 @@ class ConfigController:
 
     @command(command="config", params=[Const("setting"), Any("setting_name"), Options(["set", "clear"]), Any("new_value", is_optional=True)], access_level="superadmin",
              description="Change a setting value")
-    def config_setting_update_cmd(self, channel, sender, reply, args):
-        setting_name = args[1].lower()
-        op = args[2]
-        new_value = args[3]
+    def config_setting_update_cmd(self, channel, sender, reply, _, setting_name, op, new_value):
+        setting_name = setting_name.lower()
 
         if op == "clear":
             new_value = ""
@@ -147,8 +139,8 @@ class ConfigController:
 
     @command(command="config", params=[Const("setting"), Any("setting_name")], access_level="superadmin",
              description="Show configuration options for a setting")
-    def config_setting_show_cmd(self, channel, sender, reply, args):
-        setting_name = args[1].lower()
+    def config_setting_show_cmd(self, channel, sender, reply, _, setting_name):
+        setting_name = setting_name.lower()
 
         blob = ""
 

@@ -16,11 +16,10 @@ class CalculatorController:
 
     @command(command="calc", params=[Any("formula")], access_level="all",
              description="Perform a calculation")
-    def calc_cmd(self, channel, sender, reply, args):
-        forumla = args[0]
-        if self.allow_chars_regex.match(forumla):
+    def calc_cmd(self, channel, sender, reply, formula):
+        if self.allow_chars_regex.match(formula):
             try:
-                return "%s = %s" % (forumla, round(eval(forumla), 4))
+                return "%s = %s" % (formula, round(eval(formula), 4))
             except SyntaxError:
                 return "Invalid formula supplied."
         else:

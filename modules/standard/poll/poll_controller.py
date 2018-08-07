@@ -15,7 +15,7 @@ class PollController:
 
     @command(command="poll", params=[], access_level="all",
              description="List the polls", aliases=["vote"])
-    def poll_list_cmd(self, channel, sender, reply, args):
+    def poll_list_cmd(self, channel, sender, reply):
         blob = ""
         t = int(time.time())
         state = ""
@@ -39,8 +39,7 @@ class PollController:
 
     @command(command="poll", params=[Int("poll_id")], access_level="all",
              description="View a poll", extended_description="View information for a poll")
-    def poll_view_cmd(self, channel, sender, reply, args):
-        poll_id = args[0]
+    def poll_view_cmd(self, channel, sender, reply, poll_id):
         poll = self.get_poll(poll_id)
 
         if not poll:
@@ -50,8 +49,8 @@ class PollController:
 
     @command(command="poll", params=[Const("add"), Any("duration|poll_question|option1|option2|...")], access_level="all",
              description="Add a poll")
-    def poll_add_cmd(self, channel, sender, reply, args):
-        options = args[1].split("|")
+    def poll_add_cmd(self, channel, sender, reply, _, options):
+        options = options.split("|")
 
         if len(options) < 4:
             return "You must enter a duration, a poll question, and at least two choices."
@@ -74,10 +73,7 @@ class PollController:
 
     @command(command="poll", params=[Int("poll_id"), Const("vote"), Int("choice_id")], access_level="all",
              description="Vote on a poll")
-    def poll_vote_cmd(self, channel, sender, reply, args):
-        poll_id = args[0]
-        choice_id = args[2]
-
+    def poll_vote_cmd(self, channel, sender, reply, poll_id, _, choice_id):
         poll = self.get_poll(poll_id)
         if not poll:
             return "Could not find poll with id <highlight>%d<end>." % poll_id
@@ -96,9 +92,7 @@ class PollController:
 
     @command(command="poll", params=[Int("poll_id"), Const("remvote")], access_level="all",
              description="Remove your vote on a poll")
-    def poll_remvote_cmd(self, channel, sender, reply, args):
-        poll_id = args[0]
-
+    def poll_remvote_cmd(self, channel, sender, reply, poll_id, _):
         poll = self.get_poll(poll_id)
         if not poll:
             return "Could not find poll with id <highlight>%d<end>." % poll_id

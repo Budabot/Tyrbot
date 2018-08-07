@@ -15,9 +15,9 @@ class CharacterHistoryController:
 
     @command(command="history", params=[Any("character"), Int("server_num", is_optional=True)], access_level="all",
              description="Get history of character")
-    def handle_history_cmd1(self, channel, sender, reply, args):
-        name = args[0].capitalize()
-        server_num = args[1] or self.bot.dimension
+    def handle_history_cmd1(self, channel, sender, reply, name, server_num):
+        name = name.capitalize()
+        server_num = server_num or self.bot.dimension
 
         data = self.character_history_service.get_character_history(name, server_num)
         if not data:

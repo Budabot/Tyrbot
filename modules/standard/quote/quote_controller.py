@@ -14,7 +14,7 @@ class QuoteController:
 
     @command(command="quote", params=[], access_level="all",
              description="Show a random quote")
-    def quote_command(self, channel, sender, reply, args):
+    def quote_command(self, channel, sender, reply):
         quote = self.get_quote_info()
 
         if quote:
@@ -24,9 +24,7 @@ class QuoteController:
 
     @command(command="quote", params=[Int("quote_id")], access_level="all",
              description="Show a specific quote")
-    def quote_view_command(self, channel, sender, reply, args):
-        quote_id = args[0]
-
+    def quote_view_command(self, channel, sender, reply, quote_id):
         quote = self.get_quote_info(quote_id)
 
         if quote:
@@ -36,9 +34,7 @@ class QuoteController:
 
     @command(command="quote", params=[Const("add"), Any("quote")], access_level="all",
              description="Show a specific quote")
-    def quote_add_command(self, channel, sender, reply, args):
-        quote = args[1]
-
+    def quote_add_command(self, channel, sender, reply, _, quote):
         if len(quote) > 4096:
             return "Your quote must be less than 4096 characters."
 

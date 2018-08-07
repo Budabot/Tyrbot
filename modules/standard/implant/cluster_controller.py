@@ -12,7 +12,7 @@ class ClusterController:
 
     @command(command="cluster", params=[], access_level="all",
              description="Show a list of skills that can be buffed with an implant cluster")
-    def cluster_list_cmd(self, channel, sender, reply, args):
+    def cluster_list_cmd(self, channel, sender, reply):
         data = self.db.query("SELECT ClusterID, LongName FROM Cluster ORDER BY LongName ASC")
 
         blob = ""
@@ -23,14 +23,12 @@ class ClusterController:
 
     @command(command="cluster", params=[Any("skill")], access_level="all",
              description="Show which clusters buff a particular skill")
-    def cluster_show_cmd(self, channel, sender, reply, args):
-        search = args[0]
-
-        data = self.db.query(*self.db.handle_extended_like("SELECT ClusterID, LongName FROM Cluster WHERE LongNAme <EXTENDED_LIKE=0> ?", [search]))
+    def cluster_show_cmd(self, channel, sender, reply, skill):
+        data = self.db.query(*self.db.handle_extended_like("SELECT ClusterID, LongName FROM Cluster WHERE LongNAme <EXTENDED_LIKE=0> ?", [skill]))
         count = len(data)
 
         if count == 0:
-            return "No skills found that match <highlight>%s<end>." % search
+            return "No skills found that match <highlight>%s<end>." % skill
         else:
             blob = ""
             for row in data:

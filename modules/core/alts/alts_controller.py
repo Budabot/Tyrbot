@@ -13,7 +13,7 @@ class AltsController:
 
     @command(command="alts", params=[], access_level="all",
              description="Show your alts")
-    def alts_list_cmd(self, channel, sender, reply, args):
+    def alts_list_cmd(self, channel, sender, reply):
         alts = self.alts_service.get_alts(sender.char_id)
         blob = ""
         for alt in alts:
@@ -29,8 +29,8 @@ class AltsController:
 
     @command(command="alts", params=[Const("add"), Any("character")], access_level="all",
              description="Add an alt")
-    def alts_add_cmd(self, channel, sender, reply, args):
-        alt_char_name = args[1].capitalize()
+    def alts_add_cmd(self, channel, sender, reply, _, alt_char_name):
+        alt_char_name = alt_char_name.capitalize()
         alt_char_id = self.character_service.resolve_char_to_id(alt_char_name)
 
         if not alt_char_id:
@@ -49,18 +49,18 @@ class AltsController:
 
     @command(command="alts", params=[Options(["rem", "remove"]), Any("character")], access_level="all",
              description="Remove an alt")
-    def alts_remove_cmd(self, channel, sender, reply, args):
-        alt = args[1].capitalize()
-        alt_char_id = self.character_service.resolve_char_to_id(alt)
+    def alts_remove_cmd(self, channel, sender, reply, _, alt_char_name):
+        alt_char_name = alt_char_name.capitalize()
+        alt_char_id = self.character_service.resolve_char_to_id(alt_char_name)
 
         if not alt_char_id:
-            return "Could not find character <highlight>%s<end>." % alt
+            return "Could not find character <highlight>%s<end>." % alt_char_name
 
         msg, result = self.alts_service.remove_alt(sender.char_id, alt_char_id)
         if result:
-            return "<highlight>%s<end> has been removed as your alt." % alt
+            return "<highlight>%s<end> has been removed as your alt." % alt_char_name
         elif msg == "not_alt":
-            return "<highlight>%s<end> is not your alt." % alt
+            return "<highlight>%s<end> is not your alt." % alt_char_name
         elif msg == "unconfirmed_sender":
             return "You cannot remove alts from an unconfirmed alt."
         elif msg == "remove_main":
@@ -70,11 +70,11 @@ class AltsController:
 
     @command(command="alts", params=[Any("character")], access_level="member",
              description="Show alts of another character", sub_command="show")
-    def alts_list_other_cmd(self, channel, sender, reply, args):
-        name = args[0].capitalize()
-        char_id = self.character_service.resolve_char_to_id(name)
+    def alts_list_other_cmd(self, channel, sender, reply, char_name):
+        char_name = char_name.capitalize()
+        char_id = self.character_service.resolve_char_to_id(char_name)
         if not char_id:
-            return "Could not find character <highlight>%s<end>." % name
+            return "Could not find character <highlight>%s<end>." % char_name
 
         alts = self.alts_service.get_alts(char_id)
         blob = ""

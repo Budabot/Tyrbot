@@ -13,7 +13,7 @@ class AlienArmorController:
 
     @command(command="aiarmor", params=[], access_level="all",
              description="List the alien armor types")
-    def aiarmor_list_command(self, channel, sender, reply, args):
+    def aiarmor_list_command(self, channel, sender, reply):
         blob = ""
         blob += "<highlight>Normal Armor:<end>\n"
         blob += self.text.make_chatcmd("Strong Armor", "/tell <myname> aiarmor Strong") + "\n"
@@ -34,9 +34,9 @@ class AlienArmorController:
 
     @command(command="aiarmor", params=[Options(["strong", "supple", "enduring", "observant", "arithmetic", "spiritual"]), Int("ql", is_optional=True)], access_level="all",
              description="Show the process for making normal alien armor")
-    def aiarmor_normal_command(self, channel, sender, reply, args):
-        armor_type = args[0].capitalize()
-        ql = args[1] or 300
+    def aiarmor_normal_command(self, channel, sender, reply, armor_type, ql):
+        armor_type = armor_type.capitalize()
+        ql = ql or 300
         misc_ql = math.floor(ql * 0.8)
 
         blob = "Note: All tradeskill processes are based on the lowest QL items usable.\n\n"
@@ -152,9 +152,9 @@ class AlienArmorController:
 
     @command(command="aiarmor", params=[Options(["cc", "cm", "co", "cp", "cs", "css", "ss"]), Int("ql", is_optional=True)], access_level="all",
              description="Show the process for making combined alien armor", extended_description="CSS and SS both refer to Combined Sharpshooters")
-    def aiarmor_combined_command(self, channel, sender, reply, args):
-        armor_type = args[0]
-        target_ql = args[1] or 300
+    def aiarmor_combined_command(self, channel, sender, reply, armor_type, target_ql):
+        armor_type = armor_type.lower()
+        target_ql = target_ql or 300
         source_ql = math.floor(target_ql * 0.8)
 
         if armor_type == "cc":
