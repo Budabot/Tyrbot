@@ -28,7 +28,7 @@ class DB:
 
     def connect_mysql(self, host, username, password, database_name):
         self.type = self.MYSQL
-        self.conn = mysql.connector.connect(user=username, password=password, host=host, database=database_name, charset='utf8')
+        self.conn = mysql.connector.connect(user=username, password=password, host=host, database=database_name, charset='utf8', autocommit=True)
         self.exec("SET collation_connection = 'utf8_general_ci'")
         self.create_db_version_table()
 
