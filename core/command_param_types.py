@@ -193,3 +193,20 @@ class Item(CommandParam):
             params.pop(0)
             params.pop(0)
             return None
+
+
+class Character(Any):
+    def __init__(self, name, is_optional=False):
+        super().__init__(name, is_optional)
+
+    def get_regex(self):
+        regex = "(\s+[\d+a-z-]+)"
+        return regex + ("?" if self.is_optional else "")
+
+    def process_matches(self, params):
+        val = super().process_matches(params)
+
+        if val is None:
+            return None
+        else:
+            return val.capitalize()

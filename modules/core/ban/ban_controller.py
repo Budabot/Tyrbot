@@ -1,5 +1,5 @@
 from core.decorators import instance, command
-from core.command_param_types import Any, Const, Options, Time
+from core.command_param_types import Any, Const, Options, Time, Character
 from core.chat_blob import ChatBlob
 import time
 
@@ -34,10 +34,9 @@ class BanController:
 
         return ChatBlob("Ban List (%d)" % len(data), blob)
 
-    @command(command="ban", params=[Options(["rem", "remove"]), Any("character")], access_level="moderator",
+    @command(command="ban", params=[Options(["rem", "remove"]), Character("character")], access_level="moderator",
              description="Remove a character from the ban list")
     def ban_remove_cmd(self, request, _, char_name):
-        char_name = char_name.capitalize()
         char_id = self.character_service.resolve_char_to_id(char_name)
 
         if not char_id:
@@ -48,10 +47,9 @@ class BanController:
             self.ban_service.remove_ban(char_id)
             return "<highlight>%s<end> has been removed from the ban list." % char_name
 
-    @command(command="ban", params=[Const("add", is_optional=True), Any("character"), Time("duration", is_optional=True), Any("reason", is_optional=True)], access_level="moderator",
+    @command(command="ban", params=[Const("add", is_optional=True), Character("character"), Time("duration", is_optional=True), Any("reason", is_optional=True)], access_level="moderator",
              description="Add a character to the ban list")
     def ban_add_cmd(self, request, _, char_name, duration, reason):
-        char_name = char_name.capitalize()
         reason = reason or ""
         char_id = self.character_service.resolve_char_to_id(char_name)
 

@@ -1,7 +1,7 @@
 from core.decorators import instance, command
 from core.db import DB
 from core.text import Text
-from core.command_param_types import Any
+from core.command_param_types import Any, Character
 from core.chat_blob import ChatBlob
 
 
@@ -16,10 +16,9 @@ class CharacterInfoController:
         self.pork_service = registry.get_instance("pork_service")
         self.character_service = registry.get_instance("character_service")
 
-    @command(command="whois", params=[Any("character")], access_level="all",
+    @command(command="whois", params=[Character("character")], access_level="all",
              description="Get whois information for a character", aliases=["w"])
     def whois_cmd(self, request, char_name):
-        char_name = char_name.capitalize()
         char_info = self.pork_service.get_character_info(char_name)
         char_id = self.character_service.resolve_char_to_id(char_name)
         if char_info:

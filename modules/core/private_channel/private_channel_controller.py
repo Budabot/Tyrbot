@@ -1,5 +1,5 @@
 from core.decorators import instance, command, event
-from core.command_param_types import Any
+from core.command_param_types import Any, Character
 from core.private_channel_service import PrivateChannelService
 
 
@@ -25,10 +25,9 @@ class PrivateChannelController:
     def leave_cmd(self, request):
         self.private_channel_service.kick(request.sender.char_id)
 
-    @command(command="invite", params=[Any("character")], access_level="all",
+    @command(command="invite", params=[Character("character")], access_level="all",
              description="Invite a character to the private channel")
     def invite_cmd(self, request, char_name):
-        char_name = char_name.capitalize()
         char_id = self.character_service.resolve_char_to_id(char_name)
         if char_id:
             if self.private_channel_service.in_private_channel(char_id):
@@ -40,10 +39,9 @@ class PrivateChannelController:
         else:
             return "Could not find character <highlight>%s<end>." % char_name
 
-    @command(command="kick", params=[Any("character")], access_level="admin",
+    @command(command="kick", params=[Character("character")], access_level="admin",
              description="Kick a character from the private channel")
     def kick_cmd(self, request, char_name):
-        char_name = char_name.capitalize()
         char_id = self.character_service.resolve_char_to_id(char_name)
         if char_id:
             if not self.private_channel_service.in_private_channel(char_id):

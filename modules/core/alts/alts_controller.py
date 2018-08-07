@@ -1,5 +1,5 @@
 from core.decorators import instance, command
-from core.command_param_types import Any, Const, Options
+from core.command_param_types import Any, Const, Options, Character
 from core.chat_blob import ChatBlob
 from core.alts.alts_service import AltsService
 
@@ -27,10 +27,9 @@ class AltsController:
         else:
             return ""
 
-    @command(command="alts", params=[Const("add"), Any("character")], access_level="all",
+    @command(command="alts", params=[Const("add"), Character("character")], access_level="all",
              description="Add an alt")
     def alts_add_cmd(self, request, _, alt_char_name):
-        alt_char_name = alt_char_name.capitalize()
         alt_char_id = self.character_service.resolve_char_to_id(alt_char_name)
 
         if not alt_char_id:
@@ -47,10 +46,9 @@ class AltsController:
         else:
             raise Exception("Unknown msg: " + msg)
 
-    @command(command="alts", params=[Options(["rem", "remove"]), Any("character")], access_level="all",
+    @command(command="alts", params=[Options(["rem", "remove"]), Character("character")], access_level="all",
              description="Remove an alt")
     def alts_remove_cmd(self, request, _, alt_char_name):
-        alt_char_name = alt_char_name.capitalize()
         alt_char_id = self.character_service.resolve_char_to_id(alt_char_name)
 
         if not alt_char_id:
@@ -68,10 +66,9 @@ class AltsController:
         else:
             raise Exception("Unknown msg: " + msg)
 
-    @command(command="alts", params=[Any("character")], access_level="member",
+    @command(command="alts", params=[Character("character")], access_level="member",
              description="Show alts of another character", sub_command="show")
     def alts_list_other_cmd(self, request, char_name):
-        char_name = char_name.capitalize()
         char_id = self.character_service.resolve_char_to_id(char_name)
         if not char_id:
             return "Could not find character <highlight>%s<end>." % char_name

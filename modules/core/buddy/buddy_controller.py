@@ -1,5 +1,5 @@
 from core.decorators import instance, command
-from core.command_param_types import Any, Const, Options
+from core.command_param_types import Any, Const, Options, Character
 from core.chat_blob import ChatBlob
 
 
@@ -22,10 +22,9 @@ class BuddyController:
 
         return ChatBlob("Buddy List (%d)" % len(buddy_list), blob)
 
-    @command(command="buddylist", params=[Const("add"), Any("character"), Any("type")], access_level="superadmin",
+    @command(command="buddylist", params=[Const("add"), Character("character"), Any("type")], access_level="superadmin",
              description="Add a character to the buddy list")
     def buddylist_add_cmd(self, request, _, char_name, buddy_type):
-        char_name = char_name.capitalize()
         buddy_type = buddy_type.lower()
 
         char_id = self.character_service.resolve_char_to_id(char_name)
@@ -35,10 +34,9 @@ class BuddyController:
         else:
             return "Could not find character <highlight>%s<end>." % char_name
 
-    @command(command="buddylist", params=[Options(["rem", "remove"]), Any("character"), Any("type")], access_level="superadmin",
+    @command(command="buddylist", params=[Options(["rem", "remove"]), Character("character"), Any("type")], access_level="superadmin",
              description="Remove a character from the buddy list")
     def buddylist_remove_cmd(self, request, _, char_name, buddy_type):
-        char_name = char_name.capitalize()
         buddy_type = buddy_type.lower()
 
         char_id = self.character_service.resolve_char_to_id(char_name)

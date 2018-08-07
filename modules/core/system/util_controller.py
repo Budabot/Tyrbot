@@ -1,6 +1,6 @@
 from core.chat_blob import ChatBlob
 from core.decorators import instance, command
-from core.command_param_types import Any
+from core.command_param_types import Any, Character
 import time
 import html
 import os
@@ -20,10 +20,10 @@ class UtilController:
         self.buddy_service = registry.get_instance("buddy_service")
         self.access_service = registry.get_instance("access_service")
 
-    @command(command="checkaccess", params=[Any("character", is_optional=True)], access_level="all",
+    @command(command="checkaccess", params=[Character("character", is_optional=True)], access_level="all",
              description="Check access level for a character")
     def checkaccess_cmd(self, request, char_name):
-        char_name = char_name.capitalize() if char_name else request.sender.name
+        char_name = char_name or request.sender.name
         char_id = self.character_service.resolve_char_to_id(char_name)
 
         if not char_id:
@@ -44,11 +44,9 @@ class UtilController:
     def echo_cmd(self, request, message):
         return html.escape(message)
 
-    @command(command="showcommand", params=[Any("character"), Any("message")], access_level="superadmin",
+    @command(command="showcommand", params=[Character("character"), Any("message")], access_level="superadmin",
              description="Show command output to another character")
     def showcommand_cmd(self, request, char_name, command_str):
-        char_name = char_name.capitalize()
-
         char_id = self.character_service.resolve_char_to_id(char_name)
 
         if not char_id:

@@ -1,6 +1,6 @@
 from core.chat_blob import ChatBlob
 from core.decorators import instance, command
-from core.command_param_types import Any, Int
+from core.command_param_types import Any, Int, Character
 
 
 @instance()
@@ -13,17 +13,16 @@ class CharacterHistoryController:
         self.util = registry.get_instance("util")
         self.character_history_service = registry.get_instance("character_history_service")
 
-    @command(command="history", params=[Any("character"), Int("server_num", is_optional=True)], access_level="all",
+    @command(command="history", params=[Character("character"), Int("server_num", is_optional=True)], access_level="all",
              description="Get history of character")
-    def handle_history_cmd1(self, request, name, server_num):
-        name = name.capitalize()
+    def handle_history_cmd1(self, request, char_name, server_num):
         server_num = server_num or self.bot.dimension
 
-        data = self.character_history_service.get_character_history(name, server_num)
+        data = self.character_history_service.get_character_history(char_name, server_num)
         if not data:
-            return "Could not find history for <highlight>%s<end> on server <highlight>%d<end>." % (name, server_num)
+            return "Could not find history for <highlight>%s<end> on server <highlight>%d<end>." % (char_name, server_num)
 
-        return ChatBlob("History of %s (RK%d)" % (name, server_num), self.format_character_history(name, data))
+        return ChatBlob("History of %s (RK%d)" % (char_name, server_num), self.format_character_history(char_name, data))
 
     def format_character_history(self, name, history):
         blob = "Date           Level    AI     Faction    Breed        Guild (rank)\n"

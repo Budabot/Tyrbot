@@ -1,5 +1,5 @@
 from core.decorators import instance, command, event
-from core.command_param_types import Any, Const, Options
+from core.command_param_types import Any, Const, Options, Character
 from core.chat_blob import ChatBlob
 from core.buddy_service import BuddyService
 
@@ -25,10 +25,9 @@ class MemberController:
             if row.auto_invite == 1:
                 self.buddy_service.add_buddy(row.char_id, self.MEMBER_BUDDY_TYPE)
 
-    @command(command="member", params=[Const("add"), Any("character")], access_level="superadmin",
+    @command(command="member", params=[Const("add"), Character("character")], access_level="superadmin",
              description="Add a member")
     def member_add_cmd(self, request, _, char_name):
-        char_name = char_name.capitalize()
         char_id = self.character_service.resolve_char_to_id(char_name)
         if char_id:
             if self.get_member(char_id):
@@ -39,10 +38,9 @@ class MemberController:
         else:
             return "Could not find character <highlight>%s<end>." % char_name
 
-    @command(command="member", params=[Options(["rem", "remove"]), Any("character")], access_level="superadmin",
+    @command(command="member", params=[Options(["rem", "remove"]), Character("character")], access_level="superadmin",
              description="Remove a member")
     def member_remove_cmd(self, request, _, char_name):
-        char_name = char_name.capitalize()
         char_id = self.character_service.resolve_char_to_id(char_name)
         if char_id:
             if self.get_member(char_id):
