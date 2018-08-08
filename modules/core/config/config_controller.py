@@ -76,7 +76,7 @@ class ConfigController:
                 command_key = self.command_service.get_command_key(row.command, row.sub_command)
                 blob += self.text.make_chatcmd(command_key, "/tell <myname> config cmd " + command_key) + "\n"
 
-        data = self.db.query("SELECT event_type, event_sub_type, handler, description "
+        data = self.db.query("SELECT event_type, event_sub_type, handler, description, enabled "
                              "FROM event_config WHERE module = ? "
                              "ORDER BY event_type, handler ASC",
                              [module])
@@ -84,7 +84,11 @@ class ConfigController:
             blob += "\n<header2>Events<end>\n"
             for row in data:
                 event_type_key = self.event_service.get_event_type_key(row.event_type, row.event_sub_type)
-                blob += "%s - %s" % (self.format_event_type(row), row.description)
+                if row.enabled == 1:
+                    enabled = "<green>Enabled<end>"
+                else:
+                    enabled = "<red>Disabled<end>"
+                blob += "%s - %s [%s]" % (self.format_event_type(row), row.description, enabled)
                 blob += " " + self.text.make_chatcmd("On", "/tell <myname> config event " + event_type_key + " " + row.handler + " enable")
                 blob += " " + self.text.make_chatcmd("Off", "/tell <myname> config event " + event_type_key + " " + row.handler + " disable")
                 blob += "\n"
@@ -106,7 +110,7 @@ class ConfigController:
         if not self.event_service.is_event_type(event_base_type):
             return "Unknown event type <highlight>%s<end>." % event_type
 
-        count = self.event_service.update_event(event_base_type, event_sub_type, event_handler, enabled)
+        count = self.event_service.update_event_status(event_base_type, event_sub_type, event_handler, enabled)
 
         if count == 0:
             return "Could not find event for type <highlight>%s<end> and handler <highlight>%s<end>." % (event_type, event_handler)
