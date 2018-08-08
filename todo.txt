@@ -20,7 +20,6 @@ ORGLIST
 RAID
 RELAY
 SKILLS - !nanoinit, !aggdef, !weapon, !specials <type> (add aliases)
-TIMERS - need alerts
 TOWER
 
 done
@@ -60,6 +59,7 @@ RECIPE - done
 REPUTATION - ignore
 SHOPPING - ignore
 SPIRITS - ignore
+TIMERS - done
 TRACKER - ignore for now
 TRICKLE - done
 VOTE - done, renamed to poll
