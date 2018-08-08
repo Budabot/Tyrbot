@@ -1,7 +1,10 @@
 import re
+
+from core.lookup.character_service import CharacterService
 from core.registry import Registry
 from core.dict_object import DictObject
 from core.sender_obj import SenderObj
+from core.util import Util
 
 
 class CommandParam:
@@ -160,7 +163,7 @@ class Time(CommandParam):
         if budatime_str is None:
             return None
         else:
-            util = Registry.get_instance("util")
+            util: Util = Registry.get_instance("util")
             return util.parse_time(budatime_str[1:])
 
 
@@ -210,5 +213,5 @@ class Character(Any):
         if val is None:
             return None
         else:
-            character_service = Registry.get_instance("character_service")
+            character_service: CharacterService = Registry.get_instance("character_service")
             return SenderObj(character_service.resolve_char_to_id(val), val.capitalize())

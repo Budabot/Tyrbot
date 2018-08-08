@@ -1,3 +1,4 @@
+from core.db import DB
 from core.decorators import instance
 from core.dict_object import DictObject
 from core.aochat import server_packets
@@ -6,6 +7,9 @@ from __init__ import none_to_empty_string
 import requests
 import time
 
+from core.lookup.character_service import CharacterService
+from core.tyrbot import Tyrbot
+
 
 @instance()
 class PorkService:
@@ -13,9 +17,9 @@ class PorkService:
         self.logger = Logger(__name__)
 
     def inject(self, registry):
-        self.bot = registry.get_instance("bot")
-        self.db = registry.get_instance("db")
-        self.character_service = registry.get_instance("character_service")
+        self.bot: Tyrbot = registry.get_instance("bot")
+        self.db: DB = registry.get_instance("db")
+        self.character_service: CharacterService = registry.get_instance("character_service")
 
     def pre_start(self):
         self.bot.add_packet_handler(server_packets.CharacterLookup.id, self.update)

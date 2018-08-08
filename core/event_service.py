@@ -1,8 +1,11 @@
+from core.db import DB
 from core.decorators import instance
 from core.registry import Registry
 from core.logger import Logger
 from __init__ import get_attrs
 import time
+
+from core.util import Util
 
 
 @instance()
@@ -13,8 +16,8 @@ class EventService:
         self.event_types = []
 
     def inject(self, registry):
-        self.db = registry.get_instance("db")
-        self.util = registry.get_instance("util")
+        self.db: DB = registry.get_instance("db")
+        self.util: Util = registry.get_instance("util")
 
     def pre_start(self):
         self.register_event_type("timer")

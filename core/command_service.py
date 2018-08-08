@@ -1,8 +1,12 @@
+from core.ban_service import BanService
+from core.command_alias_service import CommandAliasService
 from core.command_request import CommandRequest
+from core.db import DB
 from core.decorators import instance
 from core.access_service import AccessService
 from core.aochat import server_packets
 from core.lookup.character_service import CharacterService
+from core.public_channel_service import PublicChannelService
 from core.sender_obj import SenderObj
 from core.setting_service import SettingService
 from core.registry import Registry
@@ -14,6 +18,9 @@ import collections
 import re
 import html
 import inspect
+
+from core.usage_service import UsageService
+from core.util import Util
 
 
 @instance()
@@ -38,16 +45,16 @@ class CommandService:
         ]
 
     def inject(self, registry):
-        self.db = registry.get_instance("db")
-        self.util = registry.get_instance("util")
+        self.db: DB = registry.get_instance("db")
+        self.util: Util = registry.get_instance("util")
         self.access_service: AccessService = registry.get_instance("access_service")
         self.bot: Tyrbot = registry.get_instance("bot")
         self.character_service: CharacterService = registry.get_instance("character_service")
         self.setting_service: SettingService = registry.get_instance("setting_service")
-        self.command_alias_service = registry.get_instance("command_alias_service")
-        self.usage_service = registry.get_instance("usage_service")
-        self.public_channel_service = registry.get_instance("public_channel_service")
-        self.ban_service = registry.get_instance("ban_service")
+        self.command_alias_service: CommandAliasService = registry.get_instance("command_alias_service")
+        self.usage_service: UsageService = registry.get_instance("usage_service")
+        self.public_channel_service: PublicChannelService = registry.get_instance("public_channel_service")
+        self.ban_service: BanService = registry.get_instance("ban_service")
 
     def pre_start(self):
         self.bot.add_packet_handler(server_packets.PrivateMessage.id, self.handle_private_message)

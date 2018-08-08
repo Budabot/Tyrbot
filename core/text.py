@@ -1,5 +1,7 @@
 from core.decorators import instance
+from core.public_channel_service import PublicChannelService
 from core.setting_service import SettingService
+from core.tyrbot import Tyrbot
 
 
 @instance()
@@ -11,8 +13,8 @@ class Text:
 
     def inject(self, registry):
         self.setting_service: SettingService = registry.get_instance("setting_service")
-        self.bot = registry.get_instance("bot")
-        self.public_channel_service = registry.get_instance("public_channel_service")
+        self.bot: Tyrbot = registry.get_instance("bot")
+        self.public_channel_service: PublicChannelService = registry.get_instance("public_channel_service")
 
     def make_chatcmd(self, name, msg, style=""):
         msg = msg.strip()

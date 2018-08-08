@@ -2,6 +2,9 @@ from core.registry import Registry
 
 
 # taken from: https://stackoverflow.com/a/26151604/280574
+from core.util import Util
+
+
 def parametrized(dec):
     def layer(*args, **kwargs):
         def repl(f):
@@ -18,8 +21,8 @@ def instance(cls, name=None, override=False):
 
 
 @parametrized
-def command(handler, command, params, access_level, description, sub_command=None, help_file=None, extended_description=None, check_access=None, aliases=None):
-    handler.command = [command, params, access_level, description, help_file, sub_command, extended_description, check_access, aliases]
+def command(handler, command_str, params, access_level, description, sub_command=None, help_file=None, extended_description=None, check_access=None, aliases=None):
+    handler.command = [command_str, params, access_level, description, help_file, sub_command, extended_description, check_access, aliases]
     return handler
 
 
@@ -31,7 +34,7 @@ def event(handler, event_type, description):
 
 @parametrized
 def timerevent(handler, budatime, description):
-    util = Registry.get_instance("util")
+    util: Util = Registry.get_instance("util")
     t = util.parse_time(budatime)
     handler.event = ["timer:" + str(t), description]
     return handler

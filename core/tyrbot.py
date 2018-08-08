@@ -1,4 +1,7 @@
 from core.aochat.bot import Bot
+from core.db import DB
+from core.event_service import EventService
+from core.job_scheduler import JobScheduler
 from core.lookup.character_service import CharacterService
 from core.public_channel_service import PublicChannelService
 from core.setting_service import SettingService
@@ -31,14 +34,14 @@ class Tyrbot(Bot):
         self.version = "0.1-alpha"
 
     def inject(self, registry):
-        self.db = registry.get_instance("db")
+        self.db: DB = registry.get_instance("db")
         self.character_service: CharacterService = registry.get_instance("character_service")
         self.public_channel_service: PublicChannelService = registry.get_instance("public_channel_service")
         self.text: Text = registry.get_instance("text")
         self.setting_service: SettingService = registry.get_instance("setting_service")
         self.access_service: AccessService = registry.get_instance("access_service")
-        self.event_service = registry.get_instance("event_service")
-        self.job_scheduler = registry.get_instance("job_scheduler")
+        self.event_service: EventService = registry.get_instance("event_service")
+        self.job_scheduler: JobScheduler = registry.get_instance("job_scheduler")
 
     def init(self, config, registry, paths, mmdb_parser):
         self.mmdb_parser = mmdb_parser

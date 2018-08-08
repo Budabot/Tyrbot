@@ -2,10 +2,13 @@ from core.registry import Registry
 import json
 import re
 
+from core.text import Text
+from core.util import Util
+
 
 class SettingType:
     def __init__(self):
-        self.setting_service = Registry.get_instance("setting_service")
+        self.setting_service: SettingService = registry.get_instance("setting_service")
         self.name = None
 
     def set_name(self, name):
@@ -48,7 +51,7 @@ class TextSettingType(SettingType):
         return "<highlight>%s<end>" % (self.get_value() or "&lt;empty&gt;")
 
     def get_display(self):
-        text = Registry.get_instance("text")
+        text: Text = Registry.get_instance("text")
         options_str = "\n".join(map(lambda opt: text.make_chatcmd(str(opt), "/tell <myname> config setting %s set %s" % (self.name, opt)), self.options))
 
         return """For this setting you can enter any text you want (max. 255 characters).
@@ -167,7 +170,7 @@ class NumberSettingType(SettingType):
             raise Exception("You must enter a positive integer for this setting.")
 
     def get_display(self):
-        text = Registry.get_instance("text")
+        text: Text = Registry.get_instance("text")
         options_str = "\n".join(map(lambda opt: text.make_chatcmd(str(opt), "/tell <myname> config setting %s set %s" % (self.name, opt)), self.options))
 
         return """For this setting you can set any positive integer.
@@ -191,7 +194,7 @@ class TimeSettingType(SettingType):
         return "<highlight>%s<end>" % util.time_to_readable(self.get_value())
 
     def set_value(self, value):
-        util = Registry.get_instance("util")
+        util: Util = Registry.get_instance("util")
         time = util.parse_time(value)
         if time > 0:
             self._set_raw_value(time)
@@ -199,7 +202,7 @@ class TimeSettingType(SettingType):
             raise Exception("You must enter time in a valid Budatime format")
 
     def get_display(self):
-        text = Registry.get_instance("text")
+        text: Text = Registry.get_instance("text")
         options_str = "\n".join(map(lambda opt: text.make_chatcmd(str(opt), "/tell <myname> config setting %s set %s" % (self.name, opt)), self.options))
 
         return """For this setting you must enter a time value. See <a href='chatcmd:///tell <myname> help budatime'>budatime</a> for info on the format of the 'time' parameter.

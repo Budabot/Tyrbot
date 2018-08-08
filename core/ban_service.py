@@ -1,3 +1,4 @@
+from core.db import DB
 from core.decorators import instance
 import time
 
@@ -5,7 +6,7 @@ import time
 @instance()
 class BanService:
     def inject(self, registry):
-        self.db = registry.get_instance("db")
+        self.db: DB = registry.get_instance("db")
 
     def add_ban(self, char_id, sender_char_id, duration, reason):
         t = int(time.time())

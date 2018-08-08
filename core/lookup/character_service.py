@@ -4,6 +4,8 @@ from core.aochat import server_packets
 from core.db import DB
 import time
 
+from core.tyrbot import Tyrbot
+
 
 @instance()
 class CharacterService:
@@ -13,8 +15,8 @@ class CharacterService:
         self.waiting_for_response = set()
 
     def inject(self, registry):
-        self.bot = registry.get_instance("bot")
-        self.db = registry.get_instance("db")
+        self.bot: Tyrbot = registry.get_instance("bot")
+        self.db: DB = registry.get_instance("db")
 
     def pre_start(self):
         self.bot.add_packet_handler(server_packets.CharacterLookup.id, self.update)

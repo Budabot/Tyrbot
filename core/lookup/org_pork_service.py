@@ -1,3 +1,5 @@
+from core.cache_service import CacheService
+from core.db import DB
 from core.decorators import instance
 from core.dict_object import DictObject
 from core.logger import Logger
@@ -5,6 +7,10 @@ from __init__ import none_to_empty_string
 import requests
 import datetime
 import json
+
+from core.lookup.character_service import CharacterService
+from core.lookup.pork_service import PorkService
+from core.tyrbot import Tyrbot
 
 
 @instance()
@@ -16,11 +22,11 @@ class OrgPorkService:
         self.logger = Logger(__name__)
 
     def inject(self, registry):
-        self.bot = registry.get_instance("bot")
-        self.db = registry.get_instance("db")
-        self.character_service = registry.get_instance("character_service")
-        self.pork_service = registry.get_instance("pork_service")
-        self.cache_service = registry.get_instance("cache_service")
+        self.bot: Tyrbot = registry.get_instance("bot")
+        self.db: DB = registry.get_instance("db")
+        self.character_service: CharacterService = registry.get_instance("character_service")
+        self.pork_service: PorkService = registry.get_instance("pork_service")
+        self.cache_service: CacheService = registry.get_instance("cache_service")
 
     def get_org_info(self, org_id):
         cache_key = "%d.%d.json" % (org_id, self.bot.dimension)

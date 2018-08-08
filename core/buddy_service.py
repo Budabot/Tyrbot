@@ -1,8 +1,10 @@
 from core.decorators import instance
+from core.event_service import EventService
 from core.lookup.character_service import CharacterService
 from core.aochat import server_packets
 from core.aochat import client_packets
 from core.logger import Logger
+from core.tyrbot import Tyrbot
 
 
 @instance()
@@ -16,9 +18,9 @@ class BuddyService:
         self.logger = Logger(__name__)
 
     def inject(self, registry):
+        self.bot: Tyrbot = registry.get_instance("bot")
         self.character_service: CharacterService = registry.get_instance("character_service")
-        self.bot = registry.get_instance("bot")
-        self.event_service = registry.get_instance("event_service")
+        self.event_service: EventService = registry.get_instance("event_service")
 
     def pre_start(self):
         self.bot.add_packet_handler(server_packets.BuddyAdded.id, self.handle_add)
