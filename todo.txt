@@ -20,7 +20,7 @@ ORGLIST
 RAID
 RELAY
 SKILLS - !nanoinit, !aggdef, !weapon, !specials <type> (add aliases)
-TIMERS - need !rtimer
+TIMERS - need alerts
 TOWER
 
 done

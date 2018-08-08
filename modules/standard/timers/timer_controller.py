@@ -1,14 +1,11 @@
 from core.chat_blob import ChatBlob
 from core.decorators import instance, command
-from core.command_param_types import Any, Const, Time
+from core.command_param_types import Any, Const, Time, Options
 import time
 
 
 @instance()
 class TimerController:
-    def __init__(self):
-        self.jobs = {}
-
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
         self.db = registry.get_instance("db")
@@ -17,37 +14,64 @@ class TimerController:
 
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS timer (name VARCHAR(255) NOT NULL, char_id INT NOT NULL, channel VARCHAR(10) NOT NULL, "
-                     "duration INT NOT NULL, created_at INT NOT NULL, finished_at INT NOT NULL)")
+                     "duration INT NOT NULL, created_at INT NOT NULL, finished_at INT NOT NULL, repeating_every INT NOT NULL, job_id INT NOT NULL)")
 
         # add scheduled jobs for timers that are already running
         data = self.db.query("SELECT * FROM timer")
         for row in data:
-            self.jobs[row.name] = self.job_scheduler.scheduled_job(self.timer_finished, row.finished_at, row.name)
+            job_id = self.job_scheduler.scheduled_job(self.timer_finished, row.finished_at, row.name)
+            self.db.exec("UPDATE timer SET job_id = ? WHERE name = ?", [job_id, row.name])
 
-    @command(command="timers", params=[], access_level="all",
-             description="Show current timers", aliases=["timer"])
-    def timers_list_cmd(self, request):
+    @command(command="timer", params=[], access_level="all",
+             description="Show current timers", aliases=["timers"])
+    def timer_list_cmd(self, request):
         t = int(time.time())
         data = self.db.query("SELECT t.*, p.name AS char_name FROM timer t LEFT JOIN player p ON t.char_id = p.char_id ORDER BY t.finished_at ASC")
         blob = ""
         for timer in data:
+            repeats = (" (Repeats every %s)" % self.util.time_to_readable(timer.repeating_every)) if timer.repeating_every > 0 else ""
             blob += "<pagebreak>Name: <highlight>%s<end>\n" % timer.name
-            blob += "Time left: <highlight>%s<end>\n" % self.util.time_to_readable(timer.created_at + timer.duration - t, max_levels=None)
+            blob += "Time left: <highlight>%s<end>%s\n" % (self.util.time_to_readable(timer.created_at + timer.duration - t, max_levels=None), repeats)
             blob += "Owner: <highlight>%s<end>\n\n" % timer.char_name
 
         return ChatBlob("Timers (%d)" % len(data), blob)
 
-    @command(command="timers", params=[Const("add", is_optional=True), Time("time"), Any("name", is_optional=True)], access_level="all",
+    @command(command="timer", params=[Const("add", is_optional=True), Time("time"), Any("name", is_optional=True)], access_level="all",
              description="Add a timer")
-    def timers_add_cmd(self, request, _, duration, timer_name):
+    def timer_add_cmd(self, request, _, duration, timer_name):
         timer_name = timer_name or self.get_timer_name(request.sender.name)
 
         if self.get_timer(timer_name):
             return "A timer named <highlight>%s<end> is already running." % timer_name
 
-        self.add_timer(timer_name, request.sender.char_id, request.channel, duration)
+        t = int(time.time())
+        self.add_timer(timer_name, request.sender.char_id, t, request.channel, duration)
 
         return "Timer <highlight>%s<end> has been set for %s." % (timer_name, self.util.time_to_readable(duration, max_levels=None))
+
+    @command(command="timer", params=[Options(["rem", "remove"]), Any("name")], access_level="all",
+             description="Remove a timer")
+    def timer_remove_cmd(self, request, _, timer_name):
+        if not self.get_timer(timer_name):
+            return "There is no timer named <highlight>%s<end>." % timer_name
+
+        self.remove_timer(timer_name)
+
+        return "Timer <highlight>%s<end> has been removed." % timer_name
+
+    @command(command="rtimer", params=[Const("add", is_optional=True), Time("start_time"), Time("repeating_time"), Any("name", is_optional=True)], access_level="all",
+             description="Add a timer")
+    def rtimer_add_cmd(self, request, _, start_time, repeating_time, timer_name):
+        timer_name = timer_name or self.get_timer_name(request.sender.name)
+
+        if self.get_timer(timer_name):
+            return "A timer named <highlight>%s<end> is already running." % timer_name
+
+        t = int(time.time())
+        self.add_timer(timer_name, request.sender.char_id, request.channel, t, start_time, repeating_time)
+
+        return "Repeating timer <highlight>%s<end> will go off in <highlight>%s<end> and repeat every <highlight>%s<end>." % \
+               (timer_name, self.util.time_to_readable(start_time), self.util.time_to_readable(repeating_time))
 
     def get_timer_name(self, base_name):
         # attempt base name first
@@ -63,18 +87,17 @@ class TimerController:
     def get_timer(self, name):
         return self.db.query_single("SELECT * FROM timer WHERE name LIKE ?", [name])
 
-    def add_timer(self, timer_name, char_id, channel, duration):
-        t = int(time.time())
+    def add_timer(self, timer_name, char_id, channel, t, duration, repeating_time=0):
+        job_id = self.job_scheduler.scheduled_job(self.timer_finished, t + duration, timer_name)
 
-        self.jobs[timer_name] = self.job_scheduler.scheduled_job(self.timer_finished, t + duration, timer_name)
-
-        self.db.exec("INSERT INTO timer (name, char_id, channel, duration, created_at, finished_at) VALUES (?, ?, ?, ?, ?, ?)",
-                     [timer_name, char_id, channel, duration, t, t + duration])
+        self.db.exec("INSERT INTO timer (name, char_id, channel, duration, created_at, finished_at, repeating_every, job_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                     [timer_name, char_id, channel, duration, t, t + duration, repeating_time, job_id])
 
     def remove_timer(self, timer_name):
-        self.db.exec("DELETE FROM timer WHERE name LIKE ?", [timer_name])
+        timer = self.get_timer(timer_name)
+        self.job_scheduler.cancel_job(timer.job_id)
 
-        del self.jobs[timer_name]
+        self.db.exec("DELETE FROM timer WHERE name LIKE ?", [timer_name])
 
     def timer_finished(self, t, timer_name):
         timer = self.get_timer(timer_name)
@@ -88,3 +111,11 @@ class TimerController:
             self.bot.send_private_message(timer.char_id, msg)
 
         self.remove_timer(timer_name)
+
+        if timer.repeating_every > 0:
+            # skip scheduling jobs in the past to prevent backlog of jobs when bot goes offline
+            current_t = int(time.time()) - timer.repeating_every
+            new_t = t
+            while new_t < current_t:
+                new_t += timer.repeating_every
+            self.add_timer(timer.name, timer.char_id, timer.channel, new_t, timer.repeating_every, timer.repeating_every)
