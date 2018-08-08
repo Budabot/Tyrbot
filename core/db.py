@@ -39,7 +39,7 @@ class DB:
         self.create_db_version_table()
 
     def create_db_version_table(self):
-        self.exec("CREATE TABLE IF NOT EXISTS db_version (file VARCHAR(255) NOT NULL, version VARCHAR(255) NOT NULL)")
+        self.exec("CREATE TABLE IF NOT EXISTS db_version (file VARCHAR(255) NOT NULL, version VARCHAR(255) NOT NULL, verified TINYINT NOT NULL)")
 
     def _execute_wrapper(self, sql, params, callback):
         if self.type == self.MYSQL:
@@ -134,11 +134,11 @@ class DB:
             if parse_version(file_version) > parse_version(db_version):
                 self.logger.debug("loading sql file '%s'" % sqlfile)
                 self._load_file(filename)
-                self.exec("UPDATE db_version SET version = ? WHERE file = ?", [int(file_version), filename])
+            self.exec("UPDATE db_version SET version = ?, verified = 1 WHERE file = ?", [int(file_version), filename])
         else:
             self.logger.debug("loading sql file '%s'" % sqlfile)
             self._load_file(filename)
-            self.exec("INSERT INTO db_version (file, version) VALUES (?, ?)", [filename, int(file_version)])
+            self.exec("INSERT INTO db_version (file, version, verified) VALUES (?, ?, 1)", [filename, int(file_version)])
 
     def get_file_version(self, filename):
         return str(int(os.path.getmtime(filename)))
@@ -152,22 +152,14 @@ class DB:
 
     def _load_file(self, filename):
         with open(filename, "r") as f:
-            cur = self.conn.cursor()
-
-            try:
-                cur.execute("BEGIN;")
+            with self.transaction():
+                cur = self.conn.cursor()
                 for line in f.readlines():
                     sql, _ = self.format_sql(line)
                     sql = sql.strip()
                     if sql and not sql.startswith("--"):
                         cur.execute(sql)
-                cur.execute("COMMIT;")
-            except Exception:
-                cur.execute("ROLLBACK;")
-                raise
-
-            cur.close()
-            self.conn.commit()
+                cur.close()
 
     # transaction support
     def transaction(self):

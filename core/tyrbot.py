@@ -45,12 +45,7 @@ class Tyrbot(Bot):
         self.superadmin = config.superadmin.capitalize()
         self.dimension = 5
 
-        if config.database.type == "sqlite":
-            self.db.connect_sqlite("./data/" + config.database.name)
-        elif config.database.type == "mysql":
-            self.db.connect_mysql(config.database.host, config.database.username, config.database.password, config.database.name)
-        else:
-            raise Exception("Unknown database type '%s'" % config.database.type)
+        self.db.exec("UPDATE db_version SET verified = 0")
 
         self.load_sql_files(paths)
 
@@ -63,6 +58,7 @@ class Tyrbot(Bot):
         registry.start_all()
 
         # remove commands, events, and settings that are no longer registered
+        self.db.exec("DELETE FROM db_version WHERE verified = 0")
         self.db.exec("DELETE FROM command_config WHERE verified = 0")
         self.db.exec("DELETE FROM event_config WHERE verified = 0")
         self.db.exec("DELETE FROM timer_event WHERE handler NOT IN (SELECT handler FROM event_config WHERE event_type = ?)", ["timer"])
