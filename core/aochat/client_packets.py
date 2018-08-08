@@ -14,7 +14,7 @@ class ClientPacket(Packet):
         return "ClientPacket(%d): %s" % (self.id, self.args)
 
     @classmethod
-    def get_instance(cls, packet_id, data) -> object:
+    def get_instance(cls, packet_id, data):
         if packet_id == LoginRequest.id:
             LoginRequest.from_bytes(data)
         elif packet_id == LoginSelect.id:

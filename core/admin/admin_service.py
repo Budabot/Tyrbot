@@ -1,5 +1,3 @@
-from core.access_service import AccessService
-from core.db import DB
 from core.decorators import instance
 
 
@@ -12,8 +10,8 @@ class AdminService:
         pass
 
     def inject(self, registry):
-        self.db: DB = registry.get_instance("db")
-        self.acces_service: AccessService = registry.get_instance("access_service")
+        self.db = registry.get_instance("db")
+        self.access_service = registry.get_instance("access_service")
 
     def pre_start(self):
         self.access_service.register_access_level(self.ADMIN, 20, self.check_admin)

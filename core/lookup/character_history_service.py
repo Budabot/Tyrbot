@@ -1,11 +1,8 @@
-from core.cache_service import CacheService
 from core.decorators import instance
 from core.dict_object import DictObject
 from core.logger import Logger
 import requests
 import json
-
-from core.tyrbot import Tyrbot
 
 
 @instance()
@@ -17,8 +14,8 @@ class CharacterHistoryService:
         self.logger = Logger(__name__)
 
     def inject(self, registry):
-        self.bot: Tyrbot = registry.get_instance("bot")
-        self.cache_service: CacheService = registry.get_instance("cache_service")
+        self.bot = registry.get_instance("bot")
+        self.cache_service = registry.get_instance("cache_service")
 
     def get_character_history(self, name, server_num):
         cache_key = "%s.%d.json" % (name, server_num)

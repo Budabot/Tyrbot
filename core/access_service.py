@@ -1,7 +1,5 @@
-from core.alts.alts_service import AltsService
 from core.decorators import instance
 from core.logger import Logger
-from core.lookup.character_service import CharacterService
 
 
 @instance()
@@ -13,8 +11,8 @@ class AccessService:
         self.logger = Logger(__name__)
 
     def inject(self, registry):
-        self.character_service: CharacterService = registry.get_instance("character_service")
-        self.alts_service: AltsService = registry.get_instance("alts_service")
+        self.character_service = registry.get_instance("character_service")
+        self.alts_service = registry.get_instance("alts_service")
 
     def register_access_level(self, label, level, handler):
         self.logger.debug("Registering access level %d with label '%s'" % (level, label))

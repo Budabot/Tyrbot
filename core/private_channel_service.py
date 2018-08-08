@@ -1,9 +1,6 @@
-from core.event_service import EventService
 from core.logger import Logger
 from core.decorators import instance
 from core.aochat import server_packets, client_packets
-from core.lookup.character_service import CharacterService
-from core.tyrbot import Tyrbot
 
 
 @instance()
@@ -17,9 +14,9 @@ class PrivateChannelService:
         self.private_channel_chars = {}
 
     def inject(self, registry):
-        self.bot: Tyrbot = registry.get_instance("bot")
-        self.event_service: EventService = registry.get_instance("event_service")
-        self.character_service: CharacterService = registry.get_instance("character_service")
+        self.bot = registry.get_instance("bot")
+        self.event_service = registry.get_instance("event_service")
+        self.character_service = registry.get_instance("character_service")
 
     def pre_start(self):
         self.event_service.register_event_type(self.JOINED_PRIVATE_CHANNEL_EVENT)

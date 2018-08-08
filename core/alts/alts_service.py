@@ -1,8 +1,4 @@
-from core.db import DB
 from core.decorators import instance
-from core.event_service import EventService
-from core.lookup.character_service import CharacterService
-from core.lookup.pork_service import PorkService
 
 
 @instance()
@@ -13,10 +9,10 @@ class AltsService:
     MAIN_CHANGED_EVENT_TYPE = "main_changed"
 
     def inject(self, registry):
-        self.db: DB = registry.get_instance("db")
-        self.character_service: CharacterService = registry.get_instance("character_service")
-        self.pork_service: PorkService = registry.get_instance("pork_service")
-        self.event_service: EventService = registry.get_instance("event_service")
+        self.db = registry.get_instance("db")
+        self.character_service = registry.get_instance("character_service")
+        self.pork_service = registry.get_instance("pork_service")
+        self.event_service = registry.get_instance("event_service")
 
     def pre_start(self):
         self.event_service.register_event_type(self.MAIN_CHANGED_EVENT_TYPE)

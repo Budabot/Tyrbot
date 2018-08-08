@@ -1,7 +1,5 @@
-from core.db import DB
 from core.decorators import instance
 from core.logger import Logger
-from core.util import Util
 from .setting_types import SettingType
 from core.registry import Registry
 from __init__ import get_attrs
@@ -14,8 +12,8 @@ class SettingService:
         self.settings = {}
 
     def inject(self, registry):
-        self.db: DB = registry.get_instance("db")
-        self.util: Util = registry.get_instance("util")
+        self.db = registry.get_instance("db")
+        self.util = registry.get_instance("util")
 
     def start(self):
         # process decorators
