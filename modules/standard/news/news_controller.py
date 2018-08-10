@@ -54,6 +54,7 @@ class NewsController:
             stickies = self.get_sticky_news()
             news = self.get_news()
 
+            blob += "<header2>Stickies<end>\n"
             blob += "No stickies\n" if stickies is None else stickies
             blob += "____________________________\n\n"
             blob += "No news" if news is None else news
@@ -94,10 +95,10 @@ class NewsController:
                 sticky_text = "Sticky" if item.sticky == 0 else "Unsticky"
                 sticky_link = self.text.make_chatcmd(sticky_text, "/tell <myname> news %s %s" % (sticky_text.lower(), item.news_id))
                 read_link = self.text.make_chatcmd("Mark as read", "/tell <myname> news markasread %s" % (item.news_id))
-                timestamp = self.util.format_timestamp(item.time, True)
+                timestamp = time.strftime("%d-%m-%Y %H:%M:%S", time.gmtime(item.time))
 
                 blob += "%s%s<end>\n" % (unread_color, item.news)
-                blob += "By %s [%s] [%s] [%s] [%s]\n\n" % (item.author, timestamp, remove_link, sticky_link, read_link)
+                blob += "By %s [%s UTC] [%s] [%s] [%s]\n\n" % (item.author, timestamp, remove_link, sticky_link, read_link)
             
             if more_stickies:
                 blob += "____________________________\n\n"
@@ -118,10 +119,10 @@ class NewsController:
                 stickycolor = self.setting_service.get("sticky_color").get_font_color()
                 remove_link = self.text.make_chatcmd("Remove", "/tell <myname> news rem %s" % (item.news_id))
                 sticky_link = self.text.make_chatcmd("Unsticky", "/tell <myname> news unsticky %s" % (item.news_id))
-                timestamp = self.util.format_timestamp(item.time, True)
+                timestamp = time.strftime("%d-%m-%Y %H:%M:%S", time.gmtime(item.time))
 
                 blob += "%s%s<end>\n" % (stickycolor, item.news)
-                blob += "By %s [%s] [%s] [%s]\n\n" % (item.author, timestamp, remove_link, sticky_link)
+                blob += "By %s [%s UTC] [%s] [%s]\n\n" % (item.author, timestamp, remove_link, sticky_link)
 
             return blob
 
@@ -139,10 +140,10 @@ class NewsController:
                 news_color = self.setting_service.get("news_color").get_font_color()
                 remove_link = self.text.make_chatcmd("Remove", "/tell <myname> news rem %s" % (item.news_id))
                 sticky_link = self.text.make_chatcmd("Sticky", "/tell <myname> news sticky %s" % (item.news_id))
-                timestamp = self.util.format_timestamp(item.time, True)
+                timestamp = time.strftime("%d-%m-%Y %H:%M:%S", time.gmtime(item.time))
 
                 blob += "%s%s<end>\n" % (news_color, item.news)
-                blob += "By %s [%s] [%s] [%s]\n\n" % (item.author, timestamp, remove_link, sticky_link)
+                blob += "By %s [%s UTC] [%s] [%s]\n\n" % (item.author, timestamp, remove_link, sticky_link)
             
             return blob
 
@@ -150,7 +151,9 @@ class NewsController:
 
     @command(command="news", params=[], description="Show list of news", access_level="member")
     def news_cmd(self, request):
-        return ChatBlob("News", self.build_news_list())
+        sql = "SELECT n.time FROM news n WHERE n.deleted = 0 ORDER BY n.time DESC LIMIT 1"
+        timestamp = time.strftime("%d-%m-%Y %H:%M:%S", time.gmtime(self.db.query_single(sql).time))
+        return ChatBlob("News [Last updated at %s UTC]" % (timestamp), self.build_news_list())
     
     @command(command="news", params=[Const("add"), Any("news")], description="Add news entry", access_level="moderator")
     def news_add_cmd(self, request, _, news):
