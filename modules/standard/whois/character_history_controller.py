@@ -33,7 +33,7 @@ class CharacterHistoryController:
             else:
                 org = ""
 
-            last_changed = self.util.format_timestamp(int(float(row.last_changed)), include_time=False)
+            last_changed = self.util.format_date(int(float(row.last_changed)))
 
             blob += "%s |  %s  | <green>%s<end> | %s | %s | %s\n" % \
                     (last_changed, row.level, row.defender_rank or 0, row.faction, row.breed, org)

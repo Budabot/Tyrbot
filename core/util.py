@@ -3,6 +3,7 @@ import re
 import math
 import locale
 import datetime
+import pytz
 
 
 @instance()
@@ -191,9 +192,10 @@ class Util:
         return ["Adventurer", "Agent", "Bureaucrat", "Doctor", "Enforcer", "Engineer", "Fixer", "Keeper",
                 "Martial Artist", "Meta-Physicist", "Nano-Technician", "Shade", "Soldier", "Trader"]
 
-    def format_timestamp(self, timestamp, include_time=True):
-        value = datetime.datetime.fromtimestamp(timestamp)
-        if include_time:
-            return value.strftime('%Y-%m-%d %H:%M:%S')
-        else:
-            return value.strftime('%Y-%m-%d')
+    def format_date(self, timestamp):
+        value = datetime.datetime.fromtimestamp(timestamp, tz=pytz.UTC)
+        return value.strftime('%Y-%m-%d')
+
+    def format_datetime(self, timestamp):
+        value = datetime.datetime.fromtimestamp(timestamp, tz=pytz.UTC)
+        return value.strftime('%Y-%m-%d %H:%M:%S %Z')

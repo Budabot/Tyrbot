@@ -40,7 +40,7 @@ class CloakController:
             blob = ""
             for row in data:
                 action = "<green>on<end>" if row.action == "on" else "<orange>off<end>"
-                blob += "%s turned the device %s at %s.\n" % (row.name, action, self.util.format_timestamp(row.created_at))
+                blob += "%s turned the device %s at %s.\n" % (row.name, action, self.util.format_datetime(row.created_at))
 
             return ChatBlob("Cloak History", blob)
 

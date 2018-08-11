@@ -35,3 +35,13 @@ class UtilTest(unittest.TestCase):
         self.assertEqual("Agility", util.get_ability("agility"))
         self.assertEqual(None, util.get_ability("agilityy"))
         self.assertEqual(None, util.get_ability("agilb"))
+
+    def test_format_date(self):
+        util = Util()
+        self.assertEqual("2009-02-14", util.format_date(1234597890))
+        self.assertEqual("2018-08-10", util.format_date(1533873922))
+
+    def test_format_datetime(self):
+        util = Util()
+        self.assertEqual("2009-02-14 07:51:30 UTC", util.format_datetime(1234597890))
+        self.assertEqual("2018-08-10 04:05:22 UTC", util.format_datetime(1533873922))

@@ -94,7 +94,7 @@ class NewsController:
                 sticky_text = "Sticky" if item.sticky == 0 else "Unsticky"
                 sticky_link = self.text.make_chatcmd(sticky_text, "/tell <myname> news %s %s" % (sticky_text.lower(), item.news_id))
                 read_link = self.text.make_chatcmd("Mark as read", "/tell <myname> news markasread %s" % (item.news_id))
-                timestamp = self.util.format_timestamp(item.time, True)
+                timestamp = self.util.format_datetime(item.time)
 
                 blob += "%s%s<end>\n" % (unread_color, item.news)
                 blob += "By %s [%s] [%s] [%s] [%s]\n\n" % (item.author, timestamp, remove_link, sticky_link, read_link)
@@ -117,7 +117,7 @@ class NewsController:
                 stickycolor = self.setting_service.get("sticky_color").get_value()
                 remove_link = self.text.make_chatcmd("Remove", "/tell <myname> news rem %s" % (item.news_id))
                 sticky_link = self.text.make_chatcmd("Unsticky", "/tell <myname> news unsticky %s" % (item.news_id))
-                timestamp = self.util.format_timestamp(item.time, True)
+                timestamp = self.util.format_datetime(item.time)
 
                 blob += "%s%s<end>\n" % (stickycolor, item.news)
                 blob += "By %s [%s] [%s] [%s]\n\n" % (item.author, timestamp, remove_link, sticky_link)
@@ -138,7 +138,7 @@ class NewsController:
                 newscolor = self.setting_service.get("news_color").get_value()
                 remove_link = self.text.make_chatcmd("Remove", "/tell <myname> news rem %s" % (item.news_id))
                 sticky_link = self.text.make_chatcmd("Sticky", "/tell <myname> news sticky %s" % (item.news_id))
-                timestamp = self.util.format_timestamp(item.time, True)
+                timestamp = self.util.format_datetime(item.time)
 
                 blob += "%s%s<end>\n" % (newscolor, item.news)
                 blob += "By %s [%s] [%s] [%s]\n\n" % (item.author, timestamp, remove_link, sticky_link)

@@ -22,11 +22,11 @@ class BanController:
         data = self.ban_service.get_ban_list()
         blob = ""
         for row in data:
-            ends = "never" if row.finished_at == -1 else self.util.format_timestamp(row.finished_at)
+            ends = "never" if row.finished_at == -1 else self.util.format_datetime(row.finished_at)
             time_left = "" if row.finished_at == -1 else " (%s left)" % self.util.time_to_readable(row.finished_at - t)
 
             blob += "<pagebreak>Name: <highlight>%s<end>\n" % row.name
-            blob += "Added: <highlight>%s<end>\n" % self.util.format_timestamp(row.created_at)
+            blob += "Added: <highlight>%s<end>\n" % self.util.format_datetime(row.created_at)
             blob += "By: <highlight>%s<end>\n" % row.sender_name
             blob += "Ends: <highlight>%s<end>%s\n" % (ends, time_left)
             blob += "Reason: <highlight>%s<end>\n\n" % row.reason
