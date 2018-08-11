@@ -1,17 +1,17 @@
 from core.decorators import instance, command, setting, event
-from core.command_param_types import Int, Const, Any
+from core.command_param_types import Const
 from core.setting_types import NumberSettingType, BooleanSettingType, ColorSettingType
 from core.setting_service import SettingService
-from core.lookup.character_service import CharacterService
 from core.db import DB
 from core.text import Text
 from core.chat_blob import ChatBlob
 from core.util import Util
 from core.logger import Logger
-from core.command_param_types import Int, Any, Regex
+from core.command_param_types import Int, Any
 from core.private_channel_service import PrivateChannelService
 from modules.core.org_members.org_member_controller import OrgMemberController
 import time
+
 
 @instance()
 class NewsController:
