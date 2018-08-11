@@ -1,3 +1,4 @@
+from core.aochat.extended_message import ExtendedMessage
 from core.aochat.packets import *
 
 
@@ -241,7 +242,7 @@ class SystemMessage(ServerPacket):
         self.window_id = window_id
         self.message_id = message_id
         self.message_args = message_args
-        self.extended_message = None
+        self.extended_message: ExtendedMessage = None
         super().__init__(self.id, self.types, [self.client_id, self.window_id, self.message_id, self.message_args])
 
     @classmethod
@@ -427,7 +428,7 @@ class PublicChannelMessage(ServerPacket):
         self.char_id = char_id
         self.message = message
         self.blob = blob
-        self.extended_message = None
+        self.extended_message: ExtendedMessage = None
         super().__init__(self.id, self.types, [self.channel_id, self.char_id, self.message, self.blob])
 
     @classmethod
