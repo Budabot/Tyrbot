@@ -54,8 +54,9 @@ class Tyrbot(Bot):
         self.db.exec("UPDATE event_config SET verified = 0")
         self.db.exec("UPDATE setting SET verified = 0")
 
-        registry.pre_start_all()
-        registry.start_all()
+        with self.db.transaction():
+            registry.pre_start_all()
+            registry.start_all()
 
         # remove commands, events, and settings that are no longer registered
         self.db.exec("DELETE FROM db_version WHERE verified = 0")
