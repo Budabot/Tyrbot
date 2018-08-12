@@ -1,9 +1,15 @@
 from core.chat_blob import ChatBlob
 from core.command_param_types import Any
+from core.db import DB
 from core.decorators import instance, command
 from core.dict_object import DictObject
+from core.event_service import EventService
 from core.logger import Logger
 from core.aochat import server_packets
+from core.lookup.pork_service import PorkService
+from core.text import Text
+from core.tyrbot import Tyrbot
+from modules.standard.helpbot.playfield_controller import PlayfieldController
 import re
 
 
@@ -16,34 +22,30 @@ class TowerController:
     ALL_TOWERS_ID = 42949672960
 
     ATTACK_1 = [506, 12753364]  # The %s organization %s just entered a state of war! %s attacked the %s organization %s's tower in %s at location (%d,%d).
-    ATTACK_2 = [506, 147506468]  # 'Notum Wars Update: The %s organization %s lost their base in %s.'
-    ATTACK_3 = re.compile("^(.+) just attacked the (clan|neutral|omni) organization (.+)'s tower in (.+) at location \(\d+, \d+\).\n$")
+    ATTACK_2 = re.compile("^(.+) just attacked the (clan|neutral|omni) organization (.+)'s tower in (.+) at location \((\d+), (\d+)\).\n$")
 
-    VICTORY_1 = re.compile("^The (Clan|Neutral|Omni) organization (.+) attacked the (Clan|Neutral|Omni) (.+) at their base in (.+). The attackers won!!$")
+    VICTORY_1 = re.compile("^Notum Wars Update: Victory to the (Clan|Neutral|Omni)s!!!$")
+    VICTORY_2 = re.compile("^The (Clan|Neutral|Omni) organization (.+) attacked the (Clan|Neutral|Omni) (.+) at their base in (.+). The attackers won!!$")
+    VICTORY_3 = [506, 147506468]  # 'Notum Wars Update: The %s organization %s lost their base in %s.'
 
     def __init__(self):
         self.logger = Logger(__name__)
 
     def inject(self, registry):
-        self.bot = registry.get_instance("bot")
-        self.db = registry.get_instance("db")
-        self.text = registry.get_instance("text")
-        self.event_service = registry.get_instance("event_service")
-        self.playfield_controller = registry.get_instance("playfield_controller")
+        self.bot: Tyrbot = registry.get_instance("bot")
+        self.db: DB = registry.get_instance("db")
+        self.text: Text = registry.get_instance("text")
+        self.event_service: EventService = registry.get_instance("event_service")
+        self.pork_service: PorkService = registry.get_instance("pork_service")
+        self.playfield_controller: PlayfieldController = registry.get_instance("playfield_controller")
 
     def pre_start(self):
         self.event_service.register_event_type(self.TOWER_ATTACK_EVENT)
         self.event_service.register_event_type(self.TOWER_VICTORY_EVENT)
         self.bot.add_packet_handler(server_packets.PublicChannelMessage.id, self.handle_public_channel_message)
 
-    def start(self):
-        self.db.exec("CREATE TABLE IF NOT EXISTS tower_victory (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, created_at INT NOT NULL, win_org_name VARCHAR(50) NOT NULL, "
-                     "win_faction VARCHAR(10) NOT NULL, lose_org_name VARCHAR(50) NOT NULL, lose_faction VARCHAR(10) NOT NULL, attack_id INT)")
-        self.db.exec("CREATE TABLE IF NOT EXISTS tower_attack (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, created_at INT NOT NULL, att_org_name VARCHAR(50) NOT NULL, "
-                     "att_faction VARCHAR(10) NOT NULL, att_player VARCHAR(20) NOT NULL, att_level int, att_ai_level int, att_profession VARCHAR(15), def_org_name VARCHAR(50), "
-                     "def_faction VARCHAR(10), playfield_id INT, site_number INT, x_coords INT, y_coords INT)")
-
-    @command(command="lc", params=[], description="See a list of playfields containing land control tower sites", access_level="all")
+    @command(command="lc", params=[], access_level="all",
+             description = "See a list of playfields containing land control tower sites")
     def lc_list_cmd(self, request):
         data = self.db.query("SELECT * FROM playfields WHERE id IN (SELECT DISTINCT playfield_id FROM tower_site) ORDER BY short_name")
 
@@ -53,7 +55,8 @@ class TowerController:
 
         return ChatBlob("Land Control Playfields", blob)
 
-    @command(command="lc", params=[Any("playfield")], description="See a list of land control tower sites in a particular playfield", access_level="all")
+    @command(command="lc", params=[Any("playfield")], access_level="all",
+             description="See a list of land control tower sites in a particular playfield")
     def lc_playfield_cmd(self, request, playfield_name):
         playfield = self.playfield_controller.get_playfield_by_name(playfield_name)
         if not playfield:
@@ -80,104 +83,118 @@ class TowerController:
             victory = self.get_victory_event(packet)
 
             if victory:
+                # lookup playfield
+                playfield_name = victory.location.playfield.long_name
+                victory.location.playfield = self.playfield_controller.get_playfield_by_name(playfield_name) or DictObject()
+                victory.location.playfield.long_name = playfield_name
+
                 self.event_service.fire_event(self.TOWER_VICTORY_EVENT, victory)
-            else:
-                # Unknown victory
-                self.logger.warning("Unknown tower victory: " + str(packet))
         elif packet.channel_id == self.ALL_TOWERS_ID:
             attack = self.get_attack_event(packet)
 
             if attack:
+                # lookup playfield
+                playfield_name = attack.location.playfield.long_name
+                attack.location.playfield = self.playfield_controller.get_playfield_by_name(playfield_name) or DictObject()
+                attack.location.playfield.long_name = playfield_name
+
+                # lookup attacker
+                name = attack.attacker.name
+                faction = attack.attacker.faction
+                org_name = attack.attacker.org_name
+                attack.attacker = self.pork_service.get_character_info(name) or DictObject()
+                attack.attacker.faction = faction
+                attack.attacker.org_name = org_name
+
                 self.event_service.fire_event(self.TOWER_ATTACK_EVENT, attack)
-            else:
-                # Unknown attack
-                self.logger.warning("Unknown tower attack: " + str(packet))
 
     def get_attack_event(self, packet: server_packets.PublicChannelMessage):
-        attack = None
-        if packet.extended_message:
+        if packet.extended_message and [packet.extended_message.category_id, packet.extended_message.instance_id] == self.ATTACK_1:
             params = packet.extended_message.params
-            if [packet.extended_message.category_id, packet.extended_message.instance_id] == self.ATTACK_1:
-                attack = DictObject({
-                    "attacker": {
-                        "name": params[2],
-                        "faction": params[0].capitalize(),
-                        "org": params[1]
+            return DictObject({
+                "attacker": {
+                    "name": params[2],
+                    "faction": params[0].capitalize(),
+                    "org_name": params[1]
+                },
+                "defender": {
+                    "faction": params[3].capitalize(),
+                    "org_name": params[4]
+                },
+                "location": {
+                    "playfield": {
+                        "long_name": params[5]
                     },
-                    "defender": {
-                        "faction": params[3].capitalize(),
-                        "org": params[4]
-                    },
-                    "location": {
-                        "playfield": {
-                            "name": params[5]
-                        },
-                        "x_coord": params[6],
-                        "y_coord": params[7]
-                    }
-                })
-            elif [packet.extended_message.category_id, packet.extended_message.instance_id] == self.ATTACK_2:
-                attack = DictObject({
-                    "attacker": {
-                        "name": "",
-                        "faction": "",
-                        "org": ""
-                    },
-                    "defender": {
-                        "faction": params[0].capitalize(),
-                        "org": params[1]
-                    },
-                    "location": {
-                        "playfield": {
-                            "name": params[2]
-                        },
-                        "x_coord": 0,
-                        "y_coord": 0
-                    }
-                })
+                    "x_coord": params[6],
+                    "y_coord": params[7]
+                }
+            })
         else:
-            match = self.ATTACK_3.match(packet.message)
+            match = self.ATTACK_2.match(packet.message)
             if match:
-                attack = DictObject({
+                return DictObject({
                     "attacker": {
                         "name": match.group(1),
                         "faction": "",
-                        "org": ""
+                        "org_name": ""
                     },
                     "defender": {
                         "faction": match.group(2).capitalize(),
-                        "org": match.group(3)
+                        "org_name": match.group(3)
                     },
                     "location": {
                         "playfield": {
-                            "name": match.group(4)
+                            "long_name": match.group(4)
                         },
                         "x_coord": match.group(5),
                         "y_coord": match.group(6)
                     }
                 })
 
-        return attack
+        # Unknown attack
+        self.logger.warning("Unknown tower attack: " + str(packet))
+        return None
 
     def get_victory_event(self, packet: server_packets.PublicChannelMessage):
-        victory = None
-
         match = self.VICTORY_1.match(packet.message)
         if match:
-            victory = DictObject({
-                "attacker": {
+            return None
+
+        match = self.VICTORY_2.match(packet.message)
+        if match:
+            return DictObject({
+                "type": "attack",
+                "winner": {
                     "faction": match.group(1).capitalize(),
-                    "org": match.group(2)
+                    "org_name": match.group(2)
                 },
-                "defender": {
+                "loser": {
                     "faction": match.group(3).capitalize(),
-                    "org": match.group(4)
+                    "org_name": match.group(4)
                 },
                 "location": {
                     "playfield": {
-                        "name": match.group(5)
+                        "long_name": match.group(5)
                     }
                 }
             })
 
-        return victory
+        if packet.extended_message and [packet.extended_message.category_id, packet.extended_message.instance_id] == self.VICTORY_3:
+            params = packet.extended_message.params
+            return DictObject({
+                "type": "terminated",
+                "attacker": None,
+                "defender": {
+                    "faction": params[0].capitalize(),
+                    "org_name": params[1]
+                },
+                "location": {
+                    "playfield": {
+                        "long_name": params[2]
+                    }
+                }
+            })
+
+        # Unknown victory
+        self.logger.warning("Unknown tower victory: " + str(packet))
+        return None
