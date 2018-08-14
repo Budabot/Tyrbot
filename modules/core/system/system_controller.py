@@ -1,6 +1,7 @@
 from core.decorators import instance, command, event, setting
 from core.command_service import CommandService
 from core.logger import Logger
+from core.setting_service import SettingService
 from core.setting_types import BooleanSettingType
 
 
@@ -11,9 +12,14 @@ class SystemController:
 
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
+        self.setting_service: SettingService = registry.get_instance("setting_service")
 
     @setting(name="expected_shutdown", value="true", description="Helps bot to determine if last shutdown was expected or due to a problem")
     def expected_shutdown(self):
+        return BooleanSettingType()
+
+    @setting(name="restart_notify", value="true", description="Notify org and private channel when bot is restarting")
+    def restart_notify(self):
         return BooleanSettingType()
 
     @command(command="shutdown", params=[], access_level="superadmin",
@@ -35,8 +41,9 @@ class SystemController:
              description="Restart the bot")
     def restart_cmd(self, request):
         msg = "The bot is restarting..."
-        self.bot.send_org_message(msg)
-        self.bot.send_private_channel_message(msg)
+        if self.setting_service.get("restart_notify").get_value():
+            self.bot.send_org_message(msg)
+            self.bot.send_private_channel_message(msg)
 
         # set expected flag
         self.expected_shutdown().set_value(True)
