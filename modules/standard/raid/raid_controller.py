@@ -48,10 +48,10 @@ class RaidController:
             item = loot_item.item
             bidders = loot_item.bidders
 
-            increase_link = self.text.make_chatcmd("+", "/tell <myname> loot increase %s" % i)
-            decrease_link = self.text.make_chatcmd("-", "/tell <myname> loot decrease %s" % i)
+            increase_link = self.text.make_chatcmd("+", "/tell <myname> loot increase %d" % i)
+            decrease_link = self.text.make_chatcmd("-", "/tell <myname> loot decrease %d" % i)
 
-            blob += "%s. %s " % (i, self.text.make_item(item.low_id, item.high_id, item.ql, item.name))
+            blob += "%d. %s " % (i, self.text.make_item(item.low_id, item.high_id, item.ql, item.name))
             blob += "x%s [%s|%s]\n" % (loot_item.count, increase_link, decrease_link)
 
             if len(bidders) > 0:
@@ -59,9 +59,9 @@ class RaidController:
             else:
                 blob += " | No bidders\n"
 
-            add_to_loot = self.text.make_chatcmd("Add to", "/tell <myname> loot add %s" % i)
+            add_to_loot = self.text.make_chatcmd("Add to", "/tell <myname> loot add %d" % i)
             remove_from_loot = self.text.make_chatcmd("Remove from", "/tell <myname> loot rem")
-            remove_item = self.text.make_chatcmd("Remove item", "/tell <myname> loot remitem %s" % i)
+            remove_item = self.text.make_chatcmd("Remove item", "/tell <myname> loot remitem %d" % i)
             blob += " | [%s] [%s] [%s]\n\n" % (add_to_loot, remove_from_loot, remove_item)
 
         return ChatBlob("Loot (%d)" % len(self.loot_list), blob)
@@ -69,7 +69,7 @@ class RaidController:
     @command(command="loot", params=[Const("clear")], description="Clear all loot", access_level="member")
     def loot_clear_cmd(self, request, _):
         if self.loot_list:
-            self.loot_list = {}
+            self.loot_list.clear()
             return "Loot list cleared."
         else:
             return "Loot list is already empty."
@@ -80,9 +80,9 @@ class RaidController:
             return "Loot list is empty."
 
         try:
-            if self.loot_list[str(item_index)]:
+            if self.loot_list[item_index]:
                 self.last_modify = int(float(time.time()))
-                return "Removed %s from loot list." % self.loot_list.pop(str(item_index)).item.name
+                return "Removed %s from loot list." % self.loot_list.pop(item_index).item.name
             else:
                 return "Item error."
         except KeyError:
@@ -103,7 +103,7 @@ class RaidController:
             return "Loot list is empty."
 
         try:
-            loot_item = self.loot_list[str(item_index)]
+            loot_item = self.loot_list[item_index]
 
             if loot_item:
                 loot_item.count = loot_item.count + 1
@@ -120,7 +120,7 @@ class RaidController:
             return "Loot list is empty."
 
         try:
-            loot_item = self.loot_list[str(item_index)]
+            loot_item = self.loot_list[item_index]
 
             if loot_item:
                 loot_item.count = loot_item.count - 1 if loot_item.count > 1 else 1
@@ -134,7 +134,7 @@ class RaidController:
     @command(command="loot", params=[Const("add"), Int("item_index")], description="Add yourself to item", access_level="all")
     def loot_add_to_cmd(self, request, _, item_index):
         try:
-            loot_item = self.loot_list[str(item_index)]
+            loot_item = self.loot_list[item_index]
             old_item = self.is_already_added(request.sender.name)
 
             if loot_item:
@@ -212,7 +212,8 @@ class RaidController:
                 else:
                     loot_item = self.loot_list[key]
                     del self.loot_list[key]
-                    self.loot_list[str(count)] = loot_item
+                    self.loot_list[count] = loot_item
+                    count += 1
 
             self.last_modify = int(float(time.time()))
 
@@ -250,12 +251,12 @@ class RaidController:
 
             return "%s table was added to loot." % category
 
-        return "%s does not have any items registered in loot table."
+        return "%s does not have any items registered in loot table." % category
 
     @timerevent(budatime="1h", description="Periodically check when loot list was last modified, and clear it if last modification was done 1+ hours ago")
     def loot_clear_event(self, event_type, event_data):
-        if (int(float(time.time())) - self.last_modify) > 3600 and self.loot_list:
-            self.loot_list = {}
+        if ((int(float(time.time())) - self.last_modify) > 3600) and self.loot_list:
+            self.loot_list = OrderedDict()
             self.bot.send_org_message("Loot was last modified more than 1 hour ago, list has been cleared.")
             self.bot.send_private_channel_message("Loot was last modified more than 1 hour ago, list has been cleared.")
 
@@ -266,7 +267,7 @@ class RaidController:
         return None
 
     def add_item_to_loot(self, low_id, high_id, ql, name, comment=None, item_count=1):
-        end_index = str(int(list(self.loot_list.keys())[-1]) + 1) if len(self.loot_list) > 0 else "1"
+        end_index = list(self.loot_list.keys())[-1] + 1 if len(self.loot_list) > 0 else 1
 
         item_name = "%s (%s)" % (name, comment) if comment is not None and comment != "" else name
 
