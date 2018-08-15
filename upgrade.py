@@ -11,6 +11,7 @@ def table_info(table_name):
         def normalize_table_info(row):
             row.name = row.Field
             row.type = row.Type
+            return row
 
         return list(map(normalize_table_info, data))
     elif db.type == DB.SQLITE:
