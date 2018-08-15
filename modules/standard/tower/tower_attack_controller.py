@@ -46,27 +46,27 @@ class TowerAttackController:
 
     def find_closest_site_number(self, playfield_id, x_coord, y_coord):
         sql = """
-                SELECT
+            SELECT
+                site_number,
+                ((x_distance * x_distance) + (y_distance * y_distance)) radius
+            FROM
+                (SELECT
+                    playfield_id,
                     site_number,
-                    ((x_distance * x_distance) + (y_distance * y_distance)) radius
+                    min_ql,
+                    max_ql,
+                    x_coord,
+                    y_coord,
+                    site_name,
+                    (x_coord - ?) as x_distance,
+                    (y_coord - ?) as y_distance
                 FROM
-                    (SELECT
-                        playfield_id,
-                        site_number,
-                        min_ql,
-                        max_ql,
-                        x_coord,
-                        y_coord,
-                        site_name,
-                        (x_coord - ?) as x_distance,
-                        (y_coord - ?) as y_distance
-                    FROM
-                        tower_site
-                    WHERE
-                        playfield_id = ?) t
-                ORDER BY
-                    radius ASC
-                LIMIT 1"""
+                    tower_site
+                WHERE
+                    playfield_id = ?) t
+            ORDER BY
+                radius ASC
+            LIMIT 1"""
 
         row = self.db.query_single(sql, [playfield_id, x_coord, y_coord])
         if row:

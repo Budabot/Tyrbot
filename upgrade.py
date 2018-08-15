@@ -12,7 +12,7 @@ def table_info(table_name):
             row.name = row.Field
             row.type = row.Type
 
-        return map(normalize_table_info, data)
+        return list(map(normalize_table_info, data))
     elif db.type == DB.SQLITE:
         return db.query("PRAGMA table_info(%s)" % table_name)
     else:
