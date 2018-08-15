@@ -10,7 +10,7 @@ def table_info(table_name):
 
         def normalize_table_info(row):
             row.name = row.Field
-            row.type = row.Type
+            row.type = row.Type.upper()
             return row
 
         return list(map(normalize_table_info, data))
@@ -20,5 +20,17 @@ def table_info(table_name):
         raise Exception("Unknown database type '%s'" % db.type)
 
 
-print(table_info("db_version"))
-# db.exec("DELETE FROM command_alias WHERE alias = ?", ["timer"])
+def does_table_exist(table_name):
+    try:
+        db.query("SELECT * FROM %s LIMIT 1" % table_name)
+        return True
+    except Exception:
+        return False
+
+
+def does_column_exist(table_name, column_name):
+    try:
+        db.query("SELECT %s FROM %s LIMIT 1" % (column_name, table_name))
+        return True
+    except Exception:
+        return False
