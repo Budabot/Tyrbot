@@ -33,8 +33,9 @@ class TowerVictoryController:
         last_attack_t = t - (7 * 3600)
 
         if event_data.type == "attack":
-            attack_id = self.get_attack(event_data.winner.faction, event_data.winner.org_name, event_data.loser.faction, event_data.loser.org_name,
-                                        event_data.location.playfield.id, last_attack_t)
+            attack_id = self.get_last_attack_id(
+                event_data.winner.faction, event_data.winner.org_name, event_data.loser.faction, event_data.loser.org_name,
+                event_data.location.playfield.id, last_attack_t)
         else:  # event_data.type == "terminated"
             attack_id = 0
 

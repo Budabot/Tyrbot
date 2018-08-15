@@ -183,8 +183,8 @@ class TowerController:
             params = packet.extended_message.params
             return DictObject({
                 "type": "terminated",
-                "attacker": None,
-                "defender": {
+                "winner": None,
+                "loser": {
                     "faction": params[0].capitalize(),
                     "org_name": params[1]
                 },

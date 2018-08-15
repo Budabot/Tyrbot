@@ -34,10 +34,14 @@ class TowerAttackController:
 
         site_number = self.find_closest_site_number(event_data.location.playfield.id, event_data.location.x_coord, event_data.location.y_coord)
 
+        attacker = event_data.attacker or {}
+        defender = event_data.defender
+        location = event_data.location
+
         self.db.exec("INSERT INTO tower_attack (att_org_name, att_faction, att_char_id, att_char_name, att_level, att_ai_level, att_profession, def_org_name, def_faction, "
                      "playfield_id, site_number, x_coord, y_coord, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                     [event_data.attacker.org_name, event_data.attacker.faction, event_data.attacker.char_id, event_data.attacker.name, event_data.attacker.ai_level,
-                      event_data.attacker.profession, event_data.defender.org_name, event_data.defender.faction, event_data.location.playfield.id,
+                     [attacker.get("org_name", ""), attacker.get("faction", ""), attacker.get("char_id", 0), attacker.get("name", ""), attacker.get("level", 0),
+                      attacker.get("ai_level", 0), attacker.get("profession", ""), defender.org_name, defender.faction, location.playfield.id,
                       site_number, event_data.location.x_coord, event_data.location.y_coord, int(time.time())])
 
     def find_closest_site_number(self, playfield_id, x_coord, y_coord):
