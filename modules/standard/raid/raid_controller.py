@@ -163,7 +163,7 @@ class RaidController:
             loot_item = self.loot_list[item_index]
 
             if loot_item:
-                loot_item.count = loot_item.count + 1
+                loot_item.count += 1
                 self.last_modify = int(time.time())
                 return "Increased item count for %s to %d." % (loot_item.item.name, loot_item.count)
             else:
@@ -603,7 +603,7 @@ class RaidController:
             blob += "Started by: <highlight>%s<end>\n" % self.character_service.resolve_char_to_name(log_entry[0].started_by)
             blob += "Start time: <highlight>%s<end>\n" % self.util.format_datetime(log_entry[0].raid_start)
             blob += "End time: <highlight>%s<end>\n" % self.util.format_datetime(log_entry[0].raid_end)
-            blob += "Run time: <highlight>%s<end>\n" % self.util.format_datetime(log_entry[0].raid_end - log_entry[0].raid_start)
+            blob += "Run time: <highlight>%s<end>\n" % self.util.time_to_readable(log_entry[0].raid_end - log_entry[0].raid_start)
             blob += "Total points: <highlight>%d<end>\n\n" % sum
 
             if char and log_entry_spec:
@@ -631,6 +631,21 @@ class RaidController:
             return ChatBlob("Log entry for %s" % log_entry_reference, blob)
 
         return "No such log entry."
+
+    @command(command="raid", params=[Const("history")], description="Show a list of recent raids", access_level="member")
+    def raid_history_cmd(self, request, _):
+        sql = "SELECT * FROM raid_log ORDER BY raid_end DESC LIMIT 30"
+        raids = self.db.query(sql)
+
+        if raids:
+            blob = ""
+            for raid in raids:
+                participant_link = self.text.make_chatcmd("Log", "/tell <myname> raid logentry %d" % raid.raid_id)
+                timestamp = self.util.format_datetime(raid.raid_start)
+                leader_name = self.character_service.resolve_char_to_name(raid.started_by)
+                blob += "[%d] [%s] <orange>%s<end> started by <yellow>%s<end> [%s]\n" % (raid.raid_id, timestamp, raid.raid_name, leader_name, participant_link)
+
+            return ChatBlob("Raid history", blob)
 
     @timerevent(budatime="1h", description="Periodically check when loot list was last modified, and clear it if last modification was done 1+ hours ago")
     def loot_clear_event(self, event_type, event_data):
