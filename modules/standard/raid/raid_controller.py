@@ -373,7 +373,7 @@ class RaidController:
                 if in_raid.active_id == request.sender.char_id:
                     if in_raid.is_active:
                         return "You're already participating in the raid."
-                    elif not in_raid.is_active:
+                    else:
                         if not self.raid.is_open:
                             return "Raid is closed."
                         in_raid.is_active = True
@@ -566,6 +566,26 @@ class RaidController:
 
     @command(command="raid", params=[Const("save")], description="Save and log running raid", access_level="moderator")
     def raid_save_cmd(self, request, _):
+        if self.raid:
+            sql = "INSERT INTO raid_log (raid_name, started_by, raid_limit, raid_min_lvl, raid_start, raid_end) VALUES (?,?,?,?,?,?)"
+            if self.db.exec(sql, [self.raid.raid_name, self.raid.started_by, self.raid.raid_limit, self.raid.raid_min_lvl, self.raid.started, int(time.time())]) > 0:
+                raid_id = self.db.query_single("SELECT raid_id FROM raid_log ORDER BY raid_id DESC LIMIT 1").raid_id
+                with_errors = len(self.raid.raiders)
+
+                for raider in self.raid.raiders:
+                    sql = "INSERT INTO raid_log_participants (raid_id, raider_id, accumulated_points, left_raid, was_kicked, was_kicked_reason) VALUES (?,?,?,?,?,?)"
+                    with_errors -= self.db.exec(sql, [raid_id, raider.active_id, raider.accumulated_points, raider.left_raid, raider.was_kicked, raider.was_kicked_reason])
+
+                self.raid = None
+
+                return "Raid saved%s." % ("" if with_errors == 0 else " with %d errors when logging participants" % with_errors)
+            else:
+                return "Failed to log raid. Try again or cancel raid to end raid."
+
+        return "No raid is running."
+
+    @command(command="raid", params=[Const("logentry"), Int("raid_id"), Character("char", is_optional=True)], description="Show log entry for raid, with possibility of narrowing down the log for charcater in raid", access_level="moderator")
+    def raid_log_entry_cmd(self, request, _, raid_id: int, char: Character):
         pass
 
     @timerevent(budatime="1h", description="Periodically check when loot list was last modified, and clear it if last modification was done 1+ hours ago")
