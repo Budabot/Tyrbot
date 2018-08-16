@@ -7,6 +7,7 @@ from core.setting_service import SettingService
 from core.decorators import instance, command, timerevent, setting
 from core.text import Text
 from core.tyrbot import Tyrbot
+from core.util import Util
 from core.lookup.character_service import CharacterService
 from core.alts.alts_service import AltsService
 from .leader_controller import LeaderController
@@ -74,6 +75,7 @@ class RaidController:
         self.alts_service: AltsService = registry.get_instance("alts_service")
         self.character_service: CharacterService = registry.get_instance("character_service")
         self.points_controller: PointsController = registry.get_instance("points_controller")
+        self.util: Util = registry.get_instance("util")
 
     @setting(name="default_min_lvl", value="1", description="Default minimum level for joining raids")
     def default_min_lvl(self):
@@ -586,7 +588,49 @@ class RaidController:
 
     @command(command="raid", params=[Const("logentry"), Int("raid_id"), Character("char", is_optional=True)], description="Show log entry for raid, with possibility of narrowing down the log for charcater in raid", access_level="moderator")
     def raid_log_entry_cmd(self, request, _, raid_id: int, char: Character):
-        pass
+        if char:
+            sql = "SELECT * FROM raid_log r LEFT JOIN raid_log_participants p ON r.raid_id = p.raid_id WHERE r.raid_id = ? AND p.raider_id = ?"
+            log_entry_spec = self.db.query_single(sql, [raid_id, char.char_id])
+
+        sql = "SELECT * FROM raid_log r LEFT JOIN raid_log_participants p ON r.raid_id = p.raid_id WHERE r.raid_id = ? ORDER BY p.accumulated_points DESC"
+        log_entry = self.db.query(sql, [raid_id])
+        sum = self.db.query_single("SELECT SUM(p.accumulated_points) AS sum FROM raid_log_participants p WHERE p.raid_id = ?", [raid_id]).sum
+
+        if log_entry:
+            blob = "Raid name: <highlight>%s<end>\n" % log_entry[0].raid_name
+            blob += "Raid limit: <highlight>%s<end>\n" % log_entry[0].raid_limit
+            blob += "Raid min lvl: <highlight>%s<end>\n" % log_entry[0].raid_min_lvl
+            blob += "Started by: <highlight>%s<end>\n" % self.character_service.resolve_char_to_name(log_entry[0].started_by)
+            blob += "Start time: <highlight>%s<end>\n" % self.util.format_datetime(log_entry[0].raid_start)
+            blob += "End time: <highlight>%s<end>\n" % self.util.format_datetime(log_entry[0].raid_end)
+            blob += "Run time: <highlight>%s<end>\n" % self.util.format_datetime(log_entry[0].raid_end - log_entry[0].raid_start)
+            blob += "Total points: <highlight>%d<end>\n\n" % sum
+
+            if char and log_entry_spec:
+                raider_name = self.character_service.resolve_char_to_name(log_entry_spec.raider_id)
+                main_info = self.alts_service.get_main(log_entry_spec.raider_id)
+                alt_link = "Alt of %s" % main_info.name if main_info.char_id != log_entry_spec.raider_id else "Alts"
+                alt_link = self.text.make_chatcmd(alt_link, "/tell <myname> alts %s" % main_info.name)
+                blob += "<header2>Log entry for %s<end>\n" % raider_name
+                blob += "Raider: <highlight>%s<end> [%s]\n" % (raider_name, alt_link)
+                blob += "Left raid: %s\n" % ("n/a" if log_entry_spec.left_raid is None else self.util.format_datetime(log_entry_spec.left_raid))
+                blob += "Was kicked: %s\n" % ("No" if log_entry_spec.was_kicked is None else "Yes [%s]" % (self.util.format_datetime(log_entry_spec.was_kicked)))
+                blob += "Kick reason: %s\n\n" % ("n/a" if log_entry_spec.was_kicked_reason is None else log_entry_spec.was_kicked_reason)
+
+            blob += "<header2>Participants<end>\n"
+            for raider in log_entry:
+                raider_name = self.character_service.resolve_char_to_name(raider.raider_id)
+                main_info = self.alts_service.get_main(raider.raider_id)
+                alt_link = "Alt of %s" % main_info.name if main_info.char_id != raider.raider_id else "Alts"
+                alt_link = self.text.make_chatcmd(alt_link, "/tell <myname> alts %s" % main_info.name)
+                log_link = self.text.make_chatcmd("Log", "/tell <myname> raid logentry %d %s" % (raid_id, raider_name))
+                account_link = self.text.make_chatcmd("Account", "/tell <myname> account %s" % raider_name)
+                blob += "%s - %d points earned [%s] [%s] [%s]\n" % (raider_name, raider.accumulated_points, log_link, account_link, alt_link)
+
+            log_entry_reference = "the raid %s" % log_entry[0].raid_name if char is None else "%s in raid %s" % (self.character_service.resolve_char_to_name(char.char_id), log_entry[0].raid_name)
+            return ChatBlob("Log entry for %s" % log_entry_reference, blob)
+
+        return "No such log entry."
 
     @timerevent(budatime="1h", description="Periodically check when loot list was last modified, and clear it if last modification was done 1+ hours ago")
     def loot_clear_event(self, event_type, event_data):
