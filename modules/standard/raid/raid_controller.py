@@ -1,11 +1,16 @@
 from core.access_service import AccessService
 from core.chat_blob import ChatBlob
-from core.command_param_types import Const, Int, Item, Any
+from core.command_param_types import Const, Int, Item, Any, Options, Character
 from core.db import DB
-from core.decorators import instance, command, timerevent
+from core.setting_types import NumberSettingType
+from core.setting_service import SettingService
+from core.decorators import instance, command, timerevent, setting
 from core.text import Text
 from core.tyrbot import Tyrbot
+from core.lookup.character_service import CharacterService
+from core.alts.alts_service import AltsService
 from .leader_controller import LeaderController
+from .points_controller import PointsController
 from collections import OrderedDict
 import secrets
 import time
@@ -28,11 +33,36 @@ class LootItem:
         self.count = count
 
 
+class Raider:
+    def __init__(self, alts, active):
+        self.main_id = alts[0].char_id
+        self.alts = alts
+        self.active_id = active
+        self.accumulated_points = 0
+        self.is_active = True
+        self.left_raid = None
+        self.was_kicked = None
+        self.was_kicked_reason = None
+
+
+class Raid:
+    def __init__(self, raid_name, started_by, raid_min_lvl, raid_limit=None, raiders=None):
+        self.raid_name = raid_name
+        self.started = int(time.time())
+        self.started_by = started_by
+        self.raid_min_lvl = raid_min_lvl
+        self.raid_limit = raid_limit
+        self.raiders = raiders or []
+        self.is_open = True
+        self.raid_orders = None
+
+
 @instance()
 class RaidController:
     def __init__(self):
         self.loot_list = OrderedDict()
         self.last_modify = None
+        self.raid = None
 
     def inject(self, registry):
         self.bot: Tyrbot = registry.get_instance("bot")
@@ -40,6 +70,14 @@ class RaidController:
         self.text: Text = registry.get_instance("text")
         self.leader_controller: LeaderController = registry.get_instance("leader_controller")
         self.access_service: AccessService = registry.get_instance("access_service")
+        self.setting_service: SettingService = registry.get_instance("setting_service")
+        self.alts_service: AltsService = registry.get_instance("alts_service")
+        self.character_service: CharacterService = registry.get_instance("character_service")
+        self.points_controller: PointsController = registry.get_instance("points_controller")
+
+    @setting(name="default_min_lvl", value="1", description="Default minimum level for joining raids")
+    def default_min_lvl(self):
+        return NumberSettingType()
 
     @command(command="loot", params=[], description="Show the list of added items", access_level="all")
     def loot_cmd(self, request):
@@ -83,7 +121,7 @@ class RaidController:
             return "Loot list is already empty."
 
     @command(command="loot", params=[Const("remitem"), Int("item_index")], description="Remove existing loot", access_level="all")
-    def loot_rem_item_cmd(self, request, _, item_index):
+    def loot_rem_item_cmd(self, request, _, item_index: int):
         if not self.leader_controller.can_use_command(request.sender.char_id):
             return "You're not set as leader, and don't have sufficient access level to override leadership."
 
@@ -100,7 +138,7 @@ class RaidController:
             return "Wrong index given"
 
     @command(command="loot", params=[Const("additem"), Item("item"), Int("item_count", is_optional=True)], description="Add an item to loot list", access_level="all")
-    def loot_add_item_cmd(self, request, _, item, item_count):
+    def loot_add_item_cmd(self, request, _, item: Item, item_count: int):
         if not self.leader_controller.can_use_command(request.sender.char_id):
             return "You're not set as leader, and don't have sufficient access level to override leadership."
 
@@ -112,7 +150,7 @@ class RaidController:
         return "%s was added to loot list." % item["name"]
 
     @command(command="loot", params=[Const("increase"), Int("item_index")], description="Increase item count", access_level="all")
-    def loot_increase_item_cmd(self, request, _, item_index):
+    def loot_increase_item_cmd(self, request, _, item_index: int):
         if not self.leader_controller.can_use_command(request.sender.char_id):
             return "You're not set as leader, and don't have sufficient access level to override leadership."
 
@@ -132,7 +170,7 @@ class RaidController:
             return "Wrong index given."
 
     @command(command="loot", params=[Const("decrease"), Int("item_index")], description="Decrease item count", access_level="all")
-    def loot_decrease_item_cmd(self, request, _, item_index):
+    def loot_decrease_item_cmd(self, request, _, item_index: int):
         if not self.leader_controller.can_use_command(request.sender.char_id):
             return "You're not set as leader, and don't have sufficient access level to override leadership."
 
@@ -152,7 +190,7 @@ class RaidController:
             return "Wrong index given."
 
     @command(command="loot", params=[Const("add"), Int("item_index")], description="Add yourself to item", access_level="all")
-    def loot_add_to_cmd(self, request, _, item_index):
+    def loot_add_to_cmd(self, request, _, item_index: int):
         try:
             loot_item = self.loot_list[item_index]
             old_item = self.is_already_added(request.sender.name)
@@ -248,7 +286,7 @@ class RaidController:
             return "Loot list is empty."
 
     @command(command="loot", params=[Const("additem"), Const("raid"), Int("item_id"), Int("item_count")], description="Used by the loot lists to add items to loot list", access_level="all")
-    def loot_add_raid_item(self, request, _1, _2, item_id, item_count):
+    def loot_add_raid_item(self, request, _1, _2, item_id: int, item_count: int):
         if not self.leader_controller.can_use_command(request.sender.char_id):
             return "You're not set as leader, and don't have sufficient access level to override leadership."
 
@@ -262,8 +300,8 @@ class RaidController:
 
         return "Failed to add item with ID %s." % item_id
 
-    @command(command="loot", params=[Const("addraid"), Const("APF"), Any("category")], description="Add all loot from given raid", access_level="all")
-    def loot_add_raid_loot(self, request, _1, _2, category):
+    @command(command="loot", params=[Const("addraid"), Any("raid"), Any("category")], description="Add all loot from given raid", access_level="all")
+    def loot_add_raid_loot(self, request, _, raid: str, category: str):
         if not self.leader_controller.can_use_command(request.sender.char_id):
             return "You're not set as leader, and don't have sufficient access level to override leadership."
 
@@ -272,9 +310,9 @@ class RaidController:
             "FROM raid_loot r "
             "LEFT JOIN aodb a "
             "ON (r.name = a.name AND r.ql <= a.highql) "
-            "WHERE r.raid = 'APF' AND r.category = ? "
+            "WHERE r.raid = ? AND r.category = ? "
             "ORDER BY r.name",
-            [category]
+            [raid, category]
         )
 
         if items:
@@ -285,6 +323,251 @@ class RaidController:
 
         return "%s does not have any items registered in loot table." % category
 
+    @command(command="raid", params=[Const("start"), Int("raid_limit", is_optional=True), Any("raid_name")], description="Start new raid", access_level="moderator")
+    def raid_start_cmd(self, request, _, raid_limit: int, raid_name: str):
+        if self.raid:
+            return "The raid, <yellow>%s<end>, is already running." % self.raid.raid_name
+
+        raid_min_lvl = self.setting_service.get("default_min_lvl").get_value()
+
+        self.raid = Raid(raid_name, request.sender.char_id, raid_min_lvl, raid_limit)
+
+        leader_alts = self.alts_service.get_alts(request.sender.char_id)
+        self.raid.raiders.append(Raider(leader_alts, request.sender.char_id))
+
+        join_link = self.get_raid_join_blob("Click here")
+
+        msg = "\n<yellow>----------------------------------------<end>\n"
+        msg += "<yellow>%s<end> has just started the raid <yellow>%s<end>.\n" % (request.sender.name, raid_name)
+        msg += "Raider limit: <highlight>%s<end>\n" % self.raid.raid_limit
+        msg += "Min lvl: <highlight>%d<end>\n" % self.raid.raid_min_lvl
+        msg += "%s to join\n" % join_link
+        msg += "<yellow>----------------------------------------<end>"
+
+        self.bot.send_org_message(msg)
+        self.bot.send_private_channel_message(msg)
+
+    @command(command="raid", params=[Options(["end", "cancel"])], description="End raid without saving/logging.", access_level="moderator")
+    def raid_cancel_cmd(self, request, _):
+        if self.raid is None:
+            return "No raid is running."
+
+        raid_name = self.raid.raid_name
+        self.raid = None
+        self.bot.send_org_message("%s canceled the raid <yellow>%s<end> prematurely." % (request.sender.name, raid_name))
+        self.bot.send_private_channel_message("%s canceled the raid <yellow>%s<end> prematurely." % (request.sender.name, raid_name))
+
+    @command(command="raid", params=[Const("join")], description="Join the ongoing raid", access_level="member")
+    def raid_join_cmd(self, request, _):
+        if self.raid:
+            main_id = self.alts_service.get_main(request.sender.char_id).char_id
+            in_raid = self.is_in_raid(main_id)
+
+            player_level = self.db.query_single("SELECT level FROM player WHERE char_id = ?", [request.sender.char_id])
+            player_level = player_level.level if player_level is not None else self.setting_service.get("default_min_lvl").get_value()
+
+            if player_level < self.raid.raid_min_lvl:
+                return "Your level (%d) does not meet the requirements of the raid (%d)." % (player_level, self.raid.raid_min_lvl)
+
+            if in_raid is not None:
+                if in_raid.active_id == request.sender.char_id:
+                    if in_raid.is_active:
+                        return "You're already participating in the raid."
+                    elif not in_raid.is_active:
+                        if not self.raid.is_open:
+                            return "Raid is closed."
+                        in_raid.is_active = True
+                        in_raid.was_kicked = None
+                        in_raid.was_kicked_reason = None
+                        in_raid.left_raid = None
+                        self.bot.send_private_channel_message("%s returned to actively participating in the raid." % request.sender.name)
+                        self.bot.send_org_message("%s returned to actively participating in the raid." % request.sender.name)
+                        return
+
+                elif in_raid.is_active:
+                    former_active_name = self.character_service.resolve_char_to_name(in_raid.active_id)
+                    in_raid.active_id = request.sender.char_id
+                    self.bot.send_private_channel_message("%s joined the raid with a different alt, <yellow>%s<end>." % (former_active_name, request.sender.name))
+                    self.bot.send_org_message("%s joined the raid with a different alt, <yellow>%s<end>." % (former_active_name, request.sender.name))
+                    return
+
+                elif not in_raid.is_active:
+                    if not self.raid.is_open:
+                        return "Raid is closed."
+                    former_active_name = self.character_service.resolve_char_to_name(in_raid.active_id)
+                    in_raid.active_id = request.sender.char_id
+                    in_raid.was_kicked = None
+                    in_raid.was_kicked_reason = None
+                    in_raid.left_raid = None
+                    self.bot.send_private_channel_message("%s returned to actively participate with a different alt, <yellow>%s<end>." % (former_active_name, request.sender.name))
+                    self.bot.send_org_message("%s returned to actively participate with a different alt, <yellow>%s<end>." % (former_active_name, request.sender.name))
+                    return
+            elif self.raid.raid_limit is not None and len(self.raid.raiders) >= self.raid.raid_limit:
+                return "Raid is full."
+            elif self.raid.is_open:
+                alts = self.alts_service.get_alts(request.sender.char_id)
+                self.raid.raiders.append(Raider(alts, request.sender.char_id))
+                self.bot.send_private_channel_message("<yellow>%s<end> joined the raid." % request.sender.name)
+                self.bot.send_org_message("<yellow>%s<end> joined the raid." % request.sender.name)
+                return
+
+            return "Raid is closed."
+
+        return "No raid is running."
+
+    @command(command="raid", params=[Const("leave")], description="Leave the ongoing raid", access_level="member")
+    def raid_leave_cmd(self, request, _):
+        in_raid = self.is_in_raid(self.alts_service.get_main(request.sender.char_id).char_id)
+        if in_raid:
+            if not in_raid.is_active:
+                return "You're not actively participating in the raid."
+
+            in_raid.is_active = False
+            in_raid.left_raid = int(time.time())
+            self.bot.send_private_channel_message("<yellow>%s<end> left the raid.")
+            self.bot.send_org_message("<yellow>%s<end> left the raid.")
+            return
+
+        return "You're not participating in the raid."
+
+    @command(command="raid", params=[Const("addpts"), Any("name")], description="Add points to all active participants",
+             access_level="moderator")
+    def points_add_cmd(self, request, _, name: str):
+        preset = self.db.query_single("SELECT * FROM points_presets WHERE name = ?", [name])
+        if preset:
+            if self.raid:
+                for raider in self.raid.raiders:
+                    current_points = self.db.query_single("SELECT points, disabled FROM points WHERE char_id = ?", [raider.main_id])
+
+                    if raider.is_active:
+                        if current_points and current_points.disabled == 0:
+                            self.points_controller.alter_points(current_points.points, raider.main_id, preset.points,
+                                                                request.sender.char_id, preset.name)
+                            raider.accumulated_points += preset.points
+                        else:
+                            self.points_controller.add_log_entry(raider.main_id, request.sender.char_id,
+                                                                 "Participated in raid without an open account, missed points from %s." % preset.name)
+                    else:
+                        if current_points:
+                            self.points_controller.add_log_entry(raider.main_id, request.sender.char_id,
+                                                                 "Was inactive during raid, %s, when points for %s was dished out." % (
+                                                                 self.raid.raid_name, preset.name))
+                        else:
+                            self.points_controller.add_log_entry(raider.main_id, request.sender.char_id,
+                                                                 "Was inactive during raid, %s, when points for %s was dished out - did not have an active account at the given time." % (
+                                                                 self.raid.raid_name, preset.name))
+                return "<green>%d<end> points added to all active raiders." % preset.points
+            else:
+                return "No raid is running."
+
+        return ChatBlob("No such preset - see list of presets", self.points_controller.build_preset_list())
+
+    @command(command="raid", params=[Const("active")], description="Get a list of raiders to do active check", access_level="moderator")
+    def raid_active_cmd(self, request, _):
+        if self.raid:
+            blob = ""
+
+            count = 0
+            raider_names = []
+            for raider in self.raid.raiders:
+                if count == 10:
+                    active_check_names = "/assist "
+                    active_check_names += "\\n /assist ".join(raider_names)
+                    blob += "[<a href='chatcmd://%s'>Active check</a>]\n\n" % active_check_names
+                    count = 0
+                    raider_names.clear()
+
+                raider_name = self.character_service.resolve_char_to_name(raider.active_id)
+                akick_link = self.text.make_chatcmd("Active kick", "/tell <myname> raid akick %s" % raider.main_id)
+                warn_link = self.text.make_chatcmd("Warn", "/tell <myname> raid cmd %s missed active check, please give notice." % raider_name)
+                blob += "<highlight>%s<end> [%s] [%s]\n" % (raider_name, akick_link, warn_link)
+                raider_names.append(raider_name)
+                count += 1
+
+            if len(raider_names) > 0:
+                active_check_names = "/assist "
+                active_check_names += "\\n /assist ".join(raider_names)
+
+                blob += "[<a href='chatcmd://%s'>Active check</a>]\n\n" % active_check_names
+                raider_names.clear()
+
+            self.bot.send_private_message(request.sender.char_id, ChatBlob("Active check", blob))
+
+        return "No raid is running."
+
+    @command(command="raid", params=[Const("akick"), Character("char")], description="Set raider as kicked because of failing active-check", access_level="moderator")
+    def raid_akick_cmd(self, request, _, char: Character):
+        if self.raid is None:
+            return "No raid is running."
+
+        main_id = self.alts_service.get_main(char.char_id).char_id
+        in_raid = self.is_in_raid(main_id)
+
+        try:
+            name = self.character_service.resolve_char_to_name(int(char.name))
+        except ValueError:
+            name = char.name
+
+        if in_raid is not None:
+            if not in_raid.is_active:
+                return "%s is already set as inactive." % name
+
+            in_raid.is_active = False
+            in_raid.was_kicked = int(time.time())
+            in_raid.was_kicked_reason = "Failed active check"
+            return "%s is set as inactive, and will not receive any further points." % name
+
+        return "%s is not participating." % name
+
+    @command(command="raid", params=[Const("kick"), Character("char"), Any("reason")], description="Set raider as kicked with a reason", access_level="moderator")
+    def raid_kick_cmd(self, request, _, char: Character, reason: str):
+        if self.raid is None:
+            return "No raid is running."
+
+        main_id = self.alts_service.get_main(char.char_id).char_id
+        in_raid = self.is_in_raid(main_id)
+
+        try:
+            int(char.name)
+            char.name = self.character_service.resolve_char_to_name(char.name)
+        except ValueError:
+            pass
+
+        if in_raid is not None:
+            if not in_raid.is_active:
+                return "%s is already set as inactive." % char.name
+
+            in_raid.is_active = False
+            in_raid.was_kicked = int(time.time())
+            in_raid.was_kicked_reason = reason
+            return "%s has been kicked from the raid with reason \"%s\"" % (char.name, reason)
+
+        return "%s is not participating." % char.name
+
+    @command(command="raid", params=[Options(["open", "close"])], description="Open/close raid for new participants", access_level="moderator")
+    def raid_open_close_cmd(self, request, action):
+        if self.raid:
+            if action == "open":
+                if self.raid.is_open:
+                    return "Raid is already open."
+                self.raid.is_open = True
+                self.bot.send_private_channel_message("Raid has been opened by %s." % request.sender.name)
+                self.bot.send_org_message("Raid has been opened by %s." % request.sender.name)
+                return
+            elif action == "close":
+                if self.raid.is_open:
+                    self.raid.is_open = False
+                    self.bot.send_private_channel_message("Raid has been closed by %s." % request.sender.name)
+                    self.bot.send_org_message("Raid has been closed by %s." % request.sender.name)
+                    return
+                return "Raid is already closed."
+
+        return "No raid is running."
+
+    @command(command="raid", params=[Const("save")], description="Save and log running raid", access_level="moderator")
+    def raid_save_cmd(self, request, _):
+        pass
+
     @timerevent(budatime="1h", description="Periodically check when loot list was last modified, and clear it if last modification was done 1+ hours ago")
     def loot_clear_event(self, event_type, event_data):
         if self.loot_list and self.last_modify:
@@ -294,13 +577,13 @@ class RaidController:
                 self.bot.send_org_message("Loot was last modified more than 1 hour ago, list has been cleared.")
                 self.bot.send_private_channel_message("Loot was last modified more than 1 hour ago, list has been cleared.")
 
-    def is_already_added(self, name):
+    def is_already_added(self, name: str):
         for i, loot_item in self.loot_list.items():
             if name in loot_item.bidders:
                 return loot_item
         return None
 
-    def add_item_to_loot(self, low_id, high_id, ql, name, comment=None, item_count=1):
+    def add_item_to_loot(self, low_id: int, high_id: int, ql: int, name: str, comment=None, item_count=1):
         end_index = list(self.loot_list.keys())[-1] + 1 if len(self.loot_list) > 0 else 1
 
         item_name = "%s (%s)" % (name, comment) if comment is not None and comment != "" else name
@@ -314,3 +597,28 @@ class RaidController:
 
         self.loot_list[end_index] = LootItem(item_ref, item_count)
         self.last_modify = int(time.time())
+
+    def is_in_raid(self, main_id: int):
+        if self.raid is None:
+            return None
+
+        for raider in self.raid.raiders:
+            if raider.main_id == main_id:
+                return raider
+
+    def get_raid_join_blob(self, link_txt: str):
+        blob = "<header2>1. Join the raid<end>\n"
+        blob += "To join the current raid <yellow>%s<end>, send the following tell to <myname>\n" % self.raid.raid_name
+        blob += "<tab><tab><a href='chatcmd:///tell <myname> <symbol>raid join'>/tell <myname> raid join</a>\n"
+        blob += "Or write <a href='chatcmd:///group <myname> <symbol>raid join'><symbol>raid join</a> in the raid channel.\n\n"
+        blob += "<header2>2. Enable LFT<end>\n"
+        blob += "When you have joined the raid, go lft with \"<myname>\" as description\n"
+        blob += "<tab><tab><a href='chatcmd:///lft <myname>'>/lft <myname></a>\n\n"
+        blob += "<header2>3. Announce<end>\n"
+        blob += "You could announce to the raid leader, that you have enabled LFT\n"
+        blob += "<tab><tab><a href='chatcmd:///group <myname> I am on lft'>Announce</a> that you have enabled lft\n\n"
+        blob += "<header2>4. Rally with yer mateys<end>\n"
+        blob += "Finally, move towards the starting location of the raid.\n"
+        blob += "<highlight>Ask for help<end> if you're in doubt of where to go."
+
+        return self.text.paginate(link_txt, blob, 5000, 1)[0]

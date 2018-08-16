@@ -2,7 +2,7 @@ from core.tyrbot import Tyrbot
 from core.db import DB
 from core.decorators import command, instance, setting
 from core.chat_blob import ChatBlob
-from core.command_param_types import Options, Any, Int, Const
+from core.command_param_types import Options, Any, Int, Const, Character
 from core.lookup.character_service import CharacterService
 from core.setting_types import NumberSettingType
 from core.setting_service import SettingService
@@ -28,16 +28,26 @@ class PointsController:
         self.setting_service: SettingService = registry.get_instance("setting_service")
         self.alts_service: AltsService = registry.get_instance("alts_service")
 
+    def start(self):
+        if self.db.query_single("SELECT COUNT(*) AS count FROM points_presets").count < 1:
+            # Populate with pre-made presets if empty
+            presets = ["s13", "s28", "s35", "s42", "zodiac", "zod",
+                       "tnh", "beast", "12m", "tara", "pvp", "towers",
+                       "wipe", "clanwipe", "clan", "omniwipe", "omni",
+                       "bonus", "early"]
+            sql = "INSERT INTO points_presets (name) VALUES (?)"
+            for preset in presets:
+                self.db.exec(sql, [preset])
+
+
     @setting(name="initial_points_value", value="0", description="How many points new accounts start with")
     def initial_points_value(self):
         return NumberSettingType()
 
-    @command(command="bank", params=[Const("create"), Any("char")],
+    @command(command="account", params=[Const("create"), Character("char")],
              description="Create a new account for given character name", access_level="admin")
-    def bank_create_cmd(self, request, _, char: str):
-        char = char.capitalize()
-        char_id = self.character_service.resolve_char_to_id(char)
-        alts_info = self.alts_service.get_alts(char_id)
+    def bank_create_cmd(self, request, _, char: Character):
+        alts_info = self.alts_service.get_alts(char.char_id)
 
         for alt in alts_info:
             sql = "SELECT char_id, disabled FROM points WHERE char_id = ? LIMIT 1"
@@ -50,102 +60,70 @@ class PointsController:
                     if self.db.exec("UPDATE points SET disabled = 0 WHERE char_id = ?", [alt.char_id]):
                         was_disabled = True
 
-                if alt.char_id == char_id:
+                if alt.char_id == char.char_id:
                     if was_disabled:
                         if self.add_log_entry(alt.char_id, request.sender.char_id,
                                               "Account was re-enabled by %s" % self.character_service.resolve_char_to_name(
                                                   request.sender.char_id)):
-                            return "%s's account has been re-enabled." % char
+                            return "%s's account has been re-enabled." % char.name
                         else:
-                            return "%s has an account, but failed to re-enable it." % char
+                            return "%s has an account, but failed to re-enable it." % char.name
                     else:
-                        return "%s already has an account." % char
+                        return "%s already has an account." % char.name
                 else:
                     if was_disabled:
                         if self.add_log_entry(alt.char_id, request.sender.char_id,
                                               "Account was re-enabled by %s" % self.character_service.resolve_char_to_name(
                                                       request.sender.char_id)):
                             return "%s's (%s) account has been re-enabled." % (
-                                char, self.character_service.resolve_char_to_name(alt.char_id))
+                                char.name, self.character_service.resolve_char_to_name(alt.char_id))
                         else:
                             return "%s (%s) has an account, but failed to re-enable it." % (
-                                char, self.character_service.resolve_char_to_name(alt.char_id))
+                                char.name, self.character_service.resolve_char_to_name(alt.char_id))
                     else:
                         return "%s (%s) already has an account." % (
-                            char, self.character_service.resolve_char_to_name(alt.char_id))
+                            char.name, self.character_service.resolve_char_to_name(alt.char_id))
 
         main_info = alts_info.pop(0)
-        changed_to_main = main_info.char_id == char_id
+        changed_to_main = main_info.char_id == char.char_id
 
         initial_points = self.setting_service.get("initial_points_value").get_value()
 
         sql = "INSERT INTO points (char_id, points, created) VALUES (?,?,?)"
         if self.db.exec(sql, [main_info.char_id, initial_points, int(time.time())]) < 1:
-            return "Failed to create an account for %s." % char
+            return "Failed to create an account for %s." % char.name
 
         if not self.add_log_entry(main_info.char_id, request.sender.char_id,
                                   "Account opened by %s" % request.sender.name):
             sql = "DELETE FROM points WHERE char_id = ?"
             self.db.exec(sql, [main_info.char_id])
-            return "Failed to create an account for %s." % char
+            return "Failed to create an account for %s." % char.name
 
         name_reference = "%s (%s)" % (
-            char, self.character_service.resolve_char_to_name(main_info.char_id)) if changed_to_main else char
+            char.name, self.character_service.resolve_char_to_name(main_info.char_id)) if changed_to_main else char.name
         return "%s has had a new account opened." % name_reference
 
-    @command(command="bank", params=[Const("close"), Any("char")],
+    @command(command="account", params=[Const("close"), Character("char")],
              description="Close the account for given character name", access_level="admin")
-    def close_account_cmd(self, request, _, char: str):
-        char = char.capitalize()
-        char_id = self.character_service.resolve_char_to_id(char)
-        main_id = self.alts_service.get_main(char_id)
+    def close_account_cmd(self, request, _, char: Character):
+        main_id = self.alts_service.get_main(char.char_id)
 
         sql = "UPDATE points SET disabled = 1 WHERE char_id = ?"
         if self.db.exec(sql, [main_id.char_id]) > 0:
             reason = "Account was closed by %s" % self.character_service.resolve_char_to_name(request.sender.char_id)
             if self.add_log_entry(main_id.char_id, request.sender.char_id, reason):
-                name_reference = "%s (%s)" % (char, self.character_service.resolve_char_to_name(
-                    main_id.char_id)) if main_id.char_id != char_id else char
+                name_reference = "%s (%s)" % (char.name, self.character_service.resolve_char_to_name(
+                    main_id.char_id)) if main_id.char_id != char.char_id else char.name
                 return "%s has had their account disabled. Logs have been preserved." % name_reference
 
-        return "%s does not have an open account." % char
+        return "%s does not have an open account." % char.name
 
-    @command(command="bank", params=[Options(["give", "take"]), Int("amount"), Any("char"), Any("reason")],
-             description="Give or take points from character account", access_level="admin")
-    def bank_give_take_cmd(self, request, action: str, amount: int, char: str, reason: str):
-        char = char.capitalize()
-        char_id = self.character_service.resolve_char_to_id(char)
-        main_id = self.alts_service.get_main(char_id)
-
-        sql = "SELECT * FROM points WHERE char_id = ?"
-        points = self.db.query_single(sql, [main_id.char_id])
-
-        if points:
-            if points.disabled == 1:
-                return "%s's account is disabled, altering the account is not possible." % char
-
-            if points.points == 0 and action == "take":
-                return "%s has 0 points - can't have less than 0 points." % char
-
-            if amount > points.points and action == "take":
-                amount = points.points
-
-            new_points = amount if action == "give" else 0 - amount
-
-            if not self.alter_points(points.points, main_id.char_id, new_points, request.sender.char_id, reason):
-                return "Failed to alter %s's account." % char
-
-            action = "taken from" if action == "take" else "added to"
-            return "%s has had %d points %s their account." % (char, amount, action)
-
-        return "%s does not have an account." % char
-
-    @command(command="account", params=[Any("char", is_optional=True)], description="Look up account",
+    @command(command="account", params=[Character("char", is_optional=True)], description="Look up account",
              access_level="all")
     def account_cmd(self, request, char: str):
         if char:
-            char = char.capitalize()
-            char_id = self.character_service.resolve_char_to_id(char)
+            char_id = char.char_id
+            char = char.name
 
             if not self.access_service.check_access(request.sender.char_id, "admin"):
                 return "Only admins can see accounts of others."
@@ -195,11 +173,122 @@ class PointsController:
         account_reference = "Account" if char == request.sender.name else "%s's account" % char
         return ChatBlob(account_reference, blob)
 
-    def add_log_entry(self, char_id, leader_id, reason, amount=0):
+    @command(command="account", params=[Const("logentry"), Int("log_id")], description="Look up specific log entry", access_level="admin")
+    def account_log_entry_cmd(self, request, _, log_id: int):
+        log_entry = self.db.query_single("SELECT * FROM points_log WHERE log_id = ?", [log_id])
+
+        if log_entry:
+            char_name = self.character_service.resolve_char_to_name(log_entry.char_id)
+            leader_name = self.character_service.resolve_char_to_name(log_entry.leader_id)
+
+            blob = "Log entry ID: <highlight>%d<end>\n" % log_id
+            blob += "Affecting account: <highlight>%s<end>\n" % char_name
+            blob += "Action by: <highlight>%s<end>\n" % leader_name
+            blob += "Type: <highlight>%s<end>\n" % ("Management" if log_entry.audit == 0 else "Altering of points")
+            blob += "Reason: <highlight>%s<end>\n" % log_entry.reason
+            action_links = None
+            if log_entry.audit == 0:
+                if "closed" in log_entry.reason:
+                    action_links = self.text.make_chatcmd("Open the account", "/tell <myname> account create %s" % char_name)
+                elif "re-enabled" in log_entry.reason:
+                    action_links = self.text.make_chatcmd("Close the account", "/tell <myname> account close %s" % char_name)
+            else:
+                if log_entry.audit < 0:
+                    reason = "Points from event (%d) has been retracted, %d points have been added." % (log_id, (-1*log_entry.audit))
+                    action_links = self.text.make_chatcmd("Retract", "/tell <myname> bank give %d %s %s" % ((-1*log_entry.audit), char_name, reason))
+                else:
+                    reason = "Points from event (%d) has been retracted, %d points have been deducted." % (log_id, log_entry.audit)
+                    action_links = self.text.make_chatcmd("Retract", "/tell <myname> bank take %d %s %s" % (log_entry.audit, char_name, reason))
+
+            blob += "Actions available: [%s]\n" % (action_links if action_links is not None else "No actions available")
+
+            return ChatBlob("Log entry (%d)" % log_id, blob)
+
+        return "No log entry with given ID (%d)" % log_id
+
+    @command(command="bank", params=[Options(["give", "take"]), Int("amount"), Character("char"), Any("reason")],
+             description="Give or take points from character account", access_level="admin")
+    def bank_give_take_cmd(self, request, action: str, amount: int, char: Character, reason: str):
+        main_id = self.alts_service.get_main(char.char_id)
+
+        sql = "SELECT * FROM points WHERE char_id = ?"
+        points = self.db.query_single(sql, [main_id.char_id])
+
+        if points:
+            if points.disabled == 1:
+                return "%s's account is disabled, altering the account is not possible." % char.name
+
+            if points.points == 0 and action == "take":
+                return "%s has 0 points - can't have less than 0 points." % char.name
+
+            if amount > points.points and action == "take":
+                amount = points.points
+
+            new_points = amount if action == "give" else 0 - amount
+
+            if not self.alter_points(points.points, main_id.char_id, new_points, request.sender.char_id, reason):
+                return "Failed to alter %s's account." % char.name
+
+            action = "taken from" if action == "take" else "added to"
+            return "%s has had %d points %s their account." % (char.name, amount, action)
+
+        return "%s does not have an account." % char.name
+
+    @command(command="presets", params=[Const("add"), Any("name"), Int("points")], description="Add new points preset", access_level="admin")
+    def presets_add_cmd(self, request, _, name: str, points: int):
+        count = self.db.query_single("SELECT COUNT(*) AS count FROM points_presets WHERE name = ?", [name]).count
+
+        if count > 0:
+            return "A preset already exists with the name <yellow>%s<end>." % name
+
+        sql = "INSERT INTO points_presets (name, points) VALUES (?,?)"
+        if self.db.exec(sql, [name, points]) > 0:
+            return "A preset with the name <yellow>%s<end> was added, worth <green>%d<end> points." % (name, points)
+
+        return "Failed to insert new preset in DB."
+
+    @command(command="presets", params=[Const("rem"), Int("preset_id")], description="Delete preset", access_level="admin")
+    def presets_rem_cmd(self, request, _, preset_id: int):
+        if self.db.exec("DELETE FROM points_presets WHERE preset_id = ?", [preset_id]) > 0:
+            return "Successfully removed preset with ID %d" % preset_id
+
+        return "No preset with given ID (%d)" % preset_id
+
+    @command(command="presets", params=[Const("alter"), Int("preset_id"), Int("new_points")], description="Alter the points dished out by given preset", access_level="admin")
+    def presets_alter_cmd(self, request, _, preset_id: int, new_points: int):
+        preset = self.db.query_single("SELECT * FROM points_presets WHERE preset_id = ?", [preset_id])
+
+        if preset:
+            if self.db.exec("UPDATE points_presets SET points = ? WHERE preset_id = ?", [new_points, preset_id]) > 0:
+                return "Successfully updated the preset, <yellow>%s<end>, to dish out <green>%d<end> points instead of <red>%d<end>." % (preset.name, new_points, preset.points)
+
+            return "Failed to update preset with ID %d." % preset_id
+
+    @command(command="presets", params=[], description="See list of points presets", access_level="moderator")
+    def presets_cmd(self, request):
+        return ChatBlob("Points presets", self.build_preset_list())
+
+    def build_preset_list(self):
+        presets = self.db.query("SELECT * FROM points_presets ORDER BY name ASC, points DESC")
+
+        if presets:
+            blob = ""
+
+            for preset in presets:
+                add_points_link = self.text.make_chatcmd("Add pts", "/tell <myname> points add %s" % preset.name)
+                rem_points_link = self.text.make_chatcmd("Remove pts", "/tell <myname> points rem %s" % preset.name)
+                delete_link = self.text.make_chatcmd("Delete", "/tell <myname> presets rem %d" % preset.preset_id)
+                blob += "<yellow>%s<end> worth <green>%d<end> points [id: %d]\n | [%s] [%s] [%s]\n\n" % (preset.name, preset.points, preset.preset_id, add_points_link, rem_points_link, delete_link)
+
+            return blob
+
+        return "No presets available. To add new presets use\n<tab><symbol>presets add preset_name preset_points\n"
+
+    def add_log_entry(self, char_id:int , leader_id: int, reason: str, amount=0):
         sql = "INSERT INTO points_log (char_id, audit, leader_id, reason, time) VALUES (?,?,?,?,?)"
         return self.db.exec(sql, [char_id, amount, leader_id, reason, int(time.time())]) > 0
 
-    def alter_points(self, current_points, char_id, amount, leader_id, reason):
+    def alter_points(self, current_points: int, char_id: int, amount: int, leader_id: int, reason: str):
         sql = "UPDATE points SET points = points + ? WHERE char_id = ?"
         if self.db.exec(sql, [amount, char_id]) < 1:
             return False
