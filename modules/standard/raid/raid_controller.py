@@ -2,6 +2,7 @@ from core.access_service import AccessService
 from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Int, Item, Any, Options, Character
 from core.db import DB
+from core.sender_obj import SenderObj
 from core.setting_types import NumberSettingType
 from core.setting_service import SettingService
 from core.decorators import instance, command, timerevent, setting
@@ -498,7 +499,7 @@ class RaidController:
         return "No raid is running."
 
     @command(command="raid", params=[Const("akick"), Character("char")], description="Set raider as kicked because of failing active-check", access_level="moderator")
-    def raid_akick_cmd(self, request, _, char: Character):
+    def raid_akick_cmd(self, request, _, char: SenderObj):
         if self.raid is None:
             return "No raid is running."
 
@@ -522,7 +523,7 @@ class RaidController:
         return "%s is not participating." % name
 
     @command(command="raid", params=[Const("kick"), Character("char"), Any("reason")], description="Set raider as kicked with a reason", access_level="moderator")
-    def raid_kick_cmd(self, request, _, char: Character, reason: str):
+    def raid_kick_cmd(self, request, _, char: SenderObj, reason: str):
         if self.raid is None:
             return "No raid is running."
 
@@ -587,7 +588,7 @@ class RaidController:
         return "No raid is running."
 
     @command(command="raid", params=[Const("logentry"), Int("raid_id"), Character("char", is_optional=True)], description="Show log entry for raid, with possibility of narrowing down the log for charcater in raid", access_level="moderator")
-    def raid_log_entry_cmd(self, request, _, raid_id: int, char: Character):
+    def raid_log_entry_cmd(self, request, _, raid_id: int, char: SenderObj):
         if char:
             sql = "SELECT * FROM raid_log r LEFT JOIN raid_log_participants p ON r.raid_id = p.raid_id WHERE r.raid_id = ? AND p.raider_id = ?"
             log_entry_spec = self.db.query_single(sql, [raid_id, char.char_id])

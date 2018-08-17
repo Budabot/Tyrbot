@@ -1,3 +1,4 @@
+from core.sender_obj import SenderObj
 from core.tyrbot import Tyrbot
 from core.db import DB
 from core.decorators import command, instance, setting
@@ -39,14 +40,13 @@ class PointsController:
             for preset in presets:
                 self.db.exec(sql, [preset])
 
-
     @setting(name="initial_points_value", value="0", description="How many points new accounts start with")
     def initial_points_value(self):
         return NumberSettingType()
 
     @command(command="account", params=[Const("create"), Character("char")],
              description="Create a new account for given character name", access_level="admin")
-    def bank_create_cmd(self, request, _, char: Character):
+    def bank_create_cmd(self, request, _, char: SenderObj):
         alts_info = self.alts_service.get_alts(char.char_id)
 
         for alt in alts_info:
@@ -105,7 +105,7 @@ class PointsController:
 
     @command(command="account", params=[Const("close"), Character("char")],
              description="Close the account for given character name", access_level="admin")
-    def close_account_cmd(self, request, _, char: Character):
+    def close_account_cmd(self, request, _, char: SenderObj):
         main_id = self.alts_service.get_main(char.char_id)
 
         sql = "UPDATE points SET disabled = 1 WHERE char_id = ?"
@@ -120,7 +120,7 @@ class PointsController:
 
     @command(command="account", params=[Character("char", is_optional=True)], description="Look up account",
              access_level="all")
-    def account_cmd(self, request, char: str):
+    def account_cmd(self, request, char: SenderObj):
         if char:
             char_id = char.char_id
             char = char.name
@@ -208,7 +208,7 @@ class PointsController:
 
     @command(command="bank", params=[Options(["give", "take"]), Int("amount"), Character("char"), Any("reason")],
              description="Give or take points from character account", access_level="admin")
-    def bank_give_take_cmd(self, request, action: str, amount: int, char: Character, reason: str):
+    def bank_give_take_cmd(self, request, action: str, amount: int, char: SenderObj, reason: str):
         main_id = self.alts_service.get_main(char.char_id)
 
         sql = "SELECT * FROM points WHERE char_id = ?"

@@ -84,7 +84,6 @@ class LootController:
         else:
             return "No loot registered for <highlight>%s<end>." % category
 
-
     @command(command="db", params=[Options(["db1", "db2", "db3", "dbarmor", "util"], is_optional=True)], description="Get list of items from DustBrigade", access_level="all")
     def db_cmd(self, request, category):
         if category is None:
