@@ -39,7 +39,7 @@ class TowerVictoryController:
         else:  # event_data.type == "terminated"
             attack_id = 0
 
-        self.db.exec("INSERT INTO tower_attack (win_org_name, win_faction, lose_org_name, lose_faction, attack_id, created_at) VALUES (?, ?, ?, ?, ?, ?)",
+        self.db.exec("INSERT INTO tower_victory (win_org_name, win_faction, lose_org_name, lose_faction, attack_id, playfield_id, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
                      [event_data.winner.org_name, event_data.winner.faction, event_data.loser.org_name, event_data.loser.faction,
                       attack_id, event_data.location.playfield.id, t])
 
