@@ -20,7 +20,7 @@ class TowerAttackController:
 
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS tower_attack (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, created_at INT NOT NULL, att_org_name VARCHAR(50) NOT NULL, "
-                     "att_faction VARCHAR(10) NOT NULL, att_char_id INT, att_name VARCHAR(20) NOT NULL, att_level INT NOT NULL, att_ai_level INT NOT NULL, att_profession VARCHAR(15) NOT NULL,"
+                     "att_faction VARCHAR(10) NOT NULL, att_char_id INT, att_char_name VARCHAR(20) NOT NULL, att_level INT NOT NULL, att_ai_level INT NOT NULL, att_profession VARCHAR(15) NOT NULL,"
                      "def_org_name VARCHAR(50) NOT NULL, def_faction VARCHAR(10) NOT NULL, playfield_id INT NOT NULL, site_number INT NOT NULL, "
                      "x_coord INT NOT NULL, y_coord INT NOT NULL)")
 
