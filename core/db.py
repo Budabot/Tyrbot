@@ -50,7 +50,11 @@ class DB:
             cur = self.conn.cursor()
 
         start_time = time.time()
-        cur.execute(sql if self.type == self.SQLITE else sql.replace("?", "%s"), params)
+        try:
+            cur.execute(sql if self.type == self.SQLITE else sql.replace("?", "%s"), params)
+        except Exception as e:
+            raise SqlException("SQL Error: '%s' for '%s' [%s]" % (str(e), sql, ", ".join(map(lambda x: str(x), params)))) from e
+
         elapsed = time.time() - start_time
 
         if elapsed > 0.5:
@@ -190,3 +194,8 @@ class DB:
 
     def rollback_transaction(self):
         self.exec("ROLLBACK;")
+
+
+class SqlException(Exception):
+    def __init__(self, message):
+        super().__init__(message)
