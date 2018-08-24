@@ -38,7 +38,7 @@ class ConfigCommandController:
             if cmd_channel == "all":
                 return "Command <highlight>%s<end> has been <highlight>%sd<end> successfully." % (cmd_name, action)
             else:
-                return "Command <highlight>%s<end> for channel <highlight>%s<end> has been <highlight>%sd<end> successfully." % (cmd_name, channel, action)
+                return "Command <highlight>%s<end> for channel <highlight>%s<end> has been <highlight>%sd<end> successfully." % (cmd_name, cmd_channel, action)
 
     @command(command="config", params=[Const("cmd"), Any("cmd_name"), Const("access_level"), Any("channel"), Any("access_level")], access_level="superadmin",
              description="Change access_level for a command")
@@ -67,7 +67,7 @@ class ConfigCommandController:
             if cmd_channel == "all":
                 return "Access level <highlight>%s<end> for command <highlight>%s<end> has been set successfully." % (access_level, cmd_name)
             else:
-                return "Access level <highlight>%s<end> for command <highlight>%s<end> on channel <highlight>%s<end> has been set successfully." % (access_level, cmd_name, channel)
+                return "Access level <highlight>%s<end> for command <highlight>%s<end> on channel <highlight>%s<end> has been set successfully." % (access_level, cmd_name, cmd_channel)
 
     @command(command="config", params=[Const("cmd"), Any("cmd_name")], access_level="superadmin",
              description="Show command configuration")
