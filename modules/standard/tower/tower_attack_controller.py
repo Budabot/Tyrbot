@@ -19,14 +19,26 @@ class TowerAttackController:
         self.playfield_controller = registry.get_instance("playfield_controller")
 
     def start(self):
-        self.db.exec("CREATE TABLE IF NOT EXISTS tower_attack (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, created_at INT NOT NULL, att_org_name VARCHAR(50) NOT NULL, "
-                     "att_faction VARCHAR(10) NOT NULL, att_char_id INT, att_char_name VARCHAR(20) NOT NULL, att_level INT NOT NULL, att_ai_level INT NOT NULL, att_profession VARCHAR(15) NOT NULL,"
+        self.db.exec("CREATE TABLE IF NOT EXISTS tower_attack (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, att_org_name VARCHAR(50) NOT NULL, att_faction VARCHAR(10) NOT NULL, "
+                     "att_char_id INT, att_char_name VARCHAR(20) NOT NULL, att_level INT NOT NULL, att_ai_level INT NOT NULL, att_profession VARCHAR(15) NOT NULL, "
                      "def_org_name VARCHAR(50) NOT NULL, def_faction VARCHAR(10) NOT NULL, playfield_id INT NOT NULL, site_number INT NOT NULL, "
-                     "x_coord INT NOT NULL, y_coord INT NOT NULL)")
+                     "x_coord INT NOT NULL, y_coord INT NOT NULL, created_at INT NOT NULL)")
 
     @command(command="attacks", params=[], description="Show recent tower attacks", access_level="all")
     def attacks_cmd(self, request):
-        pass
+        data = self.db.query("SELECT t.*, p.short_name FROM tower_attack t LEFT JOIN playfields p ON t.playfield_id = p.id ORDER BY created_at DESC LIMIT 15")
+        t = int(time.time())
+
+        blob = ""
+        for row in data:
+            blob += "<pagebreak>"
+            blob += "Time: %s (%s ago)\n" % (self.util.format_datetime(row.created_at), self.util.time_to_readable(t - row.created_at))
+            blob += "Attacker: %s\n" % self.format_attacker(row)
+            blob += "Defender: %s (%s)\n" % (row.def_org_name, row.def_faction)
+            blob += "Site: %s\n" % self.text.make_chatcmd("%s %d" % (row.short_name, row.site_number), "/tell <myname> lc %s %d" % (row.short_name, row.site_number))
+            blob += "\n"
+
+        return ChatBlob("Tower Attacks", blob)
 
     @event(event_type=TowerController.TOWER_ATTACK_EVENT, description="Record tower attacks")
     def tower_attack_event(self, event_type, event_data):
@@ -43,6 +55,11 @@ class TowerAttackController:
                      [attacker.get("org_name", ""), attacker.get("faction", ""), attacker.get("char_id", 0), attacker.get("name", ""), attacker.get("level", 0),
                       attacker.get("ai_level", 0), attacker.get("profession", ""), defender.org_name, defender.faction, location.playfield.id,
                       site_number, event_data.location.x_coord, event_data.location.y_coord, int(time.time())])
+
+    def format_attacker(self, row):
+        level = "%d/<green>%d<end>" % (row.att_level, row.att_ai_level) if row.att_ai_level > 0 else "%d" % row.att_level
+        org = row.att_org_name + " " if row.att_org_name else ""
+        return "%s (%s %s) %s(%s)" % (row.att_char_name, level, row.att_profession, org, row.att_faction)
 
     def find_closest_site_number(self, playfield_id, x_coord, y_coord):
         sql = """
