@@ -33,10 +33,10 @@ class TowerAttackController:
         blob = ""
         for row in data:
             blob += "<pagebreak>"
-            blob += "Time: %s (%s ago)\n" % (self.util.format_datetime(row.created_at), self.util.time_to_readable(t - row.created_at))
+            blob += "Time: <highlight>%s<end> (%s ago)\n" % (self.util.format_datetime(row.created_at), self.util.time_to_readable(t - row.created_at))
             blob += "Attacker: %s\n" % self.format_attacker(row)
-            blob += "Defender: %s (%s)\n" % (row.def_org_name, row.def_faction)
-            blob += "Site: %s\n" % self.text.make_chatcmd("%s %d" % (row.short_name, row.site_number), "/tell <myname> lc %s %d" % (row.short_name, row.site_number))
+            blob += "Defender: <highlight>%s<end> (%s)\n" % (row.def_org_name, row.def_faction)
+            blob += "Site: <highlight>%s %d<end>\n" % (row.short_name, row.site_number)
             blob += "\n"
 
         return ChatBlob("Tower Attacks", blob)
