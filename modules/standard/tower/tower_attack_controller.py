@@ -86,7 +86,7 @@ class TowerAttackController:
                 radius ASC
             LIMIT 1"""
 
-        row = self.db.query_single(sql, [playfield_id, x_coord, y_coord])
+        row = self.db.query_single(sql, [x_coord, y_coord, playfield_id])
         if row:
             return row.site_number
         else:
