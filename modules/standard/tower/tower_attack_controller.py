@@ -15,6 +15,7 @@ class TowerAttackController:
         self.bot = registry.get_instance("bot")
         self.db = registry.get_instance("db")
         self.text = registry.get_instance("text")
+        self.util = registry.get_instance("util")
         self.event_service = registry.get_instance("event_service")
         self.playfield_controller = registry.get_instance("playfield_controller")
 
