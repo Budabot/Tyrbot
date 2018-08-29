@@ -25,7 +25,7 @@ class TowerVictoryController:
 
     @command(command="victory", params=[], description="Show recent tower victories", access_level="all")
     def victories_cmd(self, request):
-        data = self.db.query("SELECT v.*, p.short_name FROM tower_victory v "
+        data = self.db.query("SELECT v.*, a.site_number, p.short_name FROM tower_victory v "
                              "LEFT JOIN tower_attack a ON v.attack_id = a.id "
                              "LEFT JOIN playfields p ON a.playfield_id = p.id "
                              "ORDER BY created_at DESC LIMIT 15")
