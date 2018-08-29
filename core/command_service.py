@@ -135,7 +135,7 @@ class CommandService:
         try:
             if self.ban_service.get_ban(char_id):
                 # do nothing if character is banned
-                self.logger.info("ignored banned character %d for command '%s'" % (char_id, message))
+                self.logger.info("ignoring banned character %d for command '%s'" % (char_id, message))
                 return
 
             message = html.unescape(message)

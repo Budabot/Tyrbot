@@ -1,3 +1,4 @@
+from core.chat_blob import ChatBlob
 from core.decorators import instance, command, event
 from core.logger import Logger
 from modules.standard.tower.tower_controller import TowerController
@@ -23,7 +24,22 @@ class TowerVictoryController:
 
     @command(command="victory", params=[], description="Show recent tower victories", access_level="all")
     def victories_cmd(self, request):
-        pass
+        data = self.db.query("SELECT v.*, p.short_name FROM tower_victory v "
+                             "LEFT JOIN tower_attack a ON v.attack_id = a.id "
+                             "LEFT JOIN playfields p ON a.playfield_id = p.id "
+                             "ORDER BY created_at DESC LIMIT 15")
+        t = int(time.time())
+
+        blob = ""
+        for row in data:
+            blob += "<pagebreak>"
+            blob += "Time: <highlight>%s<end> (%s ago)\n" % (self.util.format_datetime(row.created_at), self.util.time_to_readable(t - row.created_at))
+            blob += "Winner: <highlight>%s<end> (%s)\n" % (row.win_org_name, row.win_faction)
+            blob += "Loser: <highlight>%s<end> (%s)\n" % (row.lose_org_name, row.lose_faction)
+            blob += "Site: <highlight>%s %d<end>\n" % (row.short_name or "?", row.site_number or "?")
+            blob += "\n"
+
+        return ChatBlob("Tower Victories", blob)
 
     @event(event_type=TowerController.TOWER_VICTORY_EVENT, description="Record tower victories")
     def tower_victory_event(self, event_type, event_data):
@@ -36,8 +52,10 @@ class TowerVictoryController:
             attack_id = self.get_last_attack_id(
                 event_data.winner.faction, event_data.winner.org_name, event_data.loser.faction, event_data.loser.org_name,
                 event_data.location.playfield.id, last_attack_t)
-        else:  # event_data.type == "terminated"
+        elif event_data.type == "terminated":
             attack_id = 0
+        else:
+            raise Exception("Unknown victory event type: '%s'" % event_data.type)
 
         self.db.exec("INSERT INTO tower_victory (win_org_name, win_faction, lose_org_name, lose_faction, attack_id, playfield_id, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
                      [event_data.winner.org_name, event_data.winner.faction, event_data.loser.org_name, event_data.loser.faction,
