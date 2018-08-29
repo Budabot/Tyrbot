@@ -37,7 +37,7 @@ class TowerVictoryController:
             blob += "Time: <highlight>%s<end> (%s ago)\n" % (self.util.format_datetime(row.created_at), self.util.time_to_readable(t - row.created_at))
             blob += "Winner: <highlight>%s<end> (%s)\n" % (row.win_org_name, row.win_faction)
             blob += "Loser: <highlight>%s<end> (%s)\n" % (row.lose_org_name, row.lose_faction)
-            blob += "Site: <highlight>%s %d<end>\n" % (row.short_name or "?", row.site_number or "?")
+            blob += "Site: <highlight>%s %s<end>\n" % (row.short_name or "?", row.site_number or "?")
             blob += "\n"
 
         return ChatBlob("Tower Victories", blob)
