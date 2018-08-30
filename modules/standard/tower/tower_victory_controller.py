@@ -44,8 +44,6 @@ class TowerVictoryController:
 
     @event(event_type=TowerController.TOWER_VICTORY_EVENT, description="Record tower victories")
     def tower_victory_event(self, event_type, event_data):
-        self.logger.info("tower victory: " + str(event_data))
-
         t = int(time.time())
         last_attack_t = t - (7 * 3600)
 

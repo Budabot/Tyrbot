@@ -43,8 +43,6 @@ class TowerAttackController:
 
     @event(event_type=TowerController.TOWER_ATTACK_EVENT, description="Record tower attacks")
     def tower_attack_event(self, event_type, event_data):
-        self.logger.info("tower attack: " + str(event_data))
-
         site_number = self.find_closest_site_number(event_data.location.playfield.id, event_data.location.x_coord, event_data.location.y_coord)
 
         attacker = event_data.attacker or {}
