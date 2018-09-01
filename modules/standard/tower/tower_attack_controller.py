@@ -31,7 +31,7 @@ class TowerAttackController:
         sql = """
             SELECT
                 b.*,
-                a.*
+                a.*,
                 p.short_name,
                 b.id AS battle_id
             FROM
