@@ -170,7 +170,7 @@ class TowerAttackController:
         if battle:
             return battle
         else:
-            self.db.exec("INSERT INTO tower_battle (playfield_id, site_number, def_org_name, def_faciton, is_finished, created_at) VALUES (?, ?, ?, ?, ?, ?)",
+            self.db.exec("INSERT INTO tower_battle (playfield_id, site_number, def_org_name, def_faction, is_finished, created_at) VALUES (?, ?, ?, ?, ?, ?)",
                          [playfield_id, site_number, org_name, faction, is_finished, t])
             return self.db.query_single("SELECT * FROM tower_battle WHERE id = ?", [self.db.last_insert_id()])
 
