@@ -59,8 +59,8 @@ class TowerAttackController:
                 blob += "Site: <highlight>%s %d<end>\n" % (row.short_name, row.site_number)
                 blob += "Defender: <highlight>%s<end> (%s)%s\n" % (row.def_org_name, row.def_faction, defeated)
                 blob += "Last Activity: <highlight>%s<end> (%s ago)\n" % (self.util.format_datetime(row.last_updated), self.util.time_to_readable(t - row.last_updated))
+                blob += "<header2>Attackers:<end>\n"
 
-            blob += "<header2>Attackers:<end>\n"
             blob += self.format_attacker(row) + "\n"
 
         return ChatBlob("Tower Attacks", blob)
