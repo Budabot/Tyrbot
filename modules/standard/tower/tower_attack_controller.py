@@ -32,6 +32,8 @@ class TowerAttackController:
             SELECT
                 b.*,
                 a.*,
+                IFNULL(a.att_level, 0) AS att_level,
+                IFNULL(a.att_ai_level, 0) AS att_ai_level,
                 p.short_name,
                 b.id AS battle_id
             FROM
@@ -113,7 +115,7 @@ class TowerAttackController:
             raise Exception("Unknown victory event type: '%s'" % event_data.type)
 
     def format_attacker(self, row):
-        level = ("%d/<green>%d<end>" % (row.att_level, row.att_ai_level)) if row.get("att_ai_level", 0) > 0 else "%d" % row.get("att_level", 0)
+        level = ("%d/<green>%d<end>" % (row.att_level, row.att_ai_level)) if row.att_ai_level > 0 else "%d" % row.att_leve
         org = row.att_org_name + " " if row.att_org_name else ""
         return "%s (%s %s) %s(%s)" % (row.att_char_name, level, row.att_profession, org, row.att_faction)
 
