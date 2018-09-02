@@ -83,6 +83,8 @@ class TowerController:
             victory = self.get_victory_event(packet)
 
             if victory:
+                self.logger.debug("tower victory packet: %s" % str(packet))
+
                 # lookup playfield
                 playfield_name = victory.location.playfield.long_name
                 victory.location.playfield = self.playfield_controller.get_playfield_by_name(playfield_name) or DictObject()
@@ -93,6 +95,8 @@ class TowerController:
             attack = self.get_attack_event(packet)
 
             if attack:
+                self.logger.debug("tower attack packet: %s" % str(packet))
+
                 # lookup playfield
                 playfield_name = attack.location.playfield.long_name
                 attack.location.playfield = self.playfield_controller.get_playfield_by_name(playfield_name) or DictObject()
