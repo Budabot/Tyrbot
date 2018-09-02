@@ -1,4 +1,5 @@
 from core.chat_blob import ChatBlob
+from core.command_param_types import Const, Int
 from core.decorators import instance, command, event
 from core.logger import Logger
 from modules.standard.tower.tower_controller import TowerController
@@ -26,7 +27,8 @@ class TowerAttackController:
         self.db.exec("CREATE TABLE IF NOT EXISTS tower_battle (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, playfield_id INT NOT NULL, site_number INT NOT NULL, "
                      "def_org_name VARCHAR(50) NOT NULL, def_faction VARCHAR(10) NOT NULL, is_finished INT NOT NULL, battle_type VARCHAR(20) NOT NULL, last_updated INT NOT NULL)")
 
-    @command(command="attacks", params=[], description="Show recent tower attacks and victories", access_level="all")
+    @command(command="attacks", params=[], access_level="all",
+             description="Show recent tower attacks and victories")
     def attacks_cmd(self, request):
         sql = """
             SELECT
@@ -55,15 +57,33 @@ class TowerAttackController:
             if current_battle_id != row.battle_id:
                 blob += "\n<pagebreak>"
                 current_battle_id = row.battle_id
-                defeated = " - <notice>Defeated!<end>" if row.is_finished else ""
-                blob += "Site: <highlight>%s %d<end>\n" % (row.short_name, row.site_number)
-                blob += "Defender: <highlight>%s<end> (%s)%s\n" % (row.def_org_name, row.def_faction, defeated)
-                blob += "Last Activity: <highlight>%s<end> (%s ago)\n" % (self.util.format_datetime(row.last_updated), self.util.time_to_readable(t - row.last_updated))
+                blob += self.format_battle_info(row, t)
+                blob += self.text.make_chatcmd("More Info", "/tell <myname> attacks battle %d" % row.battle_id) + "\n"
                 blob += "<header2>Attackers:<end>\n"
 
-            blob += self.format_attacker(row) + "\n"
+            blob += "<tab>" + self.format_attacker(row) + "\n"
 
         return ChatBlob("Tower Attacks", blob)
+
+    @command(command="attacks", params=[Const("battle"), Int("battle_id")], access_level="all",
+             description="Show battle info for a specific battle")
+    def attacks_battle_cmd(self, request, _, battle_id):
+        battle = self.db.query_single("SELECT b.*, p.short_name FROM tower_battle b LEFT JOIN playfields p ON p.id = b.playfield_id WHERE b.id = ?", [battle_id])
+        if not battle:
+            return "Could not find battle with ID <highlight>%d<end>." % battle_id
+
+        t = int(time.time())
+
+        blob = self.format_battle_info(battle, t)
+        blob += "<header2>Attackers:<end>\n"
+
+        data = self.db.query("SELECT * FROM tower_attacker WHERE tower_battle_id = ?", [battle_id])
+        for row in data:
+            blob += "<tab>" + self.format_attacker(row)
+            blob += " " + self.format_timestamp(row.created_at, t)
+            blob += "\n"
+
+        return ChatBlob("Battle Info %d" % battle_id, blob)
 
     @event(event_type=TowerController.TOWER_ATTACK_EVENT, description="Record tower attacks")
     def tower_attack_event(self, event_type, event_data):
@@ -206,3 +226,14 @@ class TowerAttackController:
             LIMIT 1"""
 
         return self.db.query_single(sql, [att_faction, att_org_name, def_faction, def_org_name, playfield_id, is_finished, last_updated])
+
+    def format_battle_info(self, row, t):
+        blob = ""
+        defeated = " - <notice>Defeated!<end>" if row.is_finished else ""
+        blob += "Site: <highlight>%s %d<end>\n" % (row.short_name, row.site_number)
+        blob += "Defender: <highlight>%s<end> (%s)%s\n" % (row.def_org_name, row.def_faction, defeated)
+        blob += "Last Activity: %s\n" % self.format_timestamp(row.last_updated, t)
+        return blob
+
+    def format_timestamp(self, t, current_t):
+        return "<highlight>%s<end> (%s ago)" % (self.util.format_datetime(t), self.util.time_to_readable(current_t - t))
