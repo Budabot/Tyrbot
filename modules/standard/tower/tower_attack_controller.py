@@ -59,7 +59,7 @@ class TowerAttackController:
                 blob += "Defender: <highlight>%s<end> (%s)\n" % (row.def_org_name, row.def_faction)
                 blob += "Time: <highlight>%s<end> (%s ago)\n" % (self.util.format_datetime(row.last_updated), self.util.time_to_readable(t - row.last_updated))
 
-            blob += "Attackers:\n"
+            blob += "<header2>Attackers:<end>\n"
             blob += self.format_attacker(row) + "\n"
 
         return ChatBlob("Tower Attacks", blob)
@@ -72,7 +72,7 @@ class TowerAttackController:
         attacker = event_data.attacker or {}
         defender = event_data.defender
 
-        battle = self.find_or_create_battle(event_data.location.playfield.id, site_number, defender.org_name, defender.faction, t)
+        battle = self.find_or_create_battle(event_data.location.playfield.id, site_number, defender.org_name, defender.faction, "attack", t)
 
         self.db.exec("INSERT INTO tower_attacker (att_org_name, att_faction, att_char_id, att_char_name, att_level, att_ai_level, att_profession, "
                      "x_coord, y_coord, is_victory, tower_battle_id, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
@@ -115,9 +115,12 @@ class TowerAttackController:
             raise Exception("Unknown victory event type: '%s'" % event_data.type)
 
     def format_attacker(self, row):
-        level = ("%d/<green>%d<end>" % (row.att_level, row.att_ai_level)) if row.att_ai_level > 0 else "%d" % row.att_level
-        org = row.att_org_name + " " if row.att_org_name else ""
-        return "%s (%s %s) %s(%s)" % (row.att_char_name, level, row.att_profession, org, row.att_faction)
+        if row.att_char_name:
+            level = ("%d/<green>%d<end>" % (row.att_level, row.att_ai_level)) if row.att_ai_level > 0 else "%d" % row.att_level
+            org = row.att_org_name + " " if row.att_org_name else ""
+            return "%s (%s %s) %s(%s)" % (row.att_char_name, level, row.att_profession, org, row.att_faction)
+        else:
+            return "Unknown attacker"
 
     def find_closest_site_number(self, playfield_id, x_coord, y_coord):
         sql = """
@@ -149,7 +152,7 @@ class TowerAttackController:
         else:
             return 0
 
-    def find_or_create_battle(self, playfield_id, site_number, org_name, faction, t):
+    def find_or_create_battle(self, playfield_id, site_number, org_name, faction, battle_type, t):
         last_updated = t - (8 * 3600)
         is_finished = 0
 
@@ -172,8 +175,8 @@ class TowerAttackController:
         if battle:
             return battle
         else:
-            self.db.exec("INSERT INTO tower_battle (playfield_id, site_number, def_org_name, def_faction, is_finished, last_updated) VALUES (?, ?, ?, ?, ?, ?)",
-                         [playfield_id, site_number, org_name, faction, is_finished, t])
+            self.db.exec("INSERT INTO tower_battle (playfield_id, site_number, def_org_name, def_faction, is_finished, battle_type, last_updated) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                         [playfield_id, site_number, org_name, faction, is_finished, battle_type, t])
             return self.db.query_single("SELECT * FROM tower_battle WHERE id = ?", [self.db.last_insert_id()])
 
     def get_last_attack(self, att_faction, att_org_name, def_faction, def_org_name, playfield_id, t):
