@@ -55,9 +55,10 @@ class TowerAttackController:
             if current_battle_id != row.battle_id:
                 blob += "\n<pagebreak>"
                 current_battle_id = row.battle_id
+                defeated = " - <notice>Defeated!<end>" if row.is_finished else ""
                 blob += "Site: <highlight>%s %d<end>\n" % (row.short_name, row.site_number)
-                blob += "Defender: <highlight>%s<end> (%s)\n" % (row.def_org_name, row.def_faction)
-                blob += "Time: <highlight>%s<end> (%s ago)\n" % (self.util.format_datetime(row.last_updated), self.util.time_to_readable(t - row.last_updated))
+                blob += "Defender: <highlight>%s<end> (%s)%s\n" % (row.def_org_name, row.def_faction, defeated)
+                blob += "Last Activity: <highlight>%s<end> (%s ago)\n" % (self.util.format_datetime(row.last_updated), self.util.time_to_readable(t - row.last_updated))
 
             blob += "<header2>Attackers:<end>\n"
             blob += self.format_attacker(row) + "\n"
