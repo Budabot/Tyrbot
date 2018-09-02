@@ -171,7 +171,7 @@ class TowerAttackController:
                 AND last_updated >= ?
         """
 
-        battle = self.db.query_single(sql, [playfield_id, site_number, org_name, faction, is_finished, last_updated])
+        battle = self.db.query_single(sql, [playfield_id, site_number, is_finished, org_name, faction, last_updated])
 
         if battle:
             return battle
