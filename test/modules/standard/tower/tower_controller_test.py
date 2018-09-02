@@ -40,7 +40,7 @@ class TowerControllerTest(unittest.TestCase):
         packet3.extended_message = ExtendedMessage(506, 147506468, 'Notum Wars Update: The %s organization %s lost their base in %s.', ['omni', 'Test Organization', 'Omni Forest'])
         victory_event3 = tower_controller.get_victory_event(packet3)
         self.assertEqual({'type': 'terminated',
-                          'attacker': None,
-                          'defender': {'faction': 'Omni', 'org_name': 'Test Organization'},
+                          'winner': {'faction': 'Omni', 'org_name': 'Test Organization'},
+                          'loser': {'faction': 'Omni', 'org_name': 'Test Organization'},
                           'location': {'playfield': {'long_name': 'Omni Forest'}}},
                          victory_event3)
