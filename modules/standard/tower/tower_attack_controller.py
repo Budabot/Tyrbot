@@ -72,7 +72,7 @@ class TowerAttackController:
 
         battle = self.find_or_create_battle(event_data.location.playfield.id, site_number, defender.org_name, defender.faction, t)
 
-        self.db.exec("INSERT INTO tower_attack (att_org_name, att_faction, att_char_id, att_char_name, att_level, att_ai_level, att_profession, "
+        self.db.exec("INSERT INTO tower_attacker (att_org_name, att_faction, att_char_id, att_char_name, att_level, att_ai_level, att_profession, "
                      "x_coord, y_coord, is_victory, tower_battle_id, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                      [attacker.get("org_name", ""), attacker.get("faction", ""), attacker.get("char_id", 0), attacker.get("name", ""), attacker.get("level", 0),
                       attacker.get("ai_level", 0), attacker.get("profession", ""), event_data.location.x_coord, event_data.location.y_coord, 0, battle.id, t])
@@ -94,7 +94,7 @@ class TowerAttackController:
                 battle_id = self.db.last_insert_id()
 
                 attacker = event_data.winner or {}
-                self.db.exec("INSERT INTO tower_attack (att_org_name, att_faction, att_char_id, att_char_name, att_level, att_ai_level, att_profession, "
+                self.db.exec("INSERT INTO tower_attacker (att_org_name, att_faction, att_char_id, att_char_name, att_level, att_ai_level, att_profession, "
                              "x_coord, y_coord, is_victory, tower_battle_id, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                              [attacker.get("org_name", ""), attacker.get("faction", ""), attacker.get("char_id", 0), attacker.get("name", ""), attacker.get("level", 0),
                               attacker.get("ai_level", 0), attacker.get("profession", ""), event_data.location.x_coord, event_data.location.y_coord, 0, battle_id, t])
@@ -170,7 +170,7 @@ class TowerAttackController:
         if battle:
             return battle
         else:
-            self.db.exec("INSERT INTO tower_battle (playfield_id, site_number, def_org_name, def_faction, is_finished, created_at) VALUES (?, ?, ?, ?, ?, ?)",
+            self.db.exec("INSERT INTO tower_battle (playfield_id, site_number, def_org_name, def_faction, is_finished, last_updated) VALUES (?, ?, ?, ?, ?, ?)",
                          [playfield_id, site_number, org_name, faction, is_finished, t])
             return self.db.query_single("SELECT * FROM tower_battle WHERE id = ?", [self.db.last_insert_id()])
 
