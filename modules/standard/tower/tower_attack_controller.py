@@ -198,6 +198,7 @@ class TowerAttackController:
         battle = self.db.query_single(sql, [playfield_id, site_number, is_finished, org_name, faction, last_updated])
 
         if battle:
+            self.db.exec("UPDATE tower_battle SET last_updated = ? WHERE id = ?", [t, battle.id])
             return battle
         else:
             self.db.exec("INSERT INTO tower_battle (playfield_id, site_number, def_org_name, def_faction, is_finished, battle_type, last_updated) VALUES (?, ?, ?, ?, ?, ?, ?)",
