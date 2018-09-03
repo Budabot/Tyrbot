@@ -106,7 +106,7 @@ class AuctionController:
                       "item_name LIKE '%' || ? || '%' ORDER BY time DESC LIMIT 5"
                 bids = self.db.query(sql, [auction_item.item.name])
                 if bids:
-                    avg_win_bid = sum(map(int, bids.values())) / len(bids)
+                    avg_win_bid = sum(map(lambda x: x.winning_bid, bids)) / len(bids)
                 else:
                     avg_win_bid = 0
 
@@ -171,18 +171,10 @@ class AuctionController:
             except KeyError:
                 return "Given index does not exist."
 
-            bidder = next((bidder for bidder in auction_item.bidders if bidder.char_id == request.sender.char_id), None)
-
-            if bidder:
-                try:
-                    bidder_account = self.bidder_accounts[main_id]
-                except KeyError:
-                    return "Error placing bid as you were recognized as an " \
-                           "existing bidder, but no information for you exists. Try again or notify leader."
-
+            try:
+                bidder_account = self.bidder_accounts[main_id]
                 t_available = bidder_account.points_available
-                available = t_available - bidder_account.points_used
-            else:
+            except KeyError:
                 sql = "SELECT p.points, p.disabled FROM points p WHERE p.char_id = ?"
                 t_available = self.db.query_single(sql, [main_id])
 
@@ -196,27 +188,28 @@ class AuctionController:
 
                 self.bidder_accounts[main_id] = BidderAccount(main_id, request.sender.char_id, t_available)
                 bidder_account = self.bidder_accounts[main_id]
+
+            bidder = next((bidder for bidder in auction_item.bidders if bidder.char_id == request.sender.char_id), None)
+
+            if bidder:
+                used = bidder_account.points_used - bidder.bid
+                available = t_available - used
+            else:
                 new_bidder = True
                 available = t_available
+                used = 0
                 bidder = AuctionBid(request.sender.char_id, amount)
-                auction_item.bidders.append(bidder)
 
             if all_amount:
-                amount = available + bidder.bid
-                available = amount
-                used = t_available
-            else:
-                used = bidder_account.points_used - bidder.bid + amount
-                if not new_bidder:
-                    available += bidder.bid
-
-            if amount < minimum_bid:
-                return "Invalid bid. The minimum allowed bid value is %d." % minimum_bid
+                amount = available
 
             if amount > available:
                 return "You do not have enough points to make this bid. You have %d points " \
                        "available (%d points on account, %d points reserved for other bids)" \
-                       % (available, t_available, (bidder_account.points_used - bidder.bid))
+                       % (available, t_available, used)
+
+            if amount < minimum_bid:
+                return "Invalid bid. The minimum allowed bid value is %d." % minimum_bid
 
             if vickrey:
                 if bidder.bid_count < 2:
@@ -231,7 +224,13 @@ class AuctionController:
 
                     bidder.bid_count += 1
                     bidder.bid = amount
-                    bidder_account.points_used = used
+                    bidder_account.points_used = used + amount
+                    auction_item.second_highest = auction_item.winning_bid \
+                        if auction_item.winning_bid > 0 else minimum_bid
+                    auction_item.winning_bid = amount
+                    auction_item.winner_id = bidder.char_id
+                    if new_bidder:
+                        auction_item.bidders.append(bidder)
 
                     bid_count_text = "first" if bidder.bid_count == 1 else "second"
                     return "Your bid of %d points was accepted. This was your %s bid on " \
@@ -272,7 +271,8 @@ class AuctionController:
 
                     auction_item.winning_bid = bidder.bid
                     auction_item.winner_id = bidder.char_id
-                    bidder_account.points_used += amount
+                    auction_item.bidders.append(bidder)
+                    bidder_account.points_used = used
                     new_available = t_available - bidder_account.points_used
                     if len(self.announce_ids) < 2 and len(self.raid_controller.loot_list) == 1:
                         self.job_scheduler.cancel_job(self.announce_ids.pop())
@@ -363,10 +363,16 @@ class AuctionController:
                 self.announce_ids.append(self.job_scheduler.delayed_job(self.auction_results,
                                                                         secrets.choice(range(5, 30))))
             else:
-                auction_item = list(self.raid_controller.loot_list.values())[0]
+                auction_item = list(self.raid_controller.loot_list.values())[-1]
                 item = auction_item.item
-                winner_name = self.character_service.resolve_char_to_name(auction_item.winner_id)
-                winner = "% holds the winning bid." if winner_name else "No bids made."
+
+                if self.setting_service.get("vickrey_auction").get_value():
+                    winner = "%d bids have been made." if auction_item.bidders else "No bids made."
+                else:
+                    winner_name = self.character_service.resolve_char_to_name(auction_item.winner_id)
+                    winner = "%s holds the winning bid." % winner_name \
+                        if auction_item.winning_bid > 0 else "No bids made."
+
                 item_ref = self.text.make_item(item.low_id, item.high_id, item.ql, item.name)
                 msg = "Auction for %s running. %s " \
                       "<yellow>%d<end> seconds left of auction." % (item_ref, winner, time_left)
