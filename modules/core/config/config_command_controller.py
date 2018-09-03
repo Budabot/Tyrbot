@@ -13,7 +13,7 @@ class ConfigCommandController:
         self.access_service = registry.get_instance("access_service")
         self.command_service = registry.get_instance("command_service")
 
-    @command(command="config", params=[Const("cmd"), Any("cmd_name"), Options(["enable", "disable"]), Any("channel")], access_level="superadmin",
+    @command(command="config", params=[Const("cmd"), Any("cmd_name"), Options(["enable", "disable"]), Any("channel")], access_level="admin",
              description="Enable or disable a command")
     def config_cmd_status_cmd(self, request, _, cmd_name, action, cmd_channel):
         cmd_name = cmd_name.lower()
@@ -40,7 +40,7 @@ class ConfigCommandController:
             else:
                 return "Command <highlight>%s<end> for channel <highlight>%s<end> has been <highlight>%sd<end> successfully." % (cmd_name, cmd_channel, action)
 
-    @command(command="config", params=[Const("cmd"), Any("cmd_name"), Const("access_level"), Any("channel"), Any("access_level")], access_level="superadmin",
+    @command(command="config", params=[Const("cmd"), Any("cmd_name"), Const("access_level"), Any("channel"), Any("access_level")], access_level="admin",
              description="Change access_level for a command")
     def config_cmd_access_level_cmd(self, request, _1, cmd_name, _2, cmd_channel, access_level):
         cmd_name = cmd_name.lower()
@@ -69,7 +69,7 @@ class ConfigCommandController:
             else:
                 return "Access level <highlight>%s<end> for command <highlight>%s<end> on channel <highlight>%s<end> has been set successfully." % (access_level, cmd_name, cmd_channel)
 
-    @command(command="config", params=[Const("cmd"), Any("cmd_name")], access_level="superadmin",
+    @command(command="config", params=[Const("cmd"), Any("cmd_name")], access_level="admin",
              description="Show command configuration")
     def config_cmd_show_cmd(self, request, _, cmd_name):
         cmd_name = cmd_name.lower()

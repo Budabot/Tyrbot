@@ -25,7 +25,7 @@ class AliasController:
 
         return ChatBlob("Aliases (%d)" % count, blob)
 
-    @command(command="alias", params=[Const("add"), Any("alias"), Any("command")], access_level="superadmin",
+    @command(command="alias", params=[Const("add"), Any("alias"), Any("command")], access_level="admin",
              description="Add a command alias", sub_command="modify")
     def alias_add_cmd(self, request, _, alias, command_str):
         if self.command_alias_service.add_alias(alias, command_str):
@@ -33,7 +33,7 @@ class AliasController:
         else:
             return "Cannot add alias <highlight>%s<end> since there is already an active alias with that name." % alias
 
-    @command(command="alias", params=[Options(["rem", "remove"]), Any("alias")], access_level="superadmin",
+    @command(command="alias", params=[Options(["rem", "remove"]), Any("alias")], access_level="admin",
              description="Remove a command alias", sub_command="modify")
     def alias_remove_cmd(self, request, _, alias):
         if self.command_alias_service.remove_alias(alias):

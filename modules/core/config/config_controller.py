@@ -14,7 +14,7 @@ class ConfigController:
         self.event_service = registry.get_instance("event_service")
         self.setting_service = registry.get_instance("setting_service")
 
-    @command(command="config", params=[], access_level="superadmin",
+    @command(command="config", params=[], access_level="admin",
              description="Show configuration options for the bot")
     def config_list_cmd(self, request):
         sql = """SELECT
@@ -55,7 +55,7 @@ class ConfigController:
 
         return ChatBlob("Config (%d)" % count, blob)
 
-    @command(command="config", params=[Options(["mod", "module"]), Any("module_name")], access_level="superadmin",
+    @command(command="config", params=[Options(["mod", "module"]), Any("module_name")], access_level="admin",
              description="Show configuration options for a specific module")
     def config_module_list_cmd(self, request, _, module):
         module = module.lower()
@@ -98,7 +98,7 @@ class ConfigController:
         else:
             return "Could not find module <highlight>%s<end>" % module
 
-    @command(command="config", params=[Const("event"), Any("event_type"), Any("event_handler"), Options(["enable", "disable"])], access_level="superadmin",
+    @command(command="config", params=[Const("event"), Any("event_type"), Any("event_handler"), Options(["enable", "disable"])], access_level="admin",
              description="Enable or disable an event")
     def config_event_status_cmd(self, request, _, event_type, event_handler, action):
         event_type = event_type.lower()
@@ -117,7 +117,7 @@ class ConfigController:
         else:
             return "Event type <highlight>%s<end> for handler <highlight>%s<end> has been <highlight>%sd<end> successfully." % (event_type, event_handler, action)
 
-    @command(command="config", params=[Const("setting"), Any("setting_name"), Options(["set", "clear"]), Any("new_value", is_optional=True)], access_level="superadmin",
+    @command(command="config", params=[Const("setting"), Any("setting_name"), Options(["set", "clear"]), Any("new_value", is_optional=True)], access_level="admin",
              description="Change a setting value")
     def config_setting_update_cmd(self, request, _, setting_name, op, new_value):
         setting_name = setting_name.lower()
@@ -141,7 +141,7 @@ class ConfigController:
         else:
             return "Could not find setting <highlight>%s<end>." % setting_name
 
-    @command(command="config", params=[Const("setting"), Any("setting_name")], access_level="superadmin",
+    @command(command="config", params=[Const("setting"), Any("setting_name")], access_level="admin",
              description="Show configuration options for a setting")
     def config_setting_show_cmd(self, request, _, setting_name):
         setting_name = setting_name.lower()
