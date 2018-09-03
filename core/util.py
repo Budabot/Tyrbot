@@ -219,4 +219,4 @@ class Util:
         if not min_val or not max_val:
             return None
 
-        return math.floor((max_val.val - min_val.val) / (max_val.ql - min_val.ql) * (value - min_val.ql) + min_val.val)
+        return round((max_val.val - min_val.val) / (max_val.ql - min_val.ql) * (value - min_val.ql) + min_val.val)
