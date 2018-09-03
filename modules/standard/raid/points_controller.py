@@ -1,5 +1,5 @@
-from core.sender_obj import SenderObj
 from core.tyrbot import Tyrbot
+from core.sender_obj import SenderObj
 from core.db import DB
 from core.decorators import command, instance, setting
 from core.chat_blob import ChatBlob
@@ -63,8 +63,8 @@ class PointsController:
                 if alt.char_id == char.char_id:
                     if was_disabled:
                         if self.add_log_entry(alt.char_id, request.sender.char_id,
-                                              "Account was re-enabled by %s" % self.character_service.resolve_char_to_name(
-                                                  request.sender.char_id)):
+                                              "Account was re-enabled by %s"
+                                              % self.character_service.resolve_char_to_name(request.sender.char_id)):
                             return "%s's account has been re-enabled." % char.name
                         else:
                             return "%s has an account, but failed to re-enable it." % char.name
@@ -73,8 +73,8 @@ class PointsController:
                 else:
                     if was_disabled:
                         if self.add_log_entry(alt.char_id, request.sender.char_id,
-                                              "Account was re-enabled by %s" % self.character_service.resolve_char_to_name(
-                                                      request.sender.char_id)):
+                                              "Account was re-enabled by %s"
+                                              % self.character_service.resolve_char_to_name(request.sender.char_id)):
                             return "%s's (%s) account has been re-enabled." % (
                                 char.name, self.character_service.resolve_char_to_name(alt.char_id))
                         else:
@@ -135,7 +135,8 @@ class PointsController:
 
         blob = ""
 
-        points_log = self.db.query("SELECT * FROM points_log WHERE char_id = ? ORDER BY time DESC LIMIT 50", [main_id.char_id])
+        points_log = self.db.query("SELECT * FROM points_log WHERE char_id = ? ORDER BY time DESC LIMIT 50",
+                                   [main_id.char_id])
         points = self.db.query_single("SELECT points, disabled FROM points WHERE char_id = ?", [main_id.char_id])
 
         main_name = self.character_service.resolve_char_to_name(main_id.char_id)
@@ -157,14 +158,19 @@ class PointsController:
                             self.util.format_datetime(entry.time), entry.reason)
                 elif entry.audit > 0:
                     pts = "<green>%d<end>" % entry.audit
-                    blob += "<grey>[%s]<end> %s points were added to %s account by <yellow>%s<end> with reason <orange>%s<end>" % (
-                            self.util.format_datetime(entry.time), pts, name_reference,
-                            self.character_service.resolve_char_to_name(entry.leader_id), entry.reason)
+                    blob += "<grey>[%s]<end> %s points were added to %s account " \
+                            "by <yellow>%s<end> with reason <orange>%s<end>" \
+                            % (self.util.format_datetime(entry.time),
+                               pts, name_reference,
+                               self.character_service.resolve_char_to_name(entry.leader_id), entry.reason)
                 elif entry.audit < 0:
                     pts = "<red>%d<end>" % (-1*entry.audit)
-                    blob += "<grey>[%s]<end> %s points were taken from %s account by <yellow>%s<end> with reason <orange>%s<end>" % (
-                            self.util.format_datetime(entry.time), pts, name_reference,
-                            self.character_service.resolve_char_to_name(entry.leader_id), entry.reason)
+                    blob += "<grey>[%s]<end> %s points were taken from %s account " \
+                            "by <yellow>%s<end> with reason <orange>%s<end>" \
+                            % (self.util.format_datetime(entry.time),
+                               pts, name_reference,
+                               self.character_service.resolve_char_to_name(entry.leader_id),
+                               entry.reason)
 
                 log_entry_link = self.text.make_chatcmd("%d" % entry.log_id,
                                                         "/tell <myname> account logentry %d" % entry.log_id)
@@ -173,8 +179,9 @@ class PointsController:
         account_reference = "Account" if char == request.sender.name else "%s's account" % char
         return ChatBlob(account_reference, blob)
 
-    @command(command="account", params=[Const("logentry"), Int("log_id")], description="Look up specific log entry", access_level="admin")
-    def account_log_entry_cmd(self, request, _, log_id: int):
+    @command(command="account", params=[Const("logentry"), Int("log_id")],
+             description="Look up specific log entry", access_level="admin")
+    def account_log_entry_cmd(self, _1, _2, log_id: int):
         log_entry = self.db.query_single("SELECT * FROM points_log WHERE log_id = ?", [log_id])
 
         if log_entry:
@@ -189,16 +196,22 @@ class PointsController:
             action_links = None
             if log_entry.audit == 0:
                 if "closed" in log_entry.reason:
-                    action_links = self.text.make_chatcmd("Open the account", "/tell <myname> account create %s" % char_name)
+                    action_links = self.text.make_chatcmd("Open the account",
+                                                          "/tell <myname> account create %s" % char_name)
                 elif "re-enabled" in log_entry.reason:
-                    action_links = self.text.make_chatcmd("Close the account", "/tell <myname> account close %s" % char_name)
+                    action_links = self.text.make_chatcmd("Close the account",
+                                                          "/tell <myname> account close %s" % char_name)
             else:
                 if log_entry.audit < 0:
-                    reason = "Points from event (%d) has been retracted, %d points have been added." % (log_id, (-1*log_entry.audit))
-                    action_links = self.text.make_chatcmd("Retract", "/tell <myname> bank give %d %s %s" % ((-1*log_entry.audit), char_name, reason))
+                    reason = "Points from event (%d) has been retracted, %d points have been added." \
+                             % (log_id, (-1*log_entry.audit))
+                    action_links = self.text.make_chatcmd("Retract", "/tell <myname> bank give %d %s %s"
+                                                          % ((-1*log_entry.audit), char_name, reason))
                 else:
-                    reason = "Points from event (%d) has been retracted, %d points have been deducted." % (log_id, log_entry.audit)
-                    action_links = self.text.make_chatcmd("Retract", "/tell <myname> bank take %d %s %s" % (log_entry.audit, char_name, reason))
+                    reason = "Points from event (%d) has been retracted, %d points have been deducted." \
+                             % (log_id, log_entry.audit)
+                    action_links = self.text.make_chatcmd("Retract", "/tell <myname> bank take %d %s %s"
+                                                          % (log_entry.audit, char_name, reason))
 
             blob += "Actions available: [%s]\n" % (action_links if action_links is not None else "No actions available")
 
@@ -234,8 +247,9 @@ class PointsController:
 
         return "%s does not have an account." % char.name
 
-    @command(command="presets", params=[Const("add"), Any("name"), Int("points")], description="Add new points preset", access_level="admin")
-    def presets_add_cmd(self, request, _, name: str, points: int):
+    @command(command="presets", params=[Const("add"), Any("name"), Int("points")],
+             description="Add new points preset", access_level="admin")
+    def presets_add_cmd(self, _1, _2, name: str, points: int):
         count = self.db.query_single("SELECT COUNT(*) AS count FROM points_presets WHERE name = ?", [name]).count
 
         if count > 0:
@@ -247,25 +261,28 @@ class PointsController:
 
         return "Failed to insert new preset in DB."
 
-    @command(command="presets", params=[Const("rem"), Int("preset_id")], description="Delete preset", access_level="admin")
-    def presets_rem_cmd(self, request, _, preset_id: int):
+    @command(command="presets", params=[Const("rem"), Int("preset_id")], description="Delete preset",
+             access_level="admin")
+    def presets_rem_cmd(self, _1, _2, preset_id: int):
         if self.db.exec("DELETE FROM points_presets WHERE preset_id = ?", [preset_id]) > 0:
             return "Successfully removed preset with ID %d" % preset_id
 
         return "No preset with given ID (%d)" % preset_id
 
-    @command(command="presets", params=[Const("alter"), Int("preset_id"), Int("new_points")], description="Alter the points dished out by given preset", access_level="admin")
-    def presets_alter_cmd(self, request, _, preset_id: int, new_points: int):
+    @command(command="presets", params=[Const("alter"), Int("preset_id"), Int("new_points")],
+             description="Alter the points dished out by given preset", access_level="admin")
+    def presets_alter_cmd(self, _1, _2, preset_id: int, new_points: int):
         preset = self.db.query_single("SELECT * FROM points_presets WHERE preset_id = ?", [preset_id])
 
         if preset:
             if self.db.exec("UPDATE points_presets SET points = ? WHERE preset_id = ?", [new_points, preset_id]) > 0:
-                return "Successfully updated the preset, <yellow>%s<end>, to dish out <green>%d<end> points instead of <red>%d<end>." % (preset.name, new_points, preset.points)
+                return "Successfully updated the preset, <yellow>%s<end>, to dish out " \
+                       "<green>%d<end> points instead of <red>%d<end>." % (preset.name, new_points, preset.points)
 
             return "Failed to update preset with ID %d." % preset_id
 
     @command(command="presets", params=[], description="See list of points presets", access_level="moderator")
-    def presets_cmd(self, request):
+    def presets_cmd(self, _):
         return ChatBlob("Points presets", self.build_preset_list())
 
     def build_preset_list(self):
@@ -278,13 +295,14 @@ class PointsController:
                 add_points_link = self.text.make_chatcmd("Add pts", "/tell <myname> points add %s" % preset.name)
                 rem_points_link = self.text.make_chatcmd("Remove pts", "/tell <myname> points rem %s" % preset.name)
                 delete_link = self.text.make_chatcmd("Delete", "/tell <myname> presets rem %d" % preset.preset_id)
-                blob += "<yellow>%s<end> worth <green>%d<end> points [id: %d]\n | [%s] [%s] [%s]\n\n" % (preset.name, preset.points, preset.preset_id, add_points_link, rem_points_link, delete_link)
+                blob += "<yellow>%s<end> worth <green>%d<end> points [id: %d]\n | [%s] [%s] [%s]\n\n" \
+                        % (preset.name, preset.points, preset.preset_id, add_points_link, rem_points_link, delete_link)
 
             return blob
 
         return "No presets available. To add new presets use\n<tab><symbol>presets add preset_name preset_points\n"
 
-    def add_log_entry(self, char_id:int , leader_id: int, reason: str, amount=0):
+    def add_log_entry(self, char_id: int, leader_id: int, reason: str, amount=0):
         sql = "INSERT INTO points_log (char_id, audit, leader_id, reason, time) VALUES (?,?,?,?,?)"
         return self.db.exec(sql, [char_id, amount, leader_id, reason, int(time.time())]) > 0
 
