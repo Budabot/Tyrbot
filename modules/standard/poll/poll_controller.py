@@ -12,6 +12,7 @@ class PollController:
         self.util = registry.get_instance("util")
         self.text = registry.get_instance("text")
         self.job_scheduler = registry.get_instance("job_scheduler")
+        self.pork_service = registry.get_instance("pork_service")
 
     @command(command="poll", params=[], access_level="all",
              description="List the polls", aliases=["vote"])
@@ -81,6 +82,9 @@ class PollController:
         choice = self.db.query_single("SELECT * FROM poll_choice WHERE poll_id = ? AND id = ?", [poll_id, choice_id])
         if not choice:
             return "Could not find choice with id <highlight>%d<end> for poll id <highlight>%d<end>." % (choice_id, poll_id)
+
+        # retrieve pork info
+        self.pork_service.get_character_info(request.sender.char_id)
 
         cnt = self.db.exec("DELETE FROM poll_vote WHERE poll_id = ? AND char_id = ?", [poll_id, request.sender.char_id])
         self.db.exec("INSERT INTO poll_vote (poll_id, choice_id, char_id) VALUES (?, ?, ?)", [poll_id, choice_id, request.sender.char_id])

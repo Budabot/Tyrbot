@@ -26,6 +26,8 @@ class OnlineController:
         self.discord_controller = registry.get_instance("discord_controller")
 
     def start(self):
+        self.db.exec("DROP TABLE IF EXISTS online")
+        self.db.exec("CREATE TABLE online (char_id INT NOT NULL, afk_dt INT NOT NULL, afk_reason VARCHAR(255) DEFAULT '', channel CHAR(50) NOT NULL, dt INT NOT NULL, UNIQUE(char_id, channel))")
         self.db.exec("DELETE FROM online")
         self.discord_controller.register_discord_command_handler(self.online_discord_cmd, "online", [])
 

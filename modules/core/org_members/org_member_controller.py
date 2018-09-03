@@ -31,6 +31,9 @@ class OrgMemberController:
         self.event_service.register_event_type(self.ORG_MEMBER_LOGOFF_EVENT)
         self.access_service.register_access_level(self.ORG_ACCESS_LEVEL, 60, self.check_org_member)
 
+    def start(self):
+        self.db.exec("CREATE TABLE IF NOT EXISTS org_member (char_id INT NOT NULL PRIMARY KEY, mode VARCHAR(7) NOT NULL)")
+
     @event(event_type="connect", description="Add members as buddies of the bot on startup")
     def handle_connect_event(self, event_type, event_data):
         for row in self.get_all_org_members():
@@ -47,7 +50,7 @@ class OrgMemberController:
             self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, event_data)
 
     @timerevent(budatime="24h", description="Download the org_members roster")
-    def handle_connect_event(self, event_type, event_data):
+    def download_org_roster_event(self, event_type, event_data):
         org_id = self.public_channel_service.get_org_id()
         if org_id:
             db_members = {}

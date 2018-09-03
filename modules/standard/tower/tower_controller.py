@@ -45,7 +45,7 @@ class TowerController:
         self.bot.add_packet_handler(server_packets.PublicChannelMessage.id, self.handle_public_channel_message)
 
     @command(command="lc", params=[], access_level="all",
-             description = "See a list of playfields containing land control tower sites")
+             description="See a list of playfields containing land control tower sites")
     def lc_list_cmd(self, request):
         data = self.db.query("SELECT * FROM playfields WHERE id IN (SELECT DISTINCT playfield_id FROM tower_site) ORDER BY short_name")
 
