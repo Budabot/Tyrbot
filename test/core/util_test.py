@@ -45,3 +45,16 @@ class UtilTest(unittest.TestCase):
         util = Util()
         self.assertEqual("2009-02-14 07:51:30 UTC", util.format_datetime(1234597890))
         self.assertEqual("2018-08-10 04:05:22 UTC", util.format_datetime(1533873922))
+
+    def test_interpolate_value(self):
+        util = Util()
+        self.assertEqual(None, util.interpolate_value(1, {}))
+        self.assertEqual(None, util.interpolate_value(2, {1: 1}))
+        self.assertEqual(1, util.interpolate_value(1, {1: 1, 100: 100}))
+        self.assertEqual(100, util.interpolate_value(100, {1: 1, 100: 100}))
+        self.assertEqual(None, util.interpolate_value(101, {1: 1, 100: 100}))
+        self.assertEqual(50, util.interpolate_value(50, {1: 1, 100: 100}))
+        self.assertEqual(50, util.interpolate_value(50, {1: 1, 100: 100, 101:101, 200: 400}))
+        self.assertEqual(653, util.interpolate_value(137, {1: 11, 200: 951}))
+        self.assertEqual(248, util.interpolate_value(150, {1: 1, 100: 100, 101: 101, 200: 400}))
+        self.assertEqual(55, util.interpolate_value(200, {1: 5, 200: 55, 201: 55, 300: 73}))

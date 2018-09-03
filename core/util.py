@@ -5,6 +5,8 @@ import locale
 import datetime
 import pytz
 
+from core.dict_object import DictObject
+
 
 @instance()
 class Util:
@@ -199,3 +201,22 @@ class Util:
     def format_datetime(self, timestamp):
         value = datetime.datetime.fromtimestamp(timestamp, tz=pytz.UTC)
         return value.strftime('%Y-%m-%d %H:%M:%S %Z')
+
+    def interpolate_value(self, value, interpolation_ranges):
+        min_val = None
+        max_val = None
+        for k, v in interpolation_ranges.items():
+            if k == value:
+                return v
+            elif k < value:
+                min_val = DictObject({"ql": k, "val": v})
+            elif k > value:
+                max_val = DictObject({"ql": k, "val": v})
+
+            if max_val and min_val:
+                break
+
+        if not min_val or not max_val:
+            return None
+
+        return math.floor((max_val.val - min_val.val) / (max_val.ql - min_val.ql) * (value - min_val.ql) + min_val.val)
