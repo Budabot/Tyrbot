@@ -18,6 +18,7 @@ class UtilController:
         self.command_service = registry.get_instance("command_service")
         self.buddy_service = registry.get_instance("buddy_service")
         self.access_service = registry.get_instance("access_service")
+        self.public_channel_service = registry.get_instance("public_channel_service")
 
     @command(command="checkaccess", params=[Character("character", is_optional=True)], access_level="all",
              description="Check access level for a character")
@@ -69,5 +70,8 @@ class UtilController:
         blob += "Superadmin: <highlight>%s<end>\n" % self.bot.superadmin
         blob += "Buddy List: <highlight>%d / %d<end>\n" % (len(self.buddy_service.buddy_list), self.buddy_service.buddy_list_size)
         blob += "Uptime: <highlight>%s<end>\n" % self.util.time_to_readable(int(time.time()) - self.bot.start_time, max_levels=None)
+        blob += "\n<header2>Public Channels<end>\n"
+        for channel_id, name in self.public_channel_service.get_all_public_channels().items():
+            blob += "%s - <highlight>%d<end>\n" % (name, channel_id)
 
         return ChatBlob("System Info", blob)

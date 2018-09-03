@@ -64,3 +64,6 @@ class PublicChannelService:
 
     def get_org_name(self):
         return self.org_name
+
+    def get_all_public_channels(self):
+        return self.id_to_name
