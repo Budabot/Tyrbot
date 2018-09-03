@@ -7,23 +7,21 @@ add 24h event to remove orphaned buddies, already verified that connect events r
 consider a replication strategy
 include access_level in sender obj
 !leader clear|unset
-add db migration functions
 Time command param to include both seconds and time_str
 dynamic enabling and disabling of events (eg. buddy_logon for orglist, whois)
 generic paging solution - add Page command param, add resultset paging support to ChatBlob
 rename Int to Number
+check if bot is a member of an org and also has access to all towers channel, and log warning otherwise
 
 
 EVENTS
 GUILD - renamed to ORG, needs to be a system module
-IMPLANT
-NEWS
+IMPLANT - needs !pocketboss, !symbiant, !impreq, !implantdesigner
 ORGLIST
 PERKS
 RAID
 RELAY
 SKILLS - !nanoinit, !aggdef, !weapon, !specials <type> (add aliases)
-TOWER
 
 done
 ----
@@ -55,6 +53,7 @@ HELPBOT - done
 ITEMS - done
 LEVEL - done
 NANO - done
+NEWS - done
 NOTES - done
 ONLINE - done
 PRIVATE_CHANNEL - done
@@ -65,6 +64,7 @@ REPUTATION - ignore
 SHOPPING - ignore
 SPIRITS - ignore
 TIMERS - done
+TOWER - done
 TRACKER - ignore for now
 TRICKLE - done
 VOTE - done, renamed to poll
