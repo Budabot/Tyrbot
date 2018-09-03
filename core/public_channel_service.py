@@ -57,7 +57,7 @@ class PublicChannelService:
         if self.is_org_channel_id(packet.channel_id):
             char_name = self.character_service.get_char_name(packet.char_id)
             self.logger.log_chat("Org Channel", char_name, packet.message)
-            self.event_service.fire_event(self.ORG_MESSAGE_EVENT, packet)
+            self.event_service.fire_event(self.ORG_CHANNEL_MESSAGE_EVENT, packet)
         elif packet.channel_id == self.ORG_MSG_CHANNEL_ID:
             char_name = self.character_service.get_char_name(packet.char_id)
             self.logger.log_chat("Org Msg", char_name, packet.message)
