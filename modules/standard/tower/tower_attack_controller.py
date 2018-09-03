@@ -45,7 +45,9 @@ class TowerAttackController:
                 LEFT JOIN playfields p ON
                     p.id = b.playfield_id
             ORDER BY
-                last_updated DESC LIMIT 30
+                b.last_updated DESC,
+                a.created_at DESC
+            LIMIT 30
         """
 
         data = self.db.query(sql)
@@ -77,7 +79,7 @@ class TowerAttackController:
         blob = self.format_battle_info(battle, t)
         blob += "\n<header2>Attackers:<end>\n"
 
-        data = self.db.query("SELECT * FROM tower_attacker WHERE tower_battle_id = ?", [battle_id])
+        data = self.db.query("SELECT * FROM tower_attacker WHERE tower_battle_id = ? ORDER BY created_at DESC", [battle_id])
         for row in data:
             blob += "<tab>" + self.format_attacker(row)
             blob += " " + self.format_timestamp(row.created_at, t)
