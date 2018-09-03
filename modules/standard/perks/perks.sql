@@ -4,8 +4,8 @@ CREATE TABLE perk (id INT NOT NULL PRIMARY KEY, name VARCHAR(25) NOT NULL);
 DROP TABLE IF EXISTS perk_level;
 CREATE TABLE perk_level (id INT NOT NULL PRIMARY KEY, perk_id INT NOT NULL, number INT NOT NULL, min_level INT NOT NULL);
 
-DROP TABLE IF EXISTS perk_level_prof;
-CREATE TABLE perk_level_prof (perk_level_id INT NOT NULL, profession VARCHAR(25) NOT NULL);
+DROP TABLE IF EXISTS perk_prof;
+CREATE TABLE perk_prof (perk_id INT NOT NULL, profession VARCHAR(25) NOT NULL);
 
 DROP TABLE IF EXISTS perk_level_buffs;
 CREATE TABLE perk_level_buffs (perk_level_id INT NOT NULL, skill VARCHAR(50) NOT NULL, amount INT NOT NULL);
@@ -669,1939 +669,303 @@ INSERT INTO perk_level (id, perk_id, number, min_level) VALUES (581,74,8,201);
 INSERT INTO perk_level (id, perk_id, number, min_level) VALUES (582,74,9,204);
 INSERT INTO perk_level (id, perk_id, number, min_level) VALUES (583,74,10,209);
 
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (1,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (1,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (1,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (1,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (1,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (1,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (1,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (1,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (1,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (1,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (1,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (1,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (1,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (1,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (2,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (2,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (2,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (2,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (2,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (2,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (2,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (2,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (2,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (2,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (2,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (2,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (2,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (2,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (3,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (3,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (3,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (3,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (3,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (3,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (3,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (3,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (3,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (3,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (3,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (3,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (3,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (3,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (4,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (4,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (4,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (4,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (4,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (4,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (4,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (4,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (4,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (4,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (4,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (4,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (4,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (4,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (5,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (5,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (5,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (5,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (5,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (5,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (5,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (5,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (5,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (5,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (5,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (5,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (5,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (5,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (6,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (6,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (6,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (6,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (6,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (6,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (6,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (6,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (6,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (6,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (6,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (6,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (6,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (6,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (7,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (7,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (7,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (7,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (7,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (7,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (7,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (7,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (7,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (7,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (7,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (7,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (7,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (7,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (8,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (8,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (8,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (8,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (8,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (8,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (8,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (8,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (8,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (8,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (8,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (8,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (8,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (8,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (9,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (9,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (9,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (9,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (9,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (9,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (9,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (9,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (9,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (9,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (9,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (9,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (9,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (9,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (10,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (10,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (10,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (10,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (10,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (10,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (10,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (10,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (10,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (10,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (10,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (10,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (10,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (10,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (11,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (11,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (11,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (11,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (11,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (11,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (11,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (11,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (11,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (11,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (11,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (11,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (11,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (11,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (12,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (12,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (12,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (12,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (12,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (12,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (12,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (12,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (12,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (12,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (12,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (12,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (12,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (12,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (13,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (13,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (13,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (13,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (13,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (13,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (13,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (13,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (13,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (13,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (13,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (13,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (13,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (13,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (14,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (14,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (14,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (14,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (14,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (14,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (14,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (14,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (14,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (14,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (14,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (14,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (14,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (14,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (15,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (15,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (15,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (15,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (15,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (15,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (15,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (15,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (15,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (15,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (15,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (15,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (15,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (15,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (16,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (16,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (16,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (16,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (16,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (16,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (16,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (16,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (16,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (16,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (16,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (16,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (16,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (16,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (17,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (17,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (17,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (17,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (17,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (17,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (17,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (17,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (17,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (17,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (17,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (17,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (17,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (17,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (18,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (18,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (18,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (18,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (18,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (18,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (18,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (18,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (18,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (18,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (18,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (18,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (18,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (18,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (19,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (19,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (19,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (19,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (19,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (19,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (19,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (19,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (19,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (19,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (19,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (19,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (19,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (19,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (20,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (20,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (20,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (20,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (20,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (20,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (20,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (20,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (20,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (20,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (20,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (20,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (20,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (20,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (21,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (21,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (21,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (21,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (21,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (21,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (21,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (21,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (21,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (21,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (21,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (21,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (21,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (21,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (22,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (22,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (22,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (22,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (22,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (22,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (22,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (22,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (22,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (22,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (22,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (22,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (22,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (22,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (23,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (23,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (23,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (23,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (23,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (23,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (23,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (23,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (23,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (23,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (23,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (23,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (23,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (23,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (24,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (24,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (24,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (24,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (24,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (24,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (24,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (24,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (24,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (24,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (24,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (24,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (24,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (24,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (25,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (25,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (25,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (25,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (25,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (25,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (25,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (25,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (25,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (25,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (25,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (25,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (25,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (25,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (26,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (26,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (26,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (26,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (26,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (26,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (26,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (26,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (26,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (26,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (26,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (26,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (26,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (26,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (27,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (27,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (27,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (27,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (27,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (27,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (27,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (27,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (27,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (27,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (27,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (27,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (27,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (27,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (28,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (28,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (28,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (28,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (28,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (28,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (28,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (28,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (28,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (28,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (28,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (28,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (28,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (28,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (29,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (29,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (29,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (29,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (29,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (29,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (29,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (29,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (29,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (29,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (29,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (29,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (29,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (29,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (30,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (30,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (30,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (30,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (30,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (30,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (30,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (30,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (30,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (30,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (30,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (30,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (30,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (30,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (31,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (31,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (31,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (31,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (31,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (31,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (31,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (31,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (31,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (31,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (31,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (31,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (31,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (31,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (32,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (32,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (32,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (32,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (32,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (32,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (32,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (32,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (32,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (32,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (32,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (32,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (32,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (32,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (33,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (33,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (33,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (33,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (33,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (33,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (33,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (33,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (33,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (33,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (33,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (33,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (33,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (33,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (34,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (34,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (34,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (34,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (34,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (34,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (34,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (34,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (34,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (34,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (34,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (34,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (34,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (34,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (35,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (35,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (35,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (35,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (35,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (35,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (35,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (35,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (35,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (35,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (35,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (35,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (35,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (35,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (36,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (36,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (36,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (36,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (36,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (36,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (36,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (36,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (36,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (36,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (36,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (36,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (36,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (36,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (37,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (37,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (37,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (37,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (37,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (37,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (37,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (37,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (37,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (37,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (37,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (37,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (37,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (37,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (38,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (38,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (38,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (38,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (38,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (38,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (38,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (38,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (38,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (38,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (38,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (38,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (38,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (38,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (39,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (39,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (39,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (39,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (39,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (39,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (39,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (39,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (39,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (39,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (39,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (39,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (39,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (39,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (40,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (40,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (40,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (40,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (40,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (40,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (40,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (40,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (40,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (40,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (40,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (40,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (40,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (40,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (41,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (41,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (41,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (41,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (41,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (41,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (41,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (41,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (41,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (41,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (41,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (41,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (41,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (41,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (42,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (42,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (42,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (42,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (42,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (42,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (42,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (42,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (42,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (42,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (42,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (42,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (42,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (42,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (43,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (43,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (43,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (43,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (43,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (43,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (43,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (43,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (43,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (43,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (43,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (43,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (43,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (43,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (44,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (44,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (44,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (44,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (44,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (44,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (44,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (44,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (44,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (44,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (44,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (44,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (44,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (44,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (45,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (45,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (45,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (45,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (45,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (45,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (45,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (45,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (45,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (45,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (45,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (45,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (45,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (45,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (46,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (46,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (46,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (46,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (46,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (46,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (46,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (46,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (46,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (46,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (46,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (46,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (46,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (46,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (47,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (47,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (47,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (47,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (47,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (47,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (47,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (47,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (47,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (47,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (47,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (47,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (47,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (47,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (48,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (48,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (48,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (48,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (48,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (48,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (48,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (48,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (48,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (48,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (48,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (48,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (48,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (48,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (49,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (49,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (49,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (49,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (49,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (49,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (49,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (49,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (49,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (49,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (49,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (49,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (49,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (49,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (50,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (50,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (50,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (50,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (50,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (50,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (50,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (50,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (50,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (50,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (50,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (50,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (50,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (50,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (51,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (51,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (51,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (51,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (51,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (51,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (51,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (51,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (51,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (51,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (51,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (51,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (51,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (51,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (52,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (52,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (52,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (52,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (52,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (52,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (52,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (52,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (52,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (52,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (52,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (52,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (52,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (52,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (53,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (53,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (53,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (53,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (53,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (53,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (53,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (53,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (53,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (53,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (53,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (53,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (53,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (53,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (54,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (54,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (54,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (54,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (54,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (54,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (54,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (54,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (54,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (54,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (54,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (54,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (54,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (54,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (55,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (55,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (55,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (55,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (55,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (55,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (55,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (55,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (55,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (55,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (55,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (55,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (55,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (55,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (56,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (56,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (56,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (56,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (56,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (56,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (56,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (56,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (56,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (56,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (56,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (56,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (56,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (56,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (57,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (57,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (57,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (57,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (57,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (57,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (57,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (57,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (57,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (57,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (57,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (57,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (57,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (57,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (58,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (58,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (58,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (58,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (58,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (58,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (58,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (58,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (58,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (58,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (58,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (58,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (58,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (58,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (59,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (59,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (59,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (59,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (59,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (59,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (59,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (59,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (59,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (59,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (59,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (59,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (59,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (59,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (60,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (60,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (60,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (60,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (60,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (60,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (60,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (60,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (60,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (60,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (60,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (60,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (60,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (60,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (61,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (61,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (61,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (61,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (61,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (61,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (61,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (61,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (61,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (61,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (61,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (61,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (61,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (61,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (62,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (62,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (62,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (62,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (62,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (62,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (62,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (62,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (62,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (62,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (62,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (62,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (62,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (62,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (63,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (63,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (63,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (63,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (63,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (63,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (63,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (63,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (63,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (63,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (63,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (63,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (63,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (63,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (64,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (64,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (64,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (64,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (64,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (64,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (64,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (64,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (64,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (64,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (64,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (64,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (64,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (64,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (65,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (65,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (65,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (65,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (65,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (65,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (65,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (65,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (65,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (65,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (65,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (65,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (65,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (65,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (66,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (66,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (66,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (66,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (66,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (66,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (66,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (66,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (66,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (66,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (66,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (66,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (66,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (66,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (67,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (67,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (67,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (67,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (67,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (67,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (67,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (67,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (67,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (67,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (67,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (67,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (67,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (67,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (68,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (68,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (68,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (68,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (68,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (68,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (68,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (68,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (68,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (68,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (68,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (68,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (68,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (68,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (69,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (69,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (69,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (69,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (69,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (69,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (69,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (69,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (69,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (69,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (69,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (69,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (69,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (69,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (70,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (70,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (70,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (70,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (70,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (70,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (70,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (70,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (70,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (70,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (70,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (70,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (70,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (70,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (71,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (71,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (71,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (71,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (71,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (71,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (71,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (71,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (71,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (71,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (71,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (71,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (71,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (71,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (72,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (72,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (72,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (72,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (72,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (72,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (72,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (72,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (72,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (72,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (72,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (72,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (72,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (72,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (73,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (73,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (73,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (73,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (73,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (73,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (73,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (73,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (73,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (73,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (73,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (73,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (73,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (73,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (74,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (74,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (74,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (74,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (74,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (74,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (74,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (74,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (74,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (74,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (74,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (74,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (74,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (74,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (75,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (75,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (75,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (75,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (75,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (75,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (75,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (75,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (75,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (75,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (75,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (75,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (75,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (75,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (76,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (76,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (76,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (76,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (76,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (76,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (76,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (76,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (76,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (76,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (76,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (76,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (76,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (76,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (77,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (77,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (77,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (77,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (77,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (77,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (77,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (77,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (77,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (77,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (77,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (77,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (77,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (77,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (78,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (78,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (79,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (79,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (80,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (80,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (81,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (81,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (82,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (82,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (83,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (83,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (84,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (84,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (85,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (85,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (86,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (86,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (87,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (87,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (88,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (88,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (89,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (89,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (90,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (90,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (91,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (91,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (92,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (92,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (93,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (93,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (94,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (94,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (95,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (95,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (96,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (96,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (97,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (97,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (98,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (98,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (98,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (98,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (98,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (98,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (99,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (99,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (99,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (99,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (99,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (99,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (100,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (100,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (100,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (100,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (100,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (100,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (101,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (101,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (101,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (101,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (101,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (101,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (102,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (102,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (102,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (102,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (102,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (102,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (103,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (103,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (103,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (103,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (104,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (104,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (104,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (104,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (105,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (105,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (105,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (105,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (106,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (106,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (106,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (106,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (107,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (107,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (108,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (108,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (109,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (109,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (110,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (110,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (111,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (111,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (112,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (112,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (113,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (113,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (114,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (114,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (115,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (115,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (116,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (116,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (117,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (117,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (117,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (118,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (118,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (118,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (119,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (119,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (119,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (120,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (120,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (120,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (121,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (121,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (121,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (122,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (122,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (122,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (123,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (123,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (123,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (124,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (124,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (124,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (125,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (125,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (125,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (126,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (126,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (126,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (127,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (127,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (128,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (128,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (129,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (129,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (130,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (130,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (131,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (131,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (132,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (132,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (133,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (133,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (134,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (134,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (135,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (135,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (136,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (136,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (137,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (137,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (138,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (138,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (139,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (139,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (140,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (140,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (141,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (141,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (142,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (142,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (143,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (143,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (144,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (144,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (145,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (145,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (146,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (146,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (147,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (147,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (148,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (148,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (149,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (149,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (150,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (150,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (151,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (151,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (152,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (152,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (153,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (153,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (153,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (153,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (153,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (153,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (154,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (154,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (154,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (154,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (154,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (154,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (155,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (155,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (155,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (155,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (155,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (155,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (156,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (156,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (156,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (156,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (156,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (156,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (157,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (157,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (157,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (157,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (157,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (157,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (158,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (158,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (158,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (158,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (158,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (158,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (159,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (159,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (159,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (159,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (159,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (159,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (160,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (160,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (160,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (160,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (160,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (160,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (161,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (161,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (161,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (161,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (161,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (161,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (162,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (162,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (162,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (162,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (162,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (162,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (163,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (163,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (163,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (164,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (164,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (164,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (165,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (165,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (165,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (166,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (166,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (166,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (167,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (167,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (167,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (168,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (168,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (168,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (169,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (169,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (169,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (170,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (170,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (170,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (171,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (171,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (171,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (172,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (172,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (172,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (173,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (173,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (174,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (174,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (175,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (175,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (176,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (176,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (177,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (177,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (178,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (178,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (179,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (179,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (180,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (180,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (181,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (181,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (182,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (182,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (183,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (183,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (183,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (184,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (184,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (184,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (185,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (185,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (185,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (186,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (186,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (186,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (187,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (187,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (187,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (188,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (188,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (188,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (189,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (189,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (189,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (189,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (189,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (190,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (190,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (190,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (190,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (190,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (191,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (191,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (191,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (191,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (191,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (192,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (192,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (192,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (192,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (192,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (193,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (193,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (193,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (193,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (193,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (194,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (194,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (194,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (194,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (194,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (195,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (195,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (195,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (195,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (195,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (196,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (196,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (196,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (196,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (196,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (197,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (197,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (197,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (197,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (197,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (198,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (198,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (198,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (198,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (198,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (199,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (199,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (200,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (200,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (201,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (201,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (202,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (202,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (203,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (203,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (203,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (203,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (203,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (203,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (204,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (204,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (204,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (204,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (204,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (204,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (205,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (205,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (205,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (205,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (205,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (205,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (206,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (206,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (206,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (206,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (206,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (206,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (207,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (207,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (207,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (207,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (207,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (207,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (208,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (208,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (208,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (208,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (208,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (208,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (209,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (209,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (209,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (209,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (209,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (209,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (210,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (210,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (210,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (210,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (210,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (210,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (211,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (211,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (211,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (211,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (211,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (211,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (212,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (212,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (212,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (212,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (212,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (212,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (213,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (213,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (213,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (213,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (214,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (214,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (214,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (214,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (215,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (215,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (215,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (215,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (216,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (216,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (216,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (216,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (217,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (217,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (217,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (217,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (218,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (218,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (218,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (218,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (219,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (219,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (219,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (219,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (220,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (220,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (220,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (220,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (221,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (221,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (221,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (221,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (222,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (222,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (222,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (222,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (223,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (223,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (224,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (224,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (225,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (225,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (226,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (226,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (227,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (227,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (228,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (228,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (229,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (229,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (230,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (230,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (231,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (231,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (232,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (232,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (233,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (234,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (235,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (236,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (237,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (238,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (239,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (240,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (241,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (242,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (243,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (244,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (245,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (246,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (247,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (248,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (249,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (250,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (251,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (252,'Martial Artist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (253,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (254,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (255,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (256,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (257,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (258,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (259,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (260,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (261,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (262,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (263,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (264,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (265,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (266,'Fixer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (267,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (268,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (269,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (270,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (271,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (272,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (273,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (274,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (275,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (276,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (277,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (278,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (279,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (280,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (281,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (282,'Adventurer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (283,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (284,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (285,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (286,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (287,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (288,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (289,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (290,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (291,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (292,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (293,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (294,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (295,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (296,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (297,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (298,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (299,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (300,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (301,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (302,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (303,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (304,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (305,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (306,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (307,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (308,'Doctor');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (309,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (310,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (311,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (312,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (313,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (314,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (315,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (316,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (317,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (318,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (319,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (320,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (321,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (322,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (323,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (324,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (325,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (326,'Soldier');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (327,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (328,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (329,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (330,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (331,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (332,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (333,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (334,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (335,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (336,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (337,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (338,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (339,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (340,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (341,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (342,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (343,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (344,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (345,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (346,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (347,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (348,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (349,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (350,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (351,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (352,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (353,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (354,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (355,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (356,'Engineer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (357,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (358,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (359,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (360,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (361,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (362,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (363,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (364,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (365,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (366,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (367,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (368,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (369,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (370,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (371,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (372,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (373,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (374,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (375,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (376,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (377,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (378,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (379,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (380,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (381,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (382,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (383,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (384,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (385,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (386,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (387,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (388,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (389,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (390,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (391,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (392,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (393,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (394,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (395,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (396,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (397,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (398,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (399,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (400,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (401,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (402,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (403,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (404,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (405,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (406,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (407,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (408,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (409,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (410,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (411,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (412,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (413,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (414,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (415,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (416,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (417,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (418,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (419,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (420,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (421,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (422,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (423,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (424,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (425,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (426,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (427,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (428,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (429,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (430,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (431,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (432,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (433,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (434,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (435,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (436,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (437,'Bureaucrat');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (438,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (439,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (440,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (441,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (442,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (443,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (444,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (445,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (446,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (447,'Agent');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (448,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (449,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (450,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (451,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (452,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (453,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (454,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (455,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (456,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (457,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (458,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (459,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (460,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (461,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (462,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (463,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (464,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (465,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (466,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (467,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (468,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (469,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (470,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (471,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (472,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (473,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (474,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (475,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (476,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (477,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (478,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (479,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (480,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (481,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (482,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (483,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (484,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (485,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (486,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (487,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (488,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (489,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (490,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (491,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (492,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (493,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (494,'Shade');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (495,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (496,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (497,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (498,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (499,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (500,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (501,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (502,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (503,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (504,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (505,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (506,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (507,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (508,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (509,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (510,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (511,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (512,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (513,'Nano-Technician');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (514,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (515,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (516,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (517,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (518,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (519,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (520,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (521,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (522,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (523,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (524,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (525,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (526,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (527,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (528,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (529,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (530,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (531,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (532,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (533,'Meta-Physicist');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (534,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (535,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (536,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (537,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (538,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (539,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (540,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (541,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (542,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (543,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (544,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (545,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (546,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (547,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (548,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (549,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (550,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (551,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (552,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (553,'Trader');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (554,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (555,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (556,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (557,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (558,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (559,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (560,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (561,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (562,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (563,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (564,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (565,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (566,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (567,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (568,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (569,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (570,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (571,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (572,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (573,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (574,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (574,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (575,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (575,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (576,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (576,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (577,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (577,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (578,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (578,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (579,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (579,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (580,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (580,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (581,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (581,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (582,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (582,'Enforcer');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (583,'Keeper');
-INSERT INTO perk_level_prof (perk_level_id, profession) VALUES (583,'Enforcer');
+INSERT INTO perk_prof (perk_id, profession) VALUES (1, 'Adventurer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (1, 'Agent')
+INSERT INTO perk_prof (perk_id, profession) VALUES (1, 'Bureaucrat')
+INSERT INTO perk_prof (perk_id, profession) VALUES (1, 'Doctor')
+INSERT INTO perk_prof (perk_id, profession) VALUES (1, 'Enforcer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (1, 'Engineer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (1, 'Fixer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (1, 'Keeper')
+INSERT INTO perk_prof (perk_id, profession) VALUES (1, 'Martial Artist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (1, 'Meta-Physicist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (1, 'Nano-Technician')
+INSERT INTO perk_prof (perk_id, profession) VALUES (1, 'Shade')
+INSERT INTO perk_prof (perk_id, profession) VALUES (1, 'Soldier')
+INSERT INTO perk_prof (perk_id, profession) VALUES (1, 'Trader')
+INSERT INTO perk_prof (perk_id, profession) VALUES (2, 'Adventurer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (2, 'Agent')
+INSERT INTO perk_prof (perk_id, profession) VALUES (2, 'Bureaucrat')
+INSERT INTO perk_prof (perk_id, profession) VALUES (2, 'Doctor')
+INSERT INTO perk_prof (perk_id, profession) VALUES (2, 'Enforcer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (2, 'Engineer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (2, 'Fixer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (2, 'Keeper')
+INSERT INTO perk_prof (perk_id, profession) VALUES (2, 'Martial Artist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (2, 'Meta-Physicist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (2, 'Nano-Technician')
+INSERT INTO perk_prof (perk_id, profession) VALUES (2, 'Shade')
+INSERT INTO perk_prof (perk_id, profession) VALUES (2, 'Soldier')
+INSERT INTO perk_prof (perk_id, profession) VALUES (2, 'Trader')
+INSERT INTO perk_prof (perk_id, profession) VALUES (3, 'Adventurer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (3, 'Agent')
+INSERT INTO perk_prof (perk_id, profession) VALUES (3, 'Bureaucrat')
+INSERT INTO perk_prof (perk_id, profession) VALUES (3, 'Doctor')
+INSERT INTO perk_prof (perk_id, profession) VALUES (3, 'Enforcer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (3, 'Engineer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (3, 'Fixer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (3, 'Keeper')
+INSERT INTO perk_prof (perk_id, profession) VALUES (3, 'Martial Artist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (3, 'Meta-Physicist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (3, 'Nano-Technician')
+INSERT INTO perk_prof (perk_id, profession) VALUES (3, 'Shade')
+INSERT INTO perk_prof (perk_id, profession) VALUES (3, 'Soldier')
+INSERT INTO perk_prof (perk_id, profession) VALUES (3, 'Trader')
+INSERT INTO perk_prof (perk_id, profession) VALUES (4, 'Adventurer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (4, 'Agent')
+INSERT INTO perk_prof (perk_id, profession) VALUES (4, 'Bureaucrat')
+INSERT INTO perk_prof (perk_id, profession) VALUES (4, 'Doctor')
+INSERT INTO perk_prof (perk_id, profession) VALUES (4, 'Enforcer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (4, 'Engineer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (4, 'Fixer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (4, 'Keeper')
+INSERT INTO perk_prof (perk_id, profession) VALUES (4, 'Martial Artist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (4, 'Meta-Physicist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (4, 'Nano-Technician')
+INSERT INTO perk_prof (perk_id, profession) VALUES (4, 'Shade')
+INSERT INTO perk_prof (perk_id, profession) VALUES (4, 'Soldier')
+INSERT INTO perk_prof (perk_id, profession) VALUES (4, 'Trader')
+INSERT INTO perk_prof (perk_id, profession) VALUES (5, 'Adventurer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (5, 'Agent')
+INSERT INTO perk_prof (perk_id, profession) VALUES (5, 'Bureaucrat')
+INSERT INTO perk_prof (perk_id, profession) VALUES (5, 'Doctor')
+INSERT INTO perk_prof (perk_id, profession) VALUES (5, 'Enforcer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (5, 'Engineer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (5, 'Fixer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (5, 'Keeper')
+INSERT INTO perk_prof (perk_id, profession) VALUES (5, 'Martial Artist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (5, 'Meta-Physicist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (5, 'Nano-Technician')
+INSERT INTO perk_prof (perk_id, profession) VALUES (5, 'Shade')
+INSERT INTO perk_prof (perk_id, profession) VALUES (5, 'Soldier')
+INSERT INTO perk_prof (perk_id, profession) VALUES (5, 'Trader')
+INSERT INTO perk_prof (perk_id, profession) VALUES (6, 'Adventurer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (6, 'Agent')
+INSERT INTO perk_prof (perk_id, profession) VALUES (6, 'Bureaucrat')
+INSERT INTO perk_prof (perk_id, profession) VALUES (6, 'Doctor')
+INSERT INTO perk_prof (perk_id, profession) VALUES (6, 'Enforcer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (6, 'Engineer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (6, 'Fixer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (6, 'Keeper')
+INSERT INTO perk_prof (perk_id, profession) VALUES (6, 'Martial Artist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (6, 'Meta-Physicist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (6, 'Nano-Technician')
+INSERT INTO perk_prof (perk_id, profession) VALUES (6, 'Shade')
+INSERT INTO perk_prof (perk_id, profession) VALUES (6, 'Soldier')
+INSERT INTO perk_prof (perk_id, profession) VALUES (6, 'Trader')
+INSERT INTO perk_prof (perk_id, profession) VALUES (7, 'Adventurer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (7, 'Agent')
+INSERT INTO perk_prof (perk_id, profession) VALUES (7, 'Bureaucrat')
+INSERT INTO perk_prof (perk_id, profession) VALUES (7, 'Doctor')
+INSERT INTO perk_prof (perk_id, profession) VALUES (7, 'Enforcer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (7, 'Engineer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (7, 'Fixer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (7, 'Keeper')
+INSERT INTO perk_prof (perk_id, profession) VALUES (7, 'Martial Artist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (7, 'Meta-Physicist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (7, 'Nano-Technician')
+INSERT INTO perk_prof (perk_id, profession) VALUES (7, 'Shade')
+INSERT INTO perk_prof (perk_id, profession) VALUES (7, 'Soldier')
+INSERT INTO perk_prof (perk_id, profession) VALUES (7, 'Trader')
+INSERT INTO perk_prof (perk_id, profession) VALUES (8, 'Adventurer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (8, 'Agent')
+INSERT INTO perk_prof (perk_id, profession) VALUES (8, 'Bureaucrat')
+INSERT INTO perk_prof (perk_id, profession) VALUES (8, 'Doctor')
+INSERT INTO perk_prof (perk_id, profession) VALUES (8, 'Enforcer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (8, 'Engineer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (8, 'Fixer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (8, 'Keeper')
+INSERT INTO perk_prof (perk_id, profession) VALUES (8, 'Martial Artist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (8, 'Meta-Physicist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (8, 'Nano-Technician')
+INSERT INTO perk_prof (perk_id, profession) VALUES (8, 'Shade')
+INSERT INTO perk_prof (perk_id, profession) VALUES (8, 'Soldier')
+INSERT INTO perk_prof (perk_id, profession) VALUES (8, 'Trader')
+INSERT INTO perk_prof (perk_id, profession) VALUES (9, 'Adventurer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (9, 'Agent')
+INSERT INTO perk_prof (perk_id, profession) VALUES (9, 'Bureaucrat')
+INSERT INTO perk_prof (perk_id, profession) VALUES (9, 'Doctor')
+INSERT INTO perk_prof (perk_id, profession) VALUES (9, 'Enforcer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (9, 'Engineer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (9, 'Fixer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (9, 'Keeper')
+INSERT INTO perk_prof (perk_id, profession) VALUES (9, 'Martial Artist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (9, 'Meta-Physicist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (9, 'Nano-Technician')
+INSERT INTO perk_prof (perk_id, profession) VALUES (9, 'Shade')
+INSERT INTO perk_prof (perk_id, profession) VALUES (9, 'Soldier')
+INSERT INTO perk_prof (perk_id, profession) VALUES (9, 'Trader')
+INSERT INTO perk_prof (perk_id, profession) VALUES (10, 'Adventurer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (10, 'Agent')
+INSERT INTO perk_prof (perk_id, profession) VALUES (10, 'Bureaucrat')
+INSERT INTO perk_prof (perk_id, profession) VALUES (10, 'Doctor')
+INSERT INTO perk_prof (perk_id, profession) VALUES (10, 'Enforcer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (10, 'Engineer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (10, 'Fixer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (10, 'Keeper')
+INSERT INTO perk_prof (perk_id, profession) VALUES (10, 'Martial Artist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (10, 'Meta-Physicist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (10, 'Nano-Technician')
+INSERT INTO perk_prof (perk_id, profession) VALUES (10, 'Shade')
+INSERT INTO perk_prof (perk_id, profession) VALUES (10, 'Soldier')
+INSERT INTO perk_prof (perk_id, profession) VALUES (10, 'Trader')
+INSERT INTO perk_prof (perk_id, profession) VALUES (11, 'Adventurer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (11, 'Agent')
+INSERT INTO perk_prof (perk_id, profession) VALUES (11, 'Bureaucrat')
+INSERT INTO perk_prof (perk_id, profession) VALUES (11, 'Doctor')
+INSERT INTO perk_prof (perk_id, profession) VALUES (11, 'Enforcer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (11, 'Engineer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (11, 'Fixer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (11, 'Keeper')
+INSERT INTO perk_prof (perk_id, profession) VALUES (11, 'Martial Artist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (11, 'Meta-Physicist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (11, 'Nano-Technician')
+INSERT INTO perk_prof (perk_id, profession) VALUES (11, 'Shade')
+INSERT INTO perk_prof (perk_id, profession) VALUES (11, 'Soldier')
+INSERT INTO perk_prof (perk_id, profession) VALUES (11, 'Trader')
+INSERT INTO perk_prof (perk_id, profession) VALUES (12, 'Adventurer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (12, 'Agent')
+INSERT INTO perk_prof (perk_id, profession) VALUES (12, 'Bureaucrat')
+INSERT INTO perk_prof (perk_id, profession) VALUES (12, 'Doctor')
+INSERT INTO perk_prof (perk_id, profession) VALUES (12, 'Enforcer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (12, 'Engineer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (12, 'Fixer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (12, 'Keeper')
+INSERT INTO perk_prof (perk_id, profession) VALUES (12, 'Martial Artist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (12, 'Meta-Physicist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (12, 'Nano-Technician')
+INSERT INTO perk_prof (perk_id, profession) VALUES (12, 'Shade')
+INSERT INTO perk_prof (perk_id, profession) VALUES (12, 'Soldier')
+INSERT INTO perk_prof (perk_id, profession) VALUES (12, 'Trader')
+INSERT INTO perk_prof (perk_id, profession) VALUES (13, 'Adventurer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (13, 'Agent')
+INSERT INTO perk_prof (perk_id, profession) VALUES (13, 'Bureaucrat')
+INSERT INTO perk_prof (perk_id, profession) VALUES (13, 'Doctor')
+INSERT INTO perk_prof (perk_id, profession) VALUES (13, 'Enforcer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (13, 'Engineer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (13, 'Fixer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (13, 'Keeper')
+INSERT INTO perk_prof (perk_id, profession) VALUES (13, 'Martial Artist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (13, 'Meta-Physicist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (13, 'Nano-Technician')
+INSERT INTO perk_prof (perk_id, profession) VALUES (13, 'Shade')
+INSERT INTO perk_prof (perk_id, profession) VALUES (13, 'Soldier')
+INSERT INTO perk_prof (perk_id, profession) VALUES (13, 'Trader')
+INSERT INTO perk_prof (perk_id, profession) VALUES (14, 'Adventurer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (14, 'Agent')
+INSERT INTO perk_prof (perk_id, profession) VALUES (14, 'Bureaucrat')
+INSERT INTO perk_prof (perk_id, profession) VALUES (14, 'Doctor')
+INSERT INTO perk_prof (perk_id, profession) VALUES (14, 'Enforcer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (14, 'Engineer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (14, 'Fixer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (14, 'Keeper')
+INSERT INTO perk_prof (perk_id, profession) VALUES (14, 'Martial Artist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (14, 'Meta-Physicist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (14, 'Nano-Technician')
+INSERT INTO perk_prof (perk_id, profession) VALUES (14, 'Shade')
+INSERT INTO perk_prof (perk_id, profession) VALUES (14, 'Soldier')
+INSERT INTO perk_prof (perk_id, profession) VALUES (14, 'Trader')
+INSERT INTO perk_prof (perk_id, profession) VALUES (15, 'Adventurer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (15, 'Enforcer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (16, 'Enforcer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (16, 'Meta-Physicist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (17, 'Adventurer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (17, 'Agent')
+INSERT INTO perk_prof (perk_id, profession) VALUES (17, 'Enforcer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (17, 'Fixer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (17, 'Keeper')
+INSERT INTO perk_prof (perk_id, profession) VALUES (17, 'Soldier')
+INSERT INTO perk_prof (perk_id, profession) VALUES (18, 'Adventurer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (18, 'Fixer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (18, 'Martial Artist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (18, 'Shade')
+INSERT INTO perk_prof (perk_id, profession) VALUES (19, 'Meta-Physicist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (19, 'Nano-Technician')
+INSERT INTO perk_prof (perk_id, profession) VALUES (20, 'Bureaucrat')
+INSERT INTO perk_prof (perk_id, profession) VALUES (20, 'Martial Artist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (20, 'Shade')
+INSERT INTO perk_prof (perk_id, profession) VALUES (21, 'Enforcer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (21, 'Martial Artist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (22, 'Enforcer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (22, 'Soldier')
+INSERT INTO perk_prof (perk_id, profession) VALUES (23, 'Agent')
+INSERT INTO perk_prof (perk_id, profession) VALUES (23, 'Soldier')
+INSERT INTO perk_prof (perk_id, profession) VALUES (24, 'Agent')
+INSERT INTO perk_prof (perk_id, profession) VALUES (24, 'Doctor')
+INSERT INTO perk_prof (perk_id, profession) VALUES (24, 'Engineer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (24, 'Fixer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (24, 'Soldier')
+INSERT INTO perk_prof (perk_id, profession) VALUES (24, 'Trader')
+INSERT INTO perk_prof (perk_id, profession) VALUES (25, 'Engineer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (25, 'Soldier')
+INSERT INTO perk_prof (perk_id, profession) VALUES (25, 'Trader')
+INSERT INTO perk_prof (perk_id, profession) VALUES (26, 'Fixer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (26, 'Soldier')
+INSERT INTO perk_prof (perk_id, profession) VALUES (27, 'Doctor')
+INSERT INTO perk_prof (perk_id, profession) VALUES (27, 'Engineer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (27, 'Trader')
+INSERT INTO perk_prof (perk_id, profession) VALUES (28, 'Adventurer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (28, 'Bureaucrat')
+INSERT INTO perk_prof (perk_id, profession) VALUES (28, 'Doctor')
+INSERT INTO perk_prof (perk_id, profession) VALUES (28, 'Engineer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (28, 'Meta-Physicist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (29, 'Engineer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (29, 'Trader')
+INSERT INTO perk_prof (perk_id, profession) VALUES (30, 'Agent')
+INSERT INTO perk_prof (perk_id, profession) VALUES (30, 'Bureaucrat')
+INSERT INTO perk_prof (perk_id, profession) VALUES (30, 'Doctor')
+INSERT INTO perk_prof (perk_id, profession) VALUES (30, 'Meta-Physicist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (30, 'Nano-Technician')
+INSERT INTO perk_prof (perk_id, profession) VALUES (30, 'Trader')
+INSERT INTO perk_prof (perk_id, profession) VALUES (31, 'Bureaucrat')
+INSERT INTO perk_prof (perk_id, profession) VALUES (31, 'Doctor')
+INSERT INTO perk_prof (perk_id, profession) VALUES (31, 'Meta-Physicist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (31, 'Nano-Technician')
+INSERT INTO perk_prof (perk_id, profession) VALUES (32, 'Meta-Physicist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (32, 'Nano-Technician')
+INSERT INTO perk_prof (perk_id, profession) VALUES (33, 'Martial Artist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (34, 'Martial Artist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (35, 'Fixer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (36, 'Fixer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (37, 'Fixer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (38, 'Adventurer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (39, 'Adventurer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (40, 'Adventurer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (41, 'Adventurer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (42, 'Doctor')
+INSERT INTO perk_prof (perk_id, profession) VALUES (43, 'Doctor')
+INSERT INTO perk_prof (perk_id, profession) VALUES (44, 'Doctor')
+INSERT INTO perk_prof (perk_id, profession) VALUES (45, 'Soldier')
+INSERT INTO perk_prof (perk_id, profession) VALUES (46, 'Soldier')
+INSERT INTO perk_prof (perk_id, profession) VALUES (47, 'Engineer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (48, 'Engineer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (49, 'Engineer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (50, 'Agent')
+INSERT INTO perk_prof (perk_id, profession) VALUES (51, 'Agent')
+INSERT INTO perk_prof (perk_id, profession) VALUES (52, 'Agent')
+INSERT INTO perk_prof (perk_id, profession) VALUES (53, 'Agent')
+INSERT INTO perk_prof (perk_id, profession) VALUES (54, 'Enforcer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (55, 'Enforcer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (56, 'Enforcer')
+INSERT INTO perk_prof (perk_id, profession) VALUES (57, 'Bureaucrat')
+INSERT INTO perk_prof (perk_id, profession) VALUES (58, 'Bureaucrat')
+INSERT INTO perk_prof (perk_id, profession) VALUES (59, 'Agent')
+INSERT INTO perk_prof (perk_id, profession) VALUES (60, 'Shade')
+INSERT INTO perk_prof (perk_id, profession) VALUES (61, 'Shade')
+INSERT INTO perk_prof (perk_id, profession) VALUES (62, 'Shade')
+INSERT INTO perk_prof (perk_id, profession) VALUES (63, 'Shade')
+INSERT INTO perk_prof (perk_id, profession) VALUES (64, 'Shade')
+INSERT INTO perk_prof (perk_id, profession) VALUES (65, 'Nano-Technician')
+INSERT INTO perk_prof (perk_id, profession) VALUES (66, 'Nano-Technician')
+INSERT INTO perk_prof (perk_id, profession) VALUES (67, 'Nano-Technician')
+INSERT INTO perk_prof (perk_id, profession) VALUES (68, 'Meta-Physicist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (69, 'Meta-Physicist')
+INSERT INTO perk_prof (perk_id, profession) VALUES (70, 'Trader')
+INSERT INTO perk_prof (perk_id, profession) VALUES (71, 'Trader')
+INSERT INTO perk_prof (perk_id, profession) VALUES (72, 'Keeper')
+INSERT INTO perk_prof (perk_id, profession) VALUES (73, 'Keeper')
+INSERT INTO perk_prof (perk_id, profession) VALUES (74, 'Keeper')
+INSERT INTO perk_prof (perk_id, profession) VALUES (74, 'Enforcer')
 
 INSERT INTO perk_level_buffs (perk_level_id, skill, amount) VALUES (1,'Strength',4);
 INSERT INTO perk_level_buffs (perk_level_id, skill, amount) VALUES (1,'Stamina',4);

@@ -18,7 +18,6 @@ EVENTS
 GUILD - renamed to ORG, needs to be a system module
 IMPLANT - needs !pocketboss, !symbiant, !impreq, !implantdesigner
 ORGLIST
-PERKS
 RAID
 RELAY
 SKILLS - !nanoinit, !aggdef, !weapon, !specials <type> (add aliases)
@@ -56,6 +55,7 @@ NANO - done
 NEWS - done
 NOTES - done
 ONLINE - done
+PERKS - done
 PRIVATE_CHANNEL - done
 QUOTE - done
 RAFFLE - done
