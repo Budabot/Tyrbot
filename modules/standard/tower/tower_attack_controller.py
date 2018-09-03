@@ -75,12 +75,13 @@ class TowerAttackController:
         t = int(time.time())
 
         blob = self.format_battle_info(battle, t)
-        blob += "<header2>Attackers:<end>\n"
+        blob += "\n<header2>Attackers:<end>\n"
 
         data = self.db.query("SELECT * FROM tower_attacker WHERE tower_battle_id = ?", [battle_id])
         for row in data:
             blob += "<tab>" + self.format_attacker(row)
             blob += " " + self.format_timestamp(row.created_at, t)
+            # TODO add battle duration
             blob += "\n"
 
         return ChatBlob("Battle Info %d" % battle_id, blob)
