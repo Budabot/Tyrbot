@@ -27,7 +27,7 @@ class PublicChannelService:
         self.event_service.register_event_type(self.ORG_MESSAGE_EVENT)
 
     def get_channel_id(self, channel_name):
-        return self.name_to_id.get(channel_name, None)
+        return self.name_to_id.get(channel_name)
 
     def get_channel_name(self, channel_id):
         return self.id_to_name[channel_id]

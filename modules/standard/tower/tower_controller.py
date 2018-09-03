@@ -1,12 +1,13 @@
 from core.chat_blob import ChatBlob
 from core.command_param_types import Any
 from core.db import DB
-from core.decorators import instance, command
+from core.decorators import instance, command, event
 from core.dict_object import DictObject
 from core.event_service import EventService
 from core.logger import Logger
 from core.aochat import server_packets
 from core.lookup.pork_service import PorkService
+from core.public_channel_service import PublicChannelService
 from core.text import Text
 from core.tyrbot import Tyrbot
 from modules.standard.helpbot.playfield_controller import PlayfieldController
@@ -38,6 +39,7 @@ class TowerController:
         self.event_service: EventService = registry.get_instance("event_service")
         self.pork_service: PorkService = registry.get_instance("pork_service")
         self.playfield_controller: PlayfieldController = registry.get_instance("playfield_controller")
+        self.public_channel_service: PublicChannelService = registry.get_instance("public_channel_service")
 
     def pre_start(self):
         self.event_service.register_event_type(self.TOWER_ATTACK_EVENT)
@@ -69,6 +71,11 @@ class TowerController:
             blob += "<pagebreak>" + self.format_site_info(row) + "\n\n"
 
         return ChatBlob("Tower Sites in %s" % playfield.long_name, blob)
+
+    @event(event_type="connect", description="Check if All Towers channel is available")
+    def handle_connect_event(self, event_type, event_data):
+        if self.public_channel_service.org_id and not self.public_channel_service.get_channel_id("All Towers"):
+            self.logger.warning("bot is a member of an org but does not have access to 'All Towers' channel and therefore will not receive tower attack messages")
 
     def format_site_info(self, row):
         blob = "Short name: <highlight>%s %d<end>\n" % (row.short_name, row.site_number)
