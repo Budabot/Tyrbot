@@ -2,6 +2,8 @@ from core.chat_blob import ChatBlob
 from core.decorators import instance, command, event
 import time
 
+from core.public_channel_service import PublicChannelService
+
 
 @instance()
 class CloakController:
@@ -44,7 +46,7 @@ class CloakController:
 
             return ChatBlob("Cloak History", blob)
 
-    @event(event_type="org_message", description="Record when the city cloak is turned off and on")
+    @event(event_type=PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, description="Record when the city cloak is turned off and on")
     def city_cloak_event(self, event_type, event_data):
         extended_message = event_data.extended_message
         if extended_message and extended_message.category_id == 1001 and extended_message.instance_id == 1:

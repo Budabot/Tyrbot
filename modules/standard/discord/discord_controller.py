@@ -1,6 +1,8 @@
 from core.decorators import instance, command, event, timerevent, setting
 from core.dict_object import DictObject
 from core.logger import Logger
+from core.private_channel_service import PrivateChannelService
+from core.public_channel_service import PublicChannelService
 from core.setting_types import HiddenSettingType, BooleanSettingType, TextSettingType, ColorSettingType
 from core.command_param_types import Int, Any, Const, Options
 from core.chat_blob import ChatBlob
@@ -257,7 +259,7 @@ class DiscordController:
         else:
             return "No such server."
 
-    @event(event_type="org_message", description="Relay messages to Discord from org channel")
+    @event(event_type=PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, description="Relay messages to Discord from org channel")
     def handle_org_message_event(self, event_type, event_data):
         if event_data.char_id not in self.ignore:
             if event_data.message[:1] != "!":
@@ -267,7 +269,7 @@ class DiscordController:
                 message = DiscordMessage(msgtype, "Org", name, self.strip_html_tags(event_data.message), False, msgcolor)
                 self.aoqueue.append(("org", message))
 
-    @event(event_type="private_channel_message", description="Relay messages to Discord from private channel")
+    @event(event_type=PrivateChannelService.PRIVATE_CHANNEL_MESSAGE_EVENT, description="Relay messages to Discord from private channel")
     def handle_private_message_event(self, event_type, event_data):
         if event_data.char_id not in self.ignore:
             if event_data.message[:1] != "!":

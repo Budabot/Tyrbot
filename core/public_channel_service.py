@@ -28,6 +28,7 @@ class PublicChannelService:
         self.bot.add_packet_handler(server_packets.PublicChannelLeft.id, self.remove)
         self.bot.add_packet_handler(server_packets.PublicChannelMessage.id, self.public_channel_message)
         self.event_service.register_event_type(self.ORG_CHANNEL_MESSAGE_EVENT)
+        self.event_service.register_event_type(self.ORG_MSG_EVENT)
 
     def get_channel_id(self, channel_name):
         return self.name_to_id.get(channel_name)
