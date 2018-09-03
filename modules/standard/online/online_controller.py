@@ -130,7 +130,7 @@ class OnlineController:
         if event_data.char_id != self.bot.char_id:
             self.afk_check(event_data.char_id, event_data.message, lambda msg: self.bot.send_private_channel_message(msg))
 
-    @event(PublicChannelService.ORG_MESSAGE_EVENT, "Check for afk messages in org channel")
+    @event(PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, "Check for afk messages in org channel")
     def afk_check_org_channel_event(self, event_type, event_data):
         if event_data.char_id != self.bot.char_id:
             self.afk_check(event_data.char_id, event_data.message, lambda msg: self.bot.send_org_message(msg))

@@ -5,7 +5,10 @@ from core.logger import Logger
 
 @instance()
 class PublicChannelService:
-    ORG_MESSAGE_EVENT = "org_message"
+    ORG_CHANNEL_MESSAGE_EVENT = "org_channel_message"
+    ORG_MSG_EVENT = "org_msg"
+
+    ORG_MSG_CHANNEL_ID = 42949672961
 
     def __init__(self):
         self.logger = Logger(__name__)
@@ -24,7 +27,7 @@ class PublicChannelService:
         self.bot.add_packet_handler(server_packets.PublicChannelJoined.id, self.add)
         self.bot.add_packet_handler(server_packets.PublicChannelLeft.id, self.remove)
         self.bot.add_packet_handler(server_packets.PublicChannelMessage.id, self.public_channel_message)
-        self.event_service.register_event_type(self.ORG_MESSAGE_EVENT)
+        self.event_service.register_event_type(self.ORG_CHANNEL_MESSAGE_EVENT)
 
     def get_channel_id(self, channel_name):
         return self.name_to_id.get(channel_name)
@@ -55,6 +58,10 @@ class PublicChannelService:
             char_name = self.character_service.get_char_name(packet.char_id)
             self.logger.log_chat("Org Channel", char_name, packet.message)
             self.event_service.fire_event(self.ORG_MESSAGE_EVENT, packet)
+        elif packet.channel_id == self.ORG_MSG_CHANNEL_ID:
+            char_name = self.character_service.get_char_name(packet.char_id)
+            self.logger.log_chat("Org Msg", char_name, packet.message)
+            self.event_service.fire_event(self.ORG_MSG_EVENT, packet)
 
     def is_org_channel_id(self, channel_id):
         return channel_id >> 32 == 3
