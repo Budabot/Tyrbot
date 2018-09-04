@@ -1,22 +1,19 @@
 remove timer_event table and store next_run in meta_data column of event_config
 add db update/migration
-add caching for all remote calls (whois)
 add name history
 add 24h event to remove orphaned buddies, already verified that connect events run before timer events
 
 consider a replication strategy
 include access_level in sender obj
-!leader clear|unset
 Time command param to include both seconds and time_str
 dynamic enabling and disabling of events (eg. buddy_logon for orglist, whois)
 generic paging solution - add Page command param, add resultset paging support to ChatBlob
 rename Int to Number
-check if bot is a member of an org and also has access to all towers channel, and log warning otherwise
-remove aliases from command decorator
+adjust default access levels
 
 
 EVENTS
-ORG - needs !lastseen
+ORG - needs !lastseen, record players joining and leaving for up-to-date roster
 ORGLIST
 RAID
 RELAY

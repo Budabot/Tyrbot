@@ -1,4 +1,4 @@
-from core.command_param_types import Const, Any
+from core.command_param_types import Const, Any, Options
 from core.db import DB
 from core.decorators import instance, command, setting
 from core.setting_types import DictionarySettingType
@@ -27,7 +27,7 @@ class TopicController:
         else:
             return "There is no current topic."
 
-    @command(command="topic", params=[Const("clear")], access_level="all",
+    @command(command="topic", params=[Options(["clear", "unset"])], access_level="all",
              description="Clears the current topic")
     def topic_clear_command(self, request, _):
         self.topic().set_value("")
