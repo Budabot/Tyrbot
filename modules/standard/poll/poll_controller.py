@@ -13,9 +13,13 @@ class PollController:
         self.text = registry.get_instance("text")
         self.job_scheduler = registry.get_instance("job_scheduler")
         self.pork_service = registry.get_instance("pork_service")
+        self.command_alias_service = registry.get_instance("command_alias_service")
+
+    def start(self):
+        self.command_alias_service.add_alias("vote", "poll")
 
     @command(command="poll", params=[], access_level="all",
-             description="List the polls", aliases=["vote"])
+             description="List the polls")
     def poll_list_cmd(self, request):
         blob = ""
         t = int(time.time())

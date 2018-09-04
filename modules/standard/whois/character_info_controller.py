@@ -14,9 +14,13 @@ class CharacterInfoController:
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
         self.pork_service = registry.get_instance("pork_service")
+        self.command_alias_service = registry.get_instance("command_alias_service")
+
+    def start(self):
+        self.command_alias_service.add_alias("w", "whois")
 
     @command(command="whois", params=[Character("character")], access_level="all",
-             description="Get whois information for a character", aliases=["w"])
+             description="Get whois information for a character")
     def whois_cmd(self, request, char):
         char_info = self.pork_service.get_character_info(char.name)
         if char_info:

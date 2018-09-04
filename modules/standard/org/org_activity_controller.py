@@ -20,12 +20,15 @@ class OrgActivityController:
         self.db = registry.get_instance("db")
         self.util = registry.get_instance("util")
         self.character_service = registry.get_instance("character_service")
+        self.command_alias_service = registry.get_instance("command_alias_service")
 
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS org_activity (id INT PRIMARY KEY AUTO_INCREMENT, actor_char_id INT NOT NULL, actee_char_id INT NOT NULL, "
                      "action VARCHAR(20) NOT NULL, time INT NOT NULL)")
 
-    @command(command="orgactivity", params=[], access_level="admin", aliases=["orghistory"],
+        self.command_alias_service.add_alias("orghistory", "orgactivity")
+
+    @command(command="orgactivity", params=[], access_level="admin",
              description="Show org member activity")
     def orgactivity_cmd(self, request):
         sql = """

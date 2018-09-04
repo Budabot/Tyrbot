@@ -6,9 +6,13 @@ from core.command_param_types import Any
 class CountdownController:
     def inject(self, registry):
         self.job_scheduler = registry.get_instance("job_scheduler")
+        self.command_alias_service = registry.get_instance("command_alias_service")
+
+    def start(self):
+        self.command_alias_service.add_alias("cd", "countdown")
 
     @command(command="countdown", params=[Any("message", is_optional=True)], access_level="all",
-             description="Start a 5-second countdown", aliases=["cd"])
+             description="Start a 5-second countdown")
     def countdown_cmd(self, request, message):
         message = message or "GO GO GO"
         message_format = "%s-------&gt; %s &lt;-------<end>"

@@ -10,9 +10,13 @@ class ItemsController:
     def inject(self, registry):
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
+        self.command_alias_service = registry.get_instance("command_alias_service")
+
+    def start(self):
+        self.command_alias_service.add_alias("i", "items")
 
     @command(command="items", params=[Regex("page=#", "(\s+page=(\d+))?", is_optional=True, num_groups=2), Int("ql", is_optional=True), Any("search")], access_level="all",
-             description="Search for an item", aliases=["i"])
+             description="Search for an item")
     def items_cmd(self, request, regex, ql, search):
         page = int(regex[1] or 1)
 

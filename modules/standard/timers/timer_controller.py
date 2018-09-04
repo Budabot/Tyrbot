@@ -14,6 +14,7 @@ class TimerController:
         self.db = registry.get_instance("db")
         self.util = registry.get_instance("util")
         self.job_scheduler = registry.get_instance("job_scheduler")
+        self.command_alias_service = registry.get_instance("command_alias_service")
 
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS timer (name VARCHAR(255) NOT NULL, char_id INT NOT NULL, channel VARCHAR(10) NOT NULL, "
@@ -25,8 +26,10 @@ class TimerController:
             job_id = self.job_scheduler.scheduled_job(self.timer_finished, row.finished_at, row.name)
             self.db.exec("UPDATE timer SET job_id = ? WHERE name = ?", [job_id, row.name])
 
+        self.command_alias_service.add_alias("timers", "timer")
+
     @command(command="timer", params=[], access_level="all",
-             description="Show current timers", aliases=["timers"])
+             description="Show current timers")
     def timer_list_cmd(self, request):
         t = int(time.time())
         data = self.db.query("SELECT t.*, p.name AS char_name FROM timer t LEFT JOIN player p ON t.char_id = p.char_id ORDER BY t.finished_at ASC")

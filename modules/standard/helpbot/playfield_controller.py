@@ -10,9 +10,13 @@ class PlayfieldController:
     def inject(self, registry):
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
+        self.command_alias_service = registry.get_instance("command_alias_service")
+
+    def start(self):
+        self.command_alias_service.add_alias("playfields", "playfield")
 
     @command(command="playfield", params=[], access_level="all",
-             description="Show a list of playfields", aliases=["playfields"])
+             description="Show a list of playfields")
     def playfield_list_command(self, request):
         data = self.db.query("SELECT * FROM playfields ORDER BY long_name")
 

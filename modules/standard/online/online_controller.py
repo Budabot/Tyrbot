@@ -24,6 +24,7 @@ class OnlineController:
         self.pork_service = registry.get_instance("pork_service")
         self.character_service = registry.get_instance("character_service")
         self.discord_controller = registry.get_instance("discord_controller")
+        self.command_alias_service = registry.get_instance("command_alias_service")
 
     def start(self):
         self.db.exec("DROP TABLE IF EXISTS online")
@@ -31,8 +32,10 @@ class OnlineController:
         self.db.exec("DELETE FROM online")
         self.discord_controller.register_discord_command_handler(self.online_discord_cmd, "online", [])
 
+        self.command_alias_service.add_alias("o", "online")
+
     @command(command="online", params=[], access_level="all",
-             description="Show the list of online characters", aliases=["o"])
+             description="Show the list of online characters")
     def online_cmd(self, request):
         blob = ""
         count = 0
