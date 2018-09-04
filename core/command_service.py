@@ -62,11 +62,11 @@ class CommandService:
         for _, inst in Registry.get_all_instances().items():
             for name, method in get_attrs(inst).items():
                 if hasattr(method, "command"):
-                    cmd_name, params, access_level, description, help_file, sub_command, extended_description, check_access = getattr(method, "command")
+                    cmd_name, params, access_level, description, help_file, sub_command, extended_description = getattr(method, "command")
                     handler = getattr(inst, name)
                     module = self.util.get_module_name(handler)
                     help_text = self.get_help_file(module, help_file)
-                    self.register(handler, cmd_name, params, access_level, description, module, help_text, sub_command, extended_description, check_access)
+                    self.register(handler, cmd_name, params, access_level, description, module, help_text, sub_command, extended_description)
                     if len(inspect.signature(handler).parameters) != len(params) + 1:
                         raise Exception("Incorrect number of arguments for handler '%s.%s()'" % (handler.__module__, handler.__name__))
 
