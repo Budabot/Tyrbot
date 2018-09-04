@@ -157,7 +157,7 @@ class NewsController:
         else:
             return "No news."
     
-    @command(command="news", params=[Const("add"), Any("news")], description="Add news entry", access_level="moderator")
+    @command(command="news", params=[Const("add"), Any("news")], description="Add news entry", access_level="moderator", sub_command="update")
     def news_add_cmd(self, request, _, news):
         sql = "INSERT INTO news (time, author, news, sticky, deleted) VALUES (?,?,?,?,?)"
         success = self.db.exec(sql, [int(time.time()), request.sender.name, news, 0, 0])
@@ -167,7 +167,7 @@ class NewsController:
         else:
             return "Failed to add news entry."
 
-    @command(command="news", params=[Const("rem"), Int("news_id")], description="Remove a news entry", access_level="moderator")
+    @command(command="news", params=[Const("rem"), Int("news_id")], description="Remove a news entry", access_level="moderator", sub_command="update")
     def news_rem_cmd(self, request, _, news_id):
         sql = "DELETE FROM news WHERE news_id = ?"
         success = self.db.exec(sql, [news_id])
@@ -177,7 +177,7 @@ class NewsController:
         else:
             return "Could not find news entry with ID %d." % news_id
 
-    @command(command="news", params=[Const("sticky"), Int("news_id")], description="Sticky a news entry", access_level="moderator")
+    @command(command="news", params=[Const("sticky"), Int("news_id")], description="Sticky a news entry", access_level="moderator", sub_command="update")
     def news_sticky_cmd(self, request, _, news_id):
         sql = "UPDATE news SET sticky = 1 WHERE news_id = ?"
         success = self.db.exec(sql, [news_id])
@@ -187,7 +187,7 @@ class NewsController:
         else:
             return "Could not find news entry with ID %d." % news_id
 
-    @command(command="news", params=[Const("unsticky"), Int("news_id")], description="Unsticky a news entry", access_level="moderator")
+    @command(command="news", params=[Const("unsticky"), Int("news_id")], description="Unsticky a news entry", access_level="moderator", sub_command="update")
     def news_unsticky_cmd(self, request, _, news_id):
         sql = "UPDATE news SET sticky = 0 WHERE news_id = ?"
         success = self.db.exec(sql, [news_id])
