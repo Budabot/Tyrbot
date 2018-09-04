@@ -157,7 +157,7 @@ class AuctionController:
                                         Int("amount", is_optional=True),
                                         Const("all", is_optional=True),
                                         Int("item_index", is_optional=True)],
-             description="Bid on an item", access_level="member")
+             description="Bid on an item", access_level="member", sub_command="bid")
     def auction_bid_cmd(self, request, _, amount, all_amount, item_index):
         if not self.auction_running:
             return "No auction in progress."
@@ -303,7 +303,7 @@ class AuctionController:
         return "Invalid bid."
 
     @command(command="auction", params=[Const("bid"), Const("item"), Int("item_index")],
-             description="Get bid info for a specific item", access_level="member")
+             description="Get bid info for a specific item", access_level="member", sub_command="bid_info")
     def auction_bid_info_cmd(self, _1, _2, _3, item_index):
         if not self.raid_controller.loot_list:
             return "No auction running."
