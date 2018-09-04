@@ -31,6 +31,7 @@ class DB:
         self.type = self.MYSQL
         self.conn = mysql.connector.connect(user=username, password=password, host=host, database=database_name, charset='utf8', autocommit=True)
         self.exec("SET collation_connection = 'utf8_general_ci'")
+        self.exec("SET sql_mode = 'TRADITIONAL,ANSI,NO_BACKSLASH_ESCAPES'")
         self.create_db_version_table()
 
     def connect_sqlite(self, filename):
