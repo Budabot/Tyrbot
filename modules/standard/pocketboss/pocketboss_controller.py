@@ -42,5 +42,5 @@ class PocketbossController:
         if row:
             return [row]
 
-        return self.db.query(*self.db.handle_extended_like("SELECT p1.*, p2.long_name FROM pocketboss p1 LEFT JOIN playfields p2 ON p1.playfield_id = p2.id "
-                                                           "WHERE name <EXTENDED_LIKE=0> ? ORDER BY name ASC", [search]))
+        return self.db.query("SELECT p1.*, p2.long_name FROM pocketboss p1 LEFT JOIN playfields p2 ON p1.playfield_id = p2.id "
+                             "WHERE name <EXTENDED_LIKE=0> ? ORDER BY name ASC", [search], extended_like=True)

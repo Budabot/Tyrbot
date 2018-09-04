@@ -71,7 +71,7 @@ class ItemsController:
 
         sql += " ORDER BY name ASC, highql DESC"
 
-        return self.db.query(*self.db.handle_extended_like(sql, params))
+        return self.db.query(sql, params, extended_like=True)
 
     def sort_items(self, search, items):
         search = search.lower()

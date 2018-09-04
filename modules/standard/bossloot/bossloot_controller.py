@@ -15,7 +15,7 @@ class BosslootController:
              description="Show loot for a boss")
     def boss_cmd(self, request, search):
         sql = "SELECT b.id, b.name, w.answer FROM boss b LEFT JOIN whereis w ON b.name = w.name WHERE b.name <EXTENDED_LIKE=0> ?"
-        data = self.db.query(*self.db.handle_extended_like(sql, [search]))
+        data = self.db.query(sql, [search], extended_like=True)
         cnt = len(data)
 
         blob = ""
@@ -31,7 +31,7 @@ class BosslootController:
         sql = "SELECT DISTINCT b2.id, b2.name, w.answer " \
               "FROM boss_loot b1 JOIN boss b2 ON b2.id = b1.boss_id LEFT JOIN whereis w ON w.name = b2.name " \
               "WHERE b1.item_name <EXTENDED_LIKE=0> ?"
-        data = self.db.query(*self.db.handle_extended_like(sql, [search]))
+        data = self.db.query(sql, [search], extended_like=True)
         cnt = len(data)
 
         blob = ""

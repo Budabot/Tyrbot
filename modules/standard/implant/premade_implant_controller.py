@@ -113,7 +113,7 @@ class PremadeImplantController:
             JOIN Cluster c3 ON p.FadedClusterID = c3.ClusterID
             WHERE c1.LongName <EXTENDED_LIKE=0> ? OR c2.LongName <EXTENDED_LIKE=1> ? OR c3.LongName <EXTENDED_LIKE=2> ?"""
 
-        return self.db.query(*self.db.handle_extended_like(sql, [modifier, modifier, modifier]))
+        return self.db.query(sql, [modifier, modifier, modifier], extended_like=True)
 
     def get_slot(self, search):
         return self.db.query_single("SELECT * FROM ImplantType WHERE ShortName LIKE ?", [search])

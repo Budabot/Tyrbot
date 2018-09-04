@@ -32,8 +32,7 @@ class WhereisController:
             return "Could not find any results for your search."
 
     def search_whereis(self, search):
-        return self.db.query(
-            *self.db.handle_extended_like("SELECT w.playfield_id, w.name, w.answer, w.xcoord, w.ycoord, p.short_name FROM whereis w "
-                                          "LEFT JOIN playfields p ON w.playfield_id = p.id "
-                                          "WHERE name <EXTENDED_LIKE=0> ? OR keywords <EXTENDED_LIKE=1> ?",
-                                          [search, search]))
+        return self.db.query("SELECT w.playfield_id, w.name, w.answer, w.xcoord, w.ycoord, p.short_name FROM whereis w "
+                             "LEFT JOIN playfields p ON w.playfield_id = p.id "
+                             "WHERE name <EXTENDED_LIKE=0> ? OR keywords <EXTENDED_LIKE=1> ?",
+                             [search, search], extended_like=True)

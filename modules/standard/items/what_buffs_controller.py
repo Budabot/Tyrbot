@@ -67,7 +67,7 @@ class WhatBuffsController:
     def search_for_skill(self, skill_name):
         skill_name = skill_name.lower()
 
-        data = self.db.query(*self.db.handle_extended_like("SELECT id, name FROM skills WHERE name <EXTENDED_LIKE=0> ?", [skill_name]))
+        data = self.db.query("SELECT id, name FROM skills WHERE name <EXTENDED_LIKE=0> ?", [skill_name], extended_like=True)
 
         # check for exact match first, in order to disambiguate between Bow and Bot Special Attack
         for row in data:

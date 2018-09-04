@@ -24,7 +24,7 @@ class ClusterController:
     @command(command="cluster", params=[Any("skill")], access_level="all",
              description="Show which clusters buff a particular skill")
     def cluster_show_cmd(self, request, skill):
-        data = self.db.query(*self.db.handle_extended_like("SELECT ClusterID, LongName FROM Cluster WHERE LongNAme <EXTENDED_LIKE=0> ?", [skill]))
+        data = self.db.query("SELECT ClusterID, LongName FROM Cluster WHERE LongNAme <EXTENDED_LIKE=0> ?", [skill], extended_like=True)
         count = len(data)
 
         if count == 0:

@@ -37,7 +37,7 @@ class TrickleController:
     @command(command="trickle", params=[Any("skill")], access_level="all",
              description="Show how much ability is needed to trickle a skill")
     def trickle_skill_cmd(self, request, search):
-        data = self.db.query(*self.db.handle_extended_like("SELECT * FROM trickle WHERE name <EXTENDED_LIKE=0> ?", [search]))
+        data = self.db.query("SELECT * FROM trickle WHERE name <EXTENDED_LIKE=0> ?", [search], extended_like=True)
         count = len(data)
 
         if count == 0:

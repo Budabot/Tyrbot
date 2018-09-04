@@ -19,7 +19,7 @@ class NanoController:
               "LEFT JOIN nanolines n3 ON n2.nanolines_id = n3.id " \
               "WHERE n1.name <EXTENDED_LIKE=0> ? " \
               "ORDER BY n1.profession, n3.name, n1.lowql DESC, n1.name ASC"
-        data = self.db.query(*self.db.handle_extended_like(sql, [search]))
+        data = self.db.query(sql, [search], extended_like=True)
         cnt = len(data)
 
         blob = ""

@@ -65,9 +65,13 @@ class DB:
         cur.close()
         return result
 
-    def query_single(self, sql, params=None):
+    def query_single(self, sql, params=None, extended_like=False):
         if params is None:
             params = []
+
+        if extended_like:
+            sql, params = self.handle_extended_like(sql, params)
+
         sql, params = self.format_sql(sql, params)
 
         def map_result(cur):
@@ -76,9 +80,13 @@ class DB:
 
         return self._execute_wrapper(sql, params, map_result)
 
-    def query(self, sql, params=None):
+    def query(self, sql, params=None, extended_like=False):
         if params is None:
             params = []
+
+        if extended_like:
+            sql, params = self.handle_extended_like(sql, params)
+
         sql, params = self.format_sql(sql, params)
 
         def map_result(cur):
@@ -86,9 +94,13 @@ class DB:
 
         return self._execute_wrapper(sql, params, map_result)
 
-    def exec(self, sql, params=None):
+    def exec(self, sql, params=None, extended_like=False):
         if params is None:
             params = []
+
+        if extended_like:
+            sql, params = self.handle_extended_like(sql, params)
+
         sql, params = self.format_sql(sql, params)
 
         def map_result(cur):

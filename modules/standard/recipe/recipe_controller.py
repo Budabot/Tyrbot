@@ -99,7 +99,7 @@ class RecipeController:
     @command(command="recipe", params=[Any("search")], access_level="all",
              description="Search for a recipe")
     def recipe_search_cmd(self, request, search):
-        data = self.db.query(*self.db.handle_extended_like("SELECT * FROM recipe WHERE recipe <EXTENDED_LIKE=0> ? ORDER BY name ASC", [search]))
+        data = self.db.query("SELECT * FROM recipe WHERE recipe <EXTENDED_LIKE=0> ? ORDER BY name ASC", [search], extended_like=True)
 
         blob = ""
         for row in data:
