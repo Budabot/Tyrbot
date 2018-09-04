@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS dynadb;
-CREATE TABLE dynadb (`playfield_id` INT NOT NULL, `label` VARCHAR(200),`mob` VARCHAR(200), `minQl` INT, `maxQl` INT, `cX` INT,  `cY` INT);
+CREATE TABLE dynadb (playfield_id SMALLINT NOT NULL, label VARCHAR(200), mob VARCHAR(200), minQl SMALLINT NOT NULL, maxQl SMALLINT NOT NULL, cX SMALLINT NOT NULL, cY SMALLINT NOT NULL);
 INSERT INTO dynadb VALUES (585,'Dynacamp1','Rhinomen',60,65,460,340);
 INSERT INTO dynadb VALUES (585,'Dynacamp3','Hounds',55,60,820,980);
 INSERT INTO dynadb VALUES (585,'Dynacamp4','Androids',55,60,380,2300);

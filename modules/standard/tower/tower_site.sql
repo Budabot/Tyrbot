@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS tower_site;
-CREATE TABLE tower_site (playfield_id int(11) NOT NULL, site_number smallint(6) NOT NULL, min_ql smallint(6) NOT NULL, max_ql smallint(6) NOT NULL, x_coord smallint(6) NOT NULL, y_coord smallint(6) NOT NULL, site_name varchar(50) NOT NULL, PRIMARY KEY (playfield_id, site_number));
+CREATE TABLE tower_site (playfield_id INT NOT NULL, site_number SMALLINT NOT NULL, min_ql SMALLINT NOT NULL, max_ql SMALLINT NOT NULL, x_coord SMALLINT NOT NULL, y_coord SMALLINT NOT NULL, site_name varchar(50) NOT NULL, PRIMARY KEY (playfield_id, site_number));
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, site_name) VALUES (505,1,60,90,2740,4260,'Griffon Frontier');
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, site_name) VALUES (505,2,80,110,540,4180,'Draught');
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, site_name) VALUES (505,3,70,95,1740,3460,'Dreadfire Volcano');

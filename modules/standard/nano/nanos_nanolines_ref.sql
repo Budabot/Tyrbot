@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS nanos_nanolines_ref;
-CREATE TABLE nanos_nanolines_ref ( lowid int(11) NOT NULL, nanolines_id int(11) NOT NULL );
+CREATE TABLE nanos_nanolines_ref ( lowid INT NOT NULL, nanolines_id INT NOT NULL );
 INSERT INTO nanos_nanolines_ref (lowid, nanolines_id) VALUES (161152, 1);
 INSERT INTO nanos_nanolines_ref (lowid, nanolines_id) VALUES (161150, 1);
 INSERT INTO nanos_nanolines_ref (lowid, nanolines_id) VALUES (161148, 1);

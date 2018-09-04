@@ -116,13 +116,13 @@ INSERT INTO pocketboss (id, name, playfield_id, mob_type, level, location) VALUE
 INSERT INTO pocketboss (id, name, playfield_id, mob_type, level, location) VALUES (114, 'Ushqa', 4605, 'Maychwaham, Ushamaham', 220, 'Oasis, south from Inferno Frontier');
 INSERT INTO pocketboss (id, name, playfield_id, mob_type, level, location) VALUES (115, 'Viscious Visitant', 4873, 'Spirits', 165, 'The Suburbs');
 INSERT INTO pocketboss (id, name, playfield_id, mob_type, level, location) VALUES (116, 'Wacky Suzerain', 4880, 'Named Eremites: Coiling, Sparkling, Bending...', 125, 'NW from West Incarnator');
-INSERT INTO pocketboss (id, name, playfield_id, mob_type, level, location) VALUES (117, 'White', 'Elysium South', 'Chill Spider & 2 Named Bosses', 120, 'White Pass (The Scoop)');
+INSERT INTO pocketboss (id, name, playfield_id, mob_type, level, location) VALUES (117, 'White', 4540, 'Chill Spider & 2 Named Bosses', 120, 'White Pass (The Scoop)');
 INSERT INTO pocketboss (id, name, playfield_id, mob_type, level, location) VALUES (118, 'Xark the Battletoad', 4320, 'Death Wing, Slithers, Maar...', 255, 'South from Purity');
 INSERT INTO pocketboss (id, name, playfield_id, mob_type, level, location) VALUES (119, 'Zoetic Oak', 4320, 'Stubby Stalker and Named', 180, 'SW Glacier Hill - SW Statue');
 INSERT INTO pocketboss (id, name, playfield_id, mob_type, level, location) VALUES (120, 'Shullat', 4605, 'Tinos, Astypalia, Phatmos', 255, 'Clan Sanctuary Exit: Razor''s Lair');
 INSERT INTO pocketboss (id, name, playfield_id, mob_type, level, location) VALUES (121, 'Taille Frees', 4605, 'Aniitap''s Shadow/Aniitap(250)/Wicked Shadow', 220, 'Path to the Redeemed Temple - Aniitap Spot');
-INSERT INTO pocketboss (id, name, playfield_id, mob_type, level, location) VALUES (122, 'Waqa', 'Inferno Yuttos Marshes', 'Natsmaahpt, Sanatsimk', 220, 'South of Xark''s Lair - North from Yuttos');
-INSERT INTO pocketboss (id, name, playfield_id, mob_type, level, location) VALUES (123, 'Arch Bigot Biap', 'Inferno Dark Hill', 'Obsolete Soul Dredge', 220, 'North from Incarnator 255');
+INSERT INTO pocketboss (id, name, playfield_id, mob_type, level, location) VALUES (122, 'Waqa', 4005, 'Natsmaahpt, Sanatsimk', 220, 'South of Xark''s Lair - North from Yuttos');
+INSERT INTO pocketboss (id, name, playfield_id, mob_type, level, location) VALUES (123, 'Arch Bigot Biap', 4605, 'Obsolete Soul Dredge', 220, 'North from Incarnator 255');
 INSERT INTO pocketboss (id, name, playfield_id, mob_type, level, location) VALUES (124, 'Asase Ya', 4005, 'Asase''s Drudge, Nyame''s Abettor, Asase''s Child', 255, 'SW limits of Inferno by Sorrow South');
 INSERT INTO pocketboss (id, name, playfield_id, mob_type, level, location) VALUES (125, 'Canceroid Cupid', 4311, 'Named Cripplers', 40, 'Steppe of Dispair');
 INSERT INTO pocketboss (id, name, playfield_id, mob_type, level, location) VALUES (126, 'Sasabonsam', 4605, 'Anansi''s Disciple', 220, 'Dark Hills - SE from 255 incarnator');

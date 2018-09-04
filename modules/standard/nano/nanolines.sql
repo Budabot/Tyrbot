@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS nanolines;
-CREATE TABLE nanolines ( id int(11) NOT NULL PRIMARY KEY, image_id int(11) NOT NULL, name text, profession text );
+CREATE TABLE nanolines ( id INT NOT NULL PRIMARY KEY, image_id INT NOT NULL, name text, profession text );
 INSERT INTO nanolines (id, image_id, name, profession) VALUES (1, 39287, '1HEdged Buff', 'Adventurer');
 INSERT INTO nanolines (id, image_id, name, profession) VALUES (2, 16211, 'Adventuring Buff', 'Adventurer');
 INSERT INTO nanolines (id, image_id, name, profession) VALUES (3, 44135, 'Service Tower', 'Adventurer');

@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS ofab_armor;
-CREATE TABLE ofab_armor (profession VARCHAR(30) NOT NULL, name VARCHAR(150) NOT NULL, slot VARCHAR(30) NOT NULL, lowid int(11) NOT NULL, highid int(11) NOT NULL, upgrade int(11) NOT NULL);
+CREATE TABLE ofab_armor (profession VARCHAR(30) NOT NULL, name VARCHAR(150) NOT NULL, slot VARCHAR(30) NOT NULL, lowid INT NOT NULL, highid INT NOT NULL, upgrade INT NOT NULL);
 INSERT INTO ofab_armor (profession, name, slot, lowid, highid, upgrade) VALUES ('Adventurer', 'Ofab Adventurer Body Armor', 'body', 264202, 264203, 0);
 INSERT INTO ofab_armor (profession, name, slot, lowid, highid, upgrade) VALUES ('Adventurer', 'Ofab Adventurer Boots', 'boots', 264200, 264201, 0);
 INSERT INTO ofab_armor (profession, name, slot, lowid, highid, upgrade) VALUES ('Adventurer', 'Ofab Adventurer Pants', 'pants', 264198, 264199, 0);
@@ -313,7 +313,7 @@ INSERT INTO ofab_armor (profession, name, slot, lowid, highid, upgrade) VALUES (
 INSERT INTO ofab_armor (profession, name, slot, lowid, highid, upgrade) VALUES ('Shade', 'OFAB Shade Shoulder Wear', 'shoulder', 268005, 268005, 3);
 
 DROP TABLE IF EXISTS ofab_armor_cost;
-CREATE TABLE ofab_armor_cost (slot varchar(30) NOT NULL, ql int(11) NOT NULL, vp int(11) NOT NULL);
+CREATE TABLE ofab_armor_cost (slot varchar(30) NOT NULL, ql INT NOT NULL, vp INT NOT NULL);
 INSERT INTO ofab_armor_cost (slot, ql, vp) VALUES ('ring', 1, 100);
 
 INSERT INTO ofab_armor_cost (slot, ql, vp) VALUES ('body', 25, 78);

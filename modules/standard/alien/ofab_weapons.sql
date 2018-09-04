@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS ofab_weapons;
-CREATE TABLE ofab_weapons (type int(11) NOT NULL default '0', name varchar(255) NOT NULL default '');
+CREATE TABLE ofab_weapons (type SMALLINT NOT NULL, name VARCHAR(255) NOT NULL);
 INSERT INTO ofab_weapons (type, name) VALUES (18, 'Mongoose');
 INSERT INTO ofab_weapons (type, name) VALUES (18, 'Viper');
 INSERT INTO ofab_weapons (type, name) VALUES (18, 'Wolf');
@@ -13,7 +13,7 @@ INSERT INTO ofab_weapons (type, name) VALUES (812, 'Peregrine');
 INSERT INTO ofab_weapons (type, name) VALUES (812, 'Tiger');
 
 DROP TABLE IF EXISTS ofab_weapons_cost;
-CREATE TABLE ofab_weapons_cost (ql int(11) NOT NULL, vp int(11) NOT NULL);
+CREATE TABLE ofab_weapons_cost (ql SMALLINT NOT NULL, vp SMALLINT NOT NULL);
 INSERT INTO ofab_weapons_cost (ql, vp) VALUES (25, 117);
 INSERT INTO ofab_weapons_cost (ql, vp) VALUES (50, 488);
 INSERT INTO ofab_weapons_cost (ql, vp) VALUES (75, 1110);

@@ -16,7 +16,7 @@ class NotesController:
                      "id INT PRIMARY KEY AUTO_INCREMENT, "
                      "char_id INT NOT NULL, "
                      "note TEXT NOT NULL,"
-                     "created_at INT NOT NULL);")
+                     "created_at INT NOT NULL)")
 
     @command(command="notes", params=[], access_level="all",
              description="Show your notes")

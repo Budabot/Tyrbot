@@ -16,7 +16,7 @@ class LinksController:
                      "char_id INT NOT NULL,"
                      "website VARCHAR(255) NOT NULL,"
                      "comments VARCHAR(255) NOT NULL,"
-                     "created_at INT NOT NULL);")
+                     "created_at INT NOT NULL)")
 
     @command(command="links", params=[], access_level="all",
              description="Show links")

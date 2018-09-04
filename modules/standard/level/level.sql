@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS level;
-CREATE TABLE level (level INT NOT NULL PRIMARY KEY, team_min INT(3) NOT NULL, team_max INT(3) NOT NULL, pvp_min INT(3) NOT NULL, pvp_max INT(3) NOT NULL, xpsk INT(11) NOT NULL, tokens INT(3) NOT NULL, daily_mission_xp INT(3) NOT NULL, missions TEXT NOT NULL, max_ai_level INT(3) NOT NULL, max_le_level INT(3) NOT NULL);
+CREATE TABLE level (level SMALLINT NOT NULL PRIMARY KEY, team_min SMALLINT NOT NULL, team_max SMALLINT NOT NULL, pvp_min SMALLINT NOT NULL, pvp_max SMALLINT NOT NULL, xpsk INT NOT NULL, tokens SMALLINT NOT NULL, daily_mission_xp SMALLINT NOT NULL, missions TEXT NOT NULL, max_ai_level SMALLINT NOT NULL, max_le_level SMALLINT NOT NULL);
 INSERT INTO level VALUES (1, 1, 5, 1, 5, 1450, 1, 100, '1', 0, 1);
 INSERT INTO level VALUES (2, 1, 5, 1, 5, 2600, 1, 100, '1,2,3', 0, 1);
 INSERT INTO level VALUES (3, 1, 6, 1, 5, 3100, 1, 100, '2,3,4,5', 0, 1);

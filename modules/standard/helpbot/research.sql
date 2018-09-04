@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS research;
-CREATE TABLE research (`level` INT, `sk` INT, `levelcap` INT);
+CREATE TABLE research (level SMALLINT NOT NULL, sk INT NOT NULL, levelcap SMALLINT NOT NULL);
 INSERT INTO research VALUES (0,0,0);
 INSERT INTO research VALUES (1,50,1);
 INSERT INTO research VALUES (2,450,50);

@@ -21,11 +21,11 @@ class TowerAttackController:
         self.command_alias_service = registry.get_instance("command_alias_service")
 
     def start(self):
-        self.db.exec("CREATE TABLE IF NOT EXISTS tower_attacker (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, att_org_name VARCHAR(50) NOT NULL, att_faction VARCHAR(10) NOT NULL, "
+        self.db.exec("CREATE TABLE IF NOT EXISTS tower_attacker (id INT PRIMARY KEY AUTO_INCREMENT, att_org_name VARCHAR(50) NOT NULL, att_faction VARCHAR(10) NOT NULL, "
                      "att_char_id INT, att_char_name VARCHAR(20) NOT NULL, att_level INT NOT NULL, att_ai_level INT NOT NULL, att_profession VARCHAR(15) NOT NULL, "
-                     "x_coord INT NOT NULL, y_coord INT NOT NULL, is_victory TINYINT NOT NULL, "
+                     "x_coord INT NOT NULL, y_coord INT NOT NULL, is_victory SMALLINT NOT NULL, "
                      "tower_battle_id INT NOT NULL, created_at INT NOT NULL)")
-        self.db.exec("CREATE TABLE IF NOT EXISTS tower_battle (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, playfield_id INT NOT NULL, site_number INT NOT NULL, "
+        self.db.exec("CREATE TABLE IF NOT EXISTS tower_battle (id INT PRIMARY KEY AUTO_INCREMENT, playfield_id INT NOT NULL, site_number INT NOT NULL, "
                      "def_org_name VARCHAR(50) NOT NULL, def_faction VARCHAR(10) NOT NULL, is_finished INT NOT NULL, battle_type VARCHAR(20) NOT NULL, last_updated INT NOT NULL)")
 
         self.command_alias_service.add_alias("victory", "attacks")
