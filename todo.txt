@@ -12,11 +12,11 @@ dynamic enabling and disabling of events (eg. buddy_logon for orglist, whois)
 generic paging solution - add Page command param, add resultset paging support to ChatBlob
 rename Int to Number
 check if bot is a member of an org and also has access to all towers channel, and log warning otherwise
+remove aliases from command decorator
 
 
 EVENTS
-GUILD - renamed to ORG, needs to be a system module
-IMPLANT - needs !pocketboss, !symbiant, !impreq, !implantdesigner
+ORG - needs !lastseen
 ORGLIST
 RAID
 RELAY
@@ -49,6 +49,7 @@ FUN - ignore
 GIT - ignore
 GUIDE - done
 HELPBOT - done
+IMPLANT - needs !impreq, !implantdesigner
 ITEMS - done
 LEVEL - done
 NANO - done
