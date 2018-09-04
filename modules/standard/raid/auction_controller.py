@@ -106,7 +106,7 @@ class AuctionController:
                       "item_name LIKE '%' || ? || '%' ORDER BY time DESC LIMIT 5"
                 bids = self.db.query(sql, [auction_item.item.name])
                 if bids:
-                    avg_win_bid = sum(map(lambda x: x.winning_bid, bids)) / len(bids)
+                    avg_win_bid = int(sum(map(lambda x: x.winning_bid, bids)) / len(bids))
                 else:
                     avg_win_bid = 0
 
@@ -159,6 +159,9 @@ class AuctionController:
                                         Int("item_index", is_optional=True)],
              description="Bid on an item", access_level="member")
     def auction_bid_cmd(self, request, _, amount, all_amount, item_index):
+        if not self.auction_running:
+            return "No auction in progress."
+
         if amount or all_amount:
             vickrey = self.setting_service.get("vickrey_auction").get_value()
             minimum_bid = self.setting_service.get("minimum_bid").get_value()
@@ -169,7 +172,7 @@ class AuctionController:
             try:
                 auction_item = self.raid_controller.loot_list[item_index]
             except KeyError:
-                return "Given index does not exist."
+                return "No item at given index."
 
             try:
                 bidder_account = self.bidder_accounts[main_id]
@@ -258,21 +261,30 @@ class AuctionController:
                     if auction_item.winner_id:
                         prev_main_id = self.alts_service.get_main(auction_item.winner_id).char_id
                         prev_bidder_account = self.bidder_accounts[prev_main_id]
+                        print("tot: %d -- used: %d" % (
+                            prev_bidder_account.points_available, prev_bidder_account.points_used))
                         prev_bidder_account.points_used -= auction_item.winning_bid
-                        new_available = prev_bidder_account.available_points - prev_bidder_account.points_used
+                        print("tot: %d -- used: %d" % (
+                            prev_bidder_account.points_available, prev_bidder_account.points_used))
+                        new_available = prev_bidder_account.points_available - prev_bidder_account.points_used
+                        print("tot: %d -- used: %d -- new avail: %d" % (
+                            prev_bidder_account.points_available, prev_bidder_account.points_used, new_available))
                         self.bot.send_private_message(
                             auction_item.winner_id,
                             "Your bid on %s has been overtaken by %s. The points have been returned to your pool of "
                             "available points (%d points)." % (item_name, bidder_name, new_available))
 
-                    auction_item.second_highest = auction_item.winning_bid
+                    auction_item.second_highest = auction_item.winning_bid + 1
                     if auction_item.second_highest == 0:
                         auction_item.second_highest = minimum_bid
 
                     auction_item.winning_bid = bidder.bid
                     auction_item.winner_id = bidder.char_id
-                    auction_item.bidders.append(bidder)
-                    bidder_account.points_used = used
+
+                    if new_bidder:
+                        auction_item.bidders.append(bidder)
+
+                    bidder_account.points_used = used + amount
                     new_available = t_available - bidder_account.points_used
                     if len(self.announce_ids) < 2 and len(self.raid_controller.loot_list) == 1:
                         self.job_scheduler.cancel_job(self.announce_ids.pop())
@@ -367,7 +379,8 @@ class AuctionController:
                 item = auction_item.item
 
                 if self.setting_service.get("vickrey_auction").get_value():
-                    winner = "%d bids have been made." if auction_item.bidders else "No bids made."
+                    winner = "%d bid(s) have been made." % len(auction_item.bidders) \
+                        if auction_item.bidders else "No bids made."
                 else:
                     winner_name = self.character_service.resolve_char_to_name(auction_item.winner_id)
                     winner = "%s holds the winning bid." % winner_name \
@@ -382,16 +395,15 @@ class AuctionController:
             self.raid_controller.loot_cmd(None)
 
     def auction_anti_spam_announce(self, _):
-        if len(self.auction_anti_spam) > 3:
-            for i in range(1, 3):
-                announce = self.auction_anti_spam.pop((-i))
-                self.bot.send_org_message(announce)
-                self.bot.send_private_channel_message(announce)
+        announce = None
+
+        if len(self.auction_anti_spam) >= 1:
+            announce = self.auction_anti_spam.pop(-1)
             self.auction_anti_spam.clear()
-        else:
-            for announce in self.auction_anti_spam:
-                self.bot.send_org_message(announce)
-                self.bot.send_private_channel_message(announce)
+
+        if announce:
+            self.bot.send_org_message(announce)
+            self.bot.send_private_channel_message(announce)
 
     def auction_results(self, _):
         sql = "INSERT INTO auction_log (item_ref, item_name, winner_id, " \

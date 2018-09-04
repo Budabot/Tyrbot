@@ -23,4 +23,4 @@ class AuctionItem(LootItem):
         self.auctioneer_id = auctioneer_id
         self.winner_id = None
         self.winning_bid = 0
-        self.sechond_highest = None
+        self.second_highest = 0
