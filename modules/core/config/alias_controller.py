@@ -22,7 +22,7 @@ class AliasController:
     @command(command="alias", params=[Const("add"), Any("alias"), Any("command")], access_level="admin",
              description="Add a command alias", sub_command="modify")
     def alias_add_cmd(self, request, _, alias, command_str):
-        if self.command_alias_service.add_alias(alias, command_str):
+        if self.command_alias_service.add_alias(alias, command_str, force_enable=True):
             return "Alias <highlight>%s<end> for command <highlight>%s<end> added successfully." % (alias, command_str)
         else:
             return "Cannot add alias <highlight>%s<end> since there is already an active alias with that name." % alias

@@ -20,14 +20,14 @@ class CommandAliasService:
     def get_alias(self, alias):
         return self.db.query_single("SELECT alias, command, enabled FROM command_alias WHERE alias = ?", [alias])
 
-    def add_alias(self, alias, command):
+    def add_alias(self, alias, command, force_enable=False):
         row = self.get_alias(alias)
         if row:
             if row.enabled:
                 return False
-            else:
+            elif force_enable:
                 self.db.exec("UPDATE command_alias SET command = ?, enabled = 1 WHERE alias = ?", [command, alias])
-                return True
+            return True
         else:
             self.db.exec("INSERT INTO command_alias (alias, command, enabled) VALUES (?, ?, 1)", [alias, command])
             return True
