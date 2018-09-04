@@ -37,8 +37,8 @@ class TowerAttackController:
             SELECT
                 b.*,
                 a.*,
-                IFNULL(a.att_level, 0) AS att_level,
-                IFNULL(a.att_ai_level, 0) AS att_ai_level,
+                COALESCE(a.att_level, 0) AS att_level,
+                COALESCE(a.att_ai_level, 0) AS att_ai_level,
                 p.short_name,
                 b.id AS battle_id
             FROM

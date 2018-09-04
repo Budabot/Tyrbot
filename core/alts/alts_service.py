@@ -77,7 +77,7 @@ class AltsService:
         return self.db.query_single("SELECT group_id, status FROM alts WHERE char_id = ?", [char_id])
 
     def get_next_group_id(self):
-        row = self.db.query_single("SELECT (IFNULL(MAX(group_id), 0) + 1) AS next_group_id FROM alts")
+        row = self.db.query_single("SELECT (COALESCE(MAX(group_id), 0) + 1) AS next_group_id FROM alts")
         return row.next_group_id
 
     def get_main(self, char_id):
