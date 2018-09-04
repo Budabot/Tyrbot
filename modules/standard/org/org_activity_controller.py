@@ -49,7 +49,7 @@ class OrgActivityController:
         for row in data:
             blob += self.format_org_action(row) + "\n"
 
-        return ChatBlob("Org History", blob)
+        return ChatBlob("Org Activity", blob)
 
     @event(PublicChannelService.ORG_MSG_EVENT, "Record org member activity")
     def org_msg_event(self, event_type, event_data):
