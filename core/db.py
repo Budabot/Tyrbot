@@ -159,11 +159,16 @@ class DB:
         with open(filename, "r") as f:
             with self.transaction():
                 cur = self.conn.cursor()
+                line_num = 1
                 for line in f.readlines():
-                    sql, _ = self.format_sql(line)
-                    sql = sql.strip()
-                    if sql and not sql.startswith("--"):
-                        cur.execute(sql)
+                    try:
+                        sql, _ = self.format_sql(line)
+                        sql = sql.strip()
+                        if sql and not sql.startswith("--"):
+                            cur.execute(sql)
+                    except Exception as e:
+                        raise Exception("sql error in file '%s' on line %d: %s" % (filename, line_num, sql))
+                    line_num += 1
                 cur.close()
 
     # transaction support
