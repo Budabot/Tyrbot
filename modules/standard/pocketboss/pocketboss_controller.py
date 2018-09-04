@@ -11,6 +11,10 @@ class PocketbossController:
     def inject(self, registry):
         self.db = registry.get_instance("db")
         self.text = registry.get_instance("text")
+        self.command_alias_service = registry.get_instance("command_alias_service")
+
+    def start(self):
+        self.command_alias_service.add_alias("pb", "pocketboss")
 
     @command(command="pocketboss", params=[Any("search")], access_level="all",
              description="Show information about a pocketboss")

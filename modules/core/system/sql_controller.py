@@ -9,6 +9,11 @@ class SqlController:
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
         self.db = registry.get_instance("db")
+        self.command_alias_service = registry.get_instance("command_alias_service")
+
+    def start(self):
+        self.command_alias_service.add_alias("querysql", "sql query")
+        self.command_alias_service.add_alias("executesql", "sql exec")
 
     @command(command="sql", params=[Const("query"), Any("sql_statement")], access_level="superadmin",
              description="Execute a SQL query and return the results")

@@ -9,6 +9,10 @@ class LevelController:
     def inject(self, registry):
         self.db: DB = registry.get_instance("db")
         self.util = registry.get_instance("util")
+        self.command_alias_service = registry.get_instance("command_alias_service")
+
+    def start(self):
+        self.command_alias_service.add_alias("lvl", "level")
 
     @command(command="level", params=[Int("level")], access_level="all",
              description="Show information about a character level")

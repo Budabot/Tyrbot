@@ -42,6 +42,10 @@ class AOUController:
         self.text = registry.get_instance("text")
         self.items_controller = registry.get_instance("items_controller")
         self.cache_service = registry.get_instance("cache_service")
+        self.command_alias_service = registry.get_instance("command_alias_service")
+
+    def start(self):
+        self.command_alias_service.add_alias("title", "aou 11")
 
     @command(command="aou", params=[Int("guide_id")], access_level="all",
              description="Show an AO-Universe guide")

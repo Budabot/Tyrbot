@@ -17,9 +17,6 @@ class TrickleController:
         self.text: Text = registry.get_instance("text")
         self.util = registry.get_instance("util")
 
-    def start(self):
-        pass
-
     @command(command="trickle", params=[Regex("ability amount", "(( ([a-z]+) ([0-9]+))+)")], access_level="all",
              description="Show skill increases due to trickle")
     def trickle_ability_cmd1(self, request, regex):

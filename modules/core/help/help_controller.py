@@ -5,18 +5,12 @@ from core.command_param_types import Any
 
 @instance()
 class HelpController:
-    def __init__(self):
-        pass
-
     def inject(self, registry):
         self.text = registry.get_instance("text")
         self.db = registry.get_instance("db")
         self.access_service = registry.get_instance("access_service")
         self.command_service = registry.get_instance("command_service")
         self.command_alias_service = registry.get_instance("command_alias_service")
-
-    def start(self):
-        pass
 
     @command(command="help", params=[], access_level="all",
              description="Show a list of commands to get help with")

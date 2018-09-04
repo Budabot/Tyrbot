@@ -5,14 +5,8 @@ from core.chat_blob import ChatBlob
 
 @instance()
 class AliasController:
-    def __init__(self):
-        pass
-
     def inject(self, registry):
         self.command_alias_service = registry.get_instance("command_alias_service")
-
-    def start(self):
-        pass
 
     @command(command="alias", params=[Const("list")], access_level="all",
              description="List command aliases")

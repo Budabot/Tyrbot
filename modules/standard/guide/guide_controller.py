@@ -8,11 +8,18 @@ import os
 class GuideController:
     GUIDE_FILE_EXT = ".txt"
 
-    def __init__(self):
-        pass
-
     def inject(self, registry):
         self.text = registry.get_instance("text")
+        self.command_alias_service = registry.get_instance("command_alias_service")
+
+    def start(self):
+        self.command_alias_service.add_alias("breed", "guides breed")
+        self.command_alias_service.add_alias("healdelta", "guides healdelta")
+        self.command_alias_service.add_alias("nanodelta", "guides nanodelta")
+        self.command_alias_service.add_alias("lag", "guides lag")
+        self.command_alias_service.add_alias("light", "guides light")
+        self.command_alias_service.add_alias("stats", "guides stats")
+        self.command_alias_service.add_alias("light", "guides light")
 
     @command(command="guides", params=[], access_level="all",
              description="Show the list of guides")

@@ -18,6 +18,7 @@ class TowerAttackController:
         self.util = registry.get_instance("util")
         self.event_service = registry.get_instance("event_service")
         self.playfield_controller = registry.get_instance("playfield_controller")
+        self.command_alias_service = registry.get_instance("command_alias_service")
 
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS tower_attacker (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, att_org_name VARCHAR(50) NOT NULL, att_faction VARCHAR(10) NOT NULL, "
@@ -26,6 +27,8 @@ class TowerAttackController:
                      "tower_battle_id INT NOT NULL, created_at INT NOT NULL)")
         self.db.exec("CREATE TABLE IF NOT EXISTS tower_battle (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, playfield_id INT NOT NULL, site_number INT NOT NULL, "
                      "def_org_name VARCHAR(50) NOT NULL, def_faction VARCHAR(10) NOT NULL, is_finished INT NOT NULL, battle_type VARCHAR(20) NOT NULL, last_updated INT NOT NULL)")
+
+        self.command_alias_service.add_alias("victory", "attacks")
 
     @command(command="attacks", params=[], access_level="all",
              description="Show recent tower attacks and victories")

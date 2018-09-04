@@ -12,6 +12,10 @@ class CharacterHistoryController:
         self.bot = registry.get_instance("bot")
         self.util = registry.get_instance("util")
         self.character_history_service = registry.get_instance("character_history_service")
+        self.command_alias_service = registry.get_instance("command_alias_service")
+
+    def start(self):
+        self.command_alias_service.add_alias("h", "history")
 
     @command(command="history", params=[Character("character"), Int("server_num", is_optional=True)], access_level="all",
              description="Get history of character")

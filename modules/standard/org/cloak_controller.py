@@ -11,6 +11,10 @@ class CloakController:
         self.db = registry.get_instance("db")
         self.util = registry.get_instance("util")
         self.character_service = registry.get_instance("character_service")
+        self.command_alias_service = registry.get_instance("command_alias_service")
+
+    def start(self):
+        self.command_alias_service.add_alias("city", "cloak")
 
     @command(command="cloak", params=[], access_level="all",
              description="Show the current status of the city cloak and the cloak history")

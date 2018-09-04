@@ -13,6 +13,11 @@ class AdminController:
         self.bot = registry.get_instance("bot")
         self.admin_service = registry.get_instance("admin_service")
         self.pork_service = registry.get_instance("pork_service")
+        self.command_alias_service = registry.get_instance("command_alias_service")
+
+    def start(self):
+        self.command_alias_service.add_alias("adminlist", "admin")
+        self.command_alias_service.add_alias("admins", "admin")
 
     @command(command="admin", params=[], access_level="all",
              description="Show the admin list")
