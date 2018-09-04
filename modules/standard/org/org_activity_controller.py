@@ -24,7 +24,7 @@ class OrgActivityController:
 
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS org_activity (id INT PRIMARY KEY AUTO_INCREMENT, actor_char_id INT NOT NULL, actee_char_id INT NOT NULL, "
-                     "action VARCHAR(20) NOT NULL, time INT NOT NULL)")
+                     "action VARCHAR(20) NOT NULL, created_at INT NOT NULL)")
 
         self.command_alias_service.add_alias("orghistory", "orgactivity")
 
@@ -32,17 +32,17 @@ class OrgActivityController:
              description="Show org member activity")
     def orgactivity_cmd(self, request):
         sql = """
-            "SELECT
+            SELECT
                 p1.name AS actor,
                 p2.name AS actee, o.action,
                 o.created_at
             FROM
                 org_activity o
-                LEFT JOIN player p1 ON o.actor_char_id = p.char_id
-                LEFT JOIN player p2 ON o.actee_char_id = p.char_id
+                LEFT JOIN player p1 ON o.actor_char_id = p1.char_id
+                LEFT JOIN player p2 ON o.actee_char_id = p2.char_id
             ORDER BY
                 o.created_at DESC
-            LIMIT 40"
+            LIMIT 40
         """
         data = self.db.query(sql)
         blob = ""
