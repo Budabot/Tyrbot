@@ -14,13 +14,14 @@ class MemberController:
         self.buddy_service = registry.get_instance("buddy_service")
         self.bot = registry.get_instance("bot")
         self.access_service = registry.get_instance("access_service")
+        self.command_alias_service = registry.get_instance("command_alias_service")
 
     def pre_start(self):
         self.access_service.register_access_level("member", 90, self.check_member)
 
     def start(self):
-        # TODO add aliases
-        pass
+        self.command_alias_service.add_alias("adduser", "member add")
+        self.command_alias_service.add_alias("remuser", "member rem")
 
     @event(event_type="connect", description="Add members as buddies of the bot on startup")
     def handle_connect_event(self, event_type, event_data):
