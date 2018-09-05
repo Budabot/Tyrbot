@@ -84,7 +84,7 @@ class Tyrbot(Bot):
 
         self.setting_service.register("header_color", "#FFFF00", "color for headers", ColorSettingType(), "core.colors")
         self.setting_service.register("header2_color", "#FCA712", "color for sub-headers", ColorSettingType(), "core.colors")
-        self.setting_service.register("highlight_color", "#FFFFFF", "color for highlight", ColorSettingType(), "core.colors")
+        self.setting_service.register("highlight_color", "#00BFFF", "color for highlight", ColorSettingType(), "core.colors")
         self.setting_service.register("notice_color", "#FF8C00", "color for important notices", ColorSettingType(), "core.colors")
 
         self.setting_service.register("neutral_color", "#E6E1A6", "color for neutral faction", ColorSettingType(), "core.colors")
