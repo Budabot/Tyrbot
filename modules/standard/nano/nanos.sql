@@ -945,7 +945,7 @@ INSERT INTO nanos (lowid, lowql, name, profession, location) VALUES (45989, 142,
 INSERT INTO nanos (lowid, lowql, name, profession, location) VALUES (142745, 80, 'Nano Crystal (Encode DNA Sequence)', 'Doctor', 'RK Store');
 INSERT INTO nanos (lowid, lowql, name, profession, location) VALUES (100221, 86, 'Nano Crystal (Encourage Hatred)', 'Martial Artist', 'RK Store');
 INSERT INTO nanos (lowid, lowql, name, profession, location) VALUES (82089, 86, 'Nano Crystal (Encourage Regrowth)', 'Adventurer', 'RK Store');
-INSERT INTO nanos (lowid, lowql, name, profession, location) VALUES (242955, 220, 'Nano Crystal (Energize Rubi-Ka Grid Tunnel)', 'Fixer', 'Pandemonium Garden');
+INSERT INTO nanos (lowid, lowql, name, profession, location) VALUES (265480, 220, 'Nano Crystal (Energize Rubi-Ka Grid Tunnel)', 'Fixer', 'Pandemonium Garden');
 INSERT INTO nanos (lowid, lowql, name, profession, location) VALUES (45990, 4, 'Nano Crystal (Energized Beam)', 'Nano-Technician', 'Arete Nano Container');
 INSERT INTO nanos (lowid, lowql, name, profession, location) VALUES (82006, 4, 'Nano Crystal (Energized Bolt)', 'Bureaucrat', 'No longer drops');
 INSERT INTO nanos (lowid, lowql, name, profession, location) VALUES (45365, 113, 'Nano Crystal (Energized Collapse)', 'Nano-Technician', 'RK Store');
