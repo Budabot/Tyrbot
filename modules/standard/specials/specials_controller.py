@@ -38,11 +38,15 @@ class SpecialsController:
         blob = "Attack: <highlight>%.2f secs<end>\n" % weapon_attack
         blob += "Recharge: <highlight>%.2f secs<end>\n" % weapon_recharge
         blob += "Init Skill: <highlight>%d<end>\n\n" % init_skill
+
         blob += "You must set you AGG/DEF bar at <highlight>%d%% (%.2f)<end> to wield your weapon at 1/1.\n\n" % (int(init_result), bar_position)
+
         blob += "Init needed for max speed at Full Agg (100%%): <highlight>%d<end>\n" % inits_full_agg
         blob += "Init needed for max speed at Neutral (88%%): <highlight>%d<end>\n" % inits_neutral
         blob += "Init needed for max speed at Full Def (0%%): <highlight>%d<end>\n\n" % inits_full_def
+
         blob += "Note that at the neutral position (88%), your attack and recharge time will match that of the weapon you are using.\n\n\n"
+
         blob += "Based on the !aggdef command from Budabot, which was based upon a RINGBOT module made by NoGoal(RK2) and modified for Budabot by Healnjoo(RK2)"
 
         return ChatBlob("Agg/Def Results", blob)
@@ -55,9 +59,11 @@ class SpecialsController:
         blob = "Attack: <highlight>%.2f secs<end>\n" % weapon_attack
         blob += "Recharge: <highlight>%.2f secs<end>\n" % weapon_recharge
         blob += "Aimed Shot Skill: <highlight>%d<end>\n\n" % aimed_shot_skill
+
         blob += "Aimed Shot Multiplier: <highlight>1 - %dx<end>\n" % as_info.multiplier
         blob += "Aimed Shot Recharge: <highlight>%d secs<end>\n\n" % as_info.recharge
-        blob += "You will need <highlight>%d<end> Aimed Shot Skill to cap your recharge at <highlight>%d<end> seconds." % (as_info.skill_cap, as_info.hard_cap)
+
+        blob += "You need <highlight>%d<end> Aimed Shot Skill to cap your recharge at <highlight>%d<end> seconds." % (as_info.skill_cap, as_info.hard_cap)
 
         return ChatBlob("Aimed Shot Results", blob)
 
@@ -67,12 +73,15 @@ class SpecialsController:
         brawl_info = self.get_brawl_info(brawl_skill)
 
         blob = "Brawl Skill: <highlight>%d<end>\n\n" % brawl_skill
+
         blob += "Brawl Recharge: <highlight>15 secs<end> (constant)\n"
         blob += "Brawl Damage: <highlight> %d - %d (%d)<end>\n" % (brawl_info.min_dmg, brawl_info.max_dmg, brawl_info.crit_dmg)
         blob += "Stun Change: <highlight>%d%%<end>\n" % brawl_info.stun_chance
         blob += "Stun Duration: <highlight>%d secs<end>\n\n" % brawl_info.stun_duration
+
         blob += "Stun chance is 10% for brawl skill less than 1000 and 20% for brawl skill 1000 or greater.\n"
         blob += "Stun duration is 3 seconds for brawl skill less than 2001 and 4 seconds for brawl skill 2001 or greater.\n\n\n"
+
         blob += "Based on the !brawl command from Budabot by Imoutochan (RK1)"
 
         return ChatBlob("Brawl Results", blob)
@@ -86,8 +95,10 @@ class SpecialsController:
         blob += "Recharge: <highlight>%.2f secs<end>\n" % weapon_recharge
         blob += "Burst Recharge: <highlight>%d<end>\n" % burst_recharge
         blob += "Burst Skill: <highlight>%d<end>\n\n" % burst_skill
+
         blob += "Burst Recharge: <highlight>%d secs<end>\n\n" % burst_info.recharge
-        blob += "You will need <highlight>%d<end> Burst Skill to cap your recharge at <highlight>%d secs<end>." % (burst_info.skill_cap, burst_info.hard_cap)
+
+        blob += "You need <highlight>%d<end> Burst Skill to cap your recharge at <highlight>%d secs<end>." % (burst_info.skill_cap, burst_info.hard_cap)
 
         return ChatBlob("Burst Results", blob)
 
@@ -119,6 +130,20 @@ class SpecialsController:
         blob += "Based on the !dimach command from Budabot by Imoutochan (RK1)"
 
         return ChatBlob("Dimach Results", blob)
+
+    @command(command="fastattack", params=[Decimal("weapon_attack"), Int("fast_attack_skill")], access_level="all",
+             description="Show fast attack information")
+    def fastattack_cmd(self, request, weapon_attack, fast_attack_skill):
+        fast_attack_info = self.get_fast_attack_info(weapon_attack, fast_attack_skill)
+
+        blob = "Attack: <highlight>%.2f secs<end>\n" % weapon_attack
+        blob += "Fast Attack Skill: <highlight>%d<end>\n\n" % fast_attack_skill
+
+        blob += "Fast Attack Recharge: <highlight>%.2f secs<end>\n\n" % fast_attack_info.recharge
+
+        blob += "You need <highlight>%d<end> Fast Attack Skill to cap your recharge at <highlight>%.2f secs<end>." % (fast_attack_info.skill_cap, fast_attack_info.hard_cap)
+
+        return ChatBlob("Fast Attack Results", blob)
 
     def get_init_result(self, weapon_attack, weapon_recharge, init_skill):
         if init_skill < 1200:
@@ -211,5 +236,18 @@ class SpecialsController:
         result.shade_dmg = self.util.interpolate_value(dimach_skill, shade_dmg)
         result.shade_heal_percentage = self.util.interpolate_value(dimach_skill, shade_heal_percentage)
         result.keeper_heal = self.util.interpolate_value(dimach_skill, keeper_heal)
+
+        return result
+
+    def get_fast_attack_info(self, weapon_attack, fast_attack_skill):
+        result = DictObject()
+        result.hard_cap = weapon_attack + 5
+        result.skill_cap = ((weapon_attack * 16) - result.hard_cap) * 100
+
+        recharge = round((weapon_attack * 16) - (fast_attack_skill / 100))
+        if recharge < result.hard_cap:
+            recharge = result.hard_cap
+
+        result.recharge = recharge
 
         return result
