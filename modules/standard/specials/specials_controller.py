@@ -43,10 +43,10 @@ class SpecialsController:
         blob += "You must set you AGG/DEF bar at <highlight>%d%% (%.2f)<end> to wield your weapon at 1/1.\n\n" % (int(init_result), bar_position)
 
         blob += "Init needed for max speed at Full Agg (100%%): <highlight>%d<end>\n" % inits_full_agg
-        blob += "Init needed for max speed at Neutral (88%%): <highlight>%d<end>\n" % inits_neutral
+        blob += "Init needed for max speed at Neutral (87.5%%): <highlight>%d<end>\n" % inits_neutral
         blob += "Init needed for max speed at Full Def (0%%): <highlight>%d<end>\n\n" % inits_full_def
 
-        blob += "Note that at the neutral position (88%), your attack and recharge time will match that of the weapon you are using.\n\n\n"
+        blob += "Note that at the neutral position (87.5%), your attack and recharge time will match that of the weapon you are using.\n\n\n"
 
         blob += "Based on the !aggdef command from Budabot, which was based upon a RINGBOT module made by NoGoal(RK2) and modified for Budabot by Healnjoo(RK2)"
 
@@ -202,6 +202,34 @@ class SpecialsController:
         blob += "Damage: <highlight>%d - %d (%d)<end>\n\n" % (ma_info.gen_min_dmg, ma_info.gen_max_dmg, ma_info.gen_crit_dmg)
 
         return ChatBlob("Martial Arts Results", blob)
+
+    @command(command="nanoinit", params=[Decimal("nano_attack_time"), Int("nano_cast_init")], access_level="all",
+             description="Show nano cast init information")
+    def nanoinit_cmd(self, request, nano_attack_time, nano_cast_init):
+        nano_cast_info = self.get_nano_cast_info(nano_cast_init, nano_attack_time)
+
+        blob = "Attack: <highlight>%.2f secs<end>\n" % nano_attack_time
+        blob += "Nano Cast Init: <highlight>%d<end>\n\n" % nano_cast_init
+
+        blob += "Cast Time Reduction: <highlight>%.2f<end>\n" % nano_cast_info.cast_time_reduction
+        blob += "Effective Cast Time: <highlight>%.2f<end>\n\n" % nano_cast_info.effective_cast_time
+
+        if nano_cast_info.bar_setting > 100:
+            blob += "You cannot instacast this nano at any AGG/DEF setting.\n\n"
+        else:
+            blob += "You must set your AGG/DEF bar to <highlight>%d%%<end> to instacast this nano.\n\n" % nano_cast_info.bar_setting
+
+        blob += "NanoC. Init needed to instacast at Full Agg (100%%): <highlight>%d<end>\n" % nano_cast_info.instacast_full_agg
+        blob += "NanoC. Init needed to instacast at Neutral (87.5%%): <highlight>%d<end>\n" % nano_cast_info.instacast_neutral
+        blob += "NanoC. Init needed to instacast at Half (50%%): <highlight>%d<end>\n" % nano_cast_info.instacast_half
+        blob += "NanoC. Init needed to instacast at Full Def (0%%): <highlight>%d<end>\n\n" % nano_cast_info.instacast_full_def
+
+        blob += "Cast time at Full Agg (100%%): <highlight>%.2f<end>\n" % nano_cast_info.cast_time_full_agg
+        blob += "Cast time at Neutral (87.5%%): <highlight>%.2f<end>\n" % nano_cast_info.cast_time_neutral
+        blob += "Cast time at Half (50%%): <highlight>%.2f<end>\n" % nano_cast_info.cast_time_half
+        blob += "Cast time at Full Def (0%%): <highlight>%.2f<end>" % nano_cast_info.cast_time_full_def
+
+        return ChatBlob("Nano Cast Init Results", blob)
 
     def get_init_result(self, weapon_attack, weapon_recharge, init_skill):
         if init_skill < 1200:
@@ -384,3 +412,34 @@ class SpecialsController:
         result.gen_speed = self.util.interpolate_value(ma_skill, gen_speed, 2)
 
         return result
+
+    def get_nano_cast_info(self, nano_cast_init, nano_attack_time):
+        if nano_cast_init > 1200:
+            nano_cast_reduction = (nano_cast_init - 1200) / 600 + 6
+        else:
+            nano_cast_reduction = nano_cast_init / 200
+
+        result = DictObject()
+        result.cast_time_reduction = nano_cast_reduction
+        result.effective_cast_time = nano_attack_time - nano_cast_reduction
+        result.instacast_full_agg = self.get_nano_init_for_instacast(nano_attack_time - 1)
+        result.instacast_neutral = self.get_nano_init_for_instacast(nano_attack_time - 0.75)
+        result.instacast_half = self.get_nano_init_for_instacast(nano_attack_time)
+        result.instacast_full_def = self.get_nano_init_for_instacast(nano_attack_time + 1)
+        result.cast_time_full_agg = result.effective_cast_time - 1
+        result.cast_time_neutral = result.effective_cast_time - 0.75
+        result.cast_time_half = result.effective_cast_time
+        result.cast_time_full_def = result.effective_cast_time + 1
+
+        bar_setting = round(result.effective_cast_time / 0.02 + 50)
+        if bar_setting < 0:
+            bar_setting = 0
+        result.bar_setting = bar_setting
+
+        return result
+
+    def get_nano_init_for_instacast(self, nano_attack_time):
+        if nano_attack_time < 6:
+            return nano_attack_time * 200
+        else:
+            return 1200 + (nano_attack_time - 6) * 600
