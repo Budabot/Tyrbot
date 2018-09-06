@@ -160,6 +160,28 @@ class SpecialsController:
 
         return ChatBlob("Fling Shot Results", blob)
 
+    @command(command="fullauto", params=[Decimal("weapon_attack"), Decimal("weapon_recharge"), Int("full_auto_recharge"), Int("full_auto_skill")], access_level="all",
+             description="Show full auto information")
+    def fullauto_cmd(self, request, weapon_attack, weapon_recharge, full_auto_recharge, full_auto_skill):
+        full_auto_info = self.get_full_auto_info(weapon_attack, weapon_recharge, full_auto_recharge, full_auto_skill)
+
+        blob = "Attack: <highlight>%.2f secs<end>\n" % weapon_attack
+        blob += "Recharge: <highlight>%.2f secs<end>\n" % weapon_recharge
+        blob += "Full Auto Recharge: <highlight>%d<end>\n" % full_auto_recharge
+        blob += "Full Auto Skill: <highlight>%d<end>\n\n" % full_auto_skill
+
+        blob += "Full Auto Recharge: <highlight>%d secs<end>\n" % full_auto_info.recharge
+        blob += "Max Number of Bullets: <highlight>%d<end>\n\n" % full_auto_info.max_bullets
+
+        blob += "You need <highlight>%d<end> Full Auto Skill to cap your recharge at <highlight>%d secs<end>.\n\n" % (full_auto_info.skill_cap, full_auto_info.hard_cap)
+
+        blob += "From <highlight>0 to 10K<end> damage, the bullet damage is unchanged.\n"
+        blob += "From <highlight>10K to 11.5K<end> damage, each bullet damage is halved.\n"
+        blob += "From <highlight>11K to 15K<end> damage, each bullet damage is halved again.\n"
+        blob += "<highlight>15K<end> is the damage cap."
+
+        return ChatBlob("Full Auto Results", blob)
+
     def get_init_result(self, weapon_attack, weapon_recharge, init_skill):
         if init_skill < 1200:
             attack_calc = (((weapon_attack - (init_skill / 600)) - 1) / 0.02) + 87.5
@@ -273,6 +295,20 @@ class SpecialsController:
         result.skill_cap = ((weapon_attack * 16) - result.hard_cap) * 100
 
         recharge = (weapon_attack * 16) - (fling_shot_skill / 100)
+        if recharge < result.hard_cap:
+            recharge = result.hard_cap
+
+        result.recharge = recharge
+
+        return result
+
+    def get_full_auto_info(self, weapon_attack, weapon_recharge, full_auto_recharge, full_auto_skill):
+        result = DictObject()
+        result.hard_cap = math.floor(weapon_attack + 10)
+        result.skill_cap = ((weapon_recharge * 40) + (full_auto_recharge / 100) - 11) * 25
+        result.max_bullets = 5 + math.floor(full_auto_skill / 100)
+
+        recharge = round((weapon_recharge * 40) + (full_auto_recharge / 100) - (full_auto_skill / 25) + round(weapon_attack - 1))
         if recharge < result.hard_cap:
             recharge = result.hard_cap
 
