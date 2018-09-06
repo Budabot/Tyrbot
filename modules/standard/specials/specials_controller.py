@@ -24,6 +24,7 @@ class SpecialsController:
         self.command_alias_service.add_alias("as", "aimedshot")
         self.command_alias_service.add_alias("inits", "weapon")
         self.command_alias_service.add_alias("specials", "weapon")
+        self.command_alias_service.add_alias("fling", "flingshot")
 
     @command(command="aggdef", params=[Decimal("weapon_attack"), Decimal("weapon_recharge"), Int("init_skill")], access_level="all",
              description="Show agg/def information")
@@ -145,6 +146,20 @@ class SpecialsController:
 
         return ChatBlob("Fast Attack Results", blob)
 
+    @command(command="flingshot", params=[Decimal("weapon_attack"), Int("fling_shot_skill")], access_level="all",
+             description="Show fling shot information")
+    def flingshot_cmd(self, request, weapon_attack, fling_shot_skill):
+        fling_shot_info = self.get_fling_shot_info(weapon_attack, fling_shot_skill)
+
+        blob = "Attack: <highlight>%.2f secs<end>\n" % weapon_attack
+        blob += "Fling Shot Skill: <highlight>%d<end>\n\n" % fling_shot_skill
+
+        blob += "Fling Shot Recharge: <highlight>%.2f secs<end>\n\n" % fling_shot_info.recharge
+
+        blob += "You need <highlight>%d<end> Fling Shot Skill to cap your recharge at <highlight>%.2f secs<end>." % (fling_shot_info.skill_cap, fling_shot_info.hard_cap)
+
+        return ChatBlob("Fling Shot Results", blob)
+
     def get_init_result(self, weapon_attack, weapon_recharge, init_skill):
         if init_skill < 1200:
             attack_calc = (((weapon_attack - (init_skill / 600)) - 1) / 0.02) + 87.5
@@ -244,7 +259,20 @@ class SpecialsController:
         result.hard_cap = weapon_attack + 5
         result.skill_cap = ((weapon_attack * 16) - result.hard_cap) * 100
 
-        recharge = round((weapon_attack * 16) - (fast_attack_skill / 100))
+        recharge = (weapon_attack * 16) - (fast_attack_skill / 100)
+        if recharge < result.hard_cap:
+            recharge = result.hard_cap
+
+        result.recharge = recharge
+
+        return result
+
+    def get_fling_shot_info(self, weapon_attack, fling_shot_skill):
+        result = DictObject()
+        result.hard_cap = weapon_attack + 5
+        result.skill_cap = ((weapon_attack * 16) - result.hard_cap) * 100
+
+        recharge = (weapon_attack * 16) - (fling_shot_skill / 100)
         if recharge < result.hard_cap:
             recharge = result.hard_cap
 
