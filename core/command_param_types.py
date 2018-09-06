@@ -63,6 +63,30 @@ class Int(CommandParam):
             return int(val[1:])
 
 
+class Decimal(CommandParam):
+    def __init__(self, name, is_optional=False):
+        super().__init__()
+        self.name = name
+        self.is_optional = is_optional
+
+    def get_regex(self):
+        regex = "(\s+[0-9]*\.?[0-9]+)"
+        return regex + ("?" if self.is_optional else "")
+
+    def get_name(self):
+        if self.is_optional:
+            return "<highlight>[%s]<end>" % self.name
+        else:
+            return "<highlight>%s<end>" % self.name
+
+    def process_matches(self, params):
+        val = params.pop(0)
+        if val is None:
+            return None
+        else:
+            return float(val[1:])
+
+
 class Any(CommandParam):
     def __init__(self, name, is_optional=False):
         super().__init__()
