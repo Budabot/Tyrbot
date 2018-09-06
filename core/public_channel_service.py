@@ -57,11 +57,19 @@ class PublicChannelService:
     def public_channel_message(self, packet: server_packets.PublicChannelMessage):
         if self.is_org_channel_id(packet.channel_id):
             char_name = self.character_service.get_char_name(packet.char_id)
-            self.logger.log_chat("Org Channel", char_name, packet.message)
+            if packet.extended_message:
+                message = packet.extended_message.get_message()
+            else:
+                message = packet.message
+            self.logger.log_chat("Org Channel", char_name, message)
             self.event_service.fire_event(self.ORG_CHANNEL_MESSAGE_EVENT, packet)
         elif packet.channel_id == self.ORG_MSG_CHANNEL_ID:
             char_name = self.character_service.get_char_name(packet.char_id)
-            self.logger.log_chat("Org Msg", char_name, packet.message)
+            if packet.extended_message:
+                message = packet.extended_message.get_message()
+            else:
+                message = packet.message
+            self.logger.log_chat("Org Msg", char_name, message)
             self.event_service.fire_event(self.ORG_MSG_EVENT, packet)
 
     def is_org_channel_id(self, channel_id):
