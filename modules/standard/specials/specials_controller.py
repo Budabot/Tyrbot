@@ -182,6 +182,27 @@ class SpecialsController:
 
         return ChatBlob("Full Auto Results", blob)
 
+    @command(command="mafist", params=[Int("ma_skill")], access_level="all",
+             description="Show martial arts information")
+    def mafist_cmd(self, request, ma_skill):
+        ma_info = self.get_martial_arts_info(ma_skill)
+
+        blob = "Martial Arts Skill: <highlight>%d<end>\n\n" % ma_skill
+
+        blob += "<header2>Martial Artist<end>\n"
+        blob += "Speed: <highlight>%.2f / %.2f secs<end>\n" % (ma_info.ma_speed, ma_info.ma_speed)
+        blob += "Damage: <highlight>%d - %d (%d)<end>\n\n" % (ma_info.ma_min_dmg, ma_info.ma_max_dmg, ma_info.ma_crit_dmg)
+
+        blob += "<header2>Shade<end>\n"
+        blob += "Speed: <highlight>%.2f / %.2f secs<end>\n" % (ma_info.shade_speed, ma_info.shade_speed)
+        blob += "Damage: <highlight>%d - %d (%d)<end>\n\n" % (ma_info.shade_min_dmg, ma_info.shade_max_dmg, ma_info.shade_crit_dmg)
+
+        blob += "<header2>All other professions<end>\n"
+        blob += "Speed: <highlight>%.2f / %.2f secs<end>\n" % (ma_info.gen_speed, ma_info.gen_speed)
+        blob += "Damage: <highlight>%d - %d (%d)<end>\n\n" % (ma_info.gen_min_dmg, ma_info.gen_max_dmg, ma_info.gen_crit_dmg)
+
+        return ChatBlob("Martial Arts Results", blob)
+
     def get_init_result(self, weapon_attack, weapon_recharge, init_skill):
         if init_skill < 1200:
             attack_calc = (((weapon_attack - (init_skill / 600)) - 1) / 0.02) + 87.5
@@ -313,5 +334,46 @@ class SpecialsController:
             recharge = result.hard_cap
 
         result.recharge = recharge
+
+        return result
+
+    def get_martial_arts_info(self, ma_skill):
+        result = DictObject()
+
+        # ma items: http://budabot.com/forum/viewtopic.php?f=7&t=1264&p=5739#p5739
+        #  QL    1       100     500     1      500      1      500
+        #     211349, 211350, 211351, 211359, 211360, 211365, 211366    // Shade
+        #     211352, 211353, 211354, 211357, 211358, 211363, 211364    // MA
+        #      43712, 144745,  43713, 211355, 211356, 211361, 211362    // Gen/other
+
+        ma_min_dmg = {1: 4, 200: 45, 1000: 125, 1001: 130, 2000: 220, 2001: 225, 3000: 450}
+        ma_max_dmg = {1: 8, 200: 75, 1000: 400, 1001: 405, 2000: 830, 2001: 831, 3000: 1300}
+        ma_crit_dmg = {1: 3, 200: 50, 1000: 500, 1001: 501, 2000: 560, 2001: 561, 3000: 800}
+        ma_speed = {1: 1.15, 200: 1.20, 1000: 1.25, 1001: 1.30, 2000: 1.35, 2001: 1.45, 3000: 1.50}
+
+        shade_min_dmg = {1: 3, 200: 25, 1000: 55, 1001: 56, 2000: 130, 2001: 131, 3000: 280}
+        shade_max_dmg = {1: 5, 200: 60, 1000: 258, 1001: 259, 2000: 682, 2001: 683, 3000: 890}
+        shade_crit_dmg = {1: 3, 200: 50, 1000: 250, 1001: 251, 2000: 275, 2001: 276, 3000: 300}
+        shade_speed = {1: 1.25, 200: 1.25, 1000: 1.45, 1001: 1.45, 2000: 1.65, 2001: 1.65, 3000: 1.85}
+
+        gen_min_dmg = {1: 3, 200: 25, 1000: 65, 1001: 66, 2000: 140, 2001: 204, 3000: 300}
+        gen_max_dmg = {1: 5, 200: 60, 1000: 280, 1001: 281, 2000: 715, 2001: 831, 3000: 990}
+        gen_crit_dmg = {1: 3, 200: 50, 1000: 500, 1001: 501, 2000: 605, 2001: 605, 3000: 630}
+        gen_speed = {1: 1.25, 200: 1.25, 1000: 1.45, 1001: 1.45, 2000: 1.65, 2001: 1.65, 3000: 1.85}
+
+        result.ma_min_dmg = self.util.interpolate_value(ma_skill, ma_min_dmg)
+        result.ma_max_dmg = self.util.interpolate_value(ma_skill, ma_max_dmg)
+        result.ma_crit_dmg = self.util.interpolate_value(ma_skill, ma_crit_dmg)
+        result.ma_speed = self.util.interpolate_value(ma_skill, ma_speed, 2)
+
+        result.shade_min_dmg = self.util.interpolate_value(ma_skill, shade_min_dmg)
+        result.shade_max_dmg = self.util.interpolate_value(ma_skill, shade_max_dmg)
+        result.shade_crit_dmg = self.util.interpolate_value(ma_skill, shade_crit_dmg)
+        result.shade_speed = self.util.interpolate_value(ma_skill, shade_speed, 2)
+
+        result.gen_min_dmg = self.util.interpolate_value(ma_skill, gen_min_dmg)
+        result.gen_max_dmg = self.util.interpolate_value(ma_skill, gen_max_dmg)
+        result.gen_crit_dmg = self.util.interpolate_value(ma_skill, gen_crit_dmg)
+        result.gen_speed = self.util.interpolate_value(ma_skill, gen_speed, 2)
 
         return result

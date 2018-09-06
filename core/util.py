@@ -202,7 +202,7 @@ class Util:
         value = datetime.datetime.fromtimestamp(timestamp, tz=pytz.UTC)
         return value.strftime('%Y-%m-%d %H:%M:%S %Z')
 
-    def interpolate_value(self, value, interpolation_ranges):
+    def interpolate_value(self, value, interpolation_ranges, precision=0):
         min_val = None
         max_val = None
         for k, v in interpolation_ranges.items():
@@ -219,4 +219,4 @@ class Util:
         if not min_val or not max_val:
             return None
 
-        return round((max_val.val - min_val.val) / (max_val.ql - min_val.ql) * (value - min_val.ql) + min_val.val)
+        return round((max_val.val - min_val.val) / (max_val.ql - min_val.ql) * (value - min_val.ql) + min_val.val, precision)
