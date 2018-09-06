@@ -26,7 +26,7 @@ class SpecialsController:
         self.command_alias_service.add_alias("specials", "weapon")
 
     @command(command="aggdef", params=[Decimal("weapon_attack"), Decimal("weapon_recharge"), Int("init_skill")], access_level="all",
-             description="Show agg/def information for a particular weapon and init skill")
+             description="Show agg/def information")
     def aggdef_cmd(self, request, weapon_attack, weapon_recharge, init_skill):
         init_result = self.get_init_result(weapon_attack, weapon_recharge, init_skill)
         bar_position = init_result * 8 / 100
@@ -48,7 +48,7 @@ class SpecialsController:
         return ChatBlob("Agg/Def Results", blob)
 
     @command(command="aimedshot", params=[Decimal("weapon_attack"), Decimal("weapon_recharge"), Int("aimed_shot_skill")], access_level="all",
-             description="Show aimedshot information for a particular weapon and init skill")
+             description="Show aimed shot information")
     def aimedshot_cmd(self, request, weapon_attack, weapon_recharge, aimed_shot_skill):
         as_info = self.get_aimed_shot_info(weapon_attack, weapon_recharge, aimed_shot_skill)
 
@@ -62,7 +62,7 @@ class SpecialsController:
         return ChatBlob("Aimed Shot Results", blob)
 
     @command(command="brawl", params=[Int("brawl_skill")], access_level="all",
-             description="Show brawl information for a particular amout of brawl skill")
+             description="Show brawl information")
     def brawl_cmd(self, request, brawl_skill):
         brawl_info = self.get_brawl_info(brawl_skill)
 
@@ -76,6 +76,20 @@ class SpecialsController:
         blob += "Based on the !brawl command from Budabot by Imoutochan (RK1)"
 
         return ChatBlob("Brawl Results", blob)
+
+    @command(command="burst", params=[Decimal("weapon_attack"), Decimal("weapon_recharge"), Int("burst_recharge"), Int("burst_skill")], access_level="all",
+             description="Show burst information")
+    def burst_cmd(self, request, weapon_attack, weapon_recharge, burst_recharge, burst_skill):
+        burst_info = self.get_burst_info(weapon_attack, weapon_recharge, burst_recharge, burst_skill)
+
+        blob = "Attack: <highlight>%.2f<end> seconds\n" % weapon_attack
+        blob += "Recharge: <highlight>%.2f<end> seconds\n" % weapon_recharge
+        blob += "Burst Recharge: <highlight>%d<end>\n" % burst_recharge
+        blob += "Burst Skill: <highlight>%d<end>\n\n" % burst_skill
+        blob += "Burst Recharge: <highlight>%d<end> seconds\n\n" % burst_info.recharge
+        blob += "You will need <highlight>%d<end> Burst Skill to cap your recharge at <highlight>%d<end> seconds." % (burst_info.skill_cap, burst_info.hard_cap)
+
+        return ChatBlob("Burst Results", blob)
 
     def get_init_result(self, weapon_attack, weapon_recharge, init_skill):
         if init_skill < 1200:
@@ -137,3 +151,16 @@ class SpecialsController:
         brawl_info.stun_duration = 3 if brawl_skill < 2001 else 4
 
         return brawl_info
+
+    def get_burst_info(self, weapon_attack, weapon_recharge, burst_recharge, burst_skill):
+        result = DictObject()
+        result.hard_cap = round(weapon_attack + 8)
+        result.skill_cap = math.floor(((weapon_recharge * 20) + (burst_recharge / 100) - 8) * 25)
+
+        recharge = math.floor((weapon_recharge * 20) + (burst_recharge / 100) - (burst_skill / 25) + weapon_attack)
+        if recharge < result.hard_cap:
+            recharge = result.hard_cap
+
+        result.recharge = recharge
+
+        return result
