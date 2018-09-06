@@ -1,9 +1,13 @@
+import math
+
 from core.chat_blob import ChatBlob
 from core.decorators import instance, command
 from core.command_param_types import Any, Int, Decimal
 import os
 import re
 import json
+
+from core.dict_object import DictObject
 
 
 @instance()
@@ -15,12 +19,16 @@ class SpecialsController:
         self.db = registry.get_instance("db")
         self.text = registry.get_instance("text")
         self.items_controller = registry.get_instance("items_controller")
+        self.command_alias_service = registry.get_instance("command_alias_service")
 
     def start(self):
-        pass
+        self.command_alias_service.add_alias("aimshot", "aimedshot")
+        self.command_alias_service.add_alias("as", "aimedshot")
+        self.command_alias_service.add_alias("inits", "weapon")
+        self.command_alias_service.add_alias("specials", "weapon")
 
     @command(command="aggdef", params=[Decimal("weapon_attack"), Decimal("weapon_recharge"), Int("init_skill")], access_level="all",
-             description="Show agg/def settings and attack and recharge speeds for a particular weapon")
+             description="Show agg/def information for a particular weapon and init skill")
     def aggdef_cmd(self, request, weapon_attack, weapon_recharge, init_skill):
         init_result = self.get_init_result(weapon_attack, weapon_recharge, init_skill)
         bar_position = init_result * 8 / 100
@@ -29,8 +37,8 @@ class SpecialsController:
         inits_neutral = self.get_inits_needed(87.5, weapon_attack, weapon_recharge)
         inits_full_def = self.get_inits_needed(0, weapon_attack, weapon_recharge)
 
-        blob = "Attack: <highlight>%.2f<end> second(s)\n" % weapon_attack
-        blob += "Recharge: <highlight>%.2f<end> seconds(s)\n" % weapon_recharge
+        blob = "Attack: <highlight>%.2f<end> seconds\n" % weapon_attack
+        blob += "Recharge: <highlight>%.2f<end> seconds\n" % weapon_recharge
         blob += "Init Skill: <highlight>%d<end>\n\n" % init_skill
         blob += "You must set you AGG/DEF bar at <highlight>%d%% (%.2f)<end> to wield your weapon at 1/1.\n\n" % (int(init_result), bar_position)
         blob += "Init needed for max speed at Full Agg (100%%): <highlight>%d<end>\n" % inits_full_agg
@@ -40,6 +48,20 @@ class SpecialsController:
         blob += "Based on the !aggdef command from Budabot, which was based upon a RINGBOT module made by NoGoal(RK2) and modified for Budabot by Healnjoo(RK2)"
 
         return ChatBlob("Agg/Def Results", blob)
+
+    @command(command="aimedshot", params=[Decimal("weapon_attack"), Decimal("weapon_recharge"), Int("aimed_shot_skill")], access_level="all",
+             description="Show aimedshot information for a particular weapon and init skill")
+    def aimedshot_cmd(self, request, weapon_attack, weapon_recharge, aimed_shot_skill):
+        as_info = self.get_aimed_shot_info(weapon_attack, weapon_recharge, aimed_shot_skill)
+
+        blob = "Attack: <highlight>%.2f<end> seconds\n" % weapon_attack
+        blob += "Recharge: <highlight>%.2f<end> seconds\n" % weapon_recharge
+        blob += "Aimed Shot Skill: <highlight>%d<end>\n\n" % aimed_shot_skill
+        blob += "Aimed Shot Multiplier: <highlight>1 - %dx<end>\n" % as_info.multiplier
+        blob += "Aimed Shot Recharge: <highlight>%d<end> seconds\n\n" % as_info.recharge
+        blob += "You will need <highlight>%d<end> Aimed Shot Skill to cap your recharge at <highlight>%d<end> seconds." % (as_info.skill_cap, as_info.hard_cap)
+
+        return ChatBlob("Aimed Shot Results", blob)
 
     def get_init_result(self, weapon_attack, weapon_recharge, init_skill):
         if init_skill < 1200:
@@ -73,3 +95,17 @@ class SpecialsController:
             return inits_recharge
         else:
             return inits_attack
+
+    def get_aimed_shot_info(self, weapon_attack, weapon_recharge, aimed_shot_skill):
+        result = DictObject()
+        result.multiplier = round(aimed_shot_skill / 95)
+        result.hard_cap = math.floor(weapon_attack + 10)
+        result.skill_cap = math.ceil((4000 * weapon_recharge - 1100) / 3)
+
+        as_recharge = math.ceil((weapon_recharge * 40) - (aimed_shot_skill * 3 / 100) + weapon_attack - 1)
+        if as_recharge < result.hard_cap:
+            as_recharge = result.hard_cap
+
+        result.recharge = as_recharge
+
+        return result
