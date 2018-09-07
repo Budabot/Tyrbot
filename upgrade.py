@@ -2,6 +2,7 @@ from core.db import DB
 from core.registry import Registry
 
 db = Registry.get_instance("db")
+bot = Registry.get_instance("bot")
 
 
 def table_info(table_name):
@@ -20,7 +21,7 @@ def table_info(table_name):
         raise Exception("Unknown database type '%s'" % db.type)
 
 
-def does_table_exist(table_name):
+def table_exists(table_name):
     try:
         db.query("SELECT * FROM %s LIMIT 1" % table_name)
         return True
@@ -28,9 +29,35 @@ def does_table_exist(table_name):
         return False
 
 
-def does_column_exist(table_name, column_name):
+def column_exists(table_name, column_name):
     try:
         db.query("SELECT %s FROM %s LIMIT 1" % (column_name, table_name))
         return True
     except Exception:
         return False
+
+
+def update_version(v):
+    v += 1
+    db.exec("UPDATE db_version SET version = ? WHERE file = 'db_version'", [v])
+    return v
+
+
+def get_version():
+    row = db.query_single("SELECT version FROM db_version WHERE file = 'db_version'")
+    if row:
+        return row.version
+    else:
+        return 0
+
+
+version = get_version()
+
+if version == 0:
+    db.exec("INSERT INTO db_version (file, version, verified) VALUES ('db_version', ?, 1)", [0])
+    version = update_version(version)
+
+if version == 1:
+    if table_exists("org_member"):
+        db.exec("ALTER TABLE org_member ADD COLUMN last_seen INT NOT NULL DEFAULT 0")
+    version = update_version(version)

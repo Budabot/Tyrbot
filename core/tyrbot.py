@@ -46,6 +46,7 @@ class Tyrbot(Bot):
         self.dimension = 5
 
         self.db.exec("UPDATE db_version SET verified = 0")
+        self.db.exec("UPDATE db_version SET verified = 1 WHERE file = 'db_version'")
 
         self.load_sql_files(paths)
 
