@@ -200,7 +200,7 @@ class Tyrbot(Bot):
     def send_org_message(self, msg):
         org_channel_id = self.public_channel_service.org_channel_id
         if org_channel_id is None:
-            self.logger.warning("Could not send message to org channel, unknown org id")
+            self.logger.debug("ignoring message to org channel since the org_channel_id is unknown")
         else:
             color = self.setting_service.get("org_channel_color").get_font_color()
             for page in self.get_text_pages(msg, self.setting_service.get("org_channel_max_page_length").get_value()):
