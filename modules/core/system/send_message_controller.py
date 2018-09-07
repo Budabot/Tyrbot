@@ -12,7 +12,7 @@ class SendMessageController:
              description="Send a tell to another character from the bot")
     def sendtell_cmd(self, request, char, message):
         if char.char_id:
-            self.bot.send_private_message(char.char_id, message)
+            self.bot.send_private_message(char.char_id, message, add_color=False)
             return "Your message has been sent."
         else:
             return "Could not find character <highlight>%s<end>." % char.name

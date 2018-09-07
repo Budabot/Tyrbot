@@ -197,24 +197,24 @@ class Tyrbot(Bot):
 
         return packet
 
-    def send_org_message(self, msg):
+    def send_org_message(self, msg, add_color=True):
         org_channel_id = self.public_channel_service.org_channel_id
         if org_channel_id is None:
             self.logger.debug("ignoring message to org channel since the org_channel_id is unknown")
         else:
-            color = self.setting_service.get("org_channel_color").get_font_color()
+            color = self.setting_service.get("org_channel_color").get_font_color() if add_color else ""
             for page in self.get_text_pages(msg, self.setting_service.get("org_channel_max_page_length").get_value()):
                 packet = client_packets.PublicChannelMessage(org_channel_id, color + page, "")
                 # self.send_packet(packet)
                 self.packet_queue.enqueue(packet)
                 self.check_outgoing_message_queue()
 
-    def send_private_message(self, char, msg):
+    def send_private_message(self, char, msg, add_color=True):
         char_id = self.character_service.resolve_char_to_id(char)
         if char_id is None:
             self.logger.warning("Could not send message to %s, could not find char id" % char)
         else:
-            color = self.setting_service.get("private_message_color").get_font_color()
+            color = self.setting_service.get("private_message_color").get_font_color() if add_color else ""
             for page in self.get_text_pages(msg, self.setting_service.get("private_message_max_page_length").get_value()):
                 self.logger.log_tell("To", self.character_service.get_char_name(char_id), page)
                 packet = client_packets.PrivateMessage(char_id, color + page, "\0")
@@ -222,7 +222,7 @@ class Tyrbot(Bot):
                 self.packet_queue.enqueue(packet)
                 self.check_outgoing_message_queue()
 
-    def send_private_channel_message(self, msg, private_channel=None):
+    def send_private_channel_message(self, msg, private_channel=None, add_color=False):
         if private_channel is None:
             private_channel = self.char_id
 
@@ -230,7 +230,7 @@ class Tyrbot(Bot):
         if private_channel_id is None:
             self.logger.warning("Could not send message to private channel %s, could not find private channel" % private_channel)
         else:
-            color = self.setting_service.get("private_channel_color").get_font_color()
+            color = self.setting_service.get("private_channel_color").get_font_color() if add_color else ""
             for page in self.get_text_pages(msg, self.setting_service.get("private_channel_max_page_length").get_value()):
                 packet = client_packets.PrivateChannelMessage(private_channel_id, color + page, "\0")
                 self.send_packet(packet)

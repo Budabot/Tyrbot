@@ -85,4 +85,4 @@ class RelayController:
     def send_message_to_relay(self, message):
         relay_bot = self.relay_bot().get_value()
         if relay_bot:
-            self.bot.send_private_message(relay_bot, "grc " + message)
+            self.bot.send_private_message(relay_bot, "grc " + message, add_color=False)
