@@ -14,7 +14,6 @@ adjust default access levels
 EVENTS
 ORG - needs !lastseen, record players joining and leaving for up-to-date roster
 RAID
-RELAY
 
 done
 ----
@@ -56,6 +55,7 @@ PRIVATE_CHANNEL - done
 QUOTE - done
 RAFFLE - done
 RECIPE - done
+RELAY - done
 REPUTATION - ignore
 SHOPPING - ignore
 SKILLS - done

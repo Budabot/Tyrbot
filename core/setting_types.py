@@ -49,7 +49,7 @@ class TextSettingType(SettingType):
 
     def get_display(self):
         text = Registry.get_instance("text")
-        options_str = "\n".join(map(lambda opt: text.make_chatcmd(str(opt), "/tell <myname> config setting %s set %s" % (self.name, opt)), self.options))
+        options_str = "\n".join(map(lambda opt: text.make_chatcmd(str(opt), "/tell <myname> config setting %s set %s" % (self.name, opt)), self.options or []))
 
         return """For this setting you can enter any text you want (max. 255 characters).
 To change this setting:
