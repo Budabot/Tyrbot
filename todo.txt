@@ -13,7 +13,6 @@ adjust default access levels
 
 EVENTS
 ORG - needs !lastseen, record players joining and leaving for up-to-date roster
-ORGLIST
 RAID
 RELAY
 
@@ -51,6 +50,7 @@ NANO - done
 NEWS - done
 NOTES - done
 ONLINE - done
+ORGLIST - done
 PERKS - done
 PRIVATE_CHANNEL - done
 QUOTE - done

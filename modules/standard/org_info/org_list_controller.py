@@ -32,22 +32,7 @@ class OrgListController:
     @command(command="orglist", params=[Int("org_id")], access_level="all",
              description="Show online status of characters in an org")
     def orglist_cmd(self, request, org_id):
-        request.reply("Downloading org roster for org id %d..." % org_id)
-
-        self.orglist = self.org_pork_service.get_org_info(org_id)
-
-        if not self.orglist:
-            return "Could not find org with ID <highlight>%d<end>." % org_id
-
-        self.orglist.reply = request.reply
-        self.orglist.waiting_org_members = {}
-        self.orglist.finished_org_members = {}
-
-        request.reply("Checking online status for %d members of <highlight>%s<end>..." % (len(self.orglist.org_members), self.orglist.org_info.name))
-
-        self.iterate_org_members()
-
-        self.check_for_orglist_end()
+        self.start_orglist_lookup(request.reply, org_id)
 
     @command(command="orglist", params=[Character("character")], access_level="all",
              description="Show online status of characters in an org")
@@ -58,35 +43,45 @@ class OrgListController:
         elif not char_info.org_id:
             return "<highlight>%s<end> does not appear to belong to an org." % char.name
         else:
-            org_id = char_info.org_id
+            self.start_orglist_lookup(request.reply, char_info.org_id)
 
-            request.reply("Downloading org roster for org id %d..." % org_id)
+    def start_orglist_lookup(self, reply, org_id):
+        if self.orglist:
+            reply("There is an orglist already in progress.")
+            return
 
-            self.orglist = self.org_pork_service.get_org_info(org_id)
+        reply("Downloading org roster for org id %d..." % org_id)
 
-            if not self.orglist:
-                return "Could not find org with ID <highlight>%d<end>." % org_id
+        self.orglist = self.org_pork_service.get_org_info(org_id)
 
-            self.orglist.reply = request.reply
-            self.orglist.waiting_org_members = {}
-            self.orglist.finished_org_members = {}
+        if not self.orglist:
+            reply("Could not find org with ID <highlight>%d<end>." % org_id)
+            return
 
-            request.reply("Checking online status for %d members of <highlight>%s<end>..." % (len(self.orglist.org_members), self.orglist.org_info.name))
+        self.orglist.reply = reply
+        self.orglist.waiting_org_members = {}
+        self.orglist.finished_org_members = {}
 
-            self.iterate_org_members()
+        reply("Checking online status for %d members of <highlight>%s<end>..." % (len(self.orglist.org_members), self.orglist.org_info.name))
 
-            self.check_for_orglist_end()
+        # process all name lookups
+        while self.bot.iterate():
+            pass
+
+        self.iterate_org_members()
+
+        self.check_for_orglist_end()
 
     @event(event_type=BuddyService.BUDDY_LOGON_EVENT, description="Detect online buddies for orglist command")
     def buddy_logon_event(self, event_type, event_data):
-        if self.orglist and event_data.char_id in self.orglist.org_members:
+        if self.orglist and event_data.char_id in self.orglist.waiting_org_members:
             self.update_online_status(event_data.char_id, True)
             self.buddy_service.remove_buddy(event_data.char_id, self.ORGLIST_BUDDY_TYPE)
             self.check_for_orglist_end()
 
     @event(event_type=BuddyService.BUDDY_LOGOFF_EVENT, description="Detect offline buddies for orglist command")
     def buddy_logoff_event(self, event_type, event_data):
-        if self.orglist and event_data.char_id in self.orglist.org_members:
+        if self.orglist and event_data.char_id in self.orglist.waiting_org_members:
             self.update_online_status(event_data.char_id, False)
             self.buddy_service.remove_buddy(event_data.char_id, self.ORGLIST_BUDDY_TYPE)
             self.check_for_orglist_end()
@@ -101,7 +96,9 @@ class OrgListController:
             self.iterate_org_members()
             return
 
-        self.orglist.reply(self.format_result())
+        if not self.orglist.waiting_org_members:
+            self.orglist.reply(self.format_result())
+            self.orglist = None
 
     def format_result(self):
         org_ranks = {}
