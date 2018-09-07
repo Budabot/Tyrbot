@@ -20,7 +20,7 @@ class OrgChannelController:
     @event(event_type=PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, description="Relay messages from the org channel to the private channel")
     def handle_org_message_event(self, event_type, event_data):
         if event_data.char_id != self.bot.char_id and event_data.message[0] != self.setting_service.get("symbol").get_value():
-            if event.char_id == 4294967295:
+            if event_data.char_id == 4294967295:
                 self.bot.send_private_channel_message("[Org]: %s" % event_data.message)
             else:
                 char_name = self.character_service.resolve_char_to_name(event_data.char_id)
