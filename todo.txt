@@ -11,13 +11,11 @@ generic paging solution - add Page command param, add resultset paging support t
 rename Int to Number
 adjust default access levels
 
-
 EVENTS
 ORG - needs !lastseen, record players joining and leaving for up-to-date roster
 ORGLIST
 RAID
 RELAY
-SKILLS - !nanoinit, !aggdef, !weapon, !specials <type> (add aliases)
 
 done
 ----
@@ -60,6 +58,7 @@ RAFFLE - done
 RECIPE - done
 REPUTATION - ignore
 SHOPPING - ignore
+SKILLS - done
 SPIRITS - ignore
 TIMERS - done
 TOWER - done

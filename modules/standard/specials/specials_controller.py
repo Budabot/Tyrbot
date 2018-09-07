@@ -2,7 +2,7 @@ import math
 
 from core.chat_blob import ChatBlob
 from core.decorators import instance, command
-from core.command_param_types import Int, Decimal
+from core.command_param_types import Int, Decimal, Item
 
 from core.dict_object import DictObject
 
@@ -235,6 +235,14 @@ class SpecialsController:
     @command(command="weapon", params=[Int("item_id"), Int("ql", is_optional=True)], access_level="all",
              description="Show weapon information")
     def weapon_cmd(self, request, item_id, ql):
+        return self.get_weapon_info(item_id, ql)
+
+    @command(command="weapon", params=[Item("weapon_link")], access_level="all",
+             description="Show weapon information")
+    def weapon_cmd(self, request, item):
+        return self.get_weapon_info(item.high_id, item.ql)
+
+    def get_weapon_info(self, item_id, ql):
         if ql:
             item = self.db.query_single(
                 "SELECT * FROM aodb WHERE highid = ? AND lowql <= ? AND highql >= ? "
@@ -251,6 +259,9 @@ class SpecialsController:
 
         low_attributes = self.db.query_single("SELECT * FROM weapon_attributes WHERE id = ?", [item.lowid])
         high_attributes = self.db.query_single("SELECT * FROM weapon_attributes WHERE id = ?", [item.highid])
+
+        if not low_attributes or not high_attributes:
+            return "Could not find weapon information or item is not a weapon for ID <highlight>%d<end>." % item_id
 
         weapon_attack = self.util.interpolate_value(ql, {item.lowql: low_attributes.attack_time, item.highql: high_attributes.attack_time}) / 100
         weapon_recharge = self.util.interpolate_value(ql, {item.lowql: low_attributes.recharge_time, item.highql: high_attributes.recharge_time}) / 100
