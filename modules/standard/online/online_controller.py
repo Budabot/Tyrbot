@@ -37,28 +37,7 @@ class OnlineController:
     @command(command="online", params=[], access_level="all",
              description="Show the list of online characters")
     def online_cmd(self, request):
-        blob = ""
-        count = 0
-        for channel in [self.ORG_CHANNEL, self.PRIVATE_CHANNEL]:
-            online_list = self.get_online_characters(channel)
-            if len(online_list) > 0:
-                blob += "<header2>%s Channel<end>\n" % channel
-
-            current_main = ""
-            for row in online_list:
-                if current_main != row.main:
-                    count += 1
-                    blob += "\n<highlight>%s<end>\n" % row.main
-                    current_main = row.main
-
-                afk = ""
-                if row.afk_dt > 0:
-                    afk = " - <highlight>%s (%s ago)<end>" % (row.afk_reason, self.util.time_to_readable(int(time.time()) - row.afk_dt))
-
-                blob += " | <highlight>%s<end> (%d/<green>%d<end>) %s %s%s\n" % (row.name, row.level or 0, row.ai_level or 0, row.faction, row.profession, afk)
-            blob += "\n\n"
-
-        return ChatBlob("Online (%d)" % count, blob)
+        return self.get_online_output()
 
     @command(command="count", params=[], access_level="all",
              description="Show counts of players by title level, profession, and organization")
@@ -138,6 +117,15 @@ class OnlineController:
         if event_data.char_id != self.bot.char_id:
             self.afk_check(event_data.char_id, event_data.message, lambda msg: self.bot.send_org_message(msg))
 
+    @event(OrgMemberController.ORG_MEMBER_LOGON_EVENT, "Send online list to org members logging in")
+    def org_member_send_logon_event(self, event_type, event_data):
+        if self.bot.is_ready():
+            self.bot.send_private_message(event_data.char_id, self.get_online_output())
+
+    @event(PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, "Send online list to characters joining the private channel")
+    def private_channel_send_logon_event(self, event_type, event_data):
+        self.bot.send_private_message(event_data.char_id, self.get_online_output())
+
     def afk_check(self, char_id, message, channel_reply):
         matches = self.afk_regex.search(message)
         if matches:
@@ -171,3 +159,27 @@ class OnlineController:
             blob += " | %s (%d/%d) %s %s\n" % (row.name, row.level or 0, row.ai_level or 0, row.faction, row.profession)
 
         reply(blob)
+
+    def get_online_output(self):
+        blob = ""
+        count = 0
+        for channel in [self.ORG_CHANNEL, self.PRIVATE_CHANNEL]:
+            online_list = self.get_online_characters(channel)
+            if len(online_list) > 0:
+                blob += "<header2>%s Channel<end>\n" % channel
+
+            current_main = ""
+            for row in online_list:
+                if current_main != row.main:
+                    count += 1
+                    blob += "\n<highlight>%s<end>\n" % row.main
+                    current_main = row.main
+
+                afk = ""
+                if row.afk_dt > 0:
+                    afk = " - <highlight>%s (%s ago)<end>" % (row.afk_reason, self.util.time_to_readable(int(time.time()) - row.afk_dt))
+
+                blob += " | <highlight>%s<end> (%d/<green>%d<end>) %s %s%s\n" % (row.name, row.level or 0, row.ai_level or 0, row.faction, row.profession, afk)
+            blob += "\n\n"
+
+        return ChatBlob("Online (%d)" % count, blob)
