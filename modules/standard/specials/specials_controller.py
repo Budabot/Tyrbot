@@ -30,7 +30,6 @@ class SpecialsController:
              description="Show agg/def information")
     def aggdef_cmd(self, request, weapon_attack, weapon_recharge, init_skill):
         init_result = self.get_init_result(weapon_attack, weapon_recharge, init_skill)
-        bar_position = init_result * 8 / 100
 
         inits_full_agg = self.get_inits_needed(100, weapon_attack, weapon_recharge)
         inits_neutral = self.get_inits_needed(87.5, weapon_attack, weapon_recharge)
@@ -40,11 +39,13 @@ class SpecialsController:
         blob += "Recharge: <highlight>%.2f secs<end>\n" % weapon_recharge
         blob += "Init Skill: <highlight>%d<end>\n\n" % init_skill
 
-        blob += "You must set you AGG/DEF bar at <highlight>%d%% (%.2f)<end> to wield your weapon at 1/1.\n\n" % (int(init_result), bar_position)
+        blob += "You must set your AGG/DEF bar at <highlight>%d%%<end> to wield your weapon at 1/1.\n\n" % int(init_result)
 
         blob += "Init needed for max speed at Full Agg (100%%): <highlight>%d<end>\n" % inits_full_agg
         blob += "Init needed for max speed at Neutral (87.5%%): <highlight>%d<end>\n" % inits_neutral
         blob += "Init needed for max speed at Full Def (0%%): <highlight>%d<end>\n\n" % inits_full_def
+
+        blob += self.get_inits_display(weapon_attack, weapon_recharge) + "\n\n"
 
         blob += "Note that at the neutral position (87.5%), your attack and recharge time will match that of the weapon you are using.\n\n\n"
 
@@ -230,6 +231,56 @@ class SpecialsController:
         blob += "Cast time at Full Def (0%%): <highlight>%.2f<end>" % nano_cast_info.cast_time_full_def
 
         return ChatBlob("Nano Cast Init Results", blob)
+
+    @command(command="weapon", params=[Int("item_id"), Int("ql", is_optional=True)], access_level="all",
+             description="Show weapon information")
+    def weapon_cmd(self, request, item_id, ql):
+        if ql:
+            item = self.db.query_single(
+                "SELECT * FROM aodb WHERE highid = ? AND lowql <= ? AND highql >= ? "
+                "UNION "
+                "SELECT * FROM aodb WHERE lowid = ? AND lowql <= ? AND highql >= ? "
+                "LIMIT 1", [item_id, ql, ql, item_id, ql, ql])
+        else:
+            item = self.db.query_single("SELECT * FROM aodb WHERE highid = ? UNION SELECT * FROM aodb WHERE lowid = ? LIMIT 1", [item_id, item_id])
+
+        if not item:
+            return "Could not find item with ID <highlight>%d<end>." % item_id
+
+        ql = ql or item.highql
+
+        low_attributes = self.db.query_single("SELECT * FROM weapon_attributes WHERE id = ?", [item.lowid])
+        high_attributes = self.db.query_single("SELECT * FROM weapon_attributes WHERE id = ?", [item.highid])
+
+        weapon_attack = self.util.interpolate_value(ql, {item.lowql: low_attributes.attack_time, item.highql: high_attributes.attack_time}) / 100
+        weapon_recharge = self.util.interpolate_value(ql, {item.lowql: low_attributes.recharge_time, item.highql: high_attributes.recharge_time}) / 100
+
+        blob = "%s (QL %d)\n\n" % (self.text.make_item(item.lowid, item.highid, ql, item.name), ql)
+        blob += "Attack: <highlight>%.2f<end>\n" % weapon_attack
+        blob += "Recharge: <highlight>%.2f<end>\n\n" % weapon_recharge
+
+        blob += self.get_inits_display(weapon_attack, weapon_recharge) + "\n"
+
+        blob += "<header2>Specials<end>\n"
+
+        if high_attributes.aimed_shot:
+            blob += "Aimed Shot\n"
+
+        if high_attributes.burst:
+            burst_recharge = self.util.interpolate_value(ql, {item.lowql: low_attributes.burst, item.highql: high_attributes.burst})
+            blob += "Burst Recharge: <highlight>%d<end>\n" % burst_recharge
+
+        if high_attributes.fast_attack:
+            blob += "Fast Attack\n"
+
+        if high_attributes.fling_shot:
+            blob += "Fling Shot\n"
+
+        if high_attributes.full_auto:
+            full_auto_recharge = self.util.interpolate_value(ql, {item.lowql: low_attributes.full_auto, item.highql: high_attributes.full_auto})
+            blob += "Full Auto Recharge: <highlight>%d<end>\n" % full_auto_recharge
+
+        return ChatBlob("Weapon Info for %s (QL %d)" % (item.name, ql), blob)
 
     def get_init_result(self, weapon_attack, weapon_recharge, init_skill):
         if init_skill < 1200:
@@ -443,3 +494,11 @@ class SpecialsController:
             return nano_attack_time * 200
         else:
             return 1200 + (nano_attack_time - 6) * 600
+
+    def get_inits_display(self, weapon_attack, weapon_recharge):
+        blob = ""
+        for i in reversed(range(0, 11)):
+            inits_needed = self.get_inits_needed(i * 10, weapon_attack, weapon_recharge)
+            blob += "DEF >%s%s%s< AGG %d%% %d init \n" % ("=" * i, "][", "=" * (10 - i), i * 10, inits_needed)
+
+        return blob
