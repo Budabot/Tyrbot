@@ -126,7 +126,7 @@ class TowerAttackController:
                 self.db.exec("INSERT INTO tower_attacker (att_org_name, att_faction, att_char_id, att_char_name, att_level, att_ai_level, att_profession, "
                              "x_coord, y_coord, is_victory, tower_battle_id, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                              [attacker.get("org_name", ""), attacker.get("faction", ""), attacker.get("char_id", 0), attacker.get("name", ""), attacker.get("level", 0),
-                              attacker.get("ai_level", 0), attacker.get("profession", ""), event_data.location.x_coord, event_data.location.y_coord, 0, battle_id, t])
+                              attacker.get("ai_level", 0), attacker.get("profession", ""), 0, 0, 0, battle_id, t])
             else:
                 is_victory = 1
                 self.db.exec("UPDATE tower_attacker SET is_victory = ? WHERE id = ?", [is_victory, row.attack_id])
