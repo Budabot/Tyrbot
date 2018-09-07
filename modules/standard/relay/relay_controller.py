@@ -28,10 +28,10 @@ class RelayController:
     def handle_org_message_event(self, event_type, event_data):
         if event_data.char_id != self.bot.char_id and event_data.message[0] != self.setting_service.get("symbol").get_value():
             if event_data.char_id == 4294967295:
-                self.send_message_to_relay("[Org]: %s" % event_data.message)
+                self.send_message_to_relay("%s" % event_data.message)
             else:
                 char_name = self.character_service.resolve_char_to_name(event_data.char_id)
-                self.send_message_to_relay("[Org] %s: %s" % (char_name, event_data.message))
+                self.send_message_to_relay("%s: %s" % (char_name, event_data.message))
 
     @event(event_type=PrivateChannelService.PRIVATE_CHANNEL_MESSAGE_EVENT, description="Relay messages from the private channel to the relay")
     def handle_private_channel_message_event(self, event_type, event_data):
@@ -85,4 +85,5 @@ class RelayController:
     def send_message_to_relay(self, message):
         relay_bot = self.relay_bot().get_value()
         if relay_bot:
-            self.bot.send_private_message(relay_bot, "grc " + message, add_color=False)
+            # TODO add prefix, if setting, then use setting, else if org, then use org name, else use botname
+            self.bot.send_private_message(relay_bot, "grc [<myname>] " + message, add_color=False)
