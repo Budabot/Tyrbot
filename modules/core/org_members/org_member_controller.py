@@ -1,6 +1,7 @@
 from core.buddy_service import BuddyService
 from core.decorators import instance, event, timerevent
 from core.logger import Logger
+import time
 
 
 @instance()
@@ -19,6 +20,7 @@ class OrgMemberController:
         self.logger = Logger(__name__)
 
     def inject(self, registry):
+        self.bot = registry.get_instance("bot")
         self.db = registry.get_instance("db")
         self.buddy_service = registry.get_instance("buddy_service")
         self.public_channel_service = registry.get_instance("public_channel_service")
@@ -32,7 +34,7 @@ class OrgMemberController:
         self.access_service.register_access_level(self.ORG_ACCESS_LEVEL, 60, self.check_org_member)
 
     def start(self):
-        self.db.exec("CREATE TABLE IF NOT EXISTS org_member (char_id INT NOT NULL PRIMARY KEY, mode VARCHAR(7) NOT NULL)")
+        self.db.exec("CREATE TABLE IF NOT EXISTS org_member (char_id INT NOT NULL PRIMARY KEY, mode VARCHAR(7) NOT NULL, last_seen INT NOT NULL DEFAULT 0)")
 
     @event(event_type="connect", description="Add members as buddies of the bot on startup")
     def handle_connect_event(self, event_type, event_data):
@@ -42,11 +44,14 @@ class OrgMemberController:
     @event(event_type=BuddyService.BUDDY_LOGON_EVENT, description="Check if buddy is an org member")
     def handle_buddy_logon_event(self, event_type, event_data):
         if self.get_org_member(event_data.char_id):
+            self.update_last_seen(event_data.char_id)
             self.event_service.fire_event(self.ORG_MEMBER_LOGON_EVENT, event_data)
 
     @event(event_type=BuddyService.BUDDY_LOGOFF_EVENT, description="Check if buddy is an org member")
     def handle_buddy_logoff_event(self, event_type, event_data):
         if self.get_org_member(event_data.char_id):
+            if self.bot.is_ready():
+                self.update_last_seen(event_data.char_id)
             self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, event_data)
 
     @timerevent(budatime="24h", description="Download the org_members roster")
@@ -91,7 +96,7 @@ class OrgMemberController:
         return self.db.query("SELECT char_id, mode FROM org_member")
 
     def add_org_member(self, char_id, mode):
-        return self.db.exec("INSERT INTO org_member (char_id, mode) VALUES (?, ?)", [char_id, mode])
+        return self.db.exec("INSERT INTO org_member (char_id, mode, last_seen) VALUES (?, ?, ?)", [char_id, mode, 0])
 
     def remove_org_member(self, char_id):
         return self.db.exec("DELETE FROM org_member WHERE char_id = ?", [char_id])
@@ -101,3 +106,6 @@ class OrgMemberController:
 
     def check_org_member(self, char_id):
         return self.get_org_member(char_id) is not None
+
+    def update_last_seen(self, char_id):
+        return self.db.exec("UPDATE org_member SET last_seen = ? WHERE char_id = ?", [int(time.time()), char_id])
