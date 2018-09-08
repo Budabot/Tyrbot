@@ -27,16 +27,16 @@ class CloakController:
             one_hour = 3600
 
             row = data[0]
-            time_since_change = int(time.time()) - row.created_at
-            time_string = self.util.time_to_readable(time_since_change)
+            time_until_change = row.created_at + one_hour - int(time.time())
+            time_string = self.util.time_to_readable(time_until_change)
 
             if row.action == "off":
-                if time_since_change >= one_hour:
+                if time_until_change <= 0:
                     msg = "The cloaking device is <orange>disabled<end>. It is possible to enable it."
                 else:
                     msg = "The cloaking device is <orange>disabled<end>. It is possible to enable it in %s." % time_string
             else:
-                if time_since_change >= one_hour:
+                if time_until_change <= 0:
                     msg = "The cloaking device is <green>enabled<end>. It is possible to disable it."
                 else:
                     msg = "The cloaking device is <green>enabled<end>. It is possible to disable it in %s." % time_string
