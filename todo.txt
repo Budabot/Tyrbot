@@ -10,7 +10,6 @@ dynamic enabling and disabling of events (eg. buddy_logon for orglist, whois)
 generic paging solution - add Page command param, add resultset paging support to ChatBlob
 rename Int to Number
 adjust default access levels
-create ban/unban events, include: char_id, sender, reason, duration
 
 EVENTS
 ORG - needs !lastseen, record players joining and leaving for up-to-date roster
