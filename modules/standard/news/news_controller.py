@@ -54,9 +54,11 @@ class NewsController:
             stickies = self.get_sticky_news()
             news = self.get_news()
 
-            blob += "<header2>Stickies<end>\n"
-            blob += stickies or "No stickies\n"
-            blob += "____________________________\n\n"
+            if stickies:
+                blob += "<header2>Stickies<end>\n"
+                blob += stickies
+                blob += "____________________________\n\n"
+
             blob += news or "No news"
 
         return blob if len(blob) > 0 else None
