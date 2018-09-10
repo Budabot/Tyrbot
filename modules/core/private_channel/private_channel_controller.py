@@ -1,3 +1,4 @@
+from core.ban_service import BanService
 from core.decorators import instance, command, event
 from core.command_param_types import Any, Character
 from core.private_channel_service import PrivateChannelService
@@ -69,3 +70,7 @@ class PrivateChannelController:
     def private_channel_left_event(self, event_type, event_data):
         char_name = self.character_service.get_char_name(event_data.char_id)
         self.bot.send_private_channel_message("<highlight>%s<end> has left the private channel." % char_name)
+
+    @event(event_type=BanService.BAN_ADDED_EVENT, description="Kick characters from the private channel who are banned")
+    def ban_added_event(self, event_type, event_data):
+        self.private_channel_service.kick(event_data.char_id)
