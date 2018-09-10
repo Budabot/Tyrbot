@@ -7,9 +7,6 @@ from modules.core.org_members.org_member_controller import OrgMemberController
 
 @instance()
 class OrgChannelController:
-    def __init__(self):
-        self.logger = Logger(__name__)
-
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
         self.setting_service = registry.get_instance("setting_service")
