@@ -1,14 +1,16 @@
-from core.decorators import instance, command
+import time
+
+from core.decorators import instance, command, event, timerevent
 from core.db import DB
 from core.text import Text
-from core.command_param_types import Any, Character
+from core.command_param_types import Character
 from core.chat_blob import ChatBlob
 
 
 @instance()
 class CharacterInfoController:
     def __init__(self):
-        pass
+        self.name_history = []
 
     def inject(self, registry):
         self.db: DB = registry.get_instance("db")
@@ -17,6 +19,7 @@ class CharacterInfoController:
         self.command_alias_service = registry.get_instance("command_alias_service")
 
     def start(self):
+        self.db.exec("CREATE TABLE IF NOT EXISTS name_history (char_id INT NOT NULL, name VARCHAR(20) NOT NULL, created_at INT NOT NULL, PRIMARY KEY (char_id, name))")
         self.command_alias_service.add_alias("w", "whois")
 
     @command(command="whois", params=[Character("character")], access_level="all",
@@ -53,6 +56,27 @@ class CharacterInfoController:
             return ChatBlob("Basic Info for %s" % char.name, blob)
         else:
             return "Could not find info for character <highlight>%s<end>." % char.name
+
+    @event(event_type="packet:20", description="Capture name history")
+    def character_name_event(self, event_type, event_data):
+        self.name_history.append(event_data)
+
+    @event(event_type="packet:21", description="Capture name history")
+    def character_lookup_event(self, event_type, event_data):
+        self.name_history.append(event_data)
+
+    @timerevent(budatime="1min", description="Save name history")
+    def save_name_history_event(self, event_type, event_data):
+        with self.db.transaction():
+            for entry in self.name_history:
+                if self.db.type == DB.SQLITE:
+                    sql = "INSERT OR IGNORE INTO name_history (char_id, name, created_at) VALUES (?, ?, ?)"
+                else:
+                    sql = "INSERT IGNORE INTO name_history (char_id, name, created_at) VALUES (?, ?, ?)"
+
+                self.db.exec(sql, [entry.char_id, entry.name, int(time.time())])
+
+            self.name_history = []
 
     def get_full_name(self, char_info):
         name = ""
