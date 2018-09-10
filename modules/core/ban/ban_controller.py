@@ -7,6 +7,7 @@ import time
 @instance()
 class BanController:
     def inject(self, registry):
+        self.bot = registry.get_instance("bot")
         self.text = registry.get_instance("text")
         self.util = registry.get_instance("util")
         self.ban_service = registry.get_instance("ban_service")
@@ -41,6 +42,7 @@ class BanController:
         elif not self.ban_service.get_ban(char.char_id):
             return "<highlight>%s<end> is not banned." % char.name
         else:
+            self.bot.send_private_message(char.char_id, "You have been unbanned by <highlight>%s<end>." % request.sender.name)
             self.ban_service.remove_ban(char.char_id)
             return "<highlight>%s<end> has been removed from the ban list." % char.name
 
@@ -54,5 +56,12 @@ class BanController:
         elif self.ban_service.get_ban(char.char_id):
             return "<highlight>%s<end> is already banned." % char.name
         else:
+            duration_str = self.util.time_to_readable(duration) if duration else "permanent"
+            if reason:
+                msg = "You have been banned by <highlight>%s<end> for reason: %s. Duration: <highlight>%s<end>." % (request.sender.name, reason, duration_str)
+            else:
+                msg = "You have been banned by <highlight>%s<end>. Duration: <highlight>%s<end>." % (request.sender.name, duration_str)
+            self.bot.send_private_message(char.char_id, msg)
+
             self.ban_service.add_ban(char.char_id, request.sender.char_id, duration, reason)
             return "<highlight>%s<end> has been added to the ban list." % char.name
