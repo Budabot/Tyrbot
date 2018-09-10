@@ -1,3 +1,4 @@
+from core.ban_service import BanService
 from core.decorators import instance, command, event
 from core.command_param_types import Any, Const, Options, Character
 from core.chat_blob import ChatBlob
@@ -101,3 +102,7 @@ class MemberController:
 
     def check_member(self, char_id):
         return self.get_member(char_id) is not None
+
+    @event(event_type=BanService.BAN_ADDED_EVENT, description="Disable autoinvite for characters who are banned")
+    def ban_added_event(self, event_type, event_data):
+        self.update_auto_invite(event_data.char_id, 0)
