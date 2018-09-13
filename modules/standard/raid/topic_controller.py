@@ -12,6 +12,10 @@ class TopicController:
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
         self.util = registry.get_instance("util")
+        self.command_alias_service = registry.get_instance("command_alias_service")
+
+    def start(self):
+        self.command_alias_service.add_alias("motd", "topic")
 
     @setting(name="topic", value="", description="The bot topic")
     def topic(self):
