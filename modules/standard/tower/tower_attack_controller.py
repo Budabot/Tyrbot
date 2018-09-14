@@ -237,7 +237,7 @@ class TowerAttackController:
     def format_battle_info(self, row, t):
         blob = ""
         defeated = " - <notice>Defeated!<end>" if row.is_finished else ""
-        blob += "Site: <highlight>%s %d<end>\n" % (row.short_name, row.site_number)
+        blob += "Site: <highlight>%s %s<end>\n" % (row.short_name, row.site_number or "?")
         blob += "Defender: <highlight>%s<end> (%s)%s\n" % (row.def_org_name, row.def_faction, defeated)
         blob += "Last Activity: %s\n" % self.format_timestamp(row.last_updated, t)
         return blob
