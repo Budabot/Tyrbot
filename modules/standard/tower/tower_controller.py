@@ -114,7 +114,7 @@ class TowerController:
                 faction = attack.attacker.faction
                 org_name = attack.attacker.org_name
                 attack.attacker = self.pork_service.get_character_info(name) or DictObject()
-                attack.attacker.faction = faction or attack.attacker.faction
+                attack.attacker.faction = faction or attack.attacker.get("faction", None)
                 attack.attacker.org_name = org_name
 
                 self.event_service.fire_event(self.TOWER_ATTACK_EVENT, attack)
