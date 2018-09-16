@@ -61,3 +61,10 @@ if version == 1:
     if table_exists("org_member"):
         db.exec("ALTER TABLE org_member ADD COLUMN last_seen INT NOT NULL DEFAULT 0")
     version = update_version(version)
+
+if version == 2:
+    if table_exists("org_member"):
+        db.exec("UPDATE org_member SET mode = ? WHERE mode = ?", ["add_manual", "manual"])
+        db.exec("UPDATE org_member SET mode = ? WHERE mode = ?", ["rem_manual", "ignore"])
+        db.exec("UPDATE org_member SET mode = ? WHERE mode = ?", ["add_auto", "auto"])
+    version = update_version(version)

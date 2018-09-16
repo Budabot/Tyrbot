@@ -3,15 +3,19 @@ from core.decorators import instance, event, timerevent
 from core.logger import Logger
 import time
 
+from core.public_channel_service import PublicChannelService
+from modules.standard.org.org_activity_controller import OrgActivityController
+
 
 @instance()
 class OrgMemberController:
     ORG_BUDDY_TYPE = "org_member"
     ORG_ACCESS_LEVEL = "org_member"
 
-    MODE_AUTO = "auto"
-    MODE_IGNORE = "ignore"
-    MODE_MANUAL = "manual"
+    MODE_ADD_AUTO = "add_auto"
+    MODE_REM_AUTO = "rem_auto"
+    MODE_ADD_MANUAL = "add_manual"
+    MODE_REM_MANUAL = "rem_manual"
 
     ORG_MEMBER_LOGON_EVENT = "org_member_logon"
     ORG_MEMBER_LOGOFF_EVENT = "org_member_logoff"
@@ -27,6 +31,7 @@ class OrgMemberController:
         self.access_service = registry.get_instance("access_service")
         self.org_pork_service = registry.get_instance("org_pork_service")
         self.event_service = registry.get_instance("event_service")
+        self.character_service = registry.get_instance("character_service")
 
     def pre_start(self):
         self.event_service.register_event_type(self.ORG_MEMBER_LOGON_EVENT)
@@ -68,26 +73,30 @@ class OrgMemberController:
                 for char_id, roster_member in org_info.org_members.items():
                     db_member = db_members.get(char_id, None)
 
-                    if not db_member:
-                        self.add_org_member(char_id, self.MODE_AUTO)
-                    elif db_member == self.MODE_AUTO:
-                        # do nothing
-                        del db_members[char_id]
-                    elif db_member == self.MODE_MANUAL:
-                        self.update_org_member(char_id, self.MODE_AUTO)
-                        del db_members[char_id]
-                    elif db_member == self.MODE_IGNORE:
-                        # do nothing
+                    if db_member:
                         del db_members[char_id]
 
+                    self.process_update(char_id, db_member, self.MODE_ADD_AUTO)
+
                 for char_id, mode in db_members.items():
-                    if mode == self.MODE_AUTO:
-                        self.remove_org_member(char_id)
-                    elif mode == self.MODE_IGNORE:
-                        self.remove_org_member(char_id)
-                    elif mode == self.MODE_MANUAL:
-                        # do nothing
-                        pass
+                    self.process_update(char_id, mode, self.MODE_REM_AUTO)
+
+    @event(PublicChannelService.ORG_MSG_EVENT, "Record org member activity")
+    def org_msg_event(self, event_type, event_data):
+        ext_msg = event_data.extended_message
+        if [ext_msg.category_id, ext_msg.instance_id] == OrgActivityController.LEFT_ORG:
+            self.process_org_msg(ext_msg.params[0], self.MODE_REM_MANUAL)
+        elif [ext_msg.category_id, ext_msg.instance_id] == OrgActivityController.KICKED_FROM_ORG:
+            self.process_org_msg(ext_msg.params[1], self.MODE_REM_MANUAL)
+        elif [ext_msg.category_id, ext_msg.instance_id] == OrgActivityController.INVITED_TO_ORG:
+            self.process_org_msg(ext_msg.params[1], self.MODE_ADD_MANUAL)
+        elif [ext_msg.category_id, ext_msg.instance_id] == OrgActivityController.KICKED_INACTIVE_FROM_ORG:
+            self.process_org_msg(ext_msg.params[1], self.MODE_REM_MANUAL)
+
+    def process_org_msg(self, char_name, new_mode):
+        char_id = self.character_service.resolve_char_to_id(char_name)
+        org_member = self.get_org_member(char_id)
+        self.process_update(char_id, org_member.mode, new_mode)
 
     def get_org_member(self, char_id):
         return self.db.query_single("SELECT char_id FROM org_member WHERE char_id = ?", [char_id])
@@ -109,3 +118,23 @@ class OrgMemberController:
 
     def update_last_seen(self, char_id):
         return self.db.exec("UPDATE org_member SET last_seen = ? WHERE char_id = ?", [int(time.time()), char_id])
+
+    def process_update(self, char_id, old_mode, new_mode):
+        if not old_mode:
+            if new_mode == self.MODE_ADD_AUTO or new_mode == self.MODE_ADD_MANUAL:
+                self.add_org_member(char_id, new_mode)
+        elif old_mode == self.MODE_ADD_AUTO:
+            if new_mode == self.MODE_REM_MANUAL:
+                self.update_org_member(char_id, new_mode)
+            elif new_mode == self.MODE_REM_AUTO:
+                self.remove_org_member(char_id)
+        elif old_mode == self.MODE_ADD_MANUAL:
+            if new_mode == self.MODE_ADD_AUTO:
+                self.update_org_member(char_id, new_mode)
+            elif new_mode == self.MODE_REM_MANUAL:
+                self.remove_org_member(char_id)
+        elif old_mode == self.MODE_REM_MANUAL:
+            if new_mode == self.MODE_ADD_MANUAL:
+                self.update_org_member(char_id, new_mode)
+            elif new_mode == self.MODE_REM_AUTO:
+                self.remove_org_member(char_id)
