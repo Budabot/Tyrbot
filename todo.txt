@@ -8,7 +8,6 @@ generic paging solution - add Page command param, add resultset paging support t
 adjust default access levels
 
 EVENTS
-ORG - needs !lastseen, record players joining and leaving for up-to-date roster
 RAID
 
 done
@@ -45,6 +44,7 @@ NANO - done
 NEWS - done
 NOTES - done
 ONLINE - done
+ORG - done
 ORGLIST - done
 PERKS - done
 PRIVATE_CHANNEL - done
