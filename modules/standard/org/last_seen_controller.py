@@ -41,4 +41,4 @@ class LastSeenController:
         for row in data:
             blob += "<highlight>%s<end> last seen at %s\n" % (row.name, self.util.format_datetime(row.last_seen))
 
-        return ChatBlob("Last Seen for %s" % char.name, blob)
+        return ChatBlob("Last Seen for %s (%d)" % (char.name, len(data)), blob)
