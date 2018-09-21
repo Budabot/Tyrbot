@@ -83,6 +83,7 @@ class OrgMemberController:
 
     @event(PublicChannelService.ORG_MSG_EVENT, "Record org member activity")
     def org_msg_event(self, event_type, event_data):
+        print(event_data)
         ext_msg = event_data.extended_message
         if [ext_msg.category_id, ext_msg.instance_id] == OrgActivityController.LEFT_ORG:
             self.process_org_msg(ext_msg.params[0], self.MODE_REM_MANUAL)
