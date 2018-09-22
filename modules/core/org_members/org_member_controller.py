@@ -81,9 +81,8 @@ class OrgMemberController:
                 for char_id, mode in db_members.items():
                     self.process_update(char_id, mode, self.MODE_REM_AUTO)
 
-    @event(PublicChannelService.ORG_MSG_EVENT, "Record org member activity")
+    @event(PublicChannelService.ORG_MSG_EVENT, "Update org roster when characters join or leave")
     def org_msg_event(self, event_type, event_data):
-        print(event_data)
         ext_msg = event_data.extended_message
         if [ext_msg.category_id, ext_msg.instance_id] == OrgActivityController.LEFT_ORG:
             self.process_org_msg(ext_msg.params[0], self.MODE_REM_MANUAL)
@@ -97,7 +96,7 @@ class OrgMemberController:
     def process_org_msg(self, char_name, new_mode):
         char_id = self.character_service.resolve_char_to_id(char_name)
         org_member = self.get_org_member(char_id)
-        self.process_update(char_id, org_member.mode, new_mode)
+        self.process_update(char_id, org_member.mode if org_member else None, new_mode)
 
     def get_org_member(self, char_id):
         return self.db.query_single("SELECT char_id FROM org_member WHERE char_id = ?", [char_id])
