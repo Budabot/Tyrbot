@@ -6,6 +6,7 @@ Time command param to include both seconds and time_str
 dynamic enabling and disabling of events (eg. buddy_logon for orglist, whois)
 generic paging solution - add Page command param, add resultset paging support to ChatBlob
 adjust default access levels
+add setting for locale in Util
 
 EVENTS
 RAID
