@@ -14,9 +14,14 @@ class RelayController:
         self.pork_service = registry.get_instance("pork_service")
         self.setting_service = registry.get_instance("setting_service")
         self.character_service = registry.get_instance("character_service")
+        self.public_channel_service = registry.get_instance("public_channel_service")
 
     @setting(name="relay_bot", value="", description="Name of bot character for chat relay")
     def relay_bot(self):
+        return TextSettingType()
+
+    @setting(name="relay_prefix", value="", description="Name of this relay (if you don't want to use org or bot name)")
+    def relay_prefix(self):
         return TextSettingType()
 
     @command(command="grc", params=[Any("message")], access_level="all",
@@ -56,7 +61,7 @@ class RelayController:
         msg = "<highlight>%s<end> has left the private channel." % char_name
         self.send_message_to_relay(msg)
 
-    @event(OrgMemberController.ORG_MEMBER_LOGON_EVENT, "Notify relay when org member logs on")
+    @event(event_type=OrgMemberController.ORG_MEMBER_LOGON_EVENT, description="Notify relay when org member logs on")
     def org_member_logon_event(self, event_type, event_data):
         if self.bot.is_ready():
             char_info = self.pork_service.get_character_info(event_data.char_id)
@@ -69,7 +74,7 @@ class RelayController:
             msg = "%s has logged on." % name
             self.send_message_to_relay(msg)
 
-    @event(OrgMemberController.ORG_MEMBER_LOGOFF_EVENT, "Notify relay when org member logs off")
+    @event(event_type=OrgMemberController.ORG_MEMBER_LOGOFF_EVENT, description="Notify relay when org member logs off")
     def org_member_logoff_event(self, event_type, event_data):
         if self.bot.is_ready():
             char_name = self.character_service.resolve_char_to_name(event_data.char_id)
@@ -85,5 +90,7 @@ class RelayController:
     def send_message_to_relay(self, message):
         relay_bot = self.relay_bot().get_value()
         if relay_bot:
-            # TODO add prefix, if setting, then use setting, else if org, then use org name, else use botname
-            self.bot.send_private_message(relay_bot, "grc [<myname>] " + message, add_color=False)
+            # if setting, then use setting, else if org, then use org name, else use botname
+            prefix = self.relay_prefix().get_value() or self.public_channel_service.get_org_name() or "<myname>"
+
+            self.bot.send_private_message(relay_bot, "grc [%s] %s" % (prefix, message), add_color=False)
