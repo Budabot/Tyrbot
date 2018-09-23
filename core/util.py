@@ -15,7 +15,7 @@ class Util:
 
     def __init__(self):
         # needed for self.format_number() to work properly
-        locale.setlocale(locale.LC_NUMERIC, '')
+        locale.setlocale(locale.LC_ALL, 'en_US')
 
         self.abilities = [
             "Agility",
