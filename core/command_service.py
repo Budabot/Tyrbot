@@ -35,6 +35,7 @@ class CommandService:
             re.compile("Error!", re.IGNORECASE),
             re.compile("Unknown command input", re.IGNORECASE),
             re.compile("You have been auto invited", re.IGNORECASE),
+            re.compile("^<font")
         ]
 
     def inject(self, registry):
@@ -134,7 +135,7 @@ class CommandService:
                 self.logger.info("ignoring banned character %d for command '%s'" % (char_id, message))
                 return
 
-            message = html.unescape(message)
+            # message = html.unescape(message)
 
             command_str, command_args = self.get_command_parts(message)
 
