@@ -48,13 +48,15 @@ class OrgMemberController:
 
     @event(event_type=BuddyService.BUDDY_LOGON_EVENT, description="Check if buddy is an org member")
     def handle_buddy_logon_event(self, event_type, event_data):
-        if self.get_org_member(event_data.char_id):
+        org_member = self.get_org_member(event_data.char_id)
+        if org_member and (org_member.mode == self.MODE_ADD_AUTO or org_member.mode == self.MODE_ADD_MANUAL):
             self.update_last_seen(event_data.char_id)
             self.event_service.fire_event(self.ORG_MEMBER_LOGON_EVENT, event_data)
 
     @event(event_type=BuddyService.BUDDY_LOGOFF_EVENT, description="Check if buddy is an org member")
     def handle_buddy_logoff_event(self, event_type, event_data):
-        if self.get_org_member(event_data.char_id):
+        org_member = self.get_org_member(event_data.char_id)
+        if org_member and (org_member.mode == self.MODE_ADD_AUTO or org_member.mode == self.MODE_ADD_MANUAL):
             if self.bot.is_ready():
                 self.update_last_seen(event_data.char_id)
             self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, event_data)
@@ -99,7 +101,7 @@ class OrgMemberController:
         self.process_update(char_id, org_member.mode if org_member else None, new_mode)
 
     def get_org_member(self, char_id):
-        return self.db.query_single("SELECT char_id FROM org_member WHERE char_id = ?", [char_id])
+        return self.db.query_single("SELECT char_id, mode FROM org_member WHERE char_id = ?", [char_id])
 
     def get_all_org_members(self):
         return self.db.query("SELECT char_id, mode FROM org_member")
