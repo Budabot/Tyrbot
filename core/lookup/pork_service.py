@@ -16,13 +16,12 @@ class PorkService:
         self.bot = registry.get_instance("bot")
         self.db = registry.get_instance("db")
         self.character_service = registry.get_instance("character_service")
-        self.util = registry.get_instance("util")
 
     def pre_start(self):
         self.bot.add_packet_handler(server_packets.CharacterLookup.id, self.update)
         self.bot.add_packet_handler(server_packets.CharacterName.id, self.update)
 
-    def get_character_info(self, char, max_cache_time=86400):
+    def get_character_info(self, char, max_cache_age=86400):
         char_id = self.character_service.resolve_char_to_id(char)
         char_name = self.character_service.resolve_char_to_name(char)
 
@@ -33,11 +32,9 @@ class PorkService:
         if char_info:
             if char_info.source == "chat_server":
                 char_info = None
-            else:
-                cache_time_left = char_info.last_updated + max_cache_time - t
-                if cache_time_left > 0:
-                    char_info.source += " (cache; %s old)" % self.util.time_to_readable(t - char_info.last_updated)
-                    return char_info
+            elif char_info.last_updated > t - max_cache_age:
+                char_info.cache_age = t - char_info.last_updated
+                return char_info
 
         if char_name:
             url = "http://people.anarchy-online.com/character/bio/d/%d/name/%s/bio.xml?data_type=json" % (self.bot.dimension, char_name)
@@ -80,10 +77,12 @@ class PorkService:
             })
 
             self.save_character_info(char_info)
+
+            char_info.cache_age = 0
             return char_info
         else:
             # return cached info from database, even tho it's old
-            char_info.source += " (old cache; %s old)" % self.util.time_to_readable(t - char_info.last_updated)
+            char_info.cache_age = t - char_info.last_updated
             return char_info
 
     def get_character_history(self, char):

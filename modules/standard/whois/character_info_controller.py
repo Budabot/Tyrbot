@@ -17,6 +17,7 @@ class CharacterInfoController:
         self.text: Text = registry.get_instance("text")
         self.pork_service = registry.get_instance("pork_service")
         self.command_alias_service = registry.get_instance("command_alias_service")
+        self.util = registry.get_instance("util")
 
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS name_history (char_id INT NOT NULL, name VARCHAR(20) NOT NULL, created_at INT NOT NULL, PRIMARY KEY (char_id, name))")
@@ -25,8 +26,8 @@ class CharacterInfoController:
     @command(command="whois", params=[Character("character"), Const("forceupdate", is_optional=True)], access_level="all",
              description="Get whois information for a character")
     def whois_cmd(self, request, char, force_update):
-        max_cache_time = 0 if force_update else 86400
-        char_info = self.pork_service.get_character_info(char.name, max_cache_time)
+        max_cache_age = 0 if force_update else 86400
+        char_info = self.pork_service.get_character_info(char.name, max_cache_age)
         if char_info:
             blob = "Name: %s\n" % self.get_full_name(char_info)
             blob += "Profession: %s\n" % char_info.profession
@@ -45,7 +46,7 @@ class CharacterInfoController:
             blob += "PVP Rating: %d\n" % char_info.pvp_rating
             blob += "PVP Title: %s\n" % char_info.pvp_title
             blob += "Character Id: %d\n" % char_info.char_id
-            blob += "Source: %s\n" % char_info.source
+            blob += "Source: %s\n" % self.format_source(char_info, max_cache_age)
             blob += "Status: %s\n" % ("<green>Active<end>" if char.char_id else "<red>Inactive<end>")
             more_info = self.text.paginate("More Info", blob, 5000, 1)[0]
 
@@ -90,3 +91,11 @@ class CharacterInfoController:
             name += " " + char_info.last_name
 
         return name
+
+    def format_source(self, char_info, max_cache_age):
+        if char_info.cache_age == 0:
+            return char_info.source
+        elif char_info.cache_age < max_cache_age:
+            return "%s (cache; %s old)" % (char_info.source, self.util.time_to_readable(char_info.cache_age))
+        elif char_info.cache_age > max_cache_age:
+            return "%s (old cache; %s old)" % (char_info.source, self.util.time_to_readable(char_info.cache_age))
