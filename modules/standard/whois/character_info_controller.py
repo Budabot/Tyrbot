@@ -3,7 +3,7 @@ import time
 from core.decorators import instance, command, event, timerevent
 from core.db import DB
 from core.text import Text
-from core.command_param_types import Character
+from core.command_param_types import Character, Const
 from core.chat_blob import ChatBlob
 
 
@@ -22,10 +22,11 @@ class CharacterInfoController:
         self.db.exec("CREATE TABLE IF NOT EXISTS name_history (char_id INT NOT NULL, name VARCHAR(20) NOT NULL, created_at INT NOT NULL, PRIMARY KEY (char_id, name))")
         self.command_alias_service.add_alias("w", "whois")
 
-    @command(command="whois", params=[Character("character")], access_level="all",
+    @command(command="whois", params=[Character("character"), Const("forceupdate", is_optional=True)], access_level="all",
              description="Get whois information for a character")
-    def whois_cmd(self, request, char):
-        char_info = self.pork_service.get_character_info(char.name)
+    def whois_cmd(self, request, char, force_update):
+        max_cache_time = 0 if force_update else 86400
+        char_info = self.pork_service.get_character_info(char.name, max_cache_time)
         if char_info:
             blob = "Name: %s\n" % self.get_full_name(char_info)
             blob += "Profession: %s\n" % char_info.profession
