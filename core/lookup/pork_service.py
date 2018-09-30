@@ -26,15 +26,17 @@ class PorkService:
         char_id = self.character_service.resolve_char_to_id(char)
         char_name = self.character_service.resolve_char_to_name(char)
 
+        t = int(time.time())
+
         # if we have entry in database and it is within the cache time, use that
         char_info = self.get_from_database(char_id=char_id, char_name=char_name)
         if char_info:
             if char_info.source == "chat_server":
                 char_info = None
             else:
-                cache_time_left = char_info.last_updated + max_cache_time - int(time.time())
+                cache_time_left = char_info.last_updated + max_cache_time - t
                 if cache_time_left > 0:
-                    char_info.source += " (cache; %s left)" % self.util.time_to_readable(cache_time_left)
+                    char_info.source += " (cache; %s old)" % self.util.time_to_readable(t - char_info.last_updated)
                     return char_info
 
         if char_name:
@@ -81,6 +83,7 @@ class PorkService:
             return char_info
         else:
             # return cached info from database, even tho it's old
+            char_info.source += " (old cache; %s old)" % self.util.time_to_readable(t - char_info.last_updated)
             return char_info
 
     def get_character_history(self, char):
