@@ -16,23 +16,26 @@ class PorkService:
         self.bot = registry.get_instance("bot")
         self.db = registry.get_instance("db")
         self.character_service = registry.get_instance("character_service")
+        self.util = registry.get_instance("util")
 
     def pre_start(self):
         self.bot.add_packet_handler(server_packets.CharacterLookup.id, self.update)
         self.bot.add_packet_handler(server_packets.CharacterName.id, self.update)
 
-    def get_character_info(self, char):
+    def get_character_info(self, char, max_cache_time=86400):
         char_id = self.character_service.resolve_char_to_id(char)
         char_name = self.character_service.resolve_char_to_name(char)
 
-        # if we have entry in database and it is less than a day old, use that
+        # if we have entry in database and it is within the cache time, use that
         char_info = self.get_from_database(char_id=char_id, char_name=char_name)
         if char_info:
             if char_info.source == "chat_server":
                 char_info = None
-            elif char_info.last_updated > (int(time.time()) - 86400):
-                char_info.source += " (cache)"
-                return char_info
+            else:
+                cache_time_left = char_info.last_updated + max_cache_time - int(time.time())
+                if cache_time_left > 0:
+                    char_info.source += " (cache; %s left)" % self.util.time_to_readable(cache_time_left)
+                    return char_info
 
         if char_name:
             url = "http://people.anarchy-online.com/character/bio/d/%d/name/%s/bio.xml?data_type=json" % (self.bot.dimension, char_name)
