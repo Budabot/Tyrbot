@@ -81,8 +81,10 @@ class PorkService:
             char_info.cache_age = 0
             return char_info
         else:
-            # return cached info from database, even tho it's old
-            char_info.cache_age = t - char_info.last_updated
+            # return cached info from database, even tho it's old, and set cache_age (if it exists)
+            if char_info:
+                char_info.cache_age = t - char_info.last_updated
+
             return char_info
 
     def get_character_history(self, char):
