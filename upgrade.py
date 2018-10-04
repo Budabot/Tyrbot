@@ -46,13 +46,12 @@ def update_version(v):
 def get_version():
     row = db.query_single("SELECT version FROM db_version WHERE file = 'db_version'")
     if row:
-        return row.version
+        return int(row.version)
     else:
         return 0
 
 
 version = get_version()
-
 if version == 0:
     db.exec("INSERT INTO db_version (file, version, verified) VALUES ('db_version', ?, 1)", [0])
     version = update_version(version)
