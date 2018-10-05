@@ -63,6 +63,8 @@ if version == 1:
 
 if version == 2:
     if table_exists("org_member"):
+        if db.type == DB.MYSQL:
+            db.exec("ALTER TABLE org_member MODIFY mode mode VARCHAR(20) NOT NULL")
         db.exec("UPDATE org_member SET mode = ? WHERE mode = ?", ["add_manual", "manual"])
         db.exec("UPDATE org_member SET mode = ? WHERE mode = ?", ["rem_manual", "ignore"])
         db.exec("UPDATE org_member SET mode = ? WHERE mode = ?", ["add_auto", "auto"])
