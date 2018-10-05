@@ -39,7 +39,7 @@ class OrgMemberController:
         self.access_service.register_access_level(self.ORG_ACCESS_LEVEL, 60, self.check_org_member)
 
     def start(self):
-        self.db.exec("CREATE TABLE IF NOT EXISTS org_member (char_id INT NOT NULL PRIMARY KEY, mode VARCHAR(7) NOT NULL, last_seen INT NOT NULL DEFAULT 0)")
+        self.db.exec("CREATE TABLE IF NOT EXISTS org_member (char_id INT NOT NULL PRIMARY KEY, mode VARCHAR(20) NOT NULL, last_seen INT NOT NULL DEFAULT 0)")
 
     @event(event_type="connect", description="Add members as buddies of the bot on startup")
     def handle_connect_event(self, event_type, event_data):
