@@ -66,8 +66,16 @@ class ItemsController:
         return blob
 
     def find_items(self, name, ql=None):
-        sql = "SELECT * FROM aodb WHERE name LIKE ? UNION SELECT * FROM aodb WHERE name <EXTENDED_LIKE=1> ?"
-        params = [name, name]
+        params = [name]
+        sql = "SELECT * FROM aodb WHERE name LIKE ? "
+        if ql:
+            sql += " AND lowql <= ? AND highql >= ?"
+            params.append(ql)
+            params.append(ql)
+
+        sql += " UNION SELECT * FROM aodb WHERE name <EXTENDED_LIKE=%d> ?" % len(params)
+        params.append(name)
+
         if ql:
             sql += " AND lowql <= ? AND highql >= ?"
             params.append(ql)
