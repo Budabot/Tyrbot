@@ -17,7 +17,9 @@ class BanService:
         self.event_service.register_event_type(self.BAN_ADDED_EVENT)
         self.event_service.register_event_type(self.BAN_REMOVED_EVENT)
 
-    def add_ban(self, char_id, sender_char_id, duration, reason):
+    def add_ban(self, char_id, sender_char_id, duration=None, reason=None):
+        reason = reason or ""
+
         t = int(time.time())
         if duration:
             finished_at = t + duration

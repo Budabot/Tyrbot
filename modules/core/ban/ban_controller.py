@@ -49,8 +49,6 @@ class BanController:
     @command(command="ban", params=[Const("add", is_optional=True), Character("character"), Time("duration", is_optional=True), Any("reason", is_optional=True)], access_level="moderator",
              description="Add a character to the ban list")
     def ban_add_cmd(self, request, _, char, duration, reason):
-        reason = reason or ""
-
         if not char.char_id:
             return "Could not find <highlight>%s<end>." % char.name
         elif self.ban_service.get_ban(char.char_id):
