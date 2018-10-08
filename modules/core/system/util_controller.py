@@ -75,3 +75,8 @@ class UtilController:
             blob += "%s - <highlight>%d<end>\n" % (name, channel_id)
 
         return ChatBlob("System Info", blob)
+
+    @command(command="htmldecode", params=[Any("command")], access_level="all",
+             description="Decode html entities from a command before passing to the bot for execution")
+    def htmldecode_cmd(self, request, command_str):
+        self.command_service.process_command(html.unescape(command_str), request.channel, request.sender.char_id, request.reply)
