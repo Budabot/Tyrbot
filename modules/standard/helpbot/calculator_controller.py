@@ -15,7 +15,10 @@ class CalculatorController:
         self.discord_controller.register_discord_command_handler(self.calc_discord_cmd, "calc", [Any("formula")])
 
     @command(command="calc", params=[Any("formula")], access_level="all",
-             description="Perform a calculation")
+             description="Perform a calculation", extended_description="Supported operators:\n\n+ (addition)\n- (subtraction)\n* (multiplication)\n/ (division)\n"
+                                                                       "% (modulus)\n** (exponent)\n// (floor/integer division)\n< (less than)\n> (greater than)\n"
+                                                                       "() (parenthesis)\n& (binary AND)\n| (binary OR)\n^ (binary exclusive OR)\n~ (binary ones complement)\n"
+                                                                       "<< (binary left shift)\n>> (binary right shift)")
     def calc_cmd(self, request, formula):
         if self.allow_chars_regex.match(formula):
             try:
