@@ -133,3 +133,6 @@ class EventService:
     def update_event_status(self, event_base_type, event_sub_type, event_handler, enabled_status):
         return self.db.exec("UPDATE event_config SET enabled = ? WHERE event_type = ? AND event_sub_type = ? AND handler LIKE ?",
                             [enabled_status, event_base_type, event_sub_type, event_handler])
+
+    def get_event_types(self):
+        return self.event_types
