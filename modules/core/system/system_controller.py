@@ -1,5 +1,6 @@
 from core.decorators import instance, command, event, setting
 from core.command_service import CommandService
+from core.dict_object import DictObject
 from core.logger import Logger
 from core.setting_service import SettingService
 from core.setting_types import BooleanSettingType
@@ -7,12 +8,18 @@ from core.setting_types import BooleanSettingType
 
 @instance()
 class SystemController:
+    SHUTDOWN_EVENT = "shutdown"
+
     def __init__(self):
         self.logger = Logger(__name__)
 
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
         self.setting_service: SettingService = registry.get_instance("setting_service")
+        self.event_service = registry.get_instance("event_service")
+
+    def pre_start(self):
+        self.event_service.register_event_type(self.SHUTDOWN_EVENT)
 
     @setting(name="expected_shutdown", value="true", description="Helps bot to determine if last shutdown was expected or due to a problem")
     def expected_shutdown(self):
@@ -25,6 +32,8 @@ class SystemController:
     @command(command="shutdown", params=[], access_level="superadmin",
              description="Shutdown the bot")
     def shutdown_cmd(self, request):
+        self.event_service.fire_event(self.SHUTDOWN_EVENT, DictObject({"restart": False}))
+
         msg = "The bot is shutting down..."
         self.bot.send_org_message(msg)
         self.bot.send_private_channel_message(msg)
@@ -40,6 +49,8 @@ class SystemController:
     @command(command="restart", params=[], access_level="superadmin",
              description="Restart the bot")
     def restart_cmd(self, request):
+        self.event_service.fire_event(self.SHUTDOWN_EVENT, DictObject({"restart": True}))
+
         msg = "The bot is restarting..."
         if self.setting_service.get("restart_notify").get_value():
             self.bot.send_org_message(msg)
