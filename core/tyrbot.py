@@ -140,6 +140,10 @@ class Tyrbot(Bot):
         handlers.append(handler)
         self.packet_handlers[packet_id] = handlers
 
+    def remove_packet_handler(self, packet_id, handler):
+        handlers = self.packet_handlers.get(packet_id, [])
+        handlers.remove(handler)
+
     def iterate(self):
         packet = self.read_packet(1)
         if packet:
