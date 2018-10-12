@@ -76,12 +76,19 @@ class OnlineController:
         return ChatBlob("Count (%d)" % len(data), blob)
 
     def get_online_characters(self, channel):
-        sql = "SELECT p1.*, o.afk_dt, o.afk_reason, COALESCE(p2.name, p1.name, o.char_id) AS main, COALESCE(p1.name, o.char_id) AS name FROM online o " \
+        sql = "SELECT " \
+                "p1.*, " \
+                "o.afk_dt, " \
+                "o.afk_reason, " \
+                "COALESCE(p2.name, p1.name, o.char_id) AS main, " \
+                "COALESCE(p1.name, o.char_id) AS name " \
+              "FROM online o " \
               "LEFT JOIN alts a1 ON o.char_id = a1.char_id " \
               "LEFT JOIN player p1 ON o.char_id = p1.char_id " \
               "LEFT JOIN alts a2 ON a1.group_id = a2.group_id AND a2.status = ? " \
               "LEFT JOIN player p2 ON a2.char_id = p2.char_id " \
-              "WHERE channel = ?"
+              "WHERE channel = ? " \
+              "ORDER BY p2.name ASC, p1.name ASC, o.char_id ASC"
 
         return self.db.query(sql, [AltsService.MAIN, channel])
 

@@ -72,11 +72,11 @@ class UtilController:
         blob += "Buddy List: <highlight>%d / %d<end>\n" % (len(self.buddy_service.buddy_list), self.buddy_service.buddy_list_size)
         blob += "Uptime: <highlight>%s<end>\n" % self.util.time_to_readable(int(time.time()) - self.bot.start_time, max_levels=None)
 
-        blob += "\n<header2>Public Channels<end>\n"
+        blob += "\n<pagebreak><header2>Public Channels<end>\n"
         for channel_id, name in self.public_channel_service.get_all_public_channels().items():
             blob += "%s - <highlight>%d<end>\n" % (name, channel_id)
 
-        blob += "\n<header2>Event Types<end>\n"
+        blob += "\n<pagebreak><header2>Event Types<end>\n"
         for event_type in self.event_service.get_event_types():
             blob += "%s\n" % event_type
 
