@@ -7,6 +7,7 @@ dynamic enabling and disabling of events (eg. buddy_logon for orglist, whois)
 generic paging solution - add Page command param, add resultset paging support to ChatBlob
 adjust default access levels
 fix number grouping on linux
+auto-clear queue
 
 EVENTS
 RAID

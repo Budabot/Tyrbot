@@ -51,4 +51,5 @@ class BanService:
         t = int(time.time())
         return self.db.query("SELECT b.*, p1.name AS name, p2.name AS sender_name FROM ban_list b "
                              "LEFT JOIN player p1 ON b.char_id = p1.char_id LEFT JOIN player p2 ON b.sender_char_id = p2.char_id "
-                             "WHERE ended_early != 1 AND (finished_at > ? OR finished_at = -1)", [t])
+                             "WHERE ended_early != 1 AND (finished_at > ? OR finished_at = -1) "
+                             "ORDER BY b.created_at DESC", [t])
