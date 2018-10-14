@@ -42,7 +42,7 @@ class TopicController:
              description="Set the current topic")
     def topic_set_command(self, request, _, topic_message):
         topic = {"topic_message": topic_message,
-                 "created_by": request.sender,
+                 "created_by": request.sender.__dict__,
                  "created_at": int(time.time())}
 
         self.topic().set_value(topic)
