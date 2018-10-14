@@ -142,8 +142,10 @@ class CommandService:
             # check for command alias
             command_alias = self.command_alias_service.check_for_alias(command_str)
 
-            if command_alias:
+            while command_alias:
                 command_str, command_args = self.get_command_parts(command_alias + command_args)
+
+                command_alias = self.command_alias_service.check_for_alias(command_str)
 
             cmd_configs = self.get_command_configs(command_str, channel, 1)
             if cmd_configs:
