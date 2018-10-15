@@ -179,9 +179,8 @@ class NewsController:
             more_stickies = True
             for item in news:
                 if item.sticky == 0 and more_stickies:
-                    if len(blob) <= 0:
-                        blob += "No stickies\n"
-                    blob += "____________________________\n\n"
+                    if len(blob) > 0:
+                        blob += "____________________________\n\n"
                     more_stickies = False
 
                 unread_color = self.setting_service.get("unread_color").get_font_color()
