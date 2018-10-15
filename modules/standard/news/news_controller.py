@@ -45,112 +45,6 @@ class NewsController:
     def news_color(self):
         return ColorSettingType()
 
-    def build_news_list(self, include_read=True, char_id=None):
-        blob = ""
-
-        if not include_read and char_id is not None:
-            blob += self.get_unread_news(char_id)
-        else:
-            stickies = self.get_sticky_news()
-            news = self.get_news()
-
-            if stickies:
-                blob += "<header2>Stickies<end>\n"
-                blob += stickies
-                blob += "____________________________\n\n"
-
-            blob += news or "No news"
-
-        return blob if len(blob) > 0 else None
-
-    def has_unread_news(self, char_id):
-        sql = "SELECT COUNT(*) as count FROM news n WHERE n.news_id NOT IN ( SELECT r.news_id FROM news_read r WHERE r.char_id = ? ) AND n.deleted = 0"
-        news_unread_count = self.db.query_single(sql, [char_id]).count
-
-        if news_unread_count < 1:
-            sql = "SELECT COUNT(*) as count FROM news n WHERE n.deleted = 0"
-            news_count = self.db.query_single(sql).count
-
-            if news_count < 1:
-                return None
-
-        return news_unread_count > 0
-
-    def get_unread_news(self, char_id):
-        number_news_shown = self.setting_service.get("number_news_shown").get_value()
-        sql = "SELECT * FROM news n WHERE n.news_id NOT IN ( SELECT r.news_id FROM news_read r WHERE char_id = ? ) AND n.deleted = 0 ORDER BY n.sticky DESC, n.time DESC LIMIT ?"
-        news = self.db.query(sql, [char_id, number_news_shown])
-
-        blob = ""
-
-        if news:
-            more_stickies = True
-            for item in news:
-                if item.sticky == 0 and more_stickies:
-                    if len(blob) <= 0:
-                        blob += "No stickies\n"
-                    blob += "____________________________\n\n"
-                    more_stickies = False
-
-                unread_color = self.setting_service.get("unread_color").get_font_color()
-                remove_link = self.text.make_chatcmd("Remove", "/tell <myname> news rem %s" % (item.news_id))
-                sticky_text = "Sticky" if item.sticky == 0 else "Unsticky"
-                sticky_link = self.text.make_chatcmd(sticky_text, "/tell <myname> news %s %s" % (sticky_text.lower(), item.news_id))
-                read_link = self.text.make_chatcmd("Mark as read", "/tell <myname> news markasread %s" % (item.news_id))
-                timestamp = self.util.format_datetime(item.time)
-
-                blob += "%s%s<end>\n" % (unread_color, item.news)
-                blob += "By %s [%s] [%s] [%s] [%s]\n\n" % (item.author, timestamp, remove_link, sticky_link, read_link)
-            
-            if more_stickies:
-                blob += "____________________________\n\n"
-                blob += "No news"
-                
-            return blob
-        
-        return None
-
-    def get_sticky_news(self):
-        sql = "SELECT * FROM news n WHERE n.deleted = 0 AND n.sticky = 1 ORDER BY n.time DESC"
-        news = self.db.query(sql)
-
-        blob = ""
-
-        if news:
-            for item in news:
-                sticky_color = self.setting_service.get("sticky_color").get_font_color()
-                remove_link = self.text.make_chatcmd("Remove", "/tell <myname> news rem %s" % (item.news_id))
-                sticky_link = self.text.make_chatcmd("Unsticky", "/tell <myname> news unsticky %s" % (item.news_id))
-                timestamp = self.util.format_datetime(item.time)
-
-                blob += "%s%s<end>\n" % (sticky_color, item.news)
-                blob += "By %s [%s] [%s] [%s]\n\n" % (item.author, timestamp, remove_link, sticky_link)
-
-            return blob
-
-        return None
-
-    def get_news(self):
-        number_news_shown = self.setting_service.get("number_news_shown").get_value()
-        sql = "SELECT * FROM news n WHERE n.deleted = 0 AND n.sticky = 0 ORDER BY n.time DESC LIMIT ?"
-        news = self.db.query(sql, [number_news_shown])
-
-        blob = ""
-
-        if news:
-            for item in news:
-                news_color = self.setting_service.get("news_color").get_font_color()
-                remove_link = self.text.make_chatcmd("Remove", "/tell <myname> news rem %s" % (item.news_id))
-                sticky_link = self.text.make_chatcmd("Sticky", "/tell <myname> news sticky %s" % (item.news_id))
-                timestamp = self.util.format_datetime(item.time)
-
-                blob += "%s%s<end>\n" % (news_color, item.news)
-                blob += "By %s [%s] [%s] [%s]\n\n" % (item.author, timestamp, remove_link, sticky_link)
-            
-            return blob
-
-        return None
-
     @command(command="news", params=[], description="Show list of news", access_level="member")
     def news_cmd(self, request):
         row = self.db.query_single("SELECT n.time FROM news n WHERE n.deleted = 0 ORDER BY n.time DESC LIMIT 1")
@@ -209,7 +103,7 @@ class NewsController:
         else:
             return "Could not find news entry with ID %d." % news_id
     
-    @event(OrgMemberController.ORG_MEMBER_LOGON_EVENT, "Send news list when org member logs on")
+    @event(event_type=OrgMemberController.ORG_MEMBER_LOGON_EVENT, description="Send news list when org member logs on")
     def orgmember_logon_event(self, event_type, event_data):
         include_read = self.setting_service.get("include_read_on_logon").get_value()
         unread_news = self.has_unread_news(event_data.char_id)
@@ -226,7 +120,7 @@ class NewsController:
         if news:
             self.bot.send_private_message(event_data.char_id, ChatBlob("News", news))
 
-    @event(PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, "Send news list when someone joins private channel")    
+    @event(event_type=PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, description="Send news list when someone joins private channel")
     def priv_logon_event(self, event_type, event_data):
         include_read = self.setting_service.get("include_read_on_logon").get_value()
         unread_news = self.has_unread_news(event_data.char_id)
@@ -242,3 +136,109 @@ class NewsController:
         
         if news:
             self.bot.send_private_message(event_data.char_id, ChatBlob("News", news))
+
+    def build_news_list(self, include_read=True, char_id=None):
+        blob = ""
+
+        if not include_read and char_id is not None:
+            blob += self.get_unread_news(char_id)
+        else:
+            stickies = self.get_sticky_news()
+            news = self.get_news()
+
+            if stickies:
+                blob += "<header2>Stickies<end>\n"
+                blob += stickies
+                blob += "____________________________\n\n"
+
+            blob += news or "No news"
+
+        return blob if len(blob) > 0 else None
+
+    def has_unread_news(self, char_id):
+        sql = "SELECT COUNT(*) as count FROM news n WHERE n.news_id NOT IN ( SELECT r.news_id FROM news_read r WHERE r.char_id = ? ) AND n.deleted = 0"
+        news_unread_count = self.db.query_single(sql, [char_id]).count
+
+        if news_unread_count < 1:
+            sql = "SELECT COUNT(*) as count FROM news n WHERE n.deleted = 0"
+            news_count = self.db.query_single(sql).count
+
+            if news_count < 1:
+                return None
+
+        return news_unread_count > 0
+
+    def get_unread_news(self, char_id):
+        number_news_shown = self.setting_service.get("number_news_shown").get_value()
+        sql = "SELECT * FROM news n WHERE n.news_id NOT IN ( SELECT r.news_id FROM news_read r WHERE char_id = ? ) AND n.deleted = 0 ORDER BY n.sticky DESC, n.time DESC LIMIT ?"
+        news = self.db.query(sql, [char_id, number_news_shown])
+
+        blob = ""
+
+        if news:
+            more_stickies = True
+            for item in news:
+                if item.sticky == 0 and more_stickies:
+                    if len(blob) <= 0:
+                        blob += "No stickies\n"
+                    blob += "____________________________\n\n"
+                    more_stickies = False
+
+                unread_color = self.setting_service.get("unread_color").get_font_color()
+                remove_link = self.text.make_chatcmd("Remove", "/tell <myname> news rem %s" % (item.news_id))
+                sticky_text = "Sticky" if item.sticky == 0 else "Unsticky"
+                sticky_link = self.text.make_chatcmd(sticky_text, "/tell <myname> news %s %s" % (sticky_text.lower(), item.news_id))
+                read_link = self.text.make_chatcmd("Mark as read", "/tell <myname> news markasread %s" % (item.news_id))
+                timestamp = self.util.format_datetime(item.time)
+
+                blob += "%s%s<end>\n" % (unread_color, item.news)
+                blob += "By %s [%s] [%s] [%s] [%s]\n\n" % (item.author, timestamp, remove_link, sticky_link, read_link)
+
+            if more_stickies:
+                blob += "____________________________\n\n"
+                blob += "No news"
+
+            return blob
+
+        return None
+
+    def get_sticky_news(self):
+        sql = "SELECT * FROM news n WHERE n.deleted = 0 AND n.sticky = 1 ORDER BY n.time DESC"
+        news = self.db.query(sql)
+
+        blob = ""
+
+        if news:
+            for item in news:
+                sticky_color = self.setting_service.get("sticky_color").get_font_color()
+                remove_link = self.text.make_chatcmd("Remove", "/tell <myname> news rem %s" % (item.news_id))
+                sticky_link = self.text.make_chatcmd("Unsticky", "/tell <myname> news unsticky %s" % (item.news_id))
+                timestamp = self.util.format_datetime(item.time)
+
+                blob += "%s%s<end>\n" % (sticky_color, item.news)
+                blob += "By %s [%s] [%s] [%s]\n\n" % (item.author, timestamp, remove_link, sticky_link)
+
+            return blob
+
+        return None
+
+    def get_news(self):
+        number_news_shown = self.setting_service.get("number_news_shown").get_value()
+        sql = "SELECT * FROM news n WHERE n.deleted = 0 AND n.sticky = 0 ORDER BY n.time DESC LIMIT ?"
+        news = self.db.query(sql, [number_news_shown])
+
+        blob = ""
+
+        if news:
+            for item in news:
+                news_color = self.setting_service.get("news_color").get_font_color()
+                remove_link = self.text.make_chatcmd("Remove", "/tell <myname> news rem %s" % (item.news_id))
+                sticky_link = self.text.make_chatcmd("Sticky", "/tell <myname> news sticky %s" % (item.news_id))
+                timestamp = self.util.format_datetime(item.time)
+
+                blob += "%s%s<end>\n" % (news_color, item.news)
+                blob += "By %s [%s] [%s] [%s]\n\n" % (item.author, timestamp, remove_link, sticky_link)
+
+            return blob
+
+        return None
