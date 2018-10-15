@@ -1,13 +1,16 @@
+from core.aochat.server_packets import BuddyAdded
 from core.ban_service import BanService
-from core.decorators import instance, command, event
-from core.command_param_types import Any, Const, Options, Character
 from core.chat_blob import ChatBlob
-from core.buddy_service import BuddyService
+from core.command_param_types import Const, Options, Character
+from core.decorators import instance, command, event
 
 
 @instance()
 class MemberController:
     MEMBER_BUDDY_TYPE = "member"
+
+    MEMBER_LOGON_EVENT = "member_logon_event"
+    MEMBER_LOGOFF_EVENT = "member_logoff_event"
 
     def inject(self, registry):
         self.db = registry.get_instance("db")
@@ -16,9 +19,13 @@ class MemberController:
         self.bot = registry.get_instance("bot")
         self.access_service = registry.get_instance("access_service")
         self.command_alias_service = registry.get_instance("command_alias_service")
+        self.event_service = registry.get_instance("event_service")
 
     def pre_start(self):
         self.access_service.register_access_level("member", 90, self.check_member)
+        self.event_service.register_event_type(self.MEMBER_LOGON_EVENT)
+        self.event_service.register_event_type(self.MEMBER_LOGOFF_EVENT)
+        self.bot.add_packet_handler(BuddyAdded.id, self.handle_member_logon)
 
     def start(self):
         self.command_alias_service.add_alias("adduser", "member add")
@@ -75,12 +82,19 @@ class MemberController:
         else:
             return "You must be a member of this bot to set your auto invite preference."
 
-    @event(event_type=BuddyService.BUDDY_LOGON_EVENT, description="Auto invite members to the private channel when they logon")
+    def handle_member_logon(self, packet: BuddyAdded):
+        member = self.get_member(packet.char_id)
+        if member:
+            if packet.online:
+                self.event_service.fire_event(self.MEMBER_LOGON_EVENT, member)
+            else:
+                self.event_service.fire_event(self.MEMBER_LOGOFF_EVENT, member)
+
+    @event(event_type=MEMBER_LOGON_EVENT, description="Auto invite members to the private channel when they logon")
     def handle_buddy_logon(self, event_type, event_data):
-        member = self.get_member(event_data.char_id)
-        if member and member.auto_invite == 1:
-            self.bot.send_private_message(member.char_id, "You have been auto-invited to the private channel.")
-            self.private_channel_service.invite(member.char_id)
+        if event_data.auto_invite == 1:
+            self.bot.send_private_message(event_data.char_id, "You have been auto-invited to the private channel.")
+            self.private_channel_service.invite(event_data.char_id)
 
     def add_member(self, char_id, auto_invite=1):
         self.buddy_service.add_buddy(char_id, self.MEMBER_BUDDY_TYPE)
