@@ -305,7 +305,7 @@ class RaidController:
         return "%s does not have any items registered in loot table." % category
 
     @command(command="raid", params=[Const("start"), Int("raid_limit", is_optional=True), Any("raid_name")],
-             description="Start new raid", access_level="moderator")
+             description="Start new raid", access_level="moderator", sub_command="manage")
     def raid_start_cmd(self, request, _, raid_limit: int, raid_name: str):
         if self.raid:
             return "The raid, <yellow>%s<end>, is already running." % self.raid.raid_name
@@ -330,7 +330,7 @@ class RaidController:
         self.bot.send_private_channel_message(msg)
 
     @command(command="raid", params=[Options(["end", "cancel"])], description="End raid without saving/logging.",
-             access_level="moderator")
+             access_level="moderator", sub_command="manage")
     def raid_cancel_cmd(self, request, _):
         if self.raid is None:
             return "No raid is running."
@@ -427,7 +427,7 @@ class RaidController:
         return "You're not participating in the raid."
 
     @command(command="raid", params=[Const("addpts"), Any("name")], description="Add points to all active participants",
-             access_level="moderator")
+             access_level="moderator", sub_command="manage")
     def points_add_cmd(self, request, _, name: str):
         preset = self.db.query_single("SELECT * FROM points_presets WHERE name = ?", [name])
         if preset:
@@ -463,7 +463,7 @@ class RaidController:
         return ChatBlob("No such preset - see list of presets", self.points_controller.build_preset_list())
 
     @command(command="raid", params=[Const("active")], description="Get a list of raiders to do active check",
-             access_level="moderator")
+             access_level="moderator", sub_command="manage")
     def raid_active_cmd(self, request, _):
         if self.raid:
             blob = ""
@@ -498,7 +498,7 @@ class RaidController:
         return "No raid is running."
 
     @command(command="raid", params=[Const("kick"), Character("char"), Any("reason")],
-             description="Set raider as kicked with a reason", access_level="moderator")
+             description="Set raider as kicked with a reason", access_level="moderator", sub_command="manage")
     def raid_kick_cmd(self, _1, _2, char: SenderObj, reason: str):
         if self.raid is None:
             return "No raid is running."
@@ -524,7 +524,7 @@ class RaidController:
         return "%s is not participating." % char.name
 
     @command(command="raid", params=[Options(["open", "close"])], description="Open/close raid for new participants",
-             access_level="moderator")
+             access_level="moderator", sub_command="manage")
     def raid_open_close_cmd(self, request, action):
         if self.raid:
             if action == "open":
@@ -544,7 +544,7 @@ class RaidController:
 
         return "No raid is running."
 
-    @command(command="raid", params=[Const("save")], description="Save and log running raid", access_level="moderator")
+    @command(command="raid", params=[Const("save")], description="Save and log running raid", access_level="moderator", sub_command="manage")
     def raid_save_cmd(self, _1, _2):
         if self.raid:
             sql = "INSERT INTO raid_log (raid_name, started_by, raid_limit, raid_min_lvl, " \
@@ -571,7 +571,7 @@ class RaidController:
 
     @command(command="raid", params=[Const("logentry"), Int("raid_id"), Character("char", is_optional=True)],
              description="Show log entry for raid, with possibility of narrowing down the log for character in raid",
-             access_level="moderator")
+             access_level="moderator", sub_command="manage")
     def raid_log_entry_cmd(self, _1, _2, raid_id: int, char: SenderObj):
         log_entry_spec = None
         if char:
