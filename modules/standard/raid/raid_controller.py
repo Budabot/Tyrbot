@@ -479,7 +479,7 @@ class RaidController:
                     raider_names.clear()
 
                 raider_name = self.character_service.resolve_char_to_name(raider.active_id)
-                akick_link = self.text.make_chatcmd("Active kick", "/tell <myname> raid akick %s" % raider.main_id)
+                akick_link = self.text.make_chatcmd("Active kick", "/tell <myname> raid kick %s inactive" % raider.main_id)
                 warn_link = self.text.make_chatcmd("Warn", "/tell <myname> raid cmd %s missed active "
                                                            "check, please give notice." % raider_name)
                 blob += "<highlight>%s<end> [%s] [%s]\n" % (raider_name, akick_link, warn_link)
@@ -496,31 +496,6 @@ class RaidController:
             self.bot.send_private_message(request.sender.char_id, ChatBlob("Active check", blob))
 
         return "No raid is running."
-
-    @command(command="raid", params=[Const("akick"), Character("char")],
-             description="Set raider as kicked because of failing active-check", access_level="moderator")
-    def raid_akick_cmd(self, _1, _2, char: SenderObj):
-        if self.raid is None:
-            return "No raid is running."
-
-        main_id = self.alts_service.get_main(char.char_id).char_id
-        in_raid = self.is_in_raid(main_id)
-
-        try:
-            name = self.character_service.resolve_char_to_name(int(char.name))
-        except ValueError:
-            name = char.name
-
-        if in_raid is not None:
-            if not in_raid.is_active:
-                return "%s is already set as inactive." % name
-
-            in_raid.is_active = False
-            in_raid.was_kicked = int(time.time())
-            in_raid.was_kicked_reason = "Failed active check"
-            return "%s is set as inactive, and will not receive any further points." % name
-
-        return "%s is not participating." % name
 
     @command(command="raid", params=[Const("kick"), Character("char"), Any("reason")],
              description="Set raider as kicked with a reason", access_level="moderator")
