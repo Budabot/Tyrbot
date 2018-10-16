@@ -8,6 +8,7 @@ generic paging solution - add Page command param, add resultset paging support t
 adjust default access levels
 fix number grouping on linux
 auto-clear queue
+investigate async/await for events and commands
 
 EVENTS
 RAID

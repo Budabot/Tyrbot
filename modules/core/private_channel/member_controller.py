@@ -88,9 +88,9 @@ class MemberController:
             self.bot.send_private_message(event_data.char_id, "You have been auto-invited to the private channel.")
             self.private_channel_service.invite(event_data.char_id)
 
-    @event(event_type=BanService.BAN_ADDED_EVENT, description="Disable autoinvite for characters who are banned")
+    @event(event_type=BanService.BAN_ADDED_EVENT, description="Remove characters as members when they are banned")
     def ban_added_event(self, event_type, event_data):
-        self.update_auto_invite(event_data.char_id, 0)
+        self.remove_member(event_data.char_id)
 
     def handle_member_logon(self, packet: BuddyAdded):
         member = self.get_member(packet.char_id)
