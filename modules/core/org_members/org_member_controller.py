@@ -1,5 +1,7 @@
+from core.aochat.server_packets import BuddyAdded
 from core.buddy_service import BuddyService
-from core.decorators import instance, event, timerevent
+from core.command_param_types import Const, Character
+from core.decorators import instance, event, timerevent, command
 from core.logger import Logger
 import time
 
@@ -40,6 +42,40 @@ class OrgMemberController:
 
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS org_member (char_id INT NOT NULL PRIMARY KEY, mode VARCHAR(20) NOT NULL, last_seen INT NOT NULL DEFAULT 0)")
+
+    @command(command="notify", params=[Const("off"), Character("character")], access_level="admin",
+             description="Turn off online notification for a character")
+    def notify_off_cmd(self, request, _, char):
+        if not char.char_id:
+            return "Could not find character <highlight>%s<end>." % char.name
+
+        org_member = self.get_org_member(char.char_id)
+        if not org_member or org_member.mode == self.MODE_REM_MANUAL:
+            return "<highlight>%s<end> is not on the notify list." % char.name
+
+        self.update_org_member(char.char_id, self.MODE_REM_MANUAL)
+
+        # fire org_member logoff event
+        self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, BuddyAdded(char.char_id, 0, "\0"))
+
+        return "<highlight>%s<end> has been removed from the notify list." % char.name
+
+    @command(command="notify", params=[Const("on"), Character("character")], access_level="admin",
+             description="Turn on online notification for a character")
+    def notify_on_cmd(self, request, _, char):
+        if not char.char_id:
+            return "Could not find character <highlight>%s<end>." % char.name
+
+        org_member = self.get_org_member(char.char_id)
+        if org_member and (org_member.mode == self.MODE_ADD_AUTO or org_member.mode == self.MODE_ADD_MANUAL):
+            return "<highlight>%s<end> is already on the notify list." % char.name
+
+        self.update_org_member(char.char_id, self.MODE_ADD_MANUAL)
+
+        # fire org_member logon event
+        self.event_service.fire_event(self.ORG_MEMBER_LOGON_EVENT, BuddyAdded(char.char_id, 1, "\0"))
+
+        return "<highlight>%s<end> has been added to the notify list." % char.name
 
     @event(event_type="connect", description="Add members as buddies of the bot on startup")
     def handle_connect_event(self, event_type, event_data):
