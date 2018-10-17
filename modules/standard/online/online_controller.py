@@ -88,7 +88,7 @@ class OnlineController:
               "LEFT JOIN alts a2 ON a1.group_id = a2.group_id AND a2.status = ? " \
               "LEFT JOIN player p2 ON a2.char_id = p2.char_id " \
               "WHERE channel = ? " \
-              "ORDER BY p2.name ASC, p1.name ASC, o.char_id ASC"
+              "ORDER BY COALESCE(p2.name, p1.name, o.char_id) ASC, COALESCE(p1.name, o.char_id) ASC"
 
         return self.db.query(sql, [AltsService.MAIN, channel])
 
