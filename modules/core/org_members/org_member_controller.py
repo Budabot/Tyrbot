@@ -39,6 +39,7 @@ class OrgMemberController:
         self.event_service.register_event_type(self.ORG_MEMBER_LOGON_EVENT)
         self.event_service.register_event_type(self.ORG_MEMBER_LOGOFF_EVENT)
         self.access_service.register_access_level(self.ORG_ACCESS_LEVEL, 60, self.check_org_member)
+        self.bot.add_packet_handler(BuddyAdded.id, self.handle_buddy_added)
 
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS org_member (char_id INT NOT NULL PRIMARY KEY, mode VARCHAR(20) NOT NULL, last_seen INT NOT NULL DEFAULT 0)")
@@ -56,7 +57,7 @@ class OrgMemberController:
         self.update_org_member(char.char_id, self.MODE_REM_MANUAL)
 
         # fire org_member logoff event
-        self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, BuddyAdded(char.char_id, 0, "\0"))
+        self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, self.get_org_member(char.char_id))
 
         return "<highlight>%s<end> has been removed from the notify list." % char.name
 
@@ -73,7 +74,7 @@ class OrgMemberController:
         self.update_org_member(char.char_id, self.MODE_ADD_MANUAL)
 
         # fire org_member logon event
-        self.event_service.fire_event(self.ORG_MEMBER_LOGON_EVENT, BuddyAdded(char.char_id, 1, "\0"))
+        self.event_service.fire_event(self.ORG_MEMBER_LOGON_EVENT, self.get_org_member(char.char_id))
 
         return "<highlight>%s<end> has been added to the notify list." % char.name
 
@@ -82,20 +83,14 @@ class OrgMemberController:
         for row in self.get_all_org_members():
             self.buddy_service.add_buddy(row.char_id, self.ORG_BUDDY_TYPE)
 
-    @event(event_type=BuddyService.BUDDY_LOGON_EVENT, description="Check if buddy is an org member")
-    def handle_buddy_logon_event(self, event_type, event_data):
-        org_member = self.get_org_member(event_data.char_id)
-        if org_member and (org_member.mode == self.MODE_ADD_AUTO or org_member.mode == self.MODE_ADD_MANUAL):
-            self.update_last_seen(event_data.char_id)
-            self.event_service.fire_event(self.ORG_MEMBER_LOGON_EVENT, event_data)
+    @event(event_type=ORG_MEMBER_LOGON_EVENT, description="Record last seen info")
+    def handle_org_member_logon_event(self, event_type, event_data):
+        self.update_last_seen(event_data.char_id)
 
-    @event(event_type=BuddyService.BUDDY_LOGOFF_EVENT, description="Check if buddy is an org member")
-    def handle_buddy_logoff_event(self, event_type, event_data):
-        org_member = self.get_org_member(event_data.char_id)
-        if org_member and (org_member.mode == self.MODE_ADD_AUTO or org_member.mode == self.MODE_ADD_MANUAL):
-            if self.bot.is_ready():
-                self.update_last_seen(event_data.char_id)
-            self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, event_data)
+    @event(event_type=ORG_MEMBER_LOGOFF_EVENT, description="Record last seen info")
+    def handle_org_member_logoff_event(self, event_type, event_data):
+        if self.bot.is_ready():
+            self.update_last_seen(event_data.char_id)
 
     @timerevent(budatime="24h", description="Download the org_members roster")
     def download_org_roster_event(self, event_type, event_data):
@@ -130,6 +125,14 @@ class OrgMemberController:
             self.process_org_msg(ext_msg.params[1], self.MODE_ADD_MANUAL)
         elif [ext_msg.category_id, ext_msg.instance_id] == OrgActivityController.KICKED_INACTIVE_FROM_ORG:
             self.process_org_msg(ext_msg.params[1], self.MODE_REM_MANUAL)
+
+    def handle_buddy_added(self, packet: BuddyAdded):
+        org_member = self.get_org_member(packet.char_id)
+        if org_member and (org_member.mode == self.MODE_ADD_AUTO or org_member.mode == self.MODE_ADD_MANUAL):
+            if packet.online:
+                self.event_service.fire_event(self.ORG_MEMBER_LOGON_EVENT, org_member)
+            else:
+                self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, org_member)
 
     def process_org_msg(self, char_name, new_mode):
         char_id = self.character_service.resolve_char_to_id(char_name)
