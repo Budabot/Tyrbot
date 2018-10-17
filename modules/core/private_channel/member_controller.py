@@ -68,7 +68,7 @@ class MemberController:
         count = len(data)
         blob = ""
         for row in data:
-            blob += str(row.char_id) + "\n"
+            blob += str(row.name) + "\n"
         return ChatBlob("Members (%d)" % count, blob)
 
     @command(command="autoinvite", params=[Options(["on", "off"])], access_level="all",
@@ -116,7 +116,7 @@ class MemberController:
         return self.db.query_single("SELECT char_id, auto_invite FROM members WHERE char_id = ?", [char_id])
 
     def get_all_members(self):
-        return self.db.query("SELECT char_id, auto_invite FROM members")
+        return self.db.query("SELECT COALESCE(p.name, m.char_id) AS name, m.char_id, m.auto_invite FROM members m LEFT JOIN player p ON m.char_id = p.char_id")
 
     def check_member(self, char_id):
         return self.get_member(char_id) is not None
