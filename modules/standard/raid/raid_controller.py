@@ -420,8 +420,8 @@ class RaidController:
 
             in_raid.is_active = False
             in_raid.left_raid = int(time.time())
-            self.bot.send_private_channel_message("<yellow>%s<end> left the raid.")
-            self.bot.send_org_message("<yellow>%s<end> left the raid.")
+            self.bot.send_private_channel_message("<yellow>%s<end> left the raid." % request.sender.name)
+            self.bot.send_org_message("<yellow>%s<end> left the raid." % request.sender.name)
             return
 
         return "You're not participating in the raid."
