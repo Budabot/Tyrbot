@@ -263,10 +263,11 @@ class DiscordController:
     def handle_org_message_event(self, event_type, event_data):
         if event_data.char_id not in self.ignore:
             if event_data.message[:1] != "!":
+                msg = event_data.extended_message.get_message() if event_data.extended_message else event_data.message
                 msgtype = self.setting_service.get("discord_relay_format").get_value()
                 msgcolor = self.setting_service.get("discord_embed_color").get_int_value()
                 name = self.character_service.resolve_char_to_name(event_data.char_id)
-                message = DiscordMessage(msgtype, "Org", name, self.strip_html_tags(event_data.message), False, msgcolor)
+                message = DiscordMessage(msgtype, "Org", name, self.strip_html_tags(msg), False, msgcolor)
                 self.aoqueue.append(("org", message))
 
     @event(event_type=PrivateChannelService.PRIVATE_CHANNEL_MESSAGE_EVENT, description="Relay messages to Discord from private channel")
