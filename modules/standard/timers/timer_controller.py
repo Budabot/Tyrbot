@@ -15,6 +15,7 @@ class TimerController:
         self.util = registry.get_instance("util")
         self.job_scheduler = registry.get_instance("job_scheduler")
         self.command_alias_service = registry.get_instance("command_alias_service")
+        self.access_service = registry.get_instance("access_service")
 
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS timer (name VARCHAR(255) NOT NULL, char_id INT NOT NULL, channel VARCHAR(10) NOT NULL, "
@@ -62,11 +63,11 @@ class TimerController:
         if not timer:
             return "There is no timer named <highlight>%s<end>." % timer_name
 
-        # TODO cannot delete timers unless you have higher access level than creator
-
-        self.remove_timer(timer_name)
-
-        return "Timer <highlight>%s<end> has been removed." % timer_name
+        if self.access_service.has_sufficient_access_level(request.sender.char_id, timer.char_id):
+            self.remove_timer(timer_name)
+            return "Timer <highlight>%s<end> has been removed." % timer.name
+        else:
+            return "Error! Insufficient access level to remove timer <highlight>%s<end>." % timer.name
 
     @command(command="rtimer", params=[Const("add", is_optional=True), Time("start_time"), Time("repeating_time"), Any("name", is_optional=True)], access_level="all",
              description="Add a timer")

@@ -84,8 +84,6 @@ class LeaderController:
         self.last_activity = int(time.time())
 
     def can_use_command(self, char_id):
-        self.leader
-
         if not self.leader or self.leader == char_id or self.access_service.has_sufficient_access_level(char_id, self.leader):
             self.activity_done()
             return True
