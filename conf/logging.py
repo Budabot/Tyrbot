@@ -22,7 +22,7 @@ console_err = logging.StreamHandler(sys.stderr)
 console_err.setFormatter(formatter)
 console_err.setLevel(logging.WARN)
 
-logging.root.setLevel(logging.DEBUG)
+logging.root.setLevel(logging.INFO)
 logging.root.addHandler(file_handler)
 logging.root.addHandler(console_out)
 logging.root.addHandler(console_err)
