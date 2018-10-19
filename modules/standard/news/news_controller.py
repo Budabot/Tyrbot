@@ -59,7 +59,7 @@ class NewsController:
         success = self.db.exec(sql, [int(time.time()), request.sender.name, news, 0, 0])
 
         if success > 0:
-            return "Successfully added news entry."
+            return "Successfully added news entry with ID <highlight>%d<end>." % self.db.last_insert_id()
         else:
             return "Failed to add news entry."
 
@@ -69,9 +69,9 @@ class NewsController:
         success = self.db.exec(sql, [news_id])
 
         if success > 0:
-            return "Successfully deleted news entry with ID %d." % news_id
+            return "Successfully deleted news entry with ID <highlight>%d<end>." % news_id
         else:
-            return "Could not find news entry with ID %d." % news_id
+            return "Could not find news entry with ID <highlight>%d<end>." % news_id
 
     @command(command="news", params=[Const("sticky"), Int("news_id")], description="Sticky a news entry", access_level="moderator", sub_command="update")
     def news_sticky_cmd(self, request, _, news_id):
@@ -79,9 +79,9 @@ class NewsController:
         success = self.db.exec(sql, [news_id])
 
         if success > 0:
-            return "Successfully updated news entry with ID %d to a sticky." % news_id
+            return "Successfully updated news entry with ID <highlight>%d<end> to a sticky." % news_id
         else:
-            return "Could not find news entry with ID %d." % news_id
+            return "Could not find news entry with ID <highlight>%d<end>." % news_id
 
     @command(command="news", params=[Const("unsticky"), Int("news_id")], description="Unsticky a news entry", access_level="moderator", sub_command="update")
     def news_unsticky_cmd(self, request, _, news_id):
@@ -89,19 +89,26 @@ class NewsController:
         success = self.db.exec(sql, [news_id])
 
         if success > 0:
-            return "Successfully removed news entry with ID %d as a sticky." % news_id
+            return "Successfully removed news entry with ID <highlight>%d<end> as a sticky." % news_id
         else:
-            return "Could not find news entry with ID %d." % news_id
+            return "Could not find news entry with ID <highlight>%d<end>." % news_id
 
     @command(command="news", params=[Const("markasread"), Int("news_id")], description="Mark a news entry as read", access_level="member")
     def news_markasread_cmd(self, request, _, news_id):
         sql = "INSERT INTO news_read (char_id, news_id) VALUES (?,?)"
         success = self.db.exec(sql, [request.sender.char_id, news_id])
 
-        if success > 0:
-            return "Successfully marked news entry with ID %d as read." % news_id
-        else:
-            return "Could not find news entry with ID %d." % news_id
+        # TODO make sure news entry exists
+        return "Successfully marked news entry with ID <highlight>%d<end> as read." % news_id
+
+    @command(command="news", params=[Const("markasread"), Const("all")], description="Mark all news entries as read", access_level="member")
+    def news_markasread_all_cmd(self, request, _1, _2):
+        sql = "INSERT INTO news_read (char_id, news_id) SELECT ?, n.news_id FROM news n WHERE n.news_id NOT IN ( " \
+              "SELECT r.news_id FROM news_read r WHERE char_id = ? ) AND n.deleted = 0 "
+
+        num_rows = self.db.exec(sql, [request.sender.char_id, request.sender.char_id])
+
+        return "Successfully marked <highlight>%d<end> news entries as read." % num_rows
     
     @event(event_type=OrgMemberController.ORG_MEMBER_LOGON_EVENT, description="Send news list when org member logs on")
     def orgmember_logon_event(self, event_type, event_data):
@@ -170,29 +177,19 @@ class NewsController:
 
     def get_unread_news(self, char_id):
         number_news_shown = self.setting_service.get("number_news_shown").get_value()
-        sql = "SELECT * FROM news n WHERE n.news_id NOT IN ( SELECT r.news_id FROM news_read r WHERE char_id = ? ) AND n.deleted = 0 ORDER BY n.sticky DESC, n.time DESC LIMIT ?"
+        sql = "SELECT * FROM news n WHERE n.news_id NOT IN ( SELECT r.news_id FROM news_read r WHERE char_id = ? ) AND n.deleted = 0 ORDER BY n.time ASC LIMIT ?"
         news = self.db.query(sql, [char_id, number_news_shown])
 
-        blob = ""
+        blob = "%s\n\n" % self.text.make_chatcmd("Mark as all read", "/tell <myname> news markasread all")
 
         if news:
-            more_stickies = True
             for item in news:
-                if item.sticky == 0 and more_stickies:
-                    if len(blob) > 0:
-                        blob += "____________________________\n\n"
-                    more_stickies = False
-
                 unread_color = self.setting_service.get("unread_color").get_font_color()
                 read_link = self.text.make_chatcmd("Mark as read", "/tell <myname> news markasread %s" % item.news_id)
                 timestamp = self.util.format_datetime(item.time)
 
                 blob += "%s%s<end>\n" % (unread_color, item.news)
                 blob += "By %s [%s] [%s]\n\n" % (item.author, timestamp, read_link)
-
-            if more_stickies:
-                blob += "____________________________\n\n"
-                blob += "No news"
 
             return blob
 
