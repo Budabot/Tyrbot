@@ -23,7 +23,7 @@ class TimerController:
         # add scheduled jobs for timers that are already running
         data = self.db.query("SELECT * FROM timer")
         for row in data:
-            job_id = self.job_scheduler.scheduled_job(self.timer_finished, row.finished_at, row.name)
+            job_id = self.job_scheduler.scheduled_job(self.timer_alert, row.finished_at, row.name)
             self.db.exec("UPDATE timer SET job_id = ? WHERE name = ?", [job_id, row.name])
 
         self.command_alias_service.add_alias("timers", "timer")
@@ -58,8 +58,11 @@ class TimerController:
     @command(command="timer", params=[Options(["rem", "remove"]), Any("name")], access_level="all",
              description="Remove a timer")
     def timer_remove_cmd(self, request, _, timer_name):
-        if not self.get_timer(timer_name):
+        timer = self.get_timer(timer_name)
+        if not timer:
             return "There is no timer named <highlight>%s<end>." % timer_name
+
+        # TODO cannot delete timers unless you have higher access level than creator
 
         self.remove_timer(timer_name)
 
