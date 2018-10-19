@@ -184,14 +184,11 @@ class NewsController:
                     more_stickies = False
 
                 unread_color = self.setting_service.get("unread_color").get_font_color()
-                remove_link = self.text.make_chatcmd("Remove", "/tell <myname> news rem %s" % item.news_id)
-                sticky_text = "Sticky" if item.sticky == 0 else "Unsticky"
-                sticky_link = self.text.make_chatcmd(sticky_text, "/tell <myname> news %s %s" % (sticky_text.lower(), item.news_id))
                 read_link = self.text.make_chatcmd("Mark as read", "/tell <myname> news markasread %s" % item.news_id)
                 timestamp = self.util.format_datetime(item.time)
 
                 blob += "%s%s<end>\n" % (unread_color, item.news)
-                blob += "By %s [%s] [%s] [%s] [%s]\n\n" % (item.author, timestamp, remove_link, sticky_link, read_link)
+                blob += "By %s [%s] [%s]\n\n" % (item.author, timestamp, read_link)
 
             if more_stickies:
                 blob += "____________________________\n\n"
