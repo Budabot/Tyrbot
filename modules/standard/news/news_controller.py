@@ -29,10 +29,6 @@ class NewsController:
     def number_news_shown(self):
         return NumberSettingType()
 
-    @setting(name="include_read_on_logon", value="False", description="Include read news when player logs on")
-    def include_read_on_logon(self):
-        return BooleanSettingType()
-
     @setting(name="unread_color", value="#ffff00", description="Color for unread news text")
     def unread_color(self):
         return ColorSettingType()
@@ -112,34 +108,32 @@ class NewsController:
     
     @event(event_type=OrgMemberController.ORG_MEMBER_LOGON_EVENT, description="Send news list when org member logs on")
     def orgmember_logon_event(self, event_type, event_data):
-        include_read = self.setting_service.get("include_read_on_logon").get_value()
         unread_news = self.has_unread_news(event_data.char_id)
 
-        if not include_read and unread_news is None:
+        if unread_news is None:
             # No news at all
             return
-        elif not include_read and not unread_news:
+        elif not unread_news:
             # No new unread entries
             return
 
-        news = self.build_news_list(False, event_data.char_id) if not include_read else self.build_news_list()
+        news = self.build_news_list(False, event_data.char_id)
         
         if news:
             self.bot.send_private_message(event_data.char_id, ChatBlob("News", news))
 
     @event(event_type=PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, description="Send news list when someone joins private channel")
     def priv_logon_event(self, event_type, event_data):
-        include_read = self.setting_service.get("include_read_on_logon").get_value()
         unread_news = self.has_unread_news(event_data.char_id)
 
-        if not include_read and unread_news is None:
+        if unread_news is None:
             # No news at all
             return
-        elif not include_read and not unread_news:
+        elif not unread_news:
             # No new unread entries
             return
         
-        news = self.build_news_list(False, event_data.char_id) if not include_read else self.build_news_list()
+        news = self.build_news_list(False, event_data.char_id)
         
         if news:
             self.bot.send_private_message(event_data.char_id, ChatBlob("News", news))
@@ -190,6 +184,7 @@ class NewsController:
 
                 blob += "%s%s<end>\n" % (unread_color, item.news)
                 blob += "By %s [%s] [%s]\n\n" % (item.author, timestamp, read_link)
+                # TODO show news id
 
             return blob
 
@@ -210,6 +205,7 @@ class NewsController:
 
                 blob += "%s%s<end>\n" % (sticky_color, item.news)
                 blob += "By %s [%s] [%s] [%s]\n\n" % (item.author, timestamp, remove_link, sticky_link)
+                # TODO show news id
 
             return blob
 
@@ -231,6 +227,7 @@ class NewsController:
 
                 blob += "%s%s<end>\n" % (news_color, item.news)
                 blob += "By %s [%s] [%s] [%s]\n\n" % (item.author, timestamp, remove_link, sticky_link)
+                # TODO show news id
 
             return blob
 
