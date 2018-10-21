@@ -69,3 +69,11 @@ if version == 2:
         db.exec("UPDATE org_member SET mode = ? WHERE mode = ?", ["rem_manual", "ignore"])
         db.exec("UPDATE org_member SET mode = ? WHERE mode = ?", ["add_auto", "auto"])
     version = update_version(version)
+
+if version == 3:
+    if table_exists("news"):
+        db.exec("ALTER TABLE news RENAME TO news_old")
+        db.exec("CREATE TABLE news (id INT PRIMARY KEY AUTO_INCREMENT, time INT NOT NULL, char_id INT NOT NULL, news TEXT, sticky SMALLINT NOT NULL, deleted SMALLINT NOT NULL)")
+        db.exec("INSERT INTO news SELECT news_id, time, p.char_id, news, sticky, deleted FROM news_old n LEFT JOIN player p ON n.author = p.name")
+        db.exec("DROP TABLE news_old")
+    version = update_version(version)
