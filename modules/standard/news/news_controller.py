@@ -91,10 +91,12 @@ class NewsController:
 
     @command(command="news", params=[Const("markasread"), Int("news_id")], description="Mark a news entry as read", access_level="member")
     def news_markasread_cmd(self, request, _, news_id):
-        sql = "INSERT INTO news_read (char_id, news_id) VALUES (?,?)"
-        success = self.db.exec(sql, [request.sender.char_id, news_id])
+        if not self.get_news_entry(news_id):
+            return "Could not find news entry with ID <highlight>%d<end>." % news_id
 
-        # TODO make sure news entry exists
+        sql = "INSERT INTO news_read (char_id, news_id) VALUES (?,?)"
+        self.db.exec(sql, [request.sender.char_id, news_id])
+
         return "Successfully marked news entry with ID <highlight>%d<end> as read." % news_id
 
     @command(command="news", params=[Const("markasread"), Const("all")], description="Mark all news entries as read", access_level="member")
@@ -182,9 +184,8 @@ class NewsController:
                 read_link = self.text.make_chatcmd("Mark as read", "/tell <myname> news markasread %s" % item.news_id)
                 timestamp = self.util.format_datetime(item.time)
 
-                blob += "%s%s<end>\n" % (unread_color, item.news)
+                blob += "ID %d %s%s<end>\n" % (item.news_id, unread_color, item.news)
                 blob += "By %s [%s] [%s]\n\n" % (item.author, timestamp, read_link)
-                # TODO show news id
 
             return blob
 
@@ -199,13 +200,12 @@ class NewsController:
         if news:
             for item in news:
                 sticky_color = self.setting_service.get("sticky_color").get_font_color()
-                remove_link = self.text.make_chatcmd("Remove", "/tell <myname> news rem %s" % (item.news_id))
-                sticky_link = self.text.make_chatcmd("Unsticky", "/tell <myname> news unsticky %s" % (item.news_id))
+                remove_link = self.text.make_chatcmd("Remove", "/tell <myname> news rem %s" % item.news_id)
+                sticky_link = self.text.make_chatcmd("Unsticky", "/tell <myname> news unsticky %s" % item.news_id)
                 timestamp = self.util.format_datetime(item.time)
 
-                blob += "%s%s<end>\n" % (sticky_color, item.news)
+                blob += "ID %d %s%s<end>\n" % (item.news_id, sticky_color, item.news)
                 blob += "By %s [%s] [%s] [%s]\n\n" % (item.author, timestamp, remove_link, sticky_link)
-                # TODO show news id
 
             return blob
 
@@ -221,14 +221,16 @@ class NewsController:
         if news:
             for item in news:
                 news_color = self.setting_service.get("news_color").get_font_color()
-                remove_link = self.text.make_chatcmd("Remove", "/tell <myname> news rem %s" % (item.news_id))
-                sticky_link = self.text.make_chatcmd("Sticky", "/tell <myname> news sticky %s" % (item.news_id))
+                remove_link = self.text.make_chatcmd("Remove", "/tell <myname> news rem %s" % item.news_id)
+                sticky_link = self.text.make_chatcmd("Sticky", "/tell <myname> news sticky %s" % item.news_id)
                 timestamp = self.util.format_datetime(item.time)
 
-                blob += "%s%s<end>\n" % (news_color, item.news)
+                blob += "ID %d %s%s<end>\n" % (item.news_id, news_color, item.news)
                 blob += "By %s [%s] [%s] [%s]\n\n" % (item.author, timestamp, remove_link, sticky_link)
-                # TODO show news id
 
             return blob
 
         return None
+
+    def get_news_entry(self, news_id):
+        return self.db.query_single("SELECT * FROM news WHERE news_id = ?", [news_id])
