@@ -106,8 +106,10 @@ class Tyrbot(Bot):
         start = time.time()
 
         # wait for flood of packets from login to stop sending
-        while self.iterate():
-            pass
+        time_waited = 0
+        while time_waited < 3:
+            if not self.iterate():
+                time_waited += 1
 
         self.logger.info("Login complete (%fs)" % (time.time() - start))
 
@@ -117,7 +119,8 @@ class Tyrbot(Bot):
 
         self.ready = True
 
-        while self.status == BotStatus.RUN:
+        # TODO this prevents restarting as a way to clear the packet queue
+        while self.status == BotStatus.RUN or len(self.packet_queue) > 0:
             try:
                 timestamp = int(time.time())
 
