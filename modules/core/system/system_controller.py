@@ -10,6 +10,9 @@ from core.setting_types import BooleanSettingType
 class SystemController:
     SHUTDOWN_EVENT = "shutdown"
 
+    shutdown_msg = "The bot is shutting down..."
+    restart_msg = "The bot is restarting..."
+
     def __init__(self):
         self.logger = Logger(__name__)
 
@@ -34,15 +37,11 @@ class SystemController:
     def shutdown_cmd(self, request):
         self.event_service.fire_event(self.SHUTDOWN_EVENT, DictObject({"restart": False}))
 
-        msg = "The bot is shutting down..."
-        self.bot.send_org_message(msg)
-        self.bot.send_private_channel_message(msg)
-
         # set expected flag
         self.expected_shutdown().set_value(True)
 
         if request.channel not in [CommandService.ORG_CHANNEL, CommandService.PRIVATE_CHANNEL]:
-            request.reply(msg)
+            request.reply(self.shutdown_msg)
 
         self.bot.shutdown()
 
@@ -51,16 +50,11 @@ class SystemController:
     def restart_cmd(self, request):
         self.event_service.fire_event(self.SHUTDOWN_EVENT, DictObject({"restart": True}))
 
-        msg = "The bot is restarting..."
-        if self.setting_service.get("restart_notify").get_value():
-            self.bot.send_org_message(msg)
-            self.bot.send_private_channel_message(msg)
-
         # set expected flag
         self.expected_shutdown().set_value(True)
 
         if request.channel not in [CommandService.ORG_CHANNEL, CommandService.PRIVATE_CHANNEL]:
-            request.reply(msg)
+            request.reply(self.restart_msg)
 
         self.bot.restart()
 
@@ -77,3 +71,17 @@ class SystemController:
         self.bot.send_private_channel_message(msg)
 
         self.expected_shutdown().set_value(False)
+
+    @event(event_type=SHUTDOWN_EVENT, description="Notify org channel on shutdown/restart")
+    def notify_org_channel_shutdown_event(self, event_type, event_data):
+        if event_data.restart:
+            self.bot.send_org_message(self.restart_msg)
+        else:
+            self.bot.send_org_message(self.shutdown_msg)
+
+    @event(event_type=SHUTDOWN_EVENT, description="Notify private channel on shutdown/restart")
+    def notify_private_channel_shutdown_event(self, event_type, event_data):
+        if event_data.restart:
+            self.bot.send_private_channel_message(self.restart_msg)
+        else:
+            self.bot.send_private_channel_message(self.shutdown_msg)
