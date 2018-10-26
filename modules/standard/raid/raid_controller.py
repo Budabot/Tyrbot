@@ -307,7 +307,6 @@ class RaidController:
     @command(command="raid", params=[Const("start"), Int("num_characters_max", is_optional=True), Any("raid_name")],
              description="Start new raid", access_level="moderator", sub_command="manage")
     def raid_start_cmd(self, request, _, raid_limit: int, raid_name: str):
-        print("test")
         if self.raid:
             return "The raid, <yellow>%s<end>, is already running." % self.raid.raid_name
 
@@ -417,7 +416,7 @@ class RaidController:
         in_raid = self.is_in_raid(self.alts_service.get_main(request.sender.char_id).char_id)
         if in_raid:
             if not in_raid.is_active:
-                return "You're not actively participating in the raid."
+                return "You are not active in the raid."
 
             in_raid.is_active = False
             in_raid.left_raid = int(time.time())
@@ -425,7 +424,7 @@ class RaidController:
             self.bot.send_org_message("<yellow>%s<end> left the raid." % request.sender.name)
             return
 
-        return "You're not participating in the raid."
+        return "You are not in the raid."
 
     @command(command="raid", params=[Const("addpts"), Any("name")], description="Add points to all active participants",
              access_level="moderator", sub_command="manage")
@@ -494,7 +493,7 @@ class RaidController:
                 blob += "[<a href='chatcmd://%s'>Active check</a>]\n\n" % active_check_names
                 raider_names.clear()
 
-            self.bot.send_private_message(request.sender.char_id, ChatBlob("Active check", blob))
+            return ChatBlob("Active check", blob)
         else:
             return "No raid is running."
 
