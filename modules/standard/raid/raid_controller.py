@@ -480,7 +480,7 @@ class RaidController:
 
                 raider_name = self.character_service.resolve_char_to_name(raider.active_id)
                 akick_link = self.text.make_chatcmd("Active kick", "/tell <myname> raid kick %s inactive" % raider.main_id)
-                warn_link = self.text.make_chatcmd("Warn", "/tell <myname> raid cmd %s missed active "
+                warn_link = self.text.make_chatcmd("Warn", "/tell <myname> cmd %s missed active "
                                                            "check, please give notice." % raider_name)
                 blob += "<highlight>%s<end> [%s] [%s]\n" % (raider_name, akick_link, warn_link)
                 raider_names.append(raider_name)
