@@ -110,7 +110,7 @@ class RaidController:
 
     @command(command="loot", params=[Const("additem"), Item("item"), Int("item_count", is_optional=True)],
              description="Add an item to loot list", access_level="all")
-    def loot_add_item_cmd(self, request, _, item: Item, item_count: int):
+    def loot_add_item_cmd(self, request, _, item, item_count: int):
         if not self.leader_controller.can_use_command(request.sender.char_id):
             return "You're not set as leader, and don't have sufficient access level to override leadership."
 
@@ -304,9 +304,10 @@ class RaidController:
 
         return "%s does not have any items registered in loot table." % category
 
-    @command(command="raid", params=[Const("start"), Int("raid_limit", is_optional=True), Any("raid_name")],
+    @command(command="raid", params=[Const("start"), Int("num_characters_max", is_optional=True), Any("raid_name")],
              description="Start new raid", access_level="moderator", sub_command="manage")
     def raid_start_cmd(self, request, _, raid_limit: int, raid_name: str):
+        print("test")
         if self.raid:
             return "The raid, <yellow>%s<end>, is already running." % self.raid.raid_name
 
@@ -494,8 +495,8 @@ class RaidController:
                 raider_names.clear()
 
             self.bot.send_private_message(request.sender.char_id, ChatBlob("Active check", blob))
-
-        return "No raid is running."
+        else:
+            return "No raid is running."
 
     @command(command="raid", params=[Const("kick"), Character("char"), Any("reason")],
              description="Set raider as kicked with a reason", access_level="moderator", sub_command="manage")
