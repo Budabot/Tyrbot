@@ -73,6 +73,19 @@ class AltsService:
         self.db.exec("DELETE FROM alts WHERE char_id = ?", [alt_char_id])
         return ["success", True]
 
+    def set_as_main(self, sender_char_id):
+        alts = self.get_alts(sender_char_id)
+
+        if len(alts) < 2:
+            return ["not_an_alt", False]
+        elif alts[0].char_id == sender_char_id:
+            return ["already_main", False]
+        else:
+            self.update_status(sender_char_id, self.MAIN)
+            self.update_status(alts[0].char_id, self.CONFIRMED)
+            self.event_service.fire_event(self.MAIN_CHANGED_EVENT_TYPE, {"old_main_id": alts[0].char_id, "new_main_id": sender_char_id})
+            return ["success", True]
+
     def get_alt_status(self, char_id):
         return self.db.query_single("SELECT group_id, status FROM alts WHERE char_id = ?", [char_id])
 
@@ -82,3 +95,6 @@ class AltsService:
 
     def get_main(self, char_id):
         return self.get_alts(char_id).pop(0)
+
+    def update_status(self, char_id, status):
+        return self.db.exec("UPDATE alts SET status = ? WHERE char_id = ?", [status, char_id])
