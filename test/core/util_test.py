@@ -48,13 +48,31 @@ class UtilTest(unittest.TestCase):
 
     def test_interpolate_value(self):
         util = Util()
+
+        # empty interpolation_ranges
         self.assertEqual(None, util.interpolate_value(1, {}))
+
+        # ql outside of single interpolation_ranges
         self.assertEqual(None, util.interpolate_value(2, {1: 1}))
+
+        # ql on interpolation_range lower boundary
         self.assertEqual(1, util.interpolate_value(1, {1: 1, 100: 100}))
+
+        # ql on interpolation_range upper boundary
         self.assertEqual(100, util.interpolate_value(100, {1: 1, 100: 100}))
+
+        # ql outside of multiple interpolation_ranges
         self.assertEqual(None, util.interpolate_value(101, {1: 1, 100: 100}))
+
+        # ql within interpolation_range
         self.assertEqual(50, util.interpolate_value(50, {1: 1, 100: 100}))
-        self.assertEqual(50, util.interpolate_value(50, {1: 1, 100: 100, 101:101, 200: 400}))
+        self.assertEqual(50, util.interpolate_value(50, {1: 1, 100: 100, 101: 101, 200: 400}))
         self.assertEqual(653, util.interpolate_value(137, {1: 11, 200: 951}))
-        self.assertEqual(248, util.interpolate_value(150, {1: 1, 100: 100, 101: 101, 200: 400}))
+        self.assertEqual(249, util.interpolate_value(150, {1: 1, 100: 100, 101: 101, 200: 400}))
         self.assertEqual(55, util.interpolate_value(200, {1: 5, 200: 55, 201: 55, 300: 73}))
+
+        # test reverse order
+        self.assertEqual(55, util.interpolate_value(200, {300: 73, 201: 55, 200: 55, 1: 5}))
+
+        # test out of order
+        self.assertEqual(55, util.interpolate_value(200, {201: 55, 300: 73, 1: 5, 200: 55}))

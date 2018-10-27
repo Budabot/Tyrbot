@@ -202,21 +202,21 @@ class Util:
         value = datetime.datetime.fromtimestamp(timestamp, tz=pytz.UTC)
         return value.strftime('%Y-%m-%d %H:%M:%S %Z')
 
-    def interpolate_value(self, value, interpolation_ranges, precision=0):
+    def interpolate_value(self, interpolated_ql, interpolation_ranges, precision=0):
         min_val = None
         max_val = None
-        for k, v in interpolation_ranges.items():
-            if k == value:
+        for ql, v in interpolation_ranges.items():
+            # required to avoid division by zero
+            if ql == interpolated_ql:
                 return v
-            elif k < value:
-                min_val = DictObject({"ql": k, "val": v})
-            elif k > value:
-                max_val = DictObject({"ql": k, "val": v})
 
-            if max_val and min_val:
-                break
+            if interpolated_ql >= ql and (not min_val or ql > min_val.ql):
+                min_val = DictObject({"ql": ql, "val": v})
+
+            if interpolated_ql <= ql and (not max_val or ql < max_val.ql):
+                max_val = DictObject({"ql": ql, "val": v})
 
         if not min_val or not max_val:
             return None
 
-        return round((max_val.val - min_val.val) / (max_val.ql - min_val.ql) * (value - min_val.ql) + min_val.val, precision)
+        return round((max_val.val - min_val.val) / (max_val.ql - min_val.ql) * (interpolated_ql - min_val.ql) + min_val.val, precision)
