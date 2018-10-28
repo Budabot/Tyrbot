@@ -1,5 +1,5 @@
 from core.chat_blob import ChatBlob
-from core.command_param_types import Any
+from core.command_param_types import Any, Int
 from core.db import DB
 from core.decorators import instance, command, event
 from core.dict_object import DictObject
@@ -57,20 +57,36 @@ class TowerController:
 
         return ChatBlob("Land Control Playfields", blob)
 
-    @command(command="lc", params=[Any("playfield")], access_level="all",
+    @command(command="lc", params=[Any("playfield"), Int("site_number", is_optional=True)], access_level="all",
              description="See a list of land control tower sites in a particular playfield")
-    def lc_playfield_cmd(self, request, playfield_name):
+    def lc_playfield_cmd(self, request, playfield_name, site_number):
         playfield = self.playfield_controller.get_playfield_by_name(playfield_name)
         if not playfield:
             return "Could not find playfield <highlight>%s<end>." % playfield_name
 
-        data = self.db.query("SELECT t.*, p.short_name, p.long_name FROM tower_site t JOIN playfields p ON t.playfield_id = p.id WHERE t.playfield_id = ?", [playfield.id])
+        if site_number:
+            data = self.db.query("SELECT t.*, p.short_name, p.long_name FROM tower_site t JOIN playfields p ON t.playfield_id = p.id WHERE t.playfield_id = ? AND site_number = ?",
+                                 [playfield.id, site_number])
+        else:
+            data = self.db.query("SELECT t.*, p.short_name, p.long_name FROM tower_site t JOIN playfields p ON t.playfield_id = p.id WHERE t.playfield_id = ?",
+                                 [playfield.id])
+
+        if not data:
+            if site_number:
+                return "Could not find tower info for <highlight>%s %d<end>." % (playfield.long_name, site_number)
+            else:
+                return "Could not find tower info for <highlight>%s<end>." % playfield.long_name
 
         blob = ""
         for row in data:
             blob += "<pagebreak>" + self.format_site_info(row) + "\n\n"
 
-        return ChatBlob("Tower Sites in %s" % playfield.long_name, blob)
+        if site_number:
+            title = "Tower Info: %s %d" % (playfield.long_name, site_number)
+        else:
+            title = "Tower Info: %s" % playfield.long_name
+
+        return ChatBlob(title, blob)
 
     @event(event_type="connect", description="Check if All Towers channel is available")
     def handle_connect_event(self, event_type, event_data):
