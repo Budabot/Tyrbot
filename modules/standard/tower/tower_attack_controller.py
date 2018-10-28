@@ -1,6 +1,7 @@
 from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Int
 from core.decorators import instance, command, event
+from core.dict_object import DictObject
 from core.logger import Logger
 from modules.standard.tower.tower_controller import TowerController
 import time
@@ -79,14 +80,17 @@ class TowerAttackController:
 
         t = int(time.time())
 
-        blob = self.format_battle_info(battle, t)
-        blob += "\n<header2>Attackers:<end>\n"
+        attackers = self.db.query("SELECT * FROM tower_attacker WHERE tower_battle_id = ? ORDER BY created_at DESC", [battle_id])
 
-        data = self.db.query("SELECT * FROM tower_attacker WHERE tower_battle_id = ? ORDER BY created_at DESC", [battle_id])
-        for row in data:
+        first_activity = attackers[-1].created_at if len(attackers) > 0 else battle.last_updated
+
+        blob = self.format_battle_info(battle, t)
+        blob += "Duration: <highlight>%s<end>\n\n" % self.util.time_to_readable(battle.last_updated - first_activity)
+        blob += "<header2>Attackers:<end>\n"
+
+        for row in attackers:
             blob += "<tab>" + self.format_attacker(row)
             blob += " " + self.format_timestamp(row.created_at, t)
-            # TODO add battle duration
             blob += "\n"
 
         return ChatBlob("Battle Info %d" % battle_id, blob)
