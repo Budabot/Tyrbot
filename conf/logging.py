@@ -11,7 +11,7 @@ class FilterInfo:
 
 formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(name)s - %(message)s')
 
-file_handler = logging.handlers.RotatingFileHandler("./logs/bot.log", maxBytes=5 * 1024 * 1024 * 1024, backupCount=1000, encoding="utf-8")
+file_handler = logging.handlers.RotatingFileHandler("./logs/bot.log", maxBytes=5 * 1024 * 1024, backupCount=1000, encoding="utf-8")
 file_handler.setFormatter(formatter)
 
 console_out = logging.StreamHandler(sys.stdout)
