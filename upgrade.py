@@ -1,8 +1,12 @@
 from core.db import DB
+from core.logger import Logger
 from core.registry import Registry
 
 db = Registry.get_instance("db")
 bot = Registry.get_instance("bot")
+
+
+logger = Logger("core.upgrade")
 
 
 def table_info(table_name):
@@ -38,6 +42,7 @@ def column_exists(table_name, column_name):
 
 
 def update_version(v):
+    logger.info("updating db to version '%d'" % v)
     v += 1
     db.exec("UPDATE db_version SET version = ? WHERE file = 'db_version'", [v])
     return v
@@ -85,4 +90,3 @@ if version == 4:
         db.exec("INSERT INTO news (id, char_id, news, sticky, created_at, deleted_at) SELECT id, char_id, news, sticky, time, deleted FROM news_old")
         db.exec("DROP TABLE news_old")
     version = update_version(version)
-
