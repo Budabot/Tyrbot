@@ -1,1 +1,0 @@
-CREATE TABLE IF NOT EXISTS members (char_id INT NOT NULL PRIMARY KEY, auto_invite INT DEFAULT 0);

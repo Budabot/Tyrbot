@@ -14,6 +14,7 @@ class CloakController:
         self.command_alias_service = registry.get_instance("command_alias_service")
 
     def start(self):
+        self.db.exec("CREATE TABLE IF NOT EXISTS cloak_status (char_id INT NOT NULL, action VARCHAR(10) NOT NULL, created_at INT NOT NULL)")
         self.command_alias_service.add_alias("city", "cloak")
 
     @command(command="cloak", params=[], access_level="all",

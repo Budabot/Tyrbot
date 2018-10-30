@@ -28,6 +28,7 @@ class MemberController:
         self.bot.add_packet_handler(BuddyAdded.id, self.handle_member_logon)
 
     def start(self):
+        self.db.exec("CREATE TABLE IF NOT EXISTS members (char_id INT NOT NULL PRIMARY KEY, auto_invite INT DEFAULT 0);")
         self.command_alias_service.add_alias("adduser", "member add")
         self.command_alias_service.add_alias("remuser", "member rem")
 

@@ -1,5 +1,4 @@
 from core.aochat.server_packets import BuddyAdded
-from core.buddy_service import BuddyService
 from core.command_param_types import Const, Character
 from core.decorators import instance, event, timerevent, command
 from core.logger import Logger
