@@ -42,8 +42,8 @@ def column_exists(table_name, column_name):
 
 
 def update_version(v):
-    logger.info("updating db to version '%d'" % v)
     v += 1
+    logger.info("updating db to version '%d'" % v)
     db.exec("UPDATE db_version SET version = ? WHERE file = 'db_version'", [v])
     return v
 
