@@ -77,3 +77,12 @@ if version == 3:
         db.exec("INSERT INTO news SELECT news_id, time, p.char_id, news, sticky, deleted FROM news_old n LEFT JOIN player p ON n.author = p.name")
         db.exec("DROP TABLE news_old")
     version = update_version(version)
+
+if version == 4:
+    if table_exists("news"):
+        db.exec("ALTER TABLE news RENAME TO news_old")
+        db.exec("CREATE TABLE news (id INT PRIMARY KEY AUTO_INCREMENT, char_id INT NOT NULL, news TEXT, sticky SMALLINT NOT NULL, created_at INT NOT NULL, deleted_at INT NOT NULL)")
+        db.exec("INSERT INTO news (id, char_id, news, sticky, created_at, deleted_at) SELECT id, char_id, news, sticky, time, deleted FROM news_old")
+        db.exec("DROP TABLE news_old")
+    version = update_version(version)
+

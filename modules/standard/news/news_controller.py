@@ -43,16 +43,16 @@ class NewsController:
 
     @command(command="news", params=[], description="Show list of news", access_level="member")
     def news_cmd(self, request):
-        row = self.db.query_single("SELECT n.time FROM news n WHERE n.deleted = 0 ORDER BY n.time DESC LIMIT 1")
+        row = self.db.query_single("SELECT created_at FROM news WHERE deleted_at = 0 ORDER BY created_at DESC LIMIT 1")
         if row:
-            return ChatBlob("News [Last updated %s]" % self.util.format_datetime(row.time), self.build_news_list())
+            return ChatBlob("News [Last updated %s]" % self.util.format_datetime(row.created_at), self.build_news_list())
         else:
             return "No news."
     
     @command(command="news", params=[Const("add"), Any("news")], description="Add news entry", access_level="moderator", sub_command="update")
     def news_add_cmd(self, request, _, news):
-        sql = "INSERT INTO news (time, char_id, news, sticky, deleted) VALUES (?,?,?,?,?)"
-        success = self.db.exec(sql, [int(time.time()), request.sender.char_id, news, 0, 0])
+        sql = "INSERT INTO news (char_id, news, sticky, created_at, deleted_at) VALUES (?,?,?,?,?)"
+        success = self.db.exec(sql, [request.sender.char_id, news, 0, int(time.time()), 0])
 
         if success > 0:
             return "Successfully added news entry with ID <highlight>%d<end>." % self.db.last_insert_id()
@@ -61,6 +61,7 @@ class NewsController:
 
     @command(command="news", params=[Const("rem"), Int("news_id")], description="Remove a news entry", access_level="moderator", sub_command="update")
     def news_rem_cmd(self, request, _, news_id):
+        # TODO mark news entry as deleted
         sql = "DELETE FROM news WHERE id = ?"
         success = self.db.exec(sql, [news_id])
 
@@ -102,7 +103,7 @@ class NewsController:
     @command(command="news", params=[Const("markasread"), Const("all")], description="Mark all news entries as read", access_level="member")
     def news_markasread_all_cmd(self, request, _1, _2):
         sql = "INSERT INTO news_read (char_id, news_id) SELECT ?, n.id FROM news n WHERE n.id NOT IN ( " \
-              "SELECT r.news_id FROM news_read r WHERE char_id = ? ) AND n.deleted = 0 "
+              "SELECT r.news_id FROM news_read r WHERE char_id = ? ) AND n.deleted_at = 0 "
 
         num_rows = self.db.exec(sql, [request.sender.char_id, request.sender.char_id])
 
@@ -159,11 +160,11 @@ class NewsController:
         return blob if len(blob) > 0 else None
 
     def has_unread_news(self, char_id):
-        sql = "SELECT COUNT(*) as count FROM news n WHERE n.id NOT IN ( SELECT r.news_id FROM news_read r WHERE r.char_id = ? ) AND n.deleted = 0"
+        sql = "SELECT COUNT(*) as count FROM news n WHERE n.id NOT IN ( SELECT r.news_id FROM news_read r WHERE r.char_id = ? ) AND n.deleted_at = 0"
         news_unread_count = self.db.query_single(sql, [char_id]).count
 
         if news_unread_count < 1:
-            sql = "SELECT COUNT(*) as count FROM news n WHERE n.deleted = 0"
+            sql = "SELECT COUNT(*) as count FROM news n WHERE n.deleted_at = 0"
             news_count = self.db.query_single(sql).count
 
             if news_count < 1:
@@ -175,7 +176,7 @@ class NewsController:
         number_news_shown = self.setting_service.get("number_news_shown").get_value()
         sql = "SELECT n.*, p.name AS author FROM news n LEFT JOIN player p ON n.char_id = p.char_id " \
               "WHERE n.id NOT IN ( SELECT r.news_id FROM news_read r WHERE char_id = ? ) " \
-              "AND n.deleted = 0 ORDER BY n.time ASC LIMIT ?"
+              "AND n.deleted_at = 0 ORDER BY n.created_at ASC LIMIT ?"
         news = self.db.query(sql, [char_id, number_news_shown])
 
         blob = "%s\n\n" % self.text.make_chatcmd("Mark as all read", "/tell <myname> news markasread all")
@@ -184,7 +185,7 @@ class NewsController:
             for item in news:
                 unread_color = self.setting_service.get("unread_color").get_font_color()
                 read_link = self.text.make_chatcmd("Mark as read", "/tell <myname> news markasread %s" % item.id)
-                timestamp = self.util.format_datetime(item.time)
+                timestamp = self.util.format_datetime(item.created_at)
 
                 blob += "ID %d %s%s<end>\n" % (item.id, unread_color, item.news)
                 blob += "By %s [%s] [%s]\n\n" % (item.author, timestamp, read_link)
@@ -194,7 +195,7 @@ class NewsController:
         return None
 
     def get_sticky_news(self):
-        sql = "SELECT n.*, p.name AS author FROM news n LEFT JOIN player p ON n.char_id = p.char_id WHERE n.deleted = 0 AND n.sticky = 1 ORDER BY n.time DESC"
+        sql = "SELECT n.*, p.name AS author FROM news n LEFT JOIN player p ON n.char_id = p.char_id WHERE n.deleted_at = 0 AND n.sticky = 1 ORDER BY n.created_at DESC"
         news = self.db.query(sql)
 
         blob = ""
@@ -204,7 +205,7 @@ class NewsController:
                 sticky_color = self.setting_service.get("sticky_color").get_font_color()
                 remove_link = self.text.make_chatcmd("Remove", "/tell <myname> news rem %s" % item.id)
                 sticky_link = self.text.make_chatcmd("Unsticky", "/tell <myname> news unsticky %s" % item.id)
-                timestamp = self.util.format_datetime(item.time)
+                timestamp = self.util.format_datetime(item.created_at)
 
                 blob += "ID %d %s%s<end>\n" % (item.id, sticky_color, item.news)
                 blob += "By %s [%s] [%s] [%s]\n\n" % (item.author, timestamp, remove_link, sticky_link)
@@ -215,7 +216,7 @@ class NewsController:
 
     def get_news(self):
         number_news_shown = self.setting_service.get("number_news_shown").get_value()
-        sql = "SELECT n.*, p.name AS author FROM news n LEFT JOIN player p ON n.char_id = p.char_id WHERE n.deleted = 0 AND n.sticky = 0 ORDER BY n.time DESC LIMIT ?"
+        sql = "SELECT n.*, p.name AS author FROM news n LEFT JOIN player p ON n.char_id = p.char_id WHERE n.deleted_at = 0 AND n.sticky = 0 ORDER BY n.created_at DESC LIMIT ?"
         news = self.db.query(sql, [number_news_shown])
 
         blob = ""
@@ -225,7 +226,7 @@ class NewsController:
                 news_color = self.setting_service.get("news_color").get_font_color()
                 remove_link = self.text.make_chatcmd("Remove", "/tell <myname> news rem %s" % item.id)
                 sticky_link = self.text.make_chatcmd("Sticky", "/tell <myname> news sticky %s" % item.id)
-                timestamp = self.util.format_datetime(item.time)
+                timestamp = self.util.format_datetime(item.created_at)
 
                 blob += "ID %d %s%s<end>\n" % (item.id, news_color, item.news)
                 blob += "By %s [%s] [%s] [%s]\n\n" % (item.author, timestamp, remove_link, sticky_link)
