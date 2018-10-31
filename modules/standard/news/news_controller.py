@@ -111,6 +111,9 @@ class NewsController:
     
     @event(event_type=OrgMemberController.ORG_MEMBER_LOGON_EVENT, description="Send news list when org member logs on")
     def orgmember_logon_event(self, event_type, event_data):
+        if not self.bot.is_ready():
+            return
+
         unread_news = self.has_unread_news(event_data.char_id)
 
         if unread_news is None:
