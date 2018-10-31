@@ -22,14 +22,19 @@ class OfabArmorController:
 
         return ChatBlob("Ofab Armor", blob)
 
-    @command(command="ofabarmor", params=[Any("profession"), Int("ql", is_optional=True)], access_level="all",
-             description="Show info about ofab armor")
-    def ofabarmor_show_command(self, request, prof_name, ql):
+    @command(command="ofabarmor", params=[Int("ql", is_optional=True), Any("profession"), Int("ql", is_optional=True)], access_level="all",
+             description="Show info about ofab armor", extended_description="QL is optional and can come before or after the profession")
+    def ofabarmor_show_command(self, request, ql1, prof_name, ql2):
         profession = self.util.get_profession(prof_name)
-        ql = ql or 300
+        ql = ql1 or ql2 or 300
 
         if not profession:
-            return "Could not find profession <highlight>%s<end>." % prof_name
+            return "Could not find Ofab Armor for profession <highlight>%s<end>." % prof_name
+
+        data = self.db.query("SELECT * FROM ofab_armor o1 LEFT JOIN ofab_armor_cost o2 ON o1.slot = o2.slot WHERE o1.profession = ? AND o2.ql = ? ORDER BY upgrade ASC, name ASC",
+                             [profession, ql])
+        if not data:
+            return "Could not find Ofab Armor for QL <highlight>%d<end>." % ql
 
         upgrade_type = self.db.query_single("SELECT type FROM ofab_armor_type WHERE profession = ?", [profession]).type
 
@@ -38,13 +43,11 @@ class OfabArmorController:
 
         blob = "Upgrade with %s (minimum QL %d)\n\n" % (type_link, type_ql)
 
-        data = self.db.query("SELECT DISTINCT ql FROM ofab_weapons_cost ORDER BY ql ASC")
-        for row in data:
+        cost_data = self.db.query("SELECT DISTINCT ql FROM ofab_weapons_cost ORDER BY ql ASC")
+        for row in cost_data:
             blob += self.text.make_chatcmd(row.ql, "/tell <myname> ofabarmor %s %d" % (profession, row.ql)) + " "
         blob += "\n\n"
 
-        data = self.db.query("SELECT * FROM ofab_armor o1 LEFT JOIN ofab_armor_cost o2 ON o1.slot = o2.slot WHERE o1.profession = ? AND o2.ql = ? ORDER BY upgrade ASC, name ASC",
-                             [profession, ql])
         current_upgrade = ""
         total_vp = 0
         for row in data:

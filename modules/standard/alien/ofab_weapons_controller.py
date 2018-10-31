@@ -22,16 +22,16 @@ class OfabWeaponsController:
 
         return ChatBlob("Ofab Weapons", blob)
 
-    @command(command="ofabweapons", params=[Any("weapon"), Int("ql", is_optional=True)], access_level="all",
-             description="Show info about an ofab weapon")
-    def ofabweapons_show_command(self, request, weapon_name, ql):
+    @command(command="ofabweapons", params=[Int("ql", is_optional=True), Any("weapon"), Int("ql", is_optional=True)], access_level="all",
+             description="Show info about an ofab weapon", extended_description="QL is optional and can come before or after the weapon")
+    def ofabweapons_show_command(self, request, ql1, weapon_name, ql2):
         weapon_name = weapon_name.capitalize()
-        ql = ql or 300
+        ql = ql1 or ql2 or 300
 
         weapon = self.db.query_single("SELECT type, vp FROM ofab_weapons w, ofab_weapons_cost c WHERE w.name LIKE ? AND c.ql = ?", [weapon_name, ql])
 
         if not weapon:
-            return "Could not find ofab weapon <highlight>%s<end>." % weapon_name
+            return "Could not find Ofab Weapon <highlight>%s<end> for QL <highlight>%d<end>." % (weapon_name, ql)
 
         type_ql = round(ql * 0.8)
         type_link = self.text.make_chatcmd("Kyr'Ozch Bio-Material - Type %d" % weapon.type, "/tell <myname> bioinfo %d %d" % (weapon.type, type_ql))
