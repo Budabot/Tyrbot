@@ -4,6 +4,7 @@ from core.db import DB
 
 class BudabotDB(DB):
     def __init__(self, bot_name):
+        super().__init__()
         self.bot_name = bot_name
 
     def format_sql(self, sql, params=None):
@@ -13,15 +14,25 @@ class BudabotDB(DB):
 
 # IMPORTANT: specify a bot name before running this script
 old_db = BudabotDB(bot_name="")
-# connect old_db, use .connect_mysql() when connecting to mysql/mariadb
-old_db.connect_sqlite("./data/budabot.db")
+# connect old_db using sqlite or mysql (uncomment ONE)
+#old_db.connect_sqlite("./data/budabot.db")
+#old_db.connect_mysql(host="", username="", password="", database_name="")
 
 new_db = DB()
-# connect new_db, use .connect_mysql() when connecting to mysql/mariadb
-new_db.connect_sqlite("./data/database.db")
+# connect old_db using sqlite or mysql (uncomment ONE)
+#new_db.connect_sqlite("./data/database.db")
+#new_db.connect_mysql(host="", username="", password="", database_name="")
 
 if not old_db.bot_name:
     print("Error! Please specify bot name")
+    exit(1)
+
+if not old_db.get_type():
+    print("Error! Please specify connection method for old_db")
+    exit(1)
+
+if not new_db.get_type():
+    print("Error! Please specify connection method for new_db")
     exit(1)
 
 # admin

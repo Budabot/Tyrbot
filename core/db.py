@@ -184,6 +184,9 @@ class DB:
                     line_num += 1
                 cur.close()
 
+    def get_type(self):
+        return self.type
+
     # transaction support
     def transaction(self):
         return self
