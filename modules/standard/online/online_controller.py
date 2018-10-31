@@ -186,7 +186,12 @@ class OnlineController:
                 if row.afk_dt > 0:
                     afk = " - <highlight>%s (%s ago)<end>" % (row.afk_reason, self.util.time_to_readable(int(time.time()) - row.afk_dt))
 
-                blob += " | <highlight>%s<end> (%d/<green>%d<end>) %s %s%s\n" % (row.name, row.level or 0, row.ai_level or 0, row.faction, row.profession, afk)
+                org_info = ""
+                if channel == self.PRIVATE_CHANNEL:
+                    if row.org_name:
+                        org_info = ", %s of %s" % (row.org_rank_name, row.org_name)
+
+                blob += " | <highlight>%s<end> (%d/<green>%d<end>) %s %s%s%s\n" % (row.name, row.level or 0, row.ai_level or 0, row.faction, row.profession, afk, org_info)
             blob += "\n\n"
 
         return ChatBlob("Online (%d)" % count, blob)
