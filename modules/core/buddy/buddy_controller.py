@@ -14,7 +14,7 @@ class BuddyController:
         self.character_service = registry.get_instance("character_service")
         self.buddy_service = registry.get_instance("buddy_service")
 
-    @command(command="buddylist", params=[], access_level="superadmin",
+    @command(command="buddylist", params=[], access_level="admin",
              description="Show characters on the buddy list")
     def buddylist_cmd(self, request):
         buddy_list = []
@@ -26,7 +26,7 @@ class BuddyController:
 
         return ChatBlob("Buddy List (%d)" % len(buddy_list), blob)
 
-    @command(command="buddylist", params=[Const("add"), Character("character"), Any("type")], access_level="superadmin",
+    @command(command="buddylist", params=[Const("add"), Character("character"), Any("type")], access_level="admin",
              description="Add a character to the buddy list")
     def buddylist_add_cmd(self, request, _, char, buddy_type):
         buddy_type = buddy_type.lower()
@@ -37,7 +37,17 @@ class BuddyController:
         else:
             return "Could not find character <highlight>%s<end>." % char.name
 
-    @command(command="buddylist", params=[Options(["rem", "remove"]), Character("character"), Any("type")], access_level="superadmin",
+    @command(command="buddylist", params=[Options(["rem", "remove"]), Const("all")], access_level="admin",
+             description="Remove all characters from the buddy list")
+    def buddylist_remove_all_cmd(self, request, _1, _2):
+        count = 0
+        for char_id, buddy in self.buddy_service.get_all_buddies().items():
+            self.buddy_service.remove_buddy(char_id, None, True)
+            count += 1
+
+        return "Removed all <highlight>%d<end> buddies from the buddy list." % count
+
+    @command(command="buddylist", params=[Options(["rem", "remove"]), Character("character"), Any("type")], access_level="admin",
              description="Remove a character from the buddy list")
     def buddylist_remove_cmd(self, request, _, char, buddy_type):
         buddy_type = buddy_type.lower()
@@ -48,23 +58,13 @@ class BuddyController:
         else:
             return "Could not find character <highlight>%s<end>." % char.name
 
-    @command(command="buddylist", params=[Options(["remall", "removeall"])], access_level="superadmin",
-             description="Remove all characters from the buddy list")
-    def buddylist_remove_cmd(self, request, _):
-        count = 0
-        for char_id, buddy in self.buddy_service.get_all_buddies().items():
-            self.buddy_service.remove_buddy(char_id, None, True)
-            count += 1
-
-        return "Removed all <highlight>%d<end> buddies from the buddy list." % count
-
-    @command(command="buddylist", params=[Const("clean")], access_level="superadmin",
+    @command(command="buddylist", params=[Const("clean")], access_level="admin",
              description="Remove all orphaned buddies from the buddy list")
     def buddylist_clean_cmd(self, request, _):
         return "Removed <highlight>%d<end> orphaned buddies from the buddy list." % self.remove_orphaned_buddies()
 
-    @command(command="buddylist", params=[Const("search"), Any("character")], access_level="superadmin",
-             description="Remove all characters from the buddy list")
+    @command(command="buddylist", params=[Const("search"), Any("character")], access_level="admin",
+             description="Search for characters on the buddy list")
     def buddylist_search_cmd(self, request, _, search):
         search = search.lower()
 
