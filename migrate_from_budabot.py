@@ -94,6 +94,7 @@ print("migrating data to news table")
 data = old_db.query("SELECT p.charid AS char_id, news, sticky, time AS created_at, deleted AS deleted_at FROM news n JOIN players p ON n.name = p.name")
 with new_db.transaction():
     for row in data:
+        new_db.exec("DELETE FROM news WHERE char_id = ? AND news = ?", [row.char_id, row.news])
         new_db.exec("INSERT INTO news (char_id, news, sticky, created_at, deleted_at) VALUES (?, ?, ?, ?, ?)", [row.char_id, row.news, row.sticky, row.created_at, row.deleted_at])
 print("migrated %d records" % len(data))
 
