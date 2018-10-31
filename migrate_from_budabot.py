@@ -138,7 +138,7 @@ with new_db.transaction():
         new_db.exec("DELETE FROM player WHERE char_id = ?", [row.charid])
         new_db.exec("INSERT INTO player (ai_level, ai_rank, breed, char_id, dimension, faction, first_name, gender, head_id, last_name, last_updated, level, name, org_id, org_name, org_rank_id, org_rank_name, profession, profession_title, pvp_rating, pvp_title, source) "
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                    [row.ai_level, row.ai_rank, row.breed, row.charid, row.dimension, row.faction, row.firstname, row.gender, row.head_id, row.lastname, row.last_update, row.level,
+                    [row.ai_level, row.ai_rank, row.breed, row.charid, row.dimension, row.faction, row.firstname, row.gender, row.head_id if row.head_id else 0, row.lastname, row.last_update, row.level,
                      row.name, row.guild_id, row.guild, row.guild_rank_id, row.guild_rank, row.profession, row.prof_title, row.pvp_rating, row.pvp_title if row.pvp_title else "", row.source])
 print("migrated %d records" % len(data))
 
