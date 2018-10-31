@@ -65,7 +65,7 @@ with new_db.transaction():
             current_main = row.main_char_id
             group_id = new_db.query_single("SELECT (COALESCE(MAX(group_id), 0) + 1) AS next_group_id FROM alts").next_group_id
             new_db.exec("DELETE FROM alts WHERE char_id = ?", [row.main_char_id])
-            new_db.exec("INSERT INTO alts (char_id, group_id, status) VALUES (?, ?, ?)", [row.main_char_id, group_id, AltsService.CONFIRMED])
+            new_db.exec("INSERT INTO alts (char_id, group_id, status) VALUES (?, ?, ?)", [row.main_char_id, group_id, AltsService.MAIN])
 
         new_db.exec("DELETE FROM alts WHERE char_id = ?", [row.alt_char_id])
         new_db.exec("INSERT INTO alts (char_id, group_id, status) VALUES (?, ?, ?)", [row.alt_char_id, group_id, AltsService.CONFIRMED])
