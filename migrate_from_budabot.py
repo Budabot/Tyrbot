@@ -20,6 +20,10 @@ new_db = DB()
 # connect new_db, use .connect_mysql() when connecting to mysql/mariadb
 new_db.connect_sqlite("./data/database.db")
 
+if not old_db.bot_name:
+    print("Error! Please specify bot name")
+    exit(1)
+
 # admin
 print("migrating data to admin table")
 data = old_db.query("SELECT p.charid AS char_id, CASE WHEN adminlevel = 4 THEN 'admin' WHEN adminlevel = 3 THEN 'moderator' END AS access_level FROM admin_<myname> a JOIN players p ON a.name = p.name")
@@ -27,6 +31,7 @@ with new_db.transaction():
     for row in data:
         new_db.exec("DELETE FROM admin WHERE char_id = ?", [row.char_id])
         new_db.exec("INSERT INTO admin (char_id, access_level) VALUES (?, ?)", [row.char_id, row.access_level])
+print("migrated %d records" % len(data))
 
 # banlist_<myname>
 print("migrating data to ban_list table")
@@ -36,6 +41,7 @@ with new_db.transaction():
         new_db.exec("DELETE FROM ban_list WHERE char_id = ?", [row.char_id])
         new_db.exec("INSERT INTO ban_list (char_id, sender_char_id, created_at, finished_at, reason, ended_early) VALUES (?, ?, ?, ?, ?, ?)",
                     [row.char_id, row.sender_char_id, row.created_at, row.finished_at, row.reason, 0])
+print("migrated %d records" % len(data))
 
 # alts
 print("migrating data to alts table")
@@ -52,6 +58,7 @@ with new_db.transaction():
 
         new_db.exec("DELETE FROM alts WHERE char_id = ?", [row.alt_char_id])
         new_db.exec("INSERT INTO alts (char_id, group_id, status) VALUES (?, ?, ?)", [row.alt_char_id, group_id, AltsService.CONFIRMED])
+print("migrated %d records" % len(data))
 
 # members_<myname>
 print("migrating data to members table")
@@ -60,6 +67,7 @@ with new_db.transaction():
     for row in data:
         new_db.exec("DELETE FROM members WHERE char_id = ?", [row.char_id])
         new_db.exec("INSERT INTO members (char_id, auto_invite) VALUES (?, ?)", [row.char_id, row.auto_invite])
+print("migrated %d records" % len(data))
 
 # name_history
 print("migrating data to name_history table")
@@ -68,6 +76,7 @@ with new_db.transaction():
     for row in data:
         new_db.exec("DELETE FROM name_history WHERE char_id = ? AND name = ?", [row.char_id, row.name])
         new_db.exec("INSERT INTO name_history (char_id, name, created_at) VALUES (?, ?, ?)", [row.char_id, row.name, row.created_at])
+print("migrated %d records" % len(data))
 
 # news
 print("migrating data to news table")
@@ -75,6 +84,7 @@ data = old_db.query("SELECT p.charid AS char_id, news, sticky, time AS created_a
 with new_db.transaction():
     for row in data:
         new_db.exec("INSERT INTO news (char_id, news, sticky, created_at, deleted_at) VALUES (?, ?, ?, ?, ?)", [row.char_id, row.news, row.sticky, row.created_at, row.deleted_at])
+print("migrated %d records" % len(data))
 
 # notes
 print("migrating data to notes table")
@@ -82,6 +92,7 @@ data = old_db.query("SELECT p.charid AS char_id, n.note, n.dt AS created_at FROM
 with new_db.transaction():
     for row in data:
         new_db.exec("INSERT INTO notes (char_id, note, created_at) VALUES (?, ?, ?)", [row.char_id, row.note, row.created_at])
+print("migrated %d records" % len(data))
 
 # org_city_<myname>
 print("migrating data to cloak_status table")
@@ -89,6 +100,7 @@ data = old_db.query("SELECT p.charid AS char_id, action, time AS created_at FROM
 with new_db.transaction():
     for row in data:
         new_db.exec("INSERT INTO cloak_status (char_id, action, created_at) VALUES (?, ?, ?)", [row.char_id, row.action, row.created_at])
+print("migrated %d records" % len(data))
 
 # org_history
 print("migrating data to org_activity table")
@@ -96,6 +108,7 @@ data = old_db.query("SELECT p1.charid AS actor_char_id, p2.charid AS actee_char_
 with new_db.transaction():
     for row in data:
         new_db.exec("INSERT INTO org_activity (actor_char_id, actee_char_id, action, created_at) VALUES (?, ?, ?, ?)", [row.actor_char_id, row.actee_char_id, row.action, row.created_at])
+print("migrated %d records" % len(data))
 
 # org_members_<myname>
 print("migrating data to org_member table")
@@ -104,6 +117,7 @@ with new_db.transaction():
     for row in data:
         new_db.exec("DELETE FROM org_member WHERE char_id = ?", [row.char_id])
         new_db.exec("INSERT INTO org_member (char_id, mode, last_seen) VALUES (?, ?, ?)", [row.char_id, row.mode, row.last_seen])
+print("migrated %d records" % len(data))
 
 # players
 print("migrating data to player table")
@@ -115,6 +129,7 @@ with new_db.transaction():
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                     [row.ai_level, row.ai_rank, row.breed, row.charid, row.dimension, row.faction, row.firstname, row.gender, row.head_id, row.lastname, row.last_update, row.level,
                      row.name, row.guild_id, row.guild, row.guild_rank_id, row.guild_rank, row.profession, row.prof_title, row.pvp_rating, row.pvp_title if row.pvp_title else "", row.source])
+print("migrated %d records" % len(data))
 
 # quote
 print("migrating data to quote table")
@@ -122,6 +137,7 @@ data = old_db.query("SELECT p.charid AS char_id, q.msg AS content, q.dt AS creat
 with new_db.transaction():
     for row in data:
         new_db.exec("INSERT INTO quote (char_id, created_at, content) VALUES (?, ?, ?)", [row.char_id, row.created_at, row.content])
+print("migrated %d records" % len(data))
 
 
 # Ignore: bank, broadcast_<myname>, cmd_alias_<myname>, cmdcfg_<myname>, eventcfg_<myname>, events, hlpcfg_<myname>, implant_design, kos, links, preferences_<myname>,
