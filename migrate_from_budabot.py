@@ -102,6 +102,7 @@ print("migrating data to notes table")
 data = old_db.query("SELECT p.charid AS char_id, n.note, n.dt AS created_at FROM notes n JOIN players p ON p.name = n.added_by")
 with new_db.transaction():
     for row in data:
+        new_db.exec("DELETE FROM notes WHERE char_id = ? AND note = ?", [row.char_id, row.note])
         new_db.exec("INSERT INTO notes (char_id, note, created_at) VALUES (?, ?, ?)", [row.char_id, row.note, row.created_at])
 print("migrated %d records" % len(data))
 
@@ -139,7 +140,7 @@ with new_db.transaction():
         new_db.exec("INSERT INTO player (ai_level, ai_rank, breed, char_id, dimension, faction, first_name, gender, head_id, last_name, last_updated, level, name, org_id, org_name, org_rank_id, org_rank_name, profession, profession_title, pvp_rating, pvp_title, source) "
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                     [row.ai_level, row.ai_rank, row.breed, row.charid, row.dimension, row.faction, row.firstname, row.gender, row.head_id if row.head_id else 0, row.lastname, row.last_update, row.level,
-                     row.name, row.guild_id, row.guild, row.guild_rank_id, row.guild_rank, row.profession, row.prof_title, row.pvp_rating, row.pvp_title if row.pvp_title else "", row.source])
+                     row.name, row.guild_id, row.guild, row.guild_rank_id, row.guild_rank, row.profession, row.prof_title, row.pvp_rating if row.pvp_rating else 0, row.pvp_title if row.pvp_title else "", row.source])
 print("migrated %d records" % len(data))
 
 # quote
