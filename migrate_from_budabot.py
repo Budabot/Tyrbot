@@ -37,7 +37,7 @@ if not new_db.get_type():
 
 # admin
 print("migrating data to admin table")
-data = old_db.query("SELECT p.charid AS char_id, CASE WHEN adminlevel = 4 THEN 'admin' WHEN adminlevel = 3 THEN 'moderator' END AS access_level FROM admin_<myname> a JOIN players p ON a.name = p.name")
+data = old_db.query("SELECT p.charid AS char_id, CASE WHEN adminlevel = 4 THEN 'admin' WHEN adminlevel = 3 THEN 'moderator' END AS access_level FROM admin_<myname> a JOIN players p ON a.name = p.name WHERE p.charid > 0")
 with new_db.transaction():
     for row in data:
         new_db.exec("DELETE FROM admin WHERE char_id = ?", [row.char_id])
@@ -46,7 +46,7 @@ print("migrated %d records" % len(data))
 
 # banlist_<myname>
 print("migrating data to ban_list table")
-data = old_db.query("SELECT b.charid AS char_id, p.charid AS sender_char_id, time AS created_at, banend AS finished_at, reason FROM banlist_<myname> b JOIN players p ON b.admin = p.name")
+data = old_db.query("SELECT b.charid AS char_id, p.charid AS sender_char_id, time AS created_at, banend AS finished_at, reason FROM banlist_<myname> b JOIN players p ON b.admin = p.name WHERE p.charid > 0")
 with new_db.transaction():
     for row in data:
         new_db.exec("DELETE FROM ban_list WHERE char_id = ?", [row.char_id])
@@ -56,7 +56,7 @@ print("migrated %d records" % len(data))
 
 # alts
 print("migrating data to alts table")
-data = old_db.query("SELECT p1.charid AS main_char_id, p2.charid AS alt_char_id FROM alts a JOIN players p1 ON p1.name = a.main JOIN players p2 ON p2.name = a.alt WHERE validated = 1 ORDER BY a.main ASC")
+data = old_db.query("SELECT p1.charid AS main_char_id, p2.charid AS alt_char_id FROM alts a JOIN players p1 ON p1.name = a.main JOIN players p2 ON p2.name = a.alt WHERE validated = 1 AND p1.charid > 0 AND p2.charid > 0 ORDER BY a.main ASC ")
 with new_db.transaction():
     current_main = 0
     group_id = 0
@@ -73,7 +73,7 @@ print("migrated %d records" % len(data))
 
 # members_<myname>
 print("migrating data to members table")
-data = old_db.query("SELECT p.charid AS char_id, m.autoinv AS auto_invite FROM members_<myname> m JOIN players p ON m.name = p.name")
+data = old_db.query("SELECT p.charid AS char_id, m.autoinv AS auto_invite FROM members_<myname> m JOIN players p ON m.name = p.name WHERE p.charid > 0")
 with new_db.transaction():
     for row in data:
         new_db.exec("DELETE FROM members WHERE char_id = ?", [row.char_id])
@@ -91,7 +91,7 @@ print("migrated %d records" % len(data))
 
 # news
 print("migrating data to news table")
-data = old_db.query("SELECT p.charid AS char_id, news, sticky, time AS created_at, deleted AS deleted_at FROM news n JOIN players p ON n.name = p.name")
+data = old_db.query("SELECT p.charid AS char_id, news, sticky, time AS created_at, deleted AS deleted_at FROM news n JOIN players p ON n.name = p.name WHERE p.charid > 0")
 with new_db.transaction():
     for row in data:
         new_db.exec("DELETE FROM news WHERE char_id = ? AND news = ?", [row.char_id, row.news])
@@ -100,7 +100,7 @@ print("migrated %d records" % len(data))
 
 # notes
 print("migrating data to notes table")
-data = old_db.query("SELECT p.charid AS char_id, n.note, n.dt AS created_at FROM notes n JOIN players p ON p.name = n.added_by")
+data = old_db.query("SELECT p.charid AS char_id, n.note, n.dt AS created_at FROM notes n JOIN players p ON p.name = n.added_by WHERE p.charid > 0")
 with new_db.transaction():
     for row in data:
         new_db.exec("DELETE FROM notes WHERE char_id = ? AND note = ?", [row.char_id, row.note])
@@ -109,7 +109,7 @@ print("migrated %d records" % len(data))
 
 # org_city_<myname>
 print("migrating data to cloak_status table")
-data = old_db.query("SELECT p.charid AS char_id, action, time AS created_at FROM org_city_<myname> o JOIN players p ON o.player = p.name")
+data = old_db.query("SELECT p.charid AS char_id, action, time AS created_at FROM org_city_<myname> o JOIN players p ON o.player = p.name WHERE p.charid > 0")
 with new_db.transaction():
     for row in data:
         new_db.exec("INSERT INTO cloak_status (char_id, action, created_at) VALUES (?, ?, ?)", [row.char_id, row.action, row.created_at])
@@ -117,7 +117,7 @@ print("migrated %d records" % len(data))
 
 # org_history
 print("migrating data to org_activity table")
-data = old_db.query("SELECT p1.charid AS actor_char_id, p2.charid AS actee_char_id, action, time AS created_at FROM org_history o JOIN players p1 ON o.actor = p1.name JOIN players p2 ON o.actee = p2.name")
+data = old_db.query("SELECT p1.charid AS actor_char_id, p2.charid AS actee_char_id, action, time AS created_at FROM org_history o JOIN players p1 ON o.actor = p1.name JOIN players p2 ON o.actee = p2.name WHERE p1.charid > 0 AND p2.charid > 0")
 with new_db.transaction():
     for row in data:
         new_db.exec("INSERT INTO org_activity (actor_char_id, actee_char_id, action, created_at) VALUES (?, ?, ?, ?)", [row.actor_char_id, row.actee_char_id, row.action, row.created_at])
@@ -125,7 +125,7 @@ print("migrated %d records" % len(data))
 
 # org_members_<myname>
 print("migrating data to org_member table")
-data = old_db.query("SELECT p.charid AS char_id, CASE WHEN mode = 'org' THEN 'add_auto' WHEN mode = 'add' THEN 'add_manual' WHEN mode = 'del' THEN 'rem_manual' END AS mode, logged_off AS last_seen FROM org_members_<myname> o JOIN players P ON o.name = p.name")
+data = old_db.query("SELECT p.charid AS char_id, CASE WHEN mode = 'org' THEN 'add_auto' WHEN mode = 'add' THEN 'add_manual' WHEN mode = 'del' THEN 'rem_manual' END AS mode, logged_off AS last_seen FROM org_members_<myname> o JOIN players P ON o.name = p.name WHERE p.charid > 0")
 with new_db.transaction():
     for row in data:
         new_db.exec("DELETE FROM org_member WHERE char_id = ?", [row.char_id])
@@ -134,7 +134,7 @@ print("migrated %d records" % len(data))
 
 # players
 print("migrating data to player table")
-data = old_db.query("SELECT * FROM players")
+data = old_db.query("SELECT * FROM players WHERE charid > 0")
 with new_db.transaction():
     for row in data:
         new_db.exec("DELETE FROM player WHERE char_id = ?", [row.charid])
@@ -146,7 +146,7 @@ print("migrated %d records" % len(data))
 
 # quote
 print("migrating data to quote table")
-data = old_db.query("SELECT p.charid AS char_id, q.msg AS content, q.dt AS created_at FROM quote q JOIN players p ON q.poster = p.name")
+data = old_db.query("SELECT p.charid AS char_id, q.msg AS content, q.dt AS created_at FROM quote q JOIN players p ON q.poster = p.name WHERE p.charid > 0")
 with new_db.transaction():
     for row in data:
         new_db.exec("INSERT INTO quote (char_id, created_at, content) VALUES (?, ?, ?)", [row.char_id, row.created_at, row.content])
