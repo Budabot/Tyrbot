@@ -55,7 +55,7 @@ class OrgActivityController:
     def org_msg_event(self, event_type, event_data):
         ext_msg = event_data.extended_message
         if [ext_msg.category_id, ext_msg.instance_id] == self.LEFT_ORG:
-            self.save_activity(ext_msg.params[0], None, "left")
+            self.save_activity(ext_msg.params[0], ext_msg.params[0], "left")
         elif [ext_msg.category_id, ext_msg.instance_id] == self.KICKED_FROM_ORG:
             self.save_activity(ext_msg.params[0], ext_msg.params[1], "kicked")
         elif [ext_msg.category_id, ext_msg.instance_id] == self.INVITED_TO_ORG:
