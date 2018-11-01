@@ -9,14 +9,13 @@ class AltsController:
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
         self.alts_service = registry.get_instance("alts_service")
+        self.buddy_service = registry.get_instance("buddy_service")
 
     @command(command="alts", params=[], access_level="all",
              description="Show your alts")
     def alts_list_cmd(self, request):
         alts = self.alts_service.get_alts(request.sender.char_id)
-        blob = ""
-        for alt in alts:
-            blob += "<highlight>%s<end> (%d/<green>%d<end>) %s %s%s\n" % (alt.name, alt.level, alt.ai_level, alt.faction, alt.profession, self.get_alt_status(alt.status))
+        blob = self.format_alt_list(alts)
 
         return ChatBlob("Alts of %s (%d)" % (alts[0].name, len(alts)), blob)
 
@@ -80,8 +79,15 @@ class AltsController:
             return "Error! Could not find character <highlight>%s<end>." % char.name
 
         alts = self.alts_service.get_alts(char.char_id)
-        blob = ""
-        for alt in alts:
-            blob += "<highlight>%s<end> (%d/<green>%d<end>) %s %s\n" % (alt.name, alt.level, alt.ai_level, alt.faction, alt.profession)
+        blob = self.format_alt_list(alts)
 
         return ChatBlob("Alts of %s (%d)" % (alts[0].name, len(alts)), blob)
+
+    def format_alt_list(self, alts):
+        blob = ""
+        for alt in alts:
+            blob += "<highlight>%s<end> (%d/<green>%d<end>) %s %s" % (alt.name, alt.level, alt.ai_level, alt.faction, alt.profession)
+            if self.buddy_service.is_online(alt.char_id):
+                blob += " [<green>Online<end>]"
+            blob += "\n"
+        return blob
