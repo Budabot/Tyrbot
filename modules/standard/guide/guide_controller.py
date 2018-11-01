@@ -1,3 +1,5 @@
+import pathlib
+
 from core.decorators import instance, command
 from core.chat_blob import ChatBlob
 from core.command_param_types import Any
@@ -7,6 +9,7 @@ import os
 @instance()
 class GuideController:
     GUIDE_FILE_EXT = ".txt"
+    GUIDE_DATA_DIRECTORY = "./data/guides"
 
     def inject(self, registry):
         self.text = registry.get_instance("text")
@@ -21,11 +24,12 @@ class GuideController:
         self.command_alias_service.add_alias("stats", "guides stats")
         self.command_alias_service.add_alias("light", "guides light")
 
+        pathlib.Path(self.GUIDE_DATA_DIRECTORY).mkdir(parents=True, exist_ok=True)
+
     @command(command="guides", params=[], access_level="all",
              description="Show the list of guides")
     def guide_list_cmd(self, request):
-        dir_path = self.get_base_path()
-        guides = [f[:-len(self.GUIDE_FILE_EXT)] for f in os.listdir(dir_path) if f.endswith(self.GUIDE_FILE_EXT)]
+        guides = self.get_all_guides()
 
         blob = ""
         for guide in guides:
@@ -35,15 +39,31 @@ class GuideController:
 
     @command(command="guides", params=[Any("guide")], access_level="all",
              description="Show the guide details")
-    def guide_show_cmd(self, request, guide):
-        guide = guide.lower()
-        file_path = self.get_base_path() + os.sep + guide + self.GUIDE_FILE_EXT
+    def guide_show_cmd(self, request, guide_name):
+        guide = self.get_guide(guide_name)
 
-        try:
-            with open(file_path, "r") as f:
-                return ChatBlob(guide.capitalize(), f.read())
-        except FileNotFoundError:
-            return "Could not find guide <highlight>%s<end>." % guide
+        if guide:
+            return ChatBlob(guide_name.capitalize(), guide)
+        else:
+            return "Could not find guide <highlight>%s<end>." % guide_name
 
     def get_base_path(self):
         return os.path.dirname(os.path.realpath(__file__)) + os.sep + "guides"
+
+    def get_guide(self, name):
+        name = name.lower()
+        for base in [self.GUIDE_DATA_DIRECTORY, self.get_base_path()]:
+            file_path = base + os.sep + name + self.GUIDE_FILE_EXT
+            try:
+                with open(file_path, "r") as f:
+                    return f.read()
+            except FileNotFoundError:
+                pass
+
+        return None
+
+    def get_all_guides(self):
+        guides = []
+        for base in [self.GUIDE_DATA_DIRECTORY, self.get_base_path()]:
+            guides += [f[:-len(self.GUIDE_FILE_EXT)] for f in os.listdir(base) if f.endswith(self.GUIDE_FILE_EXT)]
+        return sorted(set(guides))
