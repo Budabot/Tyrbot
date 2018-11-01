@@ -3,6 +3,30 @@ from core.decorators import instance, command
 from core.command_param_types import Any, Const, Time, Options
 import time
 
+from core.registry import Registry
+
+
+class TimerTime(Time):
+    def get_regex(self):
+        regex = "(\s+(([0-9]+)([a-z]*))+)"
+        return regex + ("?" if self.is_optional else "")
+
+    def process_matches(self, params):
+        budatime_str = params.pop(0)
+        params.pop(0)
+        params.pop(0)
+        params.pop(0)
+
+        if budatime_str is None:
+            return None
+        else:
+            budatime_str = budatime_str[1:]
+            if budatime_str.isdigit():
+                return int(budatime_str) * 60
+            else:
+                util = Registry.get_instance("util")
+                return util.parse_time(budatime_str)
+
 
 @instance()
 class TimerController:
@@ -43,7 +67,7 @@ class TimerController:
 
         return ChatBlob("Timers (%d)" % len(data), blob)
 
-    @command(command="timer", params=[Const("add", is_optional=True), Time("time"), Any("name", is_optional=True)], access_level="all",
+    @command(command="timer", params=[Const("add", is_optional=True), TimerTime("time"), Any("name", is_optional=True)], access_level="all",
              description="Add a timer")
     def timer_add_cmd(self, request, _, duration, timer_name):
         timer_name = timer_name or self.get_timer_name(request.sender.name)
@@ -69,7 +93,7 @@ class TimerController:
         else:
             return "Error! Insufficient access level to remove timer <highlight>%s<end>." % timer.name
 
-    @command(command="rtimer", params=[Const("add", is_optional=True), Time("start_time"), Time("repeating_time"), Any("name", is_optional=True)], access_level="all",
+    @command(command="rtimer", params=[Const("add", is_optional=True), TimerTime("start_time"), TimerTime("repeating_time"), Any("name", is_optional=True)], access_level="all",
              description="Add a timer")
     def rtimer_add_cmd(self, request, _, start_time, repeating_time, timer_name):
         timer_name = timer_name or self.get_timer_name(request.sender.name)
