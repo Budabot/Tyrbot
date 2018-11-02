@@ -11,6 +11,11 @@ class GuideController:
     GUIDE_FILE_EXT = ".txt"
     GUIDE_DATA_DIRECTORY = "./data/guides"
 
+    def __init__(self):
+        self.guide_paths = []
+        self.guide_paths.append(os.path.dirname(os.path.realpath(__file__)) + os.sep + "guides")
+        self.guide_paths.append(self.GUIDE_DATA_DIRECTORY)
+
     def inject(self, registry):
         self.text = registry.get_instance("text")
         self.command_alias_service = registry.get_instance("command_alias_service")
@@ -47,12 +52,15 @@ class GuideController:
         else:
             return "Could not find guide <highlight>%s<end>." % guide_name
 
+    def register_guide_path(self, path):
+        self.guide_paths.append(path)
+
     def get_base_path(self):
         return os.path.dirname(os.path.realpath(__file__)) + os.sep + "guides"
 
     def get_guide(self, name):
         name = name.lower()
-        for base in [self.GUIDE_DATA_DIRECTORY, self.get_base_path()]:
+        for base in reversed(self.guide_paths):
             file_path = base + os.sep + name + self.GUIDE_FILE_EXT
             try:
                 with open(file_path, "r") as f:
@@ -64,6 +72,6 @@ class GuideController:
 
     def get_all_guides(self):
         guides = []
-        for base in [self.GUIDE_DATA_DIRECTORY, self.get_base_path()]:
+        for base in reversed(self.guide_paths):
             guides += [f[:-len(self.GUIDE_FILE_EXT)] for f in os.listdir(base) if f.endswith(self.GUIDE_FILE_EXT)]
         return sorted(set(guides))
