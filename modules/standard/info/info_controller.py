@@ -21,6 +21,7 @@ class InfoController:
         self.command_alias_service = registry.get_instance("command_alias_service")
 
     def start(self):
+        self.command_alias_service.add_alias("guides", "info")
         self.command_alias_service.add_alias("breed", "info breed")
         self.command_alias_service.add_alias("healdelta", "info healdelta")
         self.command_alias_service.add_alias("nanodelta", "info nanodelta")
