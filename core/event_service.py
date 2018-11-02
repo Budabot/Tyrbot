@@ -89,15 +89,18 @@ class EventService:
         data = self.db.query("SELECT handler, event_type FROM event_config WHERE event_type = ? AND event_sub_type = ? AND enabled = 1",
                              [event_base_type, event_sub_type])
         for row in data:
-            handler = self.handlers.get(row.handler, None)
-            if not handler:
-                self.logger.error("Could not find handler callback for event type '%s' and handler '%s'" % (event_type, row.handler))
-                return
+            self.call_handler(row.handler, event_type, event_data)
 
-            try:
-                handler(event_type, event_data)
-            except Exception as e:
-                self.logger.error("error processing event '%s'" % event_type, e)
+    def call_handler(self, handler_method, event_type, event_data):
+        handler = self.handlers.get(handler_method, None)
+        if not handler:
+            self.logger.error("Could not find handler callback for event type '%s' and handler '%s'" % (event_type, handler_method))
+            return
+
+        try:
+            handler(event_type, event_data)
+        except Exception as e:
+            self.logger.error("error processing event '%s'" % event_type, e)
 
     def get_event_type_parts(self, event_type):
         parts = event_type.lower().split(":", 1)
@@ -128,7 +131,7 @@ class EventService:
             self.db.exec("UPDATE timer_event SET next_run = ? WHERE event_type = ? AND handler = ?",
                          [next_run, row.event_type, row.handler])
 
-            self.fire_event(event_type_key)
+            self.call_handler(row.handler, event_type_key, None)
 
     def update_event_status(self, event_base_type, event_sub_type, event_handler, enabled_status):
         return self.db.exec("UPDATE event_config SET enabled = ? WHERE event_type = ? AND event_sub_type = ? AND handler LIKE ?",
