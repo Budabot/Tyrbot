@@ -1,6 +1,6 @@
 <header>:::::: How to use the Chatfilter for Creditspammer :::::<end>
 
-If you want to see a complete guide about the Chatfilter go <a href='chatcmd:///tell <myname> guides chatfilter'>here</a>!
+If you want to see a complete guide about the Chatfilter go <a href='chatcmd:///tell <myname> info chatfilter'>here</a>!
 
 <u>First we add specific letters to the filter for Egpal:</u>
 
