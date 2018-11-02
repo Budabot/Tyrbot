@@ -31,7 +31,7 @@ class CharacterHistoryService:
             try:
                 result = r.json()
             except ValueError as e:
-                self.logger.warning("Error marshalling value as json: %s" % r.text, e)
+                self.logger.warning("Error marshalling value as json for url '%s': %s" % (url, r.text), e)
                 result = None
 
             if result:
