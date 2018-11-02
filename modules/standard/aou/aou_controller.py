@@ -146,9 +146,6 @@ class AOUController:
                 return True
         return False
 
-    def get_base_path(self):
-        return os.path.dirname(os.path.realpath(__file__)) + os.sep + "guides"
-
     def get_guides(self, section):
         result = []
         for guide in section.findall("./guidelist/guide"):
