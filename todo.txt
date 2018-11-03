@@ -11,7 +11,6 @@ off/on relay commands between org and private channels
 not spam on restart
 manually run timer events
 add !logon/!logoff
-notify org channel when city cloak can be changed
 
 EVENTS
 RAID
