@@ -46,7 +46,7 @@ class LootController:
     @command(command="loot", params=[Const("clear")], description="Clear all loot", access_level="all")
     def loot_clear_cmd(self, request, _):
         if not self.leader_controller.can_use_command(request.sender.char_id):
-            return "You're not set as leader, and don't have sufficient access level to override leadership."
+            return LeaderController.NOT_LEADER_MSG
 
         if self.loot_list:
             self.loot_list.clear()
@@ -59,7 +59,7 @@ class LootController:
              access_level="all")
     def loot_rem_item_cmd(self, request, _, item_index: int):
         if not self.leader_controller.can_use_command(request.sender.char_id):
-            return "You're not set as leader, and don't have sufficient access level to override leadership."
+            return LeaderController.NOT_LEADER_MSG
 
         if not self.loot_list:
             return "Loot list is empty."
@@ -77,7 +77,7 @@ class LootController:
              description="Add an item to loot list", access_level="all")
     def loot_add_item_cmd(self, request, _, item, item_count: int):
         if not self.leader_controller.can_use_command(request.sender.char_id):
-            return "You're not set as leader, and don't have sufficient access level to override leadership."
+            return LeaderController.NOT_LEADER_MSG
 
         if item_count is None:
             item_count = 1
@@ -90,7 +90,7 @@ class LootController:
              access_level="all")
     def loot_increase_item_cmd(self, request, _, item_index: int):
         if not self.leader_controller.can_use_command(request.sender.char_id):
-            return "You're not set as leader, and don't have sufficient access level to override leadership."
+            return LeaderController.NOT_LEADER_MSG
 
         if not self.loot_list:
             return "Loot list is empty."
@@ -111,7 +111,7 @@ class LootController:
              access_level="all")
     def loot_decrease_item_cmd(self, request, _, item_index: int):
         if not self.leader_controller.can_use_command(request.sender.char_id):
-            return "You're not set as leader, and don't have sufficient access level to override leadership."
+            return LeaderController.NOT_LEADER_MSG
 
         if not self.loot_list:
             return "Loot list is empty."
@@ -170,14 +170,14 @@ class LootController:
 
                 return "%s removed from %s." % (name, loot_item.item.name)
             else:
-                return "You're not added to any loot."
+                return "You are not added to any loot."
         except KeyError:
             return "Wrong index given."
 
     @command(command="loot", params=[Const("roll")], description="Roll all loot", access_level="all")
     def loot_roll_cmd(self, request, _):
         if not self.leader_controller.can_use_command(request.sender.char_id):
-            return "You're not set as leader, and don't have sufficient access level to override leadership."
+            return LeaderController.NOT_LEADER_MSG
 
         if self.loot_list:
             blob = ""
@@ -209,7 +209,7 @@ class LootController:
     @command(command="loot", params=[Const("reroll")], description="Rebuild loot list", access_level="all")
     def loot_reroll_cmd(self, request, _):
         if not self.leader_controller.can_use_command(request.sender.char_id):
-            return "You're not set as leader, and don't have sufficient access level to override leadership."
+            return LeaderController.NOT_LEADER_MSG
 
         if self.loot_list:
             count = 1
@@ -232,7 +232,7 @@ class LootController:
              description="Used by the loot lists to add items to loot list", access_level="all")
     def loot_add_raid_item(self, request, _1, _2, item_id: int, item_count: int):
         if not self.leader_controller.can_use_command(request.sender.char_id):
-            return "You're not set as leader, and don't have sufficient access level to override leadership."
+            return LeaderController.NOT_LEADER_MSG
 
         sql = "SELECT * FROM aodb a LEFT JOIN raid_loot r ON (a.name = r.name AND a.highql >= r.ql) " \
               "WHERE r.id = ? LIMIT 1"
@@ -249,7 +249,7 @@ class LootController:
              description="Add all loot from given raid", access_level="all")
     def loot_add_raid_loot(self, request, _, raid: str, category: str):
         if not self.leader_controller.can_use_command(request.sender.char_id):
-            return "You're not set as leader, and don't have sufficient access level to override leadership."
+            return LeaderController.NOT_LEADER_MSG
 
         items = self.db.query(
             "SELECT r.raid, r.category, r.id, r.ql, r.name, r.comment, r.multiloot, a.lowid, a.highid, a.icon "
@@ -480,7 +480,7 @@ class LootController:
             blob += "<header2>Bid info<end>\n" \
                     "To bid for <yellow>%s<end>, you must send a tell to <myname> with\n\n" \
                     "<tab><highlight>/tell <myname> auction bid &lt;amount&gt;<end>\n\n" \
-                    "Where you replace &lt;amount&gt; with the amount of points you're welling to bid " \
+                    "Where you replace &lt;amount&gt; with the amount of points you are welling to bid " \
                     "for the item.\n\nMinimum bid is %d, and you can also use \"all\" as bid, to bid " \
                     "all your available points.\n\n" % (item.name, min_bid)
             if self.setting_service.get("vickrey_auction").get_value():

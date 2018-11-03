@@ -10,6 +10,8 @@ import time
 
 @instance()
 class LeaderController:
+    NOT_LEADER_MSG = "You must be leader, or have higher access level than the leader to use this command."
+
     def __init__(self):
         self.leader = None
         self.last_activity = None
