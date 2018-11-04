@@ -1,3 +1,4 @@
+from core.dict_object import DictObject
 from core.registry import Registry
 import json
 import re
@@ -74,7 +75,7 @@ class DictionarySettingType(SettingType):
     def get_value(self):
         value = self._get_raw_value()
         if value:
-            return json.loads(value)
+            return DictObject(json.loads(value))
         else:
             return value
 
