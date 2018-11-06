@@ -172,7 +172,8 @@ class CommandService:
                     if help_text:
                         reply(self.format_help_text(command_str, help_text))
                     else:
-                        reply("Error! Invalid syntax.")
+                        # the command is known, but no help is returned, therefore user does not have access to command
+                        reply("Error! Access denied.")
             else:
                 reply("Error! Unknown command <highlight>%s<end>." % command_str)
         except Exception as e:

@@ -11,6 +11,7 @@ off/on relay commands between org and private channels
 not spam on restart
 manually run timer events
 add !logon/!logoff
+show alts with !whois
 
 EVENTS
 RAID
