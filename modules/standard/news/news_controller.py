@@ -185,13 +185,13 @@ class NewsController:
         blob = "%s\n\n" % self.text.make_chatcmd("Mark as all read", "/tell <myname> news markasread all")
 
         if news:
+            unread_color = self.setting_service.get("unread_color").get_font_color()
             for item in news:
-                unread_color = self.setting_service.get("unread_color").get_font_color()
                 read_link = self.text.make_chatcmd("Mark as read", "/tell <myname> news markasread %s" % item.id)
                 timestamp = self.util.format_datetime(item.created_at)
 
-                blob += "ID %d %s%s<end>\n" % (item.id, unread_color, item.news)
-                blob += "By %s [%s] [%s]\n\n" % (item.author, timestamp, read_link)
+                blob += "%s%s<end>\n" % (unread_color, item.news)
+                blob += "By %s [%s] [%s] ID %d\n\n" % (item.id, item.author, timestamp, read_link)
 
             return blob
 
@@ -204,8 +204,8 @@ class NewsController:
         blob = ""
 
         if news:
+            sticky_color = self.setting_service.get("sticky_color").get_font_color()
             for item in news:
-                sticky_color = self.setting_service.get("sticky_color").get_font_color()
                 # remove_link = self.text.make_chatcmd("Remove", "/tell <myname> news rem %s" % item.id)
                 # sticky_link = self.text.make_chatcmd("Unsticky", "/tell <myname> news unsticky %s" % item.id)
                 timestamp = self.util.format_datetime(item.created_at)
@@ -225,8 +225,8 @@ class NewsController:
         blob = ""
 
         if news:
+            news_color = self.setting_service.get("news_color").get_font_color()
             for item in news:
-                news_color = self.setting_service.get("news_color").get_font_color()
                 # remove_link = self.text.make_chatcmd("Remove", "/tell <myname> news rem %s" % item.id)
                 # sticky_link = self.text.make_chatcmd("Sticky", "/tell <myname> news sticky %s" % item.id)
                 timestamp = self.util.format_datetime(item.created_at)
