@@ -174,7 +174,10 @@ class Tyrbot(Bot):
             outgoing_packet = self.packet_queue.dequeue()
 
         num_messages = len(self.packet_queue)
-        if num_messages > 10:
+        if num_messages > 30:
+            self.logger.warning("automatically clearing outgoing message queue (%d messages)" % num_messages)
+            self.packet_queue.clear()
+        elif num_messages > 10:
             self.logger.warning("%d messages in outgoing message queue" % num_messages)
 
     def public_channel_message_ext_msg_handling(self, packet: server_packets.PublicChannelMessage):

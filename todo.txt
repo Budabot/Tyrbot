@@ -5,10 +5,8 @@ include access_level in sender obj
 Time command param to include both seconds and time_str
 adjust default access levels
 fix number grouping on linux
-auto-clear queue, with a bypass
 investigate async/await for events and commands
 off/on relay commands between org and private channels
-not spam on restart
 manually run timer events
 add !logon/!logoff
 show alts with !whois
