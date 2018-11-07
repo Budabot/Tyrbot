@@ -179,7 +179,7 @@ class OnlineController:
             for row in online_list:
                 if current_main != row.main:
                     count += 1
-                    blob += "\n<highlight>%s<end>\n" % row.main
+                    blob += "\n%s\n" % row.main
                     current_main = row.main
 
                 afk = ""
