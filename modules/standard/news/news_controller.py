@@ -210,8 +210,8 @@ class NewsController:
                 # sticky_link = self.text.make_chatcmd("Unsticky", "/tell <myname> news unsticky %s" % item.id)
                 timestamp = self.util.format_datetime(item.created_at)
 
-                blob += "ID %d %s%s<end>\n" % (item.id, sticky_color, item.news)
-                blob += "By %s [%s]\n\n" % (item.author, timestamp)
+                blob += "%s%s<end>\n" % (sticky_color, item.news)
+                blob += "By %s [%s] ID %d\n\n" % (item.author, timestamp, item.id)
 
             return blob
 
@@ -231,8 +231,8 @@ class NewsController:
                 # sticky_link = self.text.make_chatcmd("Sticky", "/tell <myname> news sticky %s" % item.id)
                 timestamp = self.util.format_datetime(item.created_at)
 
-                blob += "ID %d %s%s<end>\n" % (item.id, news_color, item.news)
-                blob += "By %s [%s]\n\n" % (item.author, timestamp)
+                blob += "%s%s<end>\n" % (news_color, item.news)
+                blob += "By %s [%s] ID %d\n\n" % (item.author, timestamp, item.id)
 
             return blob
 
