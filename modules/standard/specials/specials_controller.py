@@ -242,6 +242,18 @@ class SpecialsController:
     def weapon_cmd(self, request, item):
         return self.get_weapon_info(item.high_id, item.ql)
 
+    @command(command="weapon", params=[Int("item_id"), Int("ql", is_optional=True)], access_level="all",
+             description="Show weapon information")
+    def weapon_manual_cmd(self, request, item_id, ql):
+        if not ql:
+            item = self.items_controller.get_by_item_id(item_id)
+            if item:
+                ql = item.highql
+            else:
+                return "Could not find item with id <highlight>%d<end>." % item_id
+
+        return self.get_weapon_info(item_id, ql)
+
     def get_weapon_info(self, item_id, ql):
         if ql:
             item = self.db.query_single(
@@ -275,21 +287,31 @@ class SpecialsController:
         blob += "<header2>Specials<end>\n"
 
         if high_attributes.aimed_shot:
-            blob += "Aimed Shot\n"
+            as_info = self.get_aimed_shot_info(weapon_attack, weapon_recharge, 1)
+            blob += "Aimed Shot\n<highlight>%d<end> skill needed to cap Aimed Shot recharge at <highlight>%d secs<end>\n\n" % \
+                    (as_info.skill_cap, as_info.hard_cap)
 
         if high_attributes.burst:
             burst_recharge = self.util.interpolate_value(ql, {item.lowql: low_attributes.burst, item.highql: high_attributes.burst})
-            blob += "Burst Recharge: <highlight>%d<end>\n" % burst_recharge
+            burst_info = self.get_burst_info(weapon_attack, weapon_recharge, burst_recharge, 1)
+            blob += "Burst Recharge: <highlight>%d<end>\n<highlight>%d<end> skill needed to cap Burst recharge at <highlight>%d secs<end>\n\n" % \
+                    (burst_recharge, burst_info.skill_cap, burst_info.hard_cap)
 
         if high_attributes.fast_attack:
-            blob += "Fast Attack\n"
+            fast_attack_info = self.get_fast_attack_info(weapon_attack, 1)
+            blob += "Fast Attack\n<highlight>%d<end> skill needed to cap Fast Attack recharge at <highlight>%.2f secs<end>\n\n" % \
+                    (fast_attack_info.skill_cap, fast_attack_info.hard_cap)
 
         if high_attributes.fling_shot:
-            blob += "Fling Shot\n"
+            fling_shot_info = self.get_fling_shot_info(weapon_attack, 1)
+            blob += "Fling Shot\n<highlight>%d<end> skill needed to cap Fling Shot recharge at <highlight>%.2f secs<end>\n\n" % \
+                    (fling_shot_info.skill_cap, fling_shot_info.hard_cap)
 
         if high_attributes.full_auto:
             full_auto_recharge = self.util.interpolate_value(ql, {item.lowql: low_attributes.full_auto, item.highql: high_attributes.full_auto})
-            blob += "Full Auto Recharge: <highlight>%d<end>\n" % full_auto_recharge
+            full_auto_info = self.get_full_auto_info(weapon_attack, weapon_recharge, full_auto_recharge, 1)
+            blob += "Full Auto Recharge: <highlight>%d<end>\n<highlight>%d<end> skill needed to cap Full Auto recharge at <highlight>%d secs<end>\n\n" % \
+                    (full_auto_recharge, full_auto_info.skill_cap, full_auto_info.hard_cap)
 
         return ChatBlob("Weapon Info for %s (QL %d)" % (item.name, ql), blob)
 
