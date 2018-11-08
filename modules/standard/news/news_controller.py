@@ -191,7 +191,7 @@ class NewsController:
                 timestamp = self.util.format_datetime(item.created_at)
 
                 blob += "%s%s<end>\n" % (unread_color, item.news)
-                blob += "By %s [%s] [%s] ID %d\n\n" % (item.id, item.author, timestamp, read_link)
+                blob += "By %s [%s] [%s] ID %d\n\n" % (item.author, timestamp, read_link, item.id)
 
             return blob
 
