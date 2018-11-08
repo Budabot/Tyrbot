@@ -10,6 +10,10 @@ class LeProcsController:
         self.db = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
         self.util = registry.get_instance("util")
+        self.command_alias_service = registry.get_instance("command_alias_service")
+
+    def start(self):
+        self.command_alias_service.add_alias("leproc", "leprocs")
 
     @command(command="leprocs", params=[], access_level="all",
              description="Show a list of professions with LE procs")
