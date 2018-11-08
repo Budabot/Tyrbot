@@ -80,6 +80,10 @@ class UtilController:
         for event_type in self.event_service.get_event_types():
             blob += "%s\n" % event_type
 
+        blob += "\n<pagebreak><header2>Access Levels<end>\n"
+        for access_level in self.access_service.get_access_levels():
+            blob += "%s (%d)\n" % (access_level["label"], access_level["level"])
+
         return ChatBlob("System Info", blob)
 
     @command(command="htmldecode", params=[Any("command")], access_level="all",
