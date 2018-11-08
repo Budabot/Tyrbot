@@ -92,3 +92,8 @@ if version == 4:
         db.exec("INSERT INTO news (id, char_id, news, sticky, created_at, deleted_at) SELECT id, char_id, news, sticky, time, deleted FROM news_old")
         db.exec("DROP TABLE news_old")
     version = update_version(version)
+
+if version == 4:
+    if table_exists("command_config"):
+        db.exec("UPDATE command_config SET access_level = 'org_member' WHERE access_level == 'superadmin' AND command = 'member'")
+    version = update_version(version)

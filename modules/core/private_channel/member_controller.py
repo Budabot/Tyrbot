@@ -3,6 +3,7 @@ from core.ban_service import BanService
 from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Options, Character
 from core.decorators import instance, command, event
+from modules.core.org_members.org_member_controller import OrgMemberController
 
 
 @instance()
@@ -38,7 +39,7 @@ class MemberController:
             if row.auto_invite == 1:
                 self.buddy_service.add_buddy(row.char_id, self.MEMBER_BUDDY_TYPE)
 
-    @command(command="member", params=[Const("add"), Character("character")], access_level="superadmin",
+    @command(command="member", params=[Const("add"), Character("character")], access_level=OrgMemberController.ORG_ACCESS_LEVEL,
              description="Add a member")
     def member_add_cmd(self, request, _, char):
         if char.char_id:
@@ -50,7 +51,7 @@ class MemberController:
         else:
             return "Could not find character <highlight>%s<end>." % char.name
 
-    @command(command="member", params=[Options(["rem", "remove"]), Character("character")], access_level="superadmin",
+    @command(command="member", params=[Options(["rem", "remove"]), Character("character")], access_level=OrgMemberController.ORG_ACCESS_LEVEL,
              description="Remove a member")
     def member_remove_cmd(self, request, _, char):
         if char.char_id:
@@ -62,7 +63,7 @@ class MemberController:
         else:
             return "Could not find character <highlight>%s<end>." % char.name
 
-    @command(command="member", params=[Const("list")], access_level="superadmin",
+    @command(command="member", params=[Const("list")], access_level=OrgMemberController.ORG_ACCESS_LEVEL,
              description="List members")
     def member_list_cmd(self, request, _):
         data = self.get_all_members()
