@@ -26,6 +26,21 @@ class LootController:
         self.text: Text = registry.get_instance("text")
         self.leader_controller: LeaderController = registry.get_instance("leader_controller")
         self.setting_service: SettingService = registry.get_instance("setting_service")
+        self.command_alias_service = registry.get_instance("command_alias_service")
+
+    def start(self):
+        self.command_alias_service.add_alias("aries", "pande aries")
+        self.command_alias_service.add_alias("aqua", "pande aqua")
+        self.command_alias_service.add_alias("leo", "pande leo")
+        self.command_alias_service.add_alias("virgo", "pande virgo")
+        self.command_alias_service.add_alias("cancer", "pande cancer")
+        self.command_alias_service.add_alias("gemini", "pande gemini")
+        self.command_alias_service.add_alias("libra", "pande libra")
+        self.command_alias_service.add_alias("pisces", "pande pisces")
+        self.command_alias_service.add_alias("capri", "pande capri")
+        self.command_alias_service.add_alias("scorpio", "pande scorpio")
+        self.command_alias_service.add_alias("taurus", "pande taurus")
+        self.command_alias_service.add_alias("sagi", "pande sagi")
 
     @setting(name="use_item_icons", value="True", description="Use icons when building loot list")
     def use_item_icons(self):
