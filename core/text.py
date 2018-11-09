@@ -126,7 +126,7 @@ class Text:
         return line, rest
 
     def format_message(self, msg):
-        return msg\
+        return msg \
             .replace("<header>", self.setting_service.get("header_color").get_font_color()) \
             .replace("<header2>", self.setting_service.get("header2_color").get_font_color()) \
             .replace("<highlight>", self.setting_service.get("highlight_color").get_font_color()) \

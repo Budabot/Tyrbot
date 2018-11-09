@@ -35,10 +35,10 @@ class AdminController:
                 blob += "\n<header2>%s<end>\n" % row.access_level.capitalize()
                 current_access_level = row.access_level
 
+            blob += row.name
             if self.buddy_service.is_online(row.char_id):
-                blob += row.name + " [<green>Online<end>]\n"
-            else:
-                blob += row.name + "\n"
+                blob += " [<green>Online<end>]"
+            blob += "\n"
 
         return ChatBlob("Admin List (%d)" % len(admins), blob)
 

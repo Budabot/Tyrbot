@@ -1,3 +1,4 @@
+from core.command_param_types import Any
 from core.decorators import instance, command, event
 from core.alts.alts_service import AltsService
 from core.chat_blob import ChatBlob
@@ -38,6 +39,15 @@ class OnlineController:
              description="Show the list of online characters")
     def online_cmd(self, request):
         return self.get_online_output()
+
+    @command(command="online", params=[Any("profession")], access_level="all",
+             description="Show the list of online characters with alts of a certain profession")
+    def online_profession_cmd(self, request, prof):
+        profession = self.util.get_profession(prof)
+        if not profession:
+            return "Error! Unknown profession <highlight>%s<end>." % prof
+
+        return self.get_online_alts_output(profession)
 
     @command(command="count", params=[], access_level="all",
              description="Show counts of players by title level, profession, and organization")
@@ -195,3 +205,49 @@ class OnlineController:
             blob += "\n\n"
 
         return ChatBlob("Online (%d)" % count, blob)
+
+    def get_online_alts_output(self, profession):
+        blob = ""
+        count = 0
+        for channel in [self.ORG_CHANNEL, self.PRIVATE_CHANNEL]:
+            online_list = self.get_online_alts(channel, profession)
+            if len(online_list) > 0:
+                blob += "<header2>%s Channel<end>\n" % channel
+
+            current_main = ""
+            for row in online_list:
+                if current_main != row.main:
+                    count += 1
+                    blob += "\n%s\n" % row.main
+                    current_main = row.main
+
+                org_info = ""
+                if channel == self.PRIVATE_CHANNEL:
+                    if row.org_name:
+                        org_info = ", %s of %s" % (row.org_rank_name, row.org_name)
+
+                blob += " | <highlight>%s<end> (%d/<green>%d<end>) %s %s%s" % (row.name, row.level or 0, row.ai_level or 0, row.faction, row.profession, org_info)
+                if row.online:
+                    blob += " [<green>Online<end>]"
+                blob += "\n"
+            blob += "\n\n"
+
+        return ChatBlob("%s Alts of Online Characters (%d)" % (profession, count), blob)
+
+    def get_online_alts(self, channel, profession):
+        sql = "SELECT " \
+                "p2.*, " \
+                "(CASE WHEN o2.char_id IS NULL THEN 0 ELSE 1 END) AS online, " \
+                "COALESCE(p1.name, o.char_id) AS main, " \
+                "COALESCE(p2.name, o.char_id) AS name " \
+              "FROM online o " \
+              "LEFT JOIN alts a1 ON o.char_id = a1.char_id " \
+              "LEFT JOIN alts a2 ON a1.group_id = a2.group_id AND a2.status = ? " \
+              "LEFT JOIN player p1 ON p1.char_id = COALESCE(a2.char_id, o.char_id) " \
+              "LEFT JOIN alts a3 ON a2.group_id = a3.group_id " \
+              "LEFT JOIN player p2 ON p2.char_id = COALESCE(a3.char_id, o.char_id) " \
+              "LEFT JOIN online o2 ON p2.char_id = o2.char_id " \
+              "WHERE o.channel = ? AND p2.profession = ? " \
+              "ORDER BY p1.char_id ASC, p2.name ASC"
+
+        return self.db.query(sql, [AltsService.MAIN, channel, profession])
