@@ -82,7 +82,7 @@ class RaidController:
         blob += "<header2>Raiders<end>\n"
         for raider in self.raid.raiders:
             if raider.is_active:
-                blob += raider.alts[0].name + "\n"
+                blob += self.text.format_char_info(raider.alts[0]) + "\n"
 
         return ChatBlob("Raid Status", blob)
 
