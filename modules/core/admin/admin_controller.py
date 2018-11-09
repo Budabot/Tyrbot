@@ -14,6 +14,7 @@ class AdminController:
         self.admin_service = registry.get_instance("admin_service")
         self.pork_service = registry.get_instance("pork_service")
         self.command_alias_service = registry.get_instance("command_alias_service")
+        self.buddy_service = registry.get_instance("buddy_service")
 
     def start(self):
         self.command_alias_service.add_alias("adminlist", "admin")
@@ -34,7 +35,10 @@ class AdminController:
                 blob += "\n<header2>%s<end>\n" % row.access_level.capitalize()
                 current_access_level = row.access_level
 
-            blob += row.name + "\n"
+            if self.buddy_service.is_online(row.char_id):
+                blob += row.name + " [<green>Online<end>]\n"
+            else:
+                blob += row.name + "\n"
 
         return ChatBlob("Admin List (%d)" % len(admins), blob)
 
