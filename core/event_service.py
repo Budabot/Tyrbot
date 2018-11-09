@@ -11,6 +11,7 @@ class EventService:
         self.handlers = {}
         self.logger = Logger(__name__)
         self.event_types = []
+        self.handler_cache = {}
 
     def inject(self, registry):
         self.db = registry.get_instance("db")
@@ -86,8 +87,7 @@ class EventService:
             self.logger.error("Could not fire event type '%s': event type does not exist" % event_type)
             return
 
-        data = self.db.query("SELECT handler, event_type FROM event_config WHERE event_type = ? AND event_sub_type = ? AND enabled = 1",
-                             [event_base_type, event_sub_type])
+        data = self.get_handlers(event_base_type, event_sub_type)
         for row in data:
             self.call_handler(row.handler, event_type, event_data)
 
@@ -134,8 +134,19 @@ class EventService:
             self.call_handler(row.handler, event_type_key, None)
 
     def update_event_status(self, event_base_type, event_sub_type, event_handler, enabled_status):
+        self.handler_cache[event_base_type + ":" + event_sub_type] = None
         return self.db.exec("UPDATE event_config SET enabled = ? WHERE event_type = ? AND event_sub_type = ? AND handler LIKE ?",
                             [enabled_status, event_base_type, event_sub_type, event_handler])
 
     def get_event_types(self):
         return self.event_types
+
+    def get_handlers(self, event_base_type, event_sub_type):
+        result = self.handlers.get(event_base_type + ":" + event_sub_type, None)
+        if result is not None:
+            return result
+        else:
+            result = self.db.query("SELECT handler FROM event_config WHERE event_type = ? AND event_sub_type = ? AND enabled = 1",
+                                   [event_base_type, event_sub_type])
+            self.handlers[event_base_type + ":" + event_sub_type] = result
+            return result
