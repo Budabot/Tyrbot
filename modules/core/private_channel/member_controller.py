@@ -32,6 +32,7 @@ class MemberController:
         self.db.exec("CREATE TABLE IF NOT EXISTS members (char_id INT NOT NULL PRIMARY KEY, auto_invite INT DEFAULT 0);")
         self.command_alias_service.add_alias("adduser", "member add")
         self.command_alias_service.add_alias("remuser", "member rem")
+        self.command_alias_service.add_alias("members", "member")
 
     @event(event_type="connect", description="Add members as buddies of the bot on startup")
     def handle_connect_event(self, event_type, event_data):
@@ -63,7 +64,7 @@ class MemberController:
         else:
             return "Could not find character <highlight>%s<end>." % char.name
 
-    @command(command="member", params=[Const("list")], access_level=OrgMemberController.ORG_ACCESS_LEVEL,
+    @command(command="member", params=[Const("list", is_optional=True)], access_level=OrgMemberController.ORG_ACCESS_LEVEL,
              description="List members")
     def member_list_cmd(self, request, _):
         data = self.get_all_members()
