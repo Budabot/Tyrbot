@@ -26,6 +26,12 @@ class Raider:
         self.was_kicked = None
         self.was_kicked_reason = None
 
+    def get_active_char(self):
+        for alt in self.alts:
+            if self.active_id == alt.char_id:
+                return alt
+        return None
+
 
 class Raid:
     def __init__(self, raid_name, started_by, raid_min_lvl, raid_limit=None, raiders=None):
@@ -82,7 +88,7 @@ class RaidController:
         blob += "<header2>Raiders<end>\n"
         for raider in self.raid.raiders:
             if raider.is_active:
-                blob += self.text.format_char_info(raider.alts[0]) + "\n"
+                blob += self.text.format_char_info(raider.get_active_char()) + "\n"
 
         return ChatBlob("Raid Status", blob)
 
