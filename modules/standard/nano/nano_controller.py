@@ -9,6 +9,10 @@ class NanoController:
         self.db = registry.get_instance("db")
         self.util = registry.get_instance("util")
         self.text = registry.get_instance("text")
+        self.command_alias_service = registry.get_instance("command_alias_service")
+
+    def start(self):
+        self.command_alias_service.add_alias("nl", "nanolines")
 
     @command(command="nano", params=[Any("search")], access_level="all",
              description="Search for a nano")
