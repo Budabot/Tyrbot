@@ -94,7 +94,11 @@ class AltsService:
         return row.next_group_id
 
     def get_main(self, char_id):
-        return self.get_alts(char_id).pop(0)
+        alts = self.get_alts(char_id)
+        if len(alts) > 0:
+            return alts.pop(0)
+        else:
+            return None
 
     def update_status(self, char_id, status):
         return self.db.exec("UPDATE alts SET status = ? WHERE char_id = ?", [status, char_id])
