@@ -12,6 +12,9 @@ add !logon/!logoff
 show alts with !whois
 add credits to !about
 allow !raid to override min level setting
+add a command to list all raid loot categories
+add poh to raid loot lists
+add !orglist by org name
 
 EVENTS
 RAID
