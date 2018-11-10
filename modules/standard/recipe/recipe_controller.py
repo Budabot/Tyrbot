@@ -17,8 +17,11 @@ class RecipeController:
         self.db = registry.get_instance("db")
         self.text = registry.get_instance("text")
         self.items_controller = registry.get_instance("items_controller")
+        self.command_alias_service = registry.get_instance("command_alias_service")
 
     def start(self):
+        self.command_alias_service.add_alias("r", "recipe")
+
         recipe_dir = os.path.dirname(os.path.realpath(__file__)) + "/recipes/"
         self.db.exec("DROP TABLE IF EXISTS recipe")
         self.db.exec("CREATE TABLE recipe (id INT NOT NULL PRIMARY KEY, name VARCHAR(50) NOT NULL, author VARCHAR(50) NOT NULL, recipe TEXT NOT NULL);")
