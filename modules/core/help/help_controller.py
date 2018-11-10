@@ -1,3 +1,5 @@
+import os
+
 from core.decorators import instance, command
 from core.chat_blob import ChatBlob
 from core.command_param_types import Any
@@ -6,11 +8,18 @@ from core.command_param_types import Any
 @instance()
 class HelpController:
     def inject(self, registry):
+        self.bot = registry.get_instance("bot")
         self.text = registry.get_instance("text")
         self.db = registry.get_instance("db")
         self.access_service = registry.get_instance("access_service")
         self.command_service = registry.get_instance("command_service")
         self.command_alias_service = registry.get_instance("command_alias_service")
+
+    @command(command="about", params=[], access_level="all",
+             description="Show information about the development of this bot")
+    def about_cmd(self, request):
+        with open(os.path.dirname(os.path.realpath(__file__)) + os.sep + "about.txt", "r") as f:
+            return ChatBlob("About Tyrbot %s" % self.bot.version, f.read())
 
     @command(command="help", params=[], access_level="all",
              description="Show a list of commands to get help with")
