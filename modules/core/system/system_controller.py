@@ -45,7 +45,7 @@ class SystemController:
 
         self.bot.shutdown()
 
-    @command(command="restart", params=[], access_level="superadmin",
+    @command(command="restart", params=[], access_level="admin",
              description="Restart the bot")
     def restart_cmd(self, request):
         self.event_service.fire_event(self.SHUTDOWN_EVENT, DictObject({"restart": True}))

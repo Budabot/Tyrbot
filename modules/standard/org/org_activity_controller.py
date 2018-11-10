@@ -28,7 +28,7 @@ class OrgActivityController:
 
         self.command_alias_service.add_alias("orghistory", "orgactivity")
 
-    @command(command="orgactivity", params=[], access_level="admin",
+    @command(command="orgactivity", params=[], access_level="org_member",
              description="Show org member activity")
     def orgactivity_cmd(self, request):
         sql = """

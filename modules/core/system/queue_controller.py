@@ -11,7 +11,7 @@ class QueueController:
     def start(self):
         self.command_alias_service.add_alias("clearqueue", "queue clear")
 
-    @command(command="queue", params=[Const("clear")], access_level="superadmin",
+    @command(command="queue", params=[Const("clear")], access_level="moderator",
              description="Clear the outgoing message queue")
     def queue_clear_cmd(self, request, _):
         num_messages = len(self.bot.packet_queue)

@@ -44,7 +44,7 @@ class UtilController:
     def echo_cmd(self, request, message):
         return html.escape(message)
 
-    @command(command="showcommand", params=[Character("character"), Any("message")], access_level="superadmin",
+    @command(command="showcommand", params=[Character("character"), Any("message")], access_level="admin",
              description="Show command output to another character")
     def showcommand_cmd(self, request, char, command_str):
         if not char.char_id:

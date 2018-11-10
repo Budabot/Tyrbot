@@ -64,7 +64,7 @@ class AdminController:
         else:
             return "Could not remove character <highlight>%s<end> as <highlight>%s<end>." % (char.name, AdminService.ADMIN)
 
-    @command(command="moderator", params=[Const("add"), Character("character")], access_level="superadmin",
+    @command(command="moderator", params=[Const("add"), Character("character")], access_level="admin",
              description="Add a moderator", sub_command="modify")
     def moderator_add_cmd(self, request, _, char):
         if not char.char_id:
@@ -75,7 +75,7 @@ class AdminController:
         else:
             return "Could not add character <highlight>%s<end> as <highlight>%s<end>." % (char.name, AdminService.MODERATOR)
 
-    @command(command="moderator", params=[Options(["remove", "rem"]), Character("character")], access_level="superadmin",
+    @command(command="moderator", params=[Options(["remove", "rem"]), Character("character")], access_level="admin",
              description="Remove a moderator", sub_command="modify")
     def moderator_remove_cmd(self, request, _, char):
         if not char.char_id:
