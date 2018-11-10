@@ -248,6 +248,6 @@ class OnlineController:
               "LEFT JOIN player p2 ON p2.char_id = COALESCE(a3.char_id, o.char_id) " \
               "LEFT JOIN online o2 ON p2.char_id = o2.char_id " \
               "WHERE o.channel = ? AND p2.profession = ? " \
-              "ORDER BY p1.char_id ASC, p2.name ASC"
+              "ORDER BY p1.name ASC, p2.name ASC"
 
         return self.db.query(sql, [AltsService.MAIN, channel, profession])
