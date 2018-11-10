@@ -44,8 +44,8 @@ class PointsController:
     def initial_points_value(self):
         return NumberSettingType()
 
-    @command(command="account", params=[Const("create"), Character("char")],
-             description="Create a new account for given character name", access_level="admin")
+    @command(command="account", params=[Const("create"), Character("char")], access_level="moderator",
+             description="Create a new account for given character name", sub_command="modify")
     def bank_create_cmd(self, request, _, char: SenderObj):
         alts_info = self.alts_service.get_alts(char.char_id)
 
@@ -103,8 +103,8 @@ class PointsController:
             char.name, self.character_service.resolve_char_to_name(main_info.char_id)) if changed_to_main else char.name
         return "%s has had a new account opened." % name_reference
 
-    @command(command="account", params=[Const("close"), Character("char")],
-             description="Close the account for given character name", access_level="admin")
+    @command(command="account", params=[Const("close"), Character("char")], access_level="moderator",
+             description="Close the account for given character name", sub_command="modify")
     def close_account_cmd(self, request, _, char: SenderObj):
         main_id = self.alts_service.get_main(char.char_id)
 
@@ -118,18 +118,18 @@ class PointsController:
 
         return "%s does not have an open account." % char.name
 
-    @command(command="account", params=[], description="Look up your account",
-             access_level="all")
+    @command(command="account", params=[], access_level="all",
+             description="Look up your account")
     def account_self_cmd(self, request):
         return self.get_account_display(request.sender)
 
-    @command(command="account", params=[Character("char")], description="Look up account of another char",
-             access_level="moderator")
+    @command(command="account", params=[Character("char")], access_level="moderator",
+             description="Look up account of another char", sub_command="modify")
     def account_other_cmd(self, request, char: SenderObj):
         return self.get_account_display(char)
 
-    @command(command="account", params=[Const("logentry"), Int("log_id")],
-             description="Look up specific log entry", access_level="admin")
+    @command(command="account", params=[Const("logentry"), Int("log_id")], access_level="moderator",
+             description="Look up specific log entry", sub_command="modify")
     def account_log_entry_cmd(self, _1, _2, log_id: int):
         log_entry = self.db.query_single("SELECT * FROM points_log WHERE log_id = ?", [log_id])
 
@@ -168,8 +168,8 @@ class PointsController:
 
         return "No log entry with given ID (%d)" % log_id
 
-    @command(command="bank", params=[Options(["give", "take"]), Int("amount"), Character("char"), Any("reason")],
-             description="Give or take points from character account", access_level="admin")
+    @command(command="bank", params=[Options(["give", "take"]), Int("amount"), Character("char"), Any("reason")], access_level="moderator",
+             description="Give or take points from character account")
     def bank_give_take_cmd(self, request, action: str, amount: int, char: SenderObj, reason: str):
         main_id = self.alts_service.get_main(char.char_id)
 
@@ -196,8 +196,8 @@ class PointsController:
 
         return "%s does not have an account." % char.name
 
-    @command(command="presets", params=[Const("add"), Any("name"), Int("points")],
-             description="Add new points preset", access_level="admin")
+    @command(command="presets", params=[Const("add"), Any("name"), Int("points")], access_level="admin",
+             description="Add new points preset")
     def presets_add_cmd(self, _1, _2, name: str, points: int):
         count = self.db.query_single("SELECT COUNT(*) AS count FROM points_presets WHERE name = ?", [name]).count
 
@@ -210,16 +210,16 @@ class PointsController:
 
         return "Failed to insert new preset in DB."
 
-    @command(command="presets", params=[Const("rem"), Int("preset_id")], description="Delete preset",
-             access_level="admin")
+    @command(command="presets", params=[Const("rem"), Int("preset_id")], access_level="admin",
+             description="Delete preset")
     def presets_rem_cmd(self, _1, _2, preset_id: int):
         if self.db.exec("DELETE FROM points_presets WHERE preset_id = ?", [preset_id]) > 0:
             return "Successfully removed preset with ID %d" % preset_id
 
         return "No preset with given ID (%d)" % preset_id
 
-    @command(command="presets", params=[Const("alter"), Int("preset_id"), Int("new_points")],
-             description="Alter the points dished out by given preset", access_level="admin")
+    @command(command="presets", params=[Const("alter"), Int("preset_id"), Int("new_points")], access_level="admin",
+             description="Alter the points dished out by given preset")
     def presets_alter_cmd(self, _1, _2, preset_id: int, new_points: int):
         preset = self.db.query_single("SELECT * FROM points_presets WHERE preset_id = ?", [preset_id])
 
@@ -230,7 +230,8 @@ class PointsController:
 
             return "Failed to update preset with ID %d." % preset_id
 
-    @command(command="presets", params=[], description="See list of points presets", access_level="moderator")
+    @command(command="presets", params=[], access_level="admin",
+             description="See list of points presets")
     def presets_cmd(self, _):
         return ChatBlob("Points presets", self.build_preset_list())
 

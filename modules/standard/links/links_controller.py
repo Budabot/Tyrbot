@@ -33,7 +33,7 @@ class LinksController:
         return ChatBlob("Links (%d)" % len(data), blob)
 
     @command(command="links", params=[Const("add"), Any("website"), Any("comment")], access_level="moderator",
-             description="Add a link")
+             description="Add a link", sub_command="modify")
     def links_add_cmd(self, request, _, website, comment):
         if not website.startswith("https://") and not website.startswith("http://"):
             return "Website must start with 'http://' or 'https://'."
@@ -42,7 +42,7 @@ class LinksController:
         return "Link added successfully."
 
     @command(command="links", params=[Options(["rem", "remove"]), Int("link_id")], access_level="moderator",
-             description="Remove a link")
+             description="Remove a link", sub_command="modify")
     def links_remove_cmd(self, request, _, link_id):
         link = self.db.query_single("SELECT * FROM links WHERE id = ?", [link_id])
         if not link:

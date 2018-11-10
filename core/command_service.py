@@ -59,6 +59,8 @@ class CommandService:
         self.register_command_channel("Private Channel", self.PRIVATE_CHANNEL)
 
     def start(self):
+        access_levels = {}
+
         # process decorators
         for _, inst in Registry.get_all_instances().items():
             for name, method in get_attrs(inst).items():
@@ -67,9 +69,17 @@ class CommandService:
                     handler = getattr(inst, name)
                     module = self.util.get_module_name(handler)
                     help_text = self.get_help_file(module, help_file)
-                    self.register(handler, cmd_name, params, access_level, description, module, help_text, sub_command, extended_description)
+
                     if len(inspect.signature(handler).parameters) != len(params) + 1:
                         raise Exception("Incorrect number of arguments for handler '%s.%s()'" % (handler.__module__, handler.__name__))
+
+                    command_key = self.get_command_key(cmd_name.lower(), sub_command.lower() if sub_command else "")
+                    al = access_levels.get(command_key, None)
+                    if al is not None and al != access_level.lower():
+                        raise Exception("Different access levels specified for forms of command '%s'" % command_key)
+                    access_levels[command_key] = access_level
+
+                    self.register(handler, cmd_name, params, access_level, description, module, help_text, sub_command, extended_description)
 
     def register(self, handler, command, params, access_level, description, module, help_text=None, sub_command=None, extended_description=None, check_access=None):
         command = command.lower()
@@ -98,7 +108,7 @@ class CommandService:
                                        [command, sub_command, channel])
 
             if row is None:
-                # add new command commands
+                # add new command
                 self.db.exec(
                     "INSERT INTO command_config "
                     "(command, sub_command, access_level, channel, module, enabled, verified) "
