@@ -42,6 +42,11 @@ class LootController:
         self.command_alias_service.add_alias("taurus", "pande taurus")
         self.command_alias_service.add_alias("sagi", "pande sagi")
 
+        self.command_alias_service.add_alias("s7", "apf s7")
+        self.command_alias_service.add_alias("s13", "apf s13")
+        self.command_alias_service.add_alias("s28", "apf s28")
+        self.command_alias_service.add_alias("s35", "apf s35")
+
     @setting(name="use_item_icons", value="True", description="Use icons when building loot list")
     def use_item_icons(self):
         return BooleanSettingType()
