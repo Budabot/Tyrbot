@@ -18,6 +18,8 @@ class CharacterInfoController:
         self.pork_service = registry.get_instance("pork_service")
         self.command_alias_service = registry.get_instance("command_alias_service")
         self.util = registry.get_instance("util")
+        self.alts_service = registry.get_instance("alts_service")
+        self.alts_controller = registry.get_instance("alts_controller")
 
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS name_history (char_id INT NOT NULL, name VARCHAR(20) NOT NULL, created_at INT NOT NULL, PRIMARY KEY (char_id, name))")
@@ -48,6 +50,11 @@ class CharacterInfoController:
             blob += "Character Id: %d\n" % char_info.char_id
             blob += "Source: %s\n" % self.format_source(char_info, max_cache_age)
             blob += "Status: %s\n" % ("<green>Active<end>" if char.char_id else "<red>Inactive<end>")
+
+            alts = self.alts_controller.alts_service.get_alts(char.char_id)
+            blob += "\n<header2>Alts (%d)<end>\n" % len(alts)
+            blob += self.alts_controller.format_alt_list(alts)
+
             more_info = self.text.paginate("More Info", blob, 5000, 1)[0]
 
             return self.text.format_char_info(char_info) + " " + more_info
