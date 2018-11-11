@@ -167,3 +167,6 @@ class PorkService:
             self.db.exec(insert_sql, [packet.char_id, packet.name, "", "", 0, "", "",
                                       "", "", "", "", 0, 0, "", "", 6, 5, 0, 0, "",
                                       "chat_server", int(time.time())])
+
+    def find_orgs(self, search):
+        return self.db.query("SELECT DISTINCT org_name, org_id FROM player WHERE org_name <EXTENDED_LIKE=0> ?", [search], extended_like=True)

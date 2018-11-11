@@ -26,6 +26,7 @@ class OrgListController:
         self.util = registry.get_instance("util")
         self.pork_service = registry.get_instance("pork_service")
         self.org_pork_service = registry.get_instance("org_pork_service")
+        self.pork_service = registry.get_instance("pork_service")
         self.buddy_service: BuddyService = registry.get_instance("buddy_service")
         self.character_service = registry.get_instance("character_service")
 
@@ -34,16 +35,32 @@ class OrgListController:
     def orglist_cmd(self, request, org_id):
         self.start_orglist_lookup(request.reply, org_id)
 
-    @command(command="orglist", params=[Character("character")], access_level="all",
+    @command(command="orglist", params=[Any("character|org_name|org_id")], access_level="all",
              description="Show online status of characters in an org")
-    def orglist_character_cmd(self, request, char):
-        char_info = self.pork_service.get_character_info(char.name)
-        if not char_info:
-            return "Could not find character <highlight>%s<end>." % char.name
-        elif not char_info.org_id:
-            return "<highlight>%s<end> does not appear to belong to an org." % char.name
+    def orglist_character_cmd(self, request, search):
+        if search.isdigit():
+            org_id = int(search)
         else:
-            self.start_orglist_lookup(request.reply, char_info.org_id)
+            orgs = self.pork_service.find_orgs(search)
+            num_orgs = len(orgs)
+            if num_orgs == 0:
+                char_info = self.pork_service.get_character_info(search)
+                if char_info:
+                    if not char_info.org_id:
+                        return "<highlight>%s<end> does not appear to belong to an org." % search.capitalize()
+                    else:
+                        org_id = char_info.org_id
+                else:
+                    return "Could not find character or org <highlight>%s<end>." % search
+            elif num_orgs == 1:
+                org_id = orgs[0].org_id
+            else:
+                blob = ""
+                for org in orgs:
+                    blob += self.text.make_chatcmd("%s (%d)" % (org.org_name, org.org_id), "/tell <myname> orglist %d" % org.org_id) + "\n"
+                return ChatBlob("Org List (%d)" % num_orgs, blob)
+
+        self.start_orglist_lookup(request.reply, org_id)
 
     def start_orglist_lookup(self, reply, org_id):
         if self.orglist:

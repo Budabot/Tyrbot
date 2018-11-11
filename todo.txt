@@ -3,7 +3,6 @@ remove timer_event table and store next_run in meta_data column of event_config
 consider a replication strategy
 include access_level in sender obj
 Time command param to include both seconds and time_str
-adjust default access levels
 fix number grouping on linux
 investigate async/await for events and commands
 off/on relay commands between org and private channels
@@ -14,7 +13,6 @@ add credits to !about
 allow !raid to override min level setting
 add a command to list all raid loot categories
 add poh to raid loot lists
-add !orglist by org name
 
 EVENTS
 RAID
