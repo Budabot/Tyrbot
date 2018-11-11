@@ -10,6 +10,7 @@ class SettingService:
     def __init__(self):
         self.logger = Logger(__name__)
         self.settings = {}
+        self.db_cache = {}
 
     def inject(self, registry):
         self.db = registry.get_instance("db")
@@ -55,10 +56,22 @@ class SettingService:
         self.settings[name] = setting
 
     def get_value(self, name):
-        row = self.db.query_single("SELECT value FROM setting WHERE name = ?", [name])
-        return row.value if row else None
+        # check cache first
+        result = self.db_cache.get(name, None)
+        if result:
+            return result.value
+        else:
+            row = self.db.query_single("SELECT value FROM setting WHERE name = ?", [name])
+
+            # store result in cache
+            self.db_cache[name] = row
+
+            return row.value if row else None
 
     def set_value(self, name, value):
+        # clear cache
+        self.db_cache[name] = None
+
         self.db.exec("UPDATE setting SET value = ? WHERE name = ?", [value, name])
 
     def get(self, name):

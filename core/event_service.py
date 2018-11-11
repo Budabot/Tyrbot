@@ -11,7 +11,7 @@ class EventService:
         self.handlers = {}
         self.logger = Logger(__name__)
         self.event_types = []
-        self.handler_cache = {}
+        self.db_cache = {}
 
     def inject(self, registry):
         self.db = registry.get_instance("db")
@@ -134,7 +134,9 @@ class EventService:
             self.call_handler(row.handler, event_type_key, None)
 
     def update_event_status(self, event_base_type, event_sub_type, event_handler, enabled_status):
-        self.handler_cache[event_base_type + ":" + event_sub_type] = None
+        # clear cache
+        self.db_cache[event_base_type + ":" + event_sub_type] = None
+
         return self.db.exec("UPDATE event_config SET enabled = ? WHERE event_type = ? AND event_sub_type = ? AND handler LIKE ?",
                             [enabled_status, event_base_type, event_sub_type, event_handler])
 
@@ -142,11 +144,15 @@ class EventService:
         return self.event_types
 
     def get_handlers(self, event_base_type, event_sub_type):
-        result = self.handlers.get(event_base_type + ":" + event_sub_type, None)
+        # check first in cache
+        result = self.db_cache.get(event_base_type + ":" + event_sub_type, None)
         if result is not None:
             return result
         else:
             result = self.db.query("SELECT handler FROM event_config WHERE event_type = ? AND event_sub_type = ? AND enabled = 1",
                                    [event_base_type, event_sub_type])
-            self.handlers[event_base_type + ":" + event_sub_type] = result
+
+            # store result in cache
+            self.db_cache[event_base_type + ":" + event_sub_type] = result
+
             return result
