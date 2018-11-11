@@ -25,7 +25,7 @@ class AltsController:
         else:
             return ""
 
-    @command(command="alts", params=[Const("setmain")], access_level="member", sub_command="show",
+    @command(command="alts", params=[Const("setmain")], access_level="all",
              description="Set a new main", extended_description="You must run this from the character you want to be your new main")
     def alts_setmain_cmd(self, request, char):
         msg, result = self.alts_service.set_as_main(request.sender.char_id)
