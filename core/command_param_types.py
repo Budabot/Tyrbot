@@ -236,3 +236,29 @@ class Character(Any):
         else:
             character_service = Registry.get_instance("character_service")
             return SenderObj(character_service.resolve_char_to_id(val), val.capitalize())
+
+
+class NamedParameters(CommandParam):
+    def __init__(self, names):
+        super().__init__()
+        self.names = names
+
+    def get_regex(self):
+        regex = "((" + "|".join(map(lambda x: "\s+--%s=\S+" % x, self.names)) + ")*)"
+        return regex
+
+    def get_name(self):
+        return " ".join(map(lambda x: "<highlight>[--%s=]<end>" % x, self.names))
+
+    def process_matches(self, params):
+        v = params.pop(0)
+        params.pop(0)
+
+        regex = "(" + "|".join(map(lambda x: "(\s+--(%s)=(\S+))" % x, self.names)) + ")*"
+        p = re.compile(regex)
+        results = p.findall(v)[0][1:]
+        values = DictObject()
+        for name in self.names:
+            values[name] = results[2]
+            results = results[3:]
+        return values

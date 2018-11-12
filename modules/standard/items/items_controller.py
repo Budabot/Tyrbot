@@ -1,8 +1,8 @@
-from core.decorators import instance, command
-from core.db import DB
-from core.text import Text
 from core.chat_blob import ChatBlob
-from core.command_param_types import Int, Any, Regex
+from core.command_param_types import Int, Any, NamedParameters
+from core.db import DB
+from core.decorators import instance, command
+from core.text import Text
 
 
 @instance()
@@ -15,10 +15,10 @@ class ItemsController:
     def start(self):
         self.command_alias_service.add_alias("i", "items")
 
-    @command(command="items", params=[Regex("page=#", "(\s+page=(\d+))?", is_optional=True, num_groups=2), Int("ql", is_optional=True), Any("search")], access_level="all",
+    @command(command="items", params=[Int("ql", is_optional=True), Any("search"), NamedParameters(["page"])], access_level="all",
              description="Search for an item")
-    def items_cmd(self, request, regex, ql, search):
-        page = int(regex[1] or 1)
+    def items_cmd(self, request, ql, search, named_params):
+        page = int(named_params.page or "1")
 
         page_size = 40
         offset = (page - 1) * page_size
