@@ -20,7 +20,7 @@ class ItemsController:
     def items_cmd(self, request, ql, search, named_params):
         page = int(named_params.page or "1")
 
-        page_size = 40
+        page_size = 30
         offset = (page - 1) * page_size
 
         all_items = self.find_items(search, ql)
@@ -40,6 +40,14 @@ class ItemsController:
             else:
                 blob += "Search: <highlight>%s<end>\n" % search
             blob += "\n"
+
+            if page > 1:
+                blob += "   " + self.text.make_chatcmd("<< Page %d" % (page - 1), self.get_chat_command(ql, search, page - 1))
+            if offset + page_size < len(all_items):
+                blob += "   Page " + str(page)
+                blob += "   " + self.text.make_chatcmd("Page %d >>" % (page + 1), self.get_chat_command(ql, search, page + 1))
+            blob += "\n"
+
             blob += self.format_items(items, ql)
             blob += "\nItem DB rips created using the %s tool." % self.text.make_chatcmd("Budabot Items Extractor", "/start https://github.com/Budabot/ItemsExtractor")
 
@@ -115,3 +123,9 @@ class ItemsController:
             return self.db.query_single("SELECT * FROM aodb WHERE name = ? AND lowql <= ? AND highql >= ? ORDER BY highid DESC", [name, ql, ql])
         else:
             return self.db.query_single("SELECT * FROM aodb WHERE name = ? ORDER BY highql DESC, highid DESC", [name])
+
+    def get_chat_command(self, ql, search, page):
+        if ql:
+            return "/tell <myname> items %d %s --page=%d" % (ql, search, page)
+        else:
+            return "/tell <myname> items %s --page=%d" % (search, page)
