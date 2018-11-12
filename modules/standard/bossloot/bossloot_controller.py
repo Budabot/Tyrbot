@@ -1,8 +1,8 @@
-from core.decorators import instance, command
-from core.db import DB
-from core.text import Text
 from core.chat_blob import ChatBlob
-from core.command_param_types import Int, Any, Regex
+from core.command_param_types import Any
+from core.db import DB
+from core.decorators import instance, command
+from core.text import Text
 
 
 @instance()

@@ -244,7 +244,7 @@ class NamedParameters(CommandParam):
         self.names = names
 
     def get_regex(self):
-        regex = "((" + "|".join(map(lambda x: "\s+--%s=\S+" % x, self.names)) + ")*)"
+        regex = "((" + "|".join(map(lambda x: "\s+--%s=.+?" % x, self.names)) + ")*)"
         return regex
 
     def get_name(self):
@@ -254,7 +254,7 @@ class NamedParameters(CommandParam):
         v = params.pop(0)
         params.pop(0)
 
-        regex = "(" + "|".join(map(lambda x: "(\s+--(%s)=(\S+))" % x, self.names)) + ")*"
+        regex = "^(" + "|".join(map(lambda x: "(\s+--(%s)=(.+?))" % x, self.names)) + ")*$"
         p = re.compile(regex)
         results = p.findall(v)[0][1:]
         values = DictObject()
