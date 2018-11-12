@@ -51,8 +51,14 @@ class Text:
     def paginate(self, label, msg, max_page_length, max_num_pages=None, footer=None):
         separators = iter(self.separators)
 
+        msg = msg.strip()
+
+        # chat blobs with empty messages are rendered as simple strings instead of links
+        if not msg:
+            return [label]
+
         color = self.setting_service.get("blob_color").get_font_color()
-        msg = ("<header>" + label + "<end>\n\n" + color + msg.strip()).replace("\"", "&quot;")
+        msg = ("<header>" + label + "<end>\n\n" + color + msg).replace("\"", "&quot;")
         msg = self.format_message(msg)
 
         if footer:
