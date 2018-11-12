@@ -257,7 +257,7 @@ class Tyrbot(Bot):
 
     def get_text_pages(self, msg, max_page_length):
         if isinstance(msg, ChatBlob):
-            return self.text.paginate(msg.title, msg.msg, max_page_length, msg.max_num_pages, msg.footer)
+            return self.text.paginate(msg.title, msg.msg, max_page_length=max_page_length)
         else:
             return [self.text.format_message(msg)]
 
