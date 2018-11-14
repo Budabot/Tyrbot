@@ -13,6 +13,7 @@ class NanoController:
 
     def start(self):
         self.command_alias_service.add_alias("nl", "nanolines")
+        self.command_alias_service.add_alias("nanoline", "nanolines")
 
     @command(command="nano", params=[Any("search")], access_level="all",
              description="Search for a nano")
