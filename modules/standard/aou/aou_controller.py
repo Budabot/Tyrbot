@@ -46,6 +46,9 @@ class AOUController:
 
     def start(self):
         self.command_alias_service.add_alias("title", "aou 11")
+        self.command_alias_service.add_alias("poh", "macro aou 632|recipe 782")
+        self.command_alias_service.add_alias("totw", "macro aou 171|aou 172")
+        self.command_alias_service.add_alias("som", "macro aou 169|aou 383")
 
     @command(command="aou", params=[Int("guide_id")], access_level="all",
              description="Show an AO-Universe guide")
