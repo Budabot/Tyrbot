@@ -7,6 +7,9 @@ from modules.core.org_members.org_member_controller import OrgMemberController
 
 @instance()
 class OrgChannelController:
+    def __init__(self):
+        self.logger = Logger(__name__)
+
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
         self.setting_service = registry.get_instance("setting_service")
@@ -26,6 +29,8 @@ class OrgChannelController:
                 self.bot.send_private_channel_message("[Org]: %s" % message)
             else:
                 char_name = self.character_service.resolve_char_to_name(event_data.char_id)
+                if char_name is None:
+                    self.logger.warning("FIX unknown name for char id '%d'" % event_data.char_id)
                 self.bot.send_private_channel_message("[Org] %s: %s" % (char_name, message))
 
     @event(event_type=PrivateChannelService.PRIVATE_CHANNEL_MESSAGE_EVENT, description="Relay messages from the private channel to the org channel")
