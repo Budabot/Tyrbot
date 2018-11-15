@@ -29,6 +29,7 @@ class InfoController:
         self.command_alias_service.add_alias("light", "info light")
         self.command_alias_service.add_alias("stats", "info stats")
         self.command_alias_service.add_alias("light", "info light")
+        self.command_alias_service.add_alias("doja", "info doja")
 
         pathlib.Path(self.CUSTOM_DATA_DIRECTORY).mkdir(parents=True, exist_ok=True)
 
