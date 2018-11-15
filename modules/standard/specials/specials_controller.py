@@ -23,6 +23,7 @@ class SpecialsController:
         self.command_alias_service.add_alias("aimshot", "aimedshot")
         self.command_alias_service.add_alias("as", "aimedshot")
         self.command_alias_service.add_alias("inits", "weapon")
+        self.command_alias_service.add_alias("init", "weapon")
         self.command_alias_service.add_alias("specials", "weapon")
         self.command_alias_service.add_alias("fling", "flingshot")
 
