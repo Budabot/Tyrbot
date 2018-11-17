@@ -238,6 +238,8 @@ class Character(Any):
             return SenderObj(character_service.resolve_char_to_id(val), val.capitalize())
 
 
+# Note: NamedParameters should always go at the end of the command parameter list
+# Note: NamedParameters need to be validated manually to ensure they have valid values
 class NamedParameters(CommandParam):
     def __init__(self, names):
         super().__init__()

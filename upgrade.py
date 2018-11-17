@@ -93,7 +93,12 @@ if version == 4:
         db.exec("DROP TABLE news_old")
     version = update_version(version)
 
-if version == 4:
+if version == 5:
     if table_exists("command_config"):
         db.exec("UPDATE command_config SET access_level = 'org_member' WHERE access_level == 'superadmin' AND command = 'member'")
+    version = update_version(version)
+
+if version == 6:
+    if table_exists("command_alias"):
+        db.exec("DELETE FROM command_alias WHERE command = 'loud'")
     version = update_version(version)

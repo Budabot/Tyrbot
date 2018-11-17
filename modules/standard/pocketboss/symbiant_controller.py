@@ -15,6 +15,8 @@ class SymbiantController:
 
     def start(self):
         self.command_alias_service.add_alias("symb", "symbiant")
+        self.command_alias_service.add_alias("symbs", "symbiant")
+        self.command_alias_service.add_alias("symbiants", "symbiant")
 
     @command(command="symbiant", params=[Any("search")], access_level="all",
              description="Show information about symbiants")
