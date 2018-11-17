@@ -24,6 +24,7 @@ class OrgListController:
         self.bot = registry.get_instance("bot")
         self.db = registry.get_instance("db")
         self.util = registry.get_instance("util")
+        self.text = registry.get_instance("text")
         self.pork_service = registry.get_instance("pork_service")
         self.org_pork_service = registry.get_instance("org_pork_service")
         self.pork_service = registry.get_instance("pork_service")
