@@ -95,7 +95,7 @@ if version == 4:
 
 if version == 5:
     if table_exists("command_config"):
-        db.exec("UPDATE command_config SET access_level = 'org_member' WHERE access_level == 'superadmin' AND command = 'member'")
+        db.exec("UPDATE command_config SET access_level = 'org_member' WHERE access_level = 'superadmin' AND command = 'member'")
     version = update_version(version)
 
 if version == 6:
