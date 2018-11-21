@@ -25,12 +25,10 @@ class OrgChannelController:
             else:
                 message = event_data.message
 
-            if event_data.char_id == 4294967295:
+            if event_data.char_id == 4294967295 or event_data.char_id == 0:
                 self.bot.send_private_channel_message("[Org]: %s" % message)
             else:
                 char_name = self.character_service.resolve_char_to_name(event_data.char_id)
-                if char_name is None:
-                    self.logger.warning("FIX unknown name for char id '%d'" % event_data.char_id)
                 self.bot.send_private_channel_message("[Org] %s: %s" % (char_name, message))
 
     @event(event_type=PrivateChannelService.PRIVATE_CHANNEL_MESSAGE_EVENT, description="Relay messages from the private channel to the org channel")
