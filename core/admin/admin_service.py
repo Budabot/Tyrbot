@@ -6,19 +6,15 @@ class AdminService:
     ADMIN = "admin"
     MODERATOR = "moderator"
 
-    def __init__(self):
-        pass
-
     def inject(self, registry):
+        self.bot = registry.get_instance("bot")
         self.db = registry.get_instance("db")
         self.access_service = registry.get_instance("access_service")
+        self.character_service = registry.get_instance("character_service")
 
     def pre_start(self):
         self.access_service.register_access_level(self.ADMIN, 20, self.check_admin)
         self.access_service.register_access_level(self.MODERATOR, 30, self.check_mod)
-
-    def start(self):
-        pass
 
     def check_admin(self, char_id):
         access_level = self.get_access_level(char_id)
@@ -48,6 +44,9 @@ class AdminService:
         return self.db.exec("DELETE FROM admin WHERE char_id = ?", [char_id]) > 0
 
     def get_all(self):
-        return self.db.query("SELECT p.*, a.access_level FROM admin a "
+        superadmin_char_id = self.character_service.resolve_char_to_id(self.bot.superadmin)
+        return self.db.query("SELECT *, 'superadmin' AS access_level, 0 AS sort FROM player WHERE char_id = ? "
+                             "UNION "
+                             "SELECT p.*, a.access_level, CASE WHEN access_level == 'admin' THEN 1 WHEN access_level == 'moderator' THEN 2 END AS sort FROM admin a "
                              "LEFT JOIN player p ON a.char_id = p.char_id "
-                             "ORDER BY a.access_level ASC, p.name ASC")
+                             "ORDER BY sort ASC, p.name ASC", [superadmin_char_id])

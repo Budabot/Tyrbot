@@ -24,9 +24,6 @@ class AdminController:
              description="Show the admin list")
     def admin_list_cmd(self, request):
         admins = self.admin_service.get_all()
-        superadmin = self.pork_service.get_character_info(self.bot.superadmin)
-        superadmin.access_level = "superadmin"
-        admins.insert(0, superadmin)
 
         blob = ""
         current_access_level = ""
