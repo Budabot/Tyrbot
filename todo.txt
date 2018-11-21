@@ -17,7 +17,6 @@ combine !is and !whois?
 format !implant better
 add ql ranges to !implant
 add !random, with !lootorder default alias
-admin_service.get_all() should include superadmin
 fix for "mult. melee"
 
 EVENTS
