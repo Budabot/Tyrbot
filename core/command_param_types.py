@@ -36,7 +36,7 @@ class Const(CommandParam):
         if val is None:
             return None
         else:
-            return val[1:]
+            return val.lstrip()
 
 
 class Int(CommandParam):
@@ -60,7 +60,7 @@ class Int(CommandParam):
         if val is None:
             return None
         else:
-            return int(val[1:])
+            return int(val.lstrip())
 
 
 class Decimal(CommandParam):
@@ -84,7 +84,7 @@ class Decimal(CommandParam):
         if val is None:
             return None
         else:
-            return float(val[1:])
+            return float(val.lstrip())
 
 
 class Any(CommandParam):
@@ -108,7 +108,7 @@ class Any(CommandParam):
         if val is None:
             return None
         else:
-            return val[1:]
+            return val.lstrip()
 
 
 class Regex(CommandParam):
@@ -156,7 +156,7 @@ class Options(CommandParam):
         if val is None:
             return None
         else:
-            return val[1:]
+            return val.lstrip()
 
 
 class Time(CommandParam):
@@ -185,7 +185,7 @@ class Time(CommandParam):
             return None
         else:
             util = Registry.get_instance("util")
-            return util.parse_time(budatime_str[1:])
+            return util.parse_time(budatime_str.lstrip())
 
 
 class Item(CommandParam):
