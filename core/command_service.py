@@ -303,10 +303,13 @@ class CommandService:
             if regex.search(packet.message):
                 return
 
-        if packet.message[:1] == self.setting_service.get("symbol").get_value():
-            command_str = packet.message[1:]
+        # ignore leading space
+        message = packet.message.lstrip()
+
+        if message[:1] == self.setting_service.get("symbol").get_value():
+            command_str = message[1:]
         else:
-            command_str = packet.message
+            command_str = message
 
         self.process_command(
             command_str,
@@ -321,8 +324,11 @@ class CommandService:
         if len(packet.message) < 2:
             return
 
-        symbol = packet.message[:1]
-        command_str = packet.message[1:]
+        # ignore leading space
+        message = packet.message.lstrip()
+
+        symbol = message[:1]
+        command_str = message[1:]
         if symbol == self.setting_service.get("symbol").get_value() and packet.private_channel_id == self.bot.char_id:
             self.process_command(
                 command_str,
@@ -337,8 +343,11 @@ class CommandService:
         if len(packet.message) < 2:
             return
 
-        symbol = packet.message[:1]
-        command_str = packet.message[1:]
+        # ignore leading space
+        message = packet.message.lstrip()
+
+        symbol = message[:1]
+        command_str = message[1:]
         if symbol == self.setting_service.get("symbol").get_value() and self.public_channel_service.is_org_channel_id(packet.channel_id):
             self.process_command(
                 command_str,

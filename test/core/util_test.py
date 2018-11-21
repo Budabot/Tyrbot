@@ -10,12 +10,14 @@ class UtilTest(unittest.TestCase):
         self.assertEqual('1 sec', util.time_to_readable(1))
         self.assertEqual('59 secs', util.time_to_readable(59))
         self.assertEqual('1 min', util.time_to_readable(60))
+        self.assertEqual('1 min 1 sec', util.time_to_readable(61))
         self.assertEqual('1 hr', util.time_to_readable(3600))
         self.assertEqual('7 days', util.time_to_readable(604800))
         self.assertEqual('1 week', util.time_to_readable(604800, max_unit="week"))
         self.assertEqual('168 hrs', util.time_to_readable(604800, max_unit="hr"))
         self.assertEqual('1 day', util.time_to_readable(86410))
         self.assertEqual('1 day 10 secs', util.time_to_readable(86410, max_levels=4))
+        self.assertEqual('1 min 12 secs', util.time_to_readable(72))
 
     def test_parse_time(self):
         util = Util()
