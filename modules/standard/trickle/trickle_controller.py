@@ -1,9 +1,46 @@
 from core.decorators import instance, command
 from core.db import DB
+from core.dict_object import DictObject
 from core.text import Text
 from core.chat_blob import ChatBlob
-from core.command_param_types import Any, Regex
+from core.command_param_types import Any, Regex, CommandParam
 import re
+
+
+class TrickleParam(CommandParam):
+    def __init__(self):
+        super().__init__()
+        self.ability_first = re.compile("\s+([a-z]+)\s+([0-9]+)")
+        self.amount_first = re.compile("\s+([0-9]+)\s+([a-z]+)")
+
+    def get_regex(self):
+        regex = "((\s+[a-z]+\s+[0-9]+|\s+[0-9]+\s+[a-z]+)*)"
+        return regex
+
+    def get_name(self):
+        return "<highlight>ability<end> <highlight>amount<end>"
+
+    def process_matches(self, params):
+        i = params.pop(0)
+        matches_amount_first = self.amount_first.findall(i)
+        matches_ability_first = self.ability_first.findall(i)
+        params.pop(0)
+
+        result = []
+        if len(matches_amount_first) > len(matches_ability_first):
+            for match in matches_amount_first:
+                result.append(DictObject({
+                    "ability": match[1],
+                    "amount": int(match[0])
+                }))
+        else:
+            for match in matches_ability_first:
+                result.append(DictObject({
+                    "ability": match[0],
+                    "amount": int(match[1])
+                }))
+
+        return result
 
 
 @instance()
@@ -17,17 +54,22 @@ class TrickleController:
         self.text: Text = registry.get_instance("text")
         self.util = registry.get_instance("util")
 
-    @command(command="trickle", params=[Regex("ability amount", "(( ([a-z]+) ([0-9]+))+)")], access_level="all",
+    @command(command="trickle", params=[TrickleParam()], access_level="all",
              description="Show skill increases due to trickle")
-    def trickle_ability_cmd1(self, request, regex):
-        abilities_map = self.get_abilities_map(regex[0], False)
-        trickle_amounts = self.get_trickle_amounts(abilities_map)
-        return self.format_trickle_output(abilities_map, trickle_amounts)
+    def trickle_ability_cmd(self, request, trickle_params):
+        abilities_map = {}
 
-    @command(command="trickle", params=[Regex("amount ability", "(( ([0-9]+) ([a-z]+))+)")], access_level="all",
-             description="Show skill increases due to trickle")
-    def trickle_ability_cmd2(self, request, regex):
-        abilities_map = self.get_abilities_map(regex[0], True)
+        # initialize map with 0s
+        for ability in self.util.get_all_abilities():
+            abilities_map[ability] = 0
+
+        for p in trickle_params:
+            ability = self.util.get_ability(p.ability)
+            if not ability:
+                return "Unknown ability <highlight>%s<end>." % p.ability
+
+            abilities_map[ability] = p.amount
+
         trickle_amounts = self.get_trickle_amounts(abilities_map)
         return self.format_trickle_output(abilities_map, trickle_amounts)
 
