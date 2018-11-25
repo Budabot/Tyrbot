@@ -13,6 +13,7 @@ class LevelController:
 
     def start(self):
         self.command_alias_service.add_alias("lvl", "level")
+        self.command_alias_service.add_alias("pvp", "level")
 
     @command(command="level", params=[Int("level")], access_level="all",
              description="Show information about a character level")
