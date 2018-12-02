@@ -78,14 +78,14 @@ class ImplantController:
             blob += "<highlight>%d<end> NanoProgramming for Faded\n" % implant.jobe_build_faded
 
         blob += "\n<header2>Ability Cluster Bonuses<end>\n"
-        blob += "<highlight>%d<end> Shiny\n" % implant.ability_shiny
-        blob += "<highlight>%d<end> Bright\n" % implant.ability_bright
-        blob += "<highlight>%d<end> Faded\n" % implant.ability_faded
+        blob += "<highlight>%d<end> Shiny (%d - %d)\n" % (implant.ability_shiny, implant.ability_shiny_min, implant.ability_shiny_max)
+        blob += "<highlight>%d<end> Bright (%d - %d)\n" % (implant.ability_bright, implant.ability_bright_min, implant.ability_bright_max)
+        blob += "<highlight>%d<end> Faded (%d - %d)\n" % (implant.ability_faded, implant.ability_faded_min, implant.ability_faded_max)
 
         blob += "\n<header2>Skill Cluster Bonuses<end>\n"
-        blob += "<highlight>%d<end> Shiny\n" % implant.skill_shiny
-        blob += "<highlight>%d<end> Bright\n" % implant.skill_bright
-        blob += "<highlight>%d<end> Faded\n" % implant.skill_faded
+        blob += "<highlight>%d<end> Shiny (%d - %d)\n" % (implant.skill_shiny, implant.skill_shiny_min, implant.skill_shiny_max)
+        blob += "<highlight>%d<end> Bright (%d - %d)\n" % (implant.skill_bright, implant.skill_bright_min, implant.skill_bright_max)
+        blob += "<highlight>%d<end> Faded (%d - %d)\n" % (implant.skill_faded, implant.skill_faded_min, implant.skill_faded_max)
 
         blob += "\n<header2>Min Cluster QL<end>\n"
         blob += "<highlight>%d<end> Shiny\n" % implant.minimum_cluster_shiny
@@ -108,12 +108,18 @@ class ImplantController:
         implant.jobe_ability = self.util.interpolate_value(ql, self.jobe_ability_req)
 
         implant.ability_shiny = self.util.interpolate_value(ql, self.ability_shiny_bonus)
+        implant.ability_shiny_min, implant.ability_shiny_max = self.get_range(ql, implant.ability_shiny, self.ability_shiny_bonus)
         implant.ability_bright = self.util.interpolate_value(ql, self.ability_bright_bonus)
+        implant.ability_bright_min, implant.ability_bright_max = self.get_range(ql, implant.ability_bright, self.ability_bright_bonus)
         implant.ability_faded = self.util.interpolate_value(ql, self.ability_faded_bonus)
+        implant.ability_faded_min, implant.ability_faded_max = self.get_range(ql, implant.ability_faded, self.ability_faded_bonus)
 
         implant.skill_shiny = self.util.interpolate_value(ql, self.skill_shiny_bonus)
+        implant.skill_shiny_min, implant.skill_shiny_max = self.get_range(ql, implant.skill_shiny, self.skill_shiny_bonus)
         implant.skill_bright = self.util.interpolate_value(ql, self.skill_bright_bonus)
+        implant.skill_bright_min, implant.skill_bright_max = self.get_range(ql, implant.skill_bright, self.skill_bright_bonus)
         implant.skill_faded = self.util.interpolate_value(ql, self.skill_faded_bonus)
+        implant.skill_faded_min, implant.skill_faded_max = self.get_range(ql, implant.skill_faded, self.skill_faded_bonus)
 
         implant.clean_break_and_entry = self.util.interpolate_value(ql, self.clean_be)
         implant.clean_nano_programming = self.util.interpolate_value(ql, self.clean_np)
@@ -136,3 +142,15 @@ class ImplantController:
             implant.minimum_cluster_faded = math.floor(ql * 0.82)
 
         return implant
+
+    def get_range(self, ql, value, interpolation):
+        min_ql = ql
+        max_ql = ql
+
+        while self.util.interpolate_value(min_ql - 1, interpolation) == value:
+            min_ql -= 1
+
+        while self.util.interpolate_value(max_ql + 1, interpolation) == value:
+            max_ql += 1
+
+        return [min_ql, max_ql]

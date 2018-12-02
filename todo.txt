@@ -15,7 +15,6 @@ add poh to raid loot lists
 add NamedParametersCommandType
 combine !is and !whois?
 format !implant better
-add ql ranges to !implant
 fix for "mult. melee"
 
 EVENTS
