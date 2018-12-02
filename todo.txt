@@ -9,10 +9,8 @@ off/on relay commands between org and private channels
 manually run timer events
 add !logon/!logoff
 add credits to !about
-allow !raid to override min level setting
 add a command to list all raid loot categories
 add poh to raid loot lists
-add NamedParametersCommandType
 combine !is and !whois?
 format !implant better
 fix for "mult. melee"

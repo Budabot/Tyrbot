@@ -2,7 +2,7 @@ import time
 
 from core.alts.alts_service import AltsService
 from core.chat_blob import ChatBlob
-from core.command_param_types import Const, Int, Any, Options, Character
+from core.command_param_types import Const, Int, Any, Options, Character, NamedParameters
 from core.db import DB
 from core.decorators import instance, command, setting
 from core.lookup.character_service import CharacterService
@@ -92,15 +92,23 @@ class RaidController:
 
         return ChatBlob("Raid Status", blob)
 
-    @command(command="raid", params=[Const("start"), Int("num_characters_max", is_optional=True), Any("raid_name")],
+    @command(command="raid", params=[Const("start"), Any("raid_name"), NamedParameters(["num_characters", "min_level"])],
              description="Start new raid", access_level="moderator", sub_command="manage")
-    def raid_start_cmd(self, request, _, raid_limit: int, raid_name: str):
+    def raid_start_cmd(self, request, _, raid_name: str, named_params):
         if self.raid:
             return "The raid, <yellow>%s<end>, is already running." % self.raid.raid_name
 
-        raid_min_lvl = self.setting_service.get("default_min_lvl").get_value()
+        if named_params.min_level:
+            raid_min_lvl = int(named_params.min_level)
+        else:
+            raid_min_lvl = self.setting_service.get("default_min_lvl").get_value()
 
-        self.raid = Raid(raid_name, request.sender, raid_min_lvl, raid_limit)
+        if named_params.num_characters:
+            num_characters = int(named_params.num_characters)
+        else:
+            num_characters = None
+
+        self.raid = Raid(raid_name, request.sender, raid_min_lvl, num_characters)
 
         leader_alts = self.alts_service.get_alts(request.sender.char_id)
         self.raid.raiders.append(Raider(leader_alts, request.sender.char_id))
