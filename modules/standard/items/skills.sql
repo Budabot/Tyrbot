@@ -83,7 +83,7 @@ INSERT INTO skills (id, name) VALUES (104, 'Melee Ener.');
 INSERT INTO skills (id, name) VALUES (118, 'Melee. Init.');
 INSERT INTO skills (id, name) VALUES (91, 'Melee/ma AC');
 INSERT INTO skills (id, name) VALUES (114, 'MG / SMG');
-INSERT INTO skills (id, name) VALUES (101, 'Mult. Melee');
+INSERT INTO skills (id, name) VALUES (101, 'Multi Melee');
 INSERT INTO skills (id, name) VALUES (134, 'Multi Ranged');
 INSERT INTO skills (id, name) VALUES (132, 'Nano Pool');
 INSERT INTO skills (id, name) VALUES (160, 'Nano Progra');

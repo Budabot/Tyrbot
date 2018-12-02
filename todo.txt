@@ -13,7 +13,6 @@ add a command to list all raid loot categories
 add poh to raid loot lists
 combine !is and !whois?
 format !implant better
-fix for "mult. melee"
 
 EVENTS
 RAID
