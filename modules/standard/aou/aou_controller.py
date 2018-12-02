@@ -50,6 +50,7 @@ class AOUController:
         self.command_alias_service.add_alias("totw", "macro aou 171|aou 172")
         self.command_alias_service.add_alias("som", "macro aou 169|aou 383")
         self.command_alias_service.add_alias("reck", "aou 629")
+        self.command_alias_service.add_alias("pets", "aou 2")
 
     @command(command="aou", params=[Int("guide_id")], access_level="all",
              description="Show an AO-Universe guide")
