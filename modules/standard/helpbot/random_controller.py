@@ -17,6 +17,7 @@ class RandomController:
 
     def start(self):
         self.command_alias_service.add_alias("verify", "roll verify")
+        self.command_alias_service.add_alias("lootorder", "random")
 
     @command(command="random", params=[Any("items")], access_level="all",
              description="Randomly order a list of elements", extended_description="Enter a space-delimited list of items to randomize")

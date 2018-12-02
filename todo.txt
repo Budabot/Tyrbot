@@ -16,7 +16,6 @@ add NamedParametersCommandType
 combine !is and !whois?
 format !implant better
 add ql ranges to !implant
-add !random, with !lootorder default alias
 fix for "mult. melee"
 
 EVENTS
