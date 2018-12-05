@@ -15,6 +15,9 @@ class HelpController:
         self.command_service = registry.get_instance("command_service")
         self.command_alias_service = registry.get_instance("command_alias_service")
 
+    def start(self):
+        self.command_alias_service.add_alias("version", "about")
+
     @command(command="about", params=[], access_level="all",
              description="Show information about the development of this bot")
     def about_cmd(self, request):
