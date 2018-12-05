@@ -1,5 +1,5 @@
 from core.chat_blob import ChatBlob
-from core.command_param_types import Const, Int
+from core.command_param_types import Const, Int, NamedParameters
 from core.decorators import instance, command, event
 from core.dict_object import DictObject
 from core.logger import Logger
@@ -31,9 +31,14 @@ class TowerAttackController:
 
         self.command_alias_service.add_alias("victory", "attacks")
 
-    @command(command="attacks", params=[], access_level="all",
+    @command(command="attacks", params=[NamedParameters(["page"])], access_level="all",
              description="Show recent tower attacks and victories")
-    def attacks_cmd(self, request):
+    def attacks_cmd(self, request, named_params):
+        page = int(named_params.page or "1")
+
+        page_size = 30
+        offset = (page - 1) * page_size
+
         sql = """
             SELECT
                 b.*,
@@ -51,13 +56,21 @@ class TowerAttackController:
             ORDER BY
                 b.last_updated DESC,
                 a.created_at DESC
-            LIMIT 30
-        """
+            LIMIT %d, %d
+        """ % (offset, page_size)
 
         data = self.db.query(sql)
         t = int(time.time())
 
         blob = ""
+
+        if page > 1:
+            blob += "   " + self.text.make_chatcmd("<< Page %d" % (page - 1), self.get_chat_command(page - 1))
+        if len(data) > 0:
+            blob += "   Page " + str(page)
+            blob += "   " + self.text.make_chatcmd("Page %d >>" % (page + 1), self.get_chat_command(page + 1))
+            blob += "\n"
+
         current_battle_id = -1
         for row in data:
             if current_battle_id != row.battle_id:
@@ -248,3 +261,6 @@ class TowerAttackController:
 
     def format_timestamp(self, t, current_t):
         return "<highlight>%s<end> (%s ago)" % (self.util.format_datetime(t), self.util.time_to_readable(current_t - t))
+
+    def get_chat_command(self, page):
+        return "/tell <myname> attacks --page=%d" % page
