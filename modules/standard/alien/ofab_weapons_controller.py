@@ -10,6 +10,10 @@ class OfabWeaponsController:
         self.db = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
         self.items_controller = registry.get_instance("items_controller")
+        self.command_alias_service = registry.get_instance("command_alias_service")
+
+    def start(self):
+        self.command_alias_service.add_alias("ofabweapon", "ofabweapons")
 
     @command(command="ofabweapons", params=[], access_level="all",
              description="Show ofab weapons")
