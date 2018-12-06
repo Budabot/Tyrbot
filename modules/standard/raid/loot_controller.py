@@ -30,17 +30,17 @@ class LootController:
 
     def start(self):
         self.command_alias_service.add_alias("aries", "pande aries")
-        self.command_alias_service.add_alias("aqua", "pande aqua")
+        self.command_alias_service.add_alias("aquarius", "pande aquarius")
         self.command_alias_service.add_alias("leo", "pande leo")
         self.command_alias_service.add_alias("virgo", "pande virgo")
         self.command_alias_service.add_alias("cancer", "pande cancer")
         self.command_alias_service.add_alias("gemini", "pande gemini")
         self.command_alias_service.add_alias("libra", "pande libra")
         self.command_alias_service.add_alias("pisces", "pande pisces")
-        self.command_alias_service.add_alias("capri", "pande capri")
+        self.command_alias_service.add_alias("capricorn", "pande capricorn")
         self.command_alias_service.add_alias("scorpio", "pande scorpio")
         self.command_alias_service.add_alias("taurus", "pande taurus")
-        self.command_alias_service.add_alias("sagi", "pande sagi")
+        self.command_alias_service.add_alias("sagittarius", "pande sagittarius")
 
         self.command_alias_service.add_alias("s7", "apf s7")
         self.command_alias_service.add_alias("s13", "apf s13")
@@ -327,9 +327,9 @@ class LootController:
 
     @command(command="pande",
              params=[
-                 Options(["bweapons", "barmor", "bstars", "aries", "aqua", "leo",
-                          "virgo", "cancer", "gemini", "libra", "pisces", "capri",
-                          "scorpio", "taurus", "sagi"], is_optional=True)
+                 Options(["bweapons", "barmor", "bstars", "aries", "aquarius", "leo",
+                          "virgo", "cancer", "gemini", "libra", "pisces", "capricorn",
+                          "scorpio", "taurus", "sagittarius"], is_optional=True)
              ],
              description="Get list of items from Pandemonium", access_level="all")
     def pande_cmd(self, _, category):
@@ -569,8 +569,8 @@ class LootController:
     def get_real_category_name(self, category, reverse=False):
         real_names = {
             "s7": "Sector 7", "s13": "Sector 13", "s28": "Sector 28", "s35": "Sector 35",
-            "s42": "Sector 42", "db": "DustBrigade", "aqua": "Aquarius", "sagi": "Sagittarius",
-            "saggi": "Sagittarius", "taurus": "Taurus", "libra": "Libra", "capri": "Capricorn",
+            "s42": "Sector 42", "db": "DustBrigade", "aquarius": "Aquarius", "sagittarius": "Sagittarius",
+            "taurus": "Taurus", "libra": "Libra", "capricorn": "Capricorn",
             "gemini": "Gemini", "virgo": "Virgo", "cancer": "Cancer", "pisces": "Pisces",
             "scorpio": "Scorpio", "aries": "Aries", "leo": "Leo", "tnh": "The Night Heart",
             "barmor": "Beast Armor", "beastweapons": "Beast Weapons", "bstars": "Stars",
