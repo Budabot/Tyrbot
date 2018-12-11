@@ -9,6 +9,10 @@ class ClusterController:
     def inject(self, registry):
         self.db: DB = registry.get_instance("db")
         self.text = registry.get_instance("text")
+        self.command_alias_service = registry.get_instance("command_alias_service")
+
+    def start(self):
+        self.command_alias_service.add_alias("clusters", "cluster")
 
     @command(command="cluster", params=[], access_level="all",
              description="Show a list of skills that can be buffed with an implant cluster")
