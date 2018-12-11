@@ -10,11 +10,11 @@ import re
 class TrickleParam(CommandParam):
     def __init__(self):
         super().__init__()
-        self.ability_first = re.compile("\s+([a-z]+)\s+([0-9]+)")
-        self.amount_first = re.compile("\s+([0-9]+)\s+([a-z]+)")
+        self.ability_first = re.compile(r"\s+([a-z]+)\s+([0-9]+)")
+        self.amount_first = re.compile(r"\s+([0-9]+)\s+([a-z]+)")
 
     def get_regex(self):
-        regex = "((\s+[a-z]+\s+[0-9]+|\s+[0-9]+\s+[a-z]+)*)"
+        regex = r"((\s+[a-z]+\s+[0-9]+|\s+[0-9]+\s+[a-z]+)+)"
         return regex
 
     def get_name(self):
