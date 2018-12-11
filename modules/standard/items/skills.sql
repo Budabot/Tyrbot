@@ -132,7 +132,7 @@ INSERT INTO skills (id, name) VALUES (226, 'ShieldProjectileAC');
 INSERT INTO skills (id, name) VALUES (230, 'ShieldRadiationAC');
 INSERT INTO skills (id, name) VALUES (115, 'Shotgun');
 INSERT INTO skills (id, name) VALUES (382, 'SkillLockModifier');
-INSERT INTO skills (id, name) VALUES (146, 'Sneak Atck');
+INSERT INTO skills (id, name) VALUES (146, 'Sneak Attack');
 INSERT INTO skills (id, name) VALUES (18, 'Stamina');
 INSERT INTO skills (id, name) VALUES (16, 'Strength');
 INSERT INTO skills (id, name) VALUES (138, 'Swimming');
