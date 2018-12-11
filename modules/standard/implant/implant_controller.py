@@ -40,6 +40,10 @@ class ImplantController:
         self.db = registry.get_instance("db")
         self.util = registry.get_instance("util")
         self.text = registry.get_instance("text")
+        self.command_alias_service = registry.get_instance("command_alias_service")
+
+    def start(self):
+        self.command_alias_service.add_alias("implants", "implant")
 
     @command(command="implant", params=[Int("ql")], access_level="all",
              description="Shows information about implants at given QL")
