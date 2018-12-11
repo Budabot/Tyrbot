@@ -10,6 +10,10 @@ class WhatBuffsController:
     def inject(self, registry):
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
+        self.command_alias_service = registry.get_instance("command_alias_service")
+
+    def start(self):
+        self.command_alias_service.add_alias("buffs", "whatbuffs")
 
     @command(command="whatbuffs", params=[], access_level="all",
              description="Find items or nanos that buff a skill (or ability)")
