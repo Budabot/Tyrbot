@@ -1,3 +1,5 @@
+import html
+
 from core.chat_blob import ChatBlob
 from core.command_param_types import Int, Any, NamedParameters
 from core.db import DB
@@ -19,6 +21,8 @@ class ItemsController:
              description="Search for an item")
     def items_cmd(self, request, ql, search, named_params):
         page = int(named_params.page or "1")
+
+        search = html.unescape(search)
 
         page_size = 30
         offset = (page - 1) * page_size
