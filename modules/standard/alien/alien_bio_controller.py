@@ -18,6 +18,10 @@ class AlienBioController:
         self.text: Text = registry.get_instance("text")
         self.util = registry.get_instance("util")
         self.items_controller = registry.get_instance("items_controller")
+        self.command_alias_service = registry.get_instance("command_alias_service")
+
+    def start(self):
+        self.command_alias_service.add_alias("clump", "bio")
 
     @command(command="bio", params=[Item("bio_material")], access_level="all",
              description="Show info about Kyr'Ozch Bio-Material")
