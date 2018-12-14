@@ -1,4 +1,4 @@
-from core.command_param_types import Any, Int
+from core.command_param_types import Any, Int, NamedParameters
 from core.decorators import instance, command
 from core.chat_blob import ChatBlob
 
@@ -15,9 +15,13 @@ class NanoController:
         self.command_alias_service.add_alias("nl", "nanolines")
         self.command_alias_service.add_alias("nanoline", "nanolines")
 
-    @command(command="nano", params=[Any("search")], access_level="all",
+    @command(command="nano", params=[Any("search"), NamedParameters(["page"])], access_level="all",
              description="Search for a nano")
-    def nano_cmd(self, request, search):
+    def nano_cmd(self, request, search, named_params):
+        page = int(named_params.page or "1")
+        page_size = 30
+        offset = (page - 1) * page_size
+
         sql = "SELECT n1.lowid, n1.lowql, n1.name, n1.location, n1.profession, n3.id AS nanoline_id, n3.name AS nanoline_name " \
               "FROM nanos n1 " \
               "LEFT JOIN nanos_nanolines_ref n2 ON n1.lowid = n2.lowid " \
@@ -25,11 +29,21 @@ class NanoController:
               "WHERE n1.name <EXTENDED_LIKE=0> ? " \
               "ORDER BY n1.profession, n3.name, n1.lowql DESC, n1.name ASC"
         data = self.db.query(sql, [search], extended_like=True)
-        cnt = len(data)
+        count = len(data)
+        paged_data = data[offset:offset + page_size]
 
         blob = ""
+
+        if count > page_size:
+            if page > 1 and len(paged_data) > 0:
+                blob += "   " + self.text.make_chatcmd("<< Page %d" % (page - 1), self.get_chat_command(search, page - 1))
+            if offset + page_size < len(data):
+                blob += "   Page " + str(page)
+                blob += "   " + self.text.make_chatcmd("Page %d >>" % (page + 1), self.get_chat_command(search, page + 1))
+            blob += "\n\n"
+
         current_nanoline = -1
-        for row in data:
+        for row in paged_data:
             if current_nanoline != row.nanoline_id:
                 if row.nanoline_name:
                     blob += "\n<header2>%s<end> - %s\n" % (row.profession, self.text.make_chatcmd(row.nanoline_name, "/tell <myname> nanolines %d" % row.nanoline_id))
@@ -40,7 +54,7 @@ class NanoController:
             blob += "%s [%d] %s\n" % (self.text.make_item(row.lowid, row.lowid, row.lowql, row.name), row.lowql, row.location)
         blob += self.get_footer()
 
-        return ChatBlob("Nano Search Results for '%s' (%d)" % (search, cnt), blob)
+        return ChatBlob("Nano Search Results for '%s' (%d - %d of %d)" % (search, offset + 1, min(offset + page_size, count), count), blob)
 
     @command(command="nanoloc", params=[], access_level="all",
              description="Show all nano locations")
@@ -123,3 +137,6 @@ class NanoController:
 
     def get_footer(self):
         return "\n\nNanos DB provided by Saavick & Lucier"
+
+    def get_chat_command(self, search, page):
+        return "/tell <myname> nano %s --page=%d" % (search, page)
