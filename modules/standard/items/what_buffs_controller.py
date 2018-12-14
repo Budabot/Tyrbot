@@ -27,10 +27,10 @@ class WhatBuffsController:
         return ChatBlob("Whatbuffs Skill List", blob)
 
     @command(command="whatbuffs", params=[
-        Options(["arms", "back", "chest", "deck", "feet", "fingers", "hands", "head", "hud", "legs", "nano", "neck", "shoulders", "unknown", "util", "weapon", "wrists"]),
-        Any("skill")], access_level="all",
-             description="Find items or nanos that buff a skill (or ability)")
-    def whatbuffs_detail_cmd(self, request, item_type, skill_name):
+        Any("skill"),
+        Options(["arms", "back", "chest", "deck", "feet", "fingers", "hands", "head", "hud", "legs", "nano", "neck", "shoulders", "unknown", "util", "weapon", "wrists"])],
+             access_level="all", description="Find items or nanos that buff a skill (or ability)")
+    def whatbuffs_detail_cmd(self, request, skill_name, item_type):
         item_type = item_type.capitalize()
 
         return self.show_search_results(item_type, skill_name)
@@ -56,7 +56,7 @@ class WhatBuffsController:
 
             blob = ""
             for row in data:
-                blob += "%s (%d)\n" % (self.text.make_chatcmd(row.item_type, "/tell <myname> whatbuffs %s %s" % (row.item_type, skill.name)), row.cnt)
+                blob += "%s (%d)\n" % (self.text.make_chatcmd(row.item_type, "/tell <myname> whatbuffs %s %s" % (skill.name, row.item_type)), row.cnt)
 
             blob += self.get_footer()
             return ChatBlob("Whatbuffs %s - Choose Type" % skill.name, blob)
@@ -91,7 +91,7 @@ class WhatBuffsController:
         else:
             blob = ""
             for skill in skills:
-                blob += self.text.make_chatcmd(skill.name, "/tell <myname> whatbuffs %s %s" % (item_type, skill.name)) + "\n"
+                blob += self.text.make_chatcmd(skill.name, "/tell <myname> whatbuffs %s %s" % (skill.name, item_type)) + "\n"
 
             return ChatBlob("Whatbuffs - Choose Skill", blob)
 
