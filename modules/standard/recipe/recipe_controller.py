@@ -1,6 +1,6 @@
 from core.chat_blob import ChatBlob
 from core.decorators import instance, command
-from core.command_param_types import Any, Int
+from core.command_param_types import Any, Int, NamedParameters
 import os
 import re
 import json
@@ -99,16 +99,31 @@ class RecipeController:
 
         return self.format_recipe(recipe)
 
-    @command(command="recipe", params=[Any("search")], access_level="all",
+    @command(command="recipe", params=[Any("search"), NamedParameters(["page"])], access_level="all",
              description="Search for a recipe")
-    def recipe_search_cmd(self, request, search):
+    def recipe_search_cmd(self, request, search, named_params):
+        page = int(named_params.page or "1")
+        page_size = 30
+        offset = (page - 1) * page_size
+
         data = self.db.query("SELECT * FROM recipe WHERE recipe <EXTENDED_LIKE=0> ? ORDER BY name ASC", [search], extended_like=True)
+        count = len(data)
+        paged_data = data[offset:offset + page_size]
 
         blob = ""
-        for row in data:
+
+        if count > page_size:
+            if page > 1 and len(paged_data) > 0:
+                blob += "   " + self.text.make_chatcmd("<< Page %d" % (page - 1), self.get_chat_command(search, page - 1))
+            if offset + page_size < len(data):
+                blob += "   Page " + str(page)
+                blob += "   " + self.text.make_chatcmd("Page %d >>" % (page + 1), self.get_chat_command(search, page + 1))
+            blob += "\n\n"
+
+        for row in paged_data:
             blob += self.text.make_chatcmd(row.name, "/tell <myname> recipe %d" % row.id) + "\n"
 
-        return ChatBlob("Recipes Matching '%s' (%d)" % (search, len(data)), blob)
+        return ChatBlob("Recipes Matching '%s' (%d - %d of %d)" % (search, offset + 1, min(offset + page_size, count), count), blob)
 
     def get_recipe(self, recipe_id):
         return self.db.query_single("SELECT * FROM recipe WHERE id = ?", [recipe_id])
@@ -135,3 +150,6 @@ class RecipeController:
             return self.text.make_item(item.lowid, item.highid, item.highql, item.name)
         else:
             return name
+
+    def get_chat_command(self, search, page):
+        return "/tell <myname> recipe %s --page=%d" % (search, page)
