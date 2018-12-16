@@ -530,9 +530,11 @@ class SpecialsController:
             return 1200 + (nano_attack_time - 6) * 600
 
     def get_inits_display(self, weapon_attack, weapon_recharge):
+        num_steps = 9
+        step_size = 100 / (num_steps - 1)
         blob = ""
-        for i in reversed(range(0, 11)):
-            inits_needed = self.get_inits_needed(i * 10, weapon_attack, weapon_recharge)
-            blob += "DEF >%s%s%s< AGG %d%% %d init \n" % ("=" * i, "][", "=" * (10 - i), i * 10, inits_needed)
+        for i in reversed(range(0, num_steps)):
+            inits_needed = self.get_inits_needed(i * step_size, weapon_attack, weapon_recharge)
+            blob += "DEF >%s%s%s< AGG %d%% %d init \n" % ("=" * i, "][", "=" * (num_steps - 1 - i), i * step_size, inits_needed)
 
         return blob
