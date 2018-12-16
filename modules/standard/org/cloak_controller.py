@@ -19,6 +19,7 @@ class CloakController:
         self.command_alias_service = registry.get_instance("command_alias_service")
         self.timer_controller = registry.get_instance("timer_controller")
         self.event_service = registry.get_instance("event_service")
+        self.access_service = registry.get_instance("access_service")
 
     def pre_start(self):
         self.bot.add_packet_handler(PublicChannelMessage.id, self.handle_public_message)
@@ -86,4 +87,5 @@ class CloakController:
             char_name = extended_message.params[0]
             char_id = self.character_service.resolve_char_to_id(char_name)
             action = extended_message.params[1]
-            self.event_service.fire_event(self.CLOAK_EVENT, DictObject({"sender": SenderObj(char_id, char_name), "action": action}))
+            access_level = self.access_service.get_access_level(char_id)
+            self.event_service.fire_event(self.CLOAK_EVENT, DictObject({"sender": SenderObj(char_id, char_name, access_level), "action": action}))

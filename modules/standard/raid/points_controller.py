@@ -10,7 +10,6 @@ from core.setting_service import SettingService
 from core.text import Text
 from core.alts.alts_service import AltsService
 from core.util import Util
-from core.access_service import AccessService
 import time
 
 
@@ -24,7 +23,6 @@ class PointsController:
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
         self.character_service: CharacterService = registry.get_instance("character_service")
-        self.access_service: AccessService = registry.get_instance("access_service")
         self.util: Util = registry.get_instance("util")
         self.setting_service: SettingService = registry.get_instance("setting_service")
         self.alts_service: AltsService = registry.get_instance("alts_service")

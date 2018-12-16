@@ -13,6 +13,7 @@ class LeaderController:
     NOT_LEADER_MSG = "Error! You must be leader, or have higher access level than the leader to use this command."
 
     def __init__(self):
+        # TODO change self.leader from char_id to SenderObj
         self.leader = None
         self.last_activity = None
 
@@ -34,12 +35,13 @@ class LeaderController:
     @command(command="leader", params=[Const("set")], access_level="all",
              description="Set yourself as raidleader")
     def leader_set_self_command(self, request, _):
-        if self.leader == request.sender.char_id:
-            self.leader = None
-            return "You have been removed as raidleader."
-        elif not self.leader:
+        if not self.leader:
             self.leader = request.sender.char_id
             return "You have been set as raidleader."
+        elif self.leader == request.sender.char_id:
+            self.leader = None
+            return "You have been removed as raidleader."
+        # TODO use request.sender.access_level
         elif self.access_service.has_sufficient_access_level(request.sender.char_id, self.leader):
             self.leader = request.sender.char_id
             return "You have taken leader from <highlight>%s<end>." % self.character_service.resolve_char_to_name(self.leader)

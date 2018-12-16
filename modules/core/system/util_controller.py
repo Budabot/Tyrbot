@@ -29,8 +29,7 @@ class UtilController:
         if not char.char_id:
             return "Could not find character <highlight>%s<end>." % char.name
 
-        access_level = self.access_service.get_access_level(char.char_id)
-        return "Access level for <highlight>%s<end> is <highlight>%s<end>." % (char.name, access_level["label"])
+        return "Access level for <highlight>%s<end> is <highlight>%s<end>." % (char.name, char.access_level["label"])
 
     @command(command="macro", params=[Any("command 1|command 2|command 3 ...")], access_level="all",
              description="Execute multiple commands at once")

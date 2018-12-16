@@ -46,6 +46,7 @@ class PrivateChannelController:
             if not self.private_channel_service.in_private_channel(char.char_id):
                 return "<highlight>%s<end> is not in the private channel." % char.name
             else:
+                # TODO use request.sender.access_level and char.access_level
                 if self.access_service.has_sufficient_access_level(request.sender.char_id, char.char_id):
                     self.bot.send_private_message(char.char_id, "You have been kicked from the private channel by <highlight>%s<end>." % request.sender.name)
                     self.private_channel_service.kick(char.char_id)

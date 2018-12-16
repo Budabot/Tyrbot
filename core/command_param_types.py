@@ -235,7 +235,9 @@ class Character(Any):
             return None
         else:
             character_service = Registry.get_instance("character_service")
-            return SenderObj(character_service.resolve_char_to_id(val), val.capitalize())
+            access_service = Registry.get_instance("access_service")
+            char_id = character_service.resolve_char_to_id(val)
+            return SenderObj(char_id, val.capitalize(), access_service.get_access_level(char_id))
 
 
 # Note: NamedParameters should always go at the end of the command parameter list

@@ -12,7 +12,6 @@ from core.chat_blob import ChatBlob
 from __init__ import flatmap, get_attrs
 import collections
 import re
-import html
 import inspect
 
 
@@ -27,15 +26,15 @@ class CommandService:
         self.logger = Logger(__name__)
         self.channels = {}
         self.ignore_regexes = [
-            re.compile(" is AFK \(Away from keyboard\) since ", re.IGNORECASE),
-            re.compile("I am away from my keyboard right now", re.IGNORECASE),
-            re.compile("Unknown command or access denied!", re.IGNORECASE),
-            re.compile("I am responding", re.IGNORECASE),
-            re.compile("I only listen", re.IGNORECASE),
-            re.compile("Error!", re.IGNORECASE),
-            re.compile("Unknown command input", re.IGNORECASE),
-            re.compile("You have been auto invited", re.IGNORECASE),
-            re.compile("^<font")
+            re.compile(r" is AFK \(Away from keyboard\) since ", re.IGNORECASE),
+            re.compile(r"I am away from my keyboard right now", re.IGNORECASE),
+            re.compile(r"Unknown command or access denied!", re.IGNORECASE),
+            re.compile(r"I am responding", re.IGNORECASE),
+            re.compile(r"I only listen", re.IGNORECASE),
+            re.compile(r"Error!", re.IGNORECASE),
+            re.compile(r"Unknown command input", re.IGNORECASE),
+            re.compile(r"You have been auto invited", re.IGNORECASE),
+            re.compile(r"^<font")
         ]
 
     def inject(self, registry):
@@ -167,7 +166,8 @@ class CommandService:
                 cmd_config, matches, handler = self.get_matches(cmd_configs, command_args)
                 if matches:
                     if handler["check_access"](char_id, cmd_config.access_level):
-                        sender = SenderObj(char_id, self.character_service.resolve_char_to_name(char_id, "Unknown(%d)" % char_id))
+                        access_level = self.access_service.get_access_level(char_id)
+                        sender = SenderObj(char_id, self.character_service.resolve_char_to_name(char_id, "Unknown(%d)" % char_id), access_level)
                         response = handler["callback"](CommandRequest(channel, sender, reply), *self.process_matches(matches, handler["params"]))
                         if response is not None:
                             reply(response)
