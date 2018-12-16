@@ -57,30 +57,6 @@ class ImplantController:
         blob += "<highlight>%d<end> Treatment\n" % implant.treatment
         blob += "<highlight>%d<end> Ability\n" % implant.ability
 
-        if ql >= 99:
-            blob += "\n<header2>Requirements to Wear (Jobe)<end>\n"
-            blob += "<highlight>%d<end> Treatment\n" % implant.jobe_treatment
-            blob += "<highlight>%d<end> Ability\n" % implant.jobe_ability
-
-        blob += "\n<header2>Requirements to Clean<end>\n"
-        if ql <= 200:
-            blob += "<highlight>%d<end> Break&Entry\n" % implant.clean_break_and_entry
-            blob += "<highlight>%d<end> NanoProgramming\n" % implant.clean_nano_programming
-            blob += "Jobe implants cannot be cleaned\n"
-        else:
-            blob += "Refined implants cannot be cleaned\n"
-
-        blob += "\n<header2>Max Requirements to Build<end> (actual requirements may be lower)\n"
-        blob += "<highlight>%d<end> NanoProgramming for Shiny\n" % implant.build_shiny
-        blob += "<highlight>%d<end> NanoProgramming for Bright\n" % implant.build_bright
-        blob += "<highlight>%d<end> NanoProgramming for Faded\n" % implant.build_faded
-
-        if ql >= 99:
-            blob += "\n<header2>Max Requirements to Build (Jobe)<end> (actual requirements may be lower)\n"
-            blob += "<highlight>%d<end> NanoProgramming for Shiny\n" % implant.jobe_build_shiny
-            blob += "<highlight>%d<end> NanoProgramming for Bright\n" % implant.jobe_build_bright
-            blob += "<highlight>%d<end> NanoProgramming for Faded\n" % implant.jobe_build_faded
-
         blob += "\n<header2>Ability Cluster Bonuses<end>\n"
         blob += "<highlight>%d<end> Shiny (%d - %d)\n" % (implant.ability_shiny, implant.ability_shiny_min, implant.ability_shiny_max)
         blob += "<highlight>%d<end> Bright (%d - %d)\n" % (implant.ability_bright, implant.ability_bright_min, implant.ability_bright_max)
@@ -91,14 +67,40 @@ class ImplantController:
         blob += "<highlight>%d<end> Bright (%d - %d)\n" % (implant.skill_bright, implant.skill_bright_min, implant.skill_bright_max)
         blob += "<highlight>%d<end> Faded (%d - %d)\n" % (implant.skill_faded, implant.skill_faded_min, implant.skill_faded_max)
 
+        blob += "\n<header2>Requirements to Clean<end>\n"
+        if ql <= 200:
+            blob += "<highlight>%d<end> Break&Entry\n" % implant.clean_break_and_entry
+            blob += "<highlight>%d<end> NanoProgramming\n" % implant.clean_nano_programming
+        else:
+            blob += "Refined implants cannot be cleaned\n"
+
+        blob += "\n<header2>Max Requirements to Build<end> (actual requirements may be lower)\n"
+        blob += "<highlight>%d<end> NanoProgramming for Shiny\n" % implant.build_shiny
+        blob += "<highlight>%d<end> NanoProgramming for Bright\n" % implant.build_bright
+        blob += "<highlight>%d<end> NanoProgramming for Faded\n" % implant.build_faded
+
         blob += "\n<header2>Min Cluster QL<end>\n"
         blob += "<highlight>%d<end> Shiny\n" % implant.minimum_cluster_shiny
         blob += "<highlight>%d<end> Bright\n" % implant.minimum_cluster_bright
         blob += "<highlight>%d<end> Faded\n" % implant.minimum_cluster_faded
 
+        if ql >= 99:
+            blob += "\n<header>Jobe Requirements<end>\n"
+
+            blob += "\n<header2>Requirements to Wear<end>\n"
+            blob += "<highlight>%d<end> Treatment\n" % implant.jobe_treatment
+            blob += "<highlight>%d<end> Ability\n" % implant.jobe_ability
+
+            blob += "\n<header2>Max Requirements to Build<end> (actual requirements may be lower)\n"
+            blob += "<highlight>%d<end> NanoProgramming for Shiny\n" % implant.jobe_build_shiny
+            blob += "<highlight>%d<end> NanoProgramming for Bright\n" % implant.jobe_build_bright
+            blob += "<highlight>%d<end> NanoProgramming for Faded\n" % implant.jobe_build_faded
+
+            blob += "\nJobe implants cannot be cleaned\n"
+
         blob += "\n\nBased on the !impql command written for %s by <highlight>Lucier<end>" % self.text.make_chatcmd("Ttst", "/tell ttst help")
 
-        return ChatBlob("Implant %d" % ql, blob)
+        return ChatBlob("Implant QL%d" % ql, blob)
 
     def get_implant_by_ql(self, ql):
         implant = DictObject({})
