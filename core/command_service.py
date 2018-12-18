@@ -161,13 +161,13 @@ class CommandService:
                     raise Exception("Command alias infinite recursion detected for command '%s'" % message)
 
             cmd_configs = self.get_command_configs(command_str, channel, 1)
+            access_level = self.access_service.get_access_level(char_id)
+            sender = SenderObj(char_id, self.character_service.resolve_char_to_name(char_id, "Unknown(%d)" % char_id), access_level)
             if cmd_configs:
                 # given a list of cmd_configs that are enabled, see if one has regex that matches incoming command_str
                 cmd_config, matches, handler = self.get_matches(cmd_configs, command_args)
                 if matches:
                     if handler["check_access"](char_id, cmd_config.access_level):
-                        access_level = self.access_service.get_access_level(char_id)
-                        sender = SenderObj(char_id, self.character_service.resolve_char_to_name(char_id, "Unknown(%d)" % char_id), access_level)
                         response = handler["callback"](CommandRequest(channel, sender, reply), *self.process_matches(matches, handler["params"]))
                         if response is not None:
                             reply(response)
@@ -175,7 +175,7 @@ class CommandService:
                         # record command usage
                         self.usage_service.add_usage(command_str, handler["callback"].__qualname__, char_id, channel)
                     else:
-                        self.access_denied_response(char_id, cmd_config, reply)
+                        self.access_denied_response(message, sender, cmd_config, reply)
                 else:
                     # handlers were found, but no handler regex matched
                     help_text = self.get_help_text(char_id, command_str, channel)
@@ -185,15 +185,15 @@ class CommandService:
                         # the command is known, but no help is returned, therefore user does not have access to command
                         reply("Error! Access denied.")
             else:
-                self.handle_unknown_command(command_str, command_args, channel, char_id, reply)
+                self.handle_unknown_command(command_str, command_args, channel, sender, reply)
         except Exception as e:
             self.logger.error("error processing command: %s" % message, e)
             reply("There was an error processing your request.")
 
-    def handle_unknown_command(self, command_str, command_args, channel, char_id, reply):
+    def handle_unknown_command(self, command_str, command_args, channel, sender, reply):
         reply("Error! Unknown command <highlight>%s<end>." % command_str)
 
-    def access_denied_response(self, char_id, cmd_config, reply):
+    def access_denied_response(self, message, sender, cmd_config, reply):
         reply("Error! Access denied.")
 
     def get_command_parts(self, message):
@@ -204,7 +204,7 @@ class CommandService:
             return parts[0].lower(), ""
 
     def get_command_configs(self, command, channel=None, enabled=1, sub_command=None):
-        sql = "SELECT command, sub_command, access_level, enabled FROM command_config WHERE command = ?"
+        sql = "SELECT command, sub_command, access_level, channel, enabled FROM command_config WHERE command = ?"
         params = [command]
         if channel:
             sql += " AND channel = ?"
