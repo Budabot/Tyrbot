@@ -16,7 +16,7 @@ class DB:
 
     def __init__(self):
         self.conn = None
-        self.enhanced_like_regex = re.compile("(\s+)(\S+)\s+<EXTENDED_LIKE=(\d+)>\s+\?(\s*)", re.IGNORECASE)
+        self.enhanced_like_regex = re.compile(r"(\s+)(\S+)\s+<EXTENDED_LIKE=(\d+)>\s+\?(\s*)", re.IGNORECASE)
         self.lastrowid = None
         self.logger = Logger(__name__)
         self.type = None
