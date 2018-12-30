@@ -22,7 +22,7 @@ class Const(CommandParam):
         self.is_optional = is_optional
 
     def get_regex(self):
-        regex = "(\s+" + self.name + ")"
+        regex = r"(\s+" + self.name + ")"
         return regex + ("?" if self.is_optional else "")
 
     def get_name(self):
@@ -46,7 +46,7 @@ class Int(CommandParam):
         self.is_optional = is_optional
 
     def get_regex(self):
-        regex = "(\s+[0-9]+)"
+        regex = r"(\s+[0-9]+)"
         return regex + ("?" if self.is_optional else "")
 
     def get_name(self):
@@ -70,7 +70,7 @@ class Decimal(CommandParam):
         self.is_optional = is_optional
 
     def get_regex(self):
-        regex = "(\s+[0-9]*\.?[0-9]+)"
+        regex = r"(\s+[0-9]*\.?[0-9]+)"
         return regex + ("?" if self.is_optional else "")
 
     def get_name(self):
@@ -94,7 +94,7 @@ class Any(CommandParam):
         self.is_optional = is_optional
 
     def get_regex(self):
-        regex = "(\s+.+?)"
+        regex = r"(\s+.+?)"
         return regex + ("?" if self.is_optional else "")
 
     def get_name(self):
@@ -142,7 +142,7 @@ class Options(CommandParam):
         self.is_optional = is_optional
 
     def get_regex(self):
-        regex = "(" + "|".join(map(lambda x: "\s+" + re.escape(x), self.options)) + ")"
+        regex = r"(" + "|".join(map(lambda x: r"\s+" + re.escape(x), self.options)) + ")"
         return regex + ("?" if self.is_optional else "")
 
     def get_name(self):
@@ -166,7 +166,7 @@ class Time(CommandParam):
         self.is_optional = is_optional
 
     def get_regex(self):
-        regex = "(\s+(([0-9]+)([a-z]+))+)"
+        regex = r"(\s+(([0-9]+)([a-z]+))+)"
         return regex + ("?" if self.is_optional else "")
 
     def get_name(self):
@@ -195,7 +195,7 @@ class Item(CommandParam):
         self.is_optional = is_optional
 
     def get_regex(self):
-        regex = """(\s+<a href="itemref:\/\/(\d+)\/(\d+)\/(\d+)">(.+)<\/a>)"""
+        regex = r"""(\s+<a href="itemref:\/\/(\d+)\/(\d+)\/(\d+)">(.+)<\/a>)"""
         return regex + ("?" if self.is_optional else "")
 
     def get_name(self):
@@ -225,7 +225,7 @@ class Character(Any):
         super().__init__(name, is_optional)
 
     def get_regex(self):
-        regex = "(\s+[\d+a-z-]+)"
+        regex = r"(\s+[\d+a-z-]+)"
         return regex + ("?" if self.is_optional else "")
 
     def process_matches(self, params):
@@ -237,7 +237,10 @@ class Character(Any):
             character_service = Registry.get_instance("character_service")
             access_service = Registry.get_instance("access_service")
             char_id = character_service.resolve_char_to_id(val)
-            return SenderObj(char_id, val.capitalize(), access_service.get_access_level(char_id))
+            if char_id is None:
+                return SenderObj(char_id, val.capitalize(), None)
+            else:
+                return SenderObj(char_id, val.capitalize(), access_service.get_access_level(char_id))
 
 
 # Note: NamedParameters should always go at the end of the command parameter list
@@ -248,7 +251,7 @@ class NamedParameters(CommandParam):
         self.names = names
 
     def get_regex(self):
-        regex = "((" + "|".join(map(lambda x: "\s+--%s=.+?" % x, self.names)) + ")*)"
+        regex = "((" + "|".join(map(lambda x: r"\s+--%s=.+?" % x, self.names)) + ")*)"
         return regex
 
     def get_name(self):
@@ -258,7 +261,7 @@ class NamedParameters(CommandParam):
         v = params.pop(0)
         params.pop(0)
 
-        regex = "^(" + "|".join(map(lambda x: "(\s+--(%s)=(.+?))" % x, self.names)) + ")*$"
+        regex = "^(" + "|".join(map(lambda x: r"(\s+--(%s)=(.+?))" % x, self.names)) + ")*$"
         p = re.compile(regex)
         results = p.findall(v)[0][1:]
         values = DictObject()
