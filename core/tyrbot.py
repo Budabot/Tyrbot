@@ -1,4 +1,5 @@
 from core.aochat.bot import Bot
+from core.dict_object import DictObject
 from core.lookup.character_service import CharacterService
 from core.public_channel_service import PublicChannelService
 from core.setting_service import SettingService
@@ -18,6 +19,13 @@ import time
 
 @instance("bot")
 class Tyrbot(Bot):
+    CONNECT_EVENT = "connect"
+    PACKET_EVENT = "packet"
+
+    OUTGOING_ORG_MESSAGE_EVENT = "outgoing_org_message"
+    OUTGOING_PRIVATE_MESSAGE_EVENT = "outgoing_private_message"
+    OUTGOING_PRIVATE_CHANNEL_MESSAGE_EVENT = "outgoing_private_channel_message"
+
     def __init__(self):
         super().__init__()
         self.ready = False
@@ -70,8 +78,11 @@ class Tyrbot(Bot):
 
     def pre_start(self):
         self.access_service.register_access_level("superadmin", 10, self.check_superadmin)
-        self.event_service.register_event_type("connect")
-        self.event_service.register_event_type("packet")
+        self.event_service.register_event_type(self.CONNECT_EVENT)
+        self.event_service.register_event_type(self.PACKET_EVENT)
+        self.event_service.register_event_type(self.OUTGOING_ORG_MESSAGE_EVENT)
+        self.event_service.register_event_type(self.OUTGOING_PRIVATE_MESSAGE_EVENT)
+        self.event_service.register_event_type(self.OUTGOING_PRIVATE_CHANNEL_MESSAGE_EVENT)
 
     def start(self):
         self.setting_service.register("symbol", "!", "Symbol for executing bot commands", TextSettingType(["!", "#", "*", "@", "$", "+", "-"]), "core.system")
@@ -208,32 +219,40 @@ class Tyrbot(Bot):
 
         return packet
 
-    def send_org_message(self, msg, add_color=True):
+    def send_org_message(self, msg, add_color=True, fire_outgoing_event=True):
         org_channel_id = self.public_channel_service.org_channel_id
         if org_channel_id is None:
             self.logger.debug("ignoring message to org channel since the org_channel_id is unknown")
         else:
             color = self.setting_service.get("org_channel_color").get_font_color() if add_color else ""
-            for page in self.get_text_pages(msg, self.setting_service.get("org_channel_max_page_length").get_value()):
+            pages = self.get_text_pages(msg, self.setting_service.get("org_channel_max_page_length").get_value())
+            for page in pages:
                 packet = client_packets.PublicChannelMessage(org_channel_id, color + page, "")
-                # self.send_packet(packet)
                 self.packet_queue.enqueue(packet)
                 self.check_outgoing_message_queue()
 
-    def send_private_message(self, char, msg, add_color=True):
+            if fire_outgoing_event:
+                self.event_service.fire_event(self.OUTGOING_ORG_MESSAGE_EVENT, DictObject({"org_channel_id": org_channel_id,
+                                                                                           "message": msg}))
+
+    def send_private_message(self, char, msg, add_color=True, fire_outgoing_event=True):
         char_id = self.character_service.resolve_char_to_id(char)
         if char_id is None:
             self.logger.warning("Could not send message to %s, could not find char id" % char)
         else:
             color = self.setting_service.get("private_message_color").get_font_color() if add_color else ""
-            for page in self.get_text_pages(msg, self.setting_service.get("private_message_max_page_length").get_value()):
+            pages = self.get_text_pages(msg, self.setting_service.get("private_message_max_page_length").get_value())
+            for page in pages:
                 self.logger.log_tell("To", self.character_service.get_char_name(char_id), page)
                 packet = client_packets.PrivateMessage(char_id, color + page, "\0")
-                # self.send_packet(packet)
                 self.packet_queue.enqueue(packet)
                 self.check_outgoing_message_queue()
 
-    def send_private_channel_message(self, msg, private_channel=None, add_color=False):
+            if fire_outgoing_event:
+                self.event_service.fire_event(self.OUTGOING_PRIVATE_MESSAGE_EVENT, DictObject({"char_id": char_id,
+                                                                                               "message": msg}))
+
+    def send_private_channel_message(self, msg, private_channel=None, add_color=False, fire_outgoing_event=True):
         if private_channel is None:
             private_channel = self.char_id
 
@@ -242,9 +261,14 @@ class Tyrbot(Bot):
             self.logger.warning("Could not send message to private channel %s, could not find private channel" % private_channel)
         else:
             color = self.setting_service.get("private_channel_color").get_font_color() if add_color else ""
-            for page in self.get_text_pages(msg, self.setting_service.get("private_channel_max_page_length").get_value()):
+            pages = self.get_text_pages(msg, self.setting_service.get("private_channel_max_page_length").get_value())
+            for page in pages:
                 packet = client_packets.PrivateChannelMessage(private_channel_id, color + page, "\0")
                 self.send_packet(packet)
+
+            if fire_outgoing_event:
+                self.event_service.fire_event(self.OUTGOING_PRIVATE_CHANNEL_MESSAGE_EVENT, DictObject({"private_channel_id": private_channel_id,
+                                                                                                       "message": msg}))
 
     def handle_private_message(self, packet: server_packets.PrivateMessage):
         self.logger.log_tell("From", self.character_service.get_char_name(packet.char_id), packet.message)
