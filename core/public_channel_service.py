@@ -26,7 +26,8 @@ class PublicChannelService:
     def pre_start(self):
         self.bot.add_packet_handler(server_packets.PublicChannelJoined.id, self.add)
         self.bot.add_packet_handler(server_packets.PublicChannelLeft.id, self.remove)
-        self.bot.add_packet_handler(server_packets.PublicChannelMessage.id, self.public_channel_message)
+        # priority must be above that of CommandService in order for relaying of commands to work correctly
+        self.bot.add_packet_handler(server_packets.PublicChannelMessage.id, self.public_channel_message, priority=30)
         self.event_service.register_event_type(self.ORG_CHANNEL_MESSAGE_EVENT)
         self.event_service.register_event_type(self.ORG_MSG_EVENT)
 

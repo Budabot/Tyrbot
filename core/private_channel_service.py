@@ -24,7 +24,8 @@ class PrivateChannelService:
         self.event_service.register_event_type(self.PRIVATE_CHANNEL_MESSAGE_EVENT)
         self.bot.add_packet_handler(server_packets.PrivateChannelClientJoined.id, self.handle_private_channel_client_joined)
         self.bot.add_packet_handler(server_packets.PrivateChannelClientLeft.id, self.handle_private_channel_client_left)
-        self.bot.add_packet_handler(server_packets.PrivateChannelMessage.id, self.handle_private_channel_message)
+        # priority must be above that of CommandService in order for relaying of commands to work correctly
+        self.bot.add_packet_handler(server_packets.PrivateChannelMessage.id, self.handle_private_channel_message, priority=30)
 
     def handle_private_channel_message(self, packet: server_packets.PrivateChannelMessage):
         if packet.private_channel_id == self.bot.char_id:
