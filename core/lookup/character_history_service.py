@@ -28,11 +28,7 @@ class CharacterHistoryService:
             url = "http://pork.budabot.jkbff.com/pork/history.php?server=%d&name=%s" % (server_num, name)
 
             r = requests.get(url)
-            try:
-                result = r.json()
-            except ValueError as e:
-                self.logger.warning("Error marshalling value as json for url '%s': %s" % (url, r.text), e)
-                result = None
+            result = r.json()
 
             if result:
                 # store result in cache
