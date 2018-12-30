@@ -48,7 +48,9 @@ class Text:
         else:
             return "<highlight>%s<end> (%d/<green>%d<end>) %s %s" % (char_info.name, char_info.level, char_info.ai_level, char_info.faction, char_info.profession)
 
-    def paginate(self, label, msg, max_page_length, max_num_pages=None, footer=None):
+    def paginate(self, chatblob, max_page_length, max_num_pages=None, footer=None):
+        label = chatblob.title
+        msg = chatblob.msg
         separators = iter(self.separators)
 
         msg = msg.strip()
@@ -111,7 +113,7 @@ class Text:
                 label2 = label
             else:
                 label2 = label + " (Page " + str(index) + " / " + str(num_pages) + ")"
-            return self.format_page(label2, page)
+            return chatblob.page_prefix + self.format_page(label2, page) + chatblob.page_postfix
 
         return list(map(mapper, zip(pages, range(1, num_pages + 1))))
 

@@ -1,3 +1,4 @@
+from core.chat_blob import ChatBlob
 from core.decorators import instance, event, timerevent, setting
 from core.logger import Logger
 from core.private_channel_service import PrivateChannelService
@@ -9,6 +10,9 @@ from modules.core.org_members.org_member_controller import OrgMemberController
 
 @instance()
 class OrgChannelController:
+    PRIVATE_CHANNEL_PREFIX = "[Private]"
+    ORG_CHANNEL_PREFIX = "[Org]"
+
     def __init__(self):
         self.logger = Logger(__name__)
 
@@ -33,17 +37,17 @@ class OrgChannelController:
                     message = event_data.message
 
                 if event_data.char_id == 4294967295 or event_data.char_id == 0:
-                    self.bot.send_private_channel_message("[Org]: %s" % message, fire_outgoing_event=False)
+                    self.bot.send_private_channel_message("%s: %s" % (self.ORG_CHANNEL_PREFIX, message), fire_outgoing_event=False)
                 else:
                     char_name = self.character_service.resolve_char_to_name(event_data.char_id)
-                    self.bot.send_private_channel_message("[Org] %s: %s" % (char_name, message), fire_outgoing_event=False)
+                    self.bot.send_private_channel_message("%s %s: %s" % (self.ORG_CHANNEL_PREFIX, char_name, message), fire_outgoing_event=False)
 
     @event(event_type=PrivateChannelService.PRIVATE_CHANNEL_MESSAGE_EVENT, description="Relay messages from the private channel to the org channel")
     def handle_private_channel_message_event(self, event_type, event_data):
         if event_data.char_id != self.bot.char_id:
             if event_data.message[0] != self.setting_service.get("symbol").get_value() or self.private_channel_relay_commands().get_value():
                 char_name = self.character_service.resolve_char_to_name(event_data.char_id)
-                self.bot.send_org_message("[Private] %s: %s" % (char_name, event_data.message), fire_outgoing_event=False)
+                self.bot.send_org_message("%s %s: %s" % (self.PRIVATE_CHANNEL_PREFIX, char_name, event_data.message), fire_outgoing_event=False)
 
     # TODO move to online_module
     @event(event_type=PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, description="Notify when a character joins the private channel")
@@ -93,8 +97,16 @@ class OrgChannelController:
 
     @event(event_type=Tyrbot.OUTGOING_PRIVATE_CHANNEL_MESSAGE_EVENT, description="Relay commands from the private channel to the org channel")
     def outgoing_private_channel_message_event(self, event_type, event_data):
-        self.bot.send_org_message(event_data.message, fire_outgoing_event=False)
+        self.bot.send_org_message(self.add_page_prefix(event_data.message, self.PRIVATE_CHANNEL_PREFIX), fire_outgoing_event=False)
 
     @event(event_type=Tyrbot.OUTGOING_ORG_MESSAGE_EVENT, description="Relay commands from the org channel to the private channel")
     def outgoing_org_message_event(self, event_type, event_data):
-        self.bot.send_private_channel_message(event_data.message, fire_outgoing_event=False)
+        self.bot.send_private_channel_message(self.add_page_prefix(event_data.message, self.ORG_CHANNEL_PREFIX), fire_outgoing_event=False)
+
+    def add_page_prefix(self, msg, prefix):
+        if isinstance(msg, ChatBlob):
+            msg.page_prefix = prefix + " "
+        else:
+            msg = prefix + " " + msg
+
+        return msg

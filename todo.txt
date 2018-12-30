@@ -13,6 +13,7 @@ add a command to list all raid loot categories, cleanup !loot subcommands
 combine !is and !whois?
 decide whether commands should be singular or plural
 add !broadcast
+add callback for settings
 
 EVENTS
 RAID

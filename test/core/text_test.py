@@ -1,3 +1,4 @@
+from core.chat_blob import ChatBlob
 from core.text import Text
 import unittest
 from unittest.mock import Mock, MagicMock
@@ -32,6 +33,20 @@ class TextTest(unittest.TestCase):
         text.public_channel_service = public_channel_service
 
         msg = "hello this is a test\nthis is another test as well\nand a third\ntest also\nwhich is very\nshort"
-        pages = text.paginate("label", msg, 110)
+        chatblob = ChatBlob("label", msg)
+        prefix = "test_prefix"
+        postfix = "test_postfix"
+        chatblob.page_prefix = prefix
+        chatblob.page_postfix = postfix
+        pages = text.paginate(chatblob, 110)
+
         self.assertEqual(2, len(pages))
         self.assertTrue("text://short" in pages[1])
+
+        # page prefix
+        self.assertTrue(pages[0].startswith(prefix))
+        self.assertTrue(pages[1].startswith(prefix))
+
+        # page postfix
+        self.assertTrue(pages[0].endswith(postfix))
+        self.assertTrue(pages[1].endswith(postfix))

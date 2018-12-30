@@ -111,7 +111,7 @@ class AuctionController:
                     avg_win_bid = 0
 
                 bid_link = self.raid_controller.get_auction_list()
-                bid_link = self.text.paginate("Click to bid", bid_link.msg, 5000, 1)[0]
+                bid_link = self.text.paginate(ChatBlob("Click to bid", bid_link.msg), 5000, 1)[0]
                 msg = "\n<yellow>----------------------------------------<end>\n"
                 msg += "<yellow>%s<end> has just started an auction " \
                        "for <yellow>%s<end>.\n" % (request.sender.name, auction_item.item.name)

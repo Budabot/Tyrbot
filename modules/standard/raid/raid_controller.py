@@ -436,4 +436,4 @@ class RaidController:
                "lft\n\n<header2>4. Rally with yer mateys<end>\nFinally, move towards the starting location of " \
                "the raid.\n<highlight>Ask for help<end> if you're in doubt of where to go." % self.raid.raid_name
 
-        return self.text.paginate(link_txt, blob, 5000, 1)[0]
+        return self.text.paginate(ChatBlob(link_txt, blob), 5000, 1)[0]
