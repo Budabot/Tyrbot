@@ -62,16 +62,6 @@ class PrivateChannelController:
         self.bot.send_private_channel_message("Everyone will be kicked from this channel in 10 seconds. [by <highlight>%s<end>]" % request.sender.name)
         self.job_scheduler.delayed_job(lambda t: self.private_channel_service.kickall(), 10)
 
-    @event(PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, "Notify private channel when someone joins")
-    def private_channel_joined_event(self, event_type, event_data):
-        char_name = self.character_service.get_char_name(event_data.char_id)
-        self.bot.send_private_channel_message("<highlight>%s<end> has joined the private channel." % char_name)
-
-    @event(PrivateChannelService.LEFT_PRIVATE_CHANNEL_EVENT, "Notify private channel when someone leaves")
-    def private_channel_left_event(self, event_type, event_data):
-        char_name = self.character_service.get_char_name(event_data.char_id)
-        self.bot.send_private_channel_message("<highlight>%s<end> has left the private channel." % char_name)
-
     @event(event_type=BanService.BAN_ADDED_EVENT, description="Kick characters from the private channel who are banned")
     def ban_added_event(self, event_type, event_data):
         self.private_channel_service.kick(event_data.char_id)

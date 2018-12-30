@@ -67,21 +67,21 @@ class SystemController:
             msg = "<myname> is now <green>online<end> but may have shut down or restarted unexpectedly."
 
         self.bot.send_private_message(self.bot.superadmin, msg)
-        self.bot.send_org_message(msg)
-        self.bot.send_private_channel_message(msg)
+        self.bot.send_org_message(msg, fire_outgoing_event=False)
+        self.bot.send_private_channel_message(msg, fire_outgoing_event=False)
 
         self.expected_shutdown().set_value(False)
 
     @event(event_type=SHUTDOWN_EVENT, description="Notify org channel on shutdown/restart")
     def notify_org_channel_shutdown_event(self, event_type, event_data):
         if event_data.restart:
-            self.bot.send_org_message(self.restart_msg)
+            self.bot.send_org_message(self.restart_msg, fire_outgoing_event=False)
         else:
-            self.bot.send_org_message(self.shutdown_msg)
+            self.bot.send_org_message(self.shutdown_msg, fire_outgoing_event=False)
 
     @event(event_type=SHUTDOWN_EVENT, description="Notify private channel on shutdown/restart")
     def notify_private_channel_shutdown_event(self, event_type, event_data):
         if event_data.restart:
-            self.bot.send_private_channel_message(self.restart_msg)
+            self.bot.send_private_channel_message(self.restart_msg, fire_outgoing_event=False)
         else:
-            self.bot.send_private_channel_message(self.shutdown_msg)
+            self.bot.send_private_channel_message(self.shutdown_msg, fire_outgoing_event=False)
