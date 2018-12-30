@@ -29,3 +29,26 @@ class TyrbotTest(unittest.TestCase):
         packet = bot.public_channel_message_ext_msg_handling(packet)
 
         self.assertEqual("The omni organization TestOrg1 just entered a state of war! TestChar attacked the clan organization TestOrg2's tower in Mort at location (3059,3144).", packet.extended_message.get_message())
+
+    def test_add_packet_handler(self):
+        packet_id = 1
+        bot = Tyrbot()
+        bot.add_packet_handler(packet_id, "handler20", 20)
+        bot.add_packet_handler(packet_id, "handler")
+        bot.add_packet_handler(packet_id, "handler50", 50)
+        bot.add_packet_handler(packet_id, "handler10", 10)
+        self.assertEqual(
+            [{'priority': 10, 'handler': 'handler10'}, {'priority': 20, 'handler': 'handler20'}, {'priority': 50, 'handler': 'handler'}, {'priority': 50, 'handler': 'handler50'}],
+            bot.packet_handlers.get(packet_id))
+
+    def test_remove_packet_handler(self):
+        packet_id = 1
+        bot = Tyrbot()
+        bot.add_packet_handler(packet_id, "handler20", 20)
+        bot.add_packet_handler(packet_id, "handler")
+        bot.add_packet_handler(packet_id, "handler50", 50)
+        bot.add_packet_handler(packet_id, "handler10", 10)
+        bot.remove_packet_handler(packet_id, "handler20")
+        self.assertEqual(
+            [{'priority': 10, 'handler': 'handler10'}, {'priority': 50, 'handler': 'handler'}, {'priority': 50, 'handler': 'handler50'}],
+            bot.packet_handlers.get(packet_id))

@@ -149,14 +149,16 @@ class Tyrbot(Bot):
 
         return self.status
 
-    def add_packet_handler(self, packet_id, handler):
+    def add_packet_handler(self, packet_id, handler, priority=50):
         handlers = self.packet_handlers.get(packet_id, [])
-        handlers.append(handler)
-        self.packet_handlers[packet_id] = handlers
+        handlers.append(DictObject({"priority": priority, "handler": handler}))
+        self.packet_handlers[packet_id] = sorted(handlers, key=lambda x: x.priority)
 
     def remove_packet_handler(self, packet_id, handler):
         handlers = self.packet_handlers.get(packet_id, [])
-        handlers.remove(handler)
+        for h in handlers:
+            if h.handler == handler:
+                handlers.remove(h)
 
     def iterate(self):
         packet = self.read_packet(1)
@@ -169,7 +171,7 @@ class Tyrbot(Bot):
                 packet = self.public_channel_message_ext_msg_handling(packet)
 
             for handler in self.packet_handlers.get(packet.id, []):
-                handler(packet)
+                handler.handler(packet)
 
             self.event_service.fire_event("packet:" + str(packet.id), packet)
 
