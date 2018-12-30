@@ -63,6 +63,10 @@ class AccessService:
         :return:
         """
 
+        # return True if char_ids are the same
+        if char_id1 == char_id2:
+            return True
+
         # return True if both chars have the same main
         if self.alts_service.get_main(char_id1).char_id == self.alts_service.get_main(char_id2).char_id:
             return True
