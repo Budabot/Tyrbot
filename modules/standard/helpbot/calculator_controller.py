@@ -6,7 +6,7 @@ import re
 @instance()
 class CalculatorController:
     def __init__(self):
-        self.allow_chars_regex = re.compile("^[0123456789.,+\-*%()/ &|^~<>]+$")
+        self.allow_chars_regex = re.compile(r"^[0123456789.+\-*%()/ &|^~<>]+$")
 
     def inject(self, registry):
         self.discord_controller = registry.get_instance("discord_controller")
@@ -20,6 +20,8 @@ class CalculatorController:
                                                                        "() (parenthesis)\n& (binary AND)\n| (binary OR)\n^ (binary exclusive OR)\n~ (binary ones complement)\n"
                                                                        "<< (binary left shift)\n>> (binary right shift)")
     def calc_cmd(self, request, formula):
+        # this may be problematic if this bot is running on a system with a different locale
+        formula = formula.replace(",", ".")
         if self.allow_chars_regex.match(formula):
             try:
                 return "%s = %s" % (formula, round(eval(formula), 4))
