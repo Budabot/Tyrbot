@@ -26,9 +26,9 @@ class CalculatorController:
             try:
                 return "%s = %s" % (formula, round(eval(formula), 4))
             except SyntaxError:
-                return "Invalid formula supplied."
+                return "Error! Invalid formula supplied."
         else:
-            return "Invalid character detected."
+            return "Error! Invalid character detected."
 
     def calc_discord_cmd(self, reply, args):
         reply(self.calc_cmd(None, *args))
