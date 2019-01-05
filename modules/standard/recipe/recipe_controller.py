@@ -21,6 +21,7 @@ class RecipeController:
 
     def start(self):
         self.command_alias_service.add_alias("r", "recipe")
+        self.command_alias_service.add_alias("tradeskill", "recipe")
 
         recipe_dir = os.path.dirname(os.path.realpath(__file__)) + "/recipes/"
         self.db.exec("DROP TABLE IF EXISTS recipe")
