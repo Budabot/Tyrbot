@@ -21,6 +21,7 @@ import time
 class Tyrbot(Bot):
     CONNECT_EVENT = "connect"
     PACKET_EVENT = "packet"
+    PRIVATE_MSG_EVENT = "private_msg"
 
     OUTGOING_ORG_MESSAGE_EVENT = "outgoing_org_message"
     OUTGOING_PRIVATE_MESSAGE_EVENT = "outgoing_private_message"
@@ -80,6 +81,7 @@ class Tyrbot(Bot):
         self.access_service.register_access_level("superadmin", 10, self.check_superadmin)
         self.event_service.register_event_type(self.CONNECT_EVENT)
         self.event_service.register_event_type(self.PACKET_EVENT)
+        self.event_service.register_event_type(self.PRIVATE_MSG_EVENT)
         self.event_service.register_event_type(self.OUTGOING_ORG_MESSAGE_EVENT)
         self.event_service.register_event_type(self.OUTGOING_PRIVATE_MESSAGE_EVENT)
         self.event_service.register_event_type(self.OUTGOING_PRIVATE_CHANNEL_MESSAGE_EVENT)
@@ -108,6 +110,8 @@ class Tyrbot(Bot):
         self.setting_service.register("private_channel_color", "#89D2E8", "default private channel color", ColorSettingType(), "core.colors")
         self.setting_service.register("private_message_color", "#89D2E8", "default private message color", ColorSettingType(), "core.colors")
         self.setting_service.register("blob_color", "#FFFFFF", "default blob content color", ColorSettingType(), "core.colors")
+
+        self.add_packet_handler(server_packets.PrivateMessage.id, self.handle_private_message)
 
     def check_superadmin(self, char_id):
         char_name = self.character_service.resolve_char_to_name(char_id)
@@ -163,15 +167,14 @@ class Tyrbot(Bot):
     def iterate(self):
         packet = self.read_packet(1)
         if packet:
-            if isinstance(packet, server_packets.PrivateMessage):
-                self.handle_private_message(packet)
-            elif isinstance(packet, server_packets.SystemMessage):
+            if isinstance(packet, server_packets.SystemMessage):
                 packet = self.system_message_ext_msg_handling(packet)
             elif isinstance(packet, server_packets.PublicChannelMessage):
                 packet = self.public_channel_message_ext_msg_handling(packet)
 
             for handler in self.packet_handlers.get(packet.id, []):
-                handler.handler(packet)
+                if handler.handler(packet) is False:
+                    break
 
             self.event_service.fire_event("packet:" + str(packet.id), packet)
 
@@ -274,12 +277,7 @@ class Tyrbot(Bot):
 
     def handle_private_message(self, packet: server_packets.PrivateMessage):
         self.logger.log_tell("From", self.character_service.get_char_name(packet.char_id), packet.message)
-
-    def handle_public_channel_message(self, packet: server_packets.PublicChannelMessage):
-        self.logger.log_chat(
-            self.public_channel_service.get_channel_name(packet.channel_id),
-            self.character_service.get_char_name(packet.char_id),
-            packet.message)
+        self.event_service.fire_event(self.PRIVATE_MSG_EVENT, packet)
 
     def get_text_pages(self, msg, max_page_length):
         if isinstance(msg, ChatBlob):

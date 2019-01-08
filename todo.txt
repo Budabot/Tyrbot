@@ -14,6 +14,8 @@ combine !is and !whois?
 decide whether commands should be singular or plural
 add !broadcast
 add callback for settings
+add detection for quick logon/logoffs to prevent spam
+space or no space after subheaders/header2
 
 EVENTS
 RAID
