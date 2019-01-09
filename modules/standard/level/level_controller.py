@@ -14,6 +14,7 @@ class LevelController:
     def start(self):
         self.command_alias_service.add_alias("lvl", "level")
         self.command_alias_service.add_alias("pvp", "level")
+        self.command_alias_service.add_alias("team", "level")
         self.command_alias_service.add_alias("missions", "mission")
         self.command_alias_service.add_alias("mish", "mission")
         self.command_alias_service.add_alias("ailevel", "axp")
