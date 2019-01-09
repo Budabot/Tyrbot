@@ -111,7 +111,7 @@ class Tyrbot(Bot):
         self.setting_service.register("private_message_color", "#89D2E8", "default private message color", ColorSettingType(), "core.colors")
         self.setting_service.register("blob_color", "#FFFFFF", "default blob content color", ColorSettingType(), "core.colors")
 
-        self.add_packet_handler(server_packets.PrivateMessage.id, self.handle_private_message)
+        self.add_packet_handler(server_packets.PrivateMessage.id, self.handle_private_message, priority=40)
 
     def check_superadmin(self, char_id):
         char_name = self.character_service.resolve_char_to_name(char_id)
@@ -173,8 +173,7 @@ class Tyrbot(Bot):
                 packet = self.public_channel_message_ext_msg_handling(packet)
 
             for handler in self.packet_handlers.get(packet.id, []):
-                if handler.handler(packet) is False:
-                    break
+                handler.handler(packet)
 
             self.event_service.fire_event("packet:" + str(packet.id), packet)
 

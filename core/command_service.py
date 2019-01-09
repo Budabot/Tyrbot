@@ -2,6 +2,7 @@ from core.command_request import CommandRequest
 from core.decorators import instance
 from core.access_service import AccessService
 from core.aochat import server_packets
+from core.dict_object import DictObject
 from core.lookup.character_service import CharacterService
 from core.sender_obj import SenderObj
 from core.setting_service import SettingService
@@ -25,6 +26,7 @@ class CommandService:
         self.handlers = collections.defaultdict(list)
         self.logger = Logger(__name__)
         self.channels = {}
+        self.pre_processors = []
         self.ignore_regexes = [
             re.compile(r" is AFK \(Away from keyboard\) since ", re.IGNORECASE),
             re.compile(r"I am away from my keyboard right now", re.IGNORECASE),
@@ -126,6 +128,9 @@ class CommandService:
         r = re.compile(self.get_regex_from_params(params), re.IGNORECASE | re.DOTALL)
         self.handlers[command_key].append({"regex": r, "callback": handler, "help": help_text, "description": description, "params": params, "check_access": check_access})
 
+    def register_command_pre_processor(self, pre_processor):
+        self.pre_processors.append(pre_processor)
+
     def register_command_channel(self, label, value):
         if value in self.channels:
             self.logger.error("Could not register command channel '%s': command channel already registered" % value)
@@ -139,10 +144,10 @@ class CommandService:
 
     def process_command(self, message: str, channel: str, char_id, reply):
         try:
-            if self.ban_service.get_ban(char_id):
-                # do nothing if character is banned
-                self.logger.info("ignoring banned character %d for command '%s'" % (char_id, message))
-                return
+            context = DictObject({"message": message, "char_id": char_id, "channel": channel, "reply": reply})
+            for pre_processor in self.pre_processors:
+                if pre_processor(context) is False:
+                    return
 
             # message = html.unescape(message)
 
