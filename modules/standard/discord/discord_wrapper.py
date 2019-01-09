@@ -63,7 +63,8 @@ class DiscordWrapper(discord.Client):
                     self.dqueue.append(("discord_exception", "Insufficient permissions"))
                 except NotFound as e:
                     self.dqueue.append(("discord_exception", "Not found error"))
-                except:
+                except Exception as e:
+                    self.logger.error("", e)
                     self.dqueue.append(("discord_exception", "Exception raised during Discord event (%s, %s)" % (str(dtype), str(message))))
 
             await asyncio.sleep(1)
