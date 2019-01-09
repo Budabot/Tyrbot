@@ -12,7 +12,7 @@ from core.dict_object import DictObject
 
 @instance()
 class AOUController:
-    AOU_URL = "https://www.ao-universe.com/mobile/parser.php?bot=budabot"
+    AOU_URL = "https://www.ao-universe.com/mobile/parser.php?bot=tyrbot"
 
     CACHE_GROUP = "aou"
     CACHE_MAX_AGE = 604800
