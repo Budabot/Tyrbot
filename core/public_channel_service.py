@@ -35,7 +35,7 @@ class PublicChannelService:
         return self.name_to_id.get(channel_name)
 
     def get_channel_name(self, channel_id):
-        return self.id_to_name[channel_id]
+        return self.id_to_name.get(channel_id, None)
 
     def add(self, packet: server_packets.PublicChannelJoined):
         self.id_to_name[packet.channel_id] = packet.name

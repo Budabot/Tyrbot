@@ -20,6 +20,7 @@ class TowerAttackController:
         self.event_service = registry.get_instance("event_service")
         self.playfield_controller = registry.get_instance("playfield_controller")
         self.command_alias_service = registry.get_instance("command_alias_service")
+        self.public_channel_service = registry.get_instance("public_channel_service")
 
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS tower_attacker (id INT PRIMARY KEY AUTO_INCREMENT, att_org_name VARCHAR(50) NOT NULL, att_faction VARCHAR(10) NOT NULL, "
@@ -62,7 +63,7 @@ class TowerAttackController:
         data = self.db.query(sql)
         t = int(time.time())
 
-        blob = ""
+        blob = self.check_for_all_towers_channel()
 
         if page > 1:
             blob += "   " + self.text.make_chatcmd("<< Page %d" % (page - 1), self.get_chat_command(page - 1))
@@ -97,7 +98,8 @@ class TowerAttackController:
 
         first_activity = attackers[-1].created_at if len(attackers) > 0 else battle.last_updated
 
-        blob = self.format_battle_info(battle, t)
+        blob = self.check_for_all_towers_channel()
+        blob += self.format_battle_info(battle, t)
         blob += "Duration: <highlight>%s<end>\n\n" % self.util.time_to_readable(battle.last_updated - first_activity)
         blob += "<header2>Attackers:<end>\n"
 
@@ -264,3 +266,9 @@ class TowerAttackController:
 
     def get_chat_command(self, page):
         return "/tell <myname> attacks --page=%d" % page
+
+    def check_for_all_towers_channel(self):
+        if not self.public_channel_service.get_channel_name(TowerController.ALL_TOWERS_ID):
+            return "Notice: The bot must belong to an org and be promoted to a rank that is high enough to have the All Towers channel (e.g., Squad Commander) in order for the <symbol>attacks command to work correctly.\n\n"
+        else:
+            return ""
