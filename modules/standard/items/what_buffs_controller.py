@@ -113,7 +113,7 @@ class WhatBuffsController:
 
             blob += self.get_footer()
 
-            return ChatBlob("Whatbuffs - %s %s (%d)" % (item_type, skill.name, len(data)), blob)
+            return ChatBlob("Whatbuffs - %s %s (%d)" % (skill.name, item_type, len(data)), blob)
 
     def get_footer(self):
         return "\nItem DB Extraction Info provided by Unk"

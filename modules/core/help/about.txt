@@ -1,4 +1,5 @@
 Source Code: <a href='chatcmd:///start https://github.com/Budabot/Tyrbot'>https://github.com/Budabot/Tyrbot</a>
 Project Statistics: <a href='chatcmd:///start https://www.openhub.net/p/tyrbot'>https://www.openhub.net/p/tyrbot</a>
 Discord: <a href='chatcmd:///start https://discord.gg/2x9WesJ'>https://discord.gg/2x9WesJ</a>
+
 Creator: <highlight>Tyrence<end>
