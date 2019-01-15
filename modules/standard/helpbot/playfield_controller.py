@@ -27,21 +27,21 @@ class PlayfieldController:
         return ChatBlob("Playfields", blob)
 
     @command(command="waypoint", params=[Regex("waypoint_data", "\s+.*?Pos: ([0-9.]+), ([0-9.]+), ([0-9.]+), Area: ([a-zA-Z ]+).*", num_groups=4)], access_level="all",
-             description="Create a waypoint link from F9 output")
+             description="Create a waypoint link from F9 output", extended_description="Example: <symbol>waypoint Pos: 123.1, 456.1, 789.1, Area: Perpetual Wastelands")
     def waypoint1_command(self, request, regex):
         x_coords, y_coords, _, playfield_arg = regex
 
         return self.create_waypoint_blob(x_coords, y_coords, playfield_arg)
 
     @command(command="waypoint", params=[Regex("waypoint_data", "\s+.*?([0-9.]+) ([0-9.]+) y ([0-9.]+) ([0-9]+).*", num_groups=4)], access_level="all",
-             description="Create a waypoint link from Shift + F9 output")
+             description="Create a waypoint link from Shift + F9 output", extended_description="Example: <symbol>waypoint 123.1 456.1 y 789.1 570")
     def waypoint2_command(self, request, regex):
         x_coords, y_coords, _, playfield_arg = regex
 
         return self.create_waypoint_blob(x_coords, y_coords, playfield_arg)
 
     @command(command="waypoint", params=[Int("x_coords"), Int("y_coords"), Any("playfield")], access_level="all",
-             description="Manually create a waypoint link")
+             description="Manually create a waypoint link", extended_description="Example: !waypoint 123 456 PW")
     def waypoint3_command(self, request, x_coords, y_coords, playfield_arg):
         return self.create_waypoint_blob(x_coords, y_coords, playfield_arg)
 
