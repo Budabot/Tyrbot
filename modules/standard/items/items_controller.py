@@ -15,6 +15,7 @@ class ItemsController:
         self.command_alias_service = registry.get_instance("command_alias_service")
 
     def start(self):
+        self.command_alias_service.add_alias("item", "items")
         self.command_alias_service.add_alias("i", "items")
 
     @command(command="items", params=[Int("ql", is_optional=True), Any("search"), NamedParameters(["page"])], access_level="all",
