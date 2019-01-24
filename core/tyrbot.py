@@ -122,7 +122,7 @@ class Tyrbot(Bot):
 
         # wait for flood of packets from login to stop sending
         time_waited = 0
-        while time_waited < 3:
+        while time_waited < 5:
             if not self.iterate():
                 time_waited += 1
 
