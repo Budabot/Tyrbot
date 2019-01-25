@@ -12,9 +12,10 @@ expose poh loot with !loot command
 add a command to list all raid loot categories, cleanup !loot subcommands
 combine !is and !whois?
 decide whether commands should be singular or plural
-add callback for settings
+add callback for settings, allow callbacks to modify/format setting value -or- have them create a custom setting and override set value, but this does not allow for a setting context
 add detection for quick logon/logoffs to prevent spam
 space or no space after subheaders/header2
+update README to indicate it can be used
 
 EVENTS
 RAID

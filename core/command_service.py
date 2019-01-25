@@ -71,6 +71,7 @@ class CommandService:
                     module = self.util.get_module_name(handler)
                     help_text = self.get_help_file(module, help_file)
 
+                    # TODO move this check to register()
                     if len(inspect.signature(handler).parameters) != len(params) + 1:
                         raise Exception("Incorrect number of arguments for handler '%s.%s()'" % (handler.__module__, handler.__name__))
 
