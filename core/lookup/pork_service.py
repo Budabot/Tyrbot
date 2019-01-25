@@ -30,22 +30,21 @@ class PorkService:
         # if we have entry in database and it is within the cache time, use that
         char_info = self.get_from_database(char_id=char_id, char_name=char_name)
         if char_info:
-            if char_info.source == "chat_server":
-                char_info = None
-            elif char_info.last_updated > t - max_cache_age:
-                char_info.cache_age = t - char_info.last_updated
+            char_info.cache_age = t - char_info.last_updated
+
+            if char_info.source != "chat_server":
                 return char_info
 
-        if char_name:
-            url = "http://people.anarchy-online.com/character/bio/d/%d/name/%s/bio.xml?data_type=json" % (self.bot.dimension, char_name)
-        else:
-            return None
+        if not char_name:
+            return char_info
+
+        url = "http://people.anarchy-online.com/character/bio/d/%d/name/%s/bio.xml?data_type=json" % (self.bot.dimension, char_name)
 
         r = requests.get(url)
         try:
             json = r.json()
         except ValueError as e:
-            self.logger.warning("Error marshalling value as json for url '%s': %s" % (url, r.text), e)
+            self.logger.debug("Error marshalling value as json for url '%s': %s" % (url, r.text), e)
             json = None
 
         if json:

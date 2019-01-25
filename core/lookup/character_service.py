@@ -43,7 +43,7 @@ class CharacterService:
                 return self._wait_for_char_id(char_name)
 
     def resolve_char_to_name(self, char, default=None):
-        if isinstance(char, int):
+        if isinstance(char, int) or char.isdigit():
             char_name = self.get_char_name(char)
             return char_name if char_name else default
         else:
