@@ -24,6 +24,7 @@ class CharacterInfoController:
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS name_history (char_id INT NOT NULL, name VARCHAR(20) NOT NULL, created_at INT NOT NULL, PRIMARY KEY (char_id, name))")
         self.command_alias_service.add_alias("w", "whois")
+        self.command_alias_service.add_alias("lookup", "whois")
 
     @command(command="whois", params=[Character("character"), Const("forceupdate", is_optional=True)], access_level="all",
              description="Get whois information for a character")
