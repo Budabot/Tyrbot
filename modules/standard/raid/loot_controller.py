@@ -332,8 +332,8 @@ class LootController:
                           "scorpio", "taurus", "sagittarius"], is_optional=True)
              ],
              description="Get list of items from Pandemonium", access_level="all")
-    def pande_cmd(self, _, category):
-        if category is None:
+    def pande_cmd(self, _, category_name):
+        if category_name is None:
             blob = ""
             sql = "SELECT category FROM raid_loot WHERE raid = 'Pande' GROUP BY category"
             raids = self.db.query(sql)
@@ -350,14 +350,14 @@ class LootController:
 
             return ChatBlob("Pandemonium loot tables", blob)
 
-        category = self.get_real_category_name(category)
+        category = self.get_real_category_name(category_name)
 
         items = self.get_items("Pande", category)
 
         if items:
             return ChatBlob("%s loot table" % category, self.build_list(items, "Pande", category))
         else:
-            return "No loot registered for <highlight>%s<end>." % category
+            return "No loot registered for <highlight>%s<end>." % category_name
 
     @command(command="db", params=[Options(["db1", "db2", "db3", "dbarmor", "util"], is_optional=True)],
              description="Get list of items from DustBrigade", access_level="all")
@@ -573,7 +573,7 @@ class LootController:
             "taurus": "Taurus", "libra": "Libra", "capricorn": "Capricorn",
             "gemini": "Gemini", "virgo": "Virgo", "cancer": "Cancer", "pisces": "Pisces",
             "scorpio": "Scorpio", "aries": "Aries", "leo": "Leo", "tnh": "The Night Heart",
-            "barmor": "Beast Armor", "beastweapons": "Beast Weapons", "bstars": "Stars",
+            "barmor": "Beast Armor", "bweapons": "Beast Weapons", "bstars": "Stars",
             "alba": "Albtraum", "symbs": "Symbiants", "spirits": "Spirits",
             "pgems": "Profession Gems", "gen": "General", "db1": "DB1", "db2": "DB2",
             "db3": "DB3", "ncu": "HUD/NCU", "gaunt": "Bastion", "mitaar": "Mitaar",
