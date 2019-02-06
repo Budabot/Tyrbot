@@ -1,12 +1,10 @@
 @echo off
 
-pip install -U -r requirements.txt
-
 :start
-python ./bootstrap.py
+win32\python ./bootstrap.py
 
 REM The bot uses non-zero exit codes to signal state.
-REM Should be restarted until it returns an exit code of zero.
+REM The bot will restart until it returns an exit code of zero.
 if %errorlevel% == 0 goto end
 
 timeout /t 1
