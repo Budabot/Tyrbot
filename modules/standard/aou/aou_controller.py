@@ -86,7 +86,7 @@ class AOUController:
             category = self.get_category(section)
             found = False
             for guide in self.get_guides(section):
-                if include_all_matches or self.check_matches(category + " " + guide["name"] + " " + guide["description"], search):
+                if include_all_matches or self.check_matches(category + " " + guide["name"] + " " + (guide["description"] or ""), search):
                     # don't show category unless we have at least one guide for it
                     if not found:
                         blob += "\n<header2>%s<end>\n" % category
