@@ -1,0 +1,23 @@
+Metadata-Version: 2.1
+Name: discord
+Version: 0.16.12
+Summary: Wrapper for discord.py
+Home-page: https://pypi.python.org/pypi/discord.py
+Author: Philip Howard
+Author-email: phil@gadgetoid.com
+License: MIT
+Description: UNKNOWN
+Keywords: Discord
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Intended Audience :: Developers
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Topic :: Internet
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Utilities
+Provides-Extra: voice

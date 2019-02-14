@@ -1,0 +1,10 @@
+LICENSE
+MANIFEST.in
+README.md
+bbcode.py
+setup.cfg
+setup.py
+bbcode.egg-info/PKG-INFO
+bbcode.egg-info/SOURCES.txt
+bbcode.egg-info/dependency_links.txt
+bbcode.egg-info/top_level.txt

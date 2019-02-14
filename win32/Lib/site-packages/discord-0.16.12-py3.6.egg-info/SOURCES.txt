@@ -1,0 +1,8 @@
+MANIFEST.in
+setup.cfg
+setup.py
+discord.egg-info/PKG-INFO
+discord.egg-info/SOURCES.txt
+discord.egg-info/dependency_links.txt
+discord.egg-info/requires.txt
+discord.egg-info/top_level.txt
