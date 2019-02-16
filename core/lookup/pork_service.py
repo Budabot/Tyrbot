@@ -32,7 +32,7 @@ class PorkService:
         if char_info:
             char_info.cache_age = t - char_info.last_updated
 
-            if char_info.source != "chat_server":
+            if char_info.cache_age < max_cache_age and char_info.source != "chat_server":
                 return char_info
 
         if not char_name:
