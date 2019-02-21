@@ -2,7 +2,7 @@ from core.decorators import instance, command
 from core.db import DB
 from core.text import Text
 from core.chat_blob import ChatBlob
-from core.command_param_types import Any, Options
+from core.command_param_types import Any, Options, Const
 
 
 @instance()
@@ -28,8 +28,8 @@ class WhatBuffsController:
 
     @command(command="whatbuffs", params=[
         Any("skill"),
-        Options(["arms", "back", "chest", "deck", "feet", "fingers", "hands", "head", "hud", "legs", "nano", "neck", "shoulders", "unknown", "util", "weapon", "wrists"])],
-             access_level="all", description="Find items or nanos that buff a skill (or ability)")
+        Options(["arms", "back", "chest", "deck", "feet", "fingers", "hands", "head", "hud", "legs", "nano", "neck", "shoulders", "unknown", "util", "weapon", "wrists", "all"])],
+             access_level="all", description="Find items or nanos that buff a skill (or ability) for a particular item type")
     def whatbuffs_detail_cmd(self, request, skill_name, item_type):
         item_type = item_type.capitalize()
 
@@ -55,8 +55,11 @@ class WhatBuffsController:
                                  "ORDER BY item_type ASC", [skill.id])
 
             blob = ""
+            total_count = 0
             for row in data:
                 blob += "%s (%d)\n" % (self.text.make_chatcmd(row.item_type, "/tell <myname> whatbuffs %s %s" % (skill.name, row.item_type)), row.cnt)
+                total_count += row.cnt
+            blob += "\n%s (%d)\n" % (self.text.make_chatcmd("All", "/tell <myname> whatbuffs %s %s" % (skill.name, "All")), total_count)
 
             blob += self.get_footer()
             return ChatBlob("Whatbuffs %s - Choose Type" % skill.name, blob)
@@ -96,19 +99,24 @@ class WhatBuffsController:
             return ChatBlob("Whatbuffs - Choose Skill", blob)
 
     def get_search_results(self, item_type, skill):
-        data = self.db.query("SELECT aodb.*, b.amount "
+        data = self.db.query("SELECT aodb.*, b.amount, i.item_type "
                              "FROM aodb "
                              "JOIN item_types i ON aodb.highid = i.item_id "
                              "JOIN item_buffs b ON aodb.highid = b.item_id "
                              "JOIN skills s ON b.attribute_id = s.id "
                              "WHERE i.item_type LIKE ? AND s.id = ? "
-                             "ORDER BY amount DESC", [item_type, skill.id])
+                             "ORDER BY item_type, amount DESC", ["%" if item_type == "All" else item_type, skill.id])
 
         if len(data) == 0:
             return "No items found of type <highlight>%s<end> that buff <highlight>%s<end>." % (item_type, skill.name)
         else:
+            current_item_type = ""
             blob = ""
             for row in data:
+                if current_item_type != row.item_type:
+                    blob += "\n\n<header2>%s<end>\n" % row.item_type
+                    current_item_type = row.item_type
+
                 blob += "%s (%d)\n" % (self.text.make_item(row.lowid, row.highid, row.highql, row.name), row.amount)
 
             blob += self.get_footer()
