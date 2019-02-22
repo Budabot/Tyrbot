@@ -37,6 +37,24 @@ class AunoController:
     def auno_url(self):
         return TextSettingType(options=["https://auno.org/ao/db.php"])
 
+    @command(command="auno", params=[Const("id"), Int("ql"), Int("item_id")], access_level="member",
+             description="Fetch comments for item from Auno using item id")
+    def auno_comments_with_item_id_cmd(self, _1, _2, ql, item_id):
+        auno_response = self.get_auno_response(item_id, ql)
+
+        if auno_response:
+            soup = BeautifulSoup(auno_response.data)
+            comments: List[AunoComment] = self.find_comments(soup)
+            item = self.items_controller.get_by_item_id(item_id)
+
+            if len(comments) > 0:
+                return ChatBlob("Comments for %s (%s)" % (item.name, len(comments)),
+                                self.build_comments_blob(comments, item.name, item_id, item.lowid, ql))
+            if item:
+                return "No comments found for <highlight>%s<end>" % item.name
+            else:
+                return "No item matching id <highlight>%s<end>" % item_id
+
     @command(command="auno", params=[Int("ql", is_optional=True), Any("search")], access_level="member",
              description="Fetch comments for item from Auno")
     def auno_comments_cmd(self, _, ql, search):
@@ -76,24 +94,6 @@ class AunoController:
         else:
             return "Error fetching comments from auno"
 
-    @command(command="aunoid", params=[Int("ql"), Int("item_id")], access_level="member",
-             description="Fetch comments for item from Auno using item id")
-    def auno_comments_with_item_id_cmd(self, _1, ql, item_id):
-        auno_response = self.get_auno_response(item_id, ql)
-
-        if auno_response:
-            soup = BeautifulSoup(auno_response.data)
-            comments: List[AunoComment] = self.find_comments(soup)
-            item = self.items_controller.get_by_item_id(item_id)
-
-            if len(comments) > 0:
-                return ChatBlob("Comments for %s (%s)" % (item.name, len(comments)),
-                                self.build_comments_blob(comments, item.name, item_id, item.lowid, ql))
-            if item:
-                return "No comments found for <highlight>%s<end>" % item.name
-            else:
-                return "No item matching id <highlight>%s<end>" % item_id
-
     def build_comments_blob(self, comments, name, item_id, low_id, ql):
         link_auno = self.text.make_chatcmd("Auno", "/start %s" % self.get_auno_request_url(item_id, ql))
         link_aoitems = self.text.make_chatcmd("AOItems", "/start %s" % self.get_aoitems_request_url(item_id, ql))
@@ -115,10 +115,10 @@ class AunoController:
             blob += "Results have been truncated to only show the first 10 results...\n\n"
 
         for i, item in enumerate(items):
-            comments_link = self.text.make_chatcmd("comments", "/tell <myname> aunoid %s %s" %
+            itemref = self.text.make_item(item.lowid, item.highid, ql or item.highql, item.name)
+            comments_link = self.text.make_chatcmd("comments", "/tell <myname> auno id %s %s" %
                                                    (ql or item.highql, item.highid))
-            blob += "%s. %s [%s]" % (i+1, self.text.make_item(item.lowid, item.highid, ql or item.highql, item.name),
-                                     comments_link)
+            blob += "%s. %s [%s]" % (i+1, itemref, comments_link)
             blob += "\n<pagebreak>"
 
         return blob
