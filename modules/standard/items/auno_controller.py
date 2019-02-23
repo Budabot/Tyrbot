@@ -3,8 +3,8 @@ import re
 from bs4 import BeautifulSoup
 from typing import List
 from core.decorators import instance, command, setting
-from core.setting_types import TextSettingType, NumberSettingType
-from core.command_param_types import Int, Any, Const
+from core.setting_types import NumberSettingType
+from core.command_param_types import Any
 from core.chat_blob import ChatBlob
 from core.lookup.character_service import CharacterService
 from core.tyrbot import Tyrbot
@@ -40,7 +40,7 @@ class AunoController:
     @command(command="auno", params=[Any("search")], access_level="member",
              description="Fetch comments for item from Auno")
     def auno_comments_cmd(self, _, search):
-        item = re.findall("<a href=\"itemref://(\d+)/(\d+)/\d+\">([^<]+)</a>", search)
+        item = re.findall(r"<a href=\"itemref://(\d+)/(\d+)/\d+\">([^<]+)</a>", search)
 
         if item:
             low_id, high_id, name = item[0]
@@ -147,7 +147,7 @@ class AunoController:
 
             # when those halfwits think a billion linebreaks are necessary
             # and because auno's comment output is ever so lovely...
-            comment = re.sub("(\\n(?:\\n)*(?:\s)*)", "\n", comment)
+            comment = re.sub(r"(\\n(?:\\n)*(?:\s)*)", "\n", comment)
 
             comments.append(AunoComment(author.strip(), date.strip(), comment.strip()))
         return comments
@@ -155,7 +155,7 @@ class AunoController:
     def tr_contains_comment(self, tag):
         if tag:
             if 'id' in tag.attrs:
-                p = re.compile("aoc\d+")
+                p = re.compile(r"aoc\d+")
                 return p.match(tag['id'])
 
     def get_auno_response(self, low_id, high_id):
