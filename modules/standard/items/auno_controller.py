@@ -69,12 +69,12 @@ class AunoController:
 
         if len(combined_response) > 0:
             # high id comments
-            soup = BeautifulSoup(combined_response[0].data)
+            soup = BeautifulSoup(combined_response[0].data, features="html.parser")
             comments: List[AunoComment] = self.find_comments(soup)
 
             if len(combined_response) > 1:
                 # low id comments
-                soup = BeautifulSoup(combined_response[1].data)
+                soup = BeautifulSoup(combined_response[1].data, features="html.parser")
                 comments += self.find_comments(soup)
 
             # sort the comments by date
