@@ -8,13 +8,7 @@ from core.decorators import instance, command, setting
 from core.setting_types import NumberSettingType
 from core.command_param_types import Any, Int, Item
 from core.chat_blob import ChatBlob
-from core.lookup.character_service import CharacterService
-from core.tyrbot import Tyrbot
-from core.db import DB
-from core.setting_service import SettingService
-from core.event_service import EventService
 from core.text import Text
-from core.command_service import CommandService
 from .items_controller import ItemsController
 from .auno_comment import AunoComment
 
@@ -25,13 +19,7 @@ class AunoController:
         pass
 
     def inject(self, registry):
-        self.bot: Tyrbot = registry.get_instance("bot")
-        self.db: DB = registry.get_instance("db")
-        self.setting_service: SettingService = registry.get_instance("setting_service")
-        self.event_service: EventService = registry.get_instance("event_service")
-        self.character_service: CharacterService = registry.get_instance("character_service")
         self.text: Text = registry.get_instance("text")
-        self.command_service: CommandService = registry.get_instance("command_service")
         self.items_controller: ItemsController = registry.get_instance("items_controller")
 
     @setting(name="max_multiple_results", value=10, description="Sets the default maximum number of results processed "
@@ -115,7 +103,7 @@ class AunoController:
         return blob
 
     def multiple_results_blob(self, items, search):
-        max_multiple_results = int(self.setting_service.get("max_multiple_results").get_value())
+        max_multiple_results = self.max_multiple_results().get_value()
 
         blob = "Found <highlight>%s<end> items matching <highlight>\"%s\"<end>\n" % (len(items), search)
         if len(items) > max_multiple_results:
