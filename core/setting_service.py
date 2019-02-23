@@ -35,6 +35,9 @@ class SettingService:
         if not description:
             self.logger.warning("No description specified for setting '%s'" % name)
 
+        if " " in name:
+            raise Exception("One or more spaces found in setting name '%s' for module '%s'" % (name, module))
+
         row = self.db.query_single("SELECT name, value, description FROM setting WHERE name = ?",
                                    [name])
 

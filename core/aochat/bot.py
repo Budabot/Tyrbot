@@ -30,7 +30,7 @@ class Bot:
         character = character.capitalize()
 
         # read seed packet
-        self.logger.info(("Logging in as %s" % character))
+        self.logger.info("Logging in as %s" % character)
         seed_packet = self.read_packet(10)
         seed = seed_packet.seed
 

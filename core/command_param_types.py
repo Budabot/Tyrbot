@@ -20,6 +20,8 @@ class Const(CommandParam):
         super().__init__()
         self.name = name
         self.is_optional = is_optional
+        if " " in name:
+            raise Exception("One or more spaces found in command param '%s'." % name)
 
     def get_regex(self):
         regex = r"(\s+" + self.name + ")"
@@ -44,6 +46,8 @@ class Int(CommandParam):
         super().__init__()
         self.name = name
         self.is_optional = is_optional
+        if " " in name:
+            raise Exception("One or more spaces found in command param '%s'." % name)
 
     def get_regex(self):
         regex = r"(\s+[0-9]+)"
@@ -68,6 +72,8 @@ class Decimal(CommandParam):
         super().__init__()
         self.name = name
         self.is_optional = is_optional
+        if " " in name:
+            raise Exception("One or more spaces found in command param '%s'." % name)
 
     def get_regex(self):
         regex = r"(\s+[0-9]*\.?[0-9]+)"
@@ -92,6 +98,8 @@ class Any(CommandParam):
         super().__init__()
         self.name = name
         self.is_optional = is_optional
+        if " " in name:
+            raise Exception("One or more spaces found in command param '%s'." % name)
 
     def get_regex(self):
         regex = r"(\s+.+?)"
@@ -118,6 +126,8 @@ class Regex(CommandParam):
         self.regex = regex
         self.is_optional = is_optional
         self.num_groups = num_groups
+        if " " in name:
+            raise Exception("One or more spaces found in command param '%s'." % name)
 
     def get_regex(self):
         return self.regex
@@ -140,6 +150,9 @@ class Options(CommandParam):
         super().__init__()
         self.options = options
         self.is_optional = is_optional
+        for name in options:
+            if " " in name:
+                raise Exception("One or more spaces found in command param option '%s'." % name)
 
     def get_regex(self):
         regex = r"(" + "|".join(map(lambda x: r"\s+" + re.escape(x), self.options)) + ")"
@@ -164,6 +177,8 @@ class Time(CommandParam):
         super().__init__()
         self.name = name
         self.is_optional = is_optional
+        if " " in name:
+            raise Exception("One or more spaces found in command param '%s'." % name)
 
     def get_regex(self):
         regex = r"(\s+(([0-9]+)([a-z]+))+)"
@@ -193,6 +208,8 @@ class Item(CommandParam):
         super().__init__()
         self.name = name
         self.is_optional = is_optional
+        if " " in name:
+            raise Exception("One or more spaces found in command param '%s'." % name)
 
     def get_regex(self):
         regex = r"""(\s+<a href="itemref:\/\/(\d+)\/(\d+)\/(\d+)">(.+)<\/a>)"""
@@ -249,6 +266,9 @@ class NamedParameters(CommandParam):
     def __init__(self, names):
         super().__init__()
         self.names = names
+        for name in names:
+            if " " in name:
+                raise Exception("One or more spaces found in command named param option '%s'." % name)
 
     def get_regex(self):
         regex = "((" + "|".join(map(lambda x: r"\s+--%s=.+?" % x, self.names)) + ")*)"

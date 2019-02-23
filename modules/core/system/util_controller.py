@@ -31,7 +31,7 @@ class UtilController:
 
         return "Access level for <highlight>%s<end> is <highlight>%s<end>." % (char.name, char.access_level["label"])
 
-    @command(command="macro", params=[Any("command 1|command 2|command 3 ...")], access_level="all",
+    @command(command="macro", params=[Any("command1|command2|command3...")], access_level="all",
              description="Execute multiple commands at once")
     def macro_cmd(self, request, commands):
         commands = commands.split("|")
