@@ -175,7 +175,7 @@ class AunoController:
             if auno_response_h.status == 200:
                 combined_response.append(auno_response_h)
         if auno_response_l:
-            if auno_response_l.stats == 200:
+            if auno_response_l.status == 200:
                 combined_response.append(auno_response_l)
 
         return combined_response
