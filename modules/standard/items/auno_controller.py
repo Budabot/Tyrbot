@@ -98,8 +98,9 @@ class AunoController:
         blob += "<header2>Comments<end>\n"
 
         for comment in comments:
-            blob += "<red>%s<end> [<grey>%s<end>]\n" % (comment.author, comment.date)
-            blob += "%s\n\n<pagebreak>" % comment.content
+            blob += comment.content + "\n"
+            blob += "<highlight>%s<end> [<grey>%s<end>]\n" % (comment.author, comment.date)
+            blob += "\n<pagebreak>"
 
         return blob
 
