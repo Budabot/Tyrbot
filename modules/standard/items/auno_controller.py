@@ -179,7 +179,7 @@ class AunoController:
         return "https://auno.org/ao/db.php?id=%s" % item_id
 
     def get_aoitems_request_url(self, item_id):
-        return "%s/%s/" % (self.setting_service.get("aoitems_url") or "https://aoitems.com/item", item_id)
+        return "https://aoitems.com/item/%s/" % item_id
 
     def is_int(self, s):
         try:
