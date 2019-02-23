@@ -1,5 +1,6 @@
 import urllib3
 import re
+import html
 from bs4 import BeautifulSoup
 from typing import List
 from core.decorators import instance, command, setting
@@ -141,9 +142,9 @@ class AunoController:
 
             for content in comment_content:
                 if type(content) is str:
-                    comment += content
+                    comment += html.escape(content)
                 else:
-                    comment += content.string
+                    comment += html.escape(content.string)
 
             # when those halfwits think a billion linebreaks are necessary
             # and because auno's comment output is ever so lovely...
