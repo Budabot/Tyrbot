@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from typing import List
 from core.decorators import instance, command, setting
 from core.setting_types import NumberSettingType
-from core.command_param_types import Any
+from core.command_param_types import Any, Int, Item
 from core.chat_blob import ChatBlob
 from core.lookup.character_service import CharacterService
 from core.tyrbot import Tyrbot
@@ -38,38 +38,42 @@ class AunoController:
     def max_multiple_results(self):
         return NumberSettingType()
 
-    @command(command="auno", params=[Any("search")], access_level="member",
-             description="Fetch comments for item from Auno")
-    def auno_comments_cmd(self, _, search):
-        item = re.findall(r"<a href=\"itemref://(\d+)/(\d+)/\d+\">([^<]+)</a>", search)
-
+    @command(command="auno", params=[Int("item_id")], access_level="member",
+             description="Fetch comments for item from Auno by item id")
+    def auno_comments_item_id_cmd(self, _, item_id):
+        item = self.items_controller.get_by_item_id(item_id)
         if item:
-            low_id, high_id, name = item[0]
-        elif self.is_int(search):
-            item = self.items_controller.get_by_item_id(int(search))
-            if item:
-                low_id = item.lowid
-                high_id = item.highid
-                name = item.name
-            else:
-                low_id = search
-                high_id = search
-                name = search
+            low_id = item.lowid
+            high_id = item.highid
+            name = item.name
         else:
-            items = self.items_controller.find_items(search)
-            count = len(items)
+            low_id = item_id
+            high_id = item_id
+            name = item_id
 
-            if count > 0:
-                if count > 1:
-                    link_txt = "Multiple search results for \"%s\" (%s)" % (search, count)
-                    return ChatBlob(link_txt, self.multiple_results_blob(items, search))
-                else:
-                    high_id = items[0].highid
-                    low_id = items[0].lowid
-                    name = items[0].name
+        return self.get_combined_response(low_id, high_id, name)
+
+    @command(command="auno", params=[Item("item_link")], access_level="member",
+             description="Fetch comments for item from Auno by item link")
+    def auno_comments_item_link_cmd(self, _, item):
+        return self.get_combined_response(item.low_id, item.high_id, item.name)
+
+    @command(command="auno", params=[Any("search")], access_level="member",
+             description="Fetch comments for item from Auno by search")
+    def auno_comments_cmd(self, _, search):
+        items = self.items_controller.find_items(search)
+        count = len(items)
+
+        if count > 0:
+            if count > 1:
+                link_txt = "Multiple search results for \"%s\" (%s)" % (search, count)
+                return ChatBlob(link_txt, self.multiple_results_blob(items, search))
             else:
-                return "No items found matching <highlight>%s<end>." % search
+                return self.get_combined_response(items[0].lowid, items[0].highid, items[0].name)
+        else:
+            return "No items found matching <highlight>%s<end>." % search
 
+    def get_combined_response(self, low_id, high_id, name):
         combined_response = self.get_auno_response(low_id, high_id)
 
         if len(combined_response) > 0:
@@ -186,10 +190,3 @@ class AunoController:
 
     def get_aoitems_request_url(self, item_id):
         return "https://aoitems.com/item/%s/" % item_id
-
-    def is_int(self, s):
-        try:
-            int(s)
-            return True
-        except ValueError:
-            return False
