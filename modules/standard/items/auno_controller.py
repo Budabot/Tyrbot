@@ -1,3 +1,4 @@
+import certifi
 import urllib3
 import re
 import html
@@ -152,7 +153,7 @@ class AunoController:
 
             # when those halfwits think a billion linebreaks are necessary
             # and because auno's comment output is ever so lovely...
-            comment = re.sub(r"(\\n(?:\\n)*(?:\s)*)", "\n", comment)
+            comment = re.sub(r"(\n(?:\n)*(?:\s)*)", "\n", comment)
 
             comments.append(AunoComment(author.strip(), date.strip(), comment.strip()))
         return comments
@@ -167,7 +168,7 @@ class AunoController:
         auno_request_low = self.get_auno_request_url(low_id)
         auno_request_high = self.get_auno_request_url(high_id)
 
-        auno_http = urllib3.PoolManager()
+        auno_http = urllib3.PoolManager(ca_certs=certifi.where())
         auno_response_h = auno_http.request('GET', auno_request_high)
         auno_response_l = None
 
