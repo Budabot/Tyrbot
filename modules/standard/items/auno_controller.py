@@ -3,7 +3,7 @@ import re
 from bs4 import BeautifulSoup
 from typing import List
 from core.decorators import instance, command, setting
-from core.setting_types import TextSettingType
+from core.setting_types import TextSettingType, NumberSettingType
 from core.command_param_types import Int, Any, Const
 from core.chat_blob import ChatBlob
 from core.lookup.character_service import CharacterService
@@ -37,68 +37,68 @@ class AunoController:
     def auno_url(self):
         return TextSettingType(options=["https://auno.org/ao/db.php"])
 
-    @command(command="auno", params=[Const("id"), Int("ql"), Int("item_id")], access_level="member",
-             description="Fetch comments for item from Auno using item id")
-    def auno_comments_with_item_id_cmd(self, _1, _2, ql, item_id):
-        auno_response = self.get_auno_response(item_id, ql)
+    @setting(name="max_multiple_results", value=10, description="Sets the default maximum number of results processed "
+                                                                "when a search string yields more than 1 result")
+    def max_multiple_results(self):
+        return NumberSettingType()
 
-        if auno_response:
-            soup = BeautifulSoup(auno_response.data)
-            comments: List[AunoComment] = self.find_comments(soup)
-            item = self.items_controller.get_by_item_id(item_id)
-
-            if len(comments) > 0:
-                return ChatBlob("Comments for %s (%s)" % (item.name, len(comments)),
-                                self.build_comments_blob(comments, item.name, item_id, item.lowid, ql))
-            if item:
-                return "No comments found for <highlight>%s<end>" % item.name
-            else:
-                return "No item matching id <highlight>%s<end>" % item_id
-
-    @command(command="auno", params=[Int("ql", is_optional=True), Any("search")], access_level="member",
+    @command(command="auno", params=[Any("search")], access_level="member",
              description="Fetch comments for item from Auno")
-    def auno_comments_cmd(self, _, ql, search):
-        item = re.findall("<a href=\"itemref://(\d+)/(\d+)/(\d+)\">([^<]+)</a>", search)
+    def auno_comments_cmd(self, _, search):
+        item = re.findall("<a href=\"itemref://(\d+)/(\d+)/\d+\">([^<]+)</a>", search)
 
         if item:
-            low_id, item_id, ql, name = item[0]
+            low_id, high_id, name = item[0]
+        elif self.is_int(search):
+            item = self.items_controller.get_by_item_id(int(search))
+            if item:
+                low_id = item.lowid
+                high_id = item.highid
+                name = item.name
         else:
-            items = self.items_controller.find_items(search, ql)
+            items = self.items_controller.find_items(search)
             count = len(items)
+
             if count > 0:
                 if count > 1:
-                    return ChatBlob("Multiple search results for \"%s\" (%s)" % (search, count),
-                                    self.multiple_results_blob(items[:10], search, ql, count))
+                    link_txt = "Multiple search results for \"%s\" (%s)" % (search, count)
+                    return ChatBlob(link_txt, self.multiple_results_blob(items, search))
                 else:
-                    ql = ql or items[0].highql
-                    item_id = items[0].highid
+                    high_id = items[0].highid
                     low_id = items[0].lowid
                     name = items[0].name
             else:
-                if ql:
-                    return "No QL <highlight>%s<end> items matching <highlight>%s<end>" % (ql, search)
-                else:
-                    return "No items found matching <highlight>%s<end>" % search
+                return "No items found matching <highlight>%s<end>" % search
 
-        auno_response = self.get_auno_response(item_id, ql)
+        combined_response = self.get_auno_response(low_id, high_id)
 
-        if auno_response:
-            soup = BeautifulSoup(auno_response.data)
+        if len(combined_response) > 0:
+            # high id comments
+            soup = BeautifulSoup(combined_response[0].data)
             comments: List[AunoComment] = self.find_comments(soup)
+
+            if len(combined_response) > 1:
+                # low id comments
+                soup = BeautifulSoup(combined_response[1].data)
+                comments += self.find_comments(soup)
+
+            # sort the comments by date
+            comments.sort(key=lambda comment: comment.date)
 
             if len(comments) > 0:
                 return ChatBlob("Comments for %s (%s)" % (name, len(comments)),
-                                self.build_comments_blob(comments, name, item_id, low_id, ql))
+                                self.build_comments_blob(comments, name, low_id, high_id))
             else:
                 return "No comments found for <highlight>%s<end>" % name
         else:
             return "Error fetching comments from auno"
 
-    def build_comments_blob(self, comments, name, item_id, low_id, ql):
-        link_auno = self.text.make_chatcmd("Auno", "/start %s" % self.get_auno_request_url(item_id, ql))
-        link_aoitems = self.text.make_chatcmd("AOItems", "/start %s" % self.get_aoitems_request_url(item_id, ql))
+    def build_comments_blob(self, comments, name, low_id, high_id):
+        link_auno = self.text.make_chatcmd("Auno", "/start %s" % self.get_auno_request_url(high_id))
+        link_aoitems = self.text.make_chatcmd("AOItems", "/start %s" % self.get_aoitems_request_url(high_id))
 
-        blob = "Item: %s\n" % self.text.make_item(int(low_id), int(item_id), int(ql), name)
+        ql = self.items_controller.get_by_item_id(high_id).highql
+        blob = "Item: %s\n" % self.text.make_item(int(low_id), int(high_id), int(ql), name)
         blob += "Item links: [%s] [%s]\n\n" % (link_auno, link_aoitems)
         blob += "<header2>Comments<end>\n"
 
@@ -108,23 +108,25 @@ class AunoController:
 
         return blob
 
-    def multiple_results_blob(self, items, search, ql, count):
-        with_ql = " at QL <highlight>%s" % ql
-        blob = "Found <highlight>%s<end> items matching <highlight>\"%s\"<end>%s\n" % (count, search, with_ql)
-        if count > len(items):
-            blob += "Results have been truncated to only show the first 10 results...\n\n"
+    def multiple_results_blob(self, items, search):
+        max_multiple_results = int(self.setting_service.get("max_multiple_results").get_value())
+
+        blob = "Found <highlight>%s<end> items matching <highlight>\"%s\"<end>\n" % (len(items), search)
+        if len(items) > max_multiple_results:
+            blob += "Results have been truncated to only show the first %s results...\n\n" % max_multiple_results
+            items = items[:max_multiple_results]
 
         for i, item in enumerate(items):
-            itemref = self.text.make_item(item.lowid, item.highid, ql or item.highql, item.name)
-            comments_link = self.text.make_chatcmd("comments", "/tell <myname> auno id %s %s" %
-                                                   (ql or item.highql, item.highid))
-            blob += "%s. %s [%s]" % (i+1, itemref, comments_link)
-            blob += "\n<pagebreak>"
+            itemref = self.text.make_item(item.lowid, item.highid, item.highql, item.name)
+            comments_link = self.text.make_chatcmd("Comments", "/tell <myname> auno %s" % item.highid)
+            auno_link_h = self.text.make_chatcmd("Auno", "/start %s" % self.get_auno_request_url(item.highid))
+            blob += "%s. %s\n | [%s] [%s]" % (i+1, itemref, comments_link, auno_link_h)
+            blob += "\n\n<pagebreak>"
 
         return blob
 
     def find_comments(self, soup):
-        comments = []
+        comments: List[AunoComment] = []
 
         brs = soup.find_all("br")
         for br in brs:
@@ -148,7 +150,6 @@ class AunoController:
             comment = re.sub("(\\n(?:\\n)*(?:\s)*)", "\n", comment)
 
             comments.append(AunoComment(author.strip(), date.strip(), comment.strip()))
-
         return comments
 
     def tr_contains_comment(self, tag):
@@ -157,22 +158,37 @@ class AunoController:
                 p = re.compile("aoc\d+")
                 return p.match(tag['id'])
 
-    def get_auno_response(self, item_id, ql):
-        auno_request = self.get_auno_request_url(item_id, ql)
+    def get_auno_response(self, low_id, high_id):
+        auno_request_low = self.get_auno_request_url(low_id)
+        auno_request_high = self.get_auno_request_url(high_id)
 
-        if auno_request:
-            auno_http = urllib3.PoolManager()
-            auno_response = auno_http.request('GET', auno_request)
+        auno_http = urllib3.PoolManager()
+        auno_response_h = auno_http.request('GET', auno_request_high)
+        auno_response_l = None
 
-            if auno_response:
-                if auno_response.status == 200:
-                    return auno_response
+        if low_id != high_id:
+            auno_response_l = auno_http.request('GET', auno_request_low)
 
-        return None
+        combined_response = []
 
-    def get_auno_request_url(self, item_id, ql):
-        return "%s?id=%s&ql=%s" % (self.setting_service.get("auno_url").get_value() or
-                                   "https://auno.org/ao/db.php", item_id, ql)
+        if auno_response_h:
+            if auno_response_h.status == 200:
+                combined_response.append(auno_response_h)
+        if auno_response_l:
+            if auno_response_l.stats == 200:
+                combined_response.append(auno_response_l)
 
-    def get_aoitems_request_url(self, item_id, ql):
-        return "%s/%s/%s/" % (self.setting_service.get("aoitems_url") or "https://aoitems.com/item", item_id, ql)
+        return combined_response
+
+    def get_auno_request_url(self, item_id):
+        return "%s?id=%s" % (self.setting_service.get("auno_url").get_value() or "https://auno.org/ao/db.php", item_id)
+
+    def get_aoitems_request_url(self, item_id):
+        return "%s/%s/" % (self.setting_service.get("aoitems_url") or "https://aoitems.com/item", item_id)
+
+    def is_int(self, s):
+        try:
+            int(s)
+            return True
+        except ValueError:
+            return False
