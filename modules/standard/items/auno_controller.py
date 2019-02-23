@@ -50,6 +50,10 @@ class AunoController:
                 low_id = item.lowid
                 high_id = item.highid
                 name = item.name
+            else:
+                low_id = search
+                high_id = search
+                name = search
         else:
             items = self.items_controller.find_items(search)
             count = len(items)
