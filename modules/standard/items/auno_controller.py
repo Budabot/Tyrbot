@@ -1,7 +1,6 @@
-import certifi
-import urllib3
 import re
 import html
+import requests
 from bs4 import BeautifulSoup
 from typing import List
 from core.decorators import instance, command, setting
@@ -67,12 +66,12 @@ class AunoController:
 
         if len(combined_response) > 0:
             # high id comments
-            soup = BeautifulSoup(combined_response[0].data, features="html.parser")
+            soup = BeautifulSoup(combined_response[0].text, features="html.parser")
             comments: List[AunoComment] = self.find_comments(soup)
 
             if len(combined_response) > 1:
                 # low id comments
-                soup = BeautifulSoup(combined_response[1].data, features="html.parser")
+                soup = BeautifulSoup(combined_response[1].text, features="html.parser")
                 comments += self.find_comments(soup)
 
             # sort the comments by date
@@ -156,20 +155,19 @@ class AunoController:
         auno_request_low = self.get_auno_request_url(low_id)
         auno_request_high = self.get_auno_request_url(high_id)
 
-        auno_http = urllib3.PoolManager(ca_certs=certifi.where())
-        auno_response_h = auno_http.request('GET', auno_request_high)
+        auno_response_h = requests.get(auno_request_high)
         auno_response_l = None
 
         if low_id != high_id:
-            auno_response_l = auno_http.request('GET', auno_request_low)
+            auno_response_l = requests.get(auno_request_low)
 
         combined_response = []
 
         if auno_response_h:
-            if auno_response_h.status == 200:
+            if auno_response_h.status_code == 200:
                 combined_response.append(auno_response_h)
         if auno_response_l:
-            if auno_response_l.status == 200:
+            if auno_response_l.status_code == 200:
                 combined_response.append(auno_response_l)
 
         return combined_response
