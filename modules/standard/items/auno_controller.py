@@ -67,7 +67,7 @@ class AunoController:
                     low_id = items[0].lowid
                     name = items[0].name
             else:
-                return "No items found matching <highlight>%s<end>" % search
+                return "No items found matching <highlight>%s<end>." % search
 
         combined_response = self.get_auno_response(low_id, high_id)
 
@@ -88,9 +88,9 @@ class AunoController:
                 return ChatBlob("Comments for %s (%s)" % (name, len(comments)),
                                 self.build_comments_blob(comments, name, low_id, high_id))
             else:
-                return "No comments found for <highlight>%s<end>" % name
+                return "No comments found for <highlight>%s<end>." % name
         else:
-            return "Error fetching comments from auno"
+            return "Error fetching comments from Auno.org."
 
     def build_comments_blob(self, comments, name, low_id, high_id):
         link_auno = self.text.make_chatcmd("Auno", "/start %s" % self.get_auno_request_url(high_id))
