@@ -32,11 +32,6 @@ class AunoController:
         self.command_service: CommandService = registry.get_instance("command_service")
         self.items_controller: ItemsController = registry.get_instance("items_controller")
 
-    @setting(name="auno_url", value="https://auno.org/ao/db.php",
-             description="Set the auno base url for looking up items in the auno db")
-    def auno_url(self):
-        return TextSettingType(options=["https://auno.org/ao/db.php"])
-
     @setting(name="max_multiple_results", value=10, description="Sets the default maximum number of results processed "
                                                                 "when a search string yields more than 1 result")
     def max_multiple_results(self):
@@ -181,7 +176,7 @@ class AunoController:
         return combined_response
 
     def get_auno_request_url(self, item_id):
-        return "%s?id=%s" % (self.setting_service.get("auno_url").get_value() or "https://auno.org/ao/db.php", item_id)
+        return "https://auno.org/ao/db.php?id=%s" % item_id
 
     def get_aoitems_request_url(self, item_id):
         return "%s/%s/" % (self.setting_service.get("aoitems_url") or "https://aoitems.com/item", item_id)
