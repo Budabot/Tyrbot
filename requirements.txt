@@ -5,3 +5,4 @@ hjson
 discord
 psutil
 bbcode
+beautifulsoup4
