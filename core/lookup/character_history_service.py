@@ -27,15 +27,19 @@ class CharacterHistoryService:
         else:
             url = "http://pork.budabot.jkbff.com/pork/history.php?server=%d&name=%s" % (server_num, name)
 
-            r = requests.get(url)
-            result = r.json()
+            try:
+                r = requests.get(url)
+                result = r.json()
+            except Exception as e:
+                self.logger.error("Error requesting history for url '%s'" % url, e)
+                result = None
 
             if result:
                 # store result in cache
                 self.cache_service.store(self.CACHE_GROUP, cache_key, json.dumps(result))
             else:
                 # check cache for any value, even expired
-                result = self.cache_service.retrieve(self.CACHE_GROUP, cache_key)
+                result = json.loads(self.cache_service.retrieve(self.CACHE_GROUP, cache_key))
 
         if result:
             return map(lambda x: DictObject(x), result)
