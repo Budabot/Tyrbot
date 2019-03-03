@@ -27,17 +27,21 @@ The Discord module enables relaying between AO and one or more Discord servers.
 2. Click the blue "New Application" button in top-right corner
 3. Name your application something (this can be changed)
 4. Click your newly created application, if it hasn't opened up the overview of it already. You can rename the application here (this is not the bot, however, so it's just for you to keep track of). You can change the application picture (again, this is not for the bot that will show up in Discord's online listings)
-5. Navigate to the "Bot" section of your application
-6. Convert your application to a "bot user". Discord will warn you that this is not reversable, which is fine
-7. The Bot overview will now show you the actual bot user, that will also show up on the Discord's online listings. You can rename the bot (this is the name that will show in the online list). You can add a profile picture, and this will be seen on Discord as well in the online list
-8. Clicking the "Click to Reveal Token" will reveal some gibberish - **this is your _secret_ bot token, and you should never share it with anyone**. If you ever suspect anyone to have picked up your bot's _secret_ token, you can navigate to this site again, and click the "Regenerate"-button to invalidate the old token and create a new. **Remember this token**, as we'll need it for later when setting up the Discord module's settings
-9. Leave everything as default unless you know what you're doing (It is possible to generate a permissions integer on this page as well, but it is not necessary - we'll instead setup a specific role for the bot on our Discord server)
-10. Open up your Discord app, or use the browser, and make sure you've selected your Discord server
-11. Click the server's name, in the channel's listings
-12. Click "Server Settings"
-13. Navigate to "Roles"
-14. Click the tiny "+"-sign with a circle around it
-15. Name your new role (e.g. "Relay"), and setup its permissions, with the following settings enabled as a minimum: `Read Text Channels & See Voice Channals`,  `Send messages`
+5. Note the **Client ID** on the page "General Information" page, and do not forget it - we'll need it later!
+6. Navigate to the "Bot" section of your application
+7. Convert your application to a "bot user". Discord will warn you that this is not reversable, which is fine
+8. The Bot overview will now show you the actual bot user, that will also show up on the Discord's online listings. You can rename the bot (this is the name that will show in the online list). You can add a profile picture, and this will be seen on Discord as well in the online list
+9. Clicking the "Click to Reveal Token" will reveal some gibberish - **this is your _secret_ bot token, and you should never share it with anyone**. If you ever suspect anyone to have picked up your bot's _secret_ token, you can navigate to this site again, and click the "Regenerate"-button to invalidate the old token and create a new. **Remember this token**, as we'll need it for later when setting up the Discord module's settings
+10. Leave everything as default unless you know what you're doing - you can specify certain permissions you want to give to your bot, by adding a mark in the "Bot Permissions" list. If you choose to make your own, do so now **and remember the number it generates**, we'll need it later
+11. Open up your Discord app, or use the browser, and make sure you've selected your Discord server
+12. Click the server's name, in the channel's listings
+13. Click "Server Settings"
+14. Navigate to "Roles"
+15. Click the tiny "+"-sign with a circle around it
+16. Name your new role (e.g. "Relay"), and setup its permissions, with the following settings enabled as a minimum: `Read Text Channels & See Voice Channals`,  `Send messages`
+17. Now we need to invite our new bot to our server - this can only be done by the Discord server owner. We need the bot's **Client ID** and the **permissions number** - if you _did not_ create your own, you need to use **68608** as the permissions number. Navigate to the following site: `https://discordapp.com/oauth2/authorize?client_id=BOT_CLIENT_ID&scope=bot&permissions=PERMISSIONS_NUMBER`, _remember to replace **BOT_CLIENT_ID** and **PERMISSIONS_NUMBER** in the URL with the client ID and the permissions number you have **before you open up the URL in a browser**._
+18. Pick your server from the list on the site, and make sure everything checks out regarding permissions (minimum should be `View Channels`, `Send Messages` and `Read Message History`, which is the permission number equal to 68608 mentioned earlier)
+19. Click "Authorize", and wait a few moments, and you should be able to see your new bot join your server (it'll be listed as offline in the server's online listing - and will stay offline 'till we startup Tyrbot)
 
 ### Setup Tyrbot's Discord Module
 1. Ingame, write `/tell <botname> config mod standard.discord`
