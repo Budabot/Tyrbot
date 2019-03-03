@@ -30,7 +30,7 @@ The Discord module enables relaying between AO and one or more Discord servers.
 5. Navigate to the "Bot" section of your application
 6. Convert your application to a "bot user". Discord will warn you that this is not reversable, which is fine
 7. The Bot overview will now show you the actual bot user, that will also show up on the Discord's online listings. You can rename the bot (this is the name that will show in the online list). You can add a profile picture, and this will be seen on Discord as well in the online list
-8. Clicking the "Click to Reveal Token" will reveal some gibberish - **this is your _secret_ bot token, and you should never share it with anyone**. If you ever suspect anyone to have picked up your bot's _secret_ token, you can navigate to this site again, and click the "Regenerate"-button to invalidate the old token and create a new. **Remember this token**, as we'll need to for later when setting up the Discord module's settings
+8. Clicking the "Click to Reveal Token" will reveal some gibberish - **this is your _secret_ bot token, and you should never share it with anyone**. If you ever suspect anyone to have picked up your bot's _secret_ token, you can navigate to this site again, and click the "Regenerate"-button to invalidate the old token and create a new. **Remember this token**, as we'll need it for later when setting up the Discord module's settings
 9. Leave everything as default unless you know what you're doing (It is possible to generate a permissions integer on this page as well, but it is not necessary - we'll instead setup a specific role for the bot on our Discord server)
 10. Open up your Discord app, or use the browser, and make sure you've selected your Discord server
 11. Click the server's name, in the channel's listings
@@ -69,6 +69,7 @@ There are three ways the messages relayed from AO to Discord can be formatted:
 - "plain", plain text, unformatted
 - "color", using "Apache" markup, colored, single lines
 - "embed", using embedded messages, each message is boxed
+
 This can be chosen in the config for the Discord module (ingame), via 
 `Format of message relayed to Discord: <setting chosen> (change)`.
 
@@ -80,13 +81,13 @@ The remaining settings are coloring for messages ingame, and should be straight 
 In general, disabling any event might have consequences that'll leave the module not working as intended.
 
 ### Setup relaying to/from AO and the connected Discord bot
-After successfully having the bot connect, and it's a member of a certain server, you can write **/tell <botname> discord** ingame, and it'll give you an overview of the current situation.
+After successfully having the bot connect, and it's a member of a certain server, you can write `/tell <botname> discord` ingame, and it'll give you an overview of the current situation.
 
 Relaying won't start before you've actually enabled the relaying to a specific channel. Remember, the bot **must be allowed to access the text channel in question** to be able to read/write to it. This means, that if you have a text channel which is only visible to certain roles on your Discord server, you must make the bot's role a part of this list as well, otherwise it won't be able to relay to/from the channel in question.
 
 To bring up the relay setup, you simply write `/tell <botname> discord relay`, and a list of channels visible to your bot will be available.
 All the available channels will be listed, and have 2 settings available:
-- "Relay from AO", means that text written ingame in either the org- or private channel will be relayed to this text channel on Discord
+- "Relay from AO", means that text written ingame in either the org- or private channel will be relayed to the text channel on Discord
 - "Relay from Discord", means that text written in this text channel on Discord, will be relayed to the private- and org channel in AO
 
 ### The module is still in "beta" mode
