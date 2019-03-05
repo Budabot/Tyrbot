@@ -174,7 +174,7 @@ class AOUController:
         return "-image-"
 
     def bbcode_render_url(self, tag_name, value, options, parent, context):
-        url = options["url"]
+        url = options.get("url") or value
         guide_id_match = self.guide_id_regex.search(url)
         if guide_id_match:
             return self.text.make_chatcmd(value, "/tell <myname> aou " + guide_id_match.group(1))
