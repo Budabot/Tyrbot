@@ -94,15 +94,16 @@ class Decimal(CommandParam):
 
 
 class Any(CommandParam):
-    def __init__(self, name, is_optional=False):
+    def __init__(self, name, is_optional=False, allowed_chars="."):
         super().__init__()
         self.name = name
         self.is_optional = is_optional
+        self.allowed_chars = allowed_chars
         if " " in name:
             raise Exception("One or more spaces found in command param '%s'." % name)
 
     def get_regex(self):
-        regex = r"(\s+.+?)"
+        regex = r"(\s+%s+?)" % self.allowed_chars
         return regex + ("?" if self.is_optional else "")
 
     def get_name(self):
