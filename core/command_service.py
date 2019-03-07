@@ -245,7 +245,7 @@ class CommandService:
             processed.append(param.process_matches(groups))
         return processed
 
-    def get_help_text(self, char, command_str, channel):
+    def get_help_text(self, char, command_str, channel, show_regex=False):
         data = self.db.query("SELECT command, sub_command, access_level FROM command_config "
                              "WHERE command = ? AND channel = ? AND enabled = 1",
                              [command_str, channel])
@@ -253,9 +253,15 @@ class CommandService:
         # filter out commands that character does not have access level for
         data = filter(lambda row: self.access_service.check_access(char, row.access_level), data)
 
+        def get_regex(params):
+            if show_regex:
+                return "\n" + self.get_regex_from_params(params)
+            else:
+                return ""
+
         def read_help_text(row):
             command_key = self.get_command_key(row.command, row.sub_command)
-            return filter(lambda x: x is not None, map(lambda handler: handler["help"], self.handlers[command_key]))
+            return filter(lambda x: x is not None, map(lambda handler: handler["help"] + get_regex(handler["params"]), self.handlers[command_key]))
 
         content = "\n\n".join(flatmap(read_help_text, data))
         return content if content else None

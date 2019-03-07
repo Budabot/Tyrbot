@@ -2,7 +2,7 @@ import os
 
 from core.decorators import instance, command
 from core.chat_blob import ChatBlob
-from core.command_param_types import Any
+from core.command_param_types import Any, NamedParameters
 
 
 @instance()
@@ -56,9 +56,9 @@ class HelpController:
 
         return ChatBlob("Help (main)", blob)
 
-    @command(command="help", params=[Any("command")], access_level="all",
+    @command(command="help", params=[Any("command"), NamedParameters(["show_regex"])], access_level="all",
              description="Show help for a specific command")
-    def help_detail_cmd(self, request, help_topic):
+    def help_detail_cmd(self, request, help_topic, named_params):
         help_topic = help_topic.lower()
 
         # check for alias
@@ -66,7 +66,9 @@ class HelpController:
         if alias:
             help_topic = alias
 
-        help_text = self.command_service.get_help_text(request.sender.char_id, help_topic, request.channel)
+        show_regex = named_params.show_regex and named_params.show_regex.lower() == "true"
+
+        help_text = self.command_service.get_help_text(request.sender.char_id, help_topic, request.channel, show_regex)
         if help_text:
             return self.command_service.format_help_text(help_topic, help_text)
         else:
