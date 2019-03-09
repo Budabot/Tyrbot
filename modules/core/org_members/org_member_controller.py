@@ -67,10 +67,13 @@ class OrgMemberController:
             return "Could not find character <highlight>%s<end>." % char.name
 
         org_member = self.get_org_member(char.char_id)
-        if org_member and (org_member.mode == self.MODE_ADD_AUTO or org_member.mode == self.MODE_ADD_MANUAL):
-            return "<highlight>%s<end> is already on the notify list." % char.name
-
-        self.update_org_member(char.char_id, self.MODE_ADD_MANUAL)
+        if org_member:
+            if org_member.mode == self.MODE_ADD_AUTO or org_member.mode == self.MODE_ADD_MANUAL:
+                return "<highlight>%s<end> is already on the notify list." % char.name
+            else:
+                self.update_org_member(char.char_id, self.MODE_ADD_MANUAL)
+        else:
+            self.add_org_member(char.char_id, self.MODE_ADD_MANUAL)
 
         # fire org_member logon event
         self.event_service.fire_event(self.ORG_MEMBER_LOGON_EVENT, self.get_org_member(char.char_id))
