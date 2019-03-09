@@ -45,8 +45,12 @@ class Text:
         if char_info.org_name and char_info.org_rank_name:
             return "<highlight>%s<end> (%d/<green>%d<end>) %s %s, %s of %s" % \
                    (char_info.name, char_info.level, char_info.ai_level, char_info.faction, char_info.profession, char_info.org_rank_name, char_info.org_name)
-        else:
+        elif char_info.level:
             return "<highlight>%s<end> (%d/<green>%d<end>) %s %s" % (char_info.name, char_info.level, char_info.ai_level, char_info.faction, char_info.profession)
+        elif char_info.name:
+            return "<highlight>%s<end>" % char_info.name
+        else:
+            return "<highlight>CharId(%d)<end>" % char_info.char_id
 
     def paginate(self, chatblob, max_page_length, max_num_pages=None, footer=None):
         label = chatblob.title

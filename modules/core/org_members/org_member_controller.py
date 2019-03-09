@@ -80,6 +80,16 @@ class OrgMemberController:
 
         return "<highlight>%s<end> has been added to the notify list." % char.name
 
+    @command(command="orgmembers", params=[], access_level="admin",
+             description="Show the list of org members")
+    def org_members_cmd(self, request):
+        data = self.db.query("SELECT p.*, o.char_id, o.mode FROM org_member o LEFT JOIN player p ON o.char_id = p.char_id")
+        blob = ""
+        for row in data:
+            blob += self.text.format_char_info(row) + " " + row.mode + "\n"
+
+        return ChatBlob("Org Members (%d)" % len(data), blob)
+
     @event(event_type="connect", description="Add members as buddies of the bot on startup")
     def handle_connect_event(self, event_type, event_data):
         for row in self.get_all_org_members():
