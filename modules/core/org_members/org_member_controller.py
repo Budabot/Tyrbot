@@ -1,4 +1,5 @@
 from core.aochat.server_packets import BuddyAdded
+from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Character
 from core.decorators import instance, event, timerevent, command
 from core.logger import Logger
@@ -27,6 +28,7 @@ class OrgMemberController:
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
         self.db = registry.get_instance("db")
+        self.text = registry.get_instance("text")
         self.buddy_service = registry.get_instance("buddy_service")
         self.public_channel_service = registry.get_instance("public_channel_service")
         self.access_service = registry.get_instance("access_service")
@@ -53,10 +55,10 @@ class OrgMemberController:
         if not org_member or org_member.mode == self.MODE_REM_MANUAL:
             return "<highlight>%s<end> is not on the notify list." % char.name
 
-        self.update_org_member(char.char_id, self.MODE_REM_MANUAL)
+        self.process_update(char.char_id, org_member.mode if org_member else None, self.MODE_REM_MANUAL)
 
         # fire org_member logoff event
-        self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, self.get_org_member(char.char_id))
+        self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, org_member)
 
         return "<highlight>%s<end> has been removed from the notify list." % char.name
 
@@ -67,23 +69,21 @@ class OrgMemberController:
             return "Could not find character <highlight>%s<end>." % char.name
 
         org_member = self.get_org_member(char.char_id)
-        if org_member:
-            if org_member.mode == self.MODE_ADD_AUTO or org_member.mode == self.MODE_ADD_MANUAL:
-                return "<highlight>%s<end> is already on the notify list." % char.name
-            else:
-                self.update_org_member(char.char_id, self.MODE_ADD_MANUAL)
-        else:
-            self.add_org_member(char.char_id, self.MODE_ADD_MANUAL)
+        if org_member and (org_member.mode == self.MODE_ADD_AUTO or org_member.mode == self.MODE_ADD_MANUAL):
+            return "<highlight>%s<end> is already on the notify list." % char.name
+
+        self.process_update(char.char_id, org_member.mode if org_member else None, self.MODE_ADD_MANUAL)
 
         # fire org_member logon event
-        self.event_service.fire_event(self.ORG_MEMBER_LOGON_EVENT, self.get_org_member(char.char_id))
+        if self.buddy_service.is_online(char.char_id):
+            self.event_service.fire_event(self.ORG_MEMBER_LOGON_EVENT, self.get_org_member(char.char_id))
 
         return "<highlight>%s<end> has been added to the notify list." % char.name
 
     @event(event_type="connect", description="Add members as buddies of the bot on startup")
     def handle_connect_event(self, event_type, event_data):
         for row in self.get_all_org_members():
-            self.buddy_service.add_buddy(row.char_id, self.ORG_BUDDY_TYPE)
+            self.update_buddylist(row.char_id, row.mode)
 
     @event(event_type=ORG_MEMBER_LOGON_EVENT, description="Record last seen info")
     def handle_org_member_logon_event(self, event_type, event_data):
@@ -148,12 +148,15 @@ class OrgMemberController:
         return self.db.query("SELECT char_id, mode FROM org_member")
 
     def add_org_member(self, char_id, mode):
+        self.update_buddylist(char_id, self.MODE_ADD_MANUAL)
         return self.db.exec("INSERT INTO org_member (char_id, mode, last_seen) VALUES (?, ?, ?)", [char_id, mode, 0])
 
     def remove_org_member(self, char_id):
+        self.update_buddylist(char_id, self.MODE_REM_MANUAL)
         return self.db.exec("DELETE FROM org_member WHERE char_id = ?", [char_id])
 
     def update_org_member(self, char_id, mode):
+        self.update_buddylist(char_id, mode)
         return self.db.exec("UPDATE org_member SET mode = ? WHERE char_id = ?", [mode, char_id])
 
     def check_org_member(self, char_id):
@@ -161,6 +164,12 @@ class OrgMemberController:
 
     def update_last_seen(self, char_id):
         return self.db.exec("UPDATE org_member SET last_seen = ? WHERE char_id = ?", [int(time.time()), char_id])
+
+    def update_buddylist(self, char_id, mode):
+        if mode in [self.MODE_ADD_MANUAL, self.MODE_ADD_AUTO]:
+            self.buddy_service.add_buddy(char_id, self.ORG_BUDDY_TYPE)
+        else:
+            self.buddy_service.remove_buddy(char_id, self.ORG_BUDDY_TYPE)
 
     def process_update(self, char_id, old_mode, new_mode):
         if not old_mode:
