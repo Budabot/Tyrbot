@@ -23,6 +23,7 @@ class CharacterHistoryService:
         # check cache for fresh value
         cache_result = self.cache_service.retrieve(self.CACHE_GROUP, cache_key, self.CACHE_MAX_AGE)
         if cache_result:
+            # TODO set cache age
             result = json.loads(cache_result)
         else:
             url = "http://pork.budabot.jkbff.com/pork/history.php?server=%d&name=%s" % (server_num, name)
@@ -39,6 +40,7 @@ class CharacterHistoryService:
                 self.cache_service.store(self.CACHE_GROUP, cache_key, json.dumps(result))
             else:
                 # check cache for any value, even expired
+                # TODO set cache age
                 result = json.loads(self.cache_service.retrieve(self.CACHE_GROUP, cache_key))
 
         if result:

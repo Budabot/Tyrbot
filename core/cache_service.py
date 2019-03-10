@@ -29,6 +29,7 @@ class CacheService:
             with open(full_path, "r") as f:
                 last_modified = int(os.path.getmtime(full_path))
                 if not max_age or int(time.time()) < last_modified + max_age:
+                    # TODO return obj with last_modified, ex: DictObj({"data": f.read(), "last_modified": last_modified})
                     return f.read()
                 else:
                     return None

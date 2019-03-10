@@ -164,16 +164,19 @@ class OnlineController:
         blob = ""
         count = 0
 
-        online_list = self.get_online_characters("Private")
+        for channel in [self.ORG_CHANNEL, self.PRIVATE_CHANNEL]:
+            online_list = self.get_online_characters(channel)
 
-        current_main = ""
-        for row in online_list:
-            if current_main != row.main:
-                count += 1
-                blob += "\n[%s]\n" % row.main
-                current_main = row.main
+            if len(online_list) > 0:
+                blob += "\n[%s]\n" % channel
+                current_main = ""
+                for row in online_list:
+                    if current_main != row.main:
+                        count += 1
+                        #blob += "\n[%s]\n" % row.main
+                        current_main = row.main
 
-            blob += " | %s (%d/%d) %s %s\n" % (row.name, row.level or 0, row.ai_level or 0, row.faction, row.profession)
+                    blob += " | %s (%d/%d) %s %s\n" % (row.name, row.level or 0, row.ai_level or 0, row.faction, row.profession)
 
         reply(blob)
 

@@ -350,10 +350,10 @@ class DiscordController:
         content = "<grey>[<end>%sDiscord<end><grey>][<end>%s%s<end><grey>]<end> %s%s<end><grey>:<end> %s%s<end>" % (chanclr, chanclr, message.channel.name, nameclr, name, mesgclr, message.content)
 
         if self.setting_service.get("relay_to_private").get_value():
-            self.bot.send_private_channel_message(content)
+            self.bot.send_private_channel_message(content, fire_outgoing_event=False)
 
         if self.setting_service.get("relay_to_org").get_value():
-            self.bot.send_org_message(content)
+            self.bot.send_org_message(content, fire_outgoing_event=False)
 
     @event(event_type="discord_invites", description="Handles invite requests")
     def handle_discord_invite_event(self, event_type, event_data):
