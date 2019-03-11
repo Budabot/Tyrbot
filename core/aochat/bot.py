@@ -1,7 +1,7 @@
 import socket
 import struct
 import select
-from core.aochat.server_packets import ServerPacket, LoginOK
+from core.aochat.server_packets import ServerPacket, LoginOK, LoginError
 from core.aochat.client_packets import LoginRequest, LoginSelect, Ping
 from core.logger import Logger
 from core.aochat.crypt import generate_login_key
@@ -41,6 +41,9 @@ class Bot:
 
         # read character list
         character_list_packet = self.read_packet()
+        if isinstance(character_list_packet, LoginError):
+            self.logger.error("Error logging in: %s" % character_list_packet.message)
+            return False
         index = character_list_packet.names.index(character)
 
         # select character
