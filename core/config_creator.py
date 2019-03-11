@@ -10,12 +10,13 @@ def create_new_cfg(config_file, config_template_file):
               "superadmin": validate_input("Enter the name of the character you wish to be super-admin"),
               "database": {
                   "type": validate_input("Database type (sqlite or mysql)", "sqlite"),
-                  "username": validate_input("Database username", ""),
-                  "password": validate_input("Database password", ""),
-                  "host": validate_input("Database host", "localhost"),
-                  "name": validate_input("Database name", "database.db")
+                  "username": validate_input("Database username (leave default for SQLite)", ""),
+                  "password": validate_input("Database password (leave default for SQLite)", ""),
+                  "host": validate_input("Database host (leave default for SQLite)", "localhost"),
+                  "name": validate_input("Database name (leave default for SQLite)", "database.db")
               },
               "server": {
+                  "dimension": validate_input("Server Dimension (Enter '4' for Test, '5' for Live, '6' for RK2019)", "5", formatter=int),
                   "host": validate_input("Server Host", "chat.d1.funcom.com"),
                   "port": validate_input("Server Port", 7105, formatter=int)
               }}
@@ -41,4 +42,4 @@ def validate_input(prompt, default=None, formatter=str):
         elif default is not None:
             return default
         else:
-            print("Invalid input, try again!")
+            print("Invalid input!")

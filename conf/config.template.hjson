@@ -14,6 +14,7 @@
 
   # do not modify below this line unless you know what you are doing
   server: {
+    dimension: 5
     host: "chat.d1.funcom.com"
     port: 7105
   }

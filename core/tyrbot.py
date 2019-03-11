@@ -52,7 +52,7 @@ class Tyrbot(Bot):
     def init(self, config, registry, paths, mmdb_parser):
         self.mmdb_parser = mmdb_parser
         self.superadmin = config.superadmin.capitalize()
-        self.dimension = 5
+        self.dimension = config.server.dimension
 
         self.db.exec("UPDATE db_version SET verified = 0")
         self.db.exec("UPDATE db_version SET verified = 1 WHERE file = 'db_version'")
