@@ -102,3 +102,11 @@ if version == 6:
     if table_exists("command_alias"):
         db.exec("DELETE FROM command_alias WHERE command = 'loud'")
     version = update_version(version)
+
+if version == 7:
+    if table_exists("player"):
+        db.exec("ALTER TABLE player RENAME TO player_old")
+        db.exec("CREATE TABLE player ( char_id BIGINT PRIMARY KEY, first_name VARCHAR(30) NOT NULL, name VARCHAR(20) NOT NULL, last_name VARCHAR(30) NOT NULL, level SMALLINT NOT NULL, breed VARCHAR(20) NOT NULL, gender VARCHAR(20) NOT NULL, faction VARCHAR(20) NOT NULL, profession VARCHAR(20) NOT NULL, profession_title VARCHAR(50) NOT NULL, ai_rank VARCHAR(20) NOT NULL, ai_level SMALLINT, org_id INT DEFAULT NULL, org_name VARCHAR(255) NOT NULL, org_rank_name VARCHAR(20) NOT NULL, org_rank_id SMALLINT NOT NULL, dimension SMALLINT NOT NULL, head_id INT NOT NULL, pvp_rating SMALLINT NOT NULL, pvp_title VARCHAR(20) NOT NULL, source VARCHAR(50) NOT NULL, last_updated INT NOT NULL )")
+        db.exec("INSERT INTO player (char_id, first_name, name, last_name, level, breed, gender, faction, profession, profession_title, ai_rank, ai_level, org_id, org_name, org_rank_name, org_rank_id, dimension, head_id, pvp_rating, pvp_title, source, last_updated) SELECT char_id, first_name, name, last_name, level, breed, gender, faction, profession, profession_title, ai_rank, ai_level, org_id, org_name, org_rank_name, org_rank_id, dimension, head_id, pvp_rating, pvp_title, source, last_updated FROM player_old")
+        db.exec("DROP TABLE player_old")
+    version = update_version(version)
