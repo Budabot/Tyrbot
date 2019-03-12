@@ -11,29 +11,32 @@ class BudabotDB(DB):
         sql = sql.replace("<myname>", self.bot_name)
         return super().format_sql(sql, params)
 
+# IMPORTANT: specify a bot name before running this script		
+bot_name = ""
 
-# IMPORTANT: specify a bot name before running this script
-old_db = BudabotDB(bot_name="")
-# connect old_db using sqlite or mysql (uncomment ONE)
+old_db = BudabotDB(bot_name)
+# IMPORTANT: connect old_db (budabot) using sqlite or mysql (uncomment ONE)
 #old_db.connect_sqlite("./data/budabot.db")
-#old_db.connect_mysql(host="", username="", password="", database_name="")
+#old_db.connect_mysql(host="localhost", username="", password="", database_name="")
 
 new_db = DB()
-# connect old_db using sqlite or mysql (uncomment ONE)
+# IMPORTANT: connect new_db (tyrbot) using sqlite or mysql (uncomment ONE)
 #new_db.connect_sqlite("./data/database.db")
-#new_db.connect_mysql(host="", username="", password="", database_name="")
+#new_db.connect_mysql(host="localhost", username="", password="", database_name="")
 
 if not old_db.bot_name:
-    print("Error! Please specify bot name")
+    print("Error! Specify bot name")
     exit(1)
 
 if not old_db.get_type():
-    print("Error! Please specify connection method for old_db")
+    print("Error! Specify connection method for old_db")
     exit(1)
 
 if not new_db.get_type():
-    print("Error! Please specify connection method for new_db")
+    print("Error! Specify connection method for new_db")
     exit(1)
+	
+# TODO check python version
 
 # admin
 print("migrating data to admin table")
@@ -125,7 +128,7 @@ print("migrated %d records" % len(data))
 
 # org_members_<myname>
 print("migrating data to org_member table")
-data = old_db.query("SELECT p.charid AS char_id, CASE WHEN mode = 'org' THEN 'add_auto' WHEN mode = 'add' THEN 'add_manual' WHEN mode = 'del' THEN 'rem_manual' END AS mode, logged_off AS last_seen FROM org_members_<myname> o JOIN players P ON o.name = p.name WHERE p.charid > 0")
+data = old_db.query("SELECT p.charid AS char_id, CASE WHEN mode = 'org' THEN 'add_auto' WHEN mode = 'add' THEN 'add_manual' WHEN mode = 'del' THEN 'rem_manual' END AS mode, logged_off AS last_seen FROM org_members_<myname> o JOIN players p ON o.name = p.name WHERE p.charid > 0")
 with new_db.transaction():
     for row in data:
         new_db.exec("DELETE FROM org_member WHERE char_id = ?", [row.char_id])
