@@ -70,6 +70,10 @@ class UtilController:
         blob += "Superadmin: <highlight>%s<end>\n" % self.bot.superadmin
         blob += "Buddy List: <highlight>%d / %d<end>\n" % (len(self.buddy_service.buddy_list), self.buddy_service.buddy_list_size)
         blob += "Uptime: <highlight>%s<end>\n" % self.util.time_to_readable(int(time.time()) - self.bot.start_time, max_levels=None)
+        blob += "Dimension: <highlight>%s<end>\n" % self.bot.dimension
+        blob += "\n"
+        blob += "Org Id: <highlight>%s<end>\n" % self.public_channel_service.org_id
+        blob += "Org Name: <highlight>%s<end>\n" % self.public_channel_service.org_name
 
         blob += "\n<pagebreak><header2>Public Channels<end>\n"
         for channel_id, name in self.public_channel_service.get_all_public_channels().items():
