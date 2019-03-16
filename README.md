@@ -9,6 +9,8 @@ In its current state, this project is not meant to be used, other than during de
 
 To install dependencies: `pip install -U -r requirements.txt`.
 
+If you have multiple versions of Python on your path, you may need to use `pip3`. 
+
 ## Start
 To start the bot, run either `start.bat` or `start.sh`.
 
