@@ -1,5 +1,5 @@
 from core.chat_blob import ChatBlob
-from core.decorators import instance, event, timerevent, setting
+from core.decorators import instance, event, setting
 from core.logger import Logger
 from core.private_channel_service import PrivateChannelService
 from core.public_channel_service import PublicChannelService
@@ -117,3 +117,5 @@ class OrgChannelController:
                 main = "Alts of %s (%d)" % (alts[0].name, cnt)
 
             name += " - " + self.text.paginate(ChatBlob(main, self.alts_controller.format_alt_list(alts)), 10000, max_num_pages=1)[0]
+
+        return name
