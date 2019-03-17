@@ -1,4 +1,4 @@
-from core.command_param_types import Const, Any, Character
+from core.command_param_types import Const, Character
 from core.db import DB
 from core.decorators import instance, command, timerevent, event
 from core.text import Text
@@ -10,7 +10,7 @@ import time
 
 @instance()
 class LeaderController:
-    NOT_LEADER_MSG = "Error! You must be leader, or have higher access level than the leader to use this command."
+    NOT_LEADER_MSG = "Error! You must be raid leader, or have higher access level than the raid leader to use this command."
 
     def __init__(self):
         self.leader = None
@@ -24,42 +24,57 @@ class LeaderController:
         self.bot: Tyrbot = registry.get_instance("bot")
 
     @command(command="leader", params=[], access_level="all",
-             description="Show the current raidleader")
+             description="Show the current raid leader")
     def leader_show_command(self, request):
         if self.leader:
-            return "The current raidleader is <highlight>%s<end>." % self.leader.name
+            return "The current raid leader is <highlight>%s<end>." % self.leader.name
         else:
-            return "There is no current raidleader."
+            return "There is no current raid leader. Use <highlight><symbol>leader set<end> to become the raid leader."
+
+    @command(command="leader", params=[Const("clear")], access_level="all",
+             description="Clear the current raid leader")
+    def leader_clear_command(self, request, _):
+        if not self.leader:
+            return "There is no current raid leader."
+        elif self.leader.char_id == request.sender.char_id:
+            self.leader = None
+            return "You have been removed as raid leader."
+        elif self.access_service.has_sufficient_access_level(request.sender.char_id, self.leader.char_id):
+            old_leader = self.leader
+            self.leader = None
+            return "You have removed <highlight>%s<end> as raid leader." % old_leader.name
+        else:
+            return "You do not have a high enough access level to remove raid leader from <highlight>%s<end>." % self.leader.name
 
     @command(command="leader", params=[Const("set")], access_level="all",
-             description="Set (or unset) yourself as raidleader")
+             description="Set (or unset) yourself as raid leader")
     def leader_set_self_command(self, request, _):
         if not self.leader:
             self.leader = request.sender
-            return "You have been set as raidleader."
+            return "You have been set as raid leader."
         elif self.leader.char_id == request.sender.char_id:
             self.leader = None
-            return "You have been removed as raidleader."
+            return "You have been removed as raid leader."
         elif self.access_service.has_sufficient_access_level(request.sender.char_id, self.leader.char_id):
             old_leader = self.leader
             self.leader = request.sender
-            return "You have taken leader from <highlight>%s<end>." % old_leader.name
+            return "You have taken raid leader from <highlight>%s<end>." % old_leader.name
         else:
-            return "You do not have a high enough access level to take raidleader from <highlight>%s<end>." % self.leader.name
+            return "You do not have a high enough access level to take raid leader from <highlight>%s<end>." % self.leader.name
 
     @command(command="leader", params=[Const("set", is_optional=True), Character("character")], access_level="all",
-             description="Set another character as raidleader")
+             description="Set another character as raid leader")
     def leader_set_other_command(self, request, _, char):
         if not char.char_id:
             return "Could not find <highlight>%s<end>." % char.name
 
         if not self.leader or self.access_service.has_sufficient_access_level(request.sender.char_id, self.leader.char_id):
             self.leader = char
-            return "<highlight>%s<end> has been set as raidleader." % char.name
+            return "<highlight>%s<end> has been set as raid leader." % char.name
         else:
-            return "You do not have a high enough access level to take raidleader from <highlight>%s<end>." % self.leader.name
+            return "You do not have a high enough access level to take raid leader from <highlight>%s<end>." % self.leader.name
 
-    @timerevent(budatime="1h", description="Remove leader if leader hasn't been active for more than 1 hour")
+    @timerevent(budatime="1h", description="Remove raid leader if raid leader hasn't been active for more than 1 hour")
     def leader_auto_remove(self, event_type, event_data):
         if self.last_activity:
             if self.last_activity - int(time.time()) > 3600:
@@ -69,19 +84,19 @@ class LeaderController:
                 self.bot.send_private_channel_message("Leader has been automatically cleared because of inactivity.")
                 self.bot.send_org_message("Leader has been automatically cleared because of inactivity.")
 
-    @event(PrivateChannelService.LEFT_PRIVATE_CHANNEL_EVENT, "Remove leader if leader leaves private channel")
+    @event(PrivateChannelService.LEFT_PRIVATE_CHANNEL_EVENT, "Remove raid leader if raid leader leaves private channel")
     def leader_remove_on_leave_private(self, event_type, event_data):
         if self.leader and self.leader.char_id == event_data.char_id:
             self.leader = None
             self.last_activity = None
-            self.bot.send_private_channel_message("%s left private channel, and has been cleared as leader." % self.character_service.resolve_char_to_name(event_data.char_id))
+            self.bot.send_private_channel_message("%s left private channel, and has been cleared as raid leader." % self.character_service.resolve_char_to_name(event_data.char_id))
 
-    @event(OrgMemberController.ORG_MEMBER_LOGOFF_EVENT, "Remove leader if leader logs off")
+    @event(OrgMemberController.ORG_MEMBER_LOGOFF_EVENT, "Remove raid leader if raid leader logs off")
     def leader_remove_on_logoff(self, event_type, event_data):
         if self.leader and self.leader.char_id == event_data.char_id:
             self.leader = None
             self.last_activity = None
-            self.bot.send_org_message("%s has logged off, and has been cleared as leader." % self.character_service.resolve_char_to_name(event_data.char_id))
+            self.bot.send_org_message("%s has logged off, and has been cleared as raid leader." % self.character_service.resolve_char_to_name(event_data.char_id))
 
     def activity_done(self):
         self.last_activity = int(time.time())
