@@ -47,7 +47,7 @@ class PorkService:
             self.logger.debug("Error marshalling value as json for url '%s': %s" % (url, r.text), e)
             json = None
 
-        if json:
+        if json and json[0]["CHAR_INSTANCE"] == char_id:
             char_info_json = json[0]
             org_info_json = json[1] if json[1] else {}
 
