@@ -1,6 +1,7 @@
 from core.command_param_types import Const, Any, Options
 from core.db import DB
 from core.decorators import instance, command, setting
+from core.dict_object import DictObject
 from core.setting_types import DictionarySettingType
 from core.text import Text
 import time
@@ -41,8 +42,10 @@ class TopicController:
     @command(command="topic", params=[Const("set", is_optional=True), Any("topic_message")], access_level="all",
              description="Set the current topic")
     def topic_set_command(self, request, _, topic_message):
+        sender = DictObject({"name": request.sender.name, "char_id": request.sender.char_id})
+
         topic = {"topic_message": topic_message,
-                 "created_by": request.sender.__dict__,
+                 "created_by": sender,
                  "created_at": int(time.time())}
 
         self.topic().set_value(topic)
