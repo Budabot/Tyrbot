@@ -35,7 +35,7 @@ class RaffleController:
         if not self.raffle:
             return "There is no active raffle."
 
-        self.job_scheduler.cancel_job(self.raffle.scheduled_job.id)
+        self.job_scheduler.cancel_job(self.raffle.scheduled_job_id)
         self.raffle = None
 
         msg = "The raffle has been cancelled."
@@ -83,7 +83,7 @@ class RaffleController:
             "finished_at": t + duration,
             "members": [],
             "reply": request.reply,
-            "scheduled_job": self.job_scheduler.scheduled_job(self.alert_raffle_status, t + 60)
+            "scheduled_job_id": self.job_scheduler.scheduled_job(self.alert_raffle_status, t + 60)
         })
 
         chatblob = self.get_raffle_display(t)
@@ -121,11 +121,11 @@ class RaffleController:
             self.raffle = None
         else:
             self.spam_raffle_channels(self.get_raffle_display(t))
-            self.raffle.scheduled_job = self.job_scheduler.scheduled_job(self.alert_raffle_status, t + 60)
+            self.raffle.scheduled_job_id = self.job_scheduler.scheduled_job(self.alert_raffle_status, t + 60)
 
     def spam_raffle_channels(self, msg):
-        self.bot.send_private_channel_message(msg)
-        self.bot.send_org_message(msg)
+        self.bot.send_private_channel_message(msg, fire_outgoing_event=False)
+        self.bot.send_org_message(msg, fire_outgoing_event=False)
 
     def get_raffle_winner(self):
         return random.choice(self.raffle.members)
