@@ -33,13 +33,13 @@ class PublicChannelService:
         self.event_service.register_event_type(self.ORG_MSG_EVENT)
 
     def start(self):
-        org_id = self.setting_service.get("org_id").get_value()
-        if org_id:
-            self.org_id = org_id
+        org_id_setting = self.setting_service.get("org_id")
+        if org_id_setting and org_id_setting.get_value():
+            self.org_id = org_id_setting.get_value()
 
-        org_name = self.setting_service.get("org_name").get_value()
-        if org_name:
-            self.org_name = org_name
+        org_name_setting = self.setting_service.get("org_name")
+        if org_name_setting and org_name_setting.get_value():
+            self.org_name = org_name_setting.get_value()
 
     def get_channel_id(self, channel_name):
         return self.name_to_id.get(channel_name)
