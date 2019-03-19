@@ -25,7 +25,11 @@ class SettingType:
         return self._get_raw_value()
 
     def get_display_value(self):
-        return "<highlight>%s<end>" % self.get_value()
+        v = self.get_value()
+        if v == "":
+            v = "&ltNone&gt;"
+
+        return "<highlight>%s<end>" % v
 
     def set_description(self, description):
         self.description = description
@@ -154,29 +158,46 @@ Or you can choose one of the following colors
 
 
 class NumberSettingType(SettingType):
-    def __init__(self, options=None):
+    def __init__(self, options=None, allow_empty=False):
         super().__init__()
         self.options = options
+        self.allow_empty = allow_empty
 
     def get_value(self):
-        return int(self._get_raw_value())
+        v = self._get_raw_value()
+        if v != "":
+            return int(self._get_raw_value())
+        else:
+            return ""
 
     def set_value(self, value):
-        if re.match("^\d+$", str(value)):
+        if value == "":
+            if self.allow_empty:
+                self._set_raw_value(value)
+            else:
+                raise Exception("This setting does not allow an empty value.")
+        elif re.match(r"^\d+$", str(value)):
             self._set_raw_value(value)
         else:
             raise Exception("You must enter a positive integer for this setting.")
 
     def get_display(self):
         text = Registry.get_instance("text")
-        options_str = "\n".join(map(lambda opt: text.make_chatcmd(str(opt), "/tell <myname> config setting %s set %s" % (self.name, opt)), self.options))
+        if self.options:
+            options_str = "\n\nOr choose an option below:\n\n\n".join(map(lambda opt: text.make_chatcmd(str(opt), "/tell <myname> config setting %s set %s" % (self.name, opt)), self.options))
+        else:
+            options_str = ""
+
+        if self.allow_empty:
+            clear_str = "\n\nOr: " + text.make_chatcmd("Clear this setting", "/tell <myname> config setting %s clear" % self.name)
+        else:
+            clear_str = ""
 
         return """For this setting you can set any positive integer.
+
 To change this setting:
 
-<highlight>/tell <myname> config setting """ + self.name + """ set <i>_number_</i><end>
-
-Or choose an option below:\n\n""" + options_str
+<highlight>/tell <myname> config setting """ + self.name + """ set <i>_number_</i><end>""" + clear_str + options_str
 
 
 class TimeSettingType(SettingType):
