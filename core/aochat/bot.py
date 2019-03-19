@@ -17,7 +17,7 @@ class Bot:
         self.packet_last_sent_timestamp = 0
 
     def connect(self, host, port):
-        self.logger.info("Connecting to %s:%d" % (host, port))
+        self.logger.info("Connecting to '%s:%d'" % (host, port))
         self.socket = socket.create_connection((host, port), 10)
 
     def disconnect(self):
@@ -30,7 +30,7 @@ class Bot:
         character = character.capitalize()
 
         # read seed packet
-        self.logger.info("Logging in as %s" % character)
+        self.logger.info("Logging in as '%s'" % character)
         seed_packet = self.read_packet(10)
         seed = seed_packet.seed
 

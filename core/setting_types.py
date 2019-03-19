@@ -13,18 +13,23 @@ class SettingType:
         self.name = name
 
     def _get_raw_value(self):
+        """Get the value from the database"""
         return self.setting_service.get_value(self.name)
 
     def _set_raw_value(self, value):
+        """Set the value in the database"""
         self.setting_service.set_value(self.name, value)
 
     def set_value(self, value):
+        """Set the processed/typed value"""
         pass
 
     def get_value(self):
+        """Get the processed/typed value"""
         return self._get_raw_value()
 
     def get_display_value(self):
+        """Get the value formatted for display"""
         v = self.get_value()
         if v == "":
             v = "&ltNone&gt;"
