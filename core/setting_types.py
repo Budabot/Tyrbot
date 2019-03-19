@@ -32,7 +32,7 @@ class SettingType:
         """Get the value formatted for display"""
         v = self.get_value()
         if v == "":
-            v = "&ltNone&gt;"
+            v = "&ltempty&gt;"
 
         return "<highlight>%s<end>" % v
 
@@ -54,19 +54,19 @@ class TextSettingType(SettingType):
         else:
             self._set_raw_value(value)
 
-    def get_display_value(self):
-        return "<highlight>%s<end>" % (self.get_value() or "&lt;empty&gt;")
-
     def get_display(self):
         text = Registry.get_instance("text")
-        options_str = "\n".join(map(lambda opt: text.make_chatcmd(str(opt), "/tell <myname> config setting %s set %s" % (self.name, opt)), self.options or []))
+
+        if self.options:
+            options_str = "\n\nOr choose an option below:\n\n\n".join(map(lambda opt: text.make_chatcmd(str(opt), "/tell <myname> config setting %s set %s" % (self.name, opt)), self.options))
+        else:
+            options_str = ""
 
         return """For this setting you can enter any text you want (max. 255 characters).
+
 To change this setting:
 
-<highlight>/tell <myname> config setting """ + self.name + """ set <i>_value_</i><end>
-
-Or choose an option below:\n\n""" + options_str
+<highlight>/tell <myname> config setting """ + self.name + """ set <i>_value_</i><end>""" + options_str
 
 
 class DictionarySettingType(SettingType):
@@ -108,6 +108,7 @@ class HiddenSettingType(TextSettingType):
 
     def get_display(self):
         return """For this setting you can enter any text you want (max. 255 characters).
+
 To change this setting:
 
 <highlight>/tell <myname> config setting """ + self.name + """ set <i>_value_</i><end>
@@ -130,6 +131,7 @@ class ColorSettingType(SettingType):
 
     def get_display(self):
         return """For this setting you can set any Color in the HTML Hexadecimal Color Format.
+
 You can change it manually with the command:
 
 /tell <myname> config setting """ + self.name + """ set <i>_HTML Color_</i>

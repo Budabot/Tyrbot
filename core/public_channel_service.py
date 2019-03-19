@@ -22,6 +22,7 @@ class PublicChannelService:
         self.bot = registry.get_instance("bot")
         self.event_service = registry.get_instance("event_service")
         self.character_service = registry.get_instance("character_service")
+        self.setting_service = registry.get_instance("setting_service")
 
     def pre_start(self):
         self.bot.add_packet_handler(server_packets.PublicChannelJoined.id, self.add)
@@ -30,6 +31,15 @@ class PublicChannelService:
         self.bot.add_packet_handler(server_packets.PublicChannelMessage.id, self.public_channel_message, priority=30)
         self.event_service.register_event_type(self.ORG_CHANNEL_MESSAGE_EVENT)
         self.event_service.register_event_type(self.ORG_MSG_EVENT)
+
+    def start(self):
+        org_id = self.setting_service.get("org_id").get_value()
+        if org_id:
+            self.org_id = org_id
+
+        org_name = self.setting_service.get("org_name").get_value()
+        if org_name:
+            self.org_name = org_name
 
     def get_channel_id(self, channel_name):
         return self.name_to_id.get(channel_name)
@@ -40,15 +50,16 @@ class PublicChannelService:
     def add(self, packet: server_packets.PublicChannelJoined):
         self.id_to_name[packet.channel_id] = packet.name
         self.name_to_id[packet.name] = packet.channel_id
-        if self.is_org_channel_id(packet.channel_id):
+        if not self.org_id and self.is_org_channel_id(packet.channel_id):
             self.org_channel_id = packet.channel_id
             self.org_id = 0x00ffffffff & packet.channel_id
 
-            self.logger.debug("Org Id: %d" % self.org_id)
-            self.logger.debug("Org Name: %s" % packet.name)
-
             if packet.name != "Clan (name unknown)":
+                self.setting_service.get("org_name").set_value(packet.name)
                 self.org_name = packet.name
+
+            self.logger.info("Org Id: %d" % self.org_id)
+            self.logger.info("Org Name: %s" % self.org_name)
 
     def remove(self, packet: server_packets.PublicChannelLeft):
         channel_name = self.get_channel_name(packet.channel_id)

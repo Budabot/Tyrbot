@@ -1,11 +1,12 @@
 from core.aochat.server_packets import BuddyAdded
 from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Character
-from core.decorators import instance, event, timerevent, command
+from core.decorators import instance, event, timerevent, command, setting
 from core.logger import Logger
 import time
 
 from core.public_channel_service import PublicChannelService
+from core.setting_types import NumberSettingType, TextSettingType
 from modules.standard.org.org_activity_controller import OrgActivityController
 
 
@@ -41,6 +42,14 @@ class OrgMemberController:
         self.event_service.register_event_type(self.ORG_MEMBER_LOGOFF_EVENT)
         self.access_service.register_access_level(self.ORG_ACCESS_LEVEL, 60, self.check_org_member)
         self.bot.add_packet_handler(BuddyAdded.id, self.handle_buddy_added)
+
+    @setting(name="org_id", value="", description="Override the default org id (the bot will get the org id automatically--this setting is intended for development and testing only. use at your own risk. restart the bot after changing this setting)")
+    def org_id(self):
+        return NumberSettingType(allow_empty=True)
+
+    @setting(name="org_name", value="", description="Allows the bot to remember the org name when it cannot determine it automatically")
+    def org_name(self):
+        return TextSettingType()
 
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS org_member (char_id INT NOT NULL PRIMARY KEY, mode VARCHAR(20) NOT NULL, last_seen INT NOT NULL DEFAULT 0)")
