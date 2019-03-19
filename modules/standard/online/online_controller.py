@@ -56,13 +56,16 @@ class OnlineController:
 
         title_levels = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0}
         profs = {"Adventurer": 0, "Agent": 0, "Bureaucrat": 0, "Doctor": 0, "Enforcer": 0, "Engineer": 0, "Fixer": 0, "Keeper": 0,
-                 "Martial Artist": 0, "Meta-Physicist": 0, "Nano-Technician": 0, "Soldier": 0, "Trader": 0, "Shade": 0}
+                 "Martial Artist": 0, "Meta-Physicist": 0, "Nano-Technician": 0, "Soldier": 0, "Trader": 0, "Shade": 0, "Unknown": 0}
         orgs = {}
 
         # populate counts
         for row in data:
-            profs[row.profession] += 1
+            prof_name = row.profession if row.profession else "Unknown"
+            profs[prof_name] += 1
+
             title_levels[self.util.get_title_level(row.level)] += 1
+
             org_name = row.org_name if row.org_name else "&lt;None&gt;"
             org_count = orgs.get(org_name, 0)
             orgs[org_name] = org_count + 1
