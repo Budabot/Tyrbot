@@ -254,10 +254,10 @@ class DiscordController:
     def discord_getinvite_cmd(self, request, _, server_id):
         if self.servers:
             for server in self.servers:
-                if server.id == server_id:
+                if server.id == str(server_id):
                     self.aoqueue.append(("get_invite", (request.sender.name, server)))
-        else:
-            return "No such server."
+                    return
+        return "No such server."
 
     @event(event_type=PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, description="Relay messages to Discord from org channel")
     def handle_org_message_event(self, event_type, event_data):
