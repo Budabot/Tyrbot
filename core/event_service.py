@@ -112,26 +112,29 @@ class EventService:
     def get_event_type_key(self, event_base_type, event_sub_type):
         return event_base_type + ":" + event_sub_type
 
-    def check_for_timer_events(self, timestamp):
+    def check_for_timer_events(self, current_timestamp):
         data = self.db.query("SELECT e.event_type, e.event_sub_type, e.handler, t.next_run FROM timer_event t "
                              "JOIN event_config e ON t.event_type = e.event_type AND t.handler = e.handler "
-                             "WHERE t.next_run <= ? AND e.enabled = 1", [timestamp])
+                             "WHERE t.next_run <= ? AND e.enabled = 1", [current_timestamp])
         for row in data:
-            event_type_key = self.get_event_type_key(row.event_type, row.event_sub_type)
+            self.execute_timed_event(row, current_timestamp)
 
-            # timer event run times should be consistent, so we base the next run time off the last run time,
-            # instead of the current timestamp
-            next_run = row.next_run + int(row.event_sub_type)
+    def execute_timed_event(self, row, current_timestamp):
+        event_type_key = self.get_event_type_key(row.event_type, row.event_sub_type)
 
-            # prevents timer events from getting too far behind, or having a large "catch-up" after
-            # the bot has been offline for a time
-            if next_run < timestamp:
-                next_run = timestamp + int(row.event_sub_type)
+        # timer event run times should be consistent, so we base the next run time off the last run time,
+        # instead of the current timestamp
+        next_run = row.next_run + int(row.event_sub_type)
 
-            self.db.exec("UPDATE timer_event SET next_run = ? WHERE event_type = ? AND handler = ?",
-                         [next_run, row.event_type, row.handler])
+        # prevents timer events from getting too far behind, or having a large "catch-up" after
+        # the bot has been offline for a time
+        if next_run < current_timestamp:
+            next_run = current_timestamp + int(row.event_sub_type)
 
-            self.call_handler(row.handler, event_type_key, None)
+        self.db.exec("UPDATE timer_event SET next_run = ? WHERE event_type = ? AND handler = ?",
+                     [next_run, row.event_type, row.handler])
+
+        self.call_handler(row.handler, event_type_key, None)
 
     def update_event_status(self, event_base_type, event_sub_type, event_handler, enabled_status):
         # clear cache

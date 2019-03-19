@@ -1,3 +1,5 @@
+import time
+
 from core.decorators import instance, command
 from core.db import DB
 from core.text import Text
@@ -89,8 +91,10 @@ class ConfigController:
                 else:
                     enabled = "<red>Disabled<end>"
                 blob += "%s - %s [%s]" % (self.format_event_type(row), row.description, enabled)
-                blob += " " + self.text.make_chatcmd("On", "/tell <myname> config event " + event_type_key + " " + row.handler + " enable")
-                blob += " " + self.text.make_chatcmd("Off", "/tell <myname> config event " + event_type_key + " " + row.handler + " disable")
+                blob += " " + self.text.make_chatcmd("On", "/tell <myname> config event %s %s enable" % (event_type_key, row.handler))
+                blob += " " + self.text.make_chatcmd("Off", "/tell <myname> config event %s %s disable" % (event_type_key, row.handler))
+                if row.event_type == 'timer':
+                    blob += " " + self.text.make_chatcmd("Run Now", "/tell <myname> config event %s %s run" % (event_type_key, row.handler))
                 blob += "\n"
 
         if blob:
@@ -116,6 +120,29 @@ class ConfigController:
             return "Could not find event for type <highlight>%s<end> and handler <highlight>%s<end>." % (event_type, event_handler)
         else:
             return "Event type <highlight>%s<end> for handler <highlight>%s<end> has been <highlight>%sd<end> successfully." % (event_type, event_handler, action)
+
+    @command(command="config", params=[Const("event"), Any("event_type"), Any("event_handler"), Const("run")], access_level="admin",
+             description="Execute a timed event immediately")
+    def config_event_run_cmd(self, request, _1, event_type, event_handler, _2):
+        action = "run"
+        event_type = event_type.lower()
+        event_handler = event_handler.lower()
+        event_base_type, event_sub_type = self.event_service.get_event_type_parts(event_type)
+
+        if not self.event_service.is_event_type(event_base_type):
+            return "Unknown event type <highlight>%s<end>." % event_type
+
+        row = self.db.query_single("SELECT e.event_type, e.event_sub_type, e.handler, t.next_run FROM timer_event t "
+                                   "JOIN event_config e ON t.event_type = e.event_type AND t.handler = e.handler "
+                                   "WHERE e.event_type = ? AND e.event_sub_type = ? AND e.handler LIKE ?", [event_base_type, event_sub_type, event_handler])
+
+        if not row:
+            return "Could not find event for type <highlight>%s<end> and handler <highlight>%s<end>." % (event_type, event_handler)
+        elif row.event_type != "timer":
+            return "Only <highlight>timer<end> events can be run manually."
+        else:
+            self.event_service.execute_timed_event(row, int(time.time()))
+            return "Event type <highlight>%s<end> for handler <highlight>%s<end> has been <highlight>%s<end> successfully." % (event_type, event_handler, action)
 
     @command(command="config", params=[Const("setting"), Any("setting_name"), Options(["set", "clear"]), Any("new_value", is_optional=True)], access_level="admin",
              description="Change a setting value")
