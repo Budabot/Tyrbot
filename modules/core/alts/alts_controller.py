@@ -27,11 +27,11 @@ class AltsController:
 
     @command(command="alts", params=[Const("setmain")], access_level="all",
              description="Set a new main", extended_description="You must run this from the character you want to be your new main")
-    def alts_setmain_cmd(self, request, char):
+    def alts_setmain_cmd(self, request, _):
         msg, result = self.alts_service.set_as_main(request.sender.char_id)
 
         if result:
-            return "<highlight>%s<end> character has been set as your main." % char.name
+            return "<highlight>%s<end> character has been set as your main." % request.sender.name
         elif msg == "not_an_alt":
             return "Error! This character cannot be set as your main since you do not have any alts."
         elif msg == "already_main":

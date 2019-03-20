@@ -429,5 +429,3 @@ class DiscordController:
         s = MLStripper()
         s.feed(html)
         return s.get_data()
-
-# TODO !dinvite
