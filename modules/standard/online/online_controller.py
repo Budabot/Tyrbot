@@ -181,6 +181,9 @@ class OnlineController:
 
                     blob += " | %s (%d/%d) %s %s\n" % (row.name, row.level or 0, row.ai_level or 0, row.faction, row.profession)
 
+        if not blob:
+            blob = "No characters online."
+
         reply(blob)
 
     def get_online_output(self):
