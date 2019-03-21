@@ -28,7 +28,7 @@ class WhatBuffsController:
 
     @command(command="whatbuffs", params=[
         Any("skill"),
-        Options(["arms", "back", "chest", "deck", "feet", "fingers", "hands", "head", "hud", "legs", "nano", "neck", "shoulders", "unknown", "util", "weapon", "wrists", "all"])],
+        Options(["arms", "back", "chest", "deck", "feet", "fingers", "hands", "head", "hud", "legs", "nanoprogram", "neck", "shoulders", "unknown", "util", "weapon", "wrists", "all"])],
              access_level="all", description="Find items or nanos that buff a skill (or ability) for a particular item type")
     def whatbuffs_detail_cmd(self, request, skill_name, item_type):
         item_type = item_type.capitalize()
