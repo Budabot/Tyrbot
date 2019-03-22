@@ -18,7 +18,7 @@ def decode_args(types, data):
 
         elif argtype == "S":
             length = struct.unpack(">H", data[:2])[0]
-            result = data[2:2 + length].decode("utf-8")
+            result = data[2:2 + length].decode("utf-8", "ignore")
             data = data[2 + length:]
 
         elif argtype == "B":
