@@ -67,7 +67,7 @@ class LootController:
 
         return "Error when generating list (loot type is unsupported)."
 
-    @command(command="loot", params=[Const("clear")], description="Clear all loot", access_level="all")
+    @command(command="loot", params=[Const("clear")], description="Clear all loot", access_level="all", sub_command="modify")
     def loot_clear_cmd(self, request, _):
         if not self.leader_controller.can_use_command(request.sender.char_id):
             return LeaderController.NOT_LEADER_MSG
@@ -79,8 +79,8 @@ class LootController:
         else:
             return "Loot list is already empty."
 
-    @command(command="loot", params=[Const("remitem"), Int("item_index")], description="Remove existing loot",
-             access_level="all")
+    @command(command="loot", params=[Const("remitem"), Int("item_index")],
+             description="Remove an existing loot item", access_level="all", sub_command="modify")
     def loot_rem_item_cmd(self, request, _, item_index: int):
         if not self.leader_controller.can_use_command(request.sender.char_id):
             return LeaderController.NOT_LEADER_MSG
@@ -95,10 +95,10 @@ class LootController:
             else:
                 return "Item error."
         except KeyError:
-            return "Wrong index given"
+            return "Wrong index given."
 
     @command(command="loot", params=[Const("additem"), Item("item"), Int("item_count", is_optional=True)],
-             description="Add an item to loot list", access_level="all")
+             description="Add an item to loot list", access_level="all", sub_command="modify")
     def loot_add_item_cmd(self, request, _, item, item_count: int):
         if not self.leader_controller.can_use_command(request.sender.char_id):
             return LeaderController.NOT_LEADER_MSG
@@ -111,7 +111,7 @@ class LootController:
         return "%s was added to loot list." % item["name"]
 
     @command(command="loot", params=[Const("increase"), Int("item_index")], description="Increase item count",
-             access_level="all")
+             access_level="all", sub_command="modify")
     def loot_increase_item_cmd(self, request, _, item_index: int):
         if not self.leader_controller.can_use_command(request.sender.char_id):
             return LeaderController.NOT_LEADER_MSG
@@ -132,7 +132,7 @@ class LootController:
             return "Wrong index given."
 
     @command(command="loot", params=[Const("decrease"), Int("item_index")], description="Decrease item count",
-             access_level="all")
+             access_level="all", sub_command="modify")
     def loot_decrease_item_cmd(self, request, _, item_index: int):
         if not self.leader_controller.can_use_command(request.sender.char_id):
             return LeaderController.NOT_LEADER_MSG
@@ -198,7 +198,7 @@ class LootController:
         except KeyError:
             return "Wrong index given."
 
-    @command(command="loot", params=[Const("roll")], description="Roll all loot", access_level="all")
+    @command(command="loot", params=[Const("roll")], description="Roll all loot", access_level="all", sub_command="modify")
     def loot_roll_cmd(self, request, _):
         if not self.leader_controller.can_use_command(request.sender.char_id):
             return LeaderController.NOT_LEADER_MSG
@@ -230,7 +230,7 @@ class LootController:
         else:
             return "No loot to roll."
 
-    @command(command="loot", params=[Const("reroll")], description="Rebuild loot list", access_level="all")
+    @command(command="loot", params=[Const("reroll")], description="Rebuild loot list", access_level="all", sub_command="modify")
     def loot_reroll_cmd(self, request, _):
         if not self.leader_controller.can_use_command(request.sender.char_id):
             return LeaderController.NOT_LEADER_MSG
@@ -252,9 +252,9 @@ class LootController:
         else:
             return "Loot list is empty."
 
-    @command(command="loot", params=[Const("additem"), Const("raid"), Int("item_id"), Int("item_count")],
-             description="Used by the loot lists to add items to loot list", access_level="all")
-    def loot_add_raid_item(self, request, _1, _2, item_id: int, item_count: int):
+    @command(command="loot", params=[Const("addraiditem"), Int("item_id"), Int("item_count")],
+             description="Add item from pre-defined raid to loot list", access_level="all", sub_command="modify")
+    def loot_add_raid_item(self, request, _, item_id: int, item_count: int):
         if not self.leader_controller.can_use_command(request.sender.char_id):
             return LeaderController.NOT_LEADER_MSG
 
@@ -270,7 +270,7 @@ class LootController:
             return "Failed to add item with ID %s." % item_id
 
     @command(command="loot", params=[Const("addraid"), Any("raid"), Any("category")],
-             description="Add all loot from given raid", access_level="all")
+             description="Add all loot from pre-defined raid", access_level="all", sub_command="modify")
     def loot_add_raid_loot(self, request, _, raid: str, category: str):
         if not self.leader_controller.can_use_command(request.sender.char_id):
             return LeaderController.NOT_LEADER_MSG
@@ -534,15 +534,13 @@ class LootController:
         blob += "<header2>%s<end>\n" % category if category is not None else ""
 
         for item in items:
-            item_ref = "raid %d" % item.id
-
             if item.multiloot > 1:
-                single_link = self.text.make_chatcmd("Add x1", "/tell <myname> loot additem %s 1" % item_ref)
+                single_link = self.text.make_chatcmd("Add x1", "/tell <myname> loot addraiditem %s 1" % item.id)
                 multi_link = self.text.make_chatcmd(
-                    "Add x%d" % item.multiloot, "/tell <myname> loot additem %s %d" % (item_ref, item.multiloot))
+                    "Add x%d" % item.multiloot, "/tell <myname> loot addraiditem %s %d" % (item.id, item.multiloot))
                 add_links = "[%s] [%s]" % (single_link, multi_link)
             else:
-                add_links = "[%s]" % self.text.make_chatcmd("Add x1", "/tell <myname> loot additem %s 1" % item_ref)
+                add_links = "[%s]" % self.text.make_chatcmd("Add x1", "/tell <myname> loot addraiditem %s 1" % item.id)
 
             comment = " (%s)" % item.comment if item.comment != "" else ""
 
