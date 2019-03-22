@@ -44,6 +44,9 @@ class Bot:
         if isinstance(character_list_packet, LoginError):
             self.logger.error("Error logging in: %s" % character_list_packet.message)
             return False
+        if character not in character_list_packet.names:
+            self.logger.error("character '%s' does not exist on this account" % character)
+            return False
         index = character_list_packet.names.index(character)
 
         # select character
