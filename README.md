@@ -5,7 +5,7 @@ This is a rewrite of the original [Budabot](https://github.com/Budabot/Budabot) 
 Budabot is an in-game chat-bot for the MMORPG Anarchy Online released by Funcom in 2001.  
 
 ## Installation
-In its current state, this project is not meant to be used, other than during development.  
+Tyrbot is now ready for general use and is recommended over Budabot or any other bot for all new installations.
 
 To install dependencies: `pip install -U -r requirements.txt`.
 
