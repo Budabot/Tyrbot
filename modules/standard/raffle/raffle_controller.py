@@ -1,4 +1,4 @@
-from core.command_param_types import Any, Const
+from core.command_param_types import Any, Const, Time
 from core.decorators import instance, command
 from core.chat_blob import ChatBlob
 from core.dict_object import DictObject
@@ -65,10 +65,10 @@ class RaffleController:
         self.raffle.members.remove(request.sender.name)
         return "You have been removed from the raffle."
 
-    @command(command="raffle", params=[Const("start", is_optional=True), Any("item")], access_level="all",
+    @command(command="raffle", params=[Const("start", is_optional=True), Any("item"), Time("duration", is_optional=True)], access_level="all",
              description="Raffle an item")
-    def raffle_start_cmd(self, request, _, item):
-        duration = 180  # 3 minutes
+    def raffle_start_cmd(self, request, _, item, duration):
+        duration = duration or 180  # 3 minutes
 
         if self.raffle:
             return "There is already a raffle in progress."
