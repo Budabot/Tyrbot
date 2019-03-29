@@ -63,3 +63,7 @@ class DictObjectTest(unittest.TestCase):
         self.assertEqual(0, len(d))
         d["test1"] = 1
         self.assertEqual(1, len(d))
+        d.test2 = 2
+        self.assertEqual(2, len(d))
+        d["test2"] = 3
+        self.assertEqual(2, len(d))

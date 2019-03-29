@@ -1,6 +1,6 @@
 @echo off
 
-goto :install_venv
+.\win32\Python3.6\python.exe -m virtualenv --python=.\win32\Python3.6\python.exe venv
 
 :start
 venv\Scripts\pip install -U -r requirements.txt
@@ -17,7 +17,3 @@ goto :start
 :end
 pause
 exit
-
-:install_venv
-.\win32\Python3.6\python.exe -m virtualenv --python=.\win32\Python3.6\python.exe venv
-goto :start
