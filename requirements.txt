@@ -6,3 +6,4 @@ discord
 psutil
 bbcode
 beautifulsoup4
+websocket-client
