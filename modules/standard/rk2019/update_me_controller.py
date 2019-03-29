@@ -25,6 +25,9 @@ class UpdateMeController:
     @command(command="updateme", params=[Any("char_info")], access_level="all",
              description="Update whois for your character", extended_description="Select your character, press \"T\" to show your char info, then copy and paste the entire contents as the param to this command")
     def update_me_cmd(self, request, char_info):
+        if self.bot.dimension == 5:
+            return "This command cannot be used on this server."
+
         char_info_obj = self.pork_service.get_from_database(char_id=request.sender.char_id)
         char_info_obj.name = request.sender.name
         char_info_obj.dimension = self.bot.dimension
