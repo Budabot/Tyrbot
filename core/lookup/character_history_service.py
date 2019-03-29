@@ -41,7 +41,9 @@ class CharacterHistoryService:
             else:
                 # check cache for any value, even expired
                 # TODO set cache age
-                result = json.loads(self.cache_service.retrieve(self.CACHE_GROUP, cache_key))
+                cache_obj = self.cache_service.retrieve(self.CACHE_GROUP, cache_key)
+                if cache_obj:
+                    result = json.loads(cache_obj)
 
         if result:
             return map(lambda x: DictObject(x), result)
