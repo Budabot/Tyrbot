@@ -19,5 +19,5 @@ pause
 exit
 
 :install_venv
-.\win32\Python3.6\Scripts\virtualenv --python=.\win32\Python3.6\python.exe venv
+.\win32\Python3.6\python.exe -m virtualenv --python=.\win32\Python3.6\python.exe venv
 goto :start
