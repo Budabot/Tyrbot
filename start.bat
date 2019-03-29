@@ -1,7 +1,7 @@
 @echo off
 
 :start
-win32\python ./bootstrap.py
+venv\Scripts\python ./bootstrap.py
 
 REM The bot uses non-zero exit codes to signal state.
 REM The bot will restart until it returns an exit code of zero.
