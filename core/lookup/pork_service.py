@@ -86,9 +86,6 @@ class PorkService:
 
             return char_info
 
-    def get_character_history(self, char):
-        pass
-
     def load_character_info(self, char_id):
         char_info = self.get_character_info(char_id)
         if not char_info:
@@ -99,7 +96,7 @@ class PorkService:
                 "last_name": "",
                 "level": 0,
                 "breed": "",
-                "dimension": 5,
+                "dimension": self.bot.dimension,
                 "gender": "",
                 "faction": "",
                 "profession": "",
@@ -118,6 +115,9 @@ class PorkService:
             self.save_character_info(char_info)
 
     def save_character_info(self, char_info):
+        if char_info["dimension"] != self.bot.dimension:
+            return
+
         self.db.exec("DELETE FROM player WHERE char_id = ?", [char_info["char_id"]])
 
         insert_sql = """
@@ -164,7 +164,7 @@ class PorkService:
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"""
 
             self.db.exec(insert_sql, [packet.char_id, packet.name, "", "", 0, "", "",
-                                      "", "", "", "", 0, 0, "", "", 6, 5, 0, 0, "",
+                                      "", "", "", "", 0, 0, "", "", 6, self.bot.dimension, 0, 0, "",
                                       "chat_server", int(time.time())])
 
     def find_orgs(self, search):
