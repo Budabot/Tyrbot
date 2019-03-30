@@ -367,4 +367,4 @@ class DiscordController:
         return s.get_data()
 
     def should_relay_message(self, char_id):
-        return char_id != self.bot.char_id
+        return self.client.is_logged_in and char_id != self.bot.char_id
