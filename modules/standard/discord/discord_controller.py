@@ -42,7 +42,6 @@ class DiscordController:
     def __init__(self):
         self.servers = []
         self.channels = {}
-        self.ignore = []
         self.dthread = None
         self.dqueue = []
         self.aoqueue = []
@@ -214,41 +213,6 @@ class DiscordController:
 
         return "Changed relay for %s to %s." % (channel.channel_name, relay)
 
-    @command(command="discord", params=[Const("ignore"), Const("add"), Any("char_id")], access_level="moderator",
-             description="Add char id to relay ignore list", sub_command="manage")
-    def discord_ignore_add_cmd(self, request, _1, _2, char_id):
-        if char_id not in self.ignore:
-            self.ignore.append(char_id)
-            self.update_discord_ignore()
-
-            return "Added char id %s to ignore list." % char_id
-        else:
-            return "Char id already in ignore list."
-
-    @command(command="discord", params=[Const("ignore"), Const("rem"), Any("char_id")], access_level="moderator",
-             description="Remove char id from relay ignore list", sub_command="manage",)
-    def discord_ignore_remove_cmd(self, request, _1, _2, char_id):
-        if char_id not in self.ignore:
-            return "Char id is not in ignore list."
-        else:
-            self.ignore.remove(char_id)
-            return "Removed char id from ignore list."
-
-    @command(command="discord", params=[Const("ignore")], access_level="moderator",
-             description="See list of ignored characters", sub_command="manage")
-    def discord_ignore_list_cmd(self, request, _):
-        blob = "Characters ignored: <highlight>%d<end>\n\n" % len(self.ignore)
-
-        if len(self.ignore) > 0:
-            blob += "<header2>Character list<end>\n"
-
-            for char_id in self.ignore:
-                remove = self.text.make_chatcmd("remove", "/tell <myname> discord ignore rem %s" % char_id)
-                name = self.character_service.resolve_char_to_name(char_id)
-                blob += "<highlight>%s<end> - %s [%s]\n" % (name, char_id, remove)
-
-        return ChatBlob("Ignore list", blob)
-
     @command(command="discord", params=[Const("getinvite"), Int("server_id")], access_level="moderator",
              description="Get an invite for specified server", sub_command="manage")
     def discord_getinvite_cmd(self, request, _, server_id):
@@ -261,7 +225,7 @@ class DiscordController:
 
     @event(event_type=PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, description="Relay messages to Discord from org channel")
     def handle_org_message_event(self, event_type, event_data):
-        if event_data.char_id not in self.ignore:
+        if self.should_relay_message(event_data.char_id):
             if event_data.message[:1] != "!":
                 msg = event_data.extended_message.get_message() if event_data.extended_message else event_data.message
                 msgtype = self.setting_service.get("discord_relay_format").get_value()
@@ -272,7 +236,7 @@ class DiscordController:
 
     @event(event_type=PrivateChannelService.PRIVATE_CHANNEL_MESSAGE_EVENT, description="Relay messages to Discord from private channel")
     def handle_private_message_event(self, event_type, event_data):
-        if event_data.char_id not in self.ignore:
+        if self.should_relay_message(event_data.char_id):
             if event_data.message[:1] != "!":
                 msgtype = self.setting_service.get("discord_relay_format").get_value()
                 msgcolor = self.setting_service.get("discord_embed_color").get_int_value()
@@ -288,15 +252,6 @@ class DiscordController:
 
     @event(event_type="connect", description="Connects the Discord client automatically on startup, if a token exists")
     def handle_connect_event(self, event_type, event_data):
-        self.ignore.append(self.bot.char_id)
-        ignores = self.db.query("SELECT * FROM discord_ignore")
-
-        for row in ignores:
-            if row.char_id not in self.ignore:
-                self.ignore.append(row.char_id)
-
-        self.update_discord_ignore()
-
         token = self.setting_service.get("discord_bot_token").get_value()
         if token:
             self.connect_discord_client(token)
@@ -412,20 +367,10 @@ class DiscordController:
                 self.db.exec("INSERT INTO discord (channel_id, server_name, channel_name, relay_ao, relay_dc) VALUES (?, ?, ?, ?, ?)",
                              [channel.channel_id, channel.server_name, channel.channel_name, channel.relay_ao, channel.relay_dc])
 
-    def update_discord_ignore(self):
-        ignores = self.db.query("SELECT * FROM discord_ignore")
-        skip = []
-
-        for row in ignores:
-            skip.append(row.char_id)
-            if row.char_id not in self.ignore:
-                self.db.exec("DELETE FROM discord_ignore WHERE char_id = ?", [row.char_id])
-
-        for cid in self.ignore:
-            if cid not in skip:
-                self.db.exec("INSERT INTO discord_ignore (char_id) VALUES (?)", [cid])
-
     def strip_html_tags(self, html):
         s = MLStripper()
         s.feed(html)
         return s.get_data()
+
+    def should_relay_message(self, char_id):
+        return char_id != self.bot.char_id
