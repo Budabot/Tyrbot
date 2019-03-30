@@ -67,7 +67,6 @@ class DiscordController:
         self.event_service.register_event_type("discord_channels")
         self.event_service.register_event_type("discord_command")
         self.event_service.register_event_type("discord_invites")
-        self.event_service.register_event_type("discord_exception")
 
         channels = self.db.query("SELECT * FROM discord")
 
@@ -335,11 +334,6 @@ class DiscordController:
             blob += "None available, maybe the bot user does not have sufficient permissions to see invites, or no invites exists.\n\n"
 
         self.bot.send_private_message(sender, ChatBlob("Discord invites", blob))
-
-    @event(event_type="discord_exception", description="Handles discord exceptions")
-    def handle_discord_exception_event(self, event_type, event_data):
-        self.bot.send_private_channel_message("Exception raised: %s" % event_data)
-        # TODO expand... use DiscordMessage as a general case wrapper for all info that would be needed in the different relays
 
     def register_discord_command_handler(self, callback, command_str, params):
         r = re.compile(self.command_service.get_regex_from_params(params), re.IGNORECASE | re.DOTALL)

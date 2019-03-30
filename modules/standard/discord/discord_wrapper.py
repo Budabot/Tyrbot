@@ -59,12 +59,7 @@ class DiscordWrapper(discord.Client):
                                     await self.send_message(discord.Object(id=cid), embed=content)
                                 else:
                                     await self.send_message(discord.Object(id=cid), content)
-                except Forbidden as e:
-                    self.dqueue.append(("discord_exception", "Insufficient permissions"))
-                except NotFound as e:
-                    self.dqueue.append(("discord_exception", "Not found error"))
                 except Exception as e:
-                    self.logger.error("", e)
-                    self.dqueue.append(("discord_exception", "Exception raised during Discord event (%s, %s)" % (str(dtype), str(message))))
+                    self.logger.error("Exception raised during Discord event (%s, %s)" % (str(dtype), str(message)), e)
 
             await asyncio.sleep(1)
