@@ -167,8 +167,8 @@ class DiscordController:
 
     @command(command="discord", params=[Const("relay")], access_level="moderator", sub_command="manage",
              description="Setup relaying of channels")
-    def discord_relay_setup_cmd(self, request, _):
-        logtext = "logout" if self.client.is_logged_in else "login"
+    def discord_relay_cmd(self, request, _):
+        logtext = "disconnect" if self.client.is_logged_in else "connect"
         logcmdt = "discord disconnect" if self.client.is_logged_in else "discord connect"
         loglink = self.text.make_chatcmd(logtext, "/tell <myname> %s" % logcmdt)
         constatus = "<green>Connected<end>" if self.client.is_logged_in else "<red>disconnected<end>"
@@ -194,7 +194,7 @@ class DiscordController:
 
         blob += "\n\nDiscord Module written by <highlight>Vladimirovna<end>"
 
-        return ChatBlob("Discord setup", blob)
+        return ChatBlob("Discord Relay", blob)
     
     @command(command="discord", params=[Const("relay"), Any("channel_id"), Options(["ao", "discord"]), Options(["on", "off"])], access_level="moderator",
              description="Changes relay setting for specific channel", sub_command="manage")
