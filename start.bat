@@ -1,5 +1,6 @@
 @echo off
 
+IF EXIST .\venv\ GOTO start
 .\win32\Python3.6\python.exe -m virtualenv --python=.\win32\Python3.6\python.exe venv
 
 :start
