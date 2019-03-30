@@ -6,6 +6,7 @@ from core.aochat.mmdb_parser import MMDBParser
 import hjson
 import time
 import os
+import platform
 
 
 try:
@@ -26,6 +27,9 @@ try:
     logger.debug("Reading config file '%s'" % config_file)
     with open(config_file, "r") as cfg:
         config = DictObject(hjson.load(cfg))
+
+    if platform.system() == "Windows":
+        os.system("title %s.%d" % (config.character, config.server.dimension))
 
     # paths to search for instances: core + module_paths
     paths = ["core"]
