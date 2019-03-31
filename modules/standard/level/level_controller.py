@@ -10,6 +10,7 @@ class LevelController:
         self.db: DB = registry.get_instance("db")
         self.util = registry.get_instance("util")
         self.command_alias_service = registry.get_instance("command_alias_service")
+        self.discord_controller = registry.get_instance("discord_controller")
 
     def start(self):
         self.command_alias_service.add_alias("lvl", "level")
@@ -18,6 +19,9 @@ class LevelController:
         self.command_alias_service.add_alias("missions", "mission")
         self.command_alias_service.add_alias("mish", "mission")
         self.command_alias_service.add_alias("ailevel", "axp")
+
+        self.discord_controller.register_discord_command_handler(self.level_discord_cmd, "level", [Int("level")])
+        self.discord_controller.register_discord_command_handler(self.mission_discord_cmd, "mission", [Int("mission_level")])
 
     @command(command="level", params=[Int("level")], access_level="all",
              description="Show information about a character level")
@@ -35,12 +39,7 @@ class LevelController:
              description="Show what character levels can roll a specified mission level")
     def mission_cmd(self, request, level):
         if 1 <= level <= 250:
-            levels = []
-            data = self.db.query("SELECT * FROM level")
-            str_level = str(level)
-            for row in data:
-                if str_level in row.missions.split(","):
-                    levels.append(str(row.level))
+            levels = self.get_mission_levels(level)
 
             return "QL%d missions can be rolled from these levels: %s" % (level, " ".join(levels))
         else:
@@ -86,3 +85,33 @@ class LevelController:
 
     def get_level_info(self, level):
         return self.db.query_single("SELECT * FROM level WHERE level = ?", [level])
+
+    def get_mission_levels(self, level):
+        levels = []
+        data = self.db.query("SELECT * FROM level")
+        str_level = str(level)
+        for row in data:
+            if str_level in row.missions.split(","):
+                levels.append(str(row.level))
+
+        return levels
+
+    def level_discord_cmd(self, reply, args):
+        level, = args
+        row = self.get_level_info(level)
+
+        if row:
+            msg = "L %d: Team %d-%d | PvP %d-%d | Missions %s | %d token(s)" % \
+                  (row.level, row.team_min, row.team_max, row.pvp_min, row.pvp_max, row.missions, row.tokens)
+            reply(msg)
+        else:
+            reply("Level must be between `1` and `220`<end>.")
+
+    def mission_discord_cmd(self, reply, args):
+        mission_level, = args
+        if 1 <= mission_level <= 250:
+            levels = self.get_mission_levels(mission_level)
+
+            reply("QL%d missions can be rolled from these levels: %s" % (mission_level, " ".join(levels)))
+        else:
+            reply("Mission level must be between `1` and `250`.")
