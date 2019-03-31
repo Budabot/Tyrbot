@@ -26,7 +26,7 @@ class DiscordMessage:
         elif self.dtype == "color":
             self.message = "```apache\n%s\n```" % self.content
         else:
-            self.message = ""
+            self.message = self.content
 
     def build_message(self):
         if self.dtype == "embed":
