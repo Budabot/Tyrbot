@@ -22,9 +22,6 @@ class DiscordMessage:
             content = "\n" + self.content
 
             self.message = Embed(title=self.channel, description=content, color=self.color)
-
-        elif self.dtype == "color":
-            self.message = "```apache\n%s\n```" % self.content
         else:
             self.message = self.content
 
@@ -33,8 +30,6 @@ class DiscordMessage:
             content = self.sender+": "+self.content
 
             self.message = Embed(title=self.channel, description=content, color=self.color)
-        elif self.dtype == "color":
-            self.message = "```apache\n[%s] %s: \"%s\"\n```" % (self.channel, self.sender, self.content)
         else:
             self.message = "["+self.channel+"] "+self.sender+": "+self.content
 

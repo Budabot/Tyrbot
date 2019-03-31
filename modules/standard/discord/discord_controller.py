@@ -80,10 +80,6 @@ class DiscordController:
     def discord_bot_token(self):
         return HiddenSettingType()
 
-    @setting(name="discord_relay_format", value="color", description="Format of message relayed to Discord")
-    def discord_relay_format(self):
-        return TextSettingType(options=["embed", "color", "plain"])
-
     @setting(name="discord_embed_color", value="#00FF00", description="Discord embedded message color")
     def discord_embed_color(self):
         return ColorSettingType()
@@ -227,20 +223,18 @@ class DiscordController:
         if self.should_relay_message(event_data.char_id):
             if event_data.message[:1] != "!":
                 msg = event_data.extended_message.get_message() if event_data.extended_message else event_data.message
-                msgtype = self.setting_service.get("discord_relay_format").get_value()
                 msgcolor = self.setting_service.get("discord_embed_color").get_int_value()
                 name = self.character_service.resolve_char_to_name(event_data.char_id)
-                message = DiscordMessage(msgtype, "Org", name, self.strip_html_tags(msg), False, msgcolor)
+                message = DiscordMessage("plain", "Org", name, self.strip_html_tags(msg), False, msgcolor)
                 self.aoqueue.append(("org", message))
 
     @event(event_type=PrivateChannelService.PRIVATE_CHANNEL_MESSAGE_EVENT, description="Relay messages to Discord from private channel")
     def handle_private_message_event(self, event_type, event_data):
         if self.should_relay_message(event_data.char_id):
             if event_data.message[:1] != "!":
-                msgtype = self.setting_service.get("discord_relay_format").get_value()
                 msgcolor = self.setting_service.get("discord_embed_color").get_int_value()
                 name = self.character_service.resolve_char_to_name(event_data.char_id)
-                message = DiscordMessage(msgtype, "Private", name, self.strip_html_tags(event_data.message), False, msgcolor)
+                message = DiscordMessage("plain", "Private", name, self.strip_html_tags(event_data.message), False, msgcolor)
                 self.aoqueue.append(("priv", message))
 
     @timerevent(budatime="1s", description="Discord relay queue handler")
@@ -270,7 +264,6 @@ class DiscordController:
 
     @event(event_type="discord_command", description="Handles discord commands")
     def handle_discord_command_event(self, event_type, message):
-        msgtype = self.setting_service.get("discord_relay_format").get_value()
         msgcolor = self.setting_service.get("discord_embed_color").get_int_value()
 
         command_str, command_args = self.command_service.get_command_parts(message)
@@ -279,7 +272,7 @@ class DiscordController:
                 matches = handler.regex.search(command_args)
 
                 def reply(content, title="Command"):
-                    self.aoqueue.append(("command_reply", DiscordMessage(msgtype, title, self.bot.char_name, content, True, msgcolor)))
+                    self.aoqueue.append(("command_reply", DiscordMessage("embed", title, self.bot.char_name, content, True, msgcolor)))
 
                 if matches:
                     handler.callback(reply, self.command_service.process_matches(matches, handler.params))
