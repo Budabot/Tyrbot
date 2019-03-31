@@ -272,7 +272,7 @@ class DiscordController:
                 matches = handler.regex.search(command_args)
 
                 def reply(content, title="Command"):
-                    self.aoqueue.append(("command_reply", DiscordMessage("embed", title, self.bot.char_name, content, True, msgcolor)))
+                    self.aoqueue.append(("command_reply", DiscordMessage("embed", title, self.bot.char_name, self.strip_html_tags(content), True, msgcolor)))
 
                 if matches:
                     handler.callback(reply, self.command_service.process_matches(matches, handler.params))
