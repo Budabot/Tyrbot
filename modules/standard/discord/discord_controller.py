@@ -76,6 +76,9 @@ class DiscordController:
                 d = True if row.relay_dc == 1 else False
                 self.channels[row.channel_id] = DiscordChannel(row.channel_id, row.server_name, row.channel_name, a, d)
 
+    def start(self):
+        self.register_discord_command_handler(self.help_discord_cmd, "help", [])
+
     @setting(name="discord_bot_token", value="", description="Discord bot token")
     def discord_bot_token(self):
         return HiddenSettingType()
@@ -281,7 +284,7 @@ class DiscordController:
                 break
 
     def generate_help(self, command_str, params):
-        return "!" + command_str + " " + " ".join(map(lambda x: x.get_name().replace("<highlight>", "").replace("<end>", ""), params))
+        return "!" + command_str + " " + " ".join(map(lambda x: x.get_name(), params))
 
     @event(event_type="discord_message", description="Handles relaying of discord messages")
     def handle_discord_message_event(self, event_type, message):
@@ -361,3 +364,10 @@ class DiscordController:
 
     def should_relay_message(self, char_id):
         return self.client.is_logged_in and char_id != self.bot.char_id
+
+    def help_discord_cmd(self, reply, args):
+        msg = ""
+        for handler in self.command_handlers:
+            msg += self.generate_help(handler.command, handler.params) + "\n"
+
+        reply(msg, "Help")
