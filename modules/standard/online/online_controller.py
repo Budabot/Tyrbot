@@ -185,7 +185,7 @@ class OnlineController:
         if not blob:
             blob = "No characters online."
 
-        reply(blob)
+        reply(blob, "Online")
 
     def get_online_output(self):
         blob = ""

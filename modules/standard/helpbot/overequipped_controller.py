@@ -53,4 +53,4 @@ class OverequippedController:
         skill_level, = args
         oe = self.get_oe_vals(skill_level)
 
-        reply("%d - %d - %d" % (oe.oe100low, skill_level, oe.oe100))
+        reply("%d - %d - %d" % (oe.oe100low, skill_level, oe.oe100), "OE")

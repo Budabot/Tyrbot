@@ -103,15 +103,18 @@ class LevelController:
         if row:
             msg = "L %d: Team %d-%d | PvP %d-%d | Missions %s | %d token(s)" % \
                   (row.level, row.team_min, row.team_max, row.pvp_min, row.pvp_max, row.missions, row.tokens)
-            reply(msg)
         else:
-            reply("Level must be between `1` and `220`<end>.")
+            msg = "Level must be between `1` and `220`<end>."
+
+        reply(msg, "Level")
 
     def mission_discord_cmd(self, reply, args):
         mission_level, = args
         if 1 <= mission_level <= 250:
             levels = self.get_mission_levels(mission_level)
 
-            reply("QL%d missions can be rolled from these levels: %s" % (mission_level, " ".join(levels)))
+            msg = "QL%d missions can be rolled from these levels: %s" % (mission_level, " ".join(levels))
         else:
-            reply("Mission level must be between `1` and `250`.")
+            msg = "Mission level must be between `1` and `250`."
+
+        reply(msg, "Mission")
