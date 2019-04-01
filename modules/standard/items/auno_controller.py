@@ -155,11 +155,11 @@ class AunoController:
         auno_request_low = self.get_auno_request_url(low_id)
         auno_request_high = self.get_auno_request_url(high_id)
 
-        auno_response_h = requests.get(auno_request_high)
+        auno_response_h = requests.get(auno_request_high, timeout=5)
         auno_response_l = None
 
         if low_id != high_id:
-            auno_response_l = requests.get(auno_request_low)
+            auno_response_l = requests.get(auno_request_low, timeout=5)
 
         combined_response = []
 

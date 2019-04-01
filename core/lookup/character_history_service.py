@@ -29,7 +29,7 @@ class CharacterHistoryService:
             url = "http://pork.budabot.jkbff.com/pork/history.php?server=%d&name=%s" % (server_num, name)
 
             try:
-                r = requests.get(url)
+                r = requests.get(url, timeout=5)
                 result = r.json()
             except Exception as e:
                 self.logger.error("Error requesting history for url '%s'" % url, e)

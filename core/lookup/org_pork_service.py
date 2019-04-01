@@ -35,7 +35,7 @@ class OrgPorkService:
         else:
             url = "http://people.anarchy-online.com/org/stats/d/%d/name/%d/basicstats.xml?data_type=json" % (self.bot.dimension, org_id)
 
-            r = requests.get(url)
+            r = requests.get(url, timeout=5)
             try:
                 result = r.json()
 

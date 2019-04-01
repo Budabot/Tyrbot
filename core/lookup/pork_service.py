@@ -40,7 +40,7 @@ class PorkService:
 
         url = "http://people.anarchy-online.com/character/bio/d/%d/name/%s/bio.xml?data_type=json" % (self.bot.dimension, char_name)
 
-        r = requests.get(url)
+        r = requests.get(url, timeout=5)
         try:
             json = r.json()
         except ValueError as e:

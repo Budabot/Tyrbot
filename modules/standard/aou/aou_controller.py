@@ -77,7 +77,7 @@ class AOUController:
     def aou_search_cmd(self, request, include_all_matches, search):
         include_all_matches = include_all_matches or False
 
-        r = requests.get(self.AOU_URL + "&mode=search&search=" + search)
+        r = requests.get(self.AOU_URL + "&mode=search&search=" + search, timeout=5)
         xml = ElementTree.fromstring(r.content)
 
         blob = ""
@@ -110,7 +110,7 @@ class AOUController:
         if cache_result:
             result = ElementTree.fromstring(cache_result)
         else:
-            response = requests.get(self.AOU_URL + "&mode=view&id=" + str(guide_id))
+            response = requests.get(self.AOU_URL + "&mode=view&id=" + str(guide_id), timeout=5)
             result = ElementTree.fromstring(response.content)
 
             if result.findall("./error"):
