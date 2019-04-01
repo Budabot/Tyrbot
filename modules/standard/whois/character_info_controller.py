@@ -29,7 +29,7 @@ class CharacterInfoController:
 
         self.discord_controller.register_discord_command_handler(self.whois_discord_cmd, "whois", [Character("character")])
 
-    @command(command="whois", params=[Character("character"), Const("forceupdate", is_optional=True)], access_level="all",
+    @command(command="whois", params=[Character("character"), Const("forceupdate", is_optional=True)], access_level="member",
              description="Get whois information for a character")
     def whois_cmd(self, request, char, force_update):
         max_cache_age = 0 if force_update else 86400
