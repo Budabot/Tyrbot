@@ -35,28 +35,18 @@ class SystemController:
     @command(command="shutdown", params=[], access_level="superadmin",
              description="Shutdown the bot")
     def shutdown_cmd(self, request):
-        self.event_service.fire_event(self.SHUTDOWN_EVENT, DictObject({"restart": False}))
-
-        # set expected flag
-        self.expected_shutdown().set_value(True)
-
         if request.channel not in [CommandService.ORG_CHANNEL, CommandService.PRIVATE_CHANNEL]:
             request.reply(self.shutdown_msg)
 
-        self.bot.shutdown()
+        self.shutdown(False)
 
     @command(command="restart", params=[], access_level="admin",
              description="Restart the bot")
     def restart_cmd(self, request):
-        self.event_service.fire_event(self.SHUTDOWN_EVENT, DictObject({"restart": True}))
-
-        # set expected flag
-        self.expected_shutdown().set_value(True)
-
         if request.channel not in [CommandService.ORG_CHANNEL, CommandService.PRIVATE_CHANNEL]:
             request.reply(self.restart_msg)
 
-        self.bot.restart()
+        self.shutdown(True)
 
     @event(event_type="connect", description="Notify superadmin that bot has come online")
     def connect_event(self, event_type, event_data):
@@ -85,3 +75,14 @@ class SystemController:
             self.bot.send_private_channel_message(self.restart_msg, fire_outgoing_event=False)
         else:
             self.bot.send_private_channel_message(self.shutdown_msg, fire_outgoing_event=False)
+
+    def shutdown(self, should_restart):
+        self.event_service.fire_event(self.SHUTDOWN_EVENT, DictObject({"restart": should_restart}))
+
+        # set expected flag
+        self.expected_shutdown().set_value(True)
+
+        if should_restart:
+            self.bot.restart()
+        else:
+            self.bot.shutdown()
