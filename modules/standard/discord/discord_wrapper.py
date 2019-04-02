@@ -5,17 +5,15 @@ import asyncio
 
 
 class DiscordWrapper(discord.Client):
-    def __init__(self, channels, servers, dqueue, aoqueue):
-        super().__init__()
+    def __init__(self, channels, servers, dqueue, aoqueue, db):
+        super().__init__(loop=asyncio.new_event_loop())
         self.logger = Logger(__name__)
         self.relay_to = {}
         self.dqueue = dqueue
         self.aoqueue = aoqueue
         self.channels = channels
         self.available_servers = servers
-
-    def register(self, registry):
-        self.db = registry.get_instance("db")
+        self.db = db
 
     async def on_ready(self):
         self.dqueue.append(("discord_ready", "ready"))

@@ -46,7 +46,7 @@ class DiscordController:
         self.dqueue = []
         self.aoqueue = []
         self.logger = Logger(__name__)
-        self.client = DiscordWrapper(self.channels, self.servers, self.dqueue, self.aoqueue)
+        self.client = None
         self.command_handlers = []
 
         logging.getLogger("discord").setLevel(logging.INFO)
@@ -59,7 +59,6 @@ class DiscordController:
         self.character_service: CharacterService = registry.get_instance("character_service")
         self.text: Text = registry.get_instance("text")
         self.command_service = registry.get_instance("command_service")
-        self.client.register(registry)
 
     def pre_start(self):
         self.event_service.register_event_type("discord_ready")
@@ -107,26 +106,8 @@ class DiscordController:
     def relay_color_message(self):
         return ColorSettingType()
 
-    @command(command="discord", params=[Const("connect")], access_level="moderator", sub_command="manage",
-             description="Manually connect to Discord")
-    def discord_connect_cmd(self, request, _):
-        if self.client.is_logged_in:
-            return "Already connected to Discord."
-        else:
-            token = self.setting_service.get("discord_bot_token").get_value()
-            if token:
-                self.connect_discord_client(token)
-                return "Connecting to discord..."
-            else:
-                return "Cannot connect to discord, no bot token is set."
-
-    @command(command="discord", params=[Const("disconnect")], access_level="moderator", sub_command="manage",
-             description="Manually disconnect from Discord")
-    def discord_disconnect_cmd(self, request, _):
-        pass
-
     @command(command="discord", params=[], access_level="member",
-             description="See discord info")
+             description="See Discord info")
     def discord_cmd(self, request):
         counter = 0
         for cid, channel in self.channels.items():
@@ -135,7 +116,7 @@ class DiscordController:
 
         blob = "<header2>Info<end>\n"
         blob += "Status: "
-        blob += "<green>Connected<end>\n" if self.client.is_logged_in else "<red>disconnected<end>\n"
+        blob += "<green>Connected<end>\n" if self.is_connected() else "<red>Disconnected<end>\n"
         blob += "Channels available: <highlight>%d<end>\n\n" % counter
 
         blob += "<header2>Servers<end>\n"
@@ -162,13 +143,34 @@ class DiscordController:
 
         return ChatBlob("Discord info", blob)
 
+    @command(command="discord", params=[Const("connect")], access_level="moderator", sub_command="manage",
+             description="Manually connect to Discord")
+    def discord_connect_cmd(self, request, _):
+        if self.is_connected():
+            return "Discord is already connected."
+        else:
+            token = self.setting_service.get("discord_bot_token").get_value()
+            if token:
+                self.connect_discord_client(token)
+                return "Connected to Discord successfully."
+            else:
+                return "Cannot connect to Discord, no bot token is set."
+
+    @command(command="discord", params=[Const("disconnect")], access_level="moderator", sub_command="manage",
+             description="Manually disconnect from Discord")
+    def discord_disconnect_cmd(self, request, _):
+        if not self.is_connected():
+            return "Discord is not connected."
+        else:
+            self.disconnect_discord_client()
+            return "Disconnected from Discord successfully."
+
     @command(command="discord", params=[Const("relay")], access_level="moderator", sub_command="manage",
              description="Setup relaying of channels")
     def discord_relay_cmd(self, request, _):
-        logtext = "disconnect" if self.client.is_logged_in else "connect"
-        logcmdt = "discord disconnect" if self.client.is_logged_in else "discord connect"
-        loglink = self.text.make_chatcmd(logtext, "/tell <myname> %s" % logcmdt)
-        constatus = "<green>Connected<end>" if self.client.is_logged_in else "<red>disconnected<end>"
+        action = "disconnect" if self.is_connected() else "connect"
+        loglink = self.text.make_chatcmd(action, "/tell <myname> discord %s" % action)
+        constatus = "<green>Connected<end>" if self.is_connected() else "<red>Disconnected<end>"
 
         blob = "<header2>Info<end>\n"
         blob += "Status: %s [%s]\n" % (constatus, loglink)
@@ -198,10 +200,10 @@ class DiscordController:
     def discord_relay_change_cmd(self, request, _, channel_id, relay_type, relay):
         channel = self.channels[channel_id]
 
-        if relay_type == "ao":
+        if relay_type.lower() == "ao":
             if channel is not None:
                 channel.relay_ao = True if relay == "on" else False
-        elif relay_type == "discord":
+        elif relay_type.lower() == "discord":
             if channel is not None:
                 channel.relay_dc = True if relay == "on" else False
         else:
@@ -219,7 +221,7 @@ class DiscordController:
                 if server.id == str(server_id):
                     self.aoqueue.append(("get_invite", (request.sender.name, server)))
                     return
-        return "No such server."
+        return "Could not find Discord server with ID <highlight>%d<end>." % server_id
 
     @event(event_type=PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, description="Relay messages to Discord from org channel")
     def handle_org_message_event(self, event_type, event_data):
@@ -265,7 +267,7 @@ class DiscordController:
 
         self.update_discord_channels()
 
-    @event(event_type="discord_command", description="Handles discord commands")
+    @event(event_type="discord_command", description="Handles Discord commands")
     def handle_discord_command_event(self, event_type, message):
         msgcolor = self.setting_service.get("discord_embed_color").get_int_value()
 
@@ -286,7 +288,7 @@ class DiscordController:
     def generate_help(self, command_str, params):
         return "!" + command_str + " " + " ".join(map(lambda x: x.get_name(), params))
 
-    @event(event_type="discord_message", description="Handles relaying of discord messages")
+    @event(event_type="discord_message", description="Relays Discord messages to AO")
     def handle_discord_message_event(self, event_type, message):
         if isinstance(message.author, Member):
             name = message.author.nick or message.author.name
@@ -336,9 +338,14 @@ class DiscordController:
         self.command_handlers.append(DictObject({"callback": callback, "command": command_str, "params": params, "regex": r}))
 
     def connect_discord_client(self, token):
+        self.client = DiscordWrapper(self.channels, self.servers, self.dqueue, self.aoqueue, self.db)
         self.dthread = threading.Thread(target=self.client.run, args=(token,), daemon=True)
         self.dthread.start()
         self.client.loop.create_task(self.client.relay_message())
+
+    def disconnect_discord_client(self):
+        self.client.loop.create_task(self.client.logout())
+        self.client = None
 
     def update_discord_channels(self):
         result = self.db.query("SELECT * FROM discord")
@@ -363,7 +370,7 @@ class DiscordController:
         return s.get_data()
 
     def should_relay_message(self, char_id):
-        return self.client.is_logged_in and char_id != self.bot.char_id
+        return self.is_connected() and char_id != self.bot.char_id
 
     def help_discord_cmd(self, reply, args):
         msg = ""
@@ -371,3 +378,6 @@ class DiscordController:
             msg += self.generate_help(handler.command, handler.params) + "\n"
 
         reply(msg, "Help")
+
+    def is_connected(self):
+        return self.client and self.client.is_logged_in
