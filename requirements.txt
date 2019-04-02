@@ -1,5 +1,5 @@
 requests==2.21.0
-mysql-connector==2.2.9
+mysql-connector-python==8.0.15
 pytz==2018.9
 hjson==3.0.1
 discord==0.16.12
