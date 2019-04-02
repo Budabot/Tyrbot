@@ -177,7 +177,6 @@ class OnlineController:
                 for row in online_list:
                     if current_main != row.main:
                         count += 1
-                        #blob += "\n[%s]\n" % row.main
                         current_main = row.main
 
                     blob += "%s (%d/%d) %s %s\n" % (row.name, row.level or 0, row.ai_level or 0, row.faction, row.profession)

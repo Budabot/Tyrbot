@@ -153,7 +153,7 @@ class Tyrbot(Bot):
 
         return self.status
 
-    def add_packet_handler(self, packet_id, handler, priority=50):
+    def add_packet_handler(self, packet_id: int, handler, priority=50):
         handlers = self.packet_handlers.get(packet_id, [])
         handlers.append(DictObject({"priority": priority, "handler": handler}))
         self.packet_handlers[packet_id] = sorted(handlers, key=lambda x: x.priority)
