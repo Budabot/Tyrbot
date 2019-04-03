@@ -114,9 +114,9 @@ class Text:
         def mapper(tup):
             page, index = tup
             if num_pages == 1:
-                label2 = label
+                label2 = self.format_message(label)
             else:
-                label2 = label + " (Page " + str(index) + " / " + str(num_pages) + ")"
+                label2 = self.format_message(label) + " (Page " + str(index) + " / " + str(num_pages) + ")"
             return chatblob.page_prefix + self.format_page(label2, page) + chatblob.page_postfix
 
         return list(map(mapper, zip(pages, range(1, num_pages + 1))))
