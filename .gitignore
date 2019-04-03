@@ -3,7 +3,7 @@ __pycache__
 /.idea
 /conf/config.json
 /conf/config.hjson
-/data/database.db
+/data/*
 /logs/
 /modules/custom
 /modules/disabled
