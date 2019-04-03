@@ -58,7 +58,7 @@ class TextSettingType(SettingType):
         text = Registry.get_instance("text")
 
         if self.options:
-            options_str = "\n\nOr choose an option below:\n\n\n".join(map(lambda opt: text.make_chatcmd(str(opt), "/tell <myname> config setting %s set %s" % (self.name, opt)), self.options))
+            options_str = "\n\nOr choose an option below:\n\n" + "\n".join(map(lambda opt: text.make_chatcmd(str(opt), "/tell <myname> config setting %s set %s" % (self.name, opt)), self.options))
         else:
             options_str = ""
 
@@ -191,7 +191,7 @@ class NumberSettingType(SettingType):
     def get_display(self):
         text = Registry.get_instance("text")
         if self.options:
-            options_str = "\n\nOr choose an option below:\n\n\n".join(map(lambda opt: text.make_chatcmd(str(opt), "/tell <myname> config setting %s set %s" % (self.name, opt)), self.options))
+            options_str = "\n\nOr choose an option below:\n\n" + "\n".join(map(lambda opt: text.make_chatcmd(str(opt), "/tell <myname> config setting %s set %s" % (self.name, opt)), self.options))
         else:
             options_str = ""
 
