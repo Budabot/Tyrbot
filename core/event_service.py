@@ -131,8 +131,9 @@ class EventService:
         if next_run < current_timestamp:
             next_run = current_timestamp + int(row.event_sub_type)
 
-        self.db.exec("UPDATE timer_event SET next_run = ? WHERE event_type = ? AND handler = ?",
-                     [next_run, row.event_type, row.handler])
+        with self.db.transaction():
+            self.db.exec("UPDATE timer_event SET next_run = ? WHERE event_type = ? AND handler = ?",
+                         [next_run, row.event_type, row.handler])
 
         self.call_handler(row.handler, event_type_key, None)
 
