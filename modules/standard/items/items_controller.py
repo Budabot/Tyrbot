@@ -29,6 +29,8 @@ class ItemsController:
         offset = (page - 1) * page_size
 
         all_items = self.find_items(search, ql)
+        if search.isdigit():
+            all_items += [self.get_by_item_id(int(search))] + all_items
         items = self.sort_items(search, all_items)[offset:offset + page_size]
         cnt = len(items)
 
