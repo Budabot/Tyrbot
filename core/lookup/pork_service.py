@@ -1,3 +1,5 @@
+from requests import ReadTimeout
+
 from core.decorators import instance
 from core.dict_object import DictObject
 from core.aochat import server_packets
@@ -40,16 +42,19 @@ class PorkService:
 
         url = "http://people.anarchy-online.com/character/bio/d/%d/name/%s/bio.xml?data_type=json" % (self.bot.dimension, char_name)
 
-        r = requests.get(url, timeout=5)
         try:
-            json = r.json()
+            r = requests.get(url, timeout=5)
+            result = r.json()
+        except ReadTimeout:
+            self.logger.warning("Timeout while requesting '%s'" % url)
+            result = None
         except ValueError as e:
             self.logger.debug("Error marshalling value as json for url '%s': %s" % (url, r.text), e)
-            json = None
+            result = None
 
-        if json and json[0]["CHAR_INSTANCE"] == char_id:
-            char_info_json = json[0]
-            org_info_json = json[1] if json[1] else {}
+        if result and result[0]["CHAR_INSTANCE"] == char_id:
+            char_info_json = result[0]
+            org_info_json = result[1] if result[1] else {}
 
             char_info = DictObject({
                 "name": char_info_json["NAME"],

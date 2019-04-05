@@ -1,3 +1,5 @@
+from requests import ReadTimeout
+
 from core.decorators import instance
 from core.dict_object import DictObject
 from core.logger import Logger
@@ -35,13 +37,16 @@ class OrgPorkService:
         else:
             url = "http://people.anarchy-online.com/org/stats/d/%d/name/%d/basicstats.xml?data_type=json" % (self.bot.dimension, org_id)
 
-            r = requests.get(url, timeout=5)
             try:
+                r = requests.get(url, timeout=5)
                 result = r.json()
 
                 # if org has no members, org does not exist
                 if result[0]["NUMMEMBERS"] == 0:
                     result = None
+            except ReadTimeout:
+                self.logger.warning("Timeout while requesting '%s'" % url)
+                result = None
             except ValueError as e:
                 self.logger.warning("Error marshalling value as json for url '%s': %s" % (url, r.text), e)
                 result = None

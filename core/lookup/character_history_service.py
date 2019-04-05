@@ -1,3 +1,5 @@
+from requests import ReadTimeout
+
 from core.decorators import instance
 from core.dict_object import DictObject
 from core.logger import Logger
@@ -31,6 +33,9 @@ class CharacterHistoryService:
             try:
                 r = requests.get(url, timeout=5)
                 result = r.json()
+            except ReadTimeout:
+                self.logger.warning("Timeout while requesting '%s'" % url)
+                result = None
             except Exception as e:
                 self.logger.error("Error requesting history for url '%s'" % url, e)
                 result = None
