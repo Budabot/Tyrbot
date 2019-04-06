@@ -14,7 +14,7 @@ class GridnetController:
         self.dthread = None
         self.queue = []
         self.logger = Logger(__name__)
-        self.worker = GridnetWorker(self.queue)
+        self.worker = None
 
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
@@ -23,6 +23,9 @@ class GridnetController:
         self.event_service = registry.get_instance("event_service")
         self.character_service: CharacterService = registry.get_instance("character_service")
         self.text: Text = registry.get_instance("text")
+
+    def start(self):
+        self.worker = GridnetWorker(self.queue, "wss://gridnet.jkbff.com/subscribe/gridnet.rk%d" % self.bot.dimension)
 
     @setting(name="gridnet_channel_color", value="#FFFF00", description="Color of the channel in Gridnet messages")
     def gridnet_channel_color(self):
