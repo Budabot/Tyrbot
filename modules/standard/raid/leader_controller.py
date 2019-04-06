@@ -36,16 +36,6 @@ class LeaderController:
     def leader_echo_color(self):
         return ColorSettingType()
 
-    @setting(name="leader_echo_to_org", value="True",
-             description="Echo leader's messages to org channel")
-    def leader_echo_to_org(self):
-        return BooleanSettingType()
-
-    @setting(name="leader_echo_to_priv", value="True",
-             description="Echo leader's messages to private channel")
-    def leader_echo_to_priv(self):
-        return BooleanSettingType()
-
     @command(command="leader", params=[], access_level="all",
              description="Show the current raid leader")
     def leader_show_command(self, _):
@@ -131,26 +121,25 @@ class LeaderController:
         if self.leader and self.echo:
             if self.leader.char_id == event_data.char_id:
                 if self.setting_service.get("symbol").get_value() != event_data.message[0]:
-                    self.leader_echo(event_data.char_id, event_data.message)
+                    self.leader_echo(event_data.char_id, event_data.message, "priv")
 
     @event(PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, "Echo leader messages from org channel")
     def leader_echo_org_event(self, _, event_data):
         if self.leader and self.echo:
             if self.leader.char_id == event_data.char_id:
                 if self.setting_service.get("symbol").get_value() != event_data.message[0]:
-                    self.leader_echo(event_data.char_id, event_data.message)
+                    self.leader_echo(event_data.char_id, event_data.message, "org")
 
-    def leader_echo(self, char_id, message):
+    def leader_echo(self, char_id, message, channel):
         sender = self.character_service.resolve_char_to_name(char_id)
         color = self.setting_service.get("leader_echo_color").get_value()
 
-        if self.setting_service.get("leader_echo_to_org").get_value():
-            self.bot.send_org_message("%s: <font color=%s>%s" % (sender, color, message),
-                                      fire_outgoing_event=False)
+        if channel == "org":
+            self.bot.send_org_message("%s: <font color=%s>%s" % (sender, color, message))
+        if channel == "priv":
+            self.bot.send_private_channel_message("%s: <font color=%s>%s" % (sender, color, message))
 
-        if self.setting_service.get("leader_echo_to_priv").get_value():
-            self.bot.send_private_channel_message("%s: <font color=%s>%s" % (sender, color, message),
-                                                  fire_outgoing_event=False)
+        self.activity_done()
 
     def activity_done(self):
         self.last_activity = int(time.time())
