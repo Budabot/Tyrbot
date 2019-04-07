@@ -1,3 +1,4 @@
+from core.alts.alts_service import AltsService
 from core.decorators import instance, command, setting, event
 from core.command_param_types import Const
 from core.setting_types import NumberSettingType, BooleanSettingType, ColorSettingType
@@ -61,9 +62,8 @@ class NewsController:
 
     @command(command="news", params=[Const("rem"), Int("news_id")], description="Remove a news entry", access_level="moderator", sub_command="update")
     def news_rem_cmd(self, request, _, news_id):
-        # TODO mark news entry as deleted
-        sql = "DELETE FROM news WHERE id = ?"
-        success = self.db.exec(sql, [news_id])
+        sql = "UPDATE news SET deleted_at = ? WHERE id = ? AND deleted_at = 0"
+        success = self.db.exec(sql, [int(time.time()), news_id])
 
         if success > 0:
             return "Successfully deleted news entry with ID <highlight>%d<end>." % news_id
@@ -72,7 +72,7 @@ class NewsController:
 
     @command(command="news", params=[Const("sticky"), Int("news_id")], description="Sticky a news entry", access_level="moderator", sub_command="update")
     def news_sticky_cmd(self, request, _, news_id):
-        sql = "UPDATE news SET sticky = 1 WHERE id = ?"
+        sql = "UPDATE news SET sticky = 1 WHERE id = ? AND deleted_at = 0"
         success = self.db.exec(sql, [news_id])
 
         if success > 0:
@@ -177,10 +177,14 @@ class NewsController:
 
     def get_unread_news(self, char_id):
         number_news_shown = self.setting_service.get("number_news_shown").get_value()
-        sql = "SELECT n.*, p.name AS author FROM news n LEFT JOIN player p ON n.char_id = p.char_id " \
+        sql = "SELECT n.*, p.name AS author " \
+              "FROM news n " \
+              "LEFT JOIN alts a ON n.char_id = a.char_id " \
+              "LEFT JOIN alts a2 ON (a.group_id = a2.group_id AND a2.status = ?) " \
+              "LEFT JOIN player p ON p.char_id = COALESCE(a2.char_id, n.char_id) " \
               "WHERE n.id NOT IN ( SELECT r.news_id FROM news_read r WHERE char_id = ? ) " \
               "AND n.deleted_at = 0 ORDER BY n.created_at ASC LIMIT ?"
-        news = self.db.query(sql, [char_id, number_news_shown])
+        news = self.db.query(sql, [AltsService.MAIN, char_id, number_news_shown])
 
         blob = "%s\n\n" % self.text.make_chatcmd("Mark as all read", "/tell <myname> news markasread all")
 
@@ -198,8 +202,13 @@ class NewsController:
         return None
 
     def get_sticky_news(self):
-        sql = "SELECT n.*, p.name AS author FROM news n LEFT JOIN player p ON n.char_id = p.char_id WHERE n.deleted_at = 0 AND n.sticky = 1 ORDER BY n.created_at DESC"
-        news = self.db.query(sql)
+        sql = "SELECT n.*, p.name AS author " \
+              "FROM news n " \
+              "LEFT JOIN alts a ON n.char_id = a.char_id " \
+              "LEFT JOIN alts a2 ON (a.group_id = a2.group_id AND a2.status = ?) " \
+              "LEFT JOIN player p ON p.char_id = COALESCE(a2.char_id, n.char_id) " \
+              "WHERE n.deleted_at = 0 AND n.sticky = 1 ORDER BY n.created_at DESC"
+        news = self.db.query(sql, [AltsService.MAIN])
 
         blob = ""
 
@@ -219,8 +228,13 @@ class NewsController:
 
     def get_news(self):
         number_news_shown = self.setting_service.get("number_news_shown").get_value()
-        sql = "SELECT n.*, p.name AS author FROM news n LEFT JOIN player p ON n.char_id = p.char_id WHERE n.deleted_at = 0 AND n.sticky = 0 ORDER BY n.created_at DESC LIMIT ?"
-        news = self.db.query(sql, [number_news_shown])
+        sql = "SELECT n.*, p.name AS author " \
+              "FROM news n " \
+              "LEFT JOIN alts a ON n.char_id = a.char_id " \
+              "LEFT JOIN alts a2 ON (a.group_id = a2.group_id AND a2.status = ?) " \
+              "LEFT JOIN player p ON p.char_id = COALESCE(a2.char_id, n.char_id) " \
+              "WHERE n.deleted_at = 0 AND n.sticky = 0 ORDER BY n.created_at DESC LIMIT ?"
+        news = self.db.query(sql, [AltsService.MAIN, number_news_shown])
 
         blob = ""
 
