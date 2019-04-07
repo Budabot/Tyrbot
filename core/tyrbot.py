@@ -270,7 +270,7 @@ class Tyrbot(Bot):
                 packet = client_packets.PrivateChannelMessage(private_channel_id, color + page, "\0")
                 self.send_packet(packet)
 
-            if fire_outgoing_event:
+            if fire_outgoing_event and private_channel_id == self.char_id:
                 self.event_service.fire_event(self.OUTGOING_PRIVATE_CHANNEL_MESSAGE_EVENT, DictObject({"private_channel_id": private_channel_id,
                                                                                                        "message": msg}))
 
