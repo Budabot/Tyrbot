@@ -14,6 +14,7 @@ class ExternalChannelController:
         self.character_service = registry.get_instance("character_service")
         self.command_service = registry.get_instance("command_service")
         self.setting_service = registry.get_instance("setting_service")
+        self.ban_service = registry.get_instance("ban_service")
 
     def start(self):
         self.bot.add_packet_handler(server_packets.PrivateChannelInvited.id, self.handle_private_channel_invite)
@@ -21,8 +22,11 @@ class ExternalChannelController:
 
     def handle_private_channel_invite(self, packet: server_packets.PrivateChannelInvited):
         channel_name = self.character_service.get_char_name(packet.private_channel_id)
-        self.bot.send_packet(client_packets.PrivateChannelJoin(packet.private_channel_id))
-        self.logger.info("Joined private channel %s" % channel_name)
+        if self.ban_service.get_ban(packet.private_channel_id):
+            self.logger.info("ignore private channel invite from banned char '%s'" % channel_name)
+        else:
+            self.bot.send_packet(client_packets.PrivateChannelJoin(packet.private_channel_id))
+            self.logger.info("Joined private channel %s" % channel_name)
 
     def handle_private_channel_message(self, packet: server_packets.PrivateChannelMessage):
         if packet.private_channel_id != self.bot.char_id:
