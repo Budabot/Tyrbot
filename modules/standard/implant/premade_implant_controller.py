@@ -116,4 +116,4 @@ class PremadeImplantController:
         return self.db.query(sql, [modifier, modifier, modifier], extended_like=True)
 
     def get_slot(self, search):
-        return self.db.query_single("SELECT * FROM ImplantType WHERE ShortName LIKE ?", [search])
+        return self.db.query_single("SELECT * FROM ImplantType WHERE Name LIKE ? OR ShortName LIKE ?", [search, search])
