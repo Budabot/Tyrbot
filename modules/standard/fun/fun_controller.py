@@ -65,21 +65,20 @@ class FunController:
         return self.get_fun_message("pirates", request, item_id)
 
     def get_fun_message(self, quote_type, request, number):
+        # Get a joke
         if number is None:
-            number = -1
-        data = self.db.query("SELECT f.content FROM fun f WHERE type = ?", [str(quote_type)])
-        if number == -1:
-            row = random.choice(data)
+            count_result = self.db.query_single("SELECT COUNT(*) as count FROM fun WHERE type = ?", [str(quote_type)])
+            random_number = random.randint(1, count_result.count)
+            row = self.db.query_single("SELECT f.* FROM fun f WHERE type = ? AND type_id = ?", [str(quote_type), random_number])
         else:
-            try:
-                row = data[number]
-                dmg = random.randint(100, 999)
-                creds = random.randint(10000, 9999999)
-                msg = row.content
-                msg = msg.replace("*name*", request.sender.name)
-                msg = msg.replace("*dmg*", str(dmg))
-                msg = msg.replace("*creds*", str(creds))
-                return msg;
-            except IndexError:
+            row = self.db.query_single("SELECT f.* FROM fun f WHERE type = ? AND type_id = ?", [str(quote_type), number])
+            if row is None:
                 return "There is no item with that id."
-        return row.content;
+        # Some additional processing
+        dmg = random.randint(100, 999)
+        creds = random.randint(10000, 9999999)
+        msg = row.content
+        msg = msg.replace("*name*", request.sender.name)
+        msg = msg.replace("*dmg*", str(dmg))
+        msg = msg.replace("*creds*", str(creds))
+        return msg;
