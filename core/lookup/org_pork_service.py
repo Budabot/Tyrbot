@@ -35,7 +35,7 @@ class OrgPorkService:
             result = json.loads(cache_result)
             is_cache = True
         else:
-            url = "http://people.anarchy-online.com/org/stats/d/%d/name/%d/basicstats.xml?data_type=json" % (self.bot.dimension, org_id)
+            url = "https://pork.jkbff.com/org/stats/d/%d/name/%d/basicstats.xml?data_type=json" % (self.bot.dimension, org_id)
 
             try:
                 r = requests.get(url, timeout=5)
