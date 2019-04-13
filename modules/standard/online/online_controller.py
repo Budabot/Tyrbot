@@ -36,12 +36,12 @@ class OnlineController:
 
         self.command_alias_service.add_alias("o", "online")
 
-    @command(command="online", params=[], access_level="all",
+    @command(command="online", params=[], access_level="member",
              description="Show the list of online characters")
     def online_cmd(self, request):
         return self.get_online_output()
 
-    @command(command="online", params=[Any("profession")], access_level="all",
+    @command(command="online", params=[Any("profession")], access_level="member",
              description="Show the list of online characters with alts of a certain profession")
     def online_profession_cmd(self, request, prof):
         profession = self.util.get_profession(prof)
@@ -50,7 +50,7 @@ class OnlineController:
 
         return self.get_online_alts_output(profession)
 
-    @command(command="count", params=[], access_level="all",
+    @command(command="count", params=[], access_level="member",
              description="Show counts of players by title level, profession, and organization")
     def count_cmd(self, request):
         data = self.db.query("SELECT p.*, o.channel, COALESCE(p.name, o.char_id) AS name FROM online o LEFT JOIN player p ON o.char_id = p.char_id ORDER BY channel ASC")
