@@ -40,11 +40,10 @@ class DiscordWrapper(discord.Client):
             # split content into rows
             rowSplit = content.description.split("\n")
 
-            maxNameLength = 0
-            maxLevelLength = 0
-            maxSideLength = 0
-            maxProfLength = 0
+            # store maximum string lengths, these will be used to space the table
+            maxLengths = [0, 0, 0, 0]
 
+            # store online member string splits
             onlineMembers = []
             
             # iterate rows to calc table size
@@ -59,30 +58,18 @@ class DiscordWrapper(discord.Client):
                 # store split for use later
                 onlineMembers.append(columnSplit)
 
-                # get string lengths
-                nameLength = len(columnSplit[0])
-                levelLength = len(columnSplit[1])
-                sideLength = len(columnSplit[2])
-                profLength = len(columnSplit[3])
+                # iterate each element in split
+                for j in range(len(columnSplit)):
+                    # get length of element
+                    length = len(columnSplit[j])
 
-                # compare and apply lengths as required
-                if nameLength > maxNameLength:
-                    maxNameLength = nameLength
+                    # if length of element 'wins' then set value in array
+                    if length > maxLengths[j]:
+                        maxLengths[j] = length
 
-                if levelLength > maxLevelLength:
-                    maxLevelLength = levelLength
-
-                if sideLength > maxSideLength:
-                    maxSideLength = sideLength
-
-                if profLength > maxProfLength:
-                    maxProfLength = profLength
-                   
-            # add an additional space
-            maxNameLength += 1
-            maxLevelLength += 1
-            maxSideLength += 1
-            maxProfLength += 1
+            # add an additional space to each length
+            for i in range(len(maxLengths)):
+                maxLengths[i] += 1
 
             # start monospace
             content.description = "```"
@@ -91,15 +78,17 @@ class DiscordWrapper(discord.Client):
             for i in range(len(onlineMembers)):
                 # get online member
                 onlineMember = onlineMembers[i]
-                content.description += onlineMember[0].ljust(maxNameLength);
-                content.description += onlineMember[1].ljust(maxLevelLength);
-                content.description += onlineMember[2].ljust(maxSideLength);
-                content.description += onlineMember[3].ljust(maxProfLength);
+                
+                # iterate each item in array (assuming 4 should be safe at this point)
+                for j in range(4):
+                    # append text to content, padded
+                    content.description += onlineMember[j].ljust(maxLengths[j]);
+
+                # append newline
                 content.description += "\n"                
 
             # end monospace
             content.description += "```"
-
     
     async def relay_message(self):
         await self.wait_until_ready()
