@@ -1,6 +1,6 @@
 import random
 
-from core.command_param_types import Any
+from core.command_param_types import SignedInt
 from core.decorators import command, instance
 from core.registry import Registry
 
@@ -18,7 +18,7 @@ class DingController:
     def start(self):
         self.command_alias_service.add_alias("levelup", "ding")
 
-    @command(command="ding", params=[Any("level", is_optional=True)], access_level="all",
+    @command(command="ding", params=[SignedInt("level", is_optional=True)], access_level="all",
              description="Show a random ding message, congratz!")
     def ding_command(self, request, level: str):
         if level is None:
@@ -30,7 +30,7 @@ class DingController:
             return random.choice(text_options)
         else:
             try:
-                current_level = int(float(level))
+                current_level = level
                 levels_to_go = 220 - current_level
                 character_name = request.sender.name
 

@@ -67,6 +67,15 @@ class Int(CommandParam):
             return int(val.lstrip())
 
 
+class SignedInt(Int):
+    def __init__(self, name, is_optional=False):
+        super().__init__(name, is_optional)
+
+    def get_regex(self):
+        regex = r"(\s+\-?[0-9]+)"
+        return regex + ("?" if self.is_optional else "")
+
+
 class Decimal(CommandParam):
     def __init__(self, name, is_optional=False):
         super().__init__()
