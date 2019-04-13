@@ -205,7 +205,7 @@ class OnlineController:
                 online_list_processed.append(processed)
 
                 # iterate character information
-                for i in range(4):
+                for i in range(len(processed)):
                     # get length of this piece of information
                     length = len(processed[i])
 
@@ -217,12 +217,12 @@ class OnlineController:
             blob += "\n[%s]\n```" % channel
 
             # increment max lengths for spacing
-            for i in range(4):
+            for i in range(len(max_lengths)):
                 max_lengths[i] += 1
 
             # iterate processed characters and add to content
             for row in online_list_processed:
-                for i in range(4):
+                for i in range(len(max_lengths)):
                     blob += row[i].ljust(max_lengths[i])
                 
                 # append newline
