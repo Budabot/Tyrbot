@@ -29,7 +29,7 @@ class CloakController:
         self.db.exec("CREATE TABLE IF NOT EXISTS cloak_status (char_id INT NOT NULL, action VARCHAR(10) NOT NULL, created_at INT NOT NULL)")
         self.command_alias_service.add_alias("city", "cloak")
 
-    @command(command="cloak", params=[], access_level="all",
+    @command(command="cloak", params=[], access_level="org_member",
              description="Show the current status of the city cloak and the cloak history")
     def cloak_show_command(self, request):
         data = self.db.query("SELECT c.*, p.name FROM cloak_status c LEFT JOIN player p ON c.char_id = p.char_id ORDER BY created_at DESC LIMIT 20")

@@ -8,7 +8,7 @@ from core.registry import Registry
 
 class TimerTime(Time):
     def get_regex(self):
-        regex = "(\s+(([0-9]+)([a-z]*))+)"
+        regex = r"(\s+(([0-9]+)([a-z]*))+)"
         return regex + ("?" if self.is_optional else "")
 
     def process_matches(self, params):
