@@ -40,7 +40,7 @@ class PorkService:
         if not char_name:
             return char_info
 
-        url = "http://people.anarchy-online.com/character/bio/d/%d/name/%s/bio.xml?data_type=json" % (self.bot.dimension, char_name)
+        url = "https://pork.jkbff.com/character/bio/d/%d/name/%s/bio.xml?data_type=json" % (self.bot.dimension, char_name)
 
         try:
             r = requests.get(url, timeout=5)
