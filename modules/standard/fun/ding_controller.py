@@ -21,7 +21,6 @@ class DingController:
     @command(command="ding", params=[SignedInt("level", is_optional=True)], access_level="all",
              description="Show a random ding message, congratz!")
     def ding_command(self, request, level):
-        text_options = []
         if level is None:
             text_options = [
                 "Yeah yeah gratz, I would give you a better response but you didn't say what level you dinged.",
@@ -33,7 +32,6 @@ class DingController:
             levels_to_go = 220 - current_level
             character_name = request.sender.name
             if current_level <= 0:
-                text_options.clear()
                 text_options = [("Reclaim sure is doing a number on you if you're going backwards..."),
                                 ("Wtb negative exp kite teams!"),
                                 ("That leaves you with... %d more levels until 220, I don't see the problem?" % (
