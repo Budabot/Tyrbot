@@ -28,6 +28,10 @@ try:
     with open(config_file, "r") as cfg:
         config = DictObject(hjson.load(cfg))
 
+    # ensure dimension is integer
+    if isinstance(config.server.dimension, str):
+        config.server.dimension = int(config.server.dimension)
+
     if platform.system() == "Windows":
         os.system("title %s.%d" % (config.character, config.server.dimension))
 

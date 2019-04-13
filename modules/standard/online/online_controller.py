@@ -168,23 +168,73 @@ class OnlineController:
         blob = ""
         count = 0
 
+        # iterate channels
         for channel in [self.ORG_CHANNEL, self.PRIVATE_CHANNEL]:
+            # get characters
             online_list = self.get_online_characters(channel)
 
-            if len(online_list) > 0:
-                blob += "\n[%s]\n" % channel
-                current_main = ""
-                for row in online_list:
-                    if current_main != row.main:
-                        count += 1
-                        current_main = row.main
+            # if no characters, skip this channel
+            if len(online_list) == 0:
+                continue
 
-                    blob += "%s (%d/%d) %s %s\n" % (row.name, row.level or 0, row.ai_level or 0, row.faction, row.profession)
+            # used to keep track of the current main
+            current_main = ""
+
+            # store maximum string lengths, these will be used to space the result table
+            max_lengths = [0, 0, 0, 0]
+
+            # hold values for rendering later
+            online_list_processed = []
+
+            # iterate online players in this channel
+            for row in online_list:
+                # increment count based on mains only
+                if current_main != row.main:
+                    count += 1
+                    current_main = row.main
+
+                # create array of 'processed' character information
+                processed = [
+                    row.name,
+                    "(%d/%d)" % (row.level or 0, row.ai_level or 0),
+                    row.faction,
+                    row.profession
+                ]
+
+                # append to other array for iteration later
+                online_list_processed.append(processed)
+
+                # iterate character information
+                for i in range(len(processed)):
+                    # get length of this piece of information
+                    length = len(processed[i])
+
+                    # if length exceeds existing max, assign
+                    if length > max_lengths[i]:
+                        max_lengths[i] = length
+            
+            # start content with channel name, start monospace
+            blob += "\n[%s]\n```" % channel
+
+            # increment max lengths for spacing
+            for i in range(len(max_lengths)):
+                max_lengths[i] += 1
+
+            # iterate processed characters and add to content
+            for row in online_list_processed:
+                for i in range(len(max_lengths)):
+                    blob += row[i].ljust(max_lengths[i])
+                
+                # append newline
+                blob += "\n"
+
+            # end monospace
+            blob += "```"
 
         if not blob:
             blob = "No characters online."
 
-        reply(blob, "Online")
+        reply(blob, "Online (%d)" % count)
 
     def get_online_output(self):
         blob = ""
