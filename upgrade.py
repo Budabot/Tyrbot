@@ -110,3 +110,8 @@ if version == 7:
         db.exec("INSERT INTO player (char_id, first_name, name, last_name, level, breed, gender, faction, profession, profession_title, ai_rank, ai_level, org_id, org_name, org_rank_name, org_rank_id, dimension, head_id, pvp_rating, pvp_title, source, last_updated) SELECT char_id, first_name, name, last_name, level, breed, gender, faction, profession, profession_title, ai_rank, ai_level, org_id, org_name, org_rank_name, org_rank_id, dimension, head_id, pvp_rating, pvp_title, source, last_updated FROM player_old")
         db.exec("DROP TABLE player_old")
     version = update_version(version)
+
+if version == 8:
+    if table_exists("roll"):
+        db.exec("DROP TABLE roll")
+    version = update_version(version)
