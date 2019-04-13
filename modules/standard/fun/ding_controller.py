@@ -2,7 +2,6 @@ import random
 
 from core.command_param_types import SignedInt
 from core.decorators import command, instance
-from core.registry import Registry
 
 
 @instance()
@@ -11,8 +10,6 @@ class DingController:
         Port of Budabot fun module
     """
 
-    def inject(self, registry: Registry):
-        self.command_alias_service = registry.get_instance("command_alias_service")
 
     @command(command="ding", params=[SignedInt("level", is_optional=True)], access_level="all",
              description="Show a random ding message, congratz!")
