@@ -12,11 +12,7 @@ class DingController:
     """
 
     def inject(self, registry: Registry):
-        self.command_alias_service = registry.get_instance(
-            "command_alias_service")
-
-    def start(self):
-        self.command_alias_service.add_alias("levelup", "ding")
+        self.command_alias_service = registry.get_instance("command_alias_service")
 
     @command(command="ding", params=[SignedInt("level", is_optional=True)], access_level="all",
              description="Show a random ding message, congratz!")
