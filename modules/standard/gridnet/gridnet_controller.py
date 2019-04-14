@@ -1,6 +1,6 @@
 import threading
 
-from core.decorators import instance, event, timerevent, setting
+from core.decorators import instance, event, timerevent, setting, command
 from core.logger import Logger
 from core.lookup.character_service import CharacterService
 from core.setting_types import ColorSettingType
@@ -39,6 +39,14 @@ class GridnetController:
     def gridnet_sender_color(self):
         return ColorSettingType()
 
+    @command(command="gridnet_on", params=[], access_level="superadmin", description="Connect to Gridnet")
+    def gridnet_on(self, request):
+        self.connect()
+
+    @command(command="gridnet_off", params=[], access_level="superadmin", description="Disconnect from Gridnet")
+    def gridnet_off(self, request):
+        self.disconnect()
+
     @timerevent(budatime="1s", description="Relay messages from Gridnet to org and private channel")
     def handle_queue_event(self, event_type, event_data):
         while self.queue:
@@ -56,5 +64,17 @@ class GridnetController:
         self.connect()
 
     def connect(self):
+        if self.worker.running:
+            self.logger.info("Already connected to Gridnet")
+            return
+
         self.dthread = threading.Thread(target=self.worker.run, daemon=True)
         self.dthread.start()
+
+    def disconnect(self):
+        if not self.worker.running:
+            self.logger.info("Already disconnected from Gridnet")
+            return
+
+        self.logger.info("Disconnecting from Gridnet")
+        self.worker.stop()
