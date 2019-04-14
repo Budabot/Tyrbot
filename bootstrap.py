@@ -7,6 +7,7 @@ import hjson
 import time
 import os
 import platform
+import sys
 
 
 try:
@@ -18,6 +19,10 @@ try:
     logger = Logger("core.bootstrap")
     logger.info("Starting Tyrbot...")
     config_file = "./conf/config.hjson"
+
+    if sys.version_info < (3, 6) or sys.version_info >= (3, 7):
+        logger.error("Python3.6 is required (neither 3.5 or 3.7 will work)")
+        exit(0)
 
     # start config wizard if config file does not exist
     if not os.path.exists(config_file):
