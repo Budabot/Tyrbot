@@ -132,8 +132,8 @@ class PollController:
     def show_poll_details_blob(self, poll):
         blob = ""
         blob += "Duration: <highlight>%s<end>\n" % self.util.time_to_readable(poll.duration)
-        blob += "Created: <highlight>%s<end>\n" % poll.created_at
-        blob += "Finished: <highlight>%s<end>\n" % poll.finished_at
+        blob += "Created: <highlight>%s<end>\n" % self.util.format_datetime(poll.created_at)
+        blob += "Finished: <highlight>%s<end>\n" % self.util.format_datetime(poll.finished_at)
 
         blob += "\n<header2>Choices<end>\n\n"
         idx = 1
