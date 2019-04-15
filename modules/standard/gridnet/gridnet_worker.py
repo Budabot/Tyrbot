@@ -11,6 +11,7 @@ class GridnetWorker:
         self.logger = Logger(__name__)
         self.queue = queue
         self.url = url
+        
         self.running = False
         self.ws = None
 
@@ -20,11 +21,14 @@ class GridnetWorker:
         self.logger.info("Connected to Gridnet!")
 
         result = self.ws.recv()
+
         while result and self.running:
             self.queue.append(DictObject(json.loads(result)))
             result = self.ws.recv()
 
-        self.ws.close()
+        if self.ws.connected:
+            self.ws.close()
+
         self.logger.info("Disconnected from Gridnet")
 
     def stop(self):
