@@ -9,8 +9,8 @@ from core.setting_service import SettingService
 from core.lookup.character_service import CharacterService
 from core.alts.alts_service import AltsService
 from core.job_scheduler import JobScheduler
+from modules.standard.raid.loot_controller import LootController
 from .points_controller import PointsController
-from .raid_controller import RaidController
 from .item_types import AuctionItem
 import re
 import time
@@ -47,7 +47,7 @@ class AuctionController:
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
         self.bot: Tyrbot = registry.get_instance("bot")
-        self.raid_controller: RaidController = registry.get_instance("raid_controller")
+        self.loot_controller: LootController = registry.get_instance("loot_controller")
         self.setting_service: SettingService = registry.get_instance("setting_service")
         self.job_scheduler: JobScheduler = registry.get_instance("job_scheduler")
         self.character_service: CharacterService = registry.get_instance("character_service")
@@ -85,7 +85,7 @@ class AuctionController:
         if self.auction_running:
             return "Auction already running."
 
-        items = re.findall("(([^<]+)?<a href=\"itemref://(\d+)/(\d+)/(\d+)\">([^<]+)</a>([^<]+)?)", items)
+        items = re.findall(r"(([^<]+)?<a href=\"itemref://(\d+)/(\d+)/(\d+)\">([^<]+)</a>([^<]+)?)", items)
 
         if items:
             auction_item = None
@@ -94,13 +94,13 @@ class AuctionController:
                 auction_item = self.add_auction_item_to_loot(int(low_id), int(high_id), int(ql),
                                                              name, request.sender.char_id, prefix, suffix, 1)
 
-            if len(self.raid_controller.loot_list) > 1:
+            if len(self.loot_controller.loot_list) > 1:
                 self.bot.send_org_message("%s just started a mass auction "
-                                          "for %d items." % (request.sender.name, len(self.raid_controller.loot_list)))
+                                          "for %d items." % (request.sender.name, len(self.loot_controller.loot_list)))
                 self.bot.send_private_channel_message(
                     "%s just started a mass auction for %d items." % request.sender.name,
-                    len(self.raid_controller.loot_list))
-                self.raid_controller.loot_cmd(request)
+                    len(self.loot_controller.loot_list))
+                self.loot_controller.loot_cmd(request)
             else:
                 sql = "SELECT winning_bid FROM auction_log WHERE " \
                       "item_name LIKE '%' || ? || '%' ORDER BY time DESC LIMIT 5"
@@ -110,7 +110,7 @@ class AuctionController:
                 else:
                     avg_win_bid = 0
 
-                bid_link = self.raid_controller.get_auction_list()
+                bid_link = self.loot_controller.get_auction_list()
                 bid_link = self.text.paginate(ChatBlob("Click to bid", bid_link.msg), 5000, 1)[0]
                 msg = "\n<yellow>----------------------------------------<end>\n"
                 msg += "<yellow>%s<end> has just started an auction " \
@@ -126,9 +126,8 @@ class AuctionController:
             self.auction_time = int(time.time())
             self.create_auction_timers()
 
-            return
-
-        return "Can't start empty auction."
+        else:
+            return "Can't start empty auction."
 
     @command(command="auction", params=[Options(["cancel", "end"])], description="Cancel ongoing auction",
              access_level="moderator")
@@ -136,7 +135,7 @@ class AuctionController:
         if self.auction_running:
             self.auction_running = False
             self.auction_time = None
-            self.raid_controller.loot_list.clear()
+            self.loot_controller.loot_list.clear()
             self.bidder_accounts.clear()
 
             for announce_id in self.announce_ids:
@@ -170,7 +169,7 @@ class AuctionController:
             new_bidder = False
 
             try:
-                auction_item = self.raid_controller.loot_list[item_index]
+                auction_item = self.loot_controller.loot_list[item_index]
             except KeyError:
                 return "No item at given index."
 
@@ -261,14 +260,11 @@ class AuctionController:
                     if auction_item.winner_id:
                         prev_main_id = self.alts_service.get_main(auction_item.winner_id).char_id
                         prev_bidder_account = self.bidder_accounts[prev_main_id]
-                        print("tot: %d -- used: %d" % (
-                            prev_bidder_account.points_available, prev_bidder_account.points_used))
+                        # print("tot: %d -- used: %d" % (prev_bidder_account.points_available, prev_bidder_account.points_used))
                         prev_bidder_account.points_used -= auction_item.winning_bid
-                        print("tot: %d -- used: %d" % (
-                            prev_bidder_account.points_available, prev_bidder_account.points_used))
+                        # print("tot: %d -- used: %d" % (prev_bidder_account.points_available, prev_bidder_account.points_used))
                         new_available = prev_bidder_account.points_available - prev_bidder_account.points_used
-                        print("tot: %d -- used: %d -- new avail: %d" % (
-                            prev_bidder_account.points_available, prev_bidder_account.points_used, new_available))
+                        # print("tot: %d -- used: %d -- new avail: %d" % (prev_bidder_account.points_available, prev_bidder_account.points_used, new_available))
                         self.bot.send_private_message(
                             auction_item.winner_id,
                             "Your bid on %s has been overtaken by %s. The points have been returned to your pool of "
@@ -286,7 +282,7 @@ class AuctionController:
 
                     bidder_account.points_used = used + amount
                     new_available = t_available - bidder_account.points_used
-                    if len(self.announce_ids) < 2 and len(self.raid_controller.loot_list) == 1:
+                    if len(self.announce_ids) < 2 and len(self.loot_controller.loot_list) == 1:
                         self.job_scheduler.cancel_job(self.announce_ids.pop())
                         self.announce_ids.append(self.job_scheduler.delayed_job(self.auction_results, 10))
                         self.bot.send_org_message("%s now holds the leading bid for %s. Bid was "
@@ -305,12 +301,12 @@ class AuctionController:
     @command(command="auction", params=[Const("bid"), Const("item"), Int("item_index")],
              description="Get bid info for a specific item", access_level="member", sub_command="bid_info")
     def auction_bid_info_cmd(self, _1, _2, _3, item_index):
-        if not self.raid_controller.loot_list:
+        if not self.loot_controller.loot_list:
             return "No auction running."
 
         blob = ""
 
-        loot_item = self.raid_controller.loot_list[item_index]
+        loot_item = self.loot_controller.loot_list[item_index]
         ao_item = loot_item.item
         min_bid = self.setting_service.get("minimum_bid").get_value()
 
@@ -333,16 +329,16 @@ class AuctionController:
 
     def add_auction_item_to_loot(self, low_id: int, high_id: int, ql: int,
                                  name: str, auctioneer_id: int, prefix=None, suffix=None, item_count=1):
-        end_index = list(self.raid_controller.loot_list.keys())[-1]+1 if len(self.raid_controller.loot_list) > 0 else 1
+        end_index = list(self.loot_controller.loot_list.keys())[-1]+1 if len(self.loot_controller.loot_list) > 0 else 1
 
         item_ref = {"low_id": low_id, "high_id": high_id, "ql": ql, "name": name}
 
-        self.raid_controller.loot_list[end_index] = AuctionItem(item_ref, auctioneer_id, prefix, suffix, item_count)
+        self.loot_controller.loot_list[end_index] = AuctionItem(item_ref, auctioneer_id, prefix, suffix, item_count)
 
-        return self.raid_controller.loot_list[end_index]
+        return self.loot_controller.loot_list[end_index]
 
     def create_auction_timers(self):
-        if len(self.raid_controller.loot_list) > 1:
+        if len(self.loot_controller.loot_list) > 1:
             auction_length = self.setting_service.get("mass_auction_length").get_value()
             interval = self.setting_service.get("mass_auction_announce_interval")
         else:
@@ -359,23 +355,23 @@ class AuctionController:
         for i in range(1, auction_length):
             self.announe_anti_ids.append(self.job_scheduler.delayed_job(self.auction_anti_spam_announce, i))
 
-        if len(self.raid_controller.loot_list) == 1:
+        if len(self.loot_controller.loot_list) == 1:
             self.announce_ids.append(self.job_scheduler.delayed_job(self.auction_results, auction_length))
 
     def auction_announce(self, _, time_left):
         if self.auction_running:
             self.announce_ids.pop(0)
 
-            item_count = len(self.raid_controller.loot_list)
+            item_count = len(self.loot_controller.loot_list)
 
             if self.announce_ids and item_count > 1:
                 msg = "Auction for %d items running. %d seconds left of auction." % (item_count, time_left)
-            elif len(self.raid_controller.loot_list) > 1:
+            elif len(self.loot_controller.loot_list) > 1:
                 msg = "Auction for %d items will end within 30 seconds" % item_count
                 self.announce_ids.append(self.job_scheduler.delayed_job(self.auction_results,
                                                                         secrets.choice(range(5, 30))))
             else:
-                auction_item = list(self.raid_controller.loot_list.values())[-1]
+                auction_item = list(self.loot_controller.loot_list.values())[-1]
                 item = auction_item.item
 
                 if self.setting_service.get("vickrey_auction").get_value():
@@ -392,7 +388,7 @@ class AuctionController:
 
             self.bot.send_private_channel_message(msg)
             self.bot.send_org_message(msg)
-            self.raid_controller.loot_cmd(None)
+            self.loot_controller.loot_cmd(None)
 
     def auction_anti_spam_announce(self, _):
         announce = None
@@ -411,7 +407,7 @@ class AuctionController:
 
         blob = ""
 
-        for i, auction_item in self.raid_controller.loot_list.items():
+        for i, auction_item in self.loot_controller.loot_list.items():
             was_rolled = False
             if self.setting_service.get("vickrey_auction").get_value():
                 was_rolled = self.find_vickrey_winner(auction_item)
@@ -443,7 +439,7 @@ class AuctionController:
         self.bidder_accounts.clear()
         self.announce_ids.clear()
         self.announe_anti_ids.clear()
-        self.raid_controller.loot_list.clear()
+        self.loot_controller.loot_list.clear()
 
         result_blob = ChatBlob("Auction results", blob)
 
