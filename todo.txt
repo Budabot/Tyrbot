@@ -6,7 +6,6 @@ fix number grouping on linux
 investigate async/await for events and commands
 off/on relay commands between org and private channels
 allow adjusting timer event times with !config
-add !logon/!logoff
 add credits to !about
 expose poh loot with !loot command
 add a command to list all raid loot categories, cleanup !loot subcommands
