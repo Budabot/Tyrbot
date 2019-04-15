@@ -181,7 +181,7 @@ class OnlineController:
             current_main = ""
 
             # store maximum string lengths, these will be used to space the result table
-            max_lengths = [0, 0, 0, 0]
+            max_lengths = [0, 0, 0, 0, 0]
 
             # hold values for rendering later
             online_list_processed = []
@@ -191,16 +191,17 @@ class OnlineController:
                 # increment count based on mains only
                 if current_main != row.main:
                     count += 1
+                    processed = [row.main, "", "", "", ""]
+                    online_list_processed.append(processed)
                     current_main = row.main
-
                 # create array of 'processed' character information
                 processed = [
-                    row.name,
-                    "(%d/%d)" % (row.level or 0, row.ai_level or 0),
-                    row.faction,
-                    row.profession
+                    " | ",
+                    "{:12}".format(row.name),
+                    "({:3}".format(row.level or 0)+"/"+"{:2})".format(row.ai_level or 0),
+                    "{:7}".format(row.faction),
+                    "{:15}".format(row.profession)
                 ]
-
                 # append to other array for iteration later
                 online_list_processed.append(processed)
 
@@ -214,21 +215,20 @@ class OnlineController:
                         max_lengths[i] = length
             
             # start content with channel name, start monospace
-            blob += "\n[%s]\n```" % channel
+            blob += "\n[%s]\n```apache\n" % channel
 
             # increment max lengths for spacing
             for i in range(len(max_lengths)):
                 max_lengths[i] += 1
 
             # iterate processed characters and add to content
-            for row in online_list_processed:
-                for i in range(len(max_lengths)):
-                    blob += row[i].ljust(max_lengths[i])
-                
+            for character in online_list_processed:
+                for attribute in character:
+                    blob += attribute + " "
                 # append newline
                 blob += "\n"
 
-            # end monospace
+            # end monospaced
             blob += "```"
 
         if not blob:
