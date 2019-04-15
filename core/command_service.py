@@ -20,7 +20,7 @@ import inspect
 class CommandService:
     PRIVATE_CHANNEL = "priv"
     ORG_CHANNEL = "org"
-    PRIVATE_MESSAGE = "msg"
+    PRIVATE_MESSAGE_CHANNEL = "msg"
 
     def __init__(self):
         self.handlers = collections.defaultdict(list)
@@ -55,7 +55,7 @@ class CommandService:
         self.bot.add_packet_handler(server_packets.PrivateMessage.id, self.handle_private_message)
         self.bot.add_packet_handler(server_packets.PrivateChannelMessage.id, self.handle_private_channel_message)
         self.bot.add_packet_handler(server_packets.PublicChannelMessage.id, self.handle_public_channel_message)
-        self.register_command_channel("Private Message", self.PRIVATE_MESSAGE)
+        self.register_command_channel("Private Message", self.PRIVATE_MESSAGE_CHANNEL)
         self.register_command_channel("Org Channel", self.ORG_CHANNEL)
         self.register_command_channel("Private Channel", self.PRIVATE_CHANNEL)
 
@@ -328,7 +328,7 @@ class CommandService:
 
         self.process_command(
             command_str,
-            self.PRIVATE_MESSAGE,
+            self.PRIVATE_MESSAGE_CHANNEL,
             packet.char_id,
             lambda msg: self.bot.send_private_message(packet.char_id, msg))
 
