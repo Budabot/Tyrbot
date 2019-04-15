@@ -1,6 +1,7 @@
 import threading
 
 from core.decorators import instance, event, timerevent, setting, command
+from core.command_param_types import Const
 from core.logger import Logger
 from core.lookup.character_service import CharacterService
 from core.setting_types import ColorSettingType
@@ -39,12 +40,12 @@ class GridnetController:
     def gridnet_sender_color(self):
         return ColorSettingType()
 
-    @command(command="gridnet_on", params=[], access_level="superadmin", description="Connect to Gridnet")
-    def gridnet_on(self, request):
+    @command(command="gridnet", params=[Const("on")], access_level="superadmin", description="Connect to Gridnet")
+    def gridnet_on(self, request, _):
         self.connect()
 
-    @command(command="gridnet_off", params=[], access_level="superadmin", description="Disconnect from Gridnet")
-    def gridnet_off(self, request):
+    @command(command="gridnet", params=[Const("off")], access_level="superadmin", description="Disconnect from Gridnet")
+    def gridnet_off(self, request, _):
         self.disconnect()
 
     @timerevent(budatime="1s", description="Relay messages from Gridnet to org and private channel")
