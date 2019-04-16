@@ -1,8 +1,8 @@
-from core import db, command_request
 from core.command_param_types import Any
 from core.command_request import CommandRequest
 from core.db import DB
 from core.decorators import instance, command, event
+
 
 @instance()
 class LogController:
@@ -27,7 +27,7 @@ class LogController:
                                  [logon_message, request.sender.char_id])
         else:
             self.db.query_single("INSERT INTO log_messages (char_id, logon) VALUES(?, ?);",
-                                 [request.sender.char_id,  logon_message])
+                                 [request.sender.char_id, logon_message])
         return "Your new logon message is: %s" % logon_message
 
     @command(command="logoff", params=[Any("logoff_message")], access_level="member",
@@ -42,15 +42,15 @@ class LogController:
         return "Your new logoff message is: %s" % logoff_message
 
     def get_logon(self, char_id):
-        content = self.db.query_single("SELECT logon FROM log_messages WHERE char_id=?", [char_id])
-        if content:
-            return "<grey>" + content.get("logon") + "<end>"
-        else:
-            return ""
+        row = self.db.query_single("SELECT * FROM log_messages WHERE char_id=?", [char_id])
+        if row is not None:
+            if row.logon:
+                return "<grey>" + row.logon + "<end>"
+        return ""
 
     def get_logoff(self, char_id):
-        content = self.db.query_single("SELECT logoff FROM log_messages WHERE char_id=?", [char_id])
-        if content:
-            return "<grey>" + content.get("logoff") + "<end>"
-        else:
-            return ""
+        row = self.db.query_single("SELECT * FROM log_messages WHERE char_id=?", [char_id])
+        if row is not None:
+            if row.logoff:
+                return "<grey>" + row.logoff + "<end>"
+        return ""
