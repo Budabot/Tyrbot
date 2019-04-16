@@ -11,6 +11,7 @@ class ChatController:
         self.command_alias_service.add_alias("cmd", "shout")
 
     @command(command="shout", params=[Any("message")], access_level="all",
-             description="Show a highly visible message", extended_description="This command is similar to <symbol>cmd in Budabot")
-    def shout_command(self, request, message):
+             description="Show a highly visible message",
+             extended_description="This command is similar to <symbol>cmd in Budabot")
+    def shout_command(self, _, message):
         return "\n<yellow>---------------------\n<red>%s<end>\n<yellow>---------------------" % message
