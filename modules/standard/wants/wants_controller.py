@@ -1,4 +1,4 @@
-from core.command_param_types import Any, Int, Const, Options
+from core.command_param_types import Any, Int, Const, Options, Item
 from core.decorators import instance, command
 from core.chat_blob import ChatBlob
 import time
@@ -36,7 +36,7 @@ class WantsController:
 
         return ChatBlob("Wants for %s (%d)" % (alts[0].name, cnt), blob)
 
-    @command(command="wants", params=[Const("add"), Any("want")], access_level="all",
+    @command(command="wants", params=[Const("add"), Any("item")], access_level="all",
              description="Add a want")
     def wants_add_cmd(self, request, _, want):
         self.db.exec("INSERT INTO wants (char_id, want, created_at) VALUES (?, ?, ?)", [request.sender.char_id, want, int(time.time())])
@@ -58,9 +58,17 @@ class WantsController:
 
         return "Want with ID <highlight>%d<end> deleted successfully." % want_id
 
-    @command(command="wants", params=[Const("search"), Any("want")], access_level="all",
-            description="Search wants")
-    def wants_search_cmd(self, request, _, wants_search):
+    @command(command="wants", params=[Const("search"), Item("item")], access_level="all",
+             description="Search wants by itemref")
+    def wants_search_itemref_cmd(self, request, _, item):
+        return self.search_wants(item.name)
+
+    @command(command="wants", params=[Const("search"), Any("name")], access_level="all",
+             description="Search wants by name")
+    def wants_search_name_cmd(self, request, _, wants_search):
+        return self.search_wants(wants_search)
+
+    def search_wants(self, wants_search):
         wants = self.db.query("SELECT w.char_id, w.want, p.name FROM wants w LEFT JOIN player p ON w.char_id = p.char_id WHERE want LIKE ?", ["%" + wants_search + "%"])
 
         blob = ""
@@ -69,16 +77,16 @@ class WantsController:
             main_name = alts[0].name
             blob += "<header2>%s<end>\n%s\n\n" % (main_name, want.want)
 
-        return ChatBlob("Search Results (%d)" %len(wants), blob)
+        return ChatBlob("Search Results (%d)" % len(wants), blob)
 
     @command(command="wants", params=[Const("list")], access_level="all",
-            description="Shows all wants")
-    def wants_all_cmd(self, request, want_name):
+             description="Shows all wants")
+    def wants_all_cmd(self, request, _):
         sql = "SELECT w.*, p.name FROM wants w \
-        LEFT JOIN alts a ON w.char_id = a.char_id \
-        LEFT JOIN alts a2 ON (a2.group_id = a.group_id AND a2.status = 2) \
-        LEFT JOIN player p ON p.char_id = COALESCE(a2.char_id, w.char_id) \
-        ORDER BY p.name ASC"
+               LEFT JOIN alts a ON w.char_id = a.char_id \
+               LEFT JOIN alts a2 ON (a2.group_id = a.group_id AND a2.status = 2) \
+               LEFT JOIN player p ON p.char_id = COALESCE(a2.char_id, w.char_id) \
+               ORDER BY p.name ASC"
 
         data = self.db.query(sql)
 
@@ -91,4 +99,4 @@ class WantsController:
 
             blob += want.want + "\n"
 
-        return ChatBlob("Wants List (%d)" %len(data), blob)
+        return ChatBlob("Wants List (%d)" % len(data), blob)
