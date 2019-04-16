@@ -123,13 +123,13 @@ class OnlineController:
                      [event_data.char_id, self.PRIVATE_CHANNEL])
 
     @event(OrgMemberController.ORG_MEMBER_LOGON_EVENT, "Record in database when org member logs on")
-    def org_member_logon_event(self, event_type, event_data):
+    def org_member_logon_record_event(self, event_type, event_data):
         self.pork_service.load_character_info(event_data.char_id)
         self.db.exec("INSERT INTO online (char_id, afk_dt, afk_reason, channel, dt) VALUES (?, ?, ?, ?, ?)",
                      [event_data.char_id, 0, "", self.ORG_CHANNEL, int(time.time())])
 
     @event(OrgMemberController.ORG_MEMBER_LOGOFF_EVENT, "Record in database when org member logs off")
-    def org_member_logoff_event(self, event_type, event_data):
+    def org_member_logoff_record_event(self, event_type, event_data):
         self.db.exec("DELETE FROM online WHERE char_id = ? AND channel = ?",
                      [event_data.char_id, self.ORG_CHANNEL])
 
