@@ -1,4 +1,5 @@
 from core.command_param_types import Any
+from core.db import DB
 from core.decorators import instance, command, event
 from core.alts.alts_service import AltsService
 from core.chat_blob import ChatBlob
@@ -8,6 +9,7 @@ import time
 import re
 
 from modules.core.org_members.org_member_controller import OrgMemberController
+from modules.standard.online.log_controller import LogController
 
 
 @instance()
@@ -20,13 +22,16 @@ class OnlineController:
 
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
-        self.db = registry.get_instance("db")
+        self.db: DB = registry.get_instance("db")
         self.text = registry.get_instance("text")
         self.util = registry.get_instance("util")
         self.pork_service = registry.get_instance("pork_service")
         self.character_service = registry.get_instance("character_service")
         self.discord_controller = registry.get_instance("discord_controller")
         self.command_alias_service = registry.get_instance("command_alias_service")
+        self.alts_service = registry.get_instance("alts_service")
+        self.alts_controller = registry.get_instance("alts_controller")
+        self.log_controller: LogController = registry.get_instance("log_controller")
 
     def start(self):
         self.db.exec("DROP TABLE IF EXISTS online")
@@ -168,69 +173,28 @@ class OnlineController:
         blob = ""
         count = 0
 
-        # iterate channels
         for channel in [self.ORG_CHANNEL, self.PRIVATE_CHANNEL]:
-            # get characters
+            # get characters, if none are online skip this channel
             online_list = self.get_online_characters(channel)
-
-            # if no characters, skip this channel
             if len(online_list) == 0:
                 continue
 
-            # used to keep track of the current main
+            # start content with channel name, start monospaced (```)
+            blob += "\n[%s]\n```yaml\n" % channel
             current_main = ""
-
-            # store maximum string lengths, these will be used to space the result table
-            max_lengths = [0, 0, 0, 0]
-
-            # hold values for rendering later
-            online_list_processed = []
-
-            # iterate online players in this channel
-            for row in online_list:
-                # increment count based on mains only
-                if current_main != row.main:
+            for character in online_list:
+                # add main character line
+                if current_main != character.main:
                     count += 1
-                    current_main = row.main
-
-                # create array of 'processed' character information
-                processed = [
-                    row.name,
-                    "(%d/%d)" % (row.level or 0, row.ai_level or 0),
-                    row.faction,
-                    row.profession
-                ]
-
-                # append to other array for iteration later
-                online_list_processed.append(processed)
-
-                # iterate character information
-                for i in range(len(processed)):
-                    # get length of this piece of information
-                    length = len(processed[i])
-
-                    # if length exceeds existing max, assign
-                    if length > max_lengths[i]:
-                        max_lengths[i] = length
-            
-            # start content with channel name, start monospace
-            blob += "\n[%s]\n```" % channel
-
-            # increment max lengths for spacing
-            for i in range(len(max_lengths)):
-                max_lengths[i] += 1
-
-            # iterate processed characters and add to content
-            for row in online_list_processed:
-                for i in range(len(max_lengths)):
-                    blob += row[i].ljust(max_lengths[i])
-                
-                # append newline
-                blob += "\n"
-
-            # end monospace
+                    current_main = character.main
+                    blob += character.main + ": \n"
+                # add online character line
+                character_line = " | " + ("{:13} ".format(character.name)) + "({:3}".format(
+                    character.level or 0) + "/" + "{:2}) ".format(character.ai_level or 0) + "{:7} ".format(
+                    character.faction) + "{:15} \n".format(character.profession)
+                blob += character_line
+            # end monospaced content
             blob += "```"
-
         if not blob:
             blob = "No characters online."
 
@@ -264,6 +228,56 @@ class OnlineController:
             blob += "\n\n"
 
         return ChatBlob("Online (%d)" % count, blob)
+
+    @event(event_type=PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, description="Notify when a character joins the private channel")
+    def handle_private_channel_joined_event(self, event_type, event_data):
+        msg = "%s has joined the private channel. %s" % (self.get_char_info_display(event_data.char_id),
+                                                         self.log_controller.get_logon(event_data.char_id))
+        self.bot.send_org_message(msg, fire_outgoing_event=False)
+        self.bot.send_private_channel_message(msg, fire_outgoing_event=False)
+
+    @event(event_type=PrivateChannelService.LEFT_PRIVATE_CHANNEL_EVENT, description="Notify when a character leaves the private channel")
+    def handle_private_channel_left_event(self, event_type, event_data):
+        char_name = self.character_service.resolve_char_to_name(event_data.char_id)
+        msg = "<highlight>%s<end> has left the private channel. %s" % (char_name, self.log_controller.get_logoff(event_data.char_id))
+        self.bot.send_org_message(msg, fire_outgoing_event=False)
+        self.bot.send_private_channel_message(msg, fire_outgoing_event=False)
+
+    @event(event_type=OrgMemberController.ORG_MEMBER_LOGON_EVENT, description="Notify when org member logs on")
+    def org_member_logon_event(self, event_type, event_data):
+        if self.bot.is_ready():
+            msg = "%s has logged on. %s" % (self.get_char_info_display(event_data.char_id),
+                                            self.log_controller.get_logon(event_data.char_id))
+            self.bot.send_org_message(msg, fire_outgoing_event=False)
+            self.bot.send_private_channel_message(msg, fire_outgoing_event=False)
+
+    @event(event_type=OrgMemberController.ORG_MEMBER_LOGOFF_EVENT, description="Notify when org member logs off")
+    def org_member_logoff_event(self, event_type, event_data):
+        if self.bot.is_ready():
+            char_name = self.character_service.resolve_char_to_name(event_data.char_id)
+            msg = "<highlight>%s<end> has logged off. %s" % (char_name, self.log_controller.get_logoff(event_data.char_id))
+            self.bot.send_org_message(msg, fire_outgoing_event=False)
+            self.bot.send_private_channel_message(msg, fire_outgoing_event=False)
+
+    def get_char_info_display(self, char_id):
+        char_info = self.pork_service.get_character_info(char_id)
+        if char_info:
+            name = self.text.format_char_info(char_info)
+        else:
+            char_name = self.character_service.resolve_char_to_name(char_id)
+            name = "<highlight>%s<end>" % char_name
+
+        alts = self.alts_service.get_alts(char_id)
+        cnt = len(alts)
+        if cnt > 1:
+            if alts[0].char_id == char_id:
+                main = "Alts (%d)" % cnt
+            else:
+                main = "Alts of %s (%d)" % (alts[0].name, cnt)
+
+            name += " - " + self.text.paginate(ChatBlob(main, self.alts_controller.format_alt_list(alts)), 10000, max_num_pages=1)[0]
+
+        return name
 
     def get_online_alts_output(self, profession):
         blob = ""
