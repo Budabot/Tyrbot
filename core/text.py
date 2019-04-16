@@ -1,3 +1,5 @@
+import re
+
 from core.decorators import instance
 from core.setting_service import SettingService
 
@@ -7,7 +9,7 @@ class Text:
     separators = [{"symbol": "<pagebreak>", "include": False}, {"symbol": "\n", "include": True}, {"symbol": " ", "include": True}]
 
     def __init__(self):
-        pass
+        self.items_regex = re.compile(r"<a href=\"itemref://(\d+)/(\d+)/(\d+)\">(.+?)</a>")
 
     def inject(self, registry):
         self.setting_service: SettingService = registry.get_instance("setting_service")
@@ -58,6 +60,7 @@ class Text:
         separators = iter(self.separators)
 
         msg = msg.strip()
+        msg = self.items_regex.sub(r"<a href='itemref://\1/\2/\3'>\4</a>", msg)
 
         # chat blobs with empty messages are rendered as simple strings instead of links
         if not msg:
