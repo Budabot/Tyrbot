@@ -196,7 +196,10 @@ class LeaderController:
                 if self.echo:
                     reply += " Leader echo is <green>enabled<end>."
                 self.bot.send_private_message(old_leader.char_id, reply)
-                return "You have taken raid leader from <highlight>%s<end>." % old_leader.name
+                reply = "You have taken raid leader from <highlight>%s<end>." % old_leader.name
+                if self.echo:
+                    reply += " Leader echo is <green>enabled<end>."
+                return reply
             else:
                 return "You do not have a high enough access level to take raid leader from <highlight>%s<end>." % \
                        self.leader.name
