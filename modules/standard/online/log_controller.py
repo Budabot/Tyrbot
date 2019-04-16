@@ -19,22 +19,38 @@ class LogController:
         self.alts_service = registry.get_instance("alts_service")
         self.alts_controller = registry.get_instance("alts_controller")
 
-    @command(command="logon", params=[Any("logon")], access_level="member",
+    @command(command="logon", params=[Any("logon_message")], access_level="member",
              description="Sets your own custom logon message")
-    def set_logon(self, request: CommandRequest, logon):
-        if self.db.query_single("SELECT logon FROM logmessages WHERE char_id=?;", [request.sender.char_id]):
-            self.db.query_single("UPDATE logmessages SET logon=? WHERE char_id=?;", [logon, request.sender.char_id])
+    def set_logon(self, request: CommandRequest, logon_message):
+        if self.db.query_single("SELECT logon FROM log_messages WHERE char_id=?;", [request.sender.char_id]):
+            self.db.query_single("UPDATE log_messages SET logon=? WHERE char_id=?;",
+                                 [logon_message, request.sender.char_id])
         else:
-            self.db.query_single("INSERT INTO logmessages (char_id, logon) VALUES(?, ?);",
-                                 [request.sender.char_id], logon)
-        return "Your new logon message is: %s" % logon
+            self.db.query_single("INSERT INTO log_messages (char_id, logon) VALUES(?, ?);",
+                                 [request.sender.char_id,  logon_message])
+        return "Your new logon message is: %s" % logon_message
 
-    @command(command="logoff", params=[Any("logoff")], access_level="member",
+    @command(command="logoff", params=[Any("logoff_message")], access_level="member",
              description="Sets your own custom logoff message")
-    def set_logoff(self, request: CommandRequest, logoff):
-        if self.db.query_single("SELECT logoff FROM logmessages WHERE char_id=?;", [request.sender.char_id]):
-            self.db.query_single("UPDATE logmessages SET logoff=? WHERE char_id=?;", [logoff, request.sender.char_id])
+    def set_logoff(self, request: CommandRequest, logoff_message):
+        if self.db.query_single("SELECT logoff FROM log_messages WHERE char_id=?;", [request.sender.char_id]):
+            self.db.query_single("UPDATE log_messages SET logoff=? WHERE char_id=?;",
+                                 [logoff_message, request.sender.char_id])
         else:
-            self.db.query_single("INSERT INTO logmessages (char_id, logoff) VALUES(?, ?);",
-                                 [request.sender.char_id], logoff)
-        return "Your new logoff message is: %s" % logoff
+            self.db.query_single("INSERT INTO log_messages (char_id, logoff) VALUES(?, ?);",
+                                 [request.sender.char_id, logoff_message])
+        return "Your new logoff message is: %s" % logoff_message
+
+    def get_logon(self, char_id):
+        content = self.db.query_single("SELECT logon FROM log_messages WHERE char_id=?", [char_id])
+        if content:
+            return "<grey>" + content.get("logon") + "<end>"
+        else:
+            return ""
+
+    def get_logoff(self, char_id):
+        content = self.db.query_single("SELECT logoff FROM log_messages WHERE char_id=?", [char_id])
+        if content:
+            return "<grey>" + content.get("logoff") + "<end>"
+        else:
+            return ""

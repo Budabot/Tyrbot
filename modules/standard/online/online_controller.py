@@ -9,6 +9,7 @@ import time
 import re
 
 from modules.core.org_members.org_member_controller import OrgMemberController
+from modules.standard.online.log_controller import LogController
 
 
 @instance()
@@ -30,6 +31,8 @@ class OnlineController:
         self.command_alias_service = registry.get_instance("command_alias_service")
         self.alts_service = registry.get_instance("alts_service")
         self.alts_controller = registry.get_instance("alts_controller")
+        self.log_controller: LogController = registry.get_instance("log_controller")
+
     def start(self):
         self.db.exec("DROP TABLE IF EXISTS online")
         self.db.exec("CREATE TABLE online (char_id INT NOT NULL, afk_dt INT NOT NULL, afk_reason VARCHAR(255) DEFAULT '', channel CHAR(50) NOT NULL, dt INT NOT NULL, UNIQUE(char_id, channel))")
@@ -229,14 +232,14 @@ class OnlineController:
     @event(event_type=PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, description="Notify when a character joins the private channel")
     def handle_private_channel_joined_event(self, event_type, event_data):
         msg = "%s has joined the private channel. %s" % (self.get_char_info_display(event_data.char_id),
-                                                         self.get_logon(event_data.char_id))
+                                                         self.log_controller.get_logon(event_data.char_id))
         self.bot.send_org_message(msg, fire_outgoing_event=False)
         self.bot.send_private_channel_message(msg, fire_outgoing_event=False)
 
     @event(event_type=PrivateChannelService.LEFT_PRIVATE_CHANNEL_EVENT, description="Notify when a character leaves the private channel")
     def handle_private_channel_left_event(self, event_type, event_data):
         char_name = self.character_service.resolve_char_to_name(event_data.char_id)
-        msg = "<highlight>%s<end> has left the private channel. %s" % (char_name, self.get_logoff(event_data.char_id))
+        msg = "<highlight>%s<end> has left the private channel. %s" % (char_name, self.log_controller.get_logoff(event_data.char_id))
         self.bot.send_org_message(msg, fire_outgoing_event=False)
         self.bot.send_private_channel_message(msg, fire_outgoing_event=False)
 
@@ -244,7 +247,7 @@ class OnlineController:
     def org_member_logon_event(self, event_type, event_data):
         if self.bot.is_ready():
             msg = "%s has logged on. %s" % (self.get_char_info_display(event_data.char_id),
-                                            self.get_logon(event_data.char_id))
+                                            self.log_controller.get_logon(event_data.char_id))
             self.bot.send_org_message(msg, fire_outgoing_event=False)
             self.bot.send_private_channel_message(msg, fire_outgoing_event=False)
 
@@ -252,7 +255,7 @@ class OnlineController:
     def org_member_logoff_event(self, event_type, event_data):
         if self.bot.is_ready():
             char_name = self.character_service.resolve_char_to_name(event_data.char_id)
-            msg = "<highlight>%s<end> has logged off. %s" % (char_name, self.get_logoff(event_data.char_id))
+            msg = "<highlight>%s<end> has logged off. %s" % (char_name, self.log_controller.get_logoff(event_data.char_id))
             self.bot.send_org_message(msg, fire_outgoing_event=False)
             self.bot.send_private_channel_message(msg, fire_outgoing_event=False)
 
@@ -303,21 +306,6 @@ class OnlineController:
             blob += "\n\n"
 
         return ChatBlob("%s Alts of Online Characters (%d)" % (profession, count), blob)
-
-    def get_logon(self, char_id):
-        content = self.db.query_single("SELECT logon FROM logmessages WHERE char_id=?", [char_id])
-        if content:
-            return "<grey>" + content.get("logon") + "<end>"
-        else:
-            return ""
-
-    def get_logoff(self, char_id):
-        content = self.db.query_single("SELECT logoff FROM logmessages WHERE char_id=?", [char_id])
-        if content:
-            return "<grey>" + content.get("logoff") + "<end>"
-        else:
-            return ""
-
 
     def get_online_alts(self, channel, profession):
         sql = "SELECT " \
