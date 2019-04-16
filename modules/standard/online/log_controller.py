@@ -13,14 +13,14 @@ class LogController:
     @command(command="logon", params=[Const("clear")], access_level="member", description="Clear your logon message.")
     def clear_logon(self, request, params):
         if self.db.query_single("SELECT logon FROM log_messages WHERE char_id=?;", [request.sender.char_id]):
-            self.db.query_single("UPDATE log_messages SET logon=NULL WHERE char_id=?;",
+            self.db.exec("UPDATE log_messages SET logon=NULL WHERE char_id=?;",
                                  [request.sender.char_id])
         return "Your logoff message has been cleared"
 
     @command(command="logoff", params=[Const("clear")], access_level="member", description="Clear your logoff message.")
     def clear_logoff(self, request, params):
         if self.db.query_single("SELECT logoff FROM log_messages WHERE char_id=?;", [request.sender.char_id]):
-            self.db.query_single("UPDATE log_messages SET logoff=NULL WHERE char_id=?;",
+            self.db.exec("UPDATE log_messages SET logoff=NULL WHERE char_id=?;",
                                  [request.sender.char_id])
         return "Your logoff message has been cleared"
 
@@ -35,10 +35,10 @@ class LogController:
                 return "Your logon message has not been set"
         else:
             if self.db.query_single("SELECT logon FROM log_messages WHERE char_id=?;", [request.sender.char_id]):
-                self.db.query_single("UPDATE log_messages SET logon=? WHERE char_id=?;",
+                self.db.exec("UPDATE log_messages SET logon=? WHERE char_id=?;",
                                      [logon_message, request.sender.char_id])
             else:
-                self.db.query_single("INSERT INTO log_messages (char_id, logon) VALUES(?, ?);",
+                self.db.exec("INSERT INTO log_messages (char_id, logon) VALUES(?, ?);",
                                      [request.sender.char_id, logon_message])
             return "Your new logon message is: %s" % logon_message
 
@@ -53,10 +53,10 @@ class LogController:
                 return "Your logoff message has not been set"
         else:
             if self.db.query_single("SELECT logoff FROM log_messages WHERE char_id=?;", [request.sender.char_id]):
-                self.db.query_single("UPDATE log_messages SET logoff=? WHERE char_id=?;",
+                self.db.exec("UPDATE log_messages SET logoff=? WHERE char_id=?;",
                                      [logoff_message, request.sender.char_id])
             else:
-                self.db.query_single("INSERT INTO log_messages (char_id, logoff) VALUES(?, ?);",
+                self.db.exec("INSERT INTO log_messages (char_id, logoff) VALUES(?, ?);",
                                      [request.sender.char_id, logoff_message])
             return "Your new logoff message is: %s" % logoff_message
 
