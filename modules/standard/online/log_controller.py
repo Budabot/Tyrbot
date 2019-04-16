@@ -1,23 +1,14 @@
 from core.command_param_types import Any
 from core.command_request import CommandRequest
 from core.db import DB
-from core.decorators import instance, command, event
+from core.decorators import instance, command
 
 
 @instance()
 class LogController:
 
     def inject(self, registry):
-        self.bot = registry.get_instance("bot")
         self.db: DB = registry.get_instance("db")
-        self.text = registry.get_instance("text")
-        self.util = registry.get_instance("util")
-        self.pork_service = registry.get_instance("pork_service")
-        self.character_service = registry.get_instance("character_service")
-        self.discord_controller = registry.get_instance("discord_controller")
-        self.command_alias_service = registry.get_instance("command_alias_service")
-        self.alts_service = registry.get_instance("alts_service")
-        self.alts_controller = registry.get_instance("alts_controller")
 
     @command(command="logon", params=[Any("logon_message")], access_level="member",
              description="Sets your own custom logon message")
