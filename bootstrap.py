@@ -20,9 +20,12 @@ try:
     logger.info("Starting Tyrbot...")
     config_file = "./conf/config.hjson"
 
-    if sys.version_info < (3, 6) or sys.version_info >= (3, 7):
-        logger.error("Python3.6 is required (neither 3.5 or 3.7 will work)")
+    if sys.version_info < (3, 6):
+        logger.error("Python 3.6 is required (3.5 will not work)")
         exit(0)
+
+    if sys.version_info >= (3, 6):
+        logger.warning("Python 3.7 is not yet supported; if you run into issues, considering downgrading to Python 3.6")
 
     # start config wizard if config file does not exist
     if not os.path.exists(config_file):
