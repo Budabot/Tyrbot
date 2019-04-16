@@ -57,6 +57,7 @@ class WantsController:
         self.db.exec("DELETE FROM wants WHERE id = ?", [want_id])
 
         return "Want with ID <highlight>%d<end> deleted successfully." % want_id
+
     @command(command="wants", params=[Const("search"), Any("want")], access_level="all",
             description="Search wants")
     def wants_search_cmd(self, request, _, wants_search):
@@ -69,6 +70,7 @@ class WantsController:
             blob += "<header2>%s<end>\n%s\n\n" % (main_name, want.want)
 
         return ChatBlob("Search Results (%d)" %len(wants), blob)
+
     @command(command="wants", params=[Const("list")], access_level="all",
             description="Shows all wants")
     def wants_all_cmd(self, request, want_name):
