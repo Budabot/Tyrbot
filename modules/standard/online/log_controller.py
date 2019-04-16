@@ -62,14 +62,12 @@ class LogController:
 
     def get_logon(self, char_id):
         row = self.db.query_single("SELECT * FROM log_messages WHERE char_id=?", [char_id])
-        if row is not None:
-            if row.logon:
-                return "<grey>" + row.logon + "<end>"
+        if row and row.logon:
+            return "<grey>" + row.logon + "<end>"
         return ""
 
     def get_logoff(self, char_id):
         row = self.db.query_single("SELECT * FROM log_messages WHERE char_id=?", [char_id])
-        if row is not None:
-            if row.logoff:
-                return "<grey>" + row.logoff + "<end>"
+        if row and row.logoff:
+            return "<grey>" + row.logoff + "<end>"
         return ""
