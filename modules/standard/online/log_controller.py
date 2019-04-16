@@ -14,7 +14,7 @@ class LogController:
     def check_current_logon(self, request):
         current_logon = self.get_logon(request.sender.char_id)
         if current_logon:
-            return "%s's login message is: %s" % (request.sender.name, current_logon)
+            return "%s's logon message is: %s" % (request.sender.name, current_logon)
         else:
             return "Your logon message has not been set"
 
