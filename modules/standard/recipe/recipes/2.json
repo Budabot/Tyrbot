@@ -4,18 +4,15 @@
 	"items":[
 		{
 			"alias":"Salesman's Chip",
-			"item_id":206742,
-			"ql":20
+			"item_id":206742
 		},
 		{
 			"alias":"Salesman's Hat",
-			"item_id":205738,
-			"ql":20
+			"item_id":205738
 		},
 		{
 			"alias":"Advanced Salesman's Hat",
-			"item_id":206740,
-			"ql":20
+			"item_id":206740
 		}
 	],
 	"steps":[

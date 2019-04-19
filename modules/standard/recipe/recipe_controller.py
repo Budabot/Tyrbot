@@ -51,11 +51,11 @@ class RecipeController:
 
                     items = {}
                     for i in recipe["items"]:
-                        item = self.items_controller.get_by_item_id(i["item_id"])
+                        item = self.items_controller.get_by_item_id(i["item_id"], i.get("ql"))
                         if not item:
                             raise Exception("Could not fund recipe item '%d'" % i["item_id"])
 
-                        item.ql = i["ql"]
+                        item.ql = i.get("ql") or (item.highql if i["item_id"] == item.highid else item.lowql)
                         items[i["alias"]] = item
 
                     content = "<font color=#FFFF00>------------------------------</font>\n"

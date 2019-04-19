@@ -9,33 +9,27 @@
 		},
 		{
 			"alias":"Nano Formula Recompiler",
-			"item_id":95519,
-			"ql":200
+			"item_id":95519
 		},
 		{
 			"alias":"Lock Pick",
-			"item_id":95577,
-			"ql":1
+			"item_id":95577
 		},
 		{
 			"alias":"Nano Programming Interface",
-			"item_id":161699,
-			"ql":1
+			"item_id":161699
 		},
 		{
 			"alias":"Disconnected NCU Memory",
-			"item_id":164601,
-			"ql":200
+			"item_id":164601
 		},
 		{
 			"alias":"Re-configured Nano Formula Recompiler",
-			"item_id":164600,
-			"ql":200
+			"item_id":164600
 		},
 		{
 			"alias":"Accelerated NCU Memory",
-			"item_id":164608,
-			"ql":200
+			"item_id":164608
 		}
 	],
 	"steps":[
