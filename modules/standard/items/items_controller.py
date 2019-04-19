@@ -134,8 +134,11 @@ class ItemsController:
 
         return items
 
-    def get_by_item_id(self, item_id):
-        return self.db.query_single("SELECT * FROM aodb WHERE highid = ? OR lowid = ? ORDER BY highid = ?", [item_id, item_id, item_id])
+    def get_by_item_id(self, item_id, ql=None):
+        if ql:
+            return self.db.query_single("SELECT * FROM aodb WHERE (highid = ? OR lowid = ?) AND (highql = ? OR lowql = ?) ORDER BY highid = ?", [item_id, item_id, ql, ql, item_id])
+        else:
+            return self.db.query_single("SELECT * FROM aodb WHERE highid = ? OR lowid = ? ORDER BY highid = ?", [item_id, item_id, item_id])
 
     def find_by_name(self, name, ql=None):
         if ql:
