@@ -1,0 +1,28 @@
+{
+	"name":"Advanced Salesman's Hat",
+	"author":"",
+	"items":[
+		{
+			"alias":"Salesman's Chip",
+			"item_id":206742,
+			"ql":20
+		},
+		{
+			"alias":"Salesman's Hat",
+			"item_id":205738,
+			"ql":20
+		},
+		{
+			"alias":"Advanced Salesman's Hat",
+			"item_id":206740,
+			"ql":20
+		}
+	],
+	"steps":[
+		{
+			"source":"Salesman's Chip",
+			"target":"Salesman's Hat",
+			"result":"Advanced Salesman's Hat"
+		}
+	]
+}
