@@ -1,3 +1,4 @@
+from core.command_param_types import Any
 from core.decorators import instance, command, event, setting
 from core.command_service import CommandService
 from core.dict_object import DictObject
@@ -10,8 +11,9 @@ from core.setting_types import BooleanSettingType
 class SystemController:
     SHUTDOWN_EVENT = "shutdown"
 
-    shutdown_msg = "The bot is shutting down..."
-    restart_msg = "The bot is restarting..."
+    shutdown_msg = "The bot is shutting down."
+    restart_msg = "The bot is restarting."
+    reason_msg = " <highlight>Reason: {}<end>"
 
     def __init__(self):
         self.logger = Logger(__name__)
@@ -32,21 +34,19 @@ class SystemController:
     def restart_notify(self):
         return BooleanSettingType()
 
-    @command(command="shutdown", params=[], access_level="superadmin",
+    @command(command="shutdown", params=[Any("reason", is_optional=True)], access_level="superadmin",
              description="Shutdown the bot")
-    def shutdown_cmd(self, request):
+    def shutdown_cmd(self, request, reason):
         if request.channel not in [CommandService.ORG_CHANNEL, CommandService.PRIVATE_CHANNEL]:
-            request.reply(self.shutdown_msg)
+            request.reply(self._format_message(False, reason))
+        self.shutdown(False, reason)
 
-        self.shutdown(False)
-
-    @command(command="restart", params=[], access_level="admin",
+    @command(command="restart", params=[Any("reason", is_optional=True)], access_level="admin",
              description="Restart the bot")
-    def restart_cmd(self, request):
+    def restart_cmd(self, request, reason):
         if request.channel not in [CommandService.ORG_CHANNEL, CommandService.PRIVATE_CHANNEL]:
-            request.reply(self.restart_msg)
-
-        self.shutdown(True)
+            request.reply(self._format_message(True, reason))
+        self.shutdown(True, reason)
 
     @event(event_type="connect", description="Notify superadmin that bot has come online")
     def connect_event(self, event_type, event_data):
@@ -64,25 +64,26 @@ class SystemController:
 
     @event(event_type=SHUTDOWN_EVENT, description="Notify org channel on shutdown/restart")
     def notify_org_channel_shutdown_event(self, event_type, event_data):
-        if event_data.restart:
-            self.bot.send_org_message(self.restart_msg, fire_outgoing_event=False)
-        else:
-            self.bot.send_org_message(self.shutdown_msg, fire_outgoing_event=False)
+        self.bot.send_org_message(self._format_message(event_data.restart, event_data.reason), fire_outgoing_event=False)
 
     @event(event_type=SHUTDOWN_EVENT, description="Notify private channel on shutdown/restart")
     def notify_private_channel_shutdown_event(self, event_type, event_data):
-        if event_data.restart:
-            self.bot.send_private_channel_message(self.restart_msg, fire_outgoing_event=False)
-        else:
-            self.bot.send_private_channel_message(self.shutdown_msg, fire_outgoing_event=False)
+        self.bot.send_private_channel_message(self._format_message(event_data.restart, event_data.reason), fire_outgoing_event=False)
 
-    def shutdown(self, should_restart):
-        self.event_service.fire_event(self.SHUTDOWN_EVENT, DictObject({"restart": should_restart}))
-
+    def shutdown(self, should_restart, reason = None):
+        self.event_service.fire_event(self.SHUTDOWN_EVENT, DictObject({"restart": should_restart, "reason": reason}))
         # set expected flag
         self.expected_shutdown().set_value(True)
-
         if should_restart:
             self.bot.restart()
         else:
             self.bot.shutdown()
+
+    def _format_message(self, restart, reason):
+        if restart:
+            if reason:
+                return self.restart_msg + self.reason_msg.format(reason)
+            return self.restart_msg + ".."
+        if reason:
+            return self.shutdown_msg + self.reason_msg.format(reason)
+        return self.shutdown_msg + ".."

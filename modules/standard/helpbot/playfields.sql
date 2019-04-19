@@ -53,6 +53,7 @@ INSERT INTO playfields (id, long_name, short_name) VALUES (6551, 'Uturn Forest',
 INSERT INTO playfields (id, long_name, short_name) VALUES (6102, 'Three Craters East', '3CE');
 INSERT INTO playfields (id, long_name, short_name) VALUES (6101, 'Three Craters West', '3CW');
 INSERT INTO playfields (id, long_name, short_name) VALUES (6553, 'Arete', 'ARETE');
+INSERT INTO playfields (id, long_name, short_name) VALUES (750, 'The Reck', 'RECK');
 
 
 --SL

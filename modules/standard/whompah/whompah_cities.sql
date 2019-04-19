@@ -28,6 +28,8 @@ INSERT INTO whompah_cities (id, city_name, zone, faction, short_name) VALUES(25,
 INSERT INTO whompah_cities (id, city_name, zone, faction, short_name) VALUES(26, 'Perpetual Wasteland', 'Perpetual Wasteland', 'Neutral', 'pw');
 INSERT INTO whompah_cities (id, city_name, zone, faction, short_name) VALUES(27, 'Southern Fouls Hills', 'Southern Fouls Hills', 'Omni', 'sfh');
 INSERT INTO whompah_cities (id, city_name, zone, faction, short_name) VALUES(28, 'Central Artery Valley', 'Central Artery Valley', 'Clan', 'cav');
+INSERT INTO whompah_cities (id, city_name, zone, faction, short_name) VALUES(29, 'The Reck North', 'The Reck', 'Omni', 'trn');
+INSERT INTO whompah_cities (id, city_name, zone, faction, short_name) VALUES(30, 'The Reck South', 'The Reck', 'Clan', 'trs');
 
 DROP TABLE IF EXISTS whompah_cities_rel;
 CREATE TABLE whompah_cities_rel ( city1_id SMALLINT NOT NULL, city2_id SMALLINT NOT NULL);
@@ -101,6 +103,10 @@ INSERT INTO whompah_cities_rel (city1_id, city2_id) VALUES(28, 19);
 INSERT INTO whompah_cities_rel (city1_id, city2_id) VALUES(19, 28);
 INSERT INTO whompah_cities_rel (city1_id, city2_id) VALUES(19, 4);
 INSERT INTO whompah_cities_rel (city1_id, city2_id) VALUES(4, 19);
+INSERT INTO whompah_cities_rel (city1_id, city2_id) VALUES(30, 6);
+INSERT INTO whompah_cities_rel (city1_id, city2_id) VALUES(6, 30);
+INSERT INTO whompah_cities_rel (city1_id, city2_id) VALUES(29, 15);
+INSERT INTO whompah_cities_rel (city1_id, city2_id) VALUES(15, 29);
 
 -- test congruency
 -- SELECT * FROM (SELECT city1_id, count(*) AS cnt FROM whompah_cities_rel GROUP BY city1_id ) t1 JOIN (SELECT city2_id, count(*) AS cnt FROM whompah_cities_rel GROUP BY city2_id) t2 ON t1.city1_id = t2.city2_id WHERE t1.cnt <> t2.cnt
