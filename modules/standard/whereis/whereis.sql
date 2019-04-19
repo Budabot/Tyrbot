@@ -5,6 +5,7 @@ INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUE
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('A Dancing Fool', 'Baboons (located in Omni Entertainment)', NULL, 705, 766, 766);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('A Face In The Sand', 'Aegean', NULL, 585, 1400, 2750);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('A Spoiled Brat', 'in a park in Omni-Ent', NULL, 705, 946, 350);
+INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Abandoned Hope', 'The Reck; Island of the Dead', NULL, 750, 2009, 182);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Abmouth Supremus', 'in the lower levels of the Subway Dungeon at the very end. He spawns two infectors when attacked.', NULL, 0, 0, 0);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Ace Camp', 'Eastern Fouls Plain', 'Primus', 620, 720, 1380);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Aegean', 'in the northeast part of the world. No grid access point and no whompa. East of Aegean is Varmint Woods, to the west is Athen Shire, southeast is Upper Stret East Bank, southwest Wartorn Valley and Stret West Bank, no zone available to the north.', 'Aegean Aegan Aegean Aegeon Aegon Agean Ageon', 585, 0, 0);
@@ -127,6 +128,7 @@ INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUE
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Cuty', 'Tir County, Crater Farm Region', NULL, 646, 1500, 600);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Cyborg Barracks', 'in the northeast part of the world, in Greater Tir County. Recommended for teams of lvl 70-90.', 'Borg Baracks Barrack Barrackes Barracks Barracksccccc Barracs Barraks Camp Campp Camps Domain Dungeon Borgbarracks Borgs Cyborg Cyborgbarracks', 647, 3230, 2340);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Cyborg Brigadier General', 'Mort (Can be found wandering at the Ruins on Mort Crater, use the Sentinals grid exit)', NULL, 560, 1400, 530);
+INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Cyborg Executioner', 'The Reck; Cyborg Prison Camp', NULL, 750, 1311, 1473);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Cyborg Lieutenant Colonel', 'Mort (Can be found wandering at the Ruins on Mort Crater, use the Sentinals grid exit)', NULL, 560, 1400, 530);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Daedra Iberra', 'Pleasent Meadows', NULL, 630, 1510, 720);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Dana McCoy', 'Lower Scheol', NULL, 4881, 1220, 110);
@@ -168,6 +170,7 @@ INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUE
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Enjoy It While It Lasts', 'Tir City', 'bar club', 640, 650, 400);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Enkindled Spirit', 'Inferno, NW of Yuttos', NULL, 4005, 2326, 1280);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Enterprice Shop', 'ICC', 'veteran', 655, 3206, 820);
+INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Entvined General', 'The Reck; Port New Thera', NULL, 750, 1520, 794);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Eradicator Deimos', 'Cyborg Barracks, Greater Tir County', 'deimos demos eradicater eradicator', 647, 3232, 2340);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Ergo, Inferno Guardian of Shadows', '', '', 4605, 2800, 3378);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Ergo, Penumbra Guardian of Shadows', '', '', 4321, 2171, 2446);
@@ -233,6 +236,7 @@ INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUE
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('High Commander Fielding', 'Wailing Wastes, NE corner', NULL, 551, 2700, 3500);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('High Commander Frederickson', 'Wailing Wastes', NULL, 551, 0, 0);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('High Commander Hoover', 'Wailing Wastes, NE corner', NULL, 551, 2700, 3500);
+INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('High Commander Riker', 'The Reck; Unicorn Outpost', NULL, 750, 676, 314);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Holes In The Wall', 'in the west central part of the world. No grid access and no whompa. North of Holes in the Wall is Athen Shire, south and east is Stret West bank, Borealis to the west.', NULL, 791, 0, 0);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Hollow Island Weed', 'Hollow Island', NULL, 605, 0, 0);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Hope', 'a neutral city in Mort. It has whompas to Stret West Bank and Newland Desert at 2888 x 1909', NULL, 560, 2888, 1909);
@@ -290,10 +294,13 @@ INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUE
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Live Metal', 'Greater Tir County, Rocky Outcrops', 'Livemetal', 647, 1520, 2210);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Ljotur The Lunatic', 'Drill Island, Deep Artery Valley', NULL, 595, 1103, 722);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Lord Ghasap', 'Avalon Dungeon, Avalon', NULL, 505, 2092, 3822);
+INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Lord Of Sand', 'The Reck; Northern Eremite Statue', NULL, 750, 2267, 2902);
+INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Lord Of Sand', 'The Reck; Southern Eremite Statue', NULL, 750, 1533, 237);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Lord Of The Void', 'Inferno, E of Frontier, W of Frontier. Nasc Wilds', NULL, 0, 0, 0);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Lost Soul', 'Elysium, E Whispervale and 115 Inc', NULL, 0, 0, 0);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Lurking Dryad', 'Adonis, NW', NULL, 4872, 1232, 2798);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Lush Fields', 'located in the south central part of the world. Lush Fields has grid access at 1443 x 667 (Lush Hills Resort)and at Harry''s at 3115 x 3183. Ferrys to Harry''s at 3563 x 916, ferrys to PM OT outpost at 3391 x 797 and 3195 x 3178 and ferry to Omni Trade at 3295 x 2917. No whompa. NW is Andromeda, northeast is Milky Way, west is Clondyke, east is Pleasant Meadows. MutantDomain is located centrally on eastern border.', 'Lush Feilds Fhields Field Fields Outpost Resort Forest Hill Hills Meadows Op Woods Lushfields North West Mines Nw Omni Mine Prime', 695, 1443, 667);
+INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('M.A.G.S', 'The Reck, Sentium(Omni Outpost)', NULL, 750, 1803, 3303);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Majestik Woods', 'Rome Blue, NE', NULL, 687, 400, 2520);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Malah-Fulcifera', 'Inferno', '', 4605, 2127, 1861);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Mantis Queen', 'Smuggler''s Den, Southern Fouls Hills', NULL, 615, 1749, 869);
@@ -392,6 +399,7 @@ INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUE
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Polly', 'Omni Forest, Swamp River Delta and Northern Drylands', NULL, 716, 450, 1280);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Polymorphed Lunatic', 'Drill Island, Deep Artery Valley', NULL, 595, 1103, 722);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Powa', 'Greater Tir County', NULL, 647, 800, 2400);
+INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Prime Evolution Huzzum', 'The Reck; Mutant Village', NULL, 750, 1152, 2344);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Primus Outlaw', 'Primus Camp, Eastern Fouls Plain', NULL, 620, 0, 0);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Primus Scrap Pillager', 'Primus Camp, Eastern Fouls Plain', NULL, 620, 0, 0);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Professor Van Horn', 'Newland Desert', NULL, 565, 2900, 1600);
@@ -428,6 +436,7 @@ INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUE
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Sally Tall', 'Meetmedere, in a small pocket of 75% gas', NULL, 565, 1480, 2760);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Sam Chin', 'Tir County, located in Inquisitive Wasp, southeast of Tir City. Deliver the supply crate from Genghis Pan.', NULL, 646, 2725, 620);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Sanatsimk', 'Inferno', '', 4605, 3071, 1503);
+INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('SANDSTORM Control Tower', 'The Reck; Ruins (South of The Dam)', NULL, 750, 1117, 1126);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Scalding Weaver', 'in Sorrow Pass (the chasm near sorrow), this has a very large spawn area so look all around for them as well including outside the pass', NULL, 4005, 1450, 1425);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Scary Spider', 'Inferno, SE of 255 Incarnator', '', 4605, 3494, 2772);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Scientist Maud Stevens', 'Borealis, up by the Radar Dish', 'AI Quest Social Clothing combined armor', 800, 360, 405);
@@ -554,6 +563,8 @@ INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUE
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Virgo', 'Pandemonium, West Node', NULL, 0, 0, 0);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Wailing Wastes', 'in the northwest part of the world. No grid access, but has whompas at 1370 x 1735 to Athens, Avalon, and Varmit Woods. To the north is Avalon, to the south is Athen Shire, no zones to east and west. Clan OP with scanner at 2430 x 3380', 'WW Waleing Wastes Waling Waste Wailingwastes', 551, 1370, 1735);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Waning Soul', 'Elysium, E Whispervale and 115 Inc', NULL, 0, 0, 0);
+INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Warchief Skawt', 'The Reck; Mutant Hideout', NULL, 750, 1861, 968);
+INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Wardog', 'The Reck; Ruins(East of the Dam)', NULL, 750, 1785, 1725);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Wartorn Valley', 'in the northeast part of the world. No grid or whompa. To the north, east and west of Wartorn Valley is Aegean, to the south is gate to Athen Old.', 'Warton Valley Wartornvalley', 586, 0, 0);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Waywaqa', 'Inferno', '', 4605, 3275, 1454);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Weakened Chimera', 'Inferno, East of the Portal to Pen, around the +10 ring dungeon', NULL, 4005, 1090, 400);
