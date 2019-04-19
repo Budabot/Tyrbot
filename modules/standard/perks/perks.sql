@@ -15,7 +15,7 @@ INSERT INTO perk (id, name) VALUES (2,'First Aid');
 INSERT INTO perk (id, name) VALUES (3,'Freak Strength');
 INSERT INTO perk (id, name) VALUES (4,'Genius');
 INSERT INTO perk (id, name) VALUES (5,'Kung-Fu Master');
-INSERT INTO perk (id, name) VALUES (6,'Ambidextros');
+INSERT INTO perk (id, name) VALUES (6,'Ambidextrous');
 INSERT INTO perk (id, name) VALUES (7,'Cartographer');
 INSERT INTO perk (id, name) VALUES (8,'Enhance Health');
 INSERT INTO perk (id, name) VALUES (9,'Enhance Nano');
