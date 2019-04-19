@@ -53,7 +53,8 @@ class GridnetController:
 
     @event(event_type="connect", description="Connect to Gridnet on startup")
     def handle_connect_event(self, event_type, event_data):
-        self.connect()
+        if self.bot.dimension == 6:
+            self.connect()
 
     def connect(self):
         self.dthread = threading.Thread(target=self.worker.run, daemon=True)
