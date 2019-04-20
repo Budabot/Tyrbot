@@ -88,6 +88,8 @@ class RecipeController:
                         content += "\n\n"
 
                     self.db.exec("INSERT INTO recipe (id, name, author, recipe) VALUES (?, ?, ?, ?)", [recipe_id, name, author, content])
+            elif file.startswith("_"):
+                pass
             else:
                 raise Exception("Unknown recipe format for '%s'" % file)
 
