@@ -65,11 +65,10 @@ class RecipeController:
                     ingredients = items.copy()
                     for step in recipe["steps"]:
                         del ingredients[step["result"]]
-
                     for _, ingredient in ingredients.items():
-                        content += self.text.make_image(ingredient["icon"]) + "\n"
-                        content += self.text.make_item(ingredient["lowid"], ingredient["highid"], ingredient["ql"], ingredient["name"]) + "\n\n\n"
-
+                        content += self.text.make_image(ingredient["icon"]) + "<tab>"
+                        content += self.text.make_item(ingredient["lowid"], ingredient["highid"], ingredient["ql"], ingredient["name"]) + "\n"
+                    content += "\n"
                     content += "<font color=#FFFF00>------------------------------</font>\n"
                     content += "<font color=#FF0000>Recipe</font>\n"
                     content += "<font color=#FFFF00>------------------------------</font>\n\n"
@@ -77,12 +76,21 @@ class RecipeController:
                         source = items[step["source"]]
                         target = items[step["target"]]
                         result = items[step["result"]]
-                        content += "<font color=#009B00>%s</font>\n" % source["name"]
-                        content += "<font color=#FFFFFF>+</font>\n"
-                        content += "<font color=#009B00>%s</font>\n" % target["name"]
-                        content += "<font color=#FFFFFF>=</font>\n"
-                        content += self.text.make_image(result["icon"]) + "\n"
-                        content += self.text.make_item(result["lowid"], result["highid"], result["ql"], result["name"]) + "\n"
+                        content += "<a href='itemref://%d/%d/%d'>%s</a>" % \
+                                   (source["lowid"], source["highid"], source["ql"],
+                                    self.text.make_image(source["icon"])) + ""
+                        content += "<font color=#FFFFFF><tab>+<tab></font> "
+                        content += "<a href='itemref://%d/%d/%d'>%s</a>" % \
+                                   (target["lowid"], target["highid"], target["ql"],
+                                    self.text.make_image(target["icon"])) + ""
+                        content += "<font color=#FFFFFF><tab>=<tab></font> "
+                        content += "<a href='itemref://%d/%d/%d'>%s</a>" % \
+                                   (result["lowid"], result["highid"], result["ql"],
+                                    self.text.make_image(result["icon"]))
+                        content += "\n<tab><tab>" + self.text.make_item(source["lowid"], source["highid"], source["ql"], source["name"])
+                        content += "\n + <tab>" + self.text.make_item(target["lowid"], target["highid"], target["ql"], target["name"])
+                        content += "\n = <tab>" + self.text.make_item(result["lowid"], result["highid"], result["ql"], result["name"]) + "\n"
+
                         if "skills" in step:
                             content += "<font color=#FFFF00>Skills: | %s |</font>\n" % step["skills"]
                         content += "\n\n"
