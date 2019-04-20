@@ -1,0 +1,72 @@
+{
+  "name": "Arrows",
+  "author": "",
+  "items": [
+    {
+      "alias": "Chemical Arrowheads",
+      "item_id": 158579
+    },
+    {
+      "alias": "Reet-Tech Metaplast Arrowshafts",
+      "item_id": 158575
+    },
+    {
+      "alias": "Needle of Pine",
+      "item_id": 158593
+    }
+  ],
+  "steps": [
+    {
+      "source": "Chemical Arrowheads",
+      "target": "Reet-Tech Metaplast Arrowshafts",
+      "result": "Needle of Pine",
+      "skills": "AG, IN"
+    }
+  ],
+  "details": [
+    {"text": "Possible Arrow Heads:"},
+    {
+      "item": {
+        "id": 158579,
+        "comment":"Chemical Arrowheads"
+      }},
+    {"item": {
+      "id": 158581,
+      "comment":"Fire Arrowheads"
+    }},
+    {"item": {
+      "id": 158583,
+      "comment":"Frost Arrowheads"
+    }},
+    {"item": {
+      "id": 158577,
+      "comment":"Poison Arrowheads"
+    }},
+    {"item": {
+      "id": 158585,
+      "comment":"Radiation Arrowheads"
+    }},
+    {"text":  "\nPossible Arrow Types"},
+    {
+      "item": {
+        "id": 158593,
+        "comment":"Needle of Pine"
+      }},
+    {"item": {
+      "id": 158591,
+      "comment":"Maple Blaze"
+    }},
+    {"item": {
+      "id": 158595,
+      "comment":"Frozen Cherry Blossom"
+    }},
+    {"item": {
+      "id": 158589,
+      "comment":"Poison Bamboo"
+    }},
+    {"item": {
+      "id": 158597,
+      "comment":"Apple Seed"
+    }}
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "name": "Augmented Hellspinner Shock Cannon",
+  "author": "",
+  "items": [
+    {
+      "alias": "Contained Anti-Matter Generator",
+      "item_id": 201942
+    },
+    {
+      "alias": "Hellspinner Shock Cannon",
+      "item_id": 153976
+    },
+    {
+      "alias": "Augmented Hellspinner Shock Cannon",
+      "item_id": 201939
+    }
+  ],
+  "steps": [
+    {
+      "source": "Contained Anti-Matter Generator",
+      "target": "Hellspinner Shock Cannon",
+      "result": "Augmented Hellspinner Shock Cannon",
+      "skills": "BE"
+    }
+  ]
+}
