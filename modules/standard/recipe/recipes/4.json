@@ -1,0 +1,26 @@
+{
+  "name": "Aggression Multiplier (Jealousy Augmented)",
+  "author": "",
+  "items": [
+    {
+      "alias": "Aggression Multiplier",
+      "item_id": 83919
+    },
+    {
+      "alias": "Essence of Pure Jealousy",
+      "item_id": 152030
+    },
+    {
+      "alias": "Aggression Multiplier (Jealousy Augmented)",
+      "item_id": 152028
+    }
+  ],
+  "steps": [
+    {
+      "source": "Essence of Pure Jealousy",
+      "target": "Aggression Multiplier",
+      "result": "Aggression Multiplier (Jealousy Augmented)",
+      "skills": "ME, WS"
+    }
+  ]
+}

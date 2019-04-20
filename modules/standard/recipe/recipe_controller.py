@@ -86,7 +86,27 @@ class RecipeController:
                         if "skills" in step:
                             content += "<font color=#FFFF00>Skills: | %s |</font>\n" % step["skills"]
                         content += "\n\n"
+                    if "details" in recipe:
+                        content += "<font color=#FFFF00>------------------------------</font>\n"
+                        content += "<font color=#FF0000>Details</font>\n"
+                        content += "<font color=#FFFF00>------------------------------</font>\n\n"
+                        for detail in recipe["details"]:
+                            if "item" in detail:
+                                i = detail["item"]
 
+                                item = None
+                                if "ql" in i:
+                                    item = self.items_controller.get_by_item_id(i["id"], i["ql"])
+                                else:
+                                    item = self.items_controller.get_by_item_id(i["id"])
+                                    item["ql"] = item["highql"]
+                                content += "<font color=#009B00>%s</font>\n" % \
+                                           self.text.make_item(item["lowid"],
+                                                               item["highid"],
+                                                               item["ql"],
+                                                               item["name"])
+                            elif "text" in detail:
+                                content += "<font color=#FFFFFF>%s</font>\n" % detail["text"]
                     self.db.exec("INSERT INTO recipe (id, name, author, recipe) VALUES (?, ?, ?, ?)", [recipe_id, name, author, content])
             elif file.startswith("_"):
                 pass

@@ -1,0 +1,26 @@
+{
+  "name": "Anti Gravity Unit",
+  "author": "",
+  "items": [
+    {
+      "alias": "Small Backpack",
+      "item_id": 99228
+    },
+    {
+      "alias": "Juggernaut's Anti-Gravity Unit",
+      "item_id": 207249
+    },
+    {
+      "alias": "Anti Gravity Unit",
+      "item_id": 207242
+    }
+  ],
+  "steps": [
+    {
+      "source": "Juggernaut's Anti-Gravity Unit",
+      "target": "Small Backpack",
+      "result": "Anti Gravity Unit",
+      "skills": "ME"
+    }
+  ]
+}
