@@ -24,7 +24,9 @@
     }
   ],
   "details": [
-    {"text": "Alternatives for the Monster Parts:"},
+    {
+		"text": "Alternatives for the Monster Parts:"
+	},
     {
       "item": {
         "id": 42644,
@@ -36,12 +38,15 @@
         "id": 42642,
         "comment":"Pelted Monster Parts"
       }
-    },{
+    },
+	{
       "item": {
         "id": 42646,
         "comment":"Pelted Monster Parts with Ivory"
       }
     },
-    {"text": "These Blood Plasmas can be sold for a very good price (ie: 4 full Bags of Monster parts QL70~ = 1M), or they can be used in the making of #L \"Emergency Treatment Laboratory\" \"/tell <myname> recipe 18\". The requirements in Pharma Tech are very low, thus making it very profitable. It's recommended that the Bio-Communitor should be of a superior or equal QL of the Monster Parts, not to lose any QL in the process."}
+    {
+		"text": "These Blood Plasmas can be sold for a very good price (ie: 4 full Bags of Monster parts QL70~ = 1M), or they can be used in the making of #L \"Emergency Treatment Laboratory\" \"/tell <myname> recipe 18\". The requirements in Pharma Tech are very low, thus making it very profitable. It's recommended that the Bio-Communitor should be of a superior or equal QL of the Monster Parts, not to lose any QL in the process."
+	}
   ]
 }

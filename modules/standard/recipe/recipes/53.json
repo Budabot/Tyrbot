@@ -1,0 +1,30 @@
+{
+	"name": "Improved Solar Trader Shotgun",
+	"author": "",
+	"items": [
+		{
+			"alias": "Screwdriver",
+			"item_id": 150922
+		},
+		{
+			"alias": "Solar-Powered Shotgun",
+			"item_id": 121570
+		},
+		{
+			"alias": "Improved Solar Trader Shotgun",
+			"item_id": 243846
+		}
+	],
+	"steps": [
+		{
+			"source": "Screwdriver",
+			"target": "Solar-Powered Shotgun",
+			"result": "Improved Solar Trader Shotgun"
+		}
+	],
+	"details": [
+		{
+			"text": "Improve your noob island weapon."
+		}
+	]
+}

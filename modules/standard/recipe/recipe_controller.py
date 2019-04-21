@@ -53,7 +53,7 @@ class RecipeController:
                     for i in recipe["items"]:
                         item = self.items_controller.get_by_item_id(i["item_id"], i.get("ql"))
                         if not item:
-                            raise Exception("Could not fund recipe item '%d'" % i["item_id"])
+                            raise Exception("Could not fund recipe item '%d' for recipe id %s" % (i["item_id"], recipe_id))
 
                         item.ql = i.get("ql") or (item.highql if i["item_id"] == item.highid else item.lowql)
                         items[i["alias"]] = item
@@ -65,13 +65,16 @@ class RecipeController:
                     ingredients = items.copy()
                     for step in recipe["steps"]:
                         del ingredients[step["result"]]
+
                     for _, ingredient in ingredients.items():
                         content += self.text.make_image(ingredient["icon"]) + "<tab>"
                         content += self.text.make_item(ingredient["lowid"], ingredient["highid"], ingredient["ql"], ingredient["name"]) + "\n"
+
                     content += "\n"
                     content += "<font color=#FFFF00>------------------------------</font>\n"
                     content += "<font color=#FF0000>Recipe</font>\n"
                     content += "<font color=#FFFF00>------------------------------</font>\n\n"
+
                     for step in recipe["steps"]:
                         source = items[step["source"]]
                         target = items[step["target"]]
@@ -94,10 +97,12 @@ class RecipeController:
                         if "skills" in step:
                             content += "<font color=#FFFF00>Skills: | %s |</font>\n" % step["skills"]
                         content += "\n\n"
+
                     if "details" in recipe:
                         content += "<font color=#FFFF00>------------------------------</font>\n"
                         content += "<font color=#FF0000>Details</font>\n"
                         content += "<font color=#FFFF00>------------------------------</font>\n\n"
+
                         for detail in recipe["details"]:
                             if "item" in detail:
                                 i = detail["item"]
@@ -108,14 +113,23 @@ class RecipeController:
                                 else:
                                     item = self.items_controller.get_by_item_id(i["id"])
                                     item["ql"] = item["highql"]
-                                content += "<font color=#009B00>%s</font>\n" % \
+
+                                content += "<font color=#009B00>%s</font>" % \
                                            self.text.make_item(item["lowid"],
                                                                item["highid"],
                                                                item["ql"],
                                                                item["name"])
+
+                                if "comment" in i:
+                                    content += " - " + i["comment"]
+
+                                content += "\n"
+
                             elif "text" in detail:
                                 content += "<font color=#FFFFFF>%s</font>\n" % detail["text"]
+
                     self.db.exec("INSERT INTO recipe (id, name, author, recipe) VALUES (?, ?, ?, ?)", [recipe_id, name, author, content])
+
             elif file.startswith("_"):
                 pass
             else:
