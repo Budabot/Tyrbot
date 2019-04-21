@@ -24,7 +24,7 @@ try:
         logger.error("Python 3.6 is required (3.5 will not work)")
         exit(0)
 
-    if sys.version_info >= (3, 6):
+    if sys.version_info >= (3, 7):
         logger.warning("Python 3.7 is not yet supported; if you run into issues, considering downgrading to Python 3.6")
 
     # start config wizard if config file does not exist
