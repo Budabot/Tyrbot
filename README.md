@@ -19,7 +19,8 @@ If you are running a version of Tyrbot and simply want to upgrade to the latest 
 
 1. Download the latest version from here: [https://github.com/Budabot/Tyrbot/archive/master.zip](https://github.com/Budabot/Tyrbot/archive/master.zip)
 1. Unzip the bot to a new location (do not just unzip it over the top of the old installation)
-1. From the old installation, copy the `/conf`, `/data`, and optionally, the `/logs` directories to the new installation
+1. From the old installation, copy the `./conf`, `./data`, and optionally, the `./logs` directories to the new installation
+1. If you have any custom modules, copy the `./modules/custom/` directory over as well
 1. Start the bot and verify everything works and that all of your data has carried over
 1. In a few rare cases, the bot may not start because the config file format changed between versions and you may need to compare your config.hjson to the template version and make changes accordingly
 1. You can now delete the old installation
