@@ -62,10 +62,14 @@
     }
   ],
   "details": [
-    {"text": "Alternative for the Notum Fragments:"},
-    {"item": {
-      "id": 136622,
-      "comment": "Notum Chip"
-    }}
+    {
+      "text": "Alternative for the Notum Fragments:"
+    },
+    {
+      "item": {
+        "id": 136622,
+        "_name": "Notum Chip"
+      }
+    }
   ]
 }

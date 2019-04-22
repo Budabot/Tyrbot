@@ -39,20 +39,17 @@
     {
       "source": "Blood Plasma",
       "target": "Blood Plasma",
-      "result": "Double Charge of Blood Plasma",
-      "skills": "??"
+      "result": "Double Charge of Blood Plasma"
     },
     {
       "source": "Double Charge of Blood Plasma",
       "target": "Semi-Finished Treatment Laboratory",
-      "result": "Treatment Laboratory",
-      "skills": "??"
+      "result": "Treatment Laboratory"
     },
     {
       "source": "Blood Plasma",
       "target": "Semi-Finished First-Aid Kit",
-      "result": "Basic First-Aid Kit",
-      "skills": "??"
+      "result": "Basic First-Aid Kit"
     }
   ]
 }

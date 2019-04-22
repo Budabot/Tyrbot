@@ -66,23 +66,35 @@
     }
   ],
   "details": [
-    {"text": "<green>Requires Alien Tech Level 3<end>\nInstead of Glowing Biotech Rod you can also use"},
-    {"item": {
-      "id": 251269,
-      "comment": "Pulsing Biotech Rod"
-    }},
-    {"item": {
-      "id": 251271,
-      "comment": "Dark Biotech Rod"
-    }},
-    {"text": "\nWhen you use different Rods, you will get different Rings:"},
-    {"item": {
-      "id": 251760,
-      "comment": "Pulsing Biotech Rod Ring"
-    }},
-    {"item": {
-      "id": 251758,
-      "comment": "Dark Biotech Rod Ring"
-    }}
+    {
+      "text": "<green>Requires Alien Tech Level 3<end>\nInstead of Glowing Biotech Rod you can also use"
+    },
+    {
+      "item": {
+        "id": 251269,
+        "_name": "Pulsing Biotech Rod"
+      }
+    },
+    {
+      "item": {
+        "id": 251271,
+        "_name": "Dark Biotech Rod"
+      }
+    },
+    {
+      "text": "When you use different Rods, you will get different Rings:"
+    },
+    {
+      "item": {
+        "id": 251760,
+        "_name": "Pulsing Biotech Rod Ring"
+      }
+    },
+    {
+      "item": {
+        "id": 251758,
+        "_name": "Dark Biotech Rod Ring"
+      }
+    }
   ]
 }

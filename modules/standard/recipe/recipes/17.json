@@ -39,20 +39,17 @@
     {
       "source": "Jensen Personal Ore Extractor",
       "target": "Notum Pellet",
-      "result": "Refined Notum Pellet",
-      "skills": "??"
+      "result": "Refined Notum Pellet"
     },
     {
       "source": "Refined Notum Pellet",
       "target": "Semi-Finished Nano Kit",
-      "result": "Simple Nano Kit",
-      "skills": "??"
+      "result": "Simple Nano Kit"
     },
     {
       "source": "Refined Notum Pellet",
       "target": "Semi-Finished Nano Recharger",
-      "result": "Basic Nano Recharger",
-      "skills": "??"
+      "result": "Basic Nano Recharger"
     }
   ]
 }

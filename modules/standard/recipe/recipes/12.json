@@ -16,7 +16,7 @@
     },
     {
       "alias": "Apocalypse Leather Armor Boots",
-      "item_id":245967
+      "item_id": 245967
     },
     {
       "alias": "Hacked Leather Armor Boots",
@@ -41,32 +41,38 @@
     {
       "item": {
         "id": 245967,
-        "name":"Apocalypse Leather Armor Boots"
-      }},
+        "name": "Apocalypse Leather Armor Boots"
+      }
+    },
     {
       "item": {
         "id": 245969,
-        "comment":"Apocalypse Leather Armor Gloves"
-      }},
+        "_name": "Apocalypse Leather Armor Gloves"
+      }
+    },
     {
       "item": {
         "id": 245975,
-        "comment":"Apocalypse Leather Armor Helmet"
-      }},
+        "_name": "Apocalypse Leather Armor Helmet"
+      }
+    },
     {
       "item": {
         "id": 245971,
-        "comment":"Apocalypse Leather Armor Pants"
-      }},
+        "_name": "Apocalypse Leather Armor Pants"
+      }
+    },
     {
       "item": {
         "id": 245973,
-        "comment":"Apocalypse Leather Armor Sleeves"
-      }},
+        "_name": "Apocalypse Leather Armor Sleeves"
+      }
+    },
     {
       "item": {
         "id": 245965,
-        "comment":"Apocalypse Leather Body Armor"
-      }}
-    ]
+        "_name": "Apocalypse Leather Body Armor"
+      }
+    }
+  ]
 }

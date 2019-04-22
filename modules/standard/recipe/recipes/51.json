@@ -37,5 +37,9 @@
 			"skills":"EE,CL"
 		}
 	],
-	"comments": "This Clinic can only be worn by Fixers, but can be used by all. Added to the fact that it adds a bit of Treatement, you can use it to remove all the Clusters present on an Implant, thus creating a new Basic Implant of same QL. Don't forget that the Clusters are lost during the process."
+	"details": [
+		{
+			"text": "This Clinic can only be worn by Fixers, but can be used by all. Added to the fact that it adds a bit of Treatement, you can use it to remove all the Clusters present on an Implant, thus creating a new Basic Implant of same QL. Don't forget that the Clusters are lost during the process."
+		}
+	]
 }

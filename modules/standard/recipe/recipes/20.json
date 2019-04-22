@@ -30,19 +30,19 @@
     {
       "item": {
         "id": 42644,
-        "comment":"Monster Parts with Ivory"
+        "_name":"Monster Parts with Ivory"
       }
     },
     {
       "item": {
         "id": 42642,
-        "comment":"Pelted Monster Parts"
+        "_name":"Pelted Monster Parts"
       }
     },
 	{
       "item": {
         "id": 42646,
-        "comment":"Pelted Monster Parts with Ivory"
+        "_name":"Pelted Monster Parts with Ivory"
       }
     },
     {

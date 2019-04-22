@@ -23,5 +23,9 @@
 			"skills":"EE"
 		}
 	],
-	"comments": "Available only to agents, it allows them to disguise themselves as different objects, such as a crate"
+	"details": [
+		{
+			"text": "Available only to agents, it allows them to disguise themselves as different objects, such as a crate"
+		}
+	]
 }

@@ -24,49 +24,71 @@
     }
   ],
   "details": [
-    {"text": "Possible Arrow Heads:"},
+    {
+      "text": "Possible Arrow Heads:"
+    },
     {
       "item": {
         "id": 158579,
-        "comment":"Chemical Arrowheads"
-      }},
-    {"item": {
-      "id": 158581,
-      "comment":"Fire Arrowheads"
-    }},
-    {"item": {
-      "id": 158583,
-      "comment":"Frost Arrowheads"
-    }},
-    {"item": {
-      "id": 158577,
-      "comment":"Poison Arrowheads"
-    }},
-    {"item": {
-      "id": 158585,
-      "comment":"Radiation Arrowheads"
-    }},
-    {"text":  "\nPossible Arrow Types"},
+        "_name": "Chemical Arrowheads"
+      }
+    },
+    {
+      "item": {
+        "id": 158581,
+        "_name": "Fire Arrowheads"
+      }
+    },
+    {
+      "item": {
+        "id": 158583,
+        "_name": "Frost Arrowheads"
+      }
+    },
+    {
+      "item": {
+        "id": 158577,
+        "_name": "Poison Arrowheads"
+      }
+    },
+    {
+      "item": {
+        "id": 158585,
+        "_name": "Radiation Arrowheads"
+      }
+    },
+    {
+      "text": "Possible Arrow Types:"
+    },
     {
       "item": {
         "id": 158593,
-        "comment":"Needle of Pine"
-      }},
-    {"item": {
-      "id": 158591,
-      "comment":"Maple Blaze"
-    }},
-    {"item": {
-      "id": 158595,
-      "comment":"Frozen Cherry Blossom"
-    }},
-    {"item": {
-      "id": 158589,
-      "comment":"Poison Bamboo"
-    }},
-    {"item": {
-      "id": 158597,
-      "comment":"Apple Seed"
-    }}
+        "_name": "Needle of Pine"
+      }
+    },
+    {
+      "item": {
+        "id": 158591,
+        "_name": "Maple Blaze"
+      }
+    },
+    {
+      "item": {
+        "id": 158595,
+        "_name": "Frozen Cherry Blossom"
+      }
+    },
+    {
+      "item": {
+        "id": 158589,
+        "_name": "Poison Bamboo"
+      }
+    },
+    {
+      "item": {
+        "id": 158597,
+        "_name": "Apple Seed"
+      }
+    }
   ]
 }

@@ -103,8 +103,10 @@ class RecipeController:
                         content += "<font color=#FF0000>Details</font>\n"
                         content += "<font color=#FFFF00>------------------------------</font>\n\n"
 
+                        last_type = ""
                         for detail in recipe["details"]:
                             if "item" in detail:
+                                last_type = "item"
                                 i = detail["item"]
 
                                 item = None
@@ -126,6 +128,10 @@ class RecipeController:
                                 content += "\n"
 
                             elif "text" in detail:
+                                if last_type == "item":
+                                    content += "\n"
+
+                                last_type = "text"
                                 content += "<font color=#FFFFFF>%s</font>\n" % detail["text"]
 
                     self.db.exec("INSERT INTO recipe (id, name, author, recipe) VALUES (?, ?, ?, ?)", [recipe_id, name, author, content])
