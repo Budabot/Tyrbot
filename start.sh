@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-pip install -U -r requirements.txt
+pip3 install -U -r requirements.txt
 
 set -o pipefail -o errexit
 
