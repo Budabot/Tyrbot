@@ -26,7 +26,6 @@ class InfoController:
         self.command_alias_service.add_alias("healdelta", "info healdelta")
         self.command_alias_service.add_alias("nanodelta", "info nanodelta")
         self.command_alias_service.add_alias("lag", "info lag")
-        self.command_alias_service.add_alias("light", "info light")
         self.command_alias_service.add_alias("stats", "info stats")
         self.command_alias_service.add_alias("light", "info light")
         self.command_alias_service.add_alias("doja", "info doja")
