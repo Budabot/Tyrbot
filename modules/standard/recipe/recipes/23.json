@@ -1,0 +1,64 @@
+{
+	"name": "All-Match Augmented Bow Tie",
+	"author": "",
+	"items": [
+		{
+			"alias": "All-Match Augmented Bow Tie",
+			"item_id": 156540
+		},
+		{
+			"alias": "Hacker Tool",
+			"item_id": 87814
+		},
+		{
+			"alias": "Sealed Order FPGA-202",
+			"item_id": 156332
+		},
+		{
+			"alias": "Expendable Hologram Camera",
+			"item_id": 156054
+		},
+		{
+			"alias": "ID-extractor",
+			"item_id": 156339
+		},
+		{
+			"alias": "Multi-Form",
+			"item_id": 156345
+		},
+		{
+			"alias": "Hacked Order FPGA-202",
+			"item_id": 156338
+		},
+		{
+			"alias": "ID-data",
+			"item_id": 156340
+		}
+
+	],
+	"steps": [
+		{
+			"source": "Hacker Tool",
+			"target": "Sealed Order FPGA-202",
+			"result": "Hacked Order FPGA-202",
+			"skills": "BE"
+		},
+		{
+			"source": "ID-extractor",
+			"target": "Expendable Hologram Camera",
+			"result": "ID-data",
+			"skills": "??"
+		},
+		{
+			"source": "ID-data",
+			"target": "Hacked Order FPGA-202",
+			"result": "All-Match Augmented Bow Tie",
+			"skills": "PS"
+		}
+	],
+	"details": [
+		{
+			"text": "Simply perfect for neutral because they don't have token rewards, and excellent for chars based on trade-skills. But you have to kill the Lab Director in order to loot Sealed Order FPGA-202 and this Foreman's mine boss is quite camped :(. Moreover he drops three different Orders, and never the one you want...\n"
+		}
+	]
+}

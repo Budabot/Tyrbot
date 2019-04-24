@@ -1,0 +1,31 @@
+{
+	"name": "Boosted Hellfury Assault Cannon",
+	"author": "",
+	"items": [
+		{
+			"alias": "Hellfury Assault Cannon",
+			"item_id": 153977
+		},
+		{
+			"alias": "Erratic Notum Disruptor",
+			"item_id": 202281
+		},
+		{
+			"alias": "Boosted Hellfury Assault Cannon",
+			"item_id": 202279
+		}
+	],
+	"steps": [
+		{
+			"source": "Erratic Notum Disruptor",
+			"target": "Hellfury Assault Cannon",
+			"result": "Boosted Hellfury Assault Cannon",
+			"skills": "BE"
+		}
+	],
+	"details": [
+		{
+			"text": "This Weapon is only available through this Tradeskill."
+		}
+	]
+}
