@@ -1,7 +1,7 @@
 import socket
 import struct
 import select
-from core.aochat.server_packets import ServerPacket, LoginOK, LoginError
+from core.aochat.server_packets import ServerPacket, LoginOK, LoginError, LoginCharacterList
 from core.aochat.client_packets import LoginRequest, LoginSelect, Ping
 from core.logger import Logger
 from core.aochat.crypt import generate_login_key
@@ -40,7 +40,7 @@ class Bot:
         self.send_packet(login_request_packet)
 
         # read character list
-        character_list_packet = self.read_packet()
+        character_list_packet: LoginCharacterList = self.read_packet()
         if isinstance(character_list_packet, LoginError):
             self.logger.error("Error logging in: %s" % character_list_packet.message)
             return False
@@ -52,6 +52,10 @@ class Bot:
         # select character
         self.char_id = character_list_packet.char_ids[index]
         self.char_name = character_list_packet.names[index]
+        if character_list_packet.online_statuses[index]:
+            sleep_duration = 20
+            self.logger.warning("character '%s' is already logged on, waiting %ds before proceeding" % (self.char_name, sleep_duration))
+            time.sleep(sleep_duration)
         login_select_packet = LoginSelect(self.char_id)
         self.send_packet(login_select_packet)
 
