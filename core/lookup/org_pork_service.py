@@ -41,8 +41,8 @@ class OrgPorkService:
                 r = requests.get(url, timeout=5)
                 result = r.json()
 
-                # if org has no members, org does not exist
-                if result[0]["NUMMEMBERS"] == 0:
+                # if data is invalid
+                if not result[0] or not result[0]["ORG_INSTANCE"] or result[0]["ORG_INSTANCE"] != org_id:
                     result = None
             except ReadTimeout:
                 self.logger.warning("Timeout while requesting '%s'" % url)

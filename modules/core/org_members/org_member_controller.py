@@ -134,6 +134,8 @@ class OrgMemberController:
 
                 for char_id, mode in db_members.items():
                     self.process_update(char_id, mode, self.MODE_REM_AUTO)
+            else:
+                self.logger.warning("could not get roster info for org id '%d'" % org_id)
 
     @event(PublicChannelService.ORG_MSG_EVENT, "Update org roster when characters join or leave")
     def org_msg_event(self, event_type, event_data):
