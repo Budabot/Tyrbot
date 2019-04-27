@@ -1,3 +1,5 @@
+import time
+
 from requests import ReadTimeout
 
 from core.decorators import instance
@@ -27,11 +29,13 @@ class OrgPorkService:
     def get_org_info(self, org_id):
         cache_key = "%d.%d.json" % (org_id, self.bot.dimension)
 
+        t = int(time.time())
+
         # check cache for fresh value
-        cache_result = self.cache_service.retrieve(self.CACHE_GROUP, cache_key, self.CACHE_MAX_AGE)
+        cache_result = self.cache_service.retrieve(self.CACHE_GROUP, cache_key)
 
         is_cache = False
-        if cache_result:
+        if cache_result and cache_result.last_modified > (t - self.CACHE_MAX_AGE):
             result = json.loads(cache_result)
             is_cache = True
         else:
@@ -42,7 +46,7 @@ class OrgPorkService:
                 result = r.json()
 
                 # if data is invalid
-                if not result[0] or not result[0]["ORG_INSTANCE"] or result[0]["ORG_INSTANCE"] != org_id:
+                if result[0]["ORG_INSTANCE"] != org_id:
                     result = None
             except ReadTimeout:
                 self.logger.warning("Timeout while requesting '%s'" % url)
@@ -54,12 +58,10 @@ class OrgPorkService:
             if result:
                 # store result in cache
                 self.cache_service.store(self.CACHE_GROUP, cache_key, json.dumps(result))
-            else:
+            elif cache_result:
                 # check cache for any value, even expired
-                cache_result = self.cache_service.retrieve(self.CACHE_GROUP, cache_key)
-                if cache_result:
-                    result = json.loads(cache_result)
-                    is_cache = True
+                result = json.loads(cache_result)
+                is_cache = True
 
         if not result:
             return None
