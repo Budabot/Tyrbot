@@ -9,7 +9,7 @@ set -o pipefail -o errexit
 # Should be restarted until it returns an exit code of zero.
 while true; do
     git pull
-    pip install -U -r requirements.txt
+    pip3 install -U -r requirements.txt
     python3 bootstrap.py && exit
     sleep 1
 done
