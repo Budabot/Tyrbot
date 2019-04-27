@@ -18,8 +18,8 @@ class LadderController:
 
     @command(command="ladder", params=[Const("treatment"), Int("starting_amount")], access_level="all",
              description="Show sequence of laddering implants for treatment",
-             extended_description="The base amount should be the treatment or ability you have with all nano buffs, perks, and items-buffing equipment equipped, "
-                                  "but minus any implants you have equipped.")
+             extended_description="The starting amount should be the treatment or ability you have with all nano buffs, perks, and items-buffing equipment equipped, "
+                                  "but minus any buffs from implants that you have equipped.")
     def ladder_treatment_cmd(self, request, _, treatment):
         if treatment < 11:
             return "Base treatment must be at least <highlight>11<end>."
@@ -33,8 +33,8 @@ class LadderController:
 
     @command(command="ladder", params=[Const("ability"), Int("starting_amount")], access_level="all",
              description="Show sequence of laddering implants for ability",
-             extended_description="The base amount should be the treatment or ability you have with all nano buffs, perks, and items-buffing equipment equipped, "
-                                  "but minus any implants you have equipped.")
+             extended_description="The starting amount should be the treatment or ability you have with all nano buffs, perks, and items-buffing equipment equipped, "
+                                  "but minus any buffs from implants you have equipped.")
     def ladder_ability_cmd(self, request, _, ability):
         if ability < 6:
             return "Base ability must be at least <highlight>6<end>."
