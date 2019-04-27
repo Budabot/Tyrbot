@@ -154,6 +154,7 @@ class OrgPorkService:
         if len(members) == 0:
             return None
         else:
-            return DictObject({"org_info": new_org_info,
+            return DictObject({"last_modified": cache_result.last_modified if is_cache else t,
+                               "org_info": new_org_info,
                                "org_members": members,
                                "last_updated": int(datetime.datetime.strptime(last_updated, "%Y/%m/%d %H:%M:%S").timestamp())})
