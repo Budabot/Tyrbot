@@ -125,7 +125,7 @@ class AOUController:
                 self.cache_service.store(self.CACHE_GROUP, cache_key, ElementTree.tostring(result, encoding="unicode"))
             elif cache_result:
                 # check cache for any value, even expired
-                result = ElementTree.fromstring(cache_result)
+                result = ElementTree.fromstring(cache_result.data)
 
         if result:
             return self.get_guide_info(result)

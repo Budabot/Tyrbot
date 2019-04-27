@@ -36,7 +36,7 @@ class OrgPorkService:
 
         is_cache = False
         if cache_result and cache_result.last_modified > (t - self.CACHE_MAX_AGE):
-            result = json.loads(cache_result)
+            result = json.loads(cache_result.data)
             is_cache = True
         else:
             url = "https://pork.jkbff.com/org/stats/d/%d/name/%d/basicstats.xml?data_type=json" % (self.bot.dimension, org_id)
@@ -60,7 +60,7 @@ class OrgPorkService:
                 self.cache_service.store(self.CACHE_GROUP, cache_key, json.dumps(result))
             elif cache_result:
                 # check cache for any value, even expired
-                result = json.loads(cache_result)
+                result = json.loads(cache_result.data)
                 is_cache = True
 
         if not result:
