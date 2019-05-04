@@ -466,9 +466,15 @@ class LootController:
         return None
 
     def add_item_to_loot(self, item, comment=None, item_count=1):
-        end_index = list(self.loot_list.keys())[-1] + 1 if len(self.loot_list) > 0 else 1
+        existing_item = next((loot_item for x, loot_item in self.loot_list.items() if loot_item.item == item), None)
+        if existing_item:
+            existing_item.count += 1
+        else:
+            # this prevents loot items from being re-numbered when items are removed
+            end_index = list(self.loot_list.keys())[-1] + 1 if len(self.loot_list) > 0 else 1
 
-        self.loot_list[end_index] = LootItem(item, comment, None, None, item_count)
+            self.loot_list[end_index] = LootItem(item, comment, None, None, item_count)
+
         self.last_modify = int(time.time())
 
     def get_loot_list(self):

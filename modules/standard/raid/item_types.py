@@ -22,6 +22,9 @@ class LootItem:
             item_name = "%s (%s)" % (self.item, self.comment) if self.comment else self.item
             return item_name
 
+    def __str__(self):
+        return "%s %d" % (self.get_item_str(), self.count)
+
 
 class AuctionItem(LootItem):
     def __init__(self, item, comment, auctioneer_id, prefix=None, suffix=None, count=1):
