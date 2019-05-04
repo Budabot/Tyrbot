@@ -332,7 +332,7 @@ class AuctionController:
                                  name: str, auctioneer_id: int, prefix=None, suffix=None, item_count=1):
         end_index = list(self.loot_controller.loot_list.keys())[-1]+1 if len(self.loot_controller.loot_list) > 0 else 1
 
-        item_ref = DictObject({"lowid": low_id, "highid": high_id, "ql": ql, "name": name})
+        item_ref = DictObject({"low_id": low_id, "high_id": high_id, "ql": ql, "name": name})
 
         self.loot_controller.loot_list[end_index] = AuctionItem(item_ref, None, auctioneer_id, prefix, suffix, item_count)
 

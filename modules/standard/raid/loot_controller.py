@@ -230,7 +230,7 @@ class LootController:
             return LeaderController.NOT_LEADER_MSG
 
         items = self.db.query(
-            "SELECT r.raid, r.category, r.id, r.ql, r.name, r.comment, r.multiloot, a.lowid, a.highid, a.icon "
+            "SELECT r.raid, r.category, r.id, r.ql, r.name, r.comment, r.multiloot, a.lowid AS low_id, a.highid AS high_id, a.icon "
             "FROM raid_loot r "
             "LEFT JOIN aodb a "
             "ON (r.name = a.name AND r.ql <= a.highql) "

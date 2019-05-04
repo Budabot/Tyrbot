@@ -197,17 +197,17 @@ class LootListsController:
             comment = " (%s)" % item.comment if item.comment != "" else ""
 
             if self.setting_service.get("use_item_icons").get_value():
-                item_link = self.text.make_item(item.lowid, item.highid, item.ql, "<img src=rdb://%s>" % item.icon)
+                item_link = self.text.make_item(item.low_id, item.high_id, item.ql, "<img src=rdb://%s>" % item.icon)
                 blob += "%s\n%s%s\n | %s\n\n" % (item_link, item.name, comment, add_links)
             else:
-                item_link = self.text.make_item(item.lowid, item.highid, item.ql, item.name)
+                item_link = self.text.make_item(item.low_id, item.high_id, item.ql, item.name)
                 blob += "%s%s\n | %s\n\n" % (item_link, comment, add_links)
 
         return blob
 
     def get_items(self, raid, category):
         return self.db.query(
-            "SELECT r.raid, r.category, r.id, r.ql, r.name, r.comment, r.multiloot, a.lowid, a.highid, a.icon "
+            "SELECT r.raid, r.category, r.id, r.ql, r.name, r.comment, r.multiloot, a.lowid AS low_id, a.highid AS high_id, a.icon "
             "FROM raid_loot r "
             "LEFT JOIN aodb a "
             "ON (r.name = a.name AND r.ql <= a.highql) "
