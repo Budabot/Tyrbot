@@ -1132,6 +1132,7 @@ INSERT INTO boss_loot Values (264,'Wardog''s Heated Razor Gloves');
 INSERT INTO boss_loot Values (265,'Cyborg C.O. Wrist Computer');
 INSERT INTO boss_loot Values (266,'Damaged Notum Tower Shield');
 INSERT INTO boss_loot Values (267,'Skawt''s Plasma Emitter');
+INSERT INTO boss_loot Values (267,'Skawt''s Compact Plasma Emitter');
 INSERT INTO boss_loot Values (268,'Stripped Merit Board');
 INSERT INTO boss_loot Values (268,'Experimental Optic Enhancer');
 INSERT INTO boss_loot Values (269,'Riker''s Resolve');
