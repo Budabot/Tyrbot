@@ -1,3 +1,5 @@
+import time
+
 from core.decorators import instance, command
 from core.chat_blob import ChatBlob
 from core.command_param_types import Any, Const, Int
@@ -104,11 +106,13 @@ class AOUController:
     def retrieve_guide(self, guide_id):
         cache_key = "%d.xml" % guide_id
 
-        # check cache for fresh value
-        cache_result = self.cache_service.retrieve(self.CACHE_GROUP, cache_key, self.CACHE_MAX_AGE)
+        t = int(time.time())
 
-        if cache_result:
-            result = ElementTree.fromstring(cache_result)
+        # check cache for fresh value
+        cache_result = self.cache_service.retrieve(self.CACHE_GROUP, cache_key)
+
+        if cache_result and cache_result.last_modified > (t - self.CACHE_MAX_AGE):
+            result = ElementTree.fromstring(cache_result.data)
         else:
             response = requests.get(self.AOU_URL + "&mode=view&id=" + str(guide_id), timeout=5)
             result = ElementTree.fromstring(response.content)
@@ -119,11 +123,9 @@ class AOUController:
             if result:
                 # store result in cache
                 self.cache_service.store(self.CACHE_GROUP, cache_key, ElementTree.tostring(result, encoding="unicode"))
-            else:
+            elif cache_result:
                 # check cache for any value, even expired
-                cache_result = self.cache_service.retrieve(self.CACHE_GROUP, cache_key)
-                if cache_result:
-                    result = ElementTree.fromstring(cache_result)
+                result = ElementTree.fromstring(cache_result.data)
 
         if result:
             return self.get_guide_info(result)

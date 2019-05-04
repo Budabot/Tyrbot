@@ -1,0 +1,26 @@
+{
+  "name": "Adventure Shield",
+  "author": "",
+  "items": [
+    {
+      "alias": "Cold Deflection Shield",
+      "item_id": 158037
+    },
+    {
+      "alias": "Neutron Displacer",
+      "item_id": 144784
+    },
+    {
+      "alias": "Cold Adventure Shield",
+      "item_id": 162385
+    }
+  ],
+  "steps": [
+    {
+      "source": "Neutron Displacer",
+      "target": "Cold Deflection Shield",
+      "result": "Cold Adventure Shield",
+      "skills": "PT"
+    }
+  ]
+}

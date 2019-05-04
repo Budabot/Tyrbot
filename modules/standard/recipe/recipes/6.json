@@ -1,0 +1,301 @@
+{
+  "name": "Upgrading Alien Weapons",
+  "author": "",
+  "items": [
+    {
+      "alias": "Kyr'Ozch Bio-Material - Type 1",
+      "item_id": 247684
+    },
+    {
+      "alias": "Kyr'Ozch Shotgun",
+      "item_id": 254583
+    },
+    {
+      "alias": "Kyr'Ozch Shotgun - Type 1",
+      "item_id": 254590
+    }
+  ],
+  "steps": [
+    {
+      "source": "Kyr'Ozch Bio-Material - Type 1",
+      "target": "Kyr'Ozch Shotgun",
+      "result": "Kyr'Ozch Shotgun - Type 1",
+      "skills": "WS"
+    }
+  ],
+  "details": [
+    {
+      "item": {
+        "id": 247684,
+        "_name": "Kyr'Ozch Bio-Material - Type 1"
+      }
+    },
+    {
+      "item": {
+        "id": 254576,
+        "_name": "Kyr'Ozch Grenade Gun - Type 1"
+      }
+    },
+    {
+      "item": {
+        "id": 254625,
+        "_name": "Kyr'Ozch Pistol - Type 1"
+      }
+    },
+    {
+      "item": {
+        "id": 254590,
+        "_name": "Kyr'Ozch Shotgun - Type 1"
+      }
+    },
+    {
+      "text": ""
+    },
+    {
+      "item": {
+        "id": 247676,
+        "_name": "Kyr'Ozch Bio-Material - Type 112"
+      }
+    },
+    {
+      "item": {
+        "id": 254709,
+        "_name": "Kyr'Ozch Energy Hammer - Type 112"
+      }
+    },
+    {
+      "item": {
+        "id": 254681,
+        "_name": "Kyr'Ozch Hammer - Type 112"
+      }
+    },
+    {
+      "item": {
+        "id": 254786,
+        "_name": "Kyr'Ozch Spear - Type 112"
+      }
+    },
+    {
+      "item": {
+        "id": 254765,
+        "_name": "Kyr'Ozch Sword - Type 112"
+      }
+    },
+    {
+      "text": ""
+    },
+    {
+      "item": {
+        "id": 247692,
+        "_name": "Kyr'Ozch Bio-Material - Type 12"
+      }
+    },
+    {
+      "item": {
+        "id": 254506,
+        "_name": "Kyr'Ozch Carbine - Type 12"
+      }
+    },
+    {
+      "item": {
+        "id": 254541,
+        "_name": "Kyr'Ozch Submachine Gun - Type 12"
+      }
+    },
+    {
+      "text": ""
+    },
+    {
+      "item": {
+        "id": 247696,
+        "_name": "Kyr'Ozch Bio-Material - Type 13"
+      }
+    },
+    {
+      "item": {
+        "id": 254513,
+        "_name": "Kyr'Ozch Carbine - Type 13"
+      }
+    },
+    {
+      "text": ""
+    },
+    {
+      "item": {
+        "id": 247686,
+        "_name": "Kyr'Ozch Bio-Material - Type 2"
+      }
+    },
+    {
+      "item": {
+        "id": 254611,
+        "_name": "Kyr'Ozch Crossbow - Type 2"
+      }
+    },
+    {
+      "item": {
+        "id": 254478,
+        "_name": "Kyr'Ozch Rifle - Type 2"
+      }
+    },
+    {
+      "text": ""
+    },
+    {
+      "item": {
+        "id": 247678,
+        "_name": "Kyr'Ozch Bio-Material - Type 240"
+      }
+    },
+    {
+      "item": {
+        "id": 254695,
+        "_name": "Kyr'Ozch Axe - Type 240"
+      }
+    },
+    {
+      "text": ""
+    },
+    {
+      "item": {
+        "id": 247694,
+        "_name": "Kyr'Ozch Bio-Material - Type 3"
+      }
+    },
+    {
+      "item": {
+        "id": 254604,
+        "_name": "Kyr'Ozch Crossbow - Type 3"
+      }
+    },
+    {
+      "item": {
+        "id": 254562,
+        "_name": "Kyr'Ozch Energy Carbine - Type 3"
+      }
+    },
+    {
+      "item": {
+        "id": 254485,
+        "_name": "Kyr'Ozch Rifle - Type 3"
+      }
+    },
+    {
+      "text": ""
+    },
+    {
+      "item": {
+        "id": 247688,
+        "_name": "Kyr'Ozch Bio-Material - Type 4"
+      }
+    },
+    {
+      "item": {
+        "id": 254660,
+        "_name": "Kyr'Ozch Machine Pistol - Type 4"
+      }
+    },
+    {
+      "item": {
+        "id": 254632,
+        "_name": "Kyr'Ozch Pistol - Type 4"
+      }
+    },
+    {
+      "item": {
+        "id": 254527,
+        "_name": "Kyr'Ozch Submachine Gun - Type 4"
+      }
+    },
+    {
+      "text": ""
+    },
+    {
+      "item": {
+        "id": 247690,
+        "_name": "Kyr'Ozch Bio-Material - Type 5"
+      }
+    },
+    {
+      "item": {
+        "id": 254499,
+        "_name": "Kyr'Ozch Carbine - Type 5"
+      }
+    },
+    {
+      "item": {
+        "id": 254555,
+        "_name": "Kyr'Ozch Energy Carbine - Type 5"
+      }
+    },
+    {
+      "item": {
+        "id": 254646,
+        "_name": "Kyr'Ozch Energy Pistol - Type 5"
+      }
+    },
+    {
+      "item": {
+        "id": 254667,
+        "_name": "Kyr'Ozch Machine Pistol - Type 5"
+      }
+    },
+    {
+      "item": {
+        "id": 254534,
+        "_name": "Kyr'Ozch Submachine Gun - Type 5"
+      }
+    },
+    {
+      "text": ""
+    },
+    {
+      "item": {
+        "id": 247674,
+        "_name": "Kyr'Ozch Bio-Material - Type 76"
+      }
+    },
+    {
+      "item": {
+        "id": 254751,
+        "_name": "Kyr'Ozch Energy Sword - Type 76"
+      }
+    },
+    {
+      "item": {
+        "id": 254737,
+        "_name": "Kyr'Ozch Sledgehammer - Type 76"
+      }
+    },
+    {
+      "text": ""
+    },
+    {
+      "item": {
+        "id": 247680,
+        "_name": "Kyr'Ozch Bio-Material - Type 880"
+      }
+    },
+    {
+      "item": {
+        "id": 254772,
+        "_name": "Kyr'Ozch Sword - Type 880"
+      }
+    },
+    {
+      "text": ""
+    },
+    {
+      "item": {
+        "id": 247682,
+        "_name": "Kyr'Ozch Bio-Material - Type 992"
+      }
+    },
+    {
+      "item": {
+        "id": 254723,
+        "_name": "Kyr'Ozch Energy Rapier - Type 992"
+      }
+    }
+  ]
+}

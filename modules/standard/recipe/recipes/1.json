@@ -1,0 +1,55 @@
+{
+	"name":"Accelerated NCU Memory",
+	"author":"",
+	"items":[
+		{
+			"alias":"NCU Memory",
+			"item_id":95520,
+			"ql":200
+		},
+		{
+			"alias":"Nano Formula Recompiler",
+			"item_id":95519
+		},
+		{
+			"alias":"Lock Pick",
+			"item_id":95577
+		},
+		{
+			"alias":"Nano Programming Interface",
+			"item_id":161699
+		},
+		{
+			"alias":"Disconnected NCU Memory",
+			"item_id":164601
+		},
+		{
+			"alias":"Re-configured Nano Formula Recompiler",
+			"item_id":164600
+		},
+		{
+			"alias":"Accelerated NCU Memory",
+			"item_id":164608
+		}
+	],
+	"steps":[
+		{
+			"source":"Lock Pick",
+			"target":"NCU Memory",
+			"result":"Disconnected NCU Memory",
+			"skills":"BE,CL"
+		},
+		{
+			"source":"Nano Programming Interface",
+			"target":"Nano Formula Recompiler",
+			"result":"Re-configured Nano Formula Recompiler",
+			"skills":"NP,CL"
+		},
+		{
+			"source":"Re-configured Nano Formula Recompiler",
+			"target":"Disconnected NCU Memory",
+			"result":"Accelerated NCU Memory",
+			"skills":"NP,CL"
+		}
+	]
+}

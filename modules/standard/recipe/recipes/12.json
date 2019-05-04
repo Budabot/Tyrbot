@@ -1,0 +1,78 @@
+{
+  "name": "Apocalypse Leather Armor",
+  "author": "",
+  "items": [
+    {
+      "alias": "Enhanced Leather Armor Boots",
+      "item_id": 85644
+    },
+    {
+      "alias": "Hacker Tool",
+      "item_id": 87814
+    },
+    {
+      "alias": "Clanalizer",
+      "item_id": 208313
+    },
+    {
+      "alias": "Apocalypse Leather Armor Boots",
+      "item_id": 245967
+    },
+    {
+      "alias": "Hacked Leather Armor Boots",
+      "item_id": 245979
+    }
+  ],
+  "steps": [
+    {
+      "source": "Hacker Tool",
+      "target": "Enhanced Leather Armor Boots",
+      "result": "Hacked Leather Armor Boots",
+      "skills": "BE"
+    },
+    {
+      "source": "Clanalizer",
+      "target": "Hacked Leather Armor Boots",
+      "result": "Apocalypse Leather Armor Boots",
+      "skills": "??"
+    }
+  ],
+  "details": [
+    {
+      "item": {
+        "id": 245967,
+        "name": "Apocalypse Leather Armor Boots"
+      }
+    },
+    {
+      "item": {
+        "id": 245969,
+        "_name": "Apocalypse Leather Armor Gloves"
+      }
+    },
+    {
+      "item": {
+        "id": 245975,
+        "_name": "Apocalypse Leather Armor Helmet"
+      }
+    },
+    {
+      "item": {
+        "id": 245971,
+        "_name": "Apocalypse Leather Armor Pants"
+      }
+    },
+    {
+      "item": {
+        "id": 245973,
+        "_name": "Apocalypse Leather Armor Sleeves"
+      }
+    },
+    {
+      "item": {
+        "id": 245965,
+        "_name": "Apocalypse Leather Body Armor"
+      }
+    }
+  ]
+}

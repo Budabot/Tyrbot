@@ -1,3 +1,5 @@
+import time
+
 from requests import ReadTimeout
 
 from core.decorators import instance
@@ -22,11 +24,13 @@ class CharacterHistoryService:
     def get_character_history(self, name, server_num):
         cache_key = "%s.%d.json" % (name, server_num)
 
+        t = int(time.time())
+
         # check cache for fresh value
-        cache_result = self.cache_service.retrieve(self.CACHE_GROUP, cache_key, self.CACHE_MAX_AGE)
-        if cache_result:
+        cache_result = self.cache_service.retrieve(self.CACHE_GROUP, cache_key)
+        if cache_result and cache_result.last_modified > (t - self.CACHE_MAX_AGE):
             # TODO set cache age
-            result = json.loads(cache_result)
+            result = json.loads(cache_result.data)
         else:
             url = "http://pork.budabot.jkbff.com/pork/history.php?server=%d&name=%s" % (server_num, name)
 
@@ -43,14 +47,12 @@ class CharacterHistoryService:
             if result:
                 # store result in cache
                 self.cache_service.store(self.CACHE_GROUP, cache_key, json.dumps(result))
-            else:
+            elif cache_result:
                 # check cache for any value, even expired
-                # TODO set cache age
-                cache_obj = self.cache_service.retrieve(self.CACHE_GROUP, cache_key)
-                if cache_obj:
-                    result = json.loads(cache_obj)
+                result = json.loads(cache_result.data)
 
         if result:
+            # TODO set cache age
             return map(lambda x: DictObject(x), result)
         else:
             return None

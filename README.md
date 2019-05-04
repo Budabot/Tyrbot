@@ -19,7 +19,8 @@ If you are running a version of Tyrbot and simply want to upgrade to the latest 
 
 1. Download the latest version from here: [https://github.com/Budabot/Tyrbot/archive/master.zip](https://github.com/Budabot/Tyrbot/archive/master.zip)
 1. Unzip the bot to a new location (do not just unzip it over the top of the old installation)
-1. From the old installation, copy the `/conf`, `/data`, and optionally, the `/logs` directories to the new installation
+1. From the old installation, copy the `./conf`, `./data`, and optionally, the `./logs` directories to the new installation
+1. If you have any custom modules, copy the `./modules/custom/` directory over as well
 1. Start the bot and verify everything works and that all of your data has carried over
 1. In a few rare cases, the bot may not start because the config file format changed between versions and you may need to compare your config.hjson to the template version and make changes accordingly
 1. You can now delete the old installation
@@ -35,3 +36,9 @@ If you need help or support with Tyrbot, join our discord channel: [https://disc
 ## Discord Module Setup
 If you would like to connect your bot to your Discord server, follow this guide:
 [https://github.com/Budabot/Tyrbot/wiki/Discord-Setup](https://github.com/Budabot/Tyrbot/wiki/Discord-Setup)
+- The library used to build the module can be found [here](https://discordpy.readthedocs.io/en/latest/index.html).
+- The official Discord API documentation can be found [here](https://discordapp.com/developers/docs/intro).
+- The official Discord API server can be joined [here](https://discord.gg/discord-api).
+
+## Writing Custom Modules
+See the Wiki page: [https://github.com/Budabot/Tyrbot/wiki/Writing-Custom-Modules](https://github.com/Budabot/Tyrbot/wiki/Writing-Custom-Modules)

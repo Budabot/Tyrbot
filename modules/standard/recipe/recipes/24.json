@@ -1,0 +1,69 @@
+{
+	"name": "Bracelet Circuitry",
+	"author": "",
+	"items": [
+		{
+			"alias": "Bracelet Circuitry",
+			"item_id": 150927
+		},
+		{
+			"alias": "Screwdriver",
+			"item_id": 150922
+		},
+		{
+			"alias": "Robot Junk",
+			"item_id": 42619
+		},
+		{
+			"alias": "Nano Circuitry Wire",
+			"item_id": 150919
+		},
+		{
+			"alias": "Silver Filigree Wire",
+			"item_id": 150932
+		},
+		{
+			"alias": "Nano Sensor",
+			"item_id": 150924
+		},
+		{
+			"alias": "Interfaced Nano Sensor",
+			"item_id": 150925
+		},
+		{
+			"alias": "Silver Nano Circuitry Filigree Wire",
+			"item_id": 150920
+		}
+	],
+	"steps": [
+		{
+			"source": "Screwdriver",
+			"target": "Robot Junk",
+			"result": "Nano Sensor",
+			"skills": "ME"
+		},
+		{
+			"source": "Nano Circuitry Wire",
+			"target": "Nano Sensor",
+			"result": "Interfaced Nano Sensor",
+			"skills": "EE"
+		},
+		{
+			"source": "Nano Circuitry Wire",
+			"target": "Silver Filigree Wire",
+			"result": "Silver Nano Circuitry Filigree Wire",
+			"skills": "??"
+		},
+		{
+			"source": "Silver Nano Circuitry Filigree Wire",
+			"target": "Interfaced Nano Sensor",
+			"result": "Bracelet Circuitry",
+			"skills": "??"
+		}
+	],
+	"details": [
+		{
+			"text": "Used in the construction of Arul Saba Bracelets."
+		}
+	]
+}

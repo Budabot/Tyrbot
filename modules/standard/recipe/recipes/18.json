@@ -1,0 +1,55 @@
+{
+  "name": "Basic Treatment Laboratory/First-Aid Kit",
+  "author": "",
+  "items": [
+    {
+      "alias": "Blood Plasma",
+      "item_id": 154359
+    },
+    {
+      "alias": "Semi-Finished Treatment Laboratory",
+      "item_id": 206738
+    },
+    {
+      "alias": "Semi-Finished First-Aid Kit",
+      "item_id": 206734
+    },
+    {
+      "alias": "Double Charge of Blood Plasma",
+      "item_id": 206736
+    },
+    {
+      "alias": "Basic Treatment Laboratory",
+      "item_id": 206736
+    },
+    {
+      "alias": "Double Charge of Blood Plasma",
+      "item_id": 206736
+    },
+    {
+      "alias": "Treatment Laboratory",
+      "item_id": 206736
+    },
+    {
+      "alias": "Basic First-Aid Kit",
+      "item_id": 23316
+    }
+  ],
+  "steps": [
+    {
+      "source": "Blood Plasma",
+      "target": "Blood Plasma",
+      "result": "Double Charge of Blood Plasma"
+    },
+    {
+      "source": "Double Charge of Blood Plasma",
+      "target": "Semi-Finished Treatment Laboratory",
+      "result": "Treatment Laboratory"
+    },
+    {
+      "source": "Blood Plasma",
+      "target": "Semi-Finished First-Aid Kit",
+      "result": "Basic First-Aid Kit"
+    }
+  ]
+}

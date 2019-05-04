@@ -23,6 +23,8 @@ class OrgMemberController:
     ORG_MEMBER_LOGON_EVENT = "org_member_logon"
     ORG_MEMBER_LOGOFF_EVENT = "org_member_logoff"
 
+    MAX_CACHE_AGE = 86400
+
     def __init__(self):
         self.logger = Logger(__name__)
 
@@ -123,17 +125,26 @@ class OrgMemberController:
 
             self.logger.info("Updating org_members roster for org_id %d" % org_id)
             org_info = self.org_pork_service.get_org_info(org_id)
-            if org_info:
-                for char_id, roster_member in org_info.org_members.items():
-                    db_member = db_members.get(char_id, None)
 
-                    if db_member:
-                        del db_members[char_id]
+            if not org_info:
+                self.logger.warning("could not get roster info for org id '%d'" % org_id)
+                return
 
-                    self.process_update(char_id, db_member, self.MODE_ADD_AUTO)
+            t = int(time.time())
+            if org_info.last_modified < (t - self.MAX_CACHE_AGE):
+                self.logger.warning("skipping roster update due to old cache")
+                return
 
-                for char_id, mode in db_members.items():
-                    self.process_update(char_id, mode, self.MODE_REM_AUTO)
+            for char_id, roster_member in org_info.org_members.items():
+                db_member = db_members.get(char_id, None)
+
+                if db_member:
+                    del db_members[char_id]
+
+                self.process_update(char_id, db_member, self.MODE_ADD_AUTO)
+
+            for char_id, mode in db_members.items():
+                self.process_update(char_id, mode, self.MODE_REM_AUTO)
 
     @event(PublicChannelService.ORG_MSG_EVENT, "Update org roster when characters join or leave")
     def org_msg_event(self, event_type, event_data):

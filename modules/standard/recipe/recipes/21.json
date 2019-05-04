@@ -1,0 +1,31 @@
+{
+	"name": "Boosted Hellspinner Shock Cannon",
+	"author": "",
+	"items": [
+		{
+			"alias": "Hellspinner Shock Cannon",
+			"item_id": 153976
+		},
+		{
+			"alias": "Fluctuating Anti-Matter Generator",
+			"item_id": 201941
+		},
+		{
+			"alias": "Boosted Hellspinner Shock Cannon",
+			"item_id": 201940
+		}
+	],
+	"steps": [
+		{
+			"source": "Fluctuating Anti-Matter Generator",
+			"target": "Hellspinner Shock Cannon",
+			"result": "Boosted Hellspinner Shock Cannon",
+			"skills": "BE"
+		}
+	],
+	"details": [
+		{
+			"text": "This Weapon is only available through this Tradeskill."
+		}
+	]
+}

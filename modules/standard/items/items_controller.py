@@ -9,6 +9,8 @@ from core.text import Text
 
 @instance()
 class ItemsController:
+    PAGE_SIZE = 30
+
     def inject(self, registry):
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
@@ -18,20 +20,30 @@ class ItemsController:
         self.command_alias_service.add_alias("item", "items")
         self.command_alias_service.add_alias("i", "items")
 
+    @command(command="items", params=[Int("item_id")], access_level="all",
+             description="Search for an item by item id")
+    def items_id_cmd(self, request, item_id):
+        item = self.get_by_item_id(item_id)
+        if item:
+            return self.format_items_response(None, str(item_id), [item], 0, 1)
+        else:
+            return "Could not find item with ID <highlight>%d<end>." % item_id
+
     @command(command="items", params=[Int("ql", is_optional=True), Any("search"), NamedParameters(["page"])], access_level="all",
              description="Search for an item")
-    def items_cmd(self, request, ql, search, named_params):
+    def items_search_cmd(self, request, ql, search, named_params):
         page = int(named_params.page or "1")
 
         search = html.unescape(search)
 
-        page_size = 30
-        offset = (page - 1) * page_size
+        offset = (page - 1) * self.PAGE_SIZE
 
         all_items = self.find_items(search, ql)
-        if search.isdigit():
-            all_items += [self.get_by_item_id(int(search))] + all_items
-        items = self.sort_items(search, all_items)[offset:offset + page_size]
+
+        return self.format_items_response(ql, search, all_items, offset, page)
+
+    def format_items_response(self, ql, search, all_items, offset, page):
+        items = self.sort_items(search, all_items)[offset:offset + self.PAGE_SIZE]
         cnt = len(items)
 
         if cnt == 0:
@@ -41,7 +53,7 @@ class ItemsController:
                 return "No items found matching <highlight>%s<end>." % search
         else:
             blob = ""
-            blob += "Version: <highlight>%s<end>\n" % "unknown"
+            # blob += "Version: <highlight>%s<end>\n" % "unknown"
             if ql:
                 blob += "Search: <highlight>QL %d %s<end>\n" % (ql, search)
             else:
@@ -50,7 +62,7 @@ class ItemsController:
 
             if page > 1:
                 blob += "   " + self.text.make_chatcmd("<< Page %d" % (page - 1), self.get_chat_command(ql, search, page - 1))
-            if offset + page_size < len(all_items):
+            if offset + self.PAGE_SIZE < len(all_items):
                 blob += "   Page " + str(page)
                 blob += "   " + self.text.make_chatcmd("Page %d >>" % (page + 1), self.get_chat_command(ql, search, page + 1))
             blob += "\n"
@@ -58,7 +70,7 @@ class ItemsController:
             blob += self.format_items(items, ql)
             blob += "\nItem DB rips created using the %s tool." % self.text.make_chatcmd("Budabot Items Extractor", "/start https://github.com/Budabot/ItemsExtractor")
 
-            return ChatBlob("Item Search Results (%d - %d of %d)" % (offset + 1, min(offset + page_size, len(all_items)), len(all_items)), blob)
+            return ChatBlob("Item Search Results (%d - %d of %d)" % (offset + 1, min(offset + self.PAGE_SIZE, len(all_items)), len(all_items)), blob)
 
     def format_items(self, items, ql=None):
         blob = ""
@@ -122,8 +134,11 @@ class ItemsController:
 
         return items
 
-    def get_by_item_id(self, item_id):
-        return self.db.query_single("SELECT * FROM aodb WHERE highid = ? OR lowid = ? ORDER BY highid = ?", [item_id, item_id, item_id])
+    def get_by_item_id(self, item_id, ql=None):
+        if ql:
+            return self.db.query_single("SELECT * FROM aodb WHERE (highid = ? OR lowid = ?) AND (highql = ? OR lowql = ?) ORDER BY highid = ?", [item_id, item_id, ql, ql, item_id])
+        else:
+            return self.db.query_single("SELECT * FROM aodb WHERE highid = ? OR lowid = ? ORDER BY highid = ?", [item_id, item_id, item_id])
 
     def find_by_name(self, name, ql=None):
         if ql:

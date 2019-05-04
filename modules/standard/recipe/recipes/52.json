@@ -1,0 +1,39 @@
+{
+	"name": "Improved Immortal Katana",
+	"author": "",
+	"items": [
+		{
+			"alias": "Faded Immortal Katana",
+			"item_id": 154893
+		},
+		{
+			"alias": "Broken Immortal Katana",
+			"item_id": 154907
+		},
+		{
+			"alias": "Immortal Katana",
+			"item_id": 154505
+		},
+		{
+			"alias": "SSC Reversive Energy-Packs",
+			"item_id": 154943
+		},
+		{
+			"alias": "Improved Immortal Katana",
+			"item_id": 155863
+		}
+	],
+	"steps": [
+		{
+			"source": "SSC Reversive Energy-Packs",
+			"target": "Immortal Katana",
+			"result": "Improved Immortal Katana",
+			"skills": "EE"
+		}
+	],
+	"details": [
+		{
+			"text": "Faded Immortal Katana, Broken Immortal Katana and Immortal Katana can all be upgraded but only the faded version of the Immortal Katana seems to be worth upgrading."
+		}
+	]
+}

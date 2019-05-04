@@ -1,0 +1,171 @@
+{
+	"name": "Cyberdeck Upgrades",
+	"author": "",
+	"items": [
+		{
+			"alias": "Izgimmer-modified Cyberdeck",
+			"item_id": 233454
+		},
+		{
+			"alias": "Circular Kyr'Ozch Chip Mold",
+			"item_id": 253155
+		},
+		{
+			"alias": "Square Kyr'Ozch Chip Mold",
+			"item_id": 253157
+		},
+		{
+			"alias": "Triangular Kyr'Ozch Chip Mold",
+			"item_id": 253159
+		},
+		{
+			"alias": "Izgimmer Speed-modified Cyberdeck",
+			"item_id": 253194
+		}
+	],
+	"steps": [
+		{
+			"source": "Circular Kyr'Ozch Chip Mold",
+			"target": "Izgimmer-modified Cyberdeck",
+			"result": "Izgimmer Speed-modified Cyberdeck",
+			"skills": "BE,CL"
+		}
+	],
+	"details": [
+		{
+			"item": {
+				"id": 253167,
+				"comment": "Using on the Izgimmer-modified Cyberdeck will remove the chip (and destroy the chip in the process)"
+			}
+		},
+		{
+			"item": {
+				"id": 253155,
+				"comment": "Adds 150 Nano Init"
+			}
+		},
+		{
+			"item": {
+				"id": 253157,
+				"comment": "Adds 3% Damage"
+			}
+		},
+		{
+			"item": {
+				"id": 253199,
+				"comment": "Adds -5% Nano Cost"
+			}
+		},
+		{
+			"text": "Other versions of the Cyberdeck"
+		},
+		{
+			"item": {
+				"id": 253195
+			}
+		},
+		{
+			"item": {
+				"id": 253198
+			}
+		},
+		{
+			"item": {
+				"id": 253201
+			}
+		},
+		{
+			"item": {
+				"id": 253204
+			}
+		},
+		{
+			"item": {
+				"id": 253207
+			}
+		},
+		{
+			"item": {
+				"id": 253210
+			}
+		},
+		{
+			"item": {
+				"id": 253213
+			}
+		},
+		{
+			"item": {
+				"id": 253196
+			}
+		},
+		{
+			"item": {
+				"id": 253199
+			}
+		},
+		{
+			"item": {
+				"id": 253202
+			}
+		},
+		{
+			"item": {
+				"id": 253205
+			}
+		},
+		{
+			"item": {
+				"id": 253208
+			}
+		},
+		{
+			"item": {
+				"id": 253209
+			}
+		},
+		{
+			"item": {
+				"id": 253212
+			}
+		},
+		{
+			"item": {
+				"id": 253194
+			}
+		},
+		{
+			"item": {
+				"id": 253197
+			}
+		},
+		{
+			"item": {
+				"id": 253200
+			}
+		},
+		{
+			"item": {
+				"id": 253203
+			}
+		},
+		{
+			"item": {
+				"id": 253206
+			}
+		},
+		{
+			"item": {
+				"id": 253211
+			}
+		},
+		{
+			"item": {
+				"id": 253214
+			}
+		},
+		{
+			"text": "Nice improvements for the NT Cyberdeck.  An already-uber item."
+		}
+	]
+}

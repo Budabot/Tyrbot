@@ -1,3 +1,5 @@
+import time
+
 from requests import ReadTimeout
 
 from core.decorators import instance
@@ -27,12 +29,14 @@ class OrgPorkService:
     def get_org_info(self, org_id):
         cache_key = "%d.%d.json" % (org_id, self.bot.dimension)
 
+        t = int(time.time())
+
         # check cache for fresh value
-        cache_result = self.cache_service.retrieve(self.CACHE_GROUP, cache_key, self.CACHE_MAX_AGE)
+        cache_result = self.cache_service.retrieve(self.CACHE_GROUP, cache_key)
 
         is_cache = False
-        if cache_result:
-            result = json.loads(cache_result)
+        if cache_result and cache_result.last_modified > (t - self.CACHE_MAX_AGE):
+            result = json.loads(cache_result.data)
             is_cache = True
         else:
             url = "https://pork.jkbff.com/org/stats/d/%d/name/%d/basicstats.xml?data_type=json" % (self.bot.dimension, org_id)
@@ -41,8 +45,8 @@ class OrgPorkService:
                 r = requests.get(url, timeout=5)
                 result = r.json()
 
-                # if org has no members, org does not exist
-                if result[0]["NUMMEMBERS"] == 0:
+                # if data is invalid
+                if result[0]["ORG_INSTANCE"] != org_id:
                     result = None
             except ReadTimeout:
                 self.logger.warning("Timeout while requesting '%s'" % url)
@@ -54,12 +58,10 @@ class OrgPorkService:
             if result:
                 # store result in cache
                 self.cache_service.store(self.CACHE_GROUP, cache_key, json.dumps(result))
-            else:
+            elif cache_result:
                 # check cache for any value, even expired
-                cache_result = self.cache_service.retrieve(self.CACHE_GROUP, cache_key)
-                if cache_result:
-                    result = json.loads(cache_result)
-                    is_cache = True
+                result = json.loads(cache_result.data)
+                is_cache = True
 
         if not result:
             return None
@@ -152,6 +154,7 @@ class OrgPorkService:
         if len(members) == 0:
             return None
         else:
-            return DictObject({"org_info": new_org_info,
+            return DictObject({"last_modified": cache_result.last_modified if is_cache else t,
+                               "org_info": new_org_info,
                                "org_members": members,
                                "last_updated": int(datetime.datetime.strptime(last_updated, "%Y/%m/%d %H:%M:%S").timestamp())})

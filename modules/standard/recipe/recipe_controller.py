@@ -51,11 +51,11 @@ class RecipeController:
 
                     items = {}
                     for i in recipe["items"]:
-                        item = self.items_controller.get_by_item_id(i["item_id"])
+                        item = self.items_controller.get_by_item_id(i["item_id"], i.get("ql"))
                         if not item:
-                            raise Exception("Could not fund recipe item '%d'" % i["item_id"])
+                            raise Exception("Could not fund recipe item '%d' for recipe id %s" % (i["item_id"], recipe_id))
 
-                        item.ql = i["ql"]
+                        item.ql = i.get("ql") or (item.highql if i["item_id"] == item.highid else item.lowql)
                         items[i["alias"]] = item
 
                     content = "<font color=#FFFF00>------------------------------</font>\n"
@@ -67,27 +67,77 @@ class RecipeController:
                         del ingredients[step["result"]]
 
                     for _, ingredient in ingredients.items():
-                        content += self.text.make_image(ingredient["icon"]) + "\n"
-                        content += self.text.make_item(ingredient["lowid"], ingredient["highid"], ingredient["ql"], ingredient["name"]) + "\n\n\n"
+                        content += self.text.make_image(ingredient["icon"]) + "<tab>"
+                        content += self.text.make_item(ingredient["lowid"], ingredient["highid"], ingredient["ql"], ingredient["name"]) + "\n"
 
+                    content += "\n"
                     content += "<font color=#FFFF00>------------------------------</font>\n"
                     content += "<font color=#FF0000>Recipe</font>\n"
                     content += "<font color=#FFFF00>------------------------------</font>\n\n"
+
                     for step in recipe["steps"]:
                         source = items[step["source"]]
                         target = items[step["target"]]
                         result = items[step["result"]]
-                        content += "<font color=#009B00>%s</font>\n" % source["name"]
-                        content += "<font color=#FFFFFF>+</font>\n"
-                        content += "<font color=#009B00>%s</font>\n" % target["name"]
-                        content += "<font color=#FFFFFF>=</font>\n"
-                        content += self.text.make_image(result["icon"]) + "\n"
-                        content += self.text.make_item(result["lowid"], result["highid"], result["ql"], result["name"]) + "\n"
+                        content += "<a href='itemref://%d/%d/%d'>%s</a>" % \
+                                   (source["lowid"], source["highid"], source["ql"],
+                                    self.text.make_image(source["icon"])) + ""
+                        content += "<font color=#FFFFFF><tab>+<tab></font> "
+                        content += "<a href='itemref://%d/%d/%d'>%s</a>" % \
+                                   (target["lowid"], target["highid"], target["ql"],
+                                    self.text.make_image(target["icon"])) + ""
+                        content += "<font color=#FFFFFF><tab>=<tab></font> "
+                        content += "<a href='itemref://%d/%d/%d'>%s</a>" % \
+                                   (result["lowid"], result["highid"], result["ql"],
+                                    self.text.make_image(result["icon"]))
+                        content += "\n<tab><tab>" + self.text.make_item(source["lowid"], source["highid"], source["ql"], source["name"])
+                        content += "\n + <tab>" + self.text.make_item(target["lowid"], target["highid"], target["ql"], target["name"])
+                        content += "\n = <tab>" + self.text.make_item(result["lowid"], result["highid"], result["ql"], result["name"]) + "\n"
+
                         if "skills" in step:
                             content += "<font color=#FFFF00>Skills: | %s |</font>\n" % step["skills"]
                         content += "\n\n"
 
+                    if "details" in recipe:
+                        content += "<font color=#FFFF00>------------------------------</font>\n"
+                        content += "<font color=#FF0000>Details</font>\n"
+                        content += "<font color=#FFFF00>------------------------------</font>\n\n"
+
+                        last_type = ""
+                        for detail in recipe["details"]:
+                            if "item" in detail:
+                                last_type = "item"
+                                i = detail["item"]
+
+                                item = None
+                                if "ql" in i:
+                                    item = self.items_controller.get_by_item_id(i["id"], i["ql"])
+                                else:
+                                    item = self.items_controller.get_by_item_id(i["id"])
+                                    item["ql"] = item["highql"]
+
+                                content += "<font color=#009B00>%s</font>" % \
+                                           self.text.make_item(item["lowid"],
+                                                               item["highid"],
+                                                               item["ql"],
+                                                               item["name"])
+
+                                if "comment" in i:
+                                    content += " - " + i["comment"]
+
+                                content += "\n"
+
+                            elif "text" in detail:
+                                if last_type == "item":
+                                    content += "\n"
+
+                                last_type = "text"
+                                content += "<font color=#FFFFFF>%s</font>\n" % detail["text"]
+
                     self.db.exec("INSERT INTO recipe (id, name, author, recipe) VALUES (?, ?, ?, ?)", [recipe_id, name, author, content])
+
+            elif file.startswith("_"):
+                pass
             else:
                 raise Exception("Unknown recipe format for '%s'" % file)
 

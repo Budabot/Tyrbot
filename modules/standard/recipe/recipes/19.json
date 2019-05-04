@@ -1,0 +1,100 @@
+{
+  "name": "Biotech Rod Ring",
+  "author": "",
+  "items": [
+    {
+      "alias": "Small Gold Ingot",
+      "item_id": 151369
+    },
+    {
+      "alias": "Personal Furnace",
+      "item_id": 150930
+    },
+    {
+      "alias": "Generic Ring Template",
+      "item_id": 151365
+    },
+    {
+      "alias": "Wire Drawing Machine",
+      "item_id": 150917
+    },
+    {
+      "alias": "Glowing Biotech Rod",
+      "item_id": 251267
+    },
+    {
+      "alias": "Liquid Gold",
+      "item_id": 151372
+    },
+    {
+      "alias": "Gold Filigree Wire",
+      "item_id": 151368
+    },
+    {
+      "alias": "Gold Filigree Ring",
+      "item_id": 151375
+    },
+    {
+      "alias": "Glowing Biotech Rod Ring",
+      "item_id": 289784
+    }
+  ],
+  "steps": [
+    {
+      "source": "Personal Furnace",
+      "target": "Small Gold Ingot",
+      "result": "Liquid Gold",
+      "skills": "ME"
+    },
+    {
+      "source": "Wire Drawing Machine",
+      "target": "Liquid Gold",
+      "result": "Gold Filigree Wire",
+      "skills": "ME"
+    },
+    {
+      "source": "Generic Ring Template",
+      "target": "Gold Filigree Wire",
+      "result": "Gold Filigree Ring",
+      "skills": "ME"
+    },
+    {
+      "source": "Gold Filigree Ring",
+      "target": "Glowing Biotech Rod",
+      "result": "Glowing Biotech Rod Ring",
+      "skills": "ME, EE"
+    }
+  ],
+  "details": [
+    {
+      "text": "<green>Requires Alien Tech Level 3<end>\nInstead of Glowing Biotech Rod you can also use"
+    },
+    {
+      "item": {
+        "id": 251269,
+        "_name": "Pulsing Biotech Rod"
+      }
+    },
+    {
+      "item": {
+        "id": 251271,
+        "_name": "Dark Biotech Rod"
+      }
+    },
+    {
+      "text": "When you use different Rods, you will get different Rings:"
+    },
+    {
+      "item": {
+        "id": 251760,
+        "_name": "Pulsing Biotech Rod Ring"
+      }
+    },
+    {
+      "item": {
+        "id": 251758,
+        "_name": "Dark Biotech Rod Ring"
+      }
+    }
+  ]
+}

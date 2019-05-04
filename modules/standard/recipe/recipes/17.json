@@ -1,0 +1,55 @@
+{
+  "name": "Basic Nano Kit/Recharger",
+  "author": "",
+  "items": [
+    {
+      "alias": "Notum Pellet",
+      "item_id": 207478
+    },
+    {
+      "alias": "Jensen Personal Ore Extractor",
+      "item_id": 150275
+    },
+    {
+      "alias": "Refined Notum Pellet",
+      "item_id": 207480
+    },
+    {
+      "alias": "Refined Notum Pellet",
+      "item_id":207480
+    },
+    {
+      "alias": "Semi-Finished Nano Kit",
+      "item_id": 207503
+    },
+    {
+      "alias": "Semi-Finished Nano Recharger",
+      "item_id": 207505
+    },
+    {
+      "alias": "Basic Nano Recharger",
+      "item_id": 25820
+    },
+    {
+      "alias": "Simple Nano Kit",
+      "item_id": 85366
+    }
+  ],
+  "steps": [
+    {
+      "source": "Jensen Personal Ore Extractor",
+      "target": "Notum Pellet",
+      "result": "Refined Notum Pellet"
+    },
+    {
+      "source": "Refined Notum Pellet",
+      "target": "Semi-Finished Nano Kit",
+      "result": "Simple Nano Kit"
+    },
+    {
+      "source": "Refined Notum Pellet",
+      "target": "Semi-Finished Nano Recharger",
+      "result": "Basic Nano Recharger"
+    }
+  ]
+}

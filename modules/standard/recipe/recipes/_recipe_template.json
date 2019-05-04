@@ -1,0 +1,39 @@
+{
+	"name": "",
+	"author": "",
+	"items": [
+		{
+			"alias": "item1",
+			"item_id": 1,
+			"ql": 200
+		},
+		{
+			"alias": "item2",
+			"item_id": 2
+		},
+		{
+			"alias": "item3",
+			"item_id": 3
+		}
+	],
+	"steps": [
+		{
+			"source": "item1",
+			"target": "item2",
+			"result": "item3",
+			"skills": "CL"
+		}
+	],
+	"details": [
+		{
+			"item": {
+				"id": 4,
+				"comment":"",
+				"ql": 0
+			}
+		},
+		{
+			"text": ""
+		}
+	]
+}

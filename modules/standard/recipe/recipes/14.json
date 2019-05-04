@@ -1,0 +1,26 @@
+{
+  "name": "Augmented Hellfury Assault Cannon",
+  "author": "",
+  "items": [
+    {
+      "alias": "Hellfury Assault Cannon",
+      "item_id": 153977
+    },
+    {
+      "alias": "Pulsing Notum Disruptor",
+      "item_id": 202280
+    },
+    {
+      "alias": "Augmented Hellfury Assault Cannon",
+      "item_id": 202278
+    }
+  ],
+  "steps": [
+    {
+      "source": "Pulsing Notum Disruptor",
+      "target": "Hellfury Assault Cannon",
+      "result": "Augmented Hellfury Assault Cannon",
+      "skills": "BE"
+    }
+  ]
+}

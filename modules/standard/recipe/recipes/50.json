@@ -1,0 +1,31 @@
+{
+	"name":"Hologram",
+	"author":"",
+	"items":[
+		{
+			"alias":"Expendable Hologram Camera",
+			"item_id":156054
+		},
+		{
+			"alias":"Hologram PD: Barrel",
+			"item_id":160580
+		},
+		{
+			"alias":"Hologram Projector: Barrel",
+			"item_id":160583
+		}
+	],
+	"steps":[
+		{
+			"source":"Hologram PD: Barrel",
+			"target":"Expendable Hologram Camera",
+			"result":"Hologram Projector: Barrel",
+			"skills":"EE"
+		}
+	],
+	"details": [
+		{
+			"text": "Available only to agents, it allows them to disguise themselves as different objects, such as a crate"
+		}
+	]
+}

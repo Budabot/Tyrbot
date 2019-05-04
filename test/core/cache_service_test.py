@@ -12,11 +12,11 @@ class CacheServiceTest(unittest.TestCase):
         cache.store("test", "test.txt", "this is a test")
         contents = cache.retrieve("test", "test.txt")
 
-        self.assertEqual("this is a test", contents)
+        self.assertEqual("this is a test", contents.data)
         cache.store("test", "test.txt", "this is a test2")
 
         contents = cache.retrieve("test", "test.txt")
-        self.assertEqual("this is a test2", contents)
+        self.assertEqual("this is a test2", contents.data)
 
         # cleanup files
         shutil.rmtree("./data")
@@ -31,12 +31,8 @@ class CacheServiceTest(unittest.TestCase):
         cache = CacheService()
         cache.store("test", "test.txt", "this is a test")
 
-        contents = cache.retrieve("test", "test.txt", 1)
-        self.assertEqual("this is a test", contents)
-
-        time.sleep(2)
-        contents = cache.retrieve("test", "test.txt", 1)
-        self.assertIsNone(contents)
+        contents = cache.retrieve("test", "test.txt")
+        self.assertEqual("this is a test", contents.data)
 
         # cleanup files
         shutil.rmtree("./data")

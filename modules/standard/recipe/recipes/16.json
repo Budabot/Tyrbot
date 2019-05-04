@@ -1,0 +1,75 @@
+{
+  "name": "Barter Armor Boots",
+  "author": "",
+  "items": [
+    {
+      "alias": "Notum Fragment",
+      "item_id": 136624
+    },
+    {
+      "alias": "Nano Programming Interface",
+      "item_id": 161699
+    },
+    {
+      "alias": "Inactive OT Metamorphing Liquid Nanobots",
+      "item_id": 164952
+    },
+    {
+      "alias": "Activated OT Metamorphing Liquid Nanobots",
+      "item_id": 164954
+    },
+    {
+      "alias": "Stabilized OT Metamorphing Liquid Nanobots",
+      "item_id": 164956
+    },
+    {
+      "alias": "Super-Stabilized OT Metamorphing Liquid Nanobots",
+      "item_id": 164958
+    },
+    {
+      "alias": "Augmented Nano Armor Boots",
+      "item_id": 21805
+    },
+    {
+      "alias": "Barter Armor Boots",
+      "item_id": 164934
+    }
+  ],
+  "steps": [
+    {
+      "source": "Nano Programming Interface",
+      "target": "Inactive OT Metamorphing Liquid Nanobots",
+      "result": "Activated OT Metamorphing Liquid Nanobots",
+      "skills": "NP, CH"
+    },
+    {
+      "source": "Notum Fragment",
+      "target": "Activated OT Metamorphing Liquid Nanobots",
+      "result": "Stabilized OT Metamorphing Liquid Nanobots",
+      "skills": "NP, CH"
+    },
+    {
+      "source": "Notum Fragment",
+      "target": "Stabilized OT Metamorphing Liquid Nanobots",
+      "result": "Super-Stabilized OT Metamorphing Liquid Nanobots",
+      "skills": "NP, CH"
+    },
+    {
+      "source": "Super-Stabilized OT Metamorphing Liquid Nanobots",
+      "target": "Augmented Nano Armor Boots",
+      "result": "Barter Armor Boots",
+      "skills": "NP, CH"
+    }
+  ],
+  "details": [
+    {
+      "text": "Alternative for the Notum Fragments:"
+    },
+    {
+      "item": {
+        "id": 136622,
+        "_name": "Notum Chip"
+      }
+    }
+  ]
+}

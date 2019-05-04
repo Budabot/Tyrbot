@@ -23,7 +23,7 @@ class MemberController:
         self.event_service = registry.get_instance("event_service")
 
     def pre_start(self):
-        self.access_service.register_access_level("member", 90, self.check_member)
+        self.access_service.register_access_level("member", 80, self.check_member)
         self.event_service.register_event_type(self.MEMBER_LOGON_EVENT)
         self.event_service.register_event_type(self.MEMBER_LOGOFF_EVENT)
         self.bot.add_packet_handler(BuddyAdded.id, self.handle_member_logon)
