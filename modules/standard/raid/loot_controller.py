@@ -27,6 +27,7 @@ class LootController:
         self.leader_controller: LeaderController = registry.get_instance("leader_controller")
         self.setting_service: SettingService = registry.get_instance("setting_service")
         self.command_alias_service = registry.get_instance("command_alias_service")
+        self.items_controller = registry.get_instance("items_controller")
 
     def start(self):
         self.command_alias_service.add_alias("aries", "pande aries")
@@ -91,24 +92,11 @@ class LootController:
         try:
             if self.loot_list[item_index]:
                 self.last_modify = int(time.time())
-                return "Removed %s from loot list." % self.loot_list.pop(item_index).item.name
+                return "Removed %s from loot list." % self.loot_list.pop(item_index).get_item_str()
             else:
                 return "Item error."
         except KeyError:
             return "Wrong index given."
-
-    @command(command="loot", params=[Const("additem"), Item("item"), Int("item_count", is_optional=True)],
-             description="Add an item to loot list", access_level="all", sub_command="modify")
-    def loot_add_item_cmd(self, request, _, item, item_count: int):
-        if not self.leader_controller.can_use_command(request.sender.char_id):
-            return LeaderController.NOT_LEADER_MSG
-
-        if item_count is None:
-            item_count = 1
-
-        self.add_item_to_loot(item["low_id"], item["high_id"], item["ql"], item["name"], None, item_count)
-
-        return "%s was added to loot list." % item["name"]
 
     @command(command="loot", params=[Const("increase"), Int("item_index")], description="Increase item count",
              access_level="all", sub_command="modify")
@@ -125,7 +113,7 @@ class LootController:
             if loot_item:
                 loot_item.count += 1
                 self.last_modify = int(time.time())
-                return "Increased item count for %s to %d." % (loot_item.item.name, loot_item.count)
+                return "Increased item count for %s to %d." % (loot_item.get_item_str(), loot_item.count)
             else:
                 return "Item error."
         except KeyError:
@@ -146,7 +134,7 @@ class LootController:
             if loot_item:
                 loot_item.count = loot_item.count - 1 if loot_item.count > 1 else 1
                 self.last_modify = int(time.time())
-                return "Decreased item count for %s to %d." % (loot_item.item.name, loot_item.count)
+                return "Decreased item count for %s to %d." % (loot_item.get_item_str(), loot_item.count)
             else:
                 return "Item error."
         except KeyError:
@@ -159,24 +147,22 @@ class LootController:
             loot_item = self.loot_list[item_index]
             old_item = self.is_already_added(request.sender.name)
 
-            if loot_item:
-                if old_item is not None:
-                    if old_item.item.name == loot_item.item.name:
-                        name = "You have" if request.channel == "msg" else request.sender.name
-                        return "%s already added to %s." % (name, loot_item.item.name)
+            if old_item:
+                if old_item.get_item_str() == loot_item.get_item_str():
+                    name = "You have" if request.channel == "msg" else request.sender.name
+                    return "%s already added to %s." % (name, loot_item.get_item_str())
 
-                    old_item.bidders.remove(request.sender.name)
+                old_item.bidders.remove(request.sender.name)
 
-                name = "You have" if request.channel == "msg" else request.sender.name
-                loot_item.bidders.append(request.sender.name)
+            name = "You have" if request.channel == "msg" else request.sender.name
+            loot_item.bidders.append(request.sender.name)
 
-                self.last_modify = int(time.time())
+            self.last_modify = int(time.time())
 
-                return "%s moved from %s to %s." % (name, old_item.item.name, loot_item.item.name) \
-                    if old_item is not None \
-                    else "%s added to %s." % (name, loot_item.item.name)
+            if old_item is not None:
+                return "%s moved from %s to %s." % (name, old_item.get_item_str(), loot_item.get_item_str())
             else:
-                return "Item error."
+                return "%s added to %s." % (name, loot_item.get_item_str())
 
         except KeyError:
             return "Wrong index given."
@@ -192,7 +178,7 @@ class LootController:
 
                 self.last_modify = int(time.time())
 
-                return "%s removed from %s." % (name, loot_item.item.name)
+                return "%s removed from %s." % (name, loot_item.get_item_str())
             else:
                 return "You are not added to any loot."
         except KeyError:
@@ -252,22 +238,22 @@ class LootController:
         else:
             return "Loot list is empty."
 
-    @command(command="loot", params=[Const("addraiditem"), Int("item_id"), Int("item_count")],
+    @command(command="loot", params=[Const("addraiditem"), Int("raid_item_id"), Int("item_count")],
              description="Add item from pre-defined raid to loot list", access_level="all", sub_command="modify")
-    def loot_add_raid_item(self, request, _, item_id: int, item_count: int):
+    def loot_add_raid_item(self, request, _, raid_item_id: int, item_count: int):
         if not self.leader_controller.can_use_command(request.sender.char_id):
             return LeaderController.NOT_LEADER_MSG
 
         sql = "SELECT * FROM aodb a LEFT JOIN raid_loot r ON (a.name = r.name AND a.highql >= r.ql) " \
               "WHERE r.id = ? LIMIT 1"
-        item = self.db.query_single(sql, [item_id])
+        item = self.db.query_single(sql, [raid_item_id])
 
         if item:
-            self.add_item_to_loot(item.lowid, item.highid, item.ql, item.name, item.comment, item_count)
+            self.add_item_to_loot(item, item.comment, item_count)
 
             return "Added %s to loot list." % item.name
         else:
-            return "Failed to add item with ID %s." % item_id
+            return "Failed to add item with ID %s." % raid_item_id
 
     @command(command="loot", params=[Const("addraid"), Any("raid"), Any("category")],
              description="Add all loot from pre-defined raid", access_level="all", sub_command="modify")
@@ -287,11 +273,54 @@ class LootController:
 
         if items:
             for item in items:
-                self.add_item_to_loot(item.lowid, item.highid, item.ql, item.name, item.comment, item.multiloot)
+                self.add_item_to_loot(item, item.comment, item.multiloot)
 
             return "%s table was added to loot." % category
         else:
             return "%s does not have any items registered in loot table." % category
+
+    @command(command="loot", params=[Const("additem"), Int("item"), Int("item_count", is_optional=True)],
+             description="Add an item to loot list by item id", access_level="all", sub_command="modify")
+    def loot_add_item_id_cmd(self, request, _, item_id, item_count: int):
+        if not self.leader_controller.can_use_command(request.sender.char_id):
+            return LeaderController.NOT_LEADER_MSG
+
+        if item_count is None:
+            item_count = 1
+
+        item = self.items_controller.get_by_item_id(item_id)
+        if not item:
+            return "Could not find item with ID <highlight>%d<end>." % item_id
+
+        self.add_item_to_loot(item, None, item_count)
+
+        return "%s was added to loot list." % item.name
+
+    @command(command="loot", params=[Const("additem"), Item("item"), Int("item_count", is_optional=True)],
+             description="Add an item to loot list by item_ref", access_level="all", sub_command="modify")
+    def loot_add_item_ref_cmd(self, request, _, item, item_count: int):
+        if not self.leader_controller.can_use_command(request.sender.char_id):
+            return LeaderController.NOT_LEADER_MSG
+
+        if item_count is None:
+            item_count = 1
+
+        self.add_item_to_loot(item, None, item_count)
+
+        return "%s was added to loot list." % item.name
+
+    @command(command="loot", params=[Const("additem"), Any("item"), Int("item_count", is_optional=True)],
+             description="Add an item to loot list", access_level="all", sub_command="modify")
+    def loot_add_item_cmd(self, request, _, item, item_count: int):
+        if not self.leader_controller.can_use_command(request.sender.char_id):
+            return LeaderController.NOT_LEADER_MSG
+
+        if item_count is None:
+            item_count = 1
+
+        self.add_item_to_loot(item, None, item_count)
+
+        return "<highlight>%s<end> was added to loot list." % item
 
     @command(command="apf",
              params=[Options(["s7", "s13", "s28", "s35"], is_optional=True)],
@@ -436,32 +465,22 @@ class LootController:
                 return loot_item
         return None
 
-    def add_item_to_loot(self, low_id: int, high_id: int, ql: int, name: str, comment=None, item_count=1):
+    def add_item_to_loot(self, item, comment=None, item_count=1):
         end_index = list(self.loot_list.keys())[-1] + 1 if len(self.loot_list) > 0 else 1
 
-        item_name = "%s (%s)" % (name, comment) if comment is not None and comment != "" else name
-
-        item_ref = {
-            "low_id": low_id,
-            "high_id": high_id,
-            "ql": ql,
-            "name": item_name
-        }
-
-        self.loot_list[end_index] = LootItem(item_ref, None, None, item_count)
+        self.loot_list[end_index] = LootItem(item, comment, None, None, item_count)
         self.last_modify = int(time.time())
 
     def get_loot_list(self):
         blob = ""
 
         for i, loot_item in self.loot_list.items():
-            item = loot_item.item
             bidders = loot_item.bidders
 
             increase_link = self.text.make_chatcmd("+", "/tell <myname> loot increase %d" % i)
             decrease_link = self.text.make_chatcmd("-", "/tell <myname> loot decrease %d" % i)
 
-            blob += "%d. %s " % (i, self.text.make_item(item.low_id, item.high_id, item.ql, item.name))
+            blob += "%d. %s " % (i, loot_item.get_item_str())
             blob += "x%s [%s|%s]\n" % (loot_item.count, increase_link, decrease_link)
 
             if len(bidders) > 0:
@@ -481,13 +500,11 @@ class LootController:
         item = None
 
         for i, loot_item in self.loot_list.items():
-            item = loot_item.item
             bidders = loot_item.bidders
 
-            item_ref = self.text.make_item(item.low_id, item.high_id, item.ql, item.name)
             prefix = "" if loot_item.prefix is None else "%s " % loot_item.prefix
             suffix = "" if loot_item.suffix is None else " %s" % loot_item.suffix
-            blob += "%d. %s%s%s\n" % (i, prefix, item_ref, suffix)
+            blob += "%d. %s%s%s\n" % (i, prefix, loot_item.get_item_str(), suffix)
 
             if len(bidders) > 0:
                 blob += " | <red>%s<end> bidder%s\n" % (len(bidders), "s" if len(bidders) > 1 else "")
