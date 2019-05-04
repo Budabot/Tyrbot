@@ -279,7 +279,7 @@ class LootController:
         else:
             return "%s does not have any items registered in loot table." % category
 
-    @command(command="loot", params=[Const("additem"), Int("item"), Int("item_count", is_optional=True)],
+    @command(command="loot", params=[Const("additem", is_optional=True), Int("item"), Int("item_count", is_optional=True)],
              description="Add an item to loot list by item id", access_level="all", sub_command="modify")
     def loot_add_item_id_cmd(self, request, _, item_id, item_count: int):
         if not self.leader_controller.can_use_command(request.sender.char_id):
@@ -296,7 +296,7 @@ class LootController:
 
         return "%s was added to loot list." % item.name
 
-    @command(command="loot", params=[Const("additem"), Item("item"), Int("item_count", is_optional=True)],
+    @command(command="loot", params=[Const("additem", is_optional=True), Item("item"), Int("item_count", is_optional=True)],
              description="Add an item to loot list by item_ref", access_level="all", sub_command="modify")
     def loot_add_item_ref_cmd(self, request, _, item, item_count: int):
         if not self.leader_controller.can_use_command(request.sender.char_id):
@@ -309,7 +309,7 @@ class LootController:
 
         return "%s was added to loot list." % item.name
 
-    @command(command="loot", params=[Const("additem"), Any("item"), Int("item_count", is_optional=True)],
+    @command(command="loot", params=[Const("additem", is_optional=True), Any("item"), Int("item_count", is_optional=True)],
              description="Add an item to loot list", access_level="all", sub_command="modify")
     def loot_add_item_cmd(self, request, _, item, item_count: int):
         if not self.leader_controller.can_use_command(request.sender.char_id):
