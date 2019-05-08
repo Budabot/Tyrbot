@@ -1,7 +1,6 @@
 from core.ban_service import BanService
+from core.command_param_types import Character
 from core.decorators import instance, command, event
-from core.command_param_types import Any, Character
-from core.private_channel_service import PrivateChannelService
 
 
 @instance()

@@ -8,6 +8,7 @@ from modules.core.org_members.org_member_controller import OrgMemberController
 
 @instance()
 class MemberController:
+    MEMBER_ACCESS_LEVEL = "member"
     MEMBER_BUDDY_TYPE = "member"
 
     MEMBER_LOGON_EVENT = "member_logon_event"
@@ -23,7 +24,7 @@ class MemberController:
         self.event_service = registry.get_instance("event_service")
 
     def pre_start(self):
-        self.access_service.register_access_level("member", 80, self.check_member)
+        self.access_service.register_access_level(self.MEMBER_ACCESS_LEVEL, 80, self.check_member)
         self.event_service.register_event_type(self.MEMBER_LOGON_EVENT)
         self.event_service.register_event_type(self.MEMBER_LOGOFF_EVENT)
         self.bot.add_packet_handler(BuddyAdded.id, self.handle_member_logon)
@@ -74,7 +75,7 @@ class MemberController:
             blob += str(row.name) + "\n"
         return ChatBlob("Members (%d)" % count, blob)
 
-    @command(command="autoinvite", params=[Options(["on", "off"])], access_level="all",
+    @command(command="autoinvite", params=[Options(["on", "off"])], access_level=MEMBER_ACCESS_LEVEL,
              description="Set your auto invite preference")
     def autoinvite_cmd(self, request, pref):
         pref = pref.lower()

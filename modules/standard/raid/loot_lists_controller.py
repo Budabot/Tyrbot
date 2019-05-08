@@ -9,6 +9,47 @@ from core.text import Text
 
 @instance()
 class LootListsController:
+    def __init__(self):
+        self.real_names = {
+            "s7": "Sector 7",
+            "s13": "Sector 13",
+            "s28": "Sector 28",
+            "s35": "Sector 35",
+            "s42": "Sector 42",
+            "db": "DustBrigade",
+            "aquarius": "Aquarius",
+            "sagittarius": "Sagittarius",
+            "taurus": "Taurus",
+            "libra": "Libra",
+            "capricorn": "Capricorn",
+            "gemini": "Gemini",
+            "virgo": "Virgo",
+            "cancer": "Cancer",
+            "pisces": "Pisces",
+            "scorpio": "Scorpio",
+            "aries": "Aries",
+            "leo": "Leo",
+            "tnh": "The Night Heart",
+            "barmor": "Beast Armor",
+            "bweapons": "Beast Weapons",
+            "bstars": "Stars",
+            "alba": "Albtraum",
+            "symbs": "Symbiants",
+            "spirits": "Spirits",
+            "pgems": "Profession Gems",
+            "gen": "General",
+            "db1": "DB1",
+            "db2": "DB2",
+            "db3": "DB3",
+            "ncu": "HUD/NCU",
+            "gaunt": "Bastion",
+            "mitaar": "Mitaar",
+            "12m": "12Man",
+            "vortexx": "Vortexx",
+            "dbarmor": "DB Armor",
+            "util": "Util"
+        }
+
     def inject(self, registry):
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
@@ -216,21 +257,9 @@ class LootListsController:
             [raid, category]
         )
 
+    # TODO what is the function of the `reverse` param?
     def get_real_category_name(self, category, reverse=False):
-        real_names = {
-            "s7": "Sector 7", "s13": "Sector 13", "s28": "Sector 28", "s35": "Sector 35",
-            "s42": "Sector 42", "db": "DustBrigade", "aquarius": "Aquarius", "sagittarius": "Sagittarius",
-            "taurus": "Taurus", "libra": "Libra", "capricorn": "Capricorn",
-            "gemini": "Gemini", "virgo": "Virgo", "cancer": "Cancer", "pisces": "Pisces",
-            "scorpio": "Scorpio", "aries": "Aries", "leo": "Leo", "tnh": "The Night Heart",
-            "barmor": "Beast Armor", "bweapons": "Beast Weapons", "bstars": "Stars",
-            "alba": "Albtraum", "symbs": "Symbiants", "spirits": "Spirits",
-            "pgems": "Profession Gems", "gen": "General", "db1": "DB1", "db2": "DB2",
-            "db3": "DB3", "ncu": "HUD/NCU", "gaunt": "Bastion", "mitaar": "Mitaar",
-            "12m": "12Man", "vortexx": "Vortexx", "dbarmor": "DB Armor", "util": "Util"
-        }
-
         if reverse:
-            return next((name for name, real_name in real_names.items() if real_name == category), None)
+            return next((name for name, real_name in self.categories.items() if real_name == category), None)
         else:
-            return real_names[category] if category in list(real_names.keys()) else None
+            return self.categories[category] if category in list(self.categories.keys()) else None
