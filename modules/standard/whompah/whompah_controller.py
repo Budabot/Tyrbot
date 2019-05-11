@@ -21,7 +21,7 @@ class WhompahController:
 
         blob = ""
         for city in cities:
-            blob += "%s (%s)\n" % (city.city_name, self.text.make_chatcmd(city.short_name, "/tell <myname> whompah %s" % city.short_name))
+            blob += "<%s>%s<end> (%s)\n" % (city.faction.lower(), city.city_name, self.text.make_chatcmd(city.short_name, "/tell <myname> whompah %s" % city.short_name))
 
         return ChatBlob("Whompah Cities", blob)
 
@@ -58,7 +58,7 @@ class WhompahController:
 
         cities = self.db.query("SELECT w2.* FROM whompah_cities_rel w1 JOIN whompah_cities w2 ON w1.city2_id = w2.id WHERE w1.city1_id = ?", [city.id])
         msg = "From %s you can get to: " % city.city_name
-        msg += ", ".join(map(lambda x: "<highlight>%s<end> (%s)" % (x.city_name, x.short_name), cities))
+        msg += ", ".join(map(lambda x: "<%s>%s<end> (%s)" % (x.faction.lower(), x.city_name, x.short_name), cities))
         return msg
 
     def get_whompah_city(self, city):
@@ -93,6 +93,6 @@ class WhompahController:
         result = []
         root = path
         while root:
-            result.append(root["city_name"])
+            result.append("<%s>%s<end>" % (root["faction"].lower(), root["city_name"]))
             root = root.get("parent")
         return result
