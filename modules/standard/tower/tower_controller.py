@@ -23,10 +23,10 @@ class TowerController:
     ALL_TOWERS_ID = 42949672960
 
     ATTACK_1 = [506, 12753364]  # The %s organization %s just entered a state of war! %s attacked the %s organization %s's tower in %s at location (%d,%d).
-    ATTACK_2 = re.compile("^(.+) just attacked the (clan|neutral|omni) organization (.+)'s tower in (.+) at location \((\d+), (\d+)\).\n$")
+    ATTACK_2 = re.compile(r"^(.+) just attacked the (clan|neutral|omni) organization (.+)'s tower in (.+) at location \((\d+), (\d+)\).\n$")
 
-    VICTORY_1 = re.compile("^Notum Wars Update: Victory to the (Clan|Neutral|Omni)s!!!$")
-    VICTORY_2 = re.compile("^The (Clan|Neutral|Omni) organization (.+) attacked the (Clan|Neutral|Omni) (.+) at their base in (.+). The attackers won!!$")
+    VICTORY_1 = re.compile(r"^Notum Wars Update: Victory to the (Clan|Neutral|Omni)s!!!$")
+    VICTORY_2 = re.compile(r"^The (Clan|Neutral|Omni) organization (.+) attacked the (Clan|Neutral|Omni) (.+) at their base in (.+). The attackers won!!$")
     VICTORY_3 = [506, 147506468]  # 'Notum Wars Update: The %s organization %s lost their base in %s.'
 
     def __init__(self):
