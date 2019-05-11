@@ -37,13 +37,13 @@ class CharacterInfoController:
         if char_info:
             blob = "Name: %s\n" % self.get_full_name(char_info)
             blob += "Profession: %s\n" % char_info.profession
-            blob += "Faction: %s\n" % char_info.faction
+            blob += "Faction: <%s>%s<end>\n" % (char_info.faction.lower(), char_info.faction)
             blob += "Breed: %s\n" % char_info.breed
             blob += "Gender: %s\n" % char_info.gender
             blob += "Level: %d\n" % char_info.level
-            blob += "AI Level: %d\n" % char_info.ai_level
+            blob += "AI Level: <green>%d<end>\n" % char_info.ai_level
             if char_info.org_id:
-                blob += "Org: %s (%d)\n" % (char_info.org_name, char_info.org_id)
+                blob += "Org: <highlight>%s<end> (%d)\n" % (char_info.org_name, char_info.org_id)
                 blob += "Org Rank: %s (%d)\n" % (char_info.org_rank_name, char_info.org_rank_id)
             else:
                 blob += "Org: &lt;None&gt;\n"
@@ -96,7 +96,7 @@ class CharacterInfoController:
         if char_info.first_name:
             name += char_info.first_name + " "
 
-        name += "\"" + char_info.name + "\""
+        name += "\"<highlight>" + char_info.name + "<end>\""
 
         if char_info.last_name:
             name += " " + char_info.last_name
