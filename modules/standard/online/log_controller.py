@@ -16,14 +16,14 @@ class LogController:
         if current_logon:
             return "%s's logon message is: %s" % (request.sender.name, current_logon)
         else:
-            return "Your logon message has not been set"
+            return "Your logon message has not been set."
 
     @command(command="logon", params=[Const("clear")], access_level="member", description="Clear your logon message")
     def clear_logon(self, request, params):
         if self.db.query_single("SELECT logon FROM log_messages WHERE char_id=?;", [request.sender.char_id]):
             self.db.exec("UPDATE log_messages SET logon=NULL WHERE char_id=?;",
                                  [request.sender.char_id])
-        return "Your logon message has been cleared"
+        return "Your logon message has been cleared."
 
     @command(command="logon", params=[Any("logon_message")], access_level="member", description="Set your logon message")
     def set_logon(self, request: CommandRequest, logon_message):
@@ -41,14 +41,14 @@ class LogController:
         if current_logoff:
             return "%s's logoff message is: %s" % (request.sender.name, current_logoff)
         else:
-            return "Your logoff message has not been set"
+            return "Your logoff message has not been set."
 
     @command(command="logoff", params=[Const("clear")], access_level="member", description="Clear your logoff message")
     def clear_logoff(self, request, params):
         if self.db.query_single("SELECT logoff FROM log_messages WHERE char_id=?;", [request.sender.char_id]):
             self.db.exec("UPDATE log_messages SET logoff=NULL WHERE char_id=?;",
                                  [request.sender.char_id])
-        return "Your logoff message has been cleared"
+        return "Your logoff message has been cleared."
 
     @command(command="logoff", params=[Any("logoff_message")], access_level="member", description="Set your logoff message")
     def set_logoff(self, request: CommandRequest, logoff_message):
