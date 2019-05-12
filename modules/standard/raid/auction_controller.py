@@ -379,16 +379,17 @@ class AuctionController:
                     winner = "%d bid(s) have been made." % len(auction_item.bidders) \
                         if auction_item.bidders else "No bids made."
                 else:
-                    winner_name = self.character_service.resolve_char_to_name(auction_item.winner_id)
-                    winner = "%s holds the winning bid." % winner_name \
-                        if auction_item.winning_bid > 0 else "No bids made."
+                    if auction_item.winner_id:
+                        winner_name = self.character_service.resolve_char_to_name(auction_item.winner_id)
+                        winner = "%s holds the winning bid." % winner_name
+                    else:
+                        winner = "No bids made."
 
                 item_ref = self.text.make_item(item.low_id, item.high_id, item.ql, item.name)
-                msg = "Auction for %s running. %s " \
-                      "<yellow>%d<end> seconds left of auction." % (item_ref, winner, time_left)
+                msg = "Auction for %s running. %s <yellow>%d<end> seconds left of auction." % (item_ref, winner, time_left)
 
-            self.bot.send_private_channel_message(msg)
-            self.bot.send_org_message(msg)
+            self.bot.send_private_channel_message(msg, fire_outgoing_event=False)
+            self.bot.send_org_message(msg, fire_outgoing_event=False)
             self.loot_controller.loot_cmd(None)
 
     def auction_anti_spam_announce(self, _):

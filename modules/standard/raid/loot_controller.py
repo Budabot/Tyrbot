@@ -369,7 +369,7 @@ class LootController:
                     "<tab><highlight>/tell <myname> auction bid &lt;amount&gt;<end>\n\n" \
                     "Where you replace &lt;amount&gt; with the amount of points you are welling to bid " \
                     "for the item.\n\nMinimum bid is %d, and you can also use \"all\" as bid, to bid " \
-                    "all your available points.\n\n" % (item.name, min_bid)
+                    "all your available points.\n\n" % (next(iter(self.loot_list.values())).get_item_str(), min_bid)
             if self.setting_service.get("vickrey_auction").get_value():
                 blob += "<header2>This is a Vickrey auction<end>\n" \
                         " - In a Vickrey auction, you only get to bid twice on the same item.\n" \
