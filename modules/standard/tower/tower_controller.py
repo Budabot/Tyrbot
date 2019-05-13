@@ -209,6 +209,7 @@ class TowerController:
         if packet.extended_message and [packet.extended_message.category_id, packet.extended_message.instance_id] == self.VICTORY_3:
             params = packet.extended_message.params
             return DictObject({
+                # TODO might be terminated or un-orged player
                 "type": "terminated",
                 "winner": {
                     "faction": params[0].capitalize(),

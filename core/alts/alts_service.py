@@ -34,10 +34,11 @@ class AltsService:
         sender_row = self.get_alt_status(sender_char_id)
         if sender_row:
             # if alt has no other alts, but still has a record in the alts table, delete record
-            # so it can be assigned to another group_id
+            # so it can be assigned to sender's group_id
             if len(alts) == 1:
-                self.event_service.fire_event(self.MAIN_CHANGED_EVENT_TYPE, {"old_main_id": alt_char_id, "new_main_id": self.get_main(sender_char_id)})
                 self.db.exec("DELETE FROM alts WHERE char_id = ?", [alt_char_id])
+
+            self.event_service.fire_event(self.MAIN_CHANGED_EVENT_TYPE, {"old_main_id": alt_char_id, "new_main_id": self.get_main(sender_char_id).char_id})
 
             params = [alt_char_id, sender_row.group_id, self.CONFIRMED]
         else:
