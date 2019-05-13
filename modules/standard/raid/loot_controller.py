@@ -31,12 +31,7 @@ class LootController:
         if not self.loot_list:
             return "Loot list is empty."
 
-        if isinstance(list(self.loot_list.values())[0], AuctionItem):
-            return self.get_auction_list()
-        if isinstance(list(self.loot_list.values())[0], LootItem):
-            return self.get_loot_list()
-
-        return "Error when generating list (loot type is unsupported)."
+        return self.get_loot_list()
 
     @command(command="loot", params=[Const("clear")], description="Clear all loot", access_level="all", sub_command="modify")
     def loot_clear_cmd(self, request, _):
@@ -340,43 +335,3 @@ class LootController:
             blob += " | [%s] [%s] [%s]\n\n" % (add_to_loot, remove_from_loot, remove_item)
 
         return ChatBlob("Loot (%d)" % len(self.loot_list), blob)
-
-    def get_auction_list(self):
-        blob = ""
-        item = None
-
-        for i, loot_item in self.loot_list.items():
-            bidders = loot_item.bidders
-
-            prefix = "" if loot_item.prefix is None else "%s " % loot_item.prefix
-            suffix = "" if loot_item.suffix is None else " %s" % loot_item.suffix
-            blob += "%d. %s%s%s\n" % (i, prefix, loot_item.get_item_str(), suffix)
-
-            if len(bidders) > 0:
-                blob += " | <red>%s<end> bidder%s\n" % (len(bidders), "s" if len(bidders) > 1 else "")
-            else:
-                blob += " | <green>No bidders<end>\n"
-
-            if len(self.loot_list) > 1:
-                bid_link = self.text.make_chatcmd("Bid", "/tell <myname> bid item %d" % i)
-                blob += " | [%s]\n\n" % bid_link
-
-        if len(self.loot_list) == 1:
-            min_bid = self.setting_service.get("minimum_bid").get_value()
-            blob += "\n"
-            blob += "<header2>Bid info<end>\n" \
-                    "To bid for <yellow>%s<end>, you must send a tell to <myname> with\n\n" \
-                    "<tab><highlight>/tell <myname> auction bid &lt;amount&gt;<end>\n\n" \
-                    "Where you replace &lt;amount&gt; with the amount of points you are welling to bid " \
-                    "for the item.\n\nMinimum bid is %d, and you can also use \"all\" as bid, to bid " \
-                    "all your available points.\n\n" % (next(iter(self.loot_list.values())).get_item_str(), min_bid)
-            if self.setting_service.get("vickrey_auction").get_value():
-                blob += "<header2>This is a Vickrey auction<end>\n" \
-                        " - In a Vickrey auction, you only get to bid twice on the same item.\n" \
-                        " - You won't be notified of the outcome of your bid, as all bids will be anonymous.\n" \
-                        " - The highest anonymous bid will win, and pay the second-highest bid.\n" \
-                        " - Bids are anonymous, meaning you do not share your bid with others, or write this command " \
-                        "in the raid channel.\n - Bidding is done with the command described above. You'll be " \
-                        "notified when/if the bid has been accepted."
-
-        return ChatBlob("Auction list (%d)" % len(self.loot_list), blob)

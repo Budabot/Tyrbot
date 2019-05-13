@@ -265,6 +265,10 @@ class PointsController:
 
         return True
 
+    def get_account(self, main_id):
+        sql = "SELECT p.char_id, p.points, p.disabled FROM points p WHERE p.char_id = ?"
+        return self.db.query_single(sql, [main_id])
+
     def get_account_display(self, char: SenderObj):
         main = self.alts_service.get_main(char.char_id)
         if not main:
