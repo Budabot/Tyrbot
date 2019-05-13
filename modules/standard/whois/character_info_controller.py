@@ -59,7 +59,7 @@ class CharacterInfoController:
             blob += "\n<header2>Alts (%d)<end>\n" % len(alts)
             blob += self.alts_controller.format_alt_list(alts)
 
-            more_info = self.text.paginate(ChatBlob("More Info", blob), 5000, 1)[0]
+            more_info = self.text.paginate_single(ChatBlob("More Info", blob))
 
             return self.text.format_char_info(char_info) + " " + more_info
         elif char.char_id:

@@ -55,6 +55,9 @@ class Text:
         else:
             return "<highlight>CharId(%d)<end>" % char_info.char_id
 
+    def paginate_single(self, chatblob):
+        return self.paginate(chatblob, 10000, 1)[0]
+
     def paginate(self, chatblob, max_page_length, max_num_pages=None, footer=None):
         label = chatblob.title
         msg = chatblob.msg

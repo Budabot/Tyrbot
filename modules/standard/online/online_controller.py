@@ -275,7 +275,7 @@ class OnlineController:
             else:
                 main = "Alts of %s (%d)" % (alts[0].name, cnt)
 
-            name += " - " + self.text.paginate(ChatBlob(main, self.alts_controller.format_alt_list(alts)), 10000, max_num_pages=1)[0]
+            name += " - " + self.text.paginate_single(ChatBlob(main, self.alts_controller.format_alt_list(alts)))
 
         return name
 
