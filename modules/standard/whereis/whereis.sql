@@ -294,8 +294,8 @@ INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUE
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Live Metal', 'Greater Tir County, Rocky Outcrops', 'Livemetal', 647, 1520, 2210);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Ljotur The Lunatic', 'Drill Island, Deep Artery Valley', NULL, 595, 1103, 722);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Lord Ghasap', 'Avalon Dungeon, Avalon', NULL, 505, 2092, 3822);
-INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Lord Of Sand', 'The Reck; Northern Eremite Statue', NULL, 750, 2267, 2902);
-INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Lord Of Sand', 'The Reck; Southern Eremite Statue', NULL, 750, 1533, 237);
+INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Lord of Sand', 'The Reck; Northern Eremite Statue', NULL, 750, 2267, 2902);
+INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Lord of Sand', 'The Reck; Southern Eremite Statue', NULL, 750, 1533, 237);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Lord Of The Void', 'Inferno, E of Frontier, W of Frontier. Nasc Wilds', NULL, 0, 0, 0);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Lost Soul', 'Elysium, E Whispervale and 115 Inc', NULL, 0, 0, 0);
 INSERT INTO whereis (name, answer, keywords, playfield_id, xcoord, ycoord) VALUES ('Lurking Dryad', 'Adonis, NW', NULL, 4872, 1232, 2798);
