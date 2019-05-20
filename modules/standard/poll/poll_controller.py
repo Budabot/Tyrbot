@@ -17,6 +17,10 @@ class PollController:
         self.command_alias_service = registry.get_instance("command_alias_service")
 
     def start(self):
+        self.db.exec("CREATE TABLE IF NOT EXISTS poll (id INT PRIMARY KEY AUTO_INCREMENT, question VARCHAR(1024) NOT NULL, duration INT NOT NULL, min_access_level VARCHAR(20) NOT NULL, char_id INT NOT NULL, created_at INT NOT NULL, finished_at INT NOT NULL, is_finished SMALLINT NOT NULL)")
+        self.db.exec("CREATE TABLE IF NOT EXISTS poll_choice (id INT PRIMARY KEY AUTO_INCREMENT, poll_id INT NOT NULL, choice VARCHAR(1024))")
+        self.db.exec("CREATE TABLE IF NOT EXISTS poll_vote (poll_id INT NOT NULL, choice_id INT NOT NULL, char_id INT NOT NULL)")
+
         self.command_alias_service.add_alias("vote", "poll")
 
     @command(command="poll", params=[], access_level="all",

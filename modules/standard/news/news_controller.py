@@ -26,6 +26,10 @@ class NewsController:
         self.setting_service: SettingService = registry.get_instance("setting_service")
         self.util: Util = registry.get_instance("util")
 
+    def start(self):
+        self.db.exec("CREATE TABLE IF NOT EXISTS news (id INT PRIMARY KEY AUTO_INCREMENT, char_id INT NOT NULL, news TEXT, sticky SMALLINT NOT NULL, created_at INT NOT NULL, deleted_at INT NOT NULL)")
+        self.db.exec("CREATE TABLE IF NOT EXISTS news_read (char_id INTEGER NOT NULL, news_id INTEGER NOT NULL)")
+
     @setting(name="number_news_shown", value="10", description="Maximum number of news items shown")
     def number_news_shown(self):
         return NumberSettingType()
