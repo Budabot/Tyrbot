@@ -2,6 +2,7 @@ from core.chat_blob import ChatBlob
 from core.decorators import instance, command
 from core.db import DB
 from core.command_param_types import Int
+import math
 
 
 @instance()
@@ -36,7 +37,8 @@ class LevelController:
             return "Level must be between <highlight>1<end> and <highlight>220<end>."
 
     @command(command="mission", params=[Int("mission_level")], access_level="all",
-             description="Show what character levels can roll a specified mission level")
+             description="Show what character levels can roll a specified mission level",
+             extended_description="Updated mission levels provided by Lucier")
     def mission_cmd(self, request, level):
         if 1 <= level <= 250:
             levels = self.get_mission_levels(level)
@@ -118,3 +120,21 @@ class LevelController:
             msg = "Mission level must be between `1` and `250`."
 
         reply(msg, "Mission")
+
+    def get_mission_levels2(self, level):
+        mission_coefficients = [0.7001, 0.75, 0.8, 0.85, 0.9, 1.0, 1.1, 1.2, 1.3, 1.5, 1.7913]
+        mission_levels = set();
+        for i in mission_coefficients:
+            val = math.floor(level * i)
+            if val < 1:
+                val = 1
+            elif val > 250:
+                val = 250
+
+            # I couldn't get 4 values to match with 1.3?
+            if i == 1.3 and (level == 90 or level == 170 or level == 180 or level == 190):
+                val = val - 1
+
+            mission_levels.add(val)
+
+        return ",".join(map(lambda x: str(x), sorted(mission_levels)))
