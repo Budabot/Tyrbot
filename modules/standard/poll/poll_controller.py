@@ -3,6 +3,7 @@ import time
 from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Any, Int
 from core.decorators import instance, command, event
+from modules.core.org_members.org_member_controller import OrgMemberController
 
 
 @instance()
@@ -48,7 +49,7 @@ class PollController:
         return ChatBlob("Polls (%d)" % len(polls), blob)
 
     @command(command="poll", params=[Int("poll_id")], access_level="all",
-             description="View a poll", extended_description="View information for a poll")
+             description="View a poll")
     def poll_view_cmd(self, request, poll_id):
         poll = self.get_poll(poll_id)
 
@@ -120,6 +121,16 @@ class PollController:
     def connect_event(self, event_type, event_data):
         self.check_for_finished_polls()
         self.create_scheduled_jobs_for_polls()
+
+    @event(event_type=OrgMemberController.ORG_MEMBER_LOGON_EVENT, description="Send active polls to org members logging on")
+    def org_member_logon_event(self, event_type, event_data):
+        if self.bot.is_ready():
+            data = self.db.query("SELECT * FROM poll WHERE is_finished != 1 AND " \
+                                 "id NOT IN (SELECT poll_id FROM poll_vote WHERE char_id = ?) " \
+                                 "ORDER BY finished_at ASC, id ASC", [event_data.char_id])
+            if data:
+                row = data[0]
+                self.bot.send_private_message(event_data.char_id, self.show_poll_details_blob(row))
 
     def create_scheduled_jobs_for_polls(self):
         data = self.db.query("SELECT * FROM poll WHERE is_finished != 1")
