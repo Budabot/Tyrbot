@@ -101,7 +101,7 @@ class AuctionStrategy:
         elif account.disabled:
             return "Your account has been frozen. Contact an admin."
 
-        points_used = self.get_points_used(main_id)
+        points_used = self.get_points_used(main_id, item_index)
         points_available = account.points - points_used
 
         if not bid_amount:
@@ -180,10 +180,10 @@ class AuctionStrategy:
 
         return ChatBlob("Auction list (%d)" % len(self.items), blob)
 
-    def get_points_used(self, main_id):
+    def get_points_used(self, main_id, item_index):
         points_used = 0
         for index, bid in self.winning_bids.items():
-            if bid.account.char_id == main_id:
+            if index != item_index and bid.account.char_id == main_id:
                 points_used += bid.max_amount
 
         return points_used
