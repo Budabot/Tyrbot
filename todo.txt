@@ -18,7 +18,6 @@ automatically give leader when using loot:change commands
 
 
 EVENTS
-RAID
 
 done
 ----
