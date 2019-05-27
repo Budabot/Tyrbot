@@ -36,6 +36,19 @@ try:
     with open(config_file, "r") as cfg:
         config = DictObject(hjson.load(cfg))
 
+    # overwrite config values with env vars
+    for k, v in os.environ.items():
+        if k.startswith("TYRBOT_"):
+            keys = k[7:].lower().split("_")
+            temp_config = config
+            for key in keys[:-1]:
+                # create key if it doesn't already exist
+                if key not in temp_config:
+                    temp_config[key] = DictObject()
+                temp_config = temp_config.get(key)
+            logger.debug("overriding config value from env var '%s'" % k)
+            temp_config[keys[-1]] = v
+
     # ensure dimension is integer
     if isinstance(config.server.dimension, str):
         config.server.dimension = int(config.server.dimension)
