@@ -5,13 +5,6 @@ def flatmap(func, *iterable):
     return itertools.chain.from_iterable(map(func, *iterable))
 
 
-def none_to_empty_string(val):
-    if val:
-        return val
-    else:
-        return ""
-
-
 # taken from: https://stackoverflow.com/a/8529229/280574 and modified
 def get_attrs(obj):
     attrs = {}

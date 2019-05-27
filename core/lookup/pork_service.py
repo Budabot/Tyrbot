@@ -4,7 +4,6 @@ from core.decorators import instance
 from core.dict_object import DictObject
 from core.aochat import server_packets
 from core.logger import Logger
-from __init__ import none_to_empty_string
 import requests
 import time
 
@@ -23,24 +22,8 @@ class PorkService:
         self.bot.add_packet_handler(server_packets.CharacterLookup.id, self.update)
         self.bot.add_packet_handler(server_packets.CharacterName.id, self.update)
 
-    def get_character_info(self, char, max_cache_age=86400):
-        char_id = self.character_service.resolve_char_to_id(char)
-        char_name = self.character_service.resolve_char_to_name(char)
-
-        t = int(time.time())
-
-        # if we have entry in database and it is within the cache time, use that
-        char_info = self.get_from_database(char_id=char_id, char_name=char_name)
-        if char_info:
-            char_info.cache_age = t - char_info.last_updated
-
-            if char_info.cache_age < max_cache_age and char_info.source != "chat_server":
-                return char_info
-
-        if not char_name:
-            return char_info
-
-        url = "https://pork.jkbff.com/character/bio/d/%d/name/%s/bio.xml?data_type=json" % (self.bot.dimension, char_name)
+    def request_char_info(self, char_name, server_num):
+        url = "https://pork.jkbff.com/character/bio/d/%d/name/%s/bio.xml?data_type=json" % (server_num, char_name)
 
         try:
             r = requests.get(url, timeout=5)
@@ -52,7 +35,8 @@ class PorkService:
             self.logger.debug("Error marshalling value as json for url '%s': %s" % (url, r.text), e)
             result = None
 
-        if result and result[0]["CHAR_INSTANCE"] == char_id:
+        char_info = None
+        if result:
             char_info_json = result[0]
             org_info_json = result[1] if result[1] else {}
 
@@ -71,25 +55,48 @@ class PorkService:
                 "ai_rank": char_info_json["RANK_name"],
                 "ai_level": char_info_json["ALIENLEVEL"],
                 "pvp_rating": char_info_json["PVPRATING"],
-                "pvp_title": none_to_empty_string(char_info_json["PVPTITLE"]),
+                "pvp_title": char_info_json["PVPTITLE"] or "",
                 "head_id": char_info_json["HEADID"],
                 "org_id": org_info_json.get("ORG_INSTANCE", 0),
                 "org_name": org_info_json.get("NAME", ""),
                 "org_rank_name": org_info_json.get("RANK_TITLE", ""),
                 "org_rank_id": org_info_json.get("RANK", 0),
-                "source": "people.anarchy-online.com"
+                "source": "people.anarchy-online.com",
+                "cache_age": 0
             })
 
+        return char_info
+
+    def get_character_info(self, char, max_cache_age=86400):
+        char_id = self.character_service.resolve_char_to_id(char)
+        char_name = self.character_service.resolve_char_to_name(char)
+
+        t = int(time.time())
+
+        # if there is an entry in database and it is within the cache time, use that
+        db_char_info = self.get_from_database(char_id=char_id, char_name=char_name)
+        if db_char_info:
+            db_char_info.cache_age = t - db_char_info.last_updated
+
+            if db_char_info.cache_age < max_cache_age and db_char_info.source != "chat_server":
+                return db_char_info
+
+        # if we can't resolve to a char_name, we can't make a call to pork
+        if not char_name:
+            return db_char_info
+
+        char_info = self.request_char_info(char_name, self.bot.dimension)
+
+        if char_info and char_info.char_id == char_id:
             self.save_character_info(char_info)
 
-            char_info.cache_age = 0
             return char_info
         else:
             # return cached info from database, even tho it's old, and set cache_age (if it exists)
-            if char_info:
-                char_info.cache_age = t - char_info.last_updated
+            if db_char_info:
+                db_char_info.cache_age = t - db_char_info.last_updated
 
-            return char_info
+            return db_char_info
 
     def load_character_info(self, char_id):
         char_info = self.get_character_info(char_id)

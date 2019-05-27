@@ -5,7 +5,6 @@ from requests import ReadTimeout
 from core.decorators import instance
 from core.dict_object import DictObject
 from core.logger import Logger
-from __init__ import none_to_empty_string
 import requests
 import datetime
 import json
@@ -134,7 +133,7 @@ class OrgPorkService:
                     "ai_rank": org_member["DEFENDER_RANK_TITLE"],
                     "ai_level": org_member["ALIENLEVEL"],
                     "pvp_rating": org_member["PVPRATING"],
-                    "pvp_title": none_to_empty_string(org_member["PVPTITLE"]),
+                    "pvp_title": org_member["PVPTITLE"] or "",
                     "head_id": org_member["HEADID"],
                     "org_id": org_info.get("ORG_INSTANCE", 0),
                     "org_name": org_info.get("NAME", ""),
