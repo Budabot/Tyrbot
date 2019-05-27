@@ -16,6 +16,7 @@ class PollController:
         self.job_scheduler = registry.get_instance("job_scheduler")
         self.pork_service = registry.get_instance("pork_service")
         self.command_alias_service = registry.get_instance("command_alias_service")
+        self.alts_service = registry.get_instance("alts_service")
 
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS poll (id INT PRIMARY KEY AUTO_INCREMENT, question VARCHAR(1024) NOT NULL, duration INT NOT NULL, min_access_level VARCHAR(20) NOT NULL, char_id INT NOT NULL, created_at INT NOT NULL, finished_at INT NOT NULL, is_finished SMALLINT NOT NULL)")
@@ -93,11 +94,13 @@ class PollController:
         if not choice:
             return "Could not find choice with id <highlight>%d<end> for poll id <highlight>%d<end>." % (choice_id, poll_id)
 
-        # retrieve pork info
-        self.pork_service.get_character_info(request.sender.char_id)
+        main = self.alts_service.get_main(request.sender.char_id)
 
-        cnt = self.db.exec("DELETE FROM poll_vote WHERE poll_id = ? AND char_id = ?", [poll_id, request.sender.char_id])
-        self.db.exec("INSERT INTO poll_vote (poll_id, choice_id, char_id) VALUES (?, ?, ?)", [poll_id, choice_id, request.sender.char_id])
+        # retrieve pork info
+        self.pork_service.get_character_info(main.char_id)
+
+        cnt = self.db.exec("DELETE FROM poll_vote WHERE poll_id = ? AND (char_id = ? OR char_id = ?)", [poll_id, main.char_id, request.sender.char_id])
+        self.db.exec("INSERT INTO poll_vote (poll_id, choice_id, char_id) VALUES (?, ?, ?)", [poll_id, choice_id, main.char_id])
 
         if cnt > 0:
             return "Your vote has been updated."
@@ -111,7 +114,9 @@ class PollController:
         if not poll:
             return "Could not find poll with id <highlight>%d<end>." % poll_id
 
-        cnt = self.db.exec("DELETE FROM poll_vote WHERE poll_id = ? AND char_id = ?", [poll_id, request.sender.char_id])
+        main = self.alts_service.get_main(request.sender.char_id)
+
+        cnt = self.db.exec("DELETE FROM poll_vote WHERE poll_id = ? AND (char_id = ? OR char_id = ?)", [poll_id, main.char_id, request.sender.char_id])
         if cnt > 0:
             return "Your vote has been removed."
         else:
@@ -125,8 +130,8 @@ class PollController:
     @event(event_type=OrgMemberController.ORG_MEMBER_LOGON_EVENT, description="Send active polls to org members logging on")
     def org_member_logon_event(self, event_type, event_data):
         if self.bot.is_ready():
-            data = self.db.query("SELECT * FROM poll WHERE is_finished != 1 AND " \
-                                 "id NOT IN (SELECT poll_id FROM poll_vote WHERE char_id = ?) " \
+            data = self.db.query("SELECT * FROM poll WHERE is_finished != 1 AND "
+                                 "id NOT IN (SELECT poll_id FROM poll_vote WHERE char_id = ?) "
                                  "ORDER BY finished_at ASC, id ASC", [event_data.char_id])
             if data:
                 row = data[0]
