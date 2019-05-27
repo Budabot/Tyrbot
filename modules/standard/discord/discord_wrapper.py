@@ -1,5 +1,4 @@
 from core.logger import Logger
-from discord.errors import Forbidden, NotFound
 import discord
 import asyncio
 

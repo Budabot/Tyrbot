@@ -30,5 +30,5 @@ class CalculatorController:
         else:
             return "Error! Invalid character detected."
 
-    def calc_discord_cmd(self, reply, args):
+    def calc_discord_cmd(self, ctx, reply, args):
         reply(self.calc_cmd(None, *args))

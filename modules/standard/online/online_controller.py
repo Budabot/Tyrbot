@@ -169,7 +169,7 @@ class OnlineController:
     def set_afk(self, char_id, dt, reason):
         self.db.exec("UPDATE online SET afk_dt = ?, afk_reason = ? WHERE char_id = ?", [dt, reason, char_id])
 
-    def online_discord_cmd(self, reply, args):
+    def online_discord_cmd(self, ctx, reply, args):
         blob = ""
         count = 0
 

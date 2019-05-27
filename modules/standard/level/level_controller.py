@@ -98,7 +98,7 @@ class LevelController:
 
         return levels
 
-    def level_discord_cmd(self, reply, args):
+    def level_discord_cmd(self, ctx, reply, args):
         level, = args
         row = self.get_level_info(level)
 
@@ -110,7 +110,7 @@ class LevelController:
 
         reply(msg, "Level")
 
-    def mission_discord_cmd(self, reply, args):
+    def mission_discord_cmd(self, ctx, reply, args):
         mission_level, = args
         if 1 <= mission_level <= 250:
             levels = self.get_mission_levels(mission_level)

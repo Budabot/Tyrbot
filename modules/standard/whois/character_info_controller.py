@@ -144,7 +144,7 @@ class CharacterInfoController:
         elif char_info.cache_age > max_cache_age:
             return "%s (old cache; %s old)" % (char_info.source, self.util.time_to_readable(char_info.cache_age))
 
-    def whois_discord_cmd(self, reply, args):
+    def whois_discord_cmd(self, ctx, reply, args):
         char, = args
 
         char_info = self.pork_service.get_character_info(char.name)

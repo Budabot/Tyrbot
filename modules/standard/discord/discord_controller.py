@@ -279,8 +279,10 @@ class DiscordController:
                 def reply(content, title="Command"):
                     self.aoqueue.append(("command_reply", DiscordMessage("embed", title, self.bot.char_name, self.strip_html_tags(content), True, msgcolor)))
 
+                ctx = DictObject()
+
                 if matches:
-                    handler.callback(reply, self.command_service.process_matches(matches, handler.params))
+                    handler.callback(ctx, reply, self.command_service.process_matches(matches, handler.params))
                 else:
                     reply(self.generate_help(command_str, handler.params), "Command Help")
                 break
@@ -372,7 +374,7 @@ class DiscordController:
     def should_relay_message(self, char_id):
         return self.is_connected() and char_id != self.bot.char_id
 
-    def help_discord_cmd(self, reply, args):
+    def help_discord_cmd(self, ctx, reply, args):
         msg = ""
         for handler in self.command_handlers:
             msg += self.generate_help(handler.command, handler.params) + "\n"

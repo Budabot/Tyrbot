@@ -49,7 +49,7 @@ class OverequippedController:
             "oe25": int(math.floor(skill_level / 0.2)),
             "oe25low": int(math.floor(skill_level * 0.2))})
 
-    def oe_discord_cmd(self, reply, args):
+    def oe_discord_cmd(self, ctx, reply, args):
         skill_level, = args
         oe = self.get_oe_vals(skill_level)
 
