@@ -71,10 +71,6 @@ class CommandService:
                     module = self.util.get_module_name(handler)
                     help_text = self.get_help_file(module, help_file)
 
-                    # TODO move this check to register()
-                    if len(inspect.signature(handler).parameters) != len(params) + 1:
-                        raise Exception("Incorrect number of arguments for handler '%s.%s()'" % (handler.__module__, handler.__name__))
-
                     command_key = self.get_command_key(cmd_name.lower(), sub_command.lower() if sub_command else "")
                     al = access_levels.get(command_key, None)
                     if al is not None and al != access_level.lower():
@@ -84,6 +80,9 @@ class CommandService:
                     self.register(handler, cmd_name, params, access_level, description, module, help_text, sub_command, extended_description)
 
     def register(self, handler, command, params, access_level, description, module, help_text=None, sub_command=None, extended_description=None, check_access=None):
+        if len(inspect.signature(handler).parameters) != len(params) + 1:
+            raise Exception("Incorrect number of arguments for handler '%s.%s()'" % (handler.__module__, handler.__name__))
+
         command = command.lower()
         if sub_command:
             sub_command = sub_command.lower()
