@@ -150,6 +150,10 @@ class CommandService:
                 if pre_processor(context) is False:
                     return
 
+            for regex in self.ignore_regexes:
+                if regex.search(message):
+                    return
+
             # message = html.unescape(message)
 
             command_str, command_args = self.get_command_parts(message)
@@ -313,10 +317,6 @@ class CommandService:
         # otherwise it is ignored
         if len(packet.message) < 1:
             return
-
-        for regex in self.ignore_regexes:
-            if regex.search(packet.message):
-                return
 
         # ignore leading space
         message = packet.message.lstrip()

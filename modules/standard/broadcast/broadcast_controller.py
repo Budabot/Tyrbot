@@ -3,8 +3,7 @@ import time
 from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Character, Options
 from core.db import DB
-from core.decorators import instance, command, event
-from core.tyrbot import Tyrbot
+from core.decorators import instance, command
 
 
 @instance()
@@ -19,7 +18,7 @@ class BroadcastController:
         self.command_service.register_command_pre_processor(self.command_pre_process)
         self.db.exec("CREATE TABLE IF NOT EXISTS broadcast (char_id INT NOT NULL PRIMARY KEY, created_at INT)")
 
-    @command(command="broadcast", params=[], access_level="superadmin",
+    @command(command="broadcast", params=[], access_level="admin",
              description="Show characters/bots on the broadcast list")
     def broadcast_list_cmd(self, request):
         data = self.db.query("SELECT p.name FROM broadcast b JOIN player p ON b.char_id = p.char_id ORDER BY p.name ASC")
@@ -30,7 +29,7 @@ class BroadcastController:
 
         return ChatBlob("Broadcast List (%d)" % len(data), blob)
 
-    @command(command="broadcast", params=[Const("add"), Character("char")], access_level="superadmin",
+    @command(command="broadcast", params=[Const("add"), Character("char")], access_level="admin",
              description="Add a character/bot to the broadcast list")
     def broadcast_add_cmd(self, request, _, char):
         if char.char_id is None:
@@ -44,7 +43,7 @@ class BroadcastController:
             self.db.exec("INSERT INTO broadcast (char_id, created_at) VALUES (?, ?)", [char.char_id, int(time.time())])
             return "<highlight>%s<end> has been added to the broadcast list." % char.name
 
-    @command(command="broadcast", params=[Options(["rem", "remove"]), Character("char")], access_level="superadmin",
+    @command(command="broadcast", params=[Options(["rem", "remove"]), Character("char")], access_level="admin",
              description="Remove a character/bot from the broadcast list")
     def broadcast_remove_cmd(self, request, _, char):
         if char.char_id is None:
