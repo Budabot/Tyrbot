@@ -84,8 +84,8 @@ class RelayController:
     def process_incoming_relay_message(self, sender, message):
         relay_bot = self.relay_bot().get_value()
         if relay_bot and sender.name.lower() == relay_bot.lower():
-            self.bot.send_org_message(message)
-            self.bot.send_private_channel_message(message)
+            self.bot.send_org_message(message, fire_outgoing_event=False)
+            self.bot.send_private_channel_message(message, fire_outgoing_event=False)
 
     def send_message_to_relay(self, message):
         relay_bot = self.relay_bot().get_value()
