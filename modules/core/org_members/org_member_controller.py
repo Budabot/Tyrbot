@@ -2,6 +2,7 @@ from core.aochat.server_packets import BuddyAdded
 from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Character
 from core.decorators import instance, event, timerevent, command, setting
+from core.dict_object import DictObject
 from core.logger import Logger
 import time
 
@@ -22,6 +23,7 @@ class OrgMemberController:
 
     ORG_MEMBER_LOGON_EVENT = "org_member_logon"
     ORG_MEMBER_LOGOFF_EVENT = "org_member_logoff"
+    ORG_MEMBER_REMOVED_EVENT = "org_member_removed"
 
     MAX_CACHE_AGE = 86400
 
@@ -42,6 +44,8 @@ class OrgMemberController:
     def pre_start(self):
         self.event_service.register_event_type(self.ORG_MEMBER_LOGON_EVENT)
         self.event_service.register_event_type(self.ORG_MEMBER_LOGOFF_EVENT)
+        self.event_service.register_event_type(self.ORG_MEMBER_REMOVED_EVENT)
+
         self.access_service.register_access_level(self.ORG_ACCESS_LEVEL, 60, self.check_org_member)
         self.bot.add_packet_handler(BuddyAdded.id, self.handle_buddy_added)
 
@@ -214,13 +218,16 @@ class OrgMemberController:
         elif old_mode == self.MODE_ADD_AUTO:
             if new_mode == self.MODE_REM_MANUAL:
                 self.update_org_member(char_id, new_mode)
+                self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, DictObject({"char_id": char_id}))
             elif new_mode == self.MODE_REM_AUTO:
                 self.remove_org_member(char_id)
+                self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, DictObject({"char_id": char_id}))
         elif old_mode == self.MODE_ADD_MANUAL:
             if new_mode == self.MODE_ADD_AUTO:
                 self.update_org_member(char_id, new_mode)
             elif new_mode == self.MODE_REM_MANUAL:
                 self.remove_org_member(char_id)
+                self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, DictObject({"char_id": char_id}))
         elif old_mode == self.MODE_REM_MANUAL:
             if new_mode == self.MODE_ADD_MANUAL:
                 self.update_org_member(char_id, new_mode)
