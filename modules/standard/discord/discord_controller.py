@@ -59,6 +59,7 @@ class DiscordController:
         self.character_service: CharacterService = registry.get_instance("character_service")
         self.text: Text = registry.get_instance("text")
         self.command_service = registry.get_instance("command_service")
+        self.ban_service = registry.get_instance("ban_service")
 
     def pre_start(self):
         self.event_service.register_event_type("discord_ready")
@@ -372,7 +373,7 @@ class DiscordController:
         return s.get_data()
 
     def should_relay_message(self, char_id):
-        return self.is_connected() and char_id != self.bot.char_id
+        return self.is_connected() and char_id != self.bot.char_id and not self.ban_service.get_ban(char_id)
 
     def help_discord_cmd(self, ctx, reply, args):
         msg = ""
