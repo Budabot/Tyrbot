@@ -38,7 +38,7 @@ class OrgPorkService:
             result = json.loads(cache_result.data)
             is_cache = True
         else:
-            url = "https://pork.jkbff.com/org/stats/d/%d/name/%d/basicstats.xml?data_type=json" % (self.bot.dimension, org_id)
+            url = self.get_pork_url(self.bot.dimension, org_id)
 
             try:
                 r = requests.get(url, timeout=5)
@@ -157,3 +157,9 @@ class OrgPorkService:
                                "org_info": new_org_info,
                                "org_members": members,
                                "last_updated": int(datetime.datetime.strptime(last_updated, "%Y/%m/%d %H:%M:%S").timestamp())})
+
+    def get_pork_url(self, dimension, org_id):
+        if dimension == 6:
+            return "http://people.anarchy-online.com/org/stats/d/%d/name/%d/basicstats.xml?data_type=json" % (dimension, org_id)
+        else:
+            return "http://people.anarchy-online.com/org/stats/d/%d/name/%d/basicstats.xml?data_type=json" % (dimension, org_id)

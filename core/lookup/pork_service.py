@@ -23,7 +23,7 @@ class PorkService:
         self.bot.add_packet_handler(server_packets.CharacterName.id, self.update)
 
     def request_char_info(self, char_name, server_num):
-        url = "https://pork.jkbff.com/character/bio/d/%d/name/%s/bio.xml?data_type=json" % (server_num, char_name)
+        url = self.get_pork_url(server_num, char_name)
 
         try:
             r = requests.get(url, timeout=5)
@@ -181,3 +181,9 @@ class PorkService:
 
     def find_orgs(self, search):
         return self.db.query("SELECT DISTINCT org_name, org_id FROM player WHERE org_name <EXTENDED_LIKE=0> ?", [search], extended_like=True)
+
+    def get_pork_url(self, dimension, char_name):
+        if dimension == 6:
+            return "https://people.phaz-online.com/character/bio/d/%d/name/%s/bio.xml?data_type=json" % (dimension, char_name)
+        else:
+            return "http://people.anarchy-online.com/character/bio/d/%d/name/%s/bio.xml?data_type=json" % (dimension, char_name)
