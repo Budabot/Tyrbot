@@ -1,5 +1,3 @@
-import time
-
 from core.decorators import instance, command
 from core.db import DB
 from core.text import Text
@@ -15,6 +13,7 @@ class ConfigController:
         self.command_service = registry.get_instance("command_service")
         self.event_service = registry.get_instance("event_service")
         self.setting_service = registry.get_instance("setting_service")
+        self.config_events_controller = registry.get_instance("config_events_controller")
 
     @command(command="config", params=[], access_level="admin",
              description="Show configuration options for the bot")
@@ -90,7 +89,7 @@ class ConfigController:
                     enabled = "<green>Enabled<end>"
                 else:
                     enabled = "<red>Disabled<end>"
-                blob += "%s - %s [%s]" % (self.format_event_type(row), row.description, enabled)
+                blob += "%s - %s [%s]" % (self.config_events_controller.format_event_type(row), row.description, enabled)
                 blob += " " + self.text.make_chatcmd("On", "/tell <myname> config event %s %s enable" % (event_type_key, row.handler))
                 blob += " " + self.text.make_chatcmd("Off", "/tell <myname> config event %s %s disable" % (event_type_key, row.handler))
                 if row.event_type == 'timer':
@@ -101,48 +100,6 @@ class ConfigController:
             return ChatBlob("Module (" + module + ")", blob)
         else:
             return "Could not find module <highlight>%s<end>" % module
-
-    @command(command="config", params=[Const("event"), Any("event_type"), Any("event_handler"), Options(["enable", "disable"])], access_level="admin",
-             description="Enable or disable an event")
-    def config_event_status_cmd(self, request, _, event_type, event_handler, action):
-        event_type = event_type.lower()
-        event_handler = event_handler.lower()
-        action = action.lower()
-        event_base_type, event_sub_type = self.event_service.get_event_type_parts(event_type)
-        enabled = 1 if action == "enable" else 0
-
-        if not self.event_service.is_event_type(event_base_type):
-            return "Unknown event type <highlight>%s<end>." % event_type
-
-        count = self.event_service.update_event_status(event_base_type, event_sub_type, event_handler, enabled)
-
-        if count == 0:
-            return "Could not find event for type <highlight>%s<end> and handler <highlight>%s<end>." % (event_type, event_handler)
-        else:
-            return "Event type <highlight>%s<end> for handler <highlight>%s<end> has been <highlight>%sd<end> successfully." % (event_type, event_handler, action)
-
-    @command(command="config", params=[Const("event"), Any("event_type"), Any("event_handler"), Const("run")], access_level="admin",
-             description="Execute a timed event immediately")
-    def config_event_run_cmd(self, request, _1, event_type, event_handler, _2):
-        action = "run"
-        event_type = event_type.lower()
-        event_handler = event_handler.lower()
-        event_base_type, event_sub_type = self.event_service.get_event_type_parts(event_type)
-
-        if not self.event_service.is_event_type(event_base_type):
-            return "Unknown event type <highlight>%s<end>." % event_type
-
-        row = self.db.query_single("SELECT e.event_type, e.event_sub_type, e.handler, t.next_run FROM timer_event t "
-                                   "JOIN event_config e ON t.event_type = e.event_type AND t.handler = e.handler "
-                                   "WHERE e.event_type = ? AND e.event_sub_type = ? AND e.handler LIKE ?", [event_base_type, event_sub_type, event_handler])
-
-        if not row:
-            return "Could not find event for type <highlight>%s<end> and handler <highlight>%s<end>." % (event_type, event_handler)
-        elif row.event_type != "timer":
-            return "Only <highlight>timer<end> events can be run manually."
-        else:
-            self.event_service.execute_timed_event(row, int(time.time()))
-            return "Event type <highlight>%s<end> for handler <highlight>%s<end> has been <highlight>%s<end> successfully." % (event_type, event_handler, action)
 
     @command(command="config", params=[Const("setting"), Any("setting_name"), Options(["set", "clear"]), Any("new_value", is_optional=True)], access_level="admin",
              description="Change a setting value")
@@ -184,9 +141,3 @@ class ConfigController:
             return ChatBlob("Setting (%s)" % setting_name, blob)
         else:
             return "Could not find setting <highlight>%s<end>." % setting_name
-
-    def format_event_type(self, row):
-        if row.event_sub_type:
-            return row.event_type + ":" + row.event_sub_type
-        else:
-            return row.event_type
