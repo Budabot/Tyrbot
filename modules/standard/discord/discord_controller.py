@@ -291,7 +291,7 @@ class DiscordController:
         message = DiscordMessage("plain", "Org", None, msg)
         self.aoqueue.append(("org", message))
 
-    @timerevent(budatime="1s", description="Discord relay queue handler")
+    @timerevent(budatime="1s", description="Discord relay queue handler", is_hidden=False)
     def handle_discord_queue_event(self, event_type, event_data):
         if self.dqueue:
             dtype, message = self.dqueue.pop(0)

@@ -110,11 +110,11 @@ class OrgMemberController:
         for row in self.get_all_org_members():
             self.update_buddylist(row.char_id, row.mode)
 
-    @event(event_type=ORG_MEMBER_LOGON_EVENT, description="Record last seen info")
+    @event(event_type=ORG_MEMBER_LOGON_EVENT, description="Record last seen info", is_hidden=True)
     def handle_org_member_logon_event(self, event_type, event_data):
         self.update_last_seen(event_data.char_id)
 
-    @event(event_type=ORG_MEMBER_LOGOFF_EVENT, description="Record last seen info")
+    @event(event_type=ORG_MEMBER_LOGOFF_EVENT, description="Record last seen info", is_hidden=True)
     def handle_org_member_logoff_event(self, event_type, event_data):
         if self.bot.is_ready():
             self.update_last_seen(event_data.char_id)
