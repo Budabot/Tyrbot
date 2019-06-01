@@ -4,6 +4,8 @@ import requests
 from io import BytesIO
 
 
+# add 'pillow==6.0.0' to requirements.txt
+
 @instance()
 class TowerSiteOwnersController:
     def inject(self, registry):
