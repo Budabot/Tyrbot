@@ -10,7 +10,7 @@ from core.text import Text
 @instance()
 class LootListsController:
     def __init__(self):
-        self.real_names = {
+        self.categories = {
             "s7": "Sector 7",
             "s13": "Sector 13",
             "s28": "Sector 28",
