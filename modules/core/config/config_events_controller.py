@@ -79,7 +79,7 @@ class ConfigEventsController:
 
             blob += "[%s] %s %s - %s\n" % (self.format_enabled(row.enabled), on_link, off_link, row.description)
 
-        return ChatBlob("Commands (%d)" % len(data), blob)
+        return ChatBlob("Events (%d)" % len(data), blob)
 
     def format_enabled(self, enabled):
         return "<green>E<end>" if enabled else "<red>D<end>"
