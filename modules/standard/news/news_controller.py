@@ -1,7 +1,7 @@
 from core.alts.alts_service import AltsService
 from core.decorators import instance, command, setting, event
 from core.command_param_types import Const
-from core.setting_types import NumberSettingType, BooleanSettingType, ColorSettingType
+from core.setting_types import NumberSettingType, ColorSettingType
 from core.setting_service import SettingService
 from core.db import DB
 from core.text import Text
@@ -25,6 +25,7 @@ class NewsController:
         self.text: Text = registry.get_instance("text")
         self.setting_service: SettingService = registry.get_instance("setting_service")
         self.util: Util = registry.get_instance("util")
+        self.alts_service = registry.get_instance("alts_service")
 
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS news (id INT PRIMARY KEY AUTO_INCREMENT, char_id INT NOT NULL, news TEXT, sticky SMALLINT NOT NULL, created_at INT NOT NULL, deleted_at INT NOT NULL)")
@@ -109,7 +110,9 @@ class NewsController:
         sql = "INSERT INTO news_read (char_id, news_id) SELECT ?, n.id FROM news n WHERE n.id NOT IN ( " \
               "SELECT r.news_id FROM news_read r WHERE char_id = ? ) AND n.deleted_at = 0 "
 
-        num_rows = self.db.exec(sql, [request.sender.char_id, request.sender.char_id])
+        main = self.alts_service.get_main(request.sender.char_id)
+
+        num_rows = self.db.exec(sql, [request.sender.char_id, main.char_id])
 
         return "Successfully marked <highlight>%d<end> news entries as read." % num_rows
     
@@ -118,7 +121,9 @@ class NewsController:
         if not self.bot.is_ready():
             return
 
-        unread_news = self.has_unread_news(event_data.char_id)
+        main = self.alts_service.get_main(event_data.char_id)
+
+        unread_news = self.has_unread_news(main.char_id)
 
         if unread_news is None:
             # No news at all
@@ -127,14 +132,16 @@ class NewsController:
             # No new unread entries
             return
 
-        news = self.build_news_list(False, event_data.char_id)
+        news = self.build_news_list(False, main.char_id)
         
         if news:
             self.bot.send_private_message(event_data.char_id, ChatBlob("News", news))
 
     @event(event_type=PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, description="Send news list when someone joins private channel")
     def priv_logon_event(self, event_type, event_data):
-        unread_news = self.has_unread_news(event_data.char_id)
+        main = self.alts_service.get_main(event_data.char_id)
+
+        unread_news = self.has_unread_news(main.char_id)
 
         if unread_news is None:
             # No news at all
@@ -143,10 +150,14 @@ class NewsController:
             # No new unread entries
             return
         
-        news = self.build_news_list(False, event_data.char_id)
+        news = self.build_news_list(False, main.char_id)
         
         if news:
             self.bot.send_private_message(event_data.char_id, ChatBlob("News", news))
+
+    @event(event_type=AltsService.MAIN_CHANGED_EVENT_TYPE, description="Update news items marked as read when main is changed", is_hidden=True)
+    def main_changed_event(self, event_type, event_data):
+        self.db.exec("UPDATE news_read SET char_id = ? WHERE char_id = ?", [event_data.new_main_id, event_data.old_main_id])
 
     def build_news_list(self, include_read=True, char_id=None):
         blob = ""
