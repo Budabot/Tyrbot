@@ -3,7 +3,7 @@ from core.dict_object import DictObject
 from core.logger import Logger
 from core.private_channel_service import PrivateChannelService
 from core.public_channel_service import PublicChannelService
-from core.setting_types import HiddenSettingType, BooleanSettingType, TextSettingType, ColorSettingType
+from core.setting_types import HiddenSettingType, BooleanSettingType, ColorSettingType
 from core.command_param_types import Int, Any, Const, Options
 from core.chat_blob import ChatBlob
 from core.text import Text
