@@ -157,6 +157,8 @@ class OrgMemberController:
             self.process_org_msg(ext_msg.params[0], self.MODE_REM_MANUAL)
         elif [ext_msg.category_id, ext_msg.instance_id] == OrgActivityController.KICKED_FROM_ORG:
             self.process_org_msg(ext_msg.params[1], self.MODE_REM_MANUAL)
+        elif [ext_msg.category_id, ext_msg.instance_id] == OrgActivityController.KICKED_ALIGNMENT_CHANGED:
+            self.process_org_msg(ext_msg.params[1], self.MODE_REM_MANUAL)
         elif [ext_msg.category_id, ext_msg.instance_id] == OrgActivityController.INVITED_TO_ORG:
             self.process_org_msg(ext_msg.params[1], self.MODE_ADD_MANUAL)
         elif [ext_msg.category_id, ext_msg.instance_id] == OrgActivityController.KICKED_INACTIVE_FROM_ORG:

@@ -12,6 +12,7 @@ class OrgActivityController:
     KICKED_FROM_ORG = [508, 37093479]
     INVITED_TO_ORG = [508, 173558247]
     KICKED_INACTIVE_FROM_ORG = [508, 20908201]
+    KICKED_ALIGNMENT_CHANGED = [501, 181448347]
 
     def __init__(self):
         self.logger = Logger(__name__)
