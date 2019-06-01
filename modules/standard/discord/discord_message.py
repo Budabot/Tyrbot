@@ -5,7 +5,7 @@ class DiscordMessage:
     def __init__(self, dtype, channel, sender, content, command=False, color=None):
         self.dtype = str(dtype)
         self.channel = str(channel)
-        self.sender = str(sender)
+        self.sender = sender
         self.content = str(content).replace("\"", "'")
         self.color = color
 
@@ -26,12 +26,15 @@ class DiscordMessage:
             self.message = self.content
 
     def build_message(self):
-        if self.dtype == "embed":
-            content = self.sender+": "+self.content
+        if self.sender:
+            content = self.sender + ": " + self.content
+        else:
+            content = self.content
 
+        if self.dtype == "embed":
             self.message = Embed(title=self.channel, description=content, color=self.color)
         else:
-            self.message = "["+self.channel+"] "+self.sender+": "+self.content
+            self.message = "[%s] %s" % (self.channel, content)
 
     def get_message(self):
         return self.message

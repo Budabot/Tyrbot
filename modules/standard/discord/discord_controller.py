@@ -10,6 +10,9 @@ from core.text import Text
 from core.lookup.character_service import CharacterService
 from discord import Member, ChannelType
 from html.parser import HTMLParser
+
+from core.tyrbot import Tyrbot
+from modules.core.org_members.org_member_controller import OrgMemberController
 from .discord_wrapper import DiscordWrapper
 from .discord_channel import DiscordChannel
 from .discord_message import DiscordMessage
@@ -60,6 +63,7 @@ class DiscordController:
         self.text: Text = registry.get_instance("text")
         self.command_service = registry.get_instance("command_service")
         self.ban_service = registry.get_instance("ban_service")
+        self.pork_service = registry.get_instance("pork_service")
 
     def pre_start(self):
         self.event_service.register_event_type("discord_ready")
@@ -227,21 +231,65 @@ class DiscordController:
     @event(event_type=PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, description="Relay messages to Discord from org channel")
     def handle_org_message_event(self, event_type, event_data):
         if self.should_relay_message(event_data.char_id):
-            if event_data.message[:1] != "!":
-                msg = event_data.extended_message.get_message() if event_data.extended_message else event_data.message
-                msgcolor = self.setting_service.get("discord_embed_color").get_int_value()
-                name = self.character_service.resolve_char_to_name(event_data.char_id)
-                message = DiscordMessage("plain", "Org", name, self.strip_html_tags(msg), False, msgcolor)
-                self.aoqueue.append(("org", message))
+            msg = event_data.extended_message.get_message() if event_data.extended_message else event_data.message
+            name = self.character_service.resolve_char_to_name(event_data.char_id)
+            message = DiscordMessage("plain", "Org", name, self.strip_html_tags(msg))
+            self.aoqueue.append(("org", message))
 
     @event(event_type=PrivateChannelService.PRIVATE_CHANNEL_MESSAGE_EVENT, description="Relay messages to Discord from private channel")
     def handle_private_message_event(self, event_type, event_data):
         if self.should_relay_message(event_data.char_id):
-            if event_data.message[:1] != "!":
-                msgcolor = self.setting_service.get("discord_embed_color").get_int_value()
-                name = self.character_service.resolve_char_to_name(event_data.char_id)
-                message = DiscordMessage("plain", "Private", name, self.strip_html_tags(event_data.message), False, msgcolor)
-                self.aoqueue.append(("priv", message))
+            name = self.character_service.resolve_char_to_name(event_data.char_id)
+            message = DiscordMessage("plain", "Private", name, self.strip_html_tags(event_data.message))
+            self.aoqueue.append(("priv", message))
+
+    @event(event_type=PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, description="Notify when a character joins the private channel")
+    def handle_private_channel_joined_event(self, event_type, event_data):
+        msg = "%s has joined the private channel." % self.get_char_info_display(event_data.char_id)
+        message = DiscordMessage("plain", "Private", None, msg)
+        self.aoqueue.append(("priv", message))
+
+    @event(event_type=PrivateChannelService.LEFT_PRIVATE_CHANNEL_EVENT, description="Notify when a character leaves the private channel")
+    def handle_private_channel_left_event(self, event_type, event_data):
+        char_name = self.character_service.resolve_char_to_name(event_data.char_id)
+        msg = "%s has left the private channel." % char_name
+        message = DiscordMessage("plain", "Private", None, msg)
+        self.aoqueue.append(("priv", message))
+
+    @event(event_type=OrgMemberController.ORG_MEMBER_LOGON_EVENT, description="Notify when org member logs on")
+    def org_member_logon_event(self, event_type, event_data):
+        if self.bot.is_ready():
+            msg = "%s has logged on." % self.get_char_info_display(event_data.char_id)
+            message = DiscordMessage("plain", "Org", None, msg)
+            self.aoqueue.append(("org", message))
+
+    @event(event_type=OrgMemberController.ORG_MEMBER_LOGOFF_EVENT, description="Notify when org member logs off")
+    def org_member_logoff_event(self, event_type, event_data):
+        if self.bot.is_ready():
+            char_name = self.character_service.resolve_char_to_name(event_data.char_id)
+            msg = "%s has logged off." % char_name
+            message = DiscordMessage("plain", "Org", None, msg)
+            self.aoqueue.append(("org", message))
+
+    @event(event_type=Tyrbot.OUTGOING_PRIVATE_CHANNEL_MESSAGE_EVENT, description="Relay commands from the private channel to the discord channel")
+    def outgoing_private_channel_message_event(self, event_type, event_data):
+        if isinstance(event_data.message, ChatBlob):
+            msg = event_data.message.title
+        else:
+            msg = event_data.message
+
+        message = DiscordMessage("plain", "Private", None, msg)
+        self.aoqueue.append(("priv", message))
+
+    @event(event_type=Tyrbot.OUTGOING_ORG_MESSAGE_EVENT, description="Relay commands from the org channel to the discord channel")
+    def outgoing_org_message_event(self, event_type, event_data):
+        if isinstance(event_data.message, ChatBlob):
+            msg = event_data.message.title
+        else:
+            msg = event_data.message
+
+        message = DiscordMessage("plain", "Org", None, msg)
+        self.aoqueue.append(("org", message))
 
     @timerevent(budatime="1s", description="Discord relay queue handler")
     def handle_discord_queue_event(self, event_type, event_data):
@@ -384,3 +432,12 @@ class DiscordController:
 
     def is_connected(self):
         return self.client and self.client.is_logged_in
+
+    def get_char_info_display(self, char_id):
+        char_info = self.pork_service.get_character_info(char_id)
+        if char_info:
+            name = self.strip_html_tags(self.text.format_char_info(char_info))
+        else:
+            name = self.character_service.resolve_char_to_name(char_id)
+
+        return name
