@@ -26,7 +26,7 @@ class ConfigController:
             FROM
                 (SELECT module, enabled FROM command_config
                 UNION
-                SELECT module, enabled FROM event_config
+                SELECT module, enabled FROM event_config WHERE is_hidden = 0
                 UNION
                 SELECT module, 2 FROM setting) t
             GROUP BY
@@ -79,7 +79,7 @@ class ConfigController:
                 blob += self.text.make_chatcmd(command_key, "/tell <myname> config cmd " + command_key) + "\n"
 
         data = self.db.query("SELECT event_type, event_sub_type, handler, description, enabled "
-                             "FROM event_config WHERE module = ? "
+                             "FROM event_config WHERE module = ? AND is_hidden == 0 "
                              "ORDER BY event_type, handler ASC",
                              [module])
         if data:

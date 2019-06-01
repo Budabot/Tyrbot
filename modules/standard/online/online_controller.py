@@ -133,7 +133,7 @@ class OnlineController:
         self.db.exec("DELETE FROM online WHERE char_id = ? AND channel = ?",
                      [event_data.char_id, self.ORG_CHANNEL])
 
-    @event(OrgMemberController.ORG_MEMBER_REMOVED_EVENT, "Record in database when org member is removed")
+    @event(OrgMemberController.ORG_MEMBER_REMOVED_EVENT, "Record in database when org member is removed", is_hidden=True)
     def org_member_removed_event(self, event_type, event_data):
         self.db.exec("DELETE FROM online WHERE char_id = ? AND channel = ?",
                      [event_data.char_id, self.ORG_CHANNEL])

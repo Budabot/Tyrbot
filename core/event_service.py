@@ -25,10 +25,10 @@ class EventService:
         for _, inst in Registry.get_all_instances().items():
             for name, method in get_attrs(inst).items():
                 if hasattr(method, "event"):
-                    event_type, description = getattr(method, "event")
+                    event_type, description, is_hidden = getattr(method, "event")
                     handler = getattr(inst, name)
                     module = self.util.get_module_name(handler)
-                    self.register(handler, event_type, description, module)
+                    self.register(handler, event_type, description, module, is_hidden)
 
     def register_event_type(self, event_type):
         event_type = event_type.lower()
@@ -43,10 +43,11 @@ class EventService:
     def is_event_type(self, event_base_type):
         return event_base_type in self.event_types
 
-    def register(self, handler, event_type, description, module):
+    def register(self, handler, event_type, description, module, is_hidden):
         event_base_type, event_sub_type = self.get_event_type_parts(event_type)
         module = module.lower()
         handler_name = self.util.get_handler_name(handler)
+        is_hidden = 1 if is_hidden else 0
 
         if event_base_type not in self.event_types:
             self.logger.error("Could not register handler '%s' for event type '%s': event type does not exist" % (handler_name, event_type))
@@ -61,8 +62,8 @@ class EventService:
         if row is None:
             # add new event commands
             self.db.exec(
-                "INSERT INTO event_config (event_type, event_sub_type, handler, description, module, enabled, verified) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                [event_base_type, event_sub_type, handler_name, description, module, 1, 1])
+                "INSERT INTO event_config (event_type, event_sub_type, handler, description, module, enabled, verified, is_hidden) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                [event_base_type, event_sub_type, handler_name, description, module, 1, 1, is_hidden])
 
             if event_base_type == "timer":
                 self.db.exec("INSERT INTO timer_event (event_type, event_sub_type, handler, next_run) VALUES (?, ?, ?, ?)",
@@ -70,8 +71,8 @@ class EventService:
         else:
             # mark command as verified
             self.db.exec(
-                "UPDATE event_config SET verified = ?, module = ?, description = ?, event_sub_type = ? WHERE event_type = ? AND handler = ?",
-                [1, module, description, event_sub_type, event_base_type, handler_name])
+                "UPDATE event_config SET verified = ?, module = ?, description = ?, event_sub_type = ?, is_hidden = ? WHERE event_type = ? AND handler = ?",
+                [1, module, description, event_sub_type, is_hidden, event_base_type, handler_name])
 
             if event_base_type == "timer":
                 self.db.exec("UPDATE timer_event SET event_sub_type = ? WHERE event_type = ? AND handler = ?",
@@ -141,7 +142,7 @@ class EventService:
         # clear cache
         self.db_cache[event_base_type + ":" + event_sub_type] = None
 
-        return self.db.exec("UPDATE event_config SET enabled = ? WHERE event_type = ? AND event_sub_type = ? AND handler LIKE ?",
+        return self.db.exec("UPDATE event_config SET enabled = ? WHERE is_hidden = 0 AND event_type = ? AND event_sub_type = ? AND handler LIKE ?",
                             [enabled_status, event_base_type, event_sub_type, event_handler])
 
     def get_event_types(self):

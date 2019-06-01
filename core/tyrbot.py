@@ -75,6 +75,8 @@ class Tyrbot(Bot):
         self.db.exec("DELETE FROM timer_event WHERE handler NOT IN (SELECT handler FROM event_config WHERE event_type = ?)", ["timer"])
         self.db.exec("DELETE FROM setting WHERE verified = 0")
 
+        self.db.exec("UPDATE event_config SET enabled = 1 WHERE is_hidden = 1")
+
         self.status = BotStatus.RUN
 
     def pre_start(self):

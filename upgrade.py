@@ -115,3 +115,11 @@ if version == 8:
     if table_exists("roll"):
         db.exec("DROP TABLE roll")
     version = update_version(version)
+
+if version == 9:
+    if table_exists("event_config"):
+        db.exec("ALTER TABLE event_config RENAME TO event_config_old")
+        db.exec("CREATE TABLE IF NOT EXISTS event_config (event_type VARCHAR(50) NOT NULL, event_sub_type VARCHAR(50) NOT NULL, handler VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, module VARCHAR(50) NOT NULL, enabled SMALLINT NOT NULL, verified SMALLINT NOT NULL, is_hidden SMALLINT NOT NULL)")
+        db.exec("INSERT INTO event_config SELECT event_type, event_sub_type, handler, description, module, enabled, verified, 0 FROM event_config_old")
+        db.exec("DROP TABLE event_config_old")
+    version = update_version(version)
