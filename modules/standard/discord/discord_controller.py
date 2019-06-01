@@ -255,7 +255,7 @@ class DiscordController:
         if token:
             self.connect_discord_client(token)
 
-    @event(event_type="discord_channels", description="Updates the list of channels available for relaying")
+    @event(event_type="discord_channels", description="Updates the list of channels available for relaying", is_hidden=True)
     def handle_discord_channels_event(self, event_type, message):
         for channel in message:
             if channel.type is ChannelType.text:
@@ -268,7 +268,7 @@ class DiscordController:
 
         self.update_discord_channels()
 
-    @event(event_type="discord_command", description="Handles Discord commands")
+    @event(event_type="discord_command", description="Handles Discord commands", is_hidden=True)
     def handle_discord_command_event(self, event_type, message):
         msgcolor = self.setting_service.get("discord_embed_color").get_int_value()
 

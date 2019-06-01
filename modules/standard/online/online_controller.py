@@ -111,24 +111,24 @@ class OnlineController:
 
         return self.db.query(sql, [AltsService.MAIN, channel])
 
-    @event(PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, "Record in database when someone joins private channel")
+    @event(PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, "Record in database when someone joins private channel", is_hidden=True)
     def private_channel_joined_event(self, event_type, event_data):
         self.pork_service.load_character_info(event_data.char_id)
         self.db.exec("INSERT INTO online (char_id, afk_dt, afk_reason, channel, dt) VALUES (?, ?, ?, ?, ?)",
                      [event_data.char_id, 0, "", self.PRIVATE_CHANNEL, int(time.time())])
 
-    @event(PrivateChannelService.LEFT_PRIVATE_CHANNEL_EVENT, "Record in database when someone leaves private channel")
+    @event(PrivateChannelService.LEFT_PRIVATE_CHANNEL_EVENT, "Record in database when someone leaves private channel", is_hidden=True)
     def private_channel_left_event(self, event_type, event_data):
         self.db.exec("DELETE FROM online WHERE char_id = ? AND channel = ?",
                      [event_data.char_id, self.PRIVATE_CHANNEL])
 
-    @event(OrgMemberController.ORG_MEMBER_LOGON_EVENT, "Record in database when org member logs on")
+    @event(OrgMemberController.ORG_MEMBER_LOGON_EVENT, "Record in database when org member logs on", is_hidden=True)
     def org_member_logon_record_event(self, event_type, event_data):
         self.pork_service.load_character_info(event_data.char_id)
         self.db.exec("INSERT INTO online (char_id, afk_dt, afk_reason, channel, dt) VALUES (?, ?, ?, ?, ?)",
                      [event_data.char_id, 0, "", self.ORG_CHANNEL, int(time.time())])
 
-    @event(OrgMemberController.ORG_MEMBER_LOGOFF_EVENT, "Record in database when org member logs off")
+    @event(OrgMemberController.ORG_MEMBER_LOGOFF_EVENT, "Record in database when org member logs off", is_hidden=True)
     def org_member_logoff_record_event(self, event_type, event_data):
         self.db.exec("DELETE FROM online WHERE char_id = ? AND channel = ?",
                      [event_data.char_id, self.ORG_CHANNEL])

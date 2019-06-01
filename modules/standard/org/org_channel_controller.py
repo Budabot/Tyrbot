@@ -5,7 +5,6 @@ from core.private_channel_service import PrivateChannelService
 from core.public_channel_service import PublicChannelService
 from core.setting_types import BooleanSettingType
 from core.tyrbot import Tyrbot
-from modules.core.org_members.org_member_controller import OrgMemberController
 
 
 @instance()

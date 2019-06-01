@@ -61,6 +61,6 @@ class PrivateChannelController:
         self.bot.send_private_channel_message("Everyone will be kicked from this channel in 10 seconds. [by <highlight>%s<end>]" % request.sender.name)
         self.job_scheduler.delayed_job(lambda t: self.private_channel_service.kickall(), 10)
 
-    @event(event_type=BanService.BAN_ADDED_EVENT, description="Kick characters from the private channel who are banned")
+    @event(event_type=BanService.BAN_ADDED_EVENT, description="Kick characters from the private channel who are banned", is_hidden=True)
     def ban_added_event(self, event_type, event_data):
         self.private_channel_service.kick(event_data.char_id)

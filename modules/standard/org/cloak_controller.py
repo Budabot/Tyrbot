@@ -48,7 +48,7 @@ class CloakController:
 
             return ChatBlob("Cloak History", blob)
 
-    @event(event_type=CLOAK_EVENT, description="Record when the city cloak is turned off and on")
+    @event(event_type=CLOAK_EVENT, description="Record when the city cloak is turned off and on", is_hidden=True)
     def city_cloak_event(self, event_type, event_data):
         self.db.exec("INSERT INTO cloak_status (char_id, action, created_at) VALUES (?, ?, ?)", [event_data.sender.char_id, event_data.action, int(time.time())])
 

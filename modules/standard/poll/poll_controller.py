@@ -122,7 +122,7 @@ class PollController:
         else:
             return "You have not voted for that choice."
 
-    @event(event_type="connect", description="Check for finished polls")
+    @event(event_type="connect", description="Check for finished polls", is_hidden=True)
     def connect_event(self, event_type, event_data):
         self.check_for_finished_polls()
         self.create_scheduled_jobs_for_polls()

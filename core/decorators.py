@@ -30,10 +30,10 @@ def event(handler, event_type, description, is_hidden=False):
 
 
 @parametrized
-def timerevent(handler, budatime, description):
+def timerevent(handler, budatime, description, is_hidden=False):
     util = Registry.get_instance("util")
     t = util.parse_time(budatime)
-    handler.event = ["timer:" + str(t), description, False]
+    handler.event = ["timer:" + str(t), description, is_hidden]
     return handler
 
 

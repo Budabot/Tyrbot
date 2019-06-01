@@ -52,7 +52,7 @@ class OrgActivityController:
 
         return ChatBlob("Org Activity", blob)
 
-    @event(PublicChannelService.ORG_MSG_EVENT, "Record org member activity")
+    @event(PublicChannelService.ORG_MSG_EVENT, "Record org member activity", is_hidden=True)
     def org_msg_event(self, event_type, event_data):
         ext_msg = event_data.extended_message
         if [ext_msg.category_id, ext_msg.instance_id] == self.LEFT_ORG:

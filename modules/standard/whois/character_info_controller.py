@@ -103,15 +103,15 @@ class CharacterInfoController:
         else:
             return "Could not find info for character <highlight>%s<end> on RK%d." % (char.name, dimension)
 
-    @event(event_type="packet:20", description="Capture name history")
+    @event(event_type="packet:20", description="Capture name history", is_hidden=True)
     def character_name_event(self, event_type, event_data):
         self.name_history.append(event_data)
 
-    @event(event_type="packet:21", description="Capture name history")
+    @event(event_type="packet:21", description="Capture name history", is_hidden=True)
     def character_lookup_event(self, event_type, event_data):
         self.name_history.append(event_data)
 
-    @timerevent(budatime="1min", description="Save name history")
+    @timerevent(budatime="1min", description="Save name history", is_hidden=True)
     def save_name_history_event(self, event_type, event_data):
         with self.db.transaction():
             for entry in self.name_history:

@@ -35,12 +35,6 @@ class MemberController:
         self.command_alias_service.add_alias("remuser", "member rem")
         self.command_alias_service.add_alias("members", "member")
 
-    @event(event_type="connect", description="Add members as buddies of the bot on startup")
-    def handle_connect_event(self, event_type, event_data):
-        for row in self.get_all_members():
-            if row.auto_invite == 1:
-                self.buddy_service.add_buddy(row.char_id, self.MEMBER_BUDDY_TYPE)
-
     @command(command="member", params=[Const("add"), Character("character")], access_level=OrgMemberController.ORG_ACCESS_LEVEL,
              description="Add a member")
     def member_add_cmd(self, request, _, char):
@@ -86,13 +80,19 @@ class MemberController:
         else:
             return "You must be a member of this bot to set your auto invite preference."
 
+    @event(event_type="connect", description="Add members as buddies of the bot on startup", is_hidden=True)
+    def handle_connect_event(self, event_type, event_data):
+        for row in self.get_all_members():
+            if row.auto_invite == 1:
+                self.buddy_service.add_buddy(row.char_id, self.MEMBER_BUDDY_TYPE)
+
     @event(event_type=MEMBER_LOGON_EVENT, description="Auto invite members to the private channel when they logon")
     def handle_buddy_logon(self, event_type, event_data):
         if event_data.auto_invite == 1:
             self.bot.send_private_message(event_data.char_id, "You have been auto-invited to the private channel.")
             self.private_channel_service.invite(event_data.char_id)
 
-    @event(event_type=BanService.BAN_ADDED_EVENT, description="Remove characters as members when they are banned")
+    @event(event_type=BanService.BAN_ADDED_EVENT, description="Remove characters as members when they are banned", is_hidden=True)
     def ban_added_event(self, event_type, event_data):
         self.remove_member(event_data.char_id)
 

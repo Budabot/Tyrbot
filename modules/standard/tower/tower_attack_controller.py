@@ -110,7 +110,7 @@ class TowerAttackController:
 
         return ChatBlob("Battle Info %d" % battle_id, blob)
 
-    @event(event_type=TowerController.TOWER_ATTACK_EVENT, description="Record tower attacks")
+    @event(event_type=TowerController.TOWER_ATTACK_EVENT, description="Record tower attacks", is_hidden=True)
     def tower_attack_event(self, event_type, event_data):
         t = int(time.time())
         site_number = self.find_closest_site_number(event_data.location.playfield.id, event_data.location.x_coord, event_data.location.y_coord)
@@ -125,7 +125,7 @@ class TowerAttackController:
                      [attacker.get("org_name", ""), attacker.get("faction", ""), attacker.get("char_id", 0), attacker.get("name", ""), attacker.get("level", 0),
                       attacker.get("ai_level", 0), attacker.get("profession", ""), event_data.location.x_coord, event_data.location.y_coord, 0, battle.id, t])
 
-    @event(event_type=TowerController.TOWER_VICTORY_EVENT, description="Record tower victories")
+    @event(event_type=TowerController.TOWER_VICTORY_EVENT, description="Record tower victories", is_hidden=True)
     def tower_victory_event(self, event_type, event_data):
         t = int(time.time())
 

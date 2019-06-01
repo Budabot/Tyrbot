@@ -105,7 +105,7 @@ class OrgMemberController:
 
         return ChatBlob("Org Members (%d)" % len(data), blob)
 
-    @event(event_type="connect", description="Add members as buddies of the bot on startup")
+    @event(event_type="connect", description="Add members as buddies of the bot on startup", is_hidden=True)
     def handle_connect_event(self, event_type, event_data):
         for row in self.get_all_org_members():
             self.update_buddylist(row.char_id, row.mode)
@@ -150,7 +150,7 @@ class OrgMemberController:
             for char_id, mode in db_members.items():
                 self.process_update(char_id, mode, self.MODE_REM_AUTO)
 
-    @event(PublicChannelService.ORG_MSG_EVENT, "Update org roster when characters join or leave")
+    @event(PublicChannelService.ORG_MSG_EVENT, "Update org roster when characters join or leave", is_hidden=True)
     def org_msg_event(self, event_type, event_data):
         ext_msg = event_data.extended_message
         if [ext_msg.category_id, ext_msg.instance_id] == OrgActivityController.LEFT_ORG:
