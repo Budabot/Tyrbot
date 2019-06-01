@@ -154,7 +154,7 @@ class DiscordController:
         if self.is_connected():
             return "Discord is already connected."
         else:
-            token = self.setting_service.get("discord_bot_token").get_value()
+            token = self.get_discord_token()
             if token:
                 self.connect_discord_client(token)
                 return "Connected to Discord successfully."
@@ -224,7 +224,7 @@ class DiscordController:
         if self.servers:
             for server in self.servers:
                 if server.id == str(server_id):
-                    self.aoqueue.append(("get_invite", (request.sender.name, server)))
+                    self.send_to_discord("get_invite", (request.sender.name, server))
                     return
         return "Could not find Discord server with ID <highlight>%d<end>." % server_id
 
@@ -234,62 +234,66 @@ class DiscordController:
             msg = event_data.extended_message.get_message() if event_data.extended_message else event_data.message
             name = self.character_service.resolve_char_to_name(event_data.char_id)
             message = DiscordMessage("plain", "Org", name, self.strip_html_tags(msg))
-            self.aoqueue.append(("org", message))
+            self.send_to_discord("org", message)
 
     @event(event_type=PrivateChannelService.PRIVATE_CHANNEL_MESSAGE_EVENT, description="Relay messages to Discord from private channel")
     def handle_private_message_event(self, event_type, event_data):
         if self.should_relay_message(event_data.char_id):
             name = self.character_service.resolve_char_to_name(event_data.char_id)
             message = DiscordMessage("plain", "Private", name, self.strip_html_tags(event_data.message))
-            self.aoqueue.append(("priv", message))
+            self.send_to_discord("priv", message)
 
     @event(event_type=PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, description="Notify when a character joins the private channel")
     def handle_private_channel_joined_event(self, event_type, event_data):
-        msg = "%s has joined the private channel." % self.get_char_info_display(event_data.char_id)
-        message = DiscordMessage("plain", "Private", None, msg)
-        self.aoqueue.append(("priv", message))
+        if self.is_connected():
+            msg = "%s has joined the private channel." % self.get_char_info_display(event_data.char_id)
+            message = DiscordMessage("plain", "Private", None, msg)
+            self.send_to_discord("priv", message)
 
     @event(event_type=PrivateChannelService.LEFT_PRIVATE_CHANNEL_EVENT, description="Notify when a character leaves the private channel")
     def handle_private_channel_left_event(self, event_type, event_data):
-        char_name = self.character_service.resolve_char_to_name(event_data.char_id)
-        msg = "%s has left the private channel." % char_name
-        message = DiscordMessage("plain", "Private", None, msg)
-        self.aoqueue.append(("priv", message))
+        if self.is_connected():
+            char_name = self.character_service.resolve_char_to_name(event_data.char_id)
+            msg = "%s has left the private channel." % char_name
+            message = DiscordMessage("plain", "Private", None, msg)
+            self.send_to_discord("priv", message)
 
     @event(event_type=OrgMemberController.ORG_MEMBER_LOGON_EVENT, description="Notify when org member logs on")
     def org_member_logon_event(self, event_type, event_data):
-        if self.bot.is_ready():
+        if self.bot.is_ready() and self.is_connected():
             msg = "%s has logged on." % self.get_char_info_display(event_data.char_id)
             message = DiscordMessage("plain", "Org", None, msg)
-            self.aoqueue.append(("org", message))
+            self.send_to_discord("org", message)
 
     @event(event_type=OrgMemberController.ORG_MEMBER_LOGOFF_EVENT, description="Notify when org member logs off")
     def org_member_logoff_event(self, event_type, event_data):
-        if self.bot.is_ready():
+        if self.bot.is_ready() and self.is_connected():
             char_name = self.character_service.resolve_char_to_name(event_data.char_id)
             msg = "%s has logged off." % char_name
             message = DiscordMessage("plain", "Org", None, msg)
-            self.aoqueue.append(("org", message))
+            self.send_to_discord("org", message)
 
     @event(event_type=Tyrbot.OUTGOING_PRIVATE_CHANNEL_MESSAGE_EVENT, description="Relay commands from the private channel to the discord channel")
     def outgoing_private_channel_message_event(self, event_type, event_data):
-        if isinstance(event_data.message, ChatBlob):
-            msg = event_data.message.title
-        else:
-            msg = event_data.message
+        if self.is_connected():
+            if isinstance(event_data.message, ChatBlob):
+                msg = event_data.message.title
+            else:
+                msg = event_data.message
 
-        message = DiscordMessage("plain", "Private", None, msg)
-        self.aoqueue.append(("priv", message))
+            message = DiscordMessage("plain", "Private", None, self.strip_html_tags(msg))
+            self.send_to_discord("priv", message)
 
     @event(event_type=Tyrbot.OUTGOING_ORG_MESSAGE_EVENT, description="Relay commands from the org channel to the discord channel")
     def outgoing_org_message_event(self, event_type, event_data):
-        if isinstance(event_data.message, ChatBlob):
-            msg = event_data.message.title
-        else:
-            msg = event_data.message
+        if self.is_connected():
+            if isinstance(event_data.message, ChatBlob):
+                msg = event_data.message.title
+            else:
+                msg = event_data.message
 
-        message = DiscordMessage("plain", "Org", None, msg)
-        self.aoqueue.append(("org", message))
+            message = DiscordMessage("plain", "Org", None, self.strip_html_tags(msg))
+            self.send_to_discord("org", message)
 
     @timerevent(budatime="1s", description="Discord relay queue handler", is_hidden=False)
     def handle_discord_queue_event(self, event_type, event_data):
@@ -326,7 +330,7 @@ class DiscordController:
                 matches = handler.regex.search(command_args)
 
                 def reply(content, title="Command"):
-                    self.aoqueue.append(("command_reply", DiscordMessage("embed", title, self.bot.char_name, self.strip_html_tags(content), True, msgcolor)))
+                    self.send_to_discord("command_reply", DiscordMessage("embed", title, self.bot.char_name, self.strip_html_tags(content), True, msgcolor))
 
                 ctx = DictObject()
 
@@ -441,3 +445,12 @@ class DiscordController:
             name = self.character_service.resolve_char_to_name(char_id)
 
         return name
+
+    def get_discord_token(self):
+        # TODO allow setting discord token in config
+        token = self.setting_service.get("discord_bot_token").get_value()
+
+        return token
+
+    def send_to_discord(self, message_type, data):
+        self.aoqueue.append((message_type, data))
