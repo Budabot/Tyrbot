@@ -61,23 +61,23 @@ class ConfigEventsController:
     @command(command="config", params=[Const("eventlist")], access_level="admin",
              description="List all events")
     def config_eventlist_cmd(self, request, _):
-        sql = "SELECT event_type, event_sub_type, handler, description, enabled FROM event_config WHERE is_hidden = 0"
-        sql += " ORDER BY event_type, event_sub_type, handler"
+        sql = "SELECT module, event_type, event_sub_type, handler, description, enabled FROM event_config WHERE is_hidden = 0"
+        sql += " ORDER BY module, event_type, event_sub_type, handler"
         data = self.db.query(sql)
 
         blob = ""
-        current_event_type = ""
+        current_module = ""
         for row in data:
-            if current_event_type != row.event_type:
-                blob += "\n<pagebreak><header2>%s<end>\n" % row.event_type
-                current_event_type = row.event_type
+            if current_module != row.module:
+                blob += "\n<pagebreak><header2>%s<end>\n" % row.module
+                current_module = row.module
 
-            event_type_key = self.event_service.get_event_type_key(row.event_type, row.event_sub_type)
+            event_type_key = self.format_event_type(row)
 
             on_link = self.text.make_chatcmd("On", "/tell <myname> config event %s %s enable" % (event_type_key, row.handler))
             off_link = self.text.make_chatcmd("Off", "/tell <myname> config event %s %s disable" % (event_type_key, row.handler))
 
-            blob += "[%s] %s %s - %s\n" % (self.format_enabled(row.enabled), on_link, off_link, row.description)
+            blob += "%s [%s] %s %s - %s\n" % (event_type_key, self.format_enabled(row.enabled), on_link, off_link, row.description)
 
         return ChatBlob("Events (%d)" % len(data), blob)
 
