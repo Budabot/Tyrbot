@@ -32,7 +32,7 @@ class CharacterHistoryService:
             # TODO set cache age
             result = json.loads(cache_result.data)
         else:
-            url = "http://pork.budabot.jkbff.com/pork/history.php?server=%d&name=%s" % (server_num, name)
+            url = self.get_pork_url(server_num, name)
 
             try:
                 r = requests.get(url, timeout=5)
@@ -56,3 +56,6 @@ class CharacterHistoryService:
             return map(lambda x: DictObject(x), result)
         else:
             return None
+
+    def get_pork_url(self, dimension, char_name):
+        return "http://pork.budabot.jkbff.com/pork/history.php?server=%d&name=%s" % (dimension, char_name)
