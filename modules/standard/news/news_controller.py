@@ -169,7 +169,7 @@ class NewsController:
             timestamp = self.util.format_datetime(item.created_at)
 
             blob += item.news + "\n"
-            blob += "By %s [%s] ID %d\n\n" % (item.author, timestamp, item.id)
+            blob += "- <highlight>%s<end> [%s] ID %d\n\n" % (item.author, timestamp, item.id)
 
         return blob
 
@@ -181,7 +181,7 @@ class NewsController:
             timestamp = self.util.format_datetime(item.created_at)
 
             blob += item.news + "\n"
-            blob += "By %s [%s] [%s] ID %d\n\n" % (item.author, timestamp, read_link, item.id)
+            blob += "- <highlight>%s<end> [%s] [%s] ID %d\n\n" % (item.author, timestamp, read_link, item.id)
 
         return blob
 
