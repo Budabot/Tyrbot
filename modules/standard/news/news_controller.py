@@ -1,7 +1,7 @@
 from core.alts.alts_service import AltsService
 from core.decorators import instance, command, setting, event
 from core.command_param_types import Const
-from core.setting_types import NumberSettingType, ColorSettingType
+from core.setting_types import NumberSettingType
 from core.setting_service import SettingService
 from core.db import DB
 from core.text import Text
@@ -35,23 +35,13 @@ class NewsController:
     def number_news_shown(self):
         return NumberSettingType()
 
-    @setting(name="unread_color", value="#ffff00", description="Color for unread news text")
-    def unread_color(self):
-        return ColorSettingType()
-
-    @setting(name="sticky_color", value="#ffff00", description="Color for sticky news text")
-    def sticky_color(self):
-        return ColorSettingType()
-
-    @setting(name="news_color", value="#ffffff", description="Color for news text")
-    def news_color(self):
-        return ColorSettingType()
-
     @command(command="news", params=[], description="Show list of news", access_level="member")
     def news_cmd(self, request):
         row = self.db.query_single("SELECT created_at FROM news WHERE deleted_at = 0 ORDER BY created_at DESC LIMIT 1")
         if row:
-            return ChatBlob("News [Last updated %s]" % self.util.format_datetime(row.created_at), self.build_news_list())
+            t = int(time.time())
+            last_updated = self.util.time_to_readable(t - row.created_at)
+            return ChatBlob("News [Last updated %s ago]" % last_updated, self.format_news_entries(self.get_news()))
         else:
             return "No news."
     
@@ -122,73 +112,24 @@ class NewsController:
             return
 
         main = self.alts_service.get_main(event_data.char_id)
+        unread_news = self.get_unread_news(main.char_id)
 
-        unread_news = self.has_unread_news(main.char_id)
-
-        if unread_news is None:
-            # No news at all
-            return
-        elif not unread_news:
-            # No new unread entries
-            return
-
-        news = self.build_news_list(False, main.char_id)
-        
-        if news:
-            self.bot.send_private_message(event_data.char_id, ChatBlob("News", news))
+        if unread_news:
+            blob = self.format_unread_news(unread_news)
+            self.bot.send_private_message(event_data.char_id, ChatBlob("Unread News (%d)" % len(unread_news), blob))
 
     @event(event_type=PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, description="Send news list when someone joins private channel")
     def priv_logon_event(self, event_type, event_data):
         main = self.alts_service.get_main(event_data.char_id)
+        unread_news = self.get_unread_news(main.char_id)
 
-        unread_news = self.has_unread_news(main.char_id)
-
-        if unread_news is None:
-            # No news at all
-            return
-        elif not unread_news:
-            # No new unread entries
-            return
-        
-        news = self.build_news_list(False, main.char_id)
-        
-        if news:
-            self.bot.send_private_message(event_data.char_id, ChatBlob("News", news))
+        if unread_news:
+            blob = self.format_unread_news(unread_news)
+            self.bot.send_private_message(event_data.char_id, ChatBlob("Unread News (%d)" % len(unread_news), blob))
 
     @event(event_type=AltsService.MAIN_CHANGED_EVENT_TYPE, description="Update news items marked as read when main is changed", is_hidden=True)
     def main_changed_event(self, event_type, event_data):
         self.db.exec("UPDATE news_read SET char_id = ? WHERE char_id = ?", [event_data.new_main_id, event_data.old_main_id])
-
-    def build_news_list(self, include_read=True, char_id=None):
-        blob = ""
-
-        if not include_read and char_id is not None:
-            blob += self.get_unread_news(char_id)
-        else:
-            stickies = self.get_sticky_news()
-            news = self.get_news()
-
-            if stickies:
-                blob += "<header2>Stickies<end>\n"
-                blob += stickies
-                blob += "____________________________\n\n"
-
-            blob += news or "No news"
-
-        return blob if len(blob) > 0 else None
-
-    def has_unread_news(self, char_id):
-        sql = "SELECT COUNT(*) as count FROM news n WHERE n.id NOT IN ( SELECT r.news_id FROM news_read r WHERE r.char_id = ? ) AND n.deleted_at = 0"
-        news_unread_count = self.db.query_single(sql, [char_id]).count
-
-        if news_unread_count < 1:
-            sql = "SELECT COUNT(*) as count FROM news n WHERE n.deleted_at = 0"
-            news_count = self.db.query_single(sql).count
-
-            if news_count < 1:
-                return None
-
-        return news_unread_count > 0
 
     def get_unread_news(self, char_id):
         number_news_shown = self.setting_service.get("number_news_shown").get_value()
@@ -199,47 +140,7 @@ class NewsController:
               "LEFT JOIN player p ON p.char_id = COALESCE(a2.char_id, n.char_id) " \
               "WHERE n.id NOT IN ( SELECT r.news_id FROM news_read r WHERE char_id = ? ) " \
               "AND n.deleted_at = 0 ORDER BY n.created_at ASC LIMIT ?"
-        news = self.db.query(sql, [AltsService.MAIN, char_id, number_news_shown])
-
-        blob = "%s\n\n" % self.text.make_chatcmd("Mark as all read", "/tell <myname> news markasread all")
-
-        if news:
-            unread_color = self.setting_service.get("unread_color").get_font_color()
-            for item in news:
-                read_link = self.text.make_chatcmd("Mark as read", "/tell <myname> news markasread %s" % item.id)
-                timestamp = self.util.format_datetime(item.created_at)
-
-                blob += "%s%s<end>\n" % (unread_color, item.news)
-                blob += "By %s [%s] [%s] ID %d\n\n" % (item.author, timestamp, read_link, item.id)
-
-            return blob
-
-        return None
-
-    def get_sticky_news(self):
-        sql = "SELECT n.*, p.name AS author " \
-              "FROM news n " \
-              "LEFT JOIN alts a ON n.char_id = a.char_id " \
-              "LEFT JOIN alts a2 ON (a.group_id = a2.group_id AND a2.status = ?) " \
-              "LEFT JOIN player p ON p.char_id = COALESCE(a2.char_id, n.char_id) " \
-              "WHERE n.deleted_at = 0 AND n.sticky = 1 ORDER BY n.created_at DESC"
-        news = self.db.query(sql, [AltsService.MAIN])
-
-        blob = ""
-
-        if news:
-            sticky_color = self.setting_service.get("sticky_color").get_font_color()
-            for item in news:
-                # remove_link = self.text.make_chatcmd("Remove", "/tell <myname> news rem %s" % item.id)
-                # sticky_link = self.text.make_chatcmd("Unsticky", "/tell <myname> news unsticky %s" % item.id)
-                timestamp = self.util.format_datetime(item.created_at)
-
-                blob += "%s%s<end>\n" % (sticky_color, item.news)
-                blob += "By %s [%s] ID %d\n\n" % (item.author, timestamp, item.id)
-
-            return blob
-
-        return None
+        return self.db.query(sql, [AltsService.MAIN, char_id, number_news_shown])
 
     def get_news(self):
         number_news_shown = self.setting_service.get("number_news_shown").get_value()
@@ -248,24 +149,41 @@ class NewsController:
               "LEFT JOIN alts a ON n.char_id = a.char_id " \
               "LEFT JOIN alts a2 ON (a.group_id = a2.group_id AND a2.status = ?) " \
               "LEFT JOIN player p ON p.char_id = COALESCE(a2.char_id, n.char_id) " \
-              "WHERE n.deleted_at = 0 AND n.sticky = 0 ORDER BY n.created_at DESC LIMIT ?"
-        news = self.db.query(sql, [AltsService.MAIN, number_news_shown])
+              "WHERE n.deleted_at = 0 ORDER BY n.sticky DESC, n.created_at DESC LIMIT ?"
+        return self.db.query(sql, [AltsService.MAIN, number_news_shown])
 
+    def format_news_entries(self, entries):
         blob = ""
+        is_sticky = False
+        for item in entries:
+            if is_sticky != item.sticky:
+                if not is_sticky:
+                    blob += "<header2>Stickies<end>\n"
+                elif is_sticky:
+                    blob += "____________________________\n\n"
 
-        if news:
-            news_color = self.setting_service.get("news_color").get_font_color()
-            for item in news:
-                # remove_link = self.text.make_chatcmd("Remove", "/tell <myname> news rem %s" % item.id)
-                # sticky_link = self.text.make_chatcmd("Sticky", "/tell <myname> news sticky %s" % item.id)
-                timestamp = self.util.format_datetime(item.created_at)
+                is_sticky = item.sticky
 
-                blob += "%s%s<end>\n" % (news_color, item.news)
-                blob += "By %s [%s] ID %d\n\n" % (item.author, timestamp, item.id)
+            # remove_link = self.text.make_chatcmd("Remove", "/tell <myname> news rem %s" % item.id)
+            # sticky_link = self.text.make_chatcmd("Sticky", "/tell <myname> news sticky %s" % item.id)
+            timestamp = self.util.format_datetime(item.created_at)
 
-            return blob
+            blob += item.news + "\n"
+            blob += "By %s [%s] ID %d\n\n" % (item.author, timestamp, item.id)
 
-        return None
+        return blob
+
+    def format_unread_news(self, entries):
+        blob = "%s\n\n" % self.text.make_chatcmd("Mark as all read", "/tell <myname> news markasread all")
+
+        for item in entries:
+            read_link = self.text.make_chatcmd("Mark as read", "/tell <myname> news markasread %s" % item.id)
+            timestamp = self.util.format_datetime(item.created_at)
+
+            blob += item.news + "\n"
+            blob += "By %s [%s] [%s] ID %d\n\n" % (item.author, timestamp, read_link, item.id)
+
+        return blob
 
     def get_news_entry(self, news_id):
         return self.db.query_single("SELECT * FROM news WHERE id = ?", [news_id])
