@@ -174,14 +174,14 @@ class NewsController:
         return blob
 
     def format_unread_news(self, entries):
-        blob = "%s\n\n" % self.text.make_chatcmd("Mark as all read", "/tell <myname> news markasread all")
+        blob = "%s\n\n" % self.text.make_chatcmd("Hide all", "/tell <myname> news markasread all")
 
         for item in entries:
-            read_link = self.text.make_chatcmd("Mark as read", "/tell <myname> news markasread %s" % item.id)
+            read_link = self.text.make_chatcmd("Hide", "/tell <myname> news markasread %s" % item.id)
             timestamp = self.util.format_datetime(item.created_at)
 
             blob += item.news + "\n"
-            blob += "- <highlight>%s<end> [%s] [%s] ID %d\n\n" % (item.author, timestamp, read_link, item.id)
+            blob += "- <highlight>%s<end> [%s] ID %d %s\n\n" % (item.author, timestamp, item.id, read_link)
 
         return blob
 
