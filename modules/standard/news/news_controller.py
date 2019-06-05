@@ -115,8 +115,8 @@ class NewsController:
         unread_news = self.get_unread_news(main.char_id)
 
         if unread_news:
-            blob = self.format_unread_news(unread_news)
-            self.bot.send_private_message(event_data.char_id, ChatBlob("Unread News (%d)" % len(unread_news), blob))
+            msg = self.format_unread_news(unread_news)
+            self.bot.send_private_message(event_data.char_id, msg)
 
     @event(event_type=PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, description="Send news list when someone joins private channel")
     def priv_logon_event(self, event_type, event_data):
@@ -124,8 +124,8 @@ class NewsController:
         unread_news = self.get_unread_news(main.char_id)
 
         if unread_news:
-            blob = self.format_unread_news(unread_news)
-            self.bot.send_private_message(event_data.char_id, ChatBlob("Unread News (%d)" % len(unread_news), blob))
+            msg = self.format_unread_news(unread_news)
+            self.bot.send_private_message(event_data.char_id, msg)
 
     @event(event_type=AltsService.MAIN_CHANGED_EVENT_TYPE, description="Update news items marked as read when main is changed", is_hidden=True)
     def main_changed_event(self, event_type, event_data):
@@ -174,16 +174,29 @@ class NewsController:
         return blob
 
     def format_unread_news(self, entries):
-        blob = "%s\n\n" % self.text.make_chatcmd("Hide all", "/tell <myname> news markasread all")
-
-        for item in entries:
+        if len(entries) == 1:
+            item = entries[0]
             read_link = self.text.make_chatcmd("Hide", "/tell <myname> news markasread %s" % item.id)
+            read_link_blob = self.text.paginate_single(ChatBlob("Hide", "Click here to hide this news entry: " + read_link))
+
             timestamp = self.util.format_datetime(item.created_at)
 
-            blob += item.news + "\n"
-            blob += "- <highlight>%s<end> [%s] ID %d %s\n\n" % (item.author, timestamp, item.id, read_link)
+            msg = "Unread News: "
+            msg += item.news + "\n"
+            msg += "- <highlight>%s<end> [%s] ID %d %s" % (item.author, timestamp, item.id, read_link_blob)
+        else:
+            blob = "%s\n\n" % self.text.make_chatcmd("Hide all", "/tell <myname> news markasread all")
 
-        return blob
+            for item in entries:
+                read_link = self.text.make_chatcmd("Hide", "/tell <myname> news markasread %s" % item.id)
+                timestamp = self.util.format_datetime(item.created_at)
+
+                blob += item.news + "\n"
+                blob += "- <highlight>%s<end> [%s] ID %d %s\n\n" % (item.author, timestamp, item.id, read_link)
+
+            msg = ChatBlob("Unread News (%d)" % len(entries), blob)
+
+        return msg
 
     def get_news_entry(self, news_id):
         return self.db.query_single("SELECT * FROM news WHERE id = ?", [news_id])
