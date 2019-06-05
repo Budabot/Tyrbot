@@ -394,9 +394,16 @@ class DiscordController:
 
     def connect_discord_client(self, token):
         self.client = DiscordWrapper(self.channels, self.servers, self.dqueue, self.aoqueue, self.db)
-        self.dthread = threading.Thread(target=self.client.run, args=(token,), daemon=True)
+
+        self.dthread = threading.Thread(target=self.run_discord_thread, args=(token,), daemon=True)
         self.dthread.start()
         self.client.loop.create_task(self.client.relay_message())
+
+    def run_discord_thread(self, *args, **kwargs):
+        try:
+            self.client.run(*args, **kwargs)
+        except Exception as e:
+            print("discord stopped due to exception", e)
 
     def disconnect_discord_client(self):
         self.client.loop.create_task(self.client.logout())
