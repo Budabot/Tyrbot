@@ -67,8 +67,8 @@ class PollController:
         if len(options) < 4:
             return "You must enter a duration, a poll question, and at least two choices."
 
-        time_str = options.pop(0)
-        question = options.pop(0)
+        time_str = options.pop(0).strip()
+        question = options.pop(0).strip()
         choices = options
 
         duration = self.util.parse_time(time_str)
@@ -77,7 +77,7 @@ class PollController:
 
         poll_id = self.add_poll(question, request.sender.char_id, duration)
         for choice in choices:
-            self.add_poll_choice(poll_id, choice)
+            self.add_poll_choice(poll_id, choice.strip())
 
         self.create_scheduled_job(self.get_poll(poll_id))
 
