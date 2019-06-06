@@ -72,6 +72,11 @@ class DiscordController:
         self.event_service.register_event_type("discord_command")
         self.event_service.register_event_type("discord_invites")
 
+    def start(self):
+        self.register_discord_command_handler(self.help_discord_cmd, "help", [])
+
+        self.db.exec("CREATE TABLE IF NOT EXISTS discord (channel_id VARCHAR(64) NOT NULL, server_name VARCHAR(256) NOT NULL, channel_name VARCHAR(256) NOT NULL, relay_ao SMALLINT NOT NULL DEFAULT 0, relay_dc SMALLINT NOT NULL DEFAULT 0)")
+
         channels = self.db.query("SELECT * FROM discord")
 
         if channels is not None:
@@ -79,9 +84,6 @@ class DiscordController:
                 a = True if row.relay_ao == 1 else False
                 d = True if row.relay_dc == 1 else False
                 self.channels[row.channel_id] = DiscordChannel(row.channel_id, row.server_name, row.channel_name, a, d)
-
-    def start(self):
-        self.register_discord_command_handler(self.help_discord_cmd, "help", [])
 
     @setting(name="discord_bot_token", value="", description="Discord bot token")
     def discord_bot_token(self):
