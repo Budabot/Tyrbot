@@ -218,8 +218,8 @@ class DiscordController:
 
         return "Changed relay for %s to %s." % (channel.channel_name, relay)
 
-    @command(command="discord", params=[Const("getinvite"), Int("server_id")], access_level="moderator",
-             description="Get an invite for specified server", sub_command="manage")
+    @command(command="discord", params=[Const("getinvite"), Int("server_id")], access_level="member",
+             description="Get an invite for specified server", sub_command="getinvite")
     def discord_getinvite_cmd(self, request, _, server_id):
         if self.servers:
             for server in self.servers:
