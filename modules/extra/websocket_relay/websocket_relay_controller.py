@@ -20,14 +20,12 @@ class WebsocketRelayController:
 
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
-        self.db = registry.get_instance("db")
         self.setting_service = registry.get_instance("setting_service")
-        self.event_service = registry.get_instance("event_service")
         self.character_service: CharacterService = registry.get_instance("character_service")
         self.text: Text = registry.get_instance("text")
 
     def start(self):
-        self.worker = WebsocketRelayWorker(self.queue, "wss://gridnet.jkbff.com/subscribe/gridnet.rk%d" % 6)
+        self.worker = WebsocketRelayWorker(self.queue, "wss://localhost/subscribe/relay")
 
     @setting(name="websocket_relay_channel_color", value="#FFFF00", description="Color of the channel in Websocket relay messages")
     def websocket_channel_color(self):
@@ -45,7 +43,8 @@ class WebsocketRelayController:
     def handle_queue_event(self, event_type, event_data):
         while self.queue:
             obj = self.queue.pop(0)
-            message = "[Relay] %s" % obj.payload.message\
+            payload = obj.payload
+            message = ("[Relay] <channel_color>[%s]<end> <sender_color>%s<end>: <message_color>%s<end>" % (payload.channel, payload.sender.name, payload.message))\
                 .replace("<channel_color>", self.websocket_channel_color().get_font_color())\
                 .replace("<message_color>", self.websocket_message_color().get_font_color())\
                 .replace("<sender_color>", self.websocket_sender_color().get_font_color())
@@ -62,10 +61,15 @@ class WebsocketRelayController:
         if event_data.char_id != self.bot.char_id and event_data.message[0] != self.setting_service.get("symbol").get_value():
             char_name = self.character_service.resolve_char_to_name(event_data.char_id)
             obj = json.dumps({"sender": {"char_id": event_data.char_id, "name": char_name},
-                              "message": "[Private] %s: %s" % (char_name, event_data.message),
+                              "message": event_data.message,
                               "channel": "Private"})
             self.worker.send_message(obj)
 
     def connect(self):
+        self.disconnect()
         self.dthread = threading.Thread(target=self.worker.run, daemon=True)
         self.dthread.start()
+
+    def disconnect(self):
+        # TODO
+        pass
