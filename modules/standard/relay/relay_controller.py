@@ -15,6 +15,7 @@ class RelayController:
         self.setting_service = registry.get_instance("setting_service")
         self.character_service = registry.get_instance("character_service")
         self.public_channel_service = registry.get_instance("public_channel_service")
+        self.ban_service = registry.get_instance("ban_service")
 
     @setting(name="relay_bot", value="", description="Name of bot character for chat relay")
     def relay_bot(self):
@@ -33,16 +34,17 @@ class RelayController:
     def handle_org_message_event(self, event_type, event_data):
         if event_data.char_id != self.bot.char_id and event_data.message[0] != self.setting_service.get("symbol").get_value():
             if event_data.char_id == 4294967295:
-                self.send_message_to_relay("%s" % event_data.message)
-            else:
+                self.send_message_to_relay(event_data.message)
+            elif not self.ban_service.get_ban(event_data.char_id):
                 char_name = self.character_service.resolve_char_to_name(event_data.char_id)
                 self.send_message_to_relay("%s: %s" % (char_name, event_data.message))
 
     @event(event_type=PrivateChannelService.PRIVATE_CHANNEL_MESSAGE_EVENT, description="Relay messages from the private channel to the relay")
     def handle_private_channel_message_event(self, event_type, event_data):
         if event_data.char_id != self.bot.char_id and event_data.message[0] != self.setting_service.get("symbol").get_value():
-            char_name = self.character_service.resolve_char_to_name(event_data.char_id)
-            self.send_message_to_relay("[Private] %s: %s" % (char_name, event_data.message))
+            if not self.ban_service.get_ban(event_data.char_id):
+                char_name = self.character_service.resolve_char_to_name(event_data.char_id)
+                self.send_message_to_relay("[Private] %s: %s" % (char_name, event_data.message))
 
     @event(event_type=PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, description="Notify relay when a character joins the private channel")
     def handle_private_channel_joined_event(self, event_type, event_data):
