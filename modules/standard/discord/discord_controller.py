@@ -402,10 +402,14 @@ class DiscordController:
         self.client.loop.create_task(self.client.relay_message())
 
     def run_discord_thread(self, *args, **kwargs):
-        try:
-            self.client.run(*args, **kwargs)
-        except Exception as e:
-            self.logger.error("discord stopped due to exception", e)
+        should_run = True
+        while should_run:
+            try:
+                self.client.run(*args, **kwargs)
+                should_run = False
+            except Exception as e:
+                self.logger.error("discord connection lost", e)
+                self.logger.info("reconnecting to discord")
 
     def disconnect_discord_client(self):
         self.client.loop.create_task(self.client.logout())
