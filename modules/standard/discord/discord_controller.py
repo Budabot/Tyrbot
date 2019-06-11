@@ -405,7 +405,7 @@ class DiscordController:
         try:
             self.client.run(*args, **kwargs)
         except Exception as e:
-            print("discord stopped due to exception", e)
+            self.logger.error("discord stopped due to exception", e)
 
     def disconnect_discord_client(self):
         self.client.loop.create_task(self.client.logout())
