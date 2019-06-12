@@ -78,7 +78,7 @@ class ConfigController:
                 blob += self.text.make_chatcmd(command_key, "/tell <myname> config cmd " + command_key) + "\n"
 
         data = self.db.query("SELECT event_type, event_sub_type, handler, description, enabled "
-                             "FROM event_config WHERE module = ? AND is_hidden == 0 "
+                             "FROM event_config WHERE module = ? AND is_hidden = 0 "
                              "ORDER BY event_type, handler ASC",
                              [module])
         if data:
