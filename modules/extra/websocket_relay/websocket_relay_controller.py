@@ -5,7 +5,7 @@ from core.decorators import instance, event, timerevent, setting
 from core.logger import Logger
 from core.lookup.character_service import CharacterService
 from core.private_channel_service import PrivateChannelService
-from core.setting_types import ColorSettingType
+from core.setting_types import ColorSettingType, TextSettingType
 from core.text import Text
 from .websocket_relay_worker import WebsocketRelayWorker
 
@@ -24,8 +24,9 @@ class WebsocketRelayController:
         self.character_service: CharacterService = registry.get_instance("character_service")
         self.text: Text = registry.get_instance("text")
 
-    def start(self):
-        self.worker = WebsocketRelayWorker(self.queue, "wss://localhost/subscribe/relay")
+    @setting(name="websocket_relay_server_address", value="ws://localhost/subscribe/relay", description="The address of the websocket relay server")
+    def websocket_relay_server_address(self):
+        return TextSettingType(["ws://localhost/subscribe/relay"])
 
     @setting(name="websocket_relay_channel_color", value="#FFFF00", description="Color of the channel in Websocket relay messages")
     def websocket_channel_color(self):
@@ -43,14 +44,15 @@ class WebsocketRelayController:
     def handle_queue_event(self, event_type, event_data):
         while self.queue:
             obj = self.queue.pop(0)
-            payload = obj.payload
-            message = ("[Relay] <channel_color>[%s]<end> <sender_color>%s<end>: <message_color>%s<end>" % (payload.channel, payload.sender.name, payload.message))\
-                .replace("<channel_color>", self.websocket_channel_color().get_font_color())\
-                .replace("<message_color>", self.websocket_message_color().get_font_color())\
-                .replace("<sender_color>", self.websocket_sender_color().get_font_color())
+            if obj.type == "message":
+                payload = obj.payload
+                message = ("[Relay] <channel_color>[%s]<end> <sender_color>%s<end>: <message_color>%s<end>" % (payload.channel, payload.sender.name, payload.message))\
+                    .replace("<channel_color>", self.websocket_channel_color().get_font_color())\
+                    .replace("<message_color>", self.websocket_message_color().get_font_color())\
+                    .replace("<sender_color>", self.websocket_sender_color().get_font_color())
 
-            self.bot.send_org_message(message, fire_outgoing_event=False)
-            self.bot.send_private_channel_message(message, fire_outgoing_event=False)
+                self.bot.send_org_message(message, fire_outgoing_event=False)
+                self.bot.send_private_channel_message(message, fire_outgoing_event=False)
 
     @event(event_type="connect", description="Connect to Websocket relay on startup")
     def handle_connect_event(self, event_type, event_data):
@@ -66,6 +68,8 @@ class WebsocketRelayController:
             self.worker.send_message(obj)
 
     def connect(self):
+        self.worker = WebsocketRelayWorker(self.queue, self.websocket_relay_server_address().get_value())
+
         self.disconnect()
         self.dthread = threading.Thread(target=self.worker.run, daemon=True)
         self.dthread.start()
