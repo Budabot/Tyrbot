@@ -2,6 +2,7 @@ from core.decorators import instance, event
 from core.dict_object import DictObject
 from core.logger import Logger
 from core.public_channel_service import PublicChannelService
+from modules.core.org_members.org_member_controller import OrgMemberController
 
 
 @instance()
@@ -17,6 +18,8 @@ class OrgChannelController:
         self.character_service = registry.get_instance("character_service")
         self.relay_hub_service = registry.get_instance("relay_hub_service")
         self.ban_service = registry.get_instance("ban_service")
+        self.log_controller = registry.get_instance("log_controller")
+        self.online_controller = registry.get_instance("online_controller")
 
     def start(self):
         self.relay_hub_service.register_relay(self.RELAY_HUB_SOURCE, self.handle_incoming_relay_message)
@@ -45,3 +48,22 @@ class OrgChannelController:
             message = "%s %s: %s" % (self.RELAY_CHANNEL_PREFIX, char_name, message)
 
         self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, sender, message)
+
+    @event(event_type=OrgMemberController.ORG_MEMBER_LOGON_EVENT, description="Notify when org member logs on")
+    def org_member_logon_event(self, event_type, event_data):
+        if self.bot.is_ready():
+            char_name = self.character_service.resolve_char_to_name(event_data.char_id)
+            sender = DictObject({"char_id": event_data.char_id, "name": char_name})
+            message = "%s has logged on. %s" % (self.online_controller.get_char_info_display(event_data.char_id),
+                                                self.log_controller.get_logon(event_data.char_id))
+
+            self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, sender, message)
+
+    @event(event_type=OrgMemberController.ORG_MEMBER_LOGOFF_EVENT, description="Notify when org member logs off")
+    def org_member_logoff_event(self, event_type, event_data):
+        if self.bot.is_ready():
+            char_name = self.character_service.resolve_char_to_name(event_data.char_id)
+            sender = DictObject({"char_id": event_data.char_id, "name": char_name})
+            message = "<highlight>%s<end> has logged off. %s" % (char_name, self.log_controller.get_logoff(event_data.char_id))
+
+            self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, sender, message)

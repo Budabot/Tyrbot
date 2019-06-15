@@ -1,8 +1,6 @@
 from core.command_param_types import Any
-from core.decorators import instance, command, event, setting
-from core.private_channel_service import PrivateChannelService
+from core.decorators import instance, command, setting
 from core.setting_types import TextSettingType
-from modules.core.org_members.org_member_controller import OrgMemberController
 
 
 @instance()
@@ -34,43 +32,6 @@ class RelayController:
              description="Accept incoming messages from relay bot")
     def grc_cmd(self, request, message):
         self.process_incoming_relay_message(request.sender, message)
-
-    @event(event_type=PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, description="Notify relay when a character joins the private channel")
-    def handle_private_channel_joined_event(self, event_type, event_data):
-        char_info = self.pork_service.get_character_info(event_data.char_id)
-        if char_info:
-            name = self.text.format_char_info(char_info)
-        else:
-            char_name = self.character_service.resolve_char_to_name(event_data.char_id)
-            name = "<highlight>%s<end>" % char_name
-
-        self.send_message_to_relay("%s has joined the private channel." % name)
-
-    @event(event_type=PrivateChannelService.LEFT_PRIVATE_CHANNEL_EVENT, description="Notify relay when a character leaves the private channel")
-    def handle_private_channel_left_event(self, event_type, event_data):
-        char_name = self.character_service.resolve_char_to_name(event_data.char_id)
-        msg = "<highlight>%s<end> has left the private channel." % char_name
-        self.send_message_to_relay(msg)
-
-    @event(event_type=OrgMemberController.ORG_MEMBER_LOGON_EVENT, description="Notify relay when org member logs on")
-    def org_member_logon_event(self, event_type, event_data):
-        if self.bot.is_ready():
-            char_info = self.pork_service.get_character_info(event_data.char_id)
-            if char_info:
-                name = self.text.format_char_info(char_info)
-            else:
-                char_name = self.character_service.resolve_char_to_name(event_data.char_id)
-                name = "<highlight>%s<end>" % char_name
-
-            msg = "%s has logged on." % name
-            self.send_message_to_relay(msg)
-
-    @event(event_type=OrgMemberController.ORG_MEMBER_LOGOFF_EVENT, description="Notify relay when org member logs off")
-    def org_member_logoff_event(self, event_type, event_data):
-        if self.bot.is_ready():
-            char_name = self.character_service.resolve_char_to_name(event_data.char_id)
-            msg = "<highlight>%s<end> has logged off." % char_name
-            self.send_message_to_relay(msg)
 
     def process_incoming_relay_message(self, sender, message):
         relay_bot = self.relay_bot().get_value()

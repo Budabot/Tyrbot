@@ -18,6 +18,8 @@ class PrivateChannelController:
         self.access_service = registry.get_instance("access_service")
         self.relay_hub_service = registry.get_instance("relay_hub_service")
         self.ban_service = registry.get_instance("ban_service")
+        self.log_controller = registry.get_instance("log_controller")
+        self.online_controller = registry.get_instance("online_controller")
 
     def start(self):
         self.relay_hub_service.register_relay(self.RELAY_HUB_SOURCE, self.handle_incoming_relay_message)
@@ -80,6 +82,23 @@ class PrivateChannelController:
         char_name = self.character_service.resolve_char_to_name(event_data.char_id)
         sender = DictObject({"char_id": event_data.char_id, "name": char_name})
         message = "%s %s: %s" % (self.RELAY_CHANNEL_PREFIX, char_name, event_data.message)
+
+        self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, sender, message)
+
+    @event(event_type=PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, description="Notify when a character joins the private channel")
+    def handle_private_channel_joined_event(self, event_type, event_data):
+        char_name = self.character_service.resolve_char_to_name(event_data.char_id)
+        sender = DictObject({"char_id": event_data.char_id, "name": char_name})
+        message = "%s has joined the private channel. %s" % (self.online_controller.get_char_info_display(event_data.char_id),
+                                                             self.log_controller.get_logon(event_data.char_id))
+
+        self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, sender, message)
+
+    @event(event_type=PrivateChannelService.LEFT_PRIVATE_CHANNEL_EVENT, description="Notify when a character leaves the private channel")
+    def handle_private_channel_left_event(self, event_type, event_data):
+        char_name = self.character_service.resolve_char_to_name(event_data.char_id)
+        sender = DictObject({"char_id": event_data.char_id, "name": char_name})
+        message = "<highlight>%s<end> has left the private channel. %s" % (char_name, self.log_controller.get_logoff(event_data.char_id))
 
         self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, sender, message)
 

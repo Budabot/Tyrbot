@@ -234,36 +234,6 @@ class OnlineController:
 
         return ChatBlob("Online (%d)" % count, blob)
 
-    @event(event_type=PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, description="Notify when a character joins the private channel")
-    def handle_private_channel_joined_event(self, event_type, event_data):
-        msg = "%s has joined the private channel. %s" % (self.get_char_info_display(event_data.char_id),
-                                                         self.log_controller.get_logon(event_data.char_id))
-        self.bot.send_org_message(msg, fire_outgoing_event=False)
-        self.bot.send_private_channel_message(msg, fire_outgoing_event=False)
-
-    @event(event_type=PrivateChannelService.LEFT_PRIVATE_CHANNEL_EVENT, description="Notify when a character leaves the private channel")
-    def handle_private_channel_left_event(self, event_type, event_data):
-        char_name = self.character_service.resolve_char_to_name(event_data.char_id)
-        msg = "<highlight>%s<end> has left the private channel. %s" % (char_name, self.log_controller.get_logoff(event_data.char_id))
-        self.bot.send_org_message(msg, fire_outgoing_event=False)
-        self.bot.send_private_channel_message(msg, fire_outgoing_event=False)
-
-    @event(event_type=OrgMemberController.ORG_MEMBER_LOGON_EVENT, description="Notify when org member logs on")
-    def org_member_logon_event(self, event_type, event_data):
-        if self.bot.is_ready():
-            msg = "%s has logged on. %s" % (self.get_char_info_display(event_data.char_id),
-                                            self.log_controller.get_logon(event_data.char_id))
-            self.bot.send_org_message(msg, fire_outgoing_event=False)
-            self.bot.send_private_channel_message(msg, fire_outgoing_event=False)
-
-    @event(event_type=OrgMemberController.ORG_MEMBER_LOGOFF_EVENT, description="Notify when org member logs off")
-    def org_member_logoff_event(self, event_type, event_data):
-        if self.bot.is_ready():
-            char_name = self.character_service.resolve_char_to_name(event_data.char_id)
-            msg = "<highlight>%s<end> has logged off. %s" % (char_name, self.log_controller.get_logoff(event_data.char_id))
-            self.bot.send_org_message(msg, fire_outgoing_event=False)
-            self.bot.send_private_channel_message(msg, fire_outgoing_event=False)
-
     def get_char_info_display(self, char_id):
         char_info = self.pork_service.get_character_info(char_id)
         if char_info:
