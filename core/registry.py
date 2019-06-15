@@ -69,7 +69,7 @@ class Registry:
     @classmethod
     def load_instances(cls, parent_dirs):
         # get all subdirectories
-        dirs = flatmap(lambda x: os.walk(x), parent_dirs)
+        dirs = flatmap(lambda x: os.walk(x, followlinks=True), parent_dirs)
         dirs = filter(lambda y: not y[0].endswith("__pycache__"), dirs)
 
         def get_files(tup):
