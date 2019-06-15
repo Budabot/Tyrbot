@@ -54,23 +54,16 @@ class OrgChannelController:
     @event(event_type=OrgMemberController.ORG_MEMBER_LOGON_EVENT, description="Notify when org member logs on")
     def org_member_logon_event(self, event_type, event_data):
         if self.bot.is_ready():
-            char_name = self.character_service.resolve_char_to_name(event_data.char_id)
-            sender = DictObject({"char_id": event_data.char_id, "name": char_name})
-            message = "%s has logged on. %s" % (self.online_controller.get_char_info_display(event_data.char_id),
-                                                self.log_controller.get_logon(event_data.char_id))
-            message = self.RELAY_CHANNEL_PREFIX + " " + message
-
-            self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, sender, message)
+            msg = "%s has logged on. %s" % (self.online_controller.get_char_info_display(event_data.char_id),
+                                            self.log_controller.get_logon(event_data.char_id))
+            self.bot.send_org_message(msg)
 
     @event(event_type=OrgMemberController.ORG_MEMBER_LOGOFF_EVENT, description="Notify when org member logs off")
     def org_member_logoff_event(self, event_type, event_data):
         if self.bot.is_ready():
             char_name = self.character_service.resolve_char_to_name(event_data.char_id)
-            sender = DictObject({"char_id": event_data.char_id, "name": char_name})
-            message = "<highlight>%s<end> has logged off. %s" % (char_name, self.log_controller.get_logoff(event_data.char_id))
-            message = self.RELAY_CHANNEL_PREFIX + " " + message
-
-            self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, sender, message)
+            msg = "<highlight>%s<end> has logged off. %s" % (char_name, self.log_controller.get_logoff(event_data.char_id))
+            self.bot.send_org_message(msg)
 
     @event(event_type=Tyrbot.OUTGOING_ORG_MESSAGE_EVENT, description="Relay commands from the org channel to the relay hub")
     def outgoing_org_message_event(self, event_type, event_data):
