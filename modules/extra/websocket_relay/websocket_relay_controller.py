@@ -44,12 +44,12 @@ class WebsocketRelayController:
         while self.queue:
             obj = self.queue.pop(0)
             if obj.type == "message":
-                # payload = obj.payload
+                payload = obj.payload
                 # message = ("[Relay] <channel_color>[%s]<end> <sender_color>%s<end>: <message_color>%s<end>" % (payload.channel, payload.sender.name, payload.message))\
                 #     .replace("<channel_color>", self.websocket_channel_color().get_font_color())\
                 #     .replace("<message_color>", self.websocket_message_color().get_font_color())\
                 #     .replace("<sender_color>", self.websocket_sender_color().get_font_color())
-                message = obj.message
+                message = payload.message
 
                 self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, obj.get("sender", None), message)
 
