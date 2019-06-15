@@ -1,25 +1,22 @@
-from core.decorators import instance, command, event, timerevent, setting
-from core.dict_object import DictObject
-from core.logger import Logger
-from core.private_channel_service import PrivateChannelService
-from core.public_channel_service import PublicChannelService
-from core.setting_types import HiddenSettingType, BooleanSettingType, ColorSettingType
-from core.command_param_types import Int, Any, Const, Options
-from core.chat_blob import ChatBlob
-from core.text import Text
-from core.lookup.character_service import CharacterService
-from discord import Member, ChannelType
-from html.parser import HTMLParser
-
-from core.tyrbot import Tyrbot
-from modules.core.org_members.org_member_controller import OrgMemberController
-from .discord_wrapper import DiscordWrapper
-from .discord_channel import DiscordChannel
-from .discord_message import DiscordMessage
-import threading
 import datetime
 import logging
 import re
+import threading
+from html.parser import HTMLParser
+
+from discord import Member, ChannelType
+
+from core.chat_blob import ChatBlob
+from core.command_param_types import Int, Any, Const, Options
+from core.decorators import instance, command, event, timerevent, setting
+from core.dict_object import DictObject
+from core.logger import Logger
+from core.lookup.character_service import CharacterService
+from core.setting_types import HiddenSettingType, ColorSettingType
+from core.text import Text
+from .discord_channel import DiscordChannel
+from .discord_message import DiscordMessage
+from .discord_wrapper import DiscordWrapper
 
 
 class MLStripper(HTMLParser):
@@ -225,28 +222,6 @@ class DiscordController:
                     self.send_to_discord("get_invite", (request.sender.name, server))
                     return
         return "Could not find Discord server with ID <highlight>%d<end>." % server_id
-
-    @event(event_type=Tyrbot.OUTGOING_PRIVATE_CHANNEL_MESSAGE_EVENT, description="Relay commands from the private channel to the discord channel")
-    def outgoing_private_channel_message_event(self, event_type, event_data):
-        if self.is_connected():
-            if isinstance(event_data.message, ChatBlob):
-                msg = event_data.message.title
-            else:
-                msg = event_data.message
-
-            message = DiscordMessage("plain", "Private", None, self.strip_html_tags(msg))
-            self.send_to_discord("priv", message)
-
-    @event(event_type=Tyrbot.OUTGOING_ORG_MESSAGE_EVENT, description="Relay commands from the org channel to the discord channel")
-    def outgoing_org_message_event(self, event_type, event_data):
-        if self.is_connected():
-            if isinstance(event_data.message, ChatBlob):
-                msg = event_data.message.title
-            else:
-                msg = event_data.message
-
-            message = DiscordMessage("plain", "Org", None, self.strip_html_tags(msg))
-            self.send_to_discord("org", message)
 
     @timerevent(budatime="1s", description="Discord relay queue handler", is_hidden=False)
     def handle_discord_queue_event(self, event_type, event_data):

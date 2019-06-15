@@ -1,8 +1,10 @@
 from core.ban_service import BanService
+from core.chat_blob import ChatBlob
 from core.command_param_types import Character
 from core.decorators import instance, command, event
 from core.dict_object import DictObject
 from core.private_channel_service import PrivateChannelService
+from core.tyrbot import Tyrbot
 
 
 @instance()
@@ -23,6 +25,11 @@ class PrivateChannelController:
 
     def start(self):
         self.relay_hub_service.register_relay(self.RELAY_HUB_SOURCE, self.handle_incoming_relay_message)
+
+    def handle_incoming_relay_message(self, ctx):
+        message = ctx.message
+
+        self.bot.send_private_channel_message(message, fire_outgoing_event=False)
 
     @command(command="join", params=[], access_level="all",
              description="Join the private channel")
@@ -91,6 +98,7 @@ class PrivateChannelController:
         sender = DictObject({"char_id": event_data.char_id, "name": char_name})
         message = "%s has joined the private channel. %s" % (self.online_controller.get_char_info_display(event_data.char_id),
                                                              self.log_controller.get_logon(event_data.char_id))
+        message = self.RELAY_CHANNEL_PREFIX + " " + message
 
         self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, sender, message)
 
@@ -99,10 +107,17 @@ class PrivateChannelController:
         char_name = self.character_service.resolve_char_to_name(event_data.char_id)
         sender = DictObject({"char_id": event_data.char_id, "name": char_name})
         message = "<highlight>%s<end> has left the private channel. %s" % (char_name, self.log_controller.get_logoff(event_data.char_id))
+        message = self.RELAY_CHANNEL_PREFIX + " " + message
 
         self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, sender, message)
 
-    def handle_incoming_relay_message(self, ctx):
-        message = ctx.message
+    @event(event_type=Tyrbot.OUTGOING_PRIVATE_CHANNEL_MESSAGE_EVENT, description="Relay commands from the private channel to the relay hub")
+    def outgoing_private_channel_message_event(self, event_type, event_data):
+        if isinstance(event_data.message, ChatBlob):
+            message = event_data.message.title
+        else:
+            message = event_data.message
 
-        self.bot.send_private_channel_message(message, fire_outgoing_event=False)
+        message = self.RELAY_CHANNEL_PREFIX + " " + message
+
+        self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, DictObject({"name": self.bot.char_name, "char_id": self.bot.char_id}), message)
