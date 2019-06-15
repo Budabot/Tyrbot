@@ -9,7 +9,6 @@ from modules.core.org_members.org_member_controller import OrgMemberController
 
 @instance()
 class OrgChannelController:
-    RELAY_CHANNEL_PREFIX = "[Org]"
     RELAY_HUB_SOURCE = "org_channel"
 
     def __init__(self):
@@ -22,6 +21,7 @@ class OrgChannelController:
         self.ban_service = registry.get_instance("ban_service")
         self.log_controller = registry.get_instance("log_controller")
         self.online_controller = registry.get_instance("online_controller")
+        self.relay_controller = registry.get_instance("relay_controller")
 
     def start(self):
         self.relay_hub_service.register_relay(self.RELAY_HUB_SOURCE, self.handle_incoming_relay_message)
@@ -43,11 +43,11 @@ class OrgChannelController:
 
         sender = None
         if event_data.char_id == 4294967295 or event_data.char_id == 0:
-            message = "%s: %s" % (self.RELAY_CHANNEL_PREFIX, message)
+            message = "[%s] %s" % (self.relay_controller.get_org_channel_prefix(), message)
         else:
             char_name = self.character_service.resolve_char_to_name(event_data.char_id)
             sender = DictObject({"char_id": event_data.char_id, "name": char_name})
-            message = "%s %s: %s" % (self.RELAY_CHANNEL_PREFIX, char_name, message)
+            message = "[%s] %s: %s" % (self.relay_controller.get_org_channel_prefix(), char_name, message)
 
         self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, sender, message)
 
@@ -72,6 +72,6 @@ class OrgChannelController:
         else:
             message = event_data.message
 
-        message = self.RELAY_CHANNEL_PREFIX + " " + message
+        message = "[%s] %s" % (self.relay_controller.get_org_channel_prefix(), message)
 
         self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, DictObject({"name": self.bot.char_name, "char_id": self.bot.char_id}), message)

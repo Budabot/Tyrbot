@@ -9,7 +9,6 @@ from core.tyrbot import Tyrbot
 
 @instance()
 class PrivateChannelController:
-    RELAY_CHANNEL_PREFIX = "[Private]"
     RELAY_HUB_SOURCE = "private_channel"
 
     def inject(self, registry):
@@ -22,6 +21,7 @@ class PrivateChannelController:
         self.ban_service = registry.get_instance("ban_service")
         self.log_controller = registry.get_instance("log_controller")
         self.online_controller = registry.get_instance("online_controller")
+        self.relay_controller = registry.get_instance("relay_controller")
 
     def start(self):
         self.relay_hub_service.register_relay(self.RELAY_HUB_SOURCE, self.handle_incoming_relay_message)
@@ -88,7 +88,7 @@ class PrivateChannelController:
 
         char_name = self.character_service.resolve_char_to_name(event_data.char_id)
         sender = DictObject({"char_id": event_data.char_id, "name": char_name})
-        message = "%s %s: %s" % (self.RELAY_CHANNEL_PREFIX, char_name, event_data.message)
+        message = "[%s][Private] %s: %s" % (self.relay_controller.get_org_channel_prefix(), char_name, event_data.message)
 
         self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, sender, message)
 
@@ -111,6 +111,6 @@ class PrivateChannelController:
         else:
             message = event_data.message
 
-        message = self.RELAY_CHANNEL_PREFIX + " " + message
+        message = "[%s][Private] %s" % (self.relay_controller.get_org_channel_prefix(), message)
 
         self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, DictObject({"name": self.bot.char_name, "char_id": self.bot.char_id}), message)
