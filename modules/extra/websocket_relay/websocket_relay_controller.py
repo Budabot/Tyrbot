@@ -5,6 +5,7 @@ from core.decorators import instance, event, timerevent, setting
 from core.logger import Logger
 from core.lookup.character_service import CharacterService
 from core.private_channel_service import PrivateChannelService
+from core.public_channel_service import PublicChannelService
 from core.setting_types import ColorSettingType, TextSettingType
 from core.text import Text
 from .websocket_relay_worker import WebsocketRelayWorker
@@ -60,11 +61,18 @@ class WebsocketRelayController:
 
     @event(event_type=PrivateChannelService.PRIVATE_CHANNEL_MESSAGE_EVENT, description="Relay messages from the private channel to Websocket relay")
     def handle_private_channel_message_event(self, event_type, event_data):
+        self.process_message(event_data, "Private")
+
+    @event(event_type=PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, description="Relay messages from the org channel to Websocket relay")
+    def handle_org_channel_message_event(self, event_type, event_data):
+        self.process_message(event_data, "Org")
+
+    def process_message(self, event_data, channel):
         if event_data.char_id != self.bot.char_id and event_data.message[0] != self.setting_service.get("symbol").get_value():
             char_name = self.character_service.resolve_char_to_name(event_data.char_id)
             obj = json.dumps({"sender": {"char_id": event_data.char_id, "name": char_name},
                               "message": event_data.message,
-                              "channel": "Private"})
+                              "channel": channel})
             self.worker.send_message(obj)
 
     def connect(self):
