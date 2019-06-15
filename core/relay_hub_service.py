@@ -1,5 +1,6 @@
 from core.decorators import instance
 from core.dict_object import DictObject
+from core.logger import Logger
 from core.lookup.character_service import CharacterService
 from core.text import Text
 
@@ -9,6 +10,7 @@ class RelayHubService:
     DEFAULT_GROUP = "relay"
 
     def __init__(self):
+        self.logger = Logger(__name__)
         self.hub = {}
 
     def inject(self, registry):

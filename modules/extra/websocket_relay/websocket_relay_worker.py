@@ -25,4 +25,5 @@ class WebsocketRelayWorker:
         self.ws.close()
 
     def send_message(self, message):
-        self.ws.send(message)
+        if self.ws:
+            self.ws.send(message)
