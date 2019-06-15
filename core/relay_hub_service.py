@@ -37,4 +37,7 @@ class RelayHubService:
 
         for _, c in self.hub.items():
             if c.source != source and c.group == group:
-                c.callback(ctx)
+                try:
+                    c.callback(ctx)
+                except Exception as e:
+                    self.logger.error(e)
