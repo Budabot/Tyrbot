@@ -1,12 +1,14 @@
 from core.ban_service import BanService
 from core.command_param_types import Character
 from core.decorators import instance, command, event
+from core.dict_object import DictObject
+from core.private_channel_service import PrivateChannelService
 
 
 @instance()
 class PrivateChannelController:
-    def __init__(self):
-        pass
+    RELAY_CHANNEL_PREFIX = "[Private]"
+    RELAY_HUB_SOURCE = "private_channel"
 
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
@@ -14,6 +16,11 @@ class PrivateChannelController:
         self.character_service = registry.get_instance("character_service")
         self.job_scheduler = registry.get_instance("job_scheduler")
         self.access_service = registry.get_instance("access_service")
+        self.relay_hub_service = registry.get_instance("relay_hub_service")
+        self.ban_service = registry.get_instance("ban_service")
+
+    def start(self):
+        self.relay_hub_service.register_relay(self.RELAY_HUB_SOURCE, self.handle_incoming_relay_message)
 
     @command(command="join", params=[], access_level="all",
              description="Join the private channel")
@@ -64,3 +71,19 @@ class PrivateChannelController:
     @event(event_type=BanService.BAN_ADDED_EVENT, description="Kick characters from the private channel who are banned", is_hidden=True)
     def ban_added_event(self, event_type, event_data):
         self.private_channel_service.kick(event_data.char_id)
+
+    @event(event_type=PrivateChannelService.PRIVATE_CHANNEL_MESSAGE_EVENT, description="Relay messages from the private channel to the relay hub", is_hidden=True)
+    def handle_private_channel_message_event(self, event_type, event_data):
+        if event_data.char_id == self.bot.char_id or self.ban_service.get_ban(event_data.char_id):
+            return
+
+        char_name = self.character_service.resolve_char_to_name(event_data.char_id)
+        sender = DictObject({"char_id": event_data.char_id, "name": char_name})
+        message = "%s %s: %s" % (self.RELAY_CHANNEL_PREFIX, char_name, event_data.message)
+
+        self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, sender, message)
+
+    def handle_incoming_relay_message(self, ctx):
+        message = ctx.message
+
+        self.bot.send_private_channel_message(message, fire_outgoing_event=False)

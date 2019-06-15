@@ -1,13 +1,14 @@
 from core.command_param_types import Any
 from core.decorators import instance, command, event, setting
 from core.private_channel_service import PrivateChannelService
-from core.public_channel_service import PublicChannelService
 from core.setting_types import TextSettingType
 from modules.core.org_members.org_member_controller import OrgMemberController
 
 
 @instance()
 class RelayController:
+    RELAY_HUB_SOURCE = "tell_relay"
+
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
         self.text = registry.get_instance("text")
@@ -15,7 +16,11 @@ class RelayController:
         self.setting_service = registry.get_instance("setting_service")
         self.character_service = registry.get_instance("character_service")
         self.public_channel_service = registry.get_instance("public_channel_service")
+        self.relay_hub_service = registry.get_instance("relay_hub_service")
         self.ban_service = registry.get_instance("ban_service")
+
+    def start(self):
+        self.relay_hub_service.register_relay(self.RELAY_HUB_SOURCE, self.handle_incoming_relay_message)
 
     @setting(name="relay_bot", value="", description="Name of bot character for chat relay")
     def relay_bot(self):
@@ -29,22 +34,6 @@ class RelayController:
              description="Accept incoming messages from relay bot")
     def grc_cmd(self, request, message):
         self.process_incoming_relay_message(request.sender, message)
-
-    @event(event_type=PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, description="Relay messages from the org channel to the relay")
-    def handle_org_message_event(self, event_type, event_data):
-        if event_data.char_id != self.bot.char_id and event_data.message[0] != self.setting_service.get("symbol").get_value():
-            if event_data.char_id == 4294967295:
-                self.send_message_to_relay(event_data.message)
-            elif not self.ban_service.get_ban(event_data.char_id):
-                char_name = self.character_service.resolve_char_to_name(event_data.char_id)
-                self.send_message_to_relay("%s: %s" % (char_name, event_data.message))
-
-    @event(event_type=PrivateChannelService.PRIVATE_CHANNEL_MESSAGE_EVENT, description="Relay messages from the private channel to the relay")
-    def handle_private_channel_message_event(self, event_type, event_data):
-        if event_data.char_id != self.bot.char_id and event_data.message[0] != self.setting_service.get("symbol").get_value():
-            if not self.ban_service.get_ban(event_data.char_id):
-                char_name = self.character_service.resolve_char_to_name(event_data.char_id)
-                self.send_message_to_relay("[Private] %s: %s" % (char_name, event_data.message))
 
     @event(event_type=PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, description="Notify relay when a character joins the private channel")
     def handle_private_channel_joined_event(self, event_type, event_data):
@@ -86,8 +75,12 @@ class RelayController:
     def process_incoming_relay_message(self, sender, message):
         relay_bot = self.relay_bot().get_value()
         if relay_bot and sender.name.lower() == relay_bot.lower():
-            self.bot.send_org_message(message, fire_outgoing_event=False)
-            self.bot.send_private_channel_message(message, fire_outgoing_event=False)
+            self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, None, message)
+
+    def handle_incoming_relay_message(self, ctx):
+        message = ctx.message
+
+        self.send_message_to_relay(message)
 
     def send_message_to_relay(self, message):
         relay_bot = self.relay_bot().get_value()

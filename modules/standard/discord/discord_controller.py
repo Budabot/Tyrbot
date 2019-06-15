@@ -42,6 +42,8 @@ class MLStripper(HTMLParser):
 
 @instance()
 class DiscordController:
+    RELAY_HUB_SOURCE = "discord"
+
     def __init__(self):
         self.servers = []
         self.channels = {}
@@ -63,6 +65,7 @@ class DiscordController:
         self.text: Text = registry.get_instance("text")
         self.command_service = registry.get_instance("command_service")
         self.ban_service = registry.get_instance("ban_service")
+        self.relay_hub_service = registry.get_instance("relay_hub_service")
         self.pork_service = registry.get_instance("pork_service")
 
     def pre_start(self):
@@ -73,6 +76,7 @@ class DiscordController:
         self.event_service.register_event_type("discord_invites")
 
     def start(self):
+        self.relay_hub_service.register_relay(self.RELAY_HUB_SOURCE, self.handle_incoming_relay_message)
         self.register_discord_command_handler(self.help_discord_cmd, "help", [])
 
         self.db.exec("CREATE TABLE IF NOT EXISTS discord (channel_id VARCHAR(64) NOT NULL, server_name VARCHAR(256) NOT NULL, channel_name VARCHAR(256) NOT NULL, relay_ao SMALLINT NOT NULL DEFAULT 0, relay_dc SMALLINT NOT NULL DEFAULT 0)")
@@ -92,14 +96,6 @@ class DiscordController:
     @setting(name="discord_embed_color", value="#00FF00", description="Discord embedded message color")
     def discord_embed_color(self):
         return ColorSettingType()
-
-    @setting(name="relay_to_private", value="true", description="Global setting for relaying of Discord messages to the private channel")
-    def relay_to_private(self):
-        return BooleanSettingType()
-
-    @setting(name="relay_to_org", value="true", description="Global setting for relaying of Discord message to the org channel")
-    def relay_to_org(self):
-        return BooleanSettingType()
 
     @setting(name="relay_color_prefix", value="#FCA712", description="Set the prefix color for relayed messages in org/private channel")
     def relay_color_prefix(self):
@@ -230,21 +226,6 @@ class DiscordController:
                     return
         return "Could not find Discord server with ID <highlight>%d<end>." % server_id
 
-    @event(event_type=PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, description="Relay messages to Discord from org channel")
-    def handle_org_message_event(self, event_type, event_data):
-        if self.should_relay_message(event_data.char_id):
-            msg = event_data.extended_message.get_message() if event_data.extended_message else event_data.message
-            name = self.character_service.resolve_char_to_name(event_data.char_id)
-            message = DiscordMessage("plain", "Org", name, self.strip_html_tags(msg))
-            self.send_to_discord("org", message)
-
-    @event(event_type=PrivateChannelService.PRIVATE_CHANNEL_MESSAGE_EVENT, description="Relay messages to Discord from private channel")
-    def handle_private_message_event(self, event_type, event_data):
-        if self.should_relay_message(event_data.char_id):
-            name = self.character_service.resolve_char_to_name(event_data.char_id)
-            message = DiscordMessage("plain", "Private", name, self.strip_html_tags(event_data.message))
-            self.send_to_discord("priv", message)
-
     @event(event_type=PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, description="Notify when a character joins the private channel")
     def handle_private_channel_joined_event(self, event_type, event_data):
         if self.is_connected():
@@ -332,7 +313,7 @@ class DiscordController:
                 matches = handler.regex.search(command_args)
 
                 def reply(content, title="Command"):
-                    self.send_to_discord("command_reply", DiscordMessage("embed", title, self.bot.char_name, self.strip_html_tags(content), True, msgcolor))
+                    self.send_to_discord("command_reply", DiscordMessage("embed", title, self.bot.char_name, self.strip_html_tags(content), msgcolor))
 
                 ctx = DictObject()
 
@@ -345,7 +326,7 @@ class DiscordController:
     def generate_help(self, command_str, params):
         return "!" + command_str + " " + " ".join(map(lambda x: x.get_name(), params))
 
-    @event(event_type="discord_message", description="Relays Discord messages to AO")
+    @event(event_type="discord_message", description="Relays Discord messages to relay hub", is_hidden=True)
     def handle_discord_message_event(self, event_type, message):
         if isinstance(message.author, Member):
             name = message.author.nick or message.author.name
@@ -358,11 +339,7 @@ class DiscordController:
 
         content = "<grey>[<end>%sDiscord<end><grey>][<end>%s%s<end><grey>]<end> %s%s<end><grey>:<end> %s%s<end>" % (chanclr, chanclr, message.channel.name, nameclr, name, mesgclr, message.content)
 
-        if self.setting_service.get("relay_to_private").get_value():
-            self.bot.send_private_channel_message(content, fire_outgoing_event=False)
-
-        if self.setting_service.get("relay_to_org").get_value():
-            self.bot.send_org_message(content, fire_outgoing_event=False)
+        self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, DictObject({"name": name}), content)
 
     @event(event_type="discord_invites", description="Handles invite requests")
     def handle_discord_invite_event(self, event_type, event_data):
@@ -467,3 +444,10 @@ class DiscordController:
 
     def send_to_discord(self, message_type, data):
         self.aoqueue.append((message_type, data))
+
+    def handle_incoming_relay_message(self, ctx):
+        if not self.is_connected():
+            return
+
+        message = DiscordMessage("plain", "", "", self.strip_html_tags(ctx.message))
+        self.send_to_discord("msg", message)
