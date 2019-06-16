@@ -2,4 +2,23 @@ Source Code: <a href='chatcmd:///start https://github.com/Budabot/Tyrbot'>https:
 Project Statistics: <a href='chatcmd:///start https://www.openhub.net/p/tyrbot'>https://www.openhub.net/p/tyrbot</a>
 Discord: <a href='chatcmd:///start https://discord.gg/2x9WesJ'>https://discord.gg/2x9WesJ</a>
 
-Creator: <highlight>Tyrence<end>
+Development of Tyrbot started on 08-Feb-2018 when it received its initial commit.
+
+I would like to give special thanks to these people who contributed significant effort and large amounts of their time to the Tyrbot project:
+-<highlight>eli(vlad)<end> for his large contributions to Tyrbot including the news, discord, and raid modules
+-<highlight>Teeko<end> for all the time he spent testing new features, reporting bugs, and making suggestions
+-<highlight>nepherius/wafflespower<end> who was critical during the early parts of development in testing and suggesting changes
+
+Thanks to these people who submitted PRs on GitHub to improve Tyrbot:
+<highlight>minidodo<end>
+<highlight>hughp135<end>
+<highlight>jroovers<end>
+<highlight>dustify<end>
+<highlight>equinitry<end>
+<highlight>Ilon Sjögren<end>
+
+Thanks to <highlight>Bgmofo<end> and <highlight>Weyland Yutani<end> for testing Tyrbot in its initial stages and providing valuable feedback.
+
+Lastly, to the AO community, I would like to give thanks for all the support you have given me and for allowing me to write bots for you.  It has been an experience like no other.  I wish each and every one of you the best in life.
+
+-Tyrence
