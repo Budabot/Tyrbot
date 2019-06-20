@@ -5,9 +5,11 @@ This is a rewrite of the original [Budabot](https://github.com/Budabot/Budabot) 
 Budabot is an in-game chat-bot for the MMORPG Anarchy Online released by Funcom in 2001.
 
 ## Requirements
+
 Tyrbot requires Python 3.6.  Neither Python 3.5 or Python 3.7 will work.  We are working on adding support for Python 3.7.
 
 ## Installation
+
 Tyrbot is now ready for general use and is recommended over Budabot or any other bot for all new installations.
 
 Currently there are no releases for Tyrbot but you can download the bot from here which will always have the very latest changes: [https://github.com/Budabot/Tyrbot/archive/master.zip](https://github.com/Budabot/Tyrbot/archive/master.zip)
@@ -15,6 +17,7 @@ Currently there are no releases for Tyrbot but you can download the bot from her
 Then simply unzip the bot somewhere before starting it.
 
 ## Upgrade
+
 If you are running a version of Tyrbot and simply want to upgrade to the latest version, follow these steps:
 
 1. Download the latest version from here: [https://github.com/Budabot/Tyrbot/archive/master.zip](https://github.com/Budabot/Tyrbot/archive/master.zip)
@@ -26,19 +29,50 @@ If you are running a version of Tyrbot and simply want to upgrade to the latest 
 1. You can now delete the old installation
 
 ## Starting Tyrbot
+
 To start the bot, run either `start.bat` or `start.sh`.
 
 If it is your first time running the bot, or if the config.json file does not exist, it will take you through the configuration wizard to configure the bot. You will need to have a character name that you you want to run the bot as along with the username and password for the account that has that character. If you want to run this bot as an org bot, the character that the bot runs as will need to already be a member of that org.
 
 ## Support
+
 If you need help or support with Tyrbot, join our discord channel: [https://discord.gg/2x9WesJ](https://discord.gg/2x9WesJ)
 
 ## Discord Module Setup
+
 If you would like to connect your bot to your Discord server, follow this guide:
 [https://github.com/Budabot/Tyrbot/wiki/Discord-Setup](https://github.com/Budabot/Tyrbot/wiki/Discord-Setup)
+
 - The library used to build the module can be found [here](https://discordpy.readthedocs.io/en/latest/index.html).
 - The official Discord API documentation can be found [here](https://discordapp.com/developers/docs/intro).
 - The official Discord API server can be joined [here](https://discord.gg/discord-api).
 
 ## Writing Custom Modules
+
 See the Wiki page: [https://github.com/Budabot/Tyrbot/wiki/Writing-Custom-Modules](https://github.com/Budabot/Tyrbot/wiki/Writing-Custom-Modules)
+
+## Running in Docker
+
+Basic commands for running the bot in docker:
+
+```bash
+docker build -t tyrbot .
+docker run --rm -it --name name_of_bot -v /path/to/tyrbot:/app tyrbot
+```
+
+We recommend [using a docker-compose setup](https://github.com/Budabot/Tyrbot/wiki/Running-Tyrbot-with-Docker-Compose)
+to host a stable bot in docker.
+
+## Advanced
+
+In more advanced cases you might not want to put credentials
+in the `config.hjson` file. Enviroment variables can instead
+be used. The account fields in the config file can left blank when
+the following enviroment variables are defined.
+
+```bash
+TYRBOT_USERNAME=myaccount
+TYRBOT_PASSWORD=mypassword
+TYRBOT_CHARACTER=Bot
+TYRBOT_SUPERADMIN=TheBoss
+```
