@@ -9893,6 +9893,7 @@ INSERT INTO weapon_attributes VALUES (247059, 220, 220, null, null, 0, 1, 0);
 INSERT INTO weapon_attributes VALUES (247060, 220, 220, null, null, 0, 1, 0);
 INSERT INTO weapon_attributes VALUES (247057, 220, 220, null, null, 0, 1, 0);
 INSERT INTO weapon_attributes VALUES (247058, 220, 220, null, null, 0, 1, 0);
+INSERT INTO weapon_attributes VALUES (304616, 150, 200, null, null, 0, 1, 0);
 INSERT INTO weapon_attributes VALUES (165125, 280, 200, null, null, 0, 1, 0);
 INSERT INTO weapon_attributes VALUES (165126, 280, 200, null, null, 0, 1, 0);
 INSERT INTO weapon_attributes VALUES (165128, 275, 215, null, null, 0, 1, 0);
