@@ -207,7 +207,7 @@ class LootController:
         if not self.leader_controller.can_use_command(request.sender.char_id):
             return LeaderController.NOT_LEADER_MSG
 
-        sql = "SELECT * FROM aodb a LEFT JOIN raid_loot r ON (a.name = r.name AND a.highql >= r.ql) " \
+        sql = "SELECT r.name, r.comment,  r.ql, a.lowid AS low_id, a.highid AS high_id FROM aodb a LEFT JOIN raid_loot r ON (a.name = r.name AND a.highql >= r.ql) " \
               "WHERE r.id = ? LIMIT 1"
         item = self.db.query_single(sql, [raid_item_id])
 
