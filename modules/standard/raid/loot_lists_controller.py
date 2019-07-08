@@ -34,6 +34,11 @@ class LootListsController:
             "bweapons": "Beast Weapons",
             "bstars": "Stars",
             "alba": "Albtraum",
+            "Samples": "Samples",
+            "Ancients": "Ancients",
+            "c&cm": "Crystals & Crystalised Memories",
+            "pbc": "Pocket Boss Crystals",
+            "r&pu": "Rings and Preservation Units",
             "symbs": "Symbiants",
             "spirits": "Spirits",
             "pgems": "Profession Gems",
@@ -69,6 +74,7 @@ class LootListsController:
         self.command_alias_service.add_alias("scorpio", "pande scorpio")
         self.command_alias_service.add_alias("taurus", "pande taurus")
         self.command_alias_service.add_alias("sagittarius", "pande sagittarius")
+        self.command_alias_service.add_alias("tnh", "pande tnh")
 
         self.command_alias_service.add_alias("s7", "apf s7")
         self.command_alias_service.add_alias("s13", "apf s13")
@@ -78,6 +84,8 @@ class LootListsController:
         self.command_alias_service.add_alias("mitaar", "xan mitaar")
         self.command_alias_service.add_alias("12m", "xan 12m")
         self.command_alias_service.add_alias("vortexx", "xan vortexx")
+
+        self.command_alias_service.add_alias("alba", "albtraum")
 
     @setting(name="use_item_icons", value="True", description="Use icons when building loot list")
     def use_item_icons(self):
@@ -115,11 +123,41 @@ class LootListsController:
         else:
             return "No loot registered for <highlight>%s<end>." % category
 
+    @command(command="albtraum", params=[Options(["c&cm", "pbc", "r&pu", "Ancients", "Samples"], is_optional=True)],
+             description="Get list of items from Albtraum", access_level="all")
+    def albtraum_cmd(self, _, category):
+        if category is None:
+            blob = ""
+            sql = "SELECT category FROM raid_loot WHERE raid = 'Albtraum' GROUP BY category"
+            raids = self.db.query(sql)
+
+            for raid in raids:
+                add_loot = self.text.make_chatcmd("Add loot", "/tell <myname> loot addraid Albtraum %s" % raid.category)
+                show_loot = self.text.make_chatcmd(
+                    "Loot table", "/tell <myname> albtraum %s" % self.get_real_category_name(raid.category, True))
+
+                sql = "SELECT COUNT(*) AS count FROM raid_loot WHERE category = ?"
+                count = self.db.query_single(sql, [raid.category]).count
+
+                blob += "%s - %s items\n" % (raid.category, count)
+                blob += " | [%s] [%s]\n\n" % (show_loot, add_loot)
+
+            return ChatBlob("Albtraum loot tables", blob)
+
+        category = self.get_real_category_name(category)
+
+        items = self.get_items("Albtraum", category)
+
+        if items:
+            return ChatBlob("%s loot table" % category, self.build_list(items, "Albtraum", category))
+        else:
+            return "No loot registered for <highlight>%s<end>." % category
+
     @command(command="pande",
              params=[
                  Options(["bweapons", "barmor", "bstars", "aries", "aquarius", "leo",
                           "virgo", "cancer", "gemini", "libra", "pisces", "capricorn",
-                          "scorpio", "taurus", "sagittarius"], is_optional=True)
+                          "scorpio", "taurus", "sagittarius", "tnh"], is_optional=True)
              ],
              description="Get list of items from Pandemonium", access_level="all")
     def pande_cmd(self, _, category_name):
@@ -158,7 +196,8 @@ class LootListsController:
             raids = self.db.query(sql)
 
             for raid in raids:
-                show_loot = self.text.make_chatcmd("Loot table", "/tell <myname> db %s" % self.get_real_category_name(raid.category, True))
+                show_loot = self.text.make_chatcmd("Loot table", "/tell <myname> db %s"
+                                                   % self.get_real_category_name(raid.category, True))
 
                 sql = "SELECT COUNT(*) AS count FROM raid_loot WHERE category = ?"
                 count = self.db.query_single(sql, [raid.category]).count
@@ -248,7 +287,8 @@ class LootListsController:
 
     def get_items(self, raid, category):
         return self.db.query(
-            "SELECT r.raid, r.category, r.id, r.ql, r.name, r.comment, r.multiloot, a.lowid AS low_id, a.highid AS high_id, a.icon "
+            "SELECT r.raid, r.category, r.id, r.ql, r.name, r.comment, "
+            "r.multiloot, a.lowid AS low_id, a.highid AS high_id, a.icon "
             "FROM raid_loot r "
             "LEFT JOIN aodb a "
             "ON (r.name = a.name AND r.ql <= a.highql) "
