@@ -34,8 +34,8 @@ class LootListsController:
             "bweapons": "Beast Weapons",
             "bstars": "Stars",
             "alba": "Albtraum",
-            "Samples": "Samples",
-            "Ancients": "Ancients",
+            "samples": "Samples",
+            "ancients": "Ancients",
             "c&cm": "Crystals & Crystalised Memories",
             "pbc": "Pocket Boss Crystals",
             "r&pu": "Rings and Preservation Units",
@@ -52,7 +52,9 @@ class LootListsController:
             "12m": "12Man",
             "vortexx": "Vortexx",
             "dbarmor": "DB Armor",
-            "util": "Util"
+            "util": "Util",
+            "poh": "Pyramid of Home",
+            "sb": "Shadowbreeds"
         }
 
     def inject(self, registry):
@@ -91,28 +93,13 @@ class LootListsController:
     def use_item_icons(self):
         return BooleanSettingType()
 
+    #                   #
+    #       APF         #
+    #                   #
     @command(command="apf",
-             params=[Options(["s7", "s13", "s28", "s35"], is_optional=True)],
+             params=[Options(["s7", "s13", "s28", "s35"])],
              description="Get list of items from APF", access_level="all")
-    def apf_cmd(self, _, category):
-        if category is None:
-            blob = ""
-            sql = "SELECT category FROM raid_loot WHERE raid = 'APF' GROUP BY category"
-            raids = self.db.query(sql)
-
-            for raid in raids:
-                add_loot = self.text.make_chatcmd("Add loot", "/tell <myname> loot addraid APF %s" % raid.category)
-                show_loot = self.text.make_chatcmd(
-                    "Loot table", "/tell <myname> apf %s" % self.get_real_category_name(raid.category, True))
-
-                sql = "SELECT COUNT(*) AS count FROM raid_loot WHERE category = ?"
-                count = self.db.query_single(sql, [raid.category]).count
-
-                blob += "%s - %s items\n" % (raid.category, count)
-                blob += " | [%s] [%s]\n\n" % (show_loot, add_loot)
-
-            return ChatBlob("APF loot tables", blob)
-
+    def apf_loot_cmd(self, _, category):
         add_all = True if category != "s7" else False
         category = self.get_real_category_name(category)
 
@@ -123,27 +110,48 @@ class LootListsController:
         else:
             return "No loot registered for <highlight>%s<end>." % category
 
-    @command(command="albtraum", params=[Options(["c&cm", "pbc", "r&pu", "Ancients", "Samples"], is_optional=True)],
+    @command(command="apf", params=[], description="Get list of items from APF", access_level="all")
+    def apf_tables_cmd(self, _):
+        blob = ""
+        sql = "SELECT category FROM raid_loot WHERE raid = 'APF' GROUP BY category"
+        raids = self.db.query(sql)
+        for raid in raids:
+            add_loot = self.text.make_chatcmd("Add loot", "/tell <myname> loot addraid APF %s" % raid.category)
+            show_loot = self.text.make_chatcmd(
+                "Loot table", "/tell <myname> apf %s" % self.get_real_category_name(raid.category, True))
+
+            sql = "SELECT COUNT(*) AS count FROM raid_loot WHERE category = ?"
+            count = self.db.query_single(sql, [raid.category]).count
+
+            blob += "%s - %s items\n" % (raid.category, count)
+            blob += " | [%s] [%s]\n\n" % (show_loot, add_loot)
+        return ChatBlob("APF loot tables", blob)
+
+    #               #
+    #   Albtraum    #
+    #               #
+    @command(command="albtraum", params=[],
              description="Get list of items from Albtraum", access_level="all")
-    def albtraum_cmd(self, _, category):
-        if category is None:
-            blob = ""
-            sql = "SELECT category FROM raid_loot WHERE raid = 'Albtraum' GROUP BY category"
-            raids = self.db.query(sql)
+    def albtraum_loot_cmd(self, _):
+        blob = ""
+        sql = "SELECT category FROM raid_loot WHERE raid = 'Albtraum' GROUP BY category"
+        raids = self.db.query(sql)
 
-            for raid in raids:
-                add_loot = self.text.make_chatcmd("Add loot", "/tell <myname> loot addraid Albtraum %s" % raid.category)
-                show_loot = self.text.make_chatcmd(
-                    "Loot table", "/tell <myname> albtraum %s" % self.get_real_category_name(raid.category, True))
+        for raid in raids:
+            show_loot = self.text.make_chatcmd(
+                "Loot table", "/tell <myname> albtraum %s" % self.get_real_category_name(raid.category, True))
 
-                sql = "SELECT COUNT(*) AS count FROM raid_loot WHERE category = ?"
-                count = self.db.query_single(sql, [raid.category]).count
+            sql = "SELECT COUNT(*) AS count FROM raid_loot WHERE category = ?"
+            count = self.db.query_single(sql, [raid.category]).count
 
-                blob += "%s - %s items\n" % (raid.category, count)
-                blob += " | [%s] [%s]\n\n" % (show_loot, add_loot)
+            blob += "%s - %s items\n" % (raid.category, count)
+            blob += " | [%s]\n\n" % (show_loot)
 
-            return ChatBlob("Albtraum loot tables", blob)
+        return ChatBlob("Albtraum loot tables", blob)
 
+    @command(command="albtraum", params=[Options(["c&cm", "pbc", "r&pu", "ancients", "samples"])],
+             description="Get list of items from Albtraum", access_level="all")
+    def albtraum_tables_cmd(self, _, category):
         category = self.get_real_category_name(category)
 
         items = self.get_items("Albtraum", category)
@@ -153,31 +161,15 @@ class LootListsController:
         else:
             return "No loot registered for <highlight>%s<end>." % category
 
+    #               #
+    #  Pandemonium  #
+    #               #
     @command(command="pande",
-             params=[
-                 Options(["bweapons", "barmor", "bstars", "aries", "aquarius", "leo",
-                          "virgo", "cancer", "gemini", "libra", "pisces", "capricorn",
-                          "scorpio", "taurus", "sagittarius", "tnh"], is_optional=True)
-             ],
+             params=[Options(["bweapons", "barmor", "bstars", "aries", "aquarius", "leo",
+                              "virgo", "cancer", "gemini", "libra", "pisces", "capricorn",
+                              "scorpio", "taurus", "sagittarius", "tnh", "gaunt", "sb"])],
              description="Get list of items from Pandemonium", access_level="all")
-    def pande_cmd(self, _, category_name):
-        if category_name is None:
-            blob = ""
-            sql = "SELECT category FROM raid_loot WHERE raid = 'Pande' GROUP BY category"
-            raids = self.db.query(sql)
-
-            for raid in raids:
-                show_loot = self.text.make_chatcmd(
-                    "Loot table", "/tell <myname> pande %s" % self.get_real_category_name(raid.category, True))
-
-                sql = "SELECT COUNT(*) AS count FROM raid_loot WHERE category = ?"
-                count = self.db.query_single(sql, [raid.category]).count
-
-                blob += "%s - %s items\n" % (raid.category, count)
-                blob += " | [%s]\n\n" % show_loot
-
-            return ChatBlob("Pandemonium loot tables", blob)
-
+    def pande_loot_cmd(self, _, category_name):
         category = self.get_real_category_name(category_name)
 
         items = self.get_items("Pande", category)
@@ -187,62 +179,63 @@ class LootListsController:
         else:
             return "No loot registered for <highlight>%s<end>." % category_name
 
-    @command(command="db", params=[Options(["db1", "db2", "db3", "dbarmor", "util"], is_optional=True)],
+    @command(command="pande", params=[], description="Get list of items from Pandemonium", access_level="all")
+    def pande_tables_cmd(self, _):
+        blob = ""
+        sql = "SELECT category FROM raid_loot WHERE raid = 'Pande' GROUP BY category"
+        raids = self.db.query(sql)
+        for raid in raids:
+            show_loot = self.text.make_chatcmd(
+                "Loot table", "/tell <myname> pande %s" % self.get_real_category_name(raid.category, True))
+
+            sql = "SELECT COUNT(*) AS count FROM raid_loot WHERE category = ?"
+            count = self.db.query_single(sql, [raid.category]).count
+
+            blob += "%s - %s items\n" % (raid.category, count)
+            blob += " | [%s]\n\n" % show_loot
+        return ChatBlob("Pandemonium loot tables", blob)
+
+    #               #
+    # Dust Brigade  #
+    #               #
+    @command(command="db", params=[Options(["db1", "db2", "db3", "dbarmor", "util"])],
              description="Get list of items from DustBrigade", access_level="all")
-    def db_cmd(self, _, category):
-        if category is None:
-            blob = ""
-            sql = "SELECT category FROM raid_loot WHERE raid = 'DustBrigade' GROUP BY category"
-            raids = self.db.query(sql)
-
-            for raid in raids:
-                show_loot = self.text.make_chatcmd("Loot table", "/tell <myname> db %s"
-                                                   % self.get_real_category_name(raid.category, True))
-
-                sql = "SELECT COUNT(*) AS count FROM raid_loot WHERE category = ?"
-                count = self.db.query_single(sql, [raid.category]).count
-
-                blob += "%s - %s items\n" % (raid.category, count)
-                blob += " | [%s]\n\n" % show_loot
-
-            return ChatBlob("DustBrigade loot tables", blob)
-
+    def db_loot_cmd(self, _, category):
         category = self.get_real_category_name(category)
-
         items = self.get_items("DustBrigade", category)
-
         if items:
             return ChatBlob("%s loot table" % category, self.build_list(items, "DustBrigade", category))
         else:
             return "No loot registered for <highlight>%s<end>." % category
 
-    @command(command="xan", params=[Options(["mitaar", "12m", "vortexx"], is_optional=True)],
-             description="Get list of items from Xan", access_level="all")
-    def xan_cmd(self, _, category):
-        if category is None:
-            blob = ""
-            raids = ["Mitaar", "Vortexx", "12Man"]
-
-            for raid in raids:
-                show_loot = self.text.make_chatcmd(
-                    "Loot table", "/tell <myname> xan %s" % self.get_real_category_name(category, True))
-
-                sql = "SELECT COUNT(*) AS count FROM raid_loot WHERE raid = ?"
-                count = self.db.query_single(sql, [raid]).count
-
-                blob += "%s - %s items\n" % (raid, count)
-                blob += " | [%s]\n\n" % show_loot
-
-            return ChatBlob("Xan loot tables", blob)
-
-        category = self.get_real_category_name(category)
-
+    @command(command="db", params=[], description="Get list of items from DustBrigade", access_level="all")
+    def db_tables_cmd(self, _):
         blob = ""
+        sql = "SELECT category FROM raid_loot WHERE raid = 'DustBrigade' GROUP BY category"
+        raids = self.db.query(sql)
 
+        for raid in raids:
+            show_loot = self.text.make_chatcmd("Loot table", "/tell <myname> db %s"
+                                               % self.get_real_category_name(raid.category, True))
+
+            sql = "SELECT COUNT(*) AS count FROM raid_loot WHERE category = ?"
+            count = self.db.query_single(sql, [raid.category]).count
+
+            blob += "%s - %s items\n" % (raid.category, count)
+            blob += " | [%s]\n\n" % show_loot
+
+        return ChatBlob("DustBrigade loot tables", blob)
+
+    #               #
+    #      Xan      #
+    #               #
+    @command(command="xan", params=[Options(["mitaar", "12m", "vortexx"])],
+             description="Get list of items from Xan", access_level="all")
+    def xan_loot_cmd(self, _, category):
+        category = self.get_real_category_name(category)
+        blob = ""
         blob += self.build_list(self.get_items(category, "General"), category, "General")
-
         blob += self.build_list(self.get_items(category, "Symbiants"), category, "Symbiants")
-
         blob += self.build_list(self.get_items(category, "Spirits"), category, "Spirits")
 
         if category == "12Man":
@@ -250,12 +243,59 @@ class LootListsController:
 
         return ChatBlob("%s loot table" % category, blob)
 
+    @command(command="xan", params=[], description="Get list of items from Xan", access_level="all")
+    def xan_tables_cmd(self, _):
+        blob = ""
+        raids = ["Mitaar", "Vortexx", "12Man"]
+
+        for raid in raids:
+            show_loot = self.text.make_chatcmd(
+                "Loot table", "/tell <myname> xan %s" % self.get_real_category_name(raid, True))
+
+            sql = "SELECT COUNT(*) AS count FROM raid_loot WHERE raid = ?"
+            count = self.db.query_single(sql, [raid]).count
+
+            blob += "%s - %s items\n" % (raid, count)
+            blob += " | [%s]\n\n" % show_loot
+
+        return ChatBlob("Xan loot tables", blob)
+
+    #               #
+    # Pyramid of Home#
+    #               #
+    @command(command="poh", params=[Options(["gen", "ncu"])],
+             description="Get list of items from Pyramid of Home", access_level="all")
+    def poh_loot_cmd(self, _, category_name):
+        category = self.get_real_category_name(category_name)
+
+        items = self.get_items("poh", category)
+
+        if items:
+            return ChatBlob("%s loot table" % category, self.build_list(items, "poh", category))
+        else:
+            return "No loot registered for <highlight>%s<end>." % category_name
+
+    @command(command="poh", params=[], description="Get list of items from Pyramid of Home", access_level="all")
+    def poh_tables_cmd(self, _):
+        blob = ""
+        sql = "SELECT category FROM raid_loot WHERE raid = 'Pyramid of Home' GROUP BY category"
+        raids = self.db.query(sql)
+        for raid in raids:
+            show_loot = self.text.make_chatcmd(
+                "Loot table", "/tell <myname> poh %s" % self.get_real_category_name(raid.category, True))
+
+            sql = "SELECT COUNT(*) AS count FROM raid_loot WHERE category = ?"
+            count = self.db.query_single(sql, [raid.category]).count
+
+            blob += "%s - %s items\n" % (raid.category, count)
+            blob += " | [%s]\n\n" % show_loot
+        return ChatBlob("Pyramid of Home loot tables", blob)
+
     # Raids available in AO:
     # s7, s10, s13, s28, s35, s42, aquarius, virgo, sagittarius, beastweapons, beastarmor,
     # beaststars, tnh, aries, leo, cancer, gemini, libra, pisces, taurus,
     # capricorn, scorpio, tara, vortexx, mitaar, 12m, db1, db2, db3, poh,
     # biodome, manex (collector), hollow islands, mercenaries
-
     def build_list(self, items, raid=None, category=None, add_all=False):
         blob = ""
 
