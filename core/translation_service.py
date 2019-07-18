@@ -1,3 +1,5 @@
+from _ast import Tuple, Dict
+
 import hjson
 
 from core.decorators import instance
@@ -15,7 +17,7 @@ class TranslationService:
     modules = {}
     language = "en_US"
     last_file = None
-    lang_codes=["en_US", "de_DE"]
+    lang_codes = ["en_US", "de_DE"]
 
     def __init__(self):
         self.logger = Logger(__name__)
@@ -36,21 +38,27 @@ class TranslationService:
         self.registerTranslation("global", self.read_translations_from_file("core/global.msg"))
 
     def registerTranslation(self, category, translations):
+        print("Registering category {cat}".format(cat=category))
         for k in translations:
             if self.strings.get(category):
                 self.strings[category][k] = translations[k].get(self.language) or translations[k].get("en_US")
             else:
-                self.strings[category] = {k: translations[k].get(self.language) or translations[k].get("en_US") + "\""}
+                self.strings[category] = {k: translations[k].get(self.language) or translations[k].get("en_US")}
         if self.last_file is not None:
             if self.modules.get(category) is None:
                 self.modules[category] = []
             self.modules[category].append(self.last_file)
 
         self.last_file = None
+        print(self.strings)
+        print(self.modules)
 
+    #This method will load another language, defined in the param 'lang'
     def reload_translation(self, lang):
-        self.bot.send_private_channel_message("<orange>My language got changed. reloading translations...<end>")
-        self.bot.send_org_message("<orange>My language got changed. reloading translations...<end>")
+        self.bot.send_private_channel_message("<orange>My language got changed. reloading translations...<end>",
+                                              fire_outgoing_event=False)
+        self.bot.send_org_message("<orange>My language got changed. reloading translations...<end>",
+                                  fire_outgoing_event=False)
 
         self.event_service.fire_event("reload_translation")
         self.language = lang
@@ -74,7 +82,7 @@ class TranslationService:
         return data
 
     #
-    # the param 'variables' accepts dictionary ONLY.
+    # the param 'variables' accepts dictionary's ONLY.
     #
     def get_response(self, category, key, variables=None):
         if variables is None:
@@ -83,7 +91,11 @@ class TranslationService:
         try:
             if self.strings.get(category):
                 if self.strings.get(category).get(key):
-                    msg = self.strings.get(category).get(key).format(**variables)
+                    if isinstance(self.strings.get(category).get(key), list):
+                        for line in self.strings.get(category).get(key):
+                            msg += line.format(**variables)
+                    else:
+                        msg = self.strings.get(category).get(key).format(**variables)
                 else:
                     self.logger.error("translating key '{key}' in category '{category}' not found"
                                       .format(key=key, category=category))

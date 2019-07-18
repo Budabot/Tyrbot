@@ -13,8 +13,9 @@ class LangController:
     @command(command="lang", params=[Options(["de_DE", "en_US"])], description="Changes the language of the bot",
              access_level="moderator", sub_command="set")
     def reload_translation(self, request, lang):
-        self.bot.send_private_message(request.sender.char_id, "<orange>I'll change my language now... <end>")
         self.ts.reload_translation(lang)
+        return "<orange>Language changed to <highlight>{lang}<end> <end>".format(lang=lang)
+
 
     @command(command="lang", params=[], description="Gets the language of the bot", access_level="all")
     def print_lang(self, _):
