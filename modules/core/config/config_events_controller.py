@@ -5,6 +5,7 @@ from core.db import DB
 from core.text import Text
 from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Any, Options
+from core.translation_service import TranslationService
 
 
 @instance()
@@ -15,6 +16,8 @@ class ConfigEventsController:
         self.command_service = registry.get_instance("command_service")
         self.event_service = registry.get_instance("event_service")
         self.setting_service = registry.get_instance("setting_service")
+        self.ts: TranslationService = registry.get_instance("translation_service")
+        self.getresp = self.ts.get_response
 
     @command(command="config", params=[Const("event"), Any("event_type"), Any("event_handler"), Options(["enable", "disable"])], access_level="admin",
              description="Enable or disable an event")

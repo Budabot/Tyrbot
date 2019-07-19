@@ -3,6 +3,7 @@ from core.db import DB
 from core.text import Text
 from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Any, Options
+from core.translation_service import TranslationService
 
 
 @instance()
@@ -14,6 +15,11 @@ class ConfigController:
         self.event_service = registry.get_instance("event_service")
         self.setting_service = registry.get_instance("setting_service")
         self.config_events_controller = registry.get_instance("config_events_controller")
+        self.ts: TranslationService = registry.get_instance("translation_service")
+        self.getresp = self.ts.get_response
+
+    def start(self):
+        self.ts.registerTranslation("module/config", self.ts.read_translations_from_file("modules/core/config/config.msg"))
 
     @command(command="config", params=[], access_level="admin",
              description="Show configuration options for the bot")

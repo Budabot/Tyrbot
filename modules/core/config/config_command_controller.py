@@ -3,6 +3,7 @@ from core.db import DB
 from core.text import Text
 from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Any, Options
+from core.translation_service import TranslationService
 
 
 @instance()
@@ -12,6 +13,8 @@ class ConfigCommandController:
         self.text: Text = registry.get_instance("text")
         self.access_service = registry.get_instance("access_service")
         self.command_service = registry.get_instance("command_service")
+        self.ts: TranslationService = registry.get_instance("translation_service")
+        self.getresp = self.ts.get_response
 
     @command(command="config", params=[Const("cmd"), Any("cmd_name"), Options(["enable", "disable"]), Any("channel")], access_level="admin",
              description="Enable or disable a command")

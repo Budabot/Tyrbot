@@ -1,4 +1,3 @@
-from _ast import Tuple, Dict
 
 import hjson
 
@@ -38,7 +37,7 @@ class TranslationService:
         self.registerTranslation("global", self.read_translations_from_file("core/global.msg"))
 
     def registerTranslation(self, category, translations):
-        print("Registering category {cat}".format(cat=category))
+        self.logger.info("Registering category {cat}".format(cat=category))
         for k in translations:
             if self.strings.get(category):
                 self.strings[category][k] = translations[k].get(self.language) or translations[k].get("en_US")
@@ -50,8 +49,6 @@ class TranslationService:
             self.modules[category].append(self.last_file)
 
         self.last_file = None
-        print(self.strings)
-        print(self.modules)
 
     #This method will load another language, defined in the param 'lang'
     def reload_translation(self, lang):
@@ -71,13 +68,12 @@ class TranslationService:
                     while index >= 0:
                         transl = self.read_translations_from_file(category_link[index])
                         if transl.get(k2):
-                            self.strings[k1][k2] = transl.get(k2).get(self.language)
+                            self.strings[k1][k2] = transl.get(k2).get(self.language) or transl.get(k2).get("en_US")
                         index -= 1
 
     def read_translations_from_file(self, file):
         with open(file, "r") as f:
             data = hjson.load(f)
-
         self.last_file = file
         return data
 
