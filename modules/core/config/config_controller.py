@@ -1,3 +1,5 @@
+import hjson
+
 from core.decorators import instance, command
 from core.db import DB
 from core.text import Text
@@ -19,7 +21,11 @@ class ConfigController:
         self.getresp = self.ts.get_response
 
     def start(self):
-        self.ts.registerTranslation("module/config", self.ts.read_translations_from_file("modules/core/config/config.msg"))
+        self.ts.register_translation("module/config", self.load_config_msg)
+
+    def load_config_msg(self):
+        with open("modules/core/config/config.msg", mode="r", encoding="UTF-8") as f:
+            return hjson.load(f)
 
     @command(command="config", params=[], access_level="admin",
              description="Show configuration options for the bot")

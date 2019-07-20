@@ -1,5 +1,7 @@
 import os
 
+import hjson
+
 from core.decorators import instance, command
 from core.chat_blob import ChatBlob
 from core.command_param_types import Any, NamedParameters
@@ -19,8 +21,12 @@ class HelpController:
         self.getresp = self.ts.get_response
 
     def start(self):
-        self.ts.registerTranslation("module/help", self.ts.read_translations_from_file("modules/core/help/help.msg"))
+        self.ts.register_translation("module/help", self.load_help_msg)
         self.command_alias_service.add_alias("version", "about")
+
+    def load_help_msg(self):
+        with open("modules/core/help/help.msg", mode="r", encoding="UTF-8") as f:
+            return hjson.load(f)
 
     @command(command="about", params=[], access_level="all",
              description="Show information about the development of this bot")
@@ -30,7 +36,6 @@ class HelpController:
         blob += self.getresp("module/help", "about_special_ones")
         blob += self.getresp("module/help", "about_improvers")
         blob += self.getresp("module/help", "about_bottom")
-    #with open(os.path.dirname(os.path.realpath(__file__)) + os.sep + "about.txt", mode="r", encoding="utf-8") as f:
         return ChatBlob(self.getresp("module/help", "blob_title", {"ver": self.bot.version}), blob)
 
     @command(command="help", params=[], access_level="all",

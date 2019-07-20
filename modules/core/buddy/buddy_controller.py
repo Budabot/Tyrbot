@@ -1,3 +1,5 @@
+import hjson
+
 from core.decorators import instance, command, timerevent
 from core.command_param_types import Any, Const, Options, Character
 from core.chat_blob import ChatBlob
@@ -18,7 +20,11 @@ class BuddyController:
         self.getresp = self.ts.get_response
 
     def start(self):
-        self.ts.registerTranslation("module/buddy", self.ts.read_translations_from_file("modules/core/buddy/buddy.msg"))
+        self.ts.register_translation("module/buddy", self.load_buddy_msg)
+
+    def load_buddy_msg(self):
+        with open("modules/core/buddy/buddy.msg", mode="r", encoding="UTF-8") as f:
+            return hjson.load(f)
 
     @command(command="buddylist", params=[], access_level="admin",
              description="Show characters on the buddy list")

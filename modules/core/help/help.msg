@@ -17,7 +17,8 @@
     "de_DE": [
       "Quellcode: <a href='chatcmd:///start https://github.com/Budabot/Tyrbot'>https://github.com/Budabot/Tyrbot</a>\n",
       "Projektstatistiken: <a href='chatcmd:///start https://www.openhub.net/p/tyrbot'>https://www.openhub.net/p/tyrbot</a>\n",
-      "Discord: <a href='chatcmd:///start https://discord.gg/2x9WesJ'>https://discord.gg/2x9WesJ</a>\n"
+      "Discord: <a href='chatcmd:///start https://discord.gg/2x9WesJ'>https://discord.gg/2x9WesJ</a>\n",
+      "\n"
     ]
   },
   "about_body": {
@@ -48,6 +49,16 @@
   },
   "about_improvers": {
     "en_US": [
+      "Thanks to these people who submitted PRs on GitHub to improve Tyrbot:\n",
+      "<highlight>minidodo<end>\n",
+      "<highlight>hughp135<end>\n",
+      "<highlight>jroovers<end>\n",
+      "<highlight>dustify<end>\n",
+      "<highlight>equinitry<end>\n",
+      "<highlight>Ilon Sjögren<end>\n",
+      "\n"
+    ],
+    "de_DE": [
       "Ebenso möchte ich mich bei Folgenden Personen bedanken, die Tyrbot mithilfe von PR's verbessert haben:\n",
       "<highlight>minidodo<end>\n",
       "<highlight>hughp135<end>\n",

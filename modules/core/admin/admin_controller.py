@@ -1,3 +1,5 @@
+import hjson
+
 from core.decorators import instance, command
 from core.chat_blob import ChatBlob
 from core.command_param_types import Any, Const, Options, Character
@@ -22,7 +24,11 @@ class AdminController:
     def start(self):
         self.command_alias_service.add_alias("adminlist", "admin")
         self.command_alias_service.add_alias("admins", "admin")
-        self.ts.registerTranslation("module/admin", self.ts.read_translations_from_file("modules/core/admin/admin.msg"))
+        self.ts.register_translation("module/admin", self.load_admin_msg)
+
+    def load_admin_msg(self):
+        with open("modules/core/admin/admin.msg", mode="r", encoding="UTF-8") as f:
+            return hjson.load(f)
 
     @command(command="admin", params=[], access_level="all",
              description="Show the admin list")

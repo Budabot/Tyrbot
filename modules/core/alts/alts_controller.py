@@ -1,3 +1,5 @@
+import hjson
+
 from core.decorators import instance, command
 from core.command_param_types import Any, Const, Options, Character
 from core.chat_blob import ChatBlob
@@ -15,7 +17,11 @@ class AltsController:
         self.getresp = self.ts.get_response
 
     def start(self):
-        self.ts.registerTranslation("module/alts", self.ts.read_translations_from_file("modules/core/alts/alts.msg"))
+        self.ts.register_translation("module/alts", self.load_alts_msg)
+
+    def load_alts_msg(self):
+        with open("modules/core/alts/alts.msg", mode="r", encoding="UTF-8") as f:
+            return hjson.load(f)
 
     @command(command="alts", params=[], access_level="all",
              description="Show your alts")

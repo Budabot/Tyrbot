@@ -1,3 +1,5 @@
+import hjson
+
 from core.decorators import instance, command
 from core.command_param_types import Any, Const, Options, Time, Character
 from core.chat_blob import ChatBlob
@@ -19,7 +21,11 @@ class BanController:
 
     def start(self):
         self.command_alias_service.add_alias("unban", "ban rem")
-        self.ts.registerTranslation("module/ban", self.ts.read_translations_from_file("modules/core/ban/ban.msg"))
+        self.ts.register_translation("module/ban", self.load_ban_msg)
+
+    def load_ban_msg(self):
+        with open("modules/core/ban/ban.msg", mode="r", encoding="UTF-8") as f:
+            return hjson.load(f)
 
     @command(command="ban", params=[Const("list", is_optional=True)], access_level="moderator",
              description="Show the ban list")

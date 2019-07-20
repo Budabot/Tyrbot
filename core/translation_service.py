@@ -1,4 +1,3 @@
-
 import hjson
 
 from core.decorators import instance
@@ -13,9 +12,8 @@ from core.util import Util
 @instance()
 class TranslationService:
     strings = {}
-    modules = {}
+    translation_callbacks = {}
     language = "en_US"
-    last_file = None
     lang_codes = ["en_US", "de_DE"]
 
     def __init__(self):
@@ -34,49 +32,39 @@ class TranslationService:
     def start(self):
         self.setting_service.register("language", "en_US", "Language of the Bot",
                                       TextSettingType(self.lang_codes), "core.system")
-        self.registerTranslation("global", self.read_translations_from_file("core/global.msg"))
+        self.register_translation("global", self.load_global_msg)
 
-    def registerTranslation(self, category, translations):
-        self.logger.info("Registering category {cat}".format(cat=category))
-        for k in translations:
-            if self.strings.get(category):
-                self.strings[category][k] = translations[k].get(self.language) or translations[k].get("en_US")
-            else:
-                self.strings[category] = {k: translations[k].get(self.language) or translations[k].get("en_US")}
-        if self.last_file is not None:
-            if self.modules.get(category) is None:
-                self.modules[category] = []
-            self.modules[category].append(self.last_file)
+    def register_translation(self, category, callback):
+        if self.translation_callbacks.get(category) is None:
+            self.translation_callbacks[category] = []
+        self.translation_callbacks[category].append(callback)
+        self.update_msg(category, callback)
 
-        self.last_file = None
+    def load_global_msg(self):
+        with open("core/global.msg", mode="r", encoding="UTF-8") as f:
+            return hjson.load(f)
 
-    #This method will load another language, defined in the param 'lang'
+    # This method will load another language, defined in the param 'lang'
     def reload_translation(self, lang):
-        self.bot.send_private_channel_message("<orange>My language got changed. reloading translations...<end>",
+        self.bot.send_private_channel_message("My language got changed. reloading translations...",
                                               fire_outgoing_event=False)
-        self.bot.send_org_message("<orange>My language got changed. reloading translations...<end>",
+        self.bot.send_org_message("My language got changed. reloading translations...",
                                   fire_outgoing_event=False)
-
         self.event_service.fire_event("reload_translation")
         self.language = lang
         self.setting_service.set_value("language", lang)
         for k1 in self.strings:
-            for k2 in self.strings.get(k1):
-                category_link = self.modules.get(k1)
-                if isinstance(category_link, list):
-                    index = len(category_link) - 1
-                    while index >= 0:
-                        transl = self.read_translations_from_file(category_link[index])
-                        if transl.get(k2):
-                            self.strings[k1][k2] = transl.get(k2).get(self.language) or transl.get(k2).get("en_US")
-                        index -= 1
-        self.last_file = None
+            for callback in self.translation_callbacks.get(k1):
+                self.update_msg(k1, callback)
 
-    def read_translations_from_file(self, file):
-        with open(file, mode="r", encoding="utf-8") as f:
-            data = hjson.load(f)
-        self.last_file = file
-        return data
+    #updates the msg's
+    def update_msg(self, category, callback):
+        data = callback()
+        for k in data:
+            if self.strings.get(category):
+                self.strings[category][k] = data[k].get(self.language) or data[k].get("en_US")
+            else:
+                self.strings[category] = {k: data[k].get(self.language) or data[k].get("en_US")}
 
     #
     # the param 'variables' accepts dictionary's ONLY.
@@ -105,7 +93,7 @@ class TranslationService:
                     .format(category=category)
         except KeyError as e:
             self.logger.error(
-                "translating error category: {mod} key: {key} with params: {params}\n Stracktrace: {stcktr}"
+                "translating error category: {mod} key: {key} with params: {params}\n Error: {stcktr}"
                 .format(mod=category, key=key, params=variables, stcktr=e))
             msg = "<red>Error: translating error category: <orange>{mod}<end> key: <orange>{key}<end>" \
                   " with params: <orange>{params}<end>".format(mod=category, key=key, params=variables)
