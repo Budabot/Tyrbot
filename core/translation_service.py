@@ -70,9 +70,10 @@ class TranslationService:
                         if transl.get(k2):
                             self.strings[k1][k2] = transl.get(k2).get(self.language) or transl.get(k2).get("en_US")
                         index -= 1
+        self.last_file = None
 
     def read_translations_from_file(self, file):
-        with open(file, "r") as f:
+        with open(file, mode="r", encoding="utf-8") as f:
             data = hjson.load(f)
         self.last_file = file
         return data

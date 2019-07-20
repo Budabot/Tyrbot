@@ -22,11 +22,11 @@
   },
   "add_success_target": {
     "en_US": "<highlight>{char}<end> has added you as an alt.",
-    "de_DE": "<highlight>{char}<end> hat dich als seinen Alt hinzugefuegt."
+    "de_DE": "<highlight>{char}<end> hat dich als seinen Alt hinzugefügt."
   },
   "add_success_self": {
     "en_US": "<highlight>{char}<end> has been added as your alt.",
-    "de_DE": "<highlight>{char}<end> wurde zu deinen Alts hinzugefuegt."
+    "de_DE": "<highlight>{char}<end> wurde zu deinen Alts hinzugefügt."
   },
   "add_fail_already": {
     "en_US": "Error! <highlight>{char}<end> already has alts.",
