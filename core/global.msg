@@ -1,6 +1,6 @@
 {
   "char_not_found": {
-    "en_US": "Could not find <highlight>{char}<end>.",
+    "en_US": "Could not find character <highlight>{char}<end>.",
     "de_DE": "Der Charakter <highlight>{char}<end> wurde nicht gefunden."
   },
   "access_denied": {
