@@ -5,6 +5,7 @@ from core.db import DB
 from core.text import Text
 from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Any, Options
+from core.translation_service import TranslationService
 
 
 @instance()
@@ -15,6 +16,8 @@ class ConfigEventsController:
         self.command_service = registry.get_instance("command_service")
         self.event_service = registry.get_instance("event_service")
         self.setting_service = registry.get_instance("setting_service")
+        self.ts: TranslationService = registry.get_instance("translation_service")
+        self.getresp = self.ts.get_response
 
     @command(command="config", params=[Const("event"), Any("event_type"), Any("event_handler"), Options(["enable", "disable"])], access_level="admin",
              description="Enable or disable an event")
@@ -26,14 +29,17 @@ class ConfigEventsController:
         enabled = 1 if action == "enable" else 0
 
         if not self.event_service.is_event_type(event_base_type):
-            return "Unknown event type <highlight>%s<end>." % event_type
+            return self.getresp("module/config", "unknown event", {"type", event_type})
 
         count = self.event_service.update_event_status(event_base_type, event_sub_type, event_handler, enabled)
 
         if count == 0:
-            return "Could not find event for type <highlight>%s<end> and handler <highlight>%s<end>." % (event_type, event_handler)
+            return self.getresp("module/config", "event_enable_fail", {"type": event_type, "handler": event_handler})
         else:
-            return "Event type <highlight>%s<end> for handler <highlight>%s<end> has been <highlight>%sd<end> successfully." % (event_type, event_handler, action)
+            action = self.getresp("module/config", "enabled_high" if action == "enable" else "disabled_high")
+            return self.getresp("module/config", "event_enable_success", {"type": event_type,
+                                                                          "handler": event_handler,
+                                                                          "changedto": action})
 
     @command(command="config", params=[Const("event"), Any("event_type"), Any("event_handler"), Const("run")], access_level="admin",
              description="Execute a timed event immediately")
@@ -44,19 +50,22 @@ class ConfigEventsController:
         event_base_type, event_sub_type = self.event_service.get_event_type_parts(event_type)
 
         if not self.event_service.is_event_type(event_base_type):
-            return "Unknown event type <highlight>%s<end>." % event_type
+            return self.getresp("module/config", "unknown event", {"type", event_type})
 
         row = self.db.query_single("SELECT e.event_type, e.event_sub_type, e.handler, t.next_run FROM timer_event t "
                                    "JOIN event_config e ON t.event_type = e.event_type AND t.handler = e.handler "
                                    "WHERE e.event_type = ? AND e.event_sub_type = ? AND e.handler LIKE ?", [event_base_type, event_sub_type, event_handler])
 
         if not row:
-            return "Could not find event for type <highlight>%s<end> and handler <highlight>%s<end>." % (event_type, event_handler)
+            return self.getresp("module/config", "event_enable_fail", {"type": event_type, "handler": event_handler})
         elif row.event_type != "timer":
-            return "Only <highlight>timer<end> events can be run manually."
+            return self.getresp("module/config", "event_manual")
         else:
             self.event_service.execute_timed_event(row, int(time.time()))
-            return "Event type <highlight>%s<end> for handler <highlight>%s<end> has been <highlight>%s<end> successfully." % (event_type, event_handler, action)
+            action = self.getresp("module/config", "enabled_high" if action == "enable" else "disabled_high")
+            return self.getresp("module/config", "event_enable_success", {"type": event_type,
+                                                                          "handler": event_handler,
+                                                                          "changedto": action})
 
     @command(command="config", params=[Const("eventlist")], access_level="admin",
              description="List all events")
@@ -79,7 +88,7 @@ class ConfigEventsController:
 
             blob += "%s [%s] %s %s - %s\n" % (event_type_key, self.format_enabled(row.enabled), on_link, off_link, row.description)
 
-        return ChatBlob("Events (%d)" % len(data), blob)
+        return ChatBlob(self.getresp("module/config", "blob_events", {"amount": len(data)}), blob)
 
     def format_enabled(self, enabled):
         return "<green>E<end>" if enabled else "<red>D<end>"

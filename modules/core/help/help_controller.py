@@ -1,8 +1,11 @@
 import os
 
+import hjson
+
 from core.decorators import instance, command
 from core.chat_blob import ChatBlob
 from core.command_param_types import Any, NamedParameters
+from core.translation_service import TranslationService
 
 
 @instance()
@@ -14,15 +17,26 @@ class HelpController:
         self.access_service = registry.get_instance("access_service")
         self.command_service = registry.get_instance("command_service")
         self.command_alias_service = registry.get_instance("command_alias_service")
+        self.ts: TranslationService = registry.get_instance("translation_service")
+        self.getresp = self.ts.get_response
 
     def start(self):
+        self.ts.register_translation("module/help", self.load_help_msg)
         self.command_alias_service.add_alias("version", "about")
+
+    def load_help_msg(self):
+        with open("modules/core/help/help.msg", mode="r", encoding="UTF-8") as f:
+            return hjson.load(f)
 
     @command(command="about", params=[], access_level="all",
              description="Show information about the development of this bot")
     def about_cmd(self, request):
-        with open(os.path.dirname(os.path.realpath(__file__)) + os.sep + "about.txt", "r") as f:
-            return ChatBlob("About Tyrbot %s" % self.bot.version, f.read())
+        blob = self.getresp("module/help", "about_head")
+        blob += self.getresp("module/help", "about_body")
+        blob += self.getresp("module/help", "about_special_ones")
+        blob += self.getresp("module/help", "about_improvers")
+        blob += self.getresp("module/help", "about_bottom")
+        return ChatBlob(self.getresp("module/help", "blob_title", {"ver": self.bot.version}), blob)
 
     @command(command="help", params=[], access_level="all",
              description="Show a list of commands to get help with")
@@ -72,4 +86,4 @@ class HelpController:
         if help_text:
             return self.command_service.format_help_text(help_topic, help_text)
         else:
-            return "Could not find help on <highlight>" + help_topic + "<end>."
+            return self.getresp("module/help", "no_help", {"topic": help_topic})

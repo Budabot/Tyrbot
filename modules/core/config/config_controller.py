@@ -1,8 +1,11 @@
+import hjson
+
 from core.decorators import instance, command
 from core.db import DB
 from core.text import Text
 from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Any, Options
+from core.translation_service import TranslationService
 
 
 @instance()
@@ -14,6 +17,15 @@ class ConfigController:
         self.event_service = registry.get_instance("event_service")
         self.setting_service = registry.get_instance("setting_service")
         self.config_events_controller = registry.get_instance("config_events_controller")
+        self.ts: TranslationService = registry.get_instance("translation_service")
+        self.getresp = self.ts.get_response
+
+    def start(self):
+        self.ts.register_translation("module/config", self.load_config_msg)
+
+    def load_config_msg(self):
+        with open("modules/core/config/config.msg", mode="r", encoding="UTF-8") as f:
+            return hjson.load(f)
 
     @command(command="config", params=[], access_level="admin",
              description="Show configuration options for the bot")
@@ -47,14 +59,12 @@ class ConfigController:
 
             blob += self.text.make_chatcmd(module, "/tell <myname> config mod " + row.module) + " "
             if row.count_enabled > 0 and row.count_disabled > 0:
-                blob += "<yellow>Partial<end>"
-            elif row.count_disabled == 0:
-                blob += "<green>Enabled<end>"
+                blob +=self.getresp("module/config", "partial")
             else:
-                blob += "<red>Disabled<end>"
+                blob +=self.getresp("module/config", "enabled_high" if row.count_disabled == 0 else "disabled_high")
             blob += "\n"
 
-        return ChatBlob("Config (%d)" % count, blob)
+        return ChatBlob(self.getresp("module/config", "config", {"count": count}), blob)
 
     @command(command="config", params=[Options(["mod", "module"]), Any("module_name")], access_level="admin",
              description="Show configuration options for a specific module")
@@ -65,14 +75,14 @@ class ConfigController:
 
         data = self.db.query("SELECT name FROM setting WHERE module = ? ORDER BY name ASC", [module])
         if data:
-            blob += "<header2>Settings<end>\n"
+            blob += self.getresp("module/config", "settings")
             for row in data:
                 setting = self.setting_service.get(row.name)
                 blob += "%s: %s (%s)\n" % (setting.get_description(), setting.get_display_value(), self.text.make_chatcmd("change", "/tell <myname> config setting " + row.name))
 
         data = self.db.query("SELECT DISTINCT command, sub_command FROM command_config WHERE module = ? ORDER BY command ASC", [module])
         if data:
-            blob += "\n<header2>Commands<end>\n"
+            blob += self.getresp("module/config", "commands")
             for row in data:
                 command_key = self.command_service.get_command_key(row.command, row.sub_command)
                 blob += self.text.make_chatcmd(command_key, "/tell <myname> config cmd " + command_key) + "\n"
@@ -82,13 +92,10 @@ class ConfigController:
                              "ORDER BY event_type, handler ASC",
                              [module])
         if data:
-            blob += "\n<header2>Events<end>\n"
+            blob += self.getresp("module/config", "events")
             for row in data:
                 event_type_key = self.event_service.get_event_type_key(row.event_type, row.event_sub_type)
-                if row.enabled == 1:
-                    enabled = "<green>Enabled<end>"
-                else:
-                    enabled = "<red>Disabled<end>"
+                enabled = self.getresp("module/config", "enabled_high" if row.enabled == 1 else "disabled_high")
                 blob += "%s - %s [%s]" % (self.config_events_controller.format_event_type(row), row.description, enabled)
                 blob += " " + self.text.make_chatcmd("On", "/tell <myname> config event %s %s enable" % (event_type_key, row.handler))
                 blob += " " + self.text.make_chatcmd("Off", "/tell <myname> config event %s %s disable" % (event_type_key, row.handler))
@@ -97,9 +104,9 @@ class ConfigController:
                 blob += "\n"
 
         if blob:
-            return ChatBlob("Module (" + module + ")", blob)
+            return ChatBlob(self.getresp("module/config", "mod_title", {"mod": module}), blob)
         else:
-            return "Could not find module <highlight>%s<end>" % module
+            return self.getresp("module/config", "mod_not_found", {"mod": module})
 
     @command(command="config", params=[Const("setting"), Any("setting_name"), Options(["set", "clear"]), Any("new_value", is_optional=True)], access_level="admin",
              description="Change a setting value")
@@ -109,21 +116,21 @@ class ConfigController:
         if op == "clear":
             new_value = ""
         elif not new_value:
-            return "Error! New value required to update setting."
-
+            return self.getresp("module/config", "no_new_value")
         setting = self.setting_service.get(setting_name)
 
         if setting:
             try:
                 setting.set_value(new_value)
                 if op == "clear":
-                    return "Setting <highlight>%s<end> has been cleared." % setting_name
+                    return self.getresp("module/config", "set_clr", {"setting": setting_name})
                 else:
-                    return "Setting <highlight>%s<end> has been set to %s." % (setting_name, setting.get_display_value())
+                    return self.getresp("module/config", "set_new", {"setting": setting_name,
+                                                                     "value": setting.get_display_value()})
             except Exception as e:
                 return "Error! %s" % str(e)
         else:
-            return "Could not find setting <highlight>%s<end>." % setting_name
+            return self.getresp("module/config", "setting_not_found", {"setting": setting_name})
 
     @command(command="config", params=[Const("setting"), Any("setting_name")], access_level="admin",
              description="Show configuration options for a setting")
@@ -135,9 +142,9 @@ class ConfigController:
         setting = self.setting_service.get(setting_name)
 
         if setting:
-            blob += "Current Value: <highlight>%s<end>\n" % str(setting.get_display_value())
-            blob += "Description: <highlight>%s<end>\n\n" % setting.get_description()
+            blob += self.getresp("module/config", "current_value", {"value": str(setting.get_display_value())})
+            blob += self.getresp("module/config", "description", {"desc": setting.get_description()})
             blob += setting.get_display()
-            return ChatBlob("Setting (%s)" % setting_name, blob)
+            return ChatBlob(self.getresp("module/config", "setting", {"setting": setting_name}), blob)
         else:
-            return "Could not find setting <highlight>%s<end>." % setting_name
+            return self.getresp("module/config", "setting_not_found", {"setting": setting_name})

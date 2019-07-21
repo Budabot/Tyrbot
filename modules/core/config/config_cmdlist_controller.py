@@ -3,6 +3,7 @@ from core.command_param_types import NamedParameters, Const
 from core.db import DB
 from core.decorators import instance, command
 from core.text import Text
+from core.translation_service import TranslationService
 
 
 @instance()
@@ -11,6 +12,8 @@ class CommandListController:
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
         self.command_service = registry.get_instance("command_service")
+        self.ts: TranslationService = registry.get_instance("translation_service")
+        self.getresp = self.ts.get_response
 
     @command(command="config", params=[Const("cmdlist"), NamedParameters(["access_level"])], access_level="admin",
              description="List all commands")
@@ -51,7 +54,7 @@ class CommandListController:
         if temp_rows:
             blob += self.display_row_data(temp_rows)
 
-        return ChatBlob("Commands (%d)" % count, blob)
+        return ChatBlob(self.getresp("module/config", "cmdlist_commands", {"amount": count}), blob)
 
     def display_row_data(self, rows):
         return "[%s %s]\n" % (self.get_enabled_str(rows), self.get_access_levels_str(rows))
