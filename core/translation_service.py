@@ -84,18 +84,18 @@ class TranslationService:
                 else:
                     self.logger.error("translating key '{key}' in category '{category}' not found"
                                       .format(key=key, category=category))
-                    msg = "<red>Error: message for translation key <orange>'{key}'<end> not found.<end>" \
+                    msg = "Error: message for translation key <highlight>'{key}'<end> not found." \
                         .format(key=key)
             else:
                 self.logger.error("translation category '{category}' was not found".format(category=category))
 
-                msg = "<red>Error: translating category <orange>'{category}'<end> not found.<end>" \
+                msg = "Error: translating category <highlight>'{category}'<end> not found." \
                     .format(category=category)
         except KeyError as e:
             self.logger.error(
                 "translating error category: {mod} key: {key} with params: {params}\n Error: {stcktr}"
                 .format(mod=category, key=key, params=variables, stcktr=e))
-            msg = "<red>Error: translating error category: <orange>{mod}<end> key: <orange>{key}<end>" \
-                  " with params: <orange>{params}<end>".format(mod=category, key=key, params=variables)
+            msg = "Error: translating error category: <highlight>{mod}<end> key: <highlight>{key}<end>" \
+                  " with params: <highlight>{params}<end>".format(mod=category, key=key, params=variables)
         finally:
             return msg

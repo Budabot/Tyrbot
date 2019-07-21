@@ -3,6 +3,7 @@ from core.ban_service import BanService
 from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Options, Character
 from core.decorators import instance, command, event
+from core.translation_service import TranslationService
 from modules.core.org_members.org_member_controller import OrgMemberController
 
 
@@ -22,6 +23,8 @@ class MemberController:
         self.access_service = registry.get_instance("access_service")
         self.command_alias_service = registry.get_instance("command_alias_service")
         self.event_service = registry.get_instance("event_service")
+        self.ts: TranslationService = registry.get_instance("translation_service")
+        self.getresp = self.ts.get_response
 
     def pre_start(self):
         self.access_service.register_access_level(self.MEMBER_ACCESS_LEVEL, 80, self.check_member)
@@ -40,12 +43,12 @@ class MemberController:
     def member_add_cmd(self, request, _, char):
         if char.char_id:
             if self.get_member(char.char_id):
-                return "<highlight>%s<end> is already a member." % char.name
+                return self.getresp("module/private_channel", "mem_add_fail", {"char": char.name})
             else:
                 self.add_member(char.char_id)
-                return "<highlight>%s<end> has been added as a member." % char.name
+                return self.getresp("module/private_channel", "mem_add_success", {"char": char.name})
         else:
-            return "Could not find character <highlight>%s<end>." % char.name
+            return self.getresp("global", "char_not_found", {"char": char.name})
 
     @command(command="member", params=[Options(["rem", "remove"]), Character("character")], access_level=OrgMemberController.ORG_ACCESS_LEVEL,
              description="Remove a member")
@@ -53,11 +56,11 @@ class MemberController:
         if char.char_id:
             if self.get_member(char.char_id):
                 self.remove_member(char.char_id)
-                return "<highlight>%s<end> has been removed as a member." % char.name
+                return self.getresp("module/private_channel", "mem_rem_success", {"char": char.name})
             else:
-                return "<highlight>%s<end> is not a member." % char.name
+                return self.getresp("module/private_channel", "mem_rem_fail", {"char": char.name})
         else:
-            return "Could not find character <highlight>%s<end>." % char.name
+            return self.getresp("global", "char_not_found", {"char": char.name})
 
     @command(command="member", params=[Const("list", is_optional=True)], access_level=OrgMemberController.ORG_ACCESS_LEVEL,
              description="List members")
@@ -67,7 +70,7 @@ class MemberController:
         blob = ""
         for row in data:
             blob += str(row.name) + "\n"
-        return ChatBlob("Members (%d)" % count, blob)
+        return ChatBlob(self.getresp("module/private_channel", "blob_mem_list", {"amount": count}), blob)
 
     @command(command="autoinvite", params=[Options(["on", "off"])], access_level=MEMBER_ACCESS_LEVEL,
              description="Set your auto invite preference")
@@ -76,9 +79,10 @@ class MemberController:
         member = self.get_member(request.sender.char_id)
         if member:
             self.update_auto_invite(request.sender.char_id, 1 if pref == "on" else 0)
-            return "Your auto invite preference has been set to <highlight>%s<end>." % pref
+            pref = self.getresp("module/private_channel", "on" if pref == "on" else "off")
+            return self.getresp("module/private_channel", "autoinvite_changed", {"changedto": pref})
         else:
-            return "You must be a member of this bot to set your auto invite preference."
+            return self.getresp("module/private_channel", "not_an_member")
 
     @event(event_type="connect", description="Add members as buddies of the bot on startup", is_hidden=True)
     def handle_connect_event(self, event_type, event_data):
@@ -89,7 +93,7 @@ class MemberController:
     @event(event_type=MEMBER_LOGON_EVENT, description="Auto invite members to the private channel when they logon")
     def handle_buddy_logon(self, event_type, event_data):
         if event_data.auto_invite == 1:
-            self.bot.send_private_message(event_data.char_id, "You have been auto-invited to the private channel.")
+            self.bot.send_private_message(event_data.char_id, self.getresp("module/private_channel", "auto_invited"))
             self.private_channel_service.invite(event_data.char_id)
 
     @event(event_type=BanService.BAN_ADDED_EVENT, description="Remove characters as members when they are banned", is_hidden=True)

@@ -1,9 +1,12 @@
+import hjson
+
 from core.ban_service import BanService
 from core.chat_blob import ChatBlob
 from core.command_param_types import Character
 from core.decorators import instance, command, event
 from core.dict_object import DictObject
 from core.private_channel_service import PrivateChannelService
+from core.translation_service import TranslationService
 from core.tyrbot import Tyrbot
 
 
@@ -22,9 +25,16 @@ class PrivateChannelController:
         self.log_controller = registry.get_instance("log_controller")
         self.online_controller = registry.get_instance("online_controller")
         self.relay_controller = registry.get_instance("relay_controller")
+        self.ts: TranslationService = registry.get_instance("translation_service")
+        self.getresp = self.ts.get_response
 
     def start(self):
         self.relay_hub_service.register_relay(self.RELAY_HUB_SOURCE, self.handle_incoming_relay_message)
+        self.ts.register_translation("module/private_channel", self.load_private_channel_msg)
+
+    def load_private_channel_msg(self):
+        with open("modules/core/private_channel/private_channel.msg", mode="r", encoding="utf-8") as f:
+            return hjson.load(f)
 
     def handle_incoming_relay_message(self, ctx):
         message = ctx.message
@@ -46,35 +56,40 @@ class PrivateChannelController:
     def invite_cmd(self, request, char):
         if char.char_id:
             if self.private_channel_service.in_private_channel(char.char_id):
-                return "<highlight>%s<end> is already in the private channel." % char.name
+                return self.getresp("module/private_channel", "invite_fail", {"target": char.name})
             else:
-                self.bot.send_private_message(char.char_id, "You have been invited to the private channel by <highlight>%s<end>." % request.sender.name)
+                self.bot.send_private_message(char.char_id, self.getresp("module/private_channel",
+                                                                         "invite_success_target",
+                                                                         {"inviter": request.sender.name}))
                 self.private_channel_service.invite(char.char_id)
-                return "You have invited <highlight>%s<end> to the private channel." % char.name
+                return self.getresp("module/private_channel", "invite_success_self", {"target": char.name})
         else:
-            return "Could not find character <highlight>%s<end>." % char.name
+            return self.getresp("global", "char_not_found", {"char": char.name})
 
     @command(command="kick", params=[Character("character")], access_level="admin",
              description="Kick a character from the private channel")
     def kick_cmd(self, request, char):
         if char.char_id:
             if not self.private_channel_service.in_private_channel(char.char_id):
-                return "<highlight>%s<end> is not in the private channel." % char.name
+                return self.getresp("module/private_channel", "invite_success_self", {"target": char.name})
             else:
                 # TODO use request.sender.access_level and char.access_level
                 if self.access_service.has_sufficient_access_level(request.sender.char_id, char.char_id):
-                    self.bot.send_private_message(char.char_id, "You have been kicked from the private channel by <highlight>%s<end>." % request.sender.name)
+                    self.bot.send_private_message(char.char_id, self.getresp("module/private_channel",
+                                                                             "kick_success_self",
+                                                                             {"kicker": request.sender.name}))
                     self.private_channel_service.kick(char.char_id)
-                    return "You have kicked <highlight>%s<end> from the private channel." % char.name
+                    return self.getresp("module/private_channel", "kick_success_self", {"target": char.name})
                 else:
-                    return "You do not have the required access level to kick <highlight>%s<end>." % char.name
+                    return self.getresp("module/private_channel", "kick_fail", {"target": char.name})
         else:
-            return "Could not find character <highlight>%s<end>." % char.name
+            return self.getresp("global", "char_not_found", {"char": char.name})
 
     @command(command="kickall", params=[], access_level="admin",
              description="Kick all characters from the private channel")
     def kickall_cmd(self, request):
-        self.bot.send_private_channel_message("Everyone will be kicked from this channel in 10 seconds. [by <highlight>%s<end>]" % request.sender.name)
+        self.bot.send_private_channel_message(self.getresp("module/private_channel", "kick_all",
+                                                           {"char": request.sender.name}))
         self.job_scheduler.delayed_job(lambda t: self.private_channel_service.kickall(), 10)
 
     @event(event_type=BanService.BAN_ADDED_EVENT, description="Kick characters from the private channel who are banned", is_hidden=True)
@@ -94,14 +109,17 @@ class PrivateChannelController:
 
     @event(event_type=PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, description="Notify when a character joins the private channel")
     def handle_private_channel_joined_event(self, event_type, event_data):
-        msg = "%s has joined the private channel. %s" % (self.online_controller.get_char_info_display(event_data.char_id),
-                                                         self.log_controller.get_logon(event_data.char_id))
+        msg = self.getresp("module/private_channel", "join",
+                           {"char": self.online_controller.get_char_info_display(event_data.char_id),
+                            "logon": self.log_controller.get_logon(event_data.char_id)})
         self.bot.send_private_channel_message(msg)
 
     @event(event_type=PrivateChannelService.LEFT_PRIVATE_CHANNEL_EVENT, description="Notify when a character leaves the private channel")
     def handle_private_channel_left_event(self, event_type, event_data):
         char_name = self.character_service.resolve_char_to_name(event_data.char_id)
-        msg = "<highlight>%s<end> has left the private channel. %s" % (char_name, self.log_controller.get_logoff(event_data.char_id))
+        msg = self.getresp("module/private_channel", "leave",
+                           {"char": char_name,
+                            "logoff": self.log_controller.get_logon(event_data.char_id)})
         self.bot.send_private_channel_message(msg)
 
     @event(event_type=Tyrbot.OUTGOING_PRIVATE_CHANNEL_MESSAGE_EVENT, description="Relay commands from the private channel to the relay hub")
