@@ -7,12 +7,13 @@ class SendMessageController:
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
         self.command_service = registry.get_instance("command_service")
+        self.getresp = registry.get_instance("translation_service").get_response
 
     @command(command="sendtell", params=[Character("character"), Any("message")], access_level="superadmin",
              description="Send a tell to another character from the bot")
     def sendtell_cmd(self, request, char, message):
         if char.char_id:
             self.bot.send_private_message(char.char_id, message, add_color=False)
-            return "Your message has been sent."
+            return self.getresp("module/system", "msg_sent")
         else:
-            return "Could not find character <highlight>%s<end>." % char.name
+            return self.getresp("global", "char_not_found", {"char": char.name})
