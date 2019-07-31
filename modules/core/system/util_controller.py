@@ -32,7 +32,7 @@ class UtilController:
         if not char.char_id:
             return self.getresp("global", "char_not_found", {"char": char.name})
 
-        return self.getresp("global", "check_access",
+        return self.getresp("module/system", "check_access",
                             {"char": char.name,
                              "rank_main": char.access_level["label"],
                              "rank_self": self.access_service.get_single_access_level(char.char_id)["label"]})
@@ -55,13 +55,13 @@ class UtilController:
         if not char.char_id:
             return self.getresp("global", "char_not_found", {"char": char.name})
 
-        self.bot.send_private_message(char.char_id, self.getresp("module/system", "shot_output_target",
+        self.bot.send_private_message(char.char_id, self.getresp("module/system", "show_output_target",
                                                                  {"sender": request.sender.name,
                                                                   "cmd": command_str}))
 
         self.command_service.process_command(command_str, request.channel, request.sender.char_id, lambda msg: self.bot.send_private_message(char.char_id, msg))
 
-        return self.getresp("module/system", "shot_output_self",
+        return self.getresp("module/system", "show_output_self",
                             {"target": char.name,
                              "cmd": command_str})
     @command(command="system", params=[], access_level="admin",

@@ -13,7 +13,7 @@
   },
   "runas_fail": {
     "en_US": "Error! You must have a higher access level than <highlight>{char}<end>.",
-    "de_DE": "Error! Du musst ein höheres Rechtelevel haben als <highlight>{char}<end>"
+    "de_DE": "Error! Du musst ein höheres Rechtelevel haben als <highlight>{char}<end>."
   },
   "msg_sent": {
     "en_US": "Your message has been sent.",
@@ -21,7 +21,7 @@
   },
   "sql_exec_success": {
     "en_US": "{count} row(s) affected.",
-    "de_DE": "{count} Zeile(n) betroffen"
+    "de_DE": "{count} Zeile(n) betroffen."
   },
   "sql_fail": {
     "en_US": "There was an error executing your query: {error}",
@@ -52,8 +52,8 @@
     "de_DE": " <highlight>Der Grund hierfür: {reason}<end>"
   },
   "check_access": {
-    "en_US": "Access level for <highlight>%s<end> is <highlight>%s<end> (%s).",
-    "de_DE": "Das Zugriffslevel für <highlight>{char} ist <highlight>{rank_main}<end> ({rank_self})"
+    "en_US": "Access level for <highlight>{char}<end><end> is <highlight>{rank_main}<end> ({rank_self}).",
+    "de_DE": "Das Zugriffslevel für <highlight>{char}<end> ist <highlight>{rank_main}<end> ({rank_self})."
   },
   "show_output_target": {
     "en_US": "<highlight>{sender}<end> is showing you output for command <highlight>{cmd}<end>:",
