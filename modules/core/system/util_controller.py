@@ -32,7 +32,7 @@ class UtilController:
         if not char.char_id:
             return self.getresp("global", "char_not_found", {"char": char.name})
 
-        return self.getresp("global", "check_access",
+        return self.getresp("module/system", "check_access",
                             {"char": char.name,
                              "rank_main": char.access_level["label"],
                              "rank_self": self.access_service.get_single_access_level(char.char_id)["label"]})

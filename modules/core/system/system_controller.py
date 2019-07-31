@@ -14,10 +14,6 @@ from core.translation_service import TranslationService
 class SystemController:
     SHUTDOWN_EVENT = "shutdown"
 
-    shutdown_msg = "The bot is shutting down."
-    restart_msg = "The bot is restarting."
-    reason_msg = " <highlight>Reason: {}<end>"
-
     def __init__(self):
         self.logger = Logger(__name__)
 
@@ -91,16 +87,12 @@ class SystemController:
             self.bot.shutdown()
 
     def _format_message(self, restart, reason):
-        print(reason)
-        self.restart_msg = self.getresp("module/system", "restart")
-        self.reason_msg = self.getresp("module/system", "reason")
-
         if restart:
             if reason:
                 return self.getresp("module/system", "restart") + self.getresp("module/system", "reason", {"reason": reason})
-            return self.restart_msg + ".."
+            return self.getresp("module/system", "restart") + ".."
         if reason:
             return self.getresp("module/system", "shutdown") + self.getresp("module/system", "reason", {"reason": reason})
-        return self.shutdown_msg + ".."
+        return self.getresp("module/system", "shutdown") + ".."
 
 
