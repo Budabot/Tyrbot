@@ -74,5 +74,12 @@
   "off": {
     "en_US": "off",
     "de_DE": "aus"
+  },
+  "add_self_permbased": {
+    "en_US": "This char is not an member of the bot. But since your accesslevel is high enough, I added you as one.",
+    "de_DE": [
+      "Dieser Charakter ist kein Member des Bots, aber da dein Zugriffslevel hoch genug ist, habe ich dich ",
+      "automatisch zu einem gemacht."]
+
   }
 }

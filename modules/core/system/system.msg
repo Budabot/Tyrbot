@@ -57,7 +57,7 @@
   },
   "show_output_target": {
     "en_US": "<highlight>{sender}<end> is showing you output for command <highlight>{cmd}<end>:",
-    "de_DE": "<highlight>{sender}<end>  zeigt dir den output des Befehls <highlight>{cmd}<end>:"
+    "de_DE": "<highlight>{sender}<end> zeigt dir den output des Befehls <highlight>{cmd}<end>:"
   },
   "show_output_self": {
     "en_US": "Command <highlight>{cmd}<end> output has been sent to <highlight>{target}<end>.",

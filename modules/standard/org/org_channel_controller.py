@@ -3,6 +3,7 @@ from core.decorators import instance, event
 from core.dict_object import DictObject
 from core.logger import Logger
 from core.public_channel_service import PublicChannelService
+from core.text import Text
 from core.tyrbot import Tyrbot
 from modules.core.org_members.org_member_controller import OrgMemberController
 
@@ -22,6 +23,7 @@ class OrgChannelController:
         self.log_controller = registry.get_instance("log_controller")
         self.online_controller = registry.get_instance("online_controller")
         self.relay_controller = registry.get_instance("relay_controller")
+        self.text: Text = registry.get_instance("text")
 
     def start(self):
         self.relay_hub_service.register_relay(self.RELAY_HUB_SOURCE, self.handle_incoming_relay_message)
@@ -47,7 +49,8 @@ class OrgChannelController:
         else:
             char_name = self.character_service.resolve_char_to_name(event_data.char_id)
             sender = DictObject({"char_id": event_data.char_id, "name": char_name})
-            message = "[%s] %s: %s" % (self.relay_controller.get_org_channel_prefix(), char_name, message)
+            message = "[%s] %s: %s" % (self.relay_controller.get_org_channel_prefix(),
+                                       self.text.make_charlink(char_name), message)
 
         self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, sender, message)
 

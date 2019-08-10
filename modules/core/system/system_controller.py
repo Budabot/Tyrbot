@@ -28,9 +28,9 @@ class SystemController:
         self.event_service.register_event_type(self.SHUTDOWN_EVENT)
 
     def start(self):
-        self.ts.register_translation("module/system", self.load_system_channel_msg)
+        self.ts.register_translation("module/system", self.load_system_msg)
 
-    def load_system_channel_msg(self):
+    def load_system_msg(self):
         with open("modules/core/system/system.msg", mode="r", encoding="utf-8") as f:
             return hjson.load(f)
 

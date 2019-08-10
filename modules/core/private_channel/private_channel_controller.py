@@ -6,6 +6,7 @@ from core.command_param_types import Character
 from core.decorators import instance, command, event
 from core.dict_object import DictObject
 from core.private_channel_service import PrivateChannelService
+from core.text import Text
 from core.translation_service import TranslationService
 from core.tyrbot import Tyrbot
 
@@ -25,6 +26,7 @@ class PrivateChannelController:
         self.log_controller = registry.get_instance("log_controller")
         self.online_controller = registry.get_instance("online_controller")
         self.relay_controller = registry.get_instance("relay_controller")
+        self.text: Text = registry.get_instance("text")
         self.ts: TranslationService = registry.get_instance("translation_service")
         self.getresp = self.ts.get_response
 
@@ -103,7 +105,8 @@ class PrivateChannelController:
 
         char_name = self.character_service.resolve_char_to_name(event_data.char_id)
         sender = DictObject({"char_id": event_data.char_id, "name": char_name})
-        message = "[%s][Private] %s: %s" % (self.relay_controller.get_org_channel_prefix(), char_name, event_data.message)
+        message = "[%s][Private] %s: %s" % (self.relay_controller.get_org_channel_prefix(),
+                                            self.text.make_charlink(char_name), event_data.message)
 
         self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, sender, message)
 
