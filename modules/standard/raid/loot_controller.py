@@ -1,3 +1,4 @@
+import re
 import secrets
 import time
 from collections import OrderedDict
@@ -259,31 +260,27 @@ class LootController:
 
         return "%s was added to loot list." % item.name
 
-    @command(command="loot", params=[Const("additem", is_optional=True), Item("item"), Int("item_count", is_optional=True)],
-             description="Add an item to loot list by item_ref", access_level="all", sub_command="modify")
-    def loot_add_item_ref_cmd(self, request, _, item, item_count: int):
-        if not self.leader_controller.can_use_command(request.sender.char_id):
-            return LeaderController.NOT_LEADER_MSG
-
-        if item_count is None:
-            item_count = 1
-
-        self.add_item_to_loot(item, None, item_count)
-
-        return "%s was added to loot list." % item.name
-
     @command(command="loot", params=[Const("additem", is_optional=True), Any("item"), Int("item_count", is_optional=True)],
              description="Add an item to loot list", access_level="all", sub_command="modify")
     def loot_add_item_cmd(self, request, _, item, item_count: int):
         if not self.leader_controller.can_use_command(request.sender.char_id):
             return LeaderController.NOT_LEADER_MSG
-
+        loot = ""
         if item_count is None:
             item_count = 1
+        items = re.findall(r"(([^<]+)?<a href=[\"\']itemref://(\d+)/(\d+)/(\d+)[\"\']>([^<]+)</a>([^<]+)?)", item)
+        if items and item_count is 1:
+            for item in items:
+                if loot is not "":
+                    loot += ", " + item[0]
+                else:
+                    loot += item[0]
+                self.add_item_to_loot(item[0])
+        else:
+            loot += item
+            self.add_item_to_loot(item, None, item_count)
 
-        self.add_item_to_loot(item, None, item_count)
-
-        return "<highlight>%s<end> was added to loot list." % item
+        return "<highlight>%s<end> was added to loot list." % loot
 
     @timerevent(budatime="1h", description="Periodically check when loot list was last modified, and clear it if last modification was done 1+ hours ago")
     def loot_clear_event(self, _1, _2):

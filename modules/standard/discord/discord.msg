@@ -66,7 +66,7 @@
       "{server_name} [{invite}]\n",
       " └ Anzahl der Mitglieder: {m_count}\n",
       " └ Inhaber: {owner}\n\n"
-  ]
+    ]
   },
   "get_invite": {
     "en_US": "get invite",
@@ -153,7 +153,10 @@
       "<header2>Available invites<end>\n",
       "{invites}\n"
     ],
-    "de_DE": ""
+    "de_DE": [
+      "<header2> Verfügbare Einladungen<end>\n",
+      "{invites}\n"
+    ]
   },
   "invite": {
     "en_US": [

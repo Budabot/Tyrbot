@@ -3,7 +3,9 @@ from core.aochat.server_packets import BuddyAdded
 from core.ban_service import BanService
 from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Options, Character
-from core.decorators import instance, command, event
+from core.decorators import instance, command, event, setting
+from core.setting_service import SettingService
+from core.setting_types import TextSettingType, SettingType
 from core.translation_service import TranslationService
 from modules.core.org_members.org_member_controller import OrgMemberController
 
@@ -26,6 +28,7 @@ class MemberController:
         self.event_service = registry.get_instance("event_service")
         self.ts: TranslationService = registry.get_instance("translation_service")
         self.getresp = self.ts.get_response
+        self.settings_service: SettingService = registry.get_instance("setting_service")
         self.org_member_controller: OrgMemberController = registry.get_instance("org_member_controller")
 
     def pre_start(self):
@@ -40,6 +43,13 @@ class MemberController:
         self.command_alias_service.add_alias("adduser", "member add")
         self.command_alias_service.add_alias("remuser", "member rem")
         self.command_alias_service.add_alias("members", "member")
+
+    @setting(name="autoinvite_auto_al", value="org_member",
+             description="Required Accesslevel to autoadd the player as an member (for the autoinvite)")
+    def autoinvite_auto_al(self):
+        return TextSettingType(["all", "guest", "member",
+                                "org_member", "moderator",
+                                "admin", "superadmin", "none"])
 
     @command(command="member", params=[Const("add"), Character("character")],
              access_level=OrgMemberController.ORG_ACCESS_LEVEL,
@@ -88,10 +98,9 @@ class MemberController:
             pref = self.getresp("module/private_channel", "on" if pref == "on" else "off")
             return self.getresp("module/private_channel", "autoinvite_changed", {"changedto": pref})
         else:
-            if self.access_service.check_access(request.sender.char_id, self.org_member_controller.ORG_ACCESS_LEVEL):
+            if self.access_service.check_access(request.sender.char_id, self.settings_service.get_value("autoinvite_auto_al")):
                 self.add_member(request.sender.char_id, auto_invite=1)
-                return self.getresp("module/private_channel", "add_self_permbased") + " " + \
-                       self.getresp("module/private_channel", "autoinvite_changed",
+                return self.getresp("module/private_channel", "autoinvite_changed",
                                     {"changedto": self.getresp("module/private_channel", "on")})
             else:
                 return self.getresp("module/private_channel", "not_an_member")

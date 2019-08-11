@@ -222,7 +222,7 @@ class Item(CommandParam):
             raise Exception("One or more spaces found in command param '%s'." % name)
 
     def get_regex(self):
-        regex = r"""(\s+<a href="itemref:\/\/(\d+)\/(\d+)\/(\d+)">(.+)<\/a>)"""
+        regex = r"""(\s+<a href=["']itemref:\/\/(\d+)\/(\d+)\/(\d+)["']>(.+)<\/a>)"""
         return regex + ("?" if self.is_optional else "")
 
     def get_name(self):
