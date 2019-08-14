@@ -23,6 +23,10 @@
     "en_US": "You do not have the required access level to kick <highlight>{target}<end>.",
     "de_DE": "Du hast nicht das benötigte Zugriffslevel, um <highlight>{target}<end> zu kicken."
   },
+  "kick_fail_not_in_priv": {
+    "en_US": "<highlight>{target}<end> is not an member of the private channel.",
+    "de_DE": "<highlight>{target}<end> ist kein Mitglied des privaten Channels."
+  },
   "join": {
     "en_US": "{char} has joined the private channel. {logon}",
     "de_DE": "{char} ist dem privaten Channel beigetreten. {logon}"

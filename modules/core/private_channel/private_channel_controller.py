@@ -73,12 +73,12 @@ class PrivateChannelController:
     def kick_cmd(self, request, char):
         if char.char_id:
             if not self.private_channel_service.in_private_channel(char.char_id):
-                return self.getresp("module/private_channel", "invite_success_self", {"target": char.name})
+                return self.getresp("module/private_channel", "kick_fail_not_in_priv", {"target": char.name})
             else:
                 # TODO use request.sender.access_level and char.access_level
                 if self.access_service.has_sufficient_access_level(request.sender.char_id, char.char_id):
                     self.bot.send_private_message(char.char_id, self.getresp("module/private_channel",
-                                                                             "kick_success_self",
+                                                                             "kick_success_target",
                                                                              {"kicker": request.sender.name}))
                     self.private_channel_service.kick(char.char_id)
                     return self.getresp("module/private_channel", "kick_success_self", {"target": char.name})
