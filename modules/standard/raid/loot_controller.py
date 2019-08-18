@@ -4,12 +4,13 @@ import time
 from collections import OrderedDict
 
 from core.chat_blob import ChatBlob
-from core.command_param_types import Const, Int, Item, Any
+from core.command_param_types import Const, Int, Any
 from core.db import DB
 from core.decorators import instance, command, timerevent
 from core.setting_service import SettingService
 from core.text import Text
-from modules.standard.raid.item_types import LootItem, AuctionItem
+from modules.standard.items.items_controller import ItemsController
+from modules.standard.raid.item_types import LootItem
 from modules.standard.raid.leader_controller import LeaderController
 
 
@@ -25,7 +26,7 @@ class LootController:
         self.text: Text = registry.get_instance("text")
         self.leader_controller: LeaderController = registry.get_instance("leader_controller")
         self.setting_service: SettingService = registry.get_instance("setting_service")
-        self.items_controller = registry.get_instance("items_controller")
+        self.items_controller: ItemsController = registry.get_instance("items_controller")
 
     @command(command="loot", params=[], description="Show the list of added items", access_level="all")
     def loot_cmd(self, request):
@@ -271,11 +272,12 @@ class LootController:
         items = re.findall(r"(([^<]+)?<a href=[\"\']itemref://(\d+)/(\d+)/(\d+)[\"\']>([^<]+)</a>([^<]+)?)", item)
         if items and item_count is 1:
             for item in items:
+                item = self.text.make_item(int(item[2]), int(item[3]), int(item[4]), item[5])
                 if loot is not "":
-                    loot += ", " + item[0]
+                    loot += ", " + item
                 else:
-                    loot += item[0]
-                self.add_item_to_loot(item[0])
+                    loot += item
+                self.add_item_to_loot(item)
         else:
             loot += item
             self.add_item_to_loot(item, None, item_count)

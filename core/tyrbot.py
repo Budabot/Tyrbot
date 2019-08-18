@@ -258,7 +258,7 @@ class Tyrbot(Bot):
                 self.event_service.fire_event(self.OUTGOING_PRIVATE_MESSAGE_EVENT, DictObject({"char_id": char_id,
                                                                                                "message": msg}))
 
-    def send_private_channel_message(self, msg, private_channel=None, add_color=False, fire_outgoing_event=True):
+    def send_private_channel_message(self, msg, private_channel=None, add_color=True, fire_outgoing_event=True):
         if private_channel is None:
             private_channel = self.char_id
 
