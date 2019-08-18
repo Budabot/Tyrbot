@@ -9,6 +9,7 @@ class RunasController:
         self.command_service = registry.get_instance("command_service")
         self.setting_service = registry.get_instance("setting_service")
         self.access_service = registry.get_instance("access_service")
+        self.getresp = registry.get_instance("translation_service").get_response
 
     @command(command="runas", params=[Character("character"), Any("command")], access_level="superadmin",
              description="Run a command as another character")
@@ -17,8 +18,8 @@ class RunasController:
             command_str = command_str[1:]
 
         if not char.char_id:
-            return "Could not find character <highlight>%s<end>" % char.name
+            return self.getresp("global", "char_not_found", {"char": char.name})
         elif not self.access_service.has_sufficient_access_level(request.sender.char_id, char.char_id):
-            return "Error! You must have a higher access level than <highlight>%s<end>." % char.name
+            return self.getresp("module/system", "runas_fail", {"char": char.name})
         else:
             self.command_service.process_command(command_str, request.channel, char.char_id, request.reply)

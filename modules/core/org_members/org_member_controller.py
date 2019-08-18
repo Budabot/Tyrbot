@@ -79,14 +79,14 @@ class OrgMemberController:
 
         org_member = self.get_org_member(char.char_id)
         if not org_member or org_member.mode == self.MODE_REM_MANUAL:
-            return self.getresp("global", "notify_rem_fail", {"char": char.name})
+            return self.getresp("module/org_members", "notify_rem_fail", {"char": char.name})
 
         self.process_update(char.char_id, org_member.mode if org_member else None, self.MODE_REM_MANUAL)
 
         # fire org_member logoff event
         self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, org_member)
 
-        return self.getresp("global", "notify_rem_success", {"char": char.name})
+        return self.getresp("module/org_members", "notify_rem_success", {"char": char.name})
 
     @command(command="notify", params=[Const("on"), Character("character")], access_level="admin",
              description="Turn on online notification for a character")
@@ -96,14 +96,14 @@ class OrgMemberController:
 
         org_member = self.get_org_member(char.char_id)
         if org_member and (org_member.mode == self.MODE_ADD_AUTO or org_member.mode == self.MODE_ADD_MANUAL):
-            return self.getresp("global", "notify_add_fail", {"char": char.name})
+            return self.getresp("module/org_members", "notify_add_fail", {"char": char.name})
 
         self.process_update(char.char_id, org_member.mode if org_member else None, self.MODE_ADD_MANUAL)
 
         # fire org_member logon event
         if self.buddy_service.is_online(char.char_id):
             self.event_service.fire_event(self.ORG_MEMBER_LOGON_EVENT, self.get_org_member(char.char_id))
-            return self.getresp("global", "notify_add_success", {"char": char.name})
+        return self.getresp("module/org_members", "notify_add_success", {"char": char.name})
 
     @command(command="orgmembers", params=[], access_level="admin",
              description="Show the list of org members")

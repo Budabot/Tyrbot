@@ -94,7 +94,7 @@ class AltsController:
         alts = self.alts_service.get_alts(char.char_id)
         blob = self.format_alt_list(alts)
 
-        return ChatBlob(self.getresp("module/alts", "alts_list", {"char": alts[0].name, "amount": len(alts)}), blob)
+        return ChatBlob(self.getresp("module/alts", "list", {"char": alts[0].name, "amount": len(alts)}), blob)
 
     def format_alt_list(self, alts):
         blob = ""

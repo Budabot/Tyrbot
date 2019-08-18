@@ -33,7 +33,7 @@ class AuctionController:
         if self.is_auction_running():
             return "Auction already running."
 
-        items = re.findall(r"(([^<]+)?<a href=\"itemref://(\d+)/(\d+)/(\d+)\">([^<]+)</a>([^<]+)?)", items)
+        items = re.findall(r"(([^<]+)?<a href=[\"\']itemref://(\d+)/(\d+)/(\d+)[\"\']>([^<]+)</a>([^<]+)?)", items)
         # TODO choose auction strategy impl
         self.auction = AuctionStrategy()
         for item in items:

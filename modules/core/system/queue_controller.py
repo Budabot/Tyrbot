@@ -7,6 +7,7 @@ class QueueController:
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
         self.command_alias_service = registry.get_instance("command_alias_service")
+        self.getresp = registry.get_instance("translation_service").get_response
 
     def start(self):
         self.command_alias_service.add_alias("clearqueue", "queue clear")
@@ -16,5 +17,4 @@ class QueueController:
     def queue_clear_cmd(self, request, _):
         num_messages = len(self.bot.packet_queue)
         self.bot.packet_queue.clear()
-
-        return "Cleared <highlight>%d<end> messages from the outgoing message queue." % num_messages
+        return self.getresp("module/system", "clear_queue", {"count": num_messages})

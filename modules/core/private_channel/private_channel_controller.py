@@ -6,6 +6,7 @@ from core.command_param_types import Character
 from core.decorators import instance, command, event
 from core.dict_object import DictObject
 from core.private_channel_service import PrivateChannelService
+from core.text import Text
 from core.translation_service import TranslationService
 from core.tyrbot import Tyrbot
 
@@ -25,6 +26,7 @@ class PrivateChannelController:
         self.log_controller = registry.get_instance("log_controller")
         self.online_controller = registry.get_instance("online_controller")
         self.relay_controller = registry.get_instance("relay_controller")
+        self.text: Text = registry.get_instance("text")
         self.ts: TranslationService = registry.get_instance("translation_service")
         self.getresp = self.ts.get_response
 
@@ -71,12 +73,12 @@ class PrivateChannelController:
     def kick_cmd(self, request, char):
         if char.char_id:
             if not self.private_channel_service.in_private_channel(char.char_id):
-                return self.getresp("module/private_channel", "invite_success_self", {"target": char.name})
+                return self.getresp("module/private_channel", "kick_fail_not_in_priv", {"target": char.name})
             else:
                 # TODO use request.sender.access_level and char.access_level
                 if self.access_service.has_sufficient_access_level(request.sender.char_id, char.char_id):
                     self.bot.send_private_message(char.char_id, self.getresp("module/private_channel",
-                                                                             "kick_success_self",
+                                                                             "kick_success_target",
                                                                              {"kicker": request.sender.name}))
                     self.private_channel_service.kick(char.char_id)
                     return self.getresp("module/private_channel", "kick_success_self", {"target": char.name})
@@ -103,7 +105,8 @@ class PrivateChannelController:
 
         char_name = self.character_service.resolve_char_to_name(event_data.char_id)
         sender = DictObject({"char_id": event_data.char_id, "name": char_name})
-        message = "[%s][Private] %s: %s" % (self.relay_controller.get_org_channel_prefix(), char_name, event_data.message)
+        message = "[%s][Private] %s: %s" % (self.relay_controller.get_org_channel_prefix(),
+                                            self.text.make_charlink(char_name), event_data.message)
 
         self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, sender, message)
 

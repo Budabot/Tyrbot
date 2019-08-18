@@ -4,6 +4,7 @@ import re
 import threading
 from html.parser import HTMLParser
 
+import hjson
 from discord import Member, ChannelType
 
 from core.chat_blob import ChatBlob
@@ -14,6 +15,7 @@ from core.logger import Logger
 from core.lookup.character_service import CharacterService
 from core.setting_types import HiddenSettingType, ColorSettingType
 from core.text import Text
+from core.translation_service import TranslationService
 from .discord_channel import DiscordChannel
 from .discord_message import DiscordMessage
 from .discord_wrapper import DiscordWrapper
@@ -64,6 +66,8 @@ class DiscordController:
         self.ban_service = registry.get_instance("ban_service")
         self.relay_hub_service = registry.get_instance("relay_hub_service")
         self.pork_service = registry.get_instance("pork_service")
+        self.ts: TranslationService = registry.get_instance("translation_service")
+        self.getresp = self.ts.get_response
 
     def pre_start(self):
         self.event_service.register_event_type("discord_ready")
@@ -85,6 +89,11 @@ class DiscordController:
                 a = True if row.relay_ao == 1 else False
                 d = True if row.relay_dc == 1 else False
                 self.channels[row.channel_id] = DiscordChannel(row.channel_id, row.server_name, row.channel_name, a, d)
+        self.ts.register_translation("module/discord", self.load_discord_msg)
+
+    def load_discord_msg(self):
+        with open("modules/standard/discord/discord.msg", mode="r", encoding="utf-8") as f:
+            return hjson.load(f)
 
     @setting(name="discord_bot_token", value="", description="Discord bot token")
     def discord_bot_token(self):
@@ -113,88 +122,88 @@ class DiscordController:
         for cid, channel in self.channels.items():
             if channel.relay_ao or channel.relay_dc:
                 counter += 1
-
-        blob = "<header2>Info<end>\n"
-        blob += "Status: "
-        blob += "<green>Connected<end>\n" if self.is_connected() else "<red>Disconnected<end>\n"
-        blob += "Channels available: <highlight>%d<end>\n\n" % counter
-
-        blob += "<header2>Servers<end>\n"
+        servers = ""
         if self.servers:
             for server in self.servers:
-                invites = self.text.make_chatcmd("get invite", "/tell <myname> discord getinvite %s" % server.id)
-                owner = server.owner.nick if server.owner.nick is not None else "Insufficient permissions"
-                blob += "%s [%s]\n" % (server.name, invites)
-                blob += " | member count: %s\n" % (str(len(server.members)))
-                blob += " | owner: %s\n\n" % owner
-        else:
-            blob += "None\n\n"
+                invites = self.text.make_chatcmd(self.getresp("module/discord", "get_invite"),
+                                                 "/tell <myname> discord getinvite %s" % server.id)
 
-        blob += "<header2>Subscribed channels<end>\n"
+                owner = server.owner.nick or re.sub(pattern=r"#\d+", repl="", string=str(server.owner))
+                servers += self.getresp("module/discord", "server", {"server_name": server.name,
+                                                                     "invite": invites,
+                                                                     "m_count": str(len(server.members)),
+                                                                     "owner": owner})
+        else:
+            servers += self.getresp("module/discord", "no_server")
+
+        subs = ""
         for cid, channel in self.channels.items():
             if channel.relay_ao or channel.relay_dc:
-                a = "<green>On<end>" if channel.relay_ao else "<red>Off<end>"
-                d = "<green>On<end>" if channel.relay_dc else "<red>Off<end>"
-                blob += "<highlight>%s<end> :: <highlight>%s<end>\n" % (channel.server_name, channel.channel_name)
-                blob += " | relaying from AO [%s]\n" % a
-                blob += " | relaying from Discord [%s]\n" % d
+                a = self.getresp("module/discord", "on")if channel.relay_ao else self.getresp("module/discord", "off")
+                d = self.getresp("module/discord", "on") if channel.relay_dc else self.getresp("module/discord", "off")
+                subs += self.getresp("module/discord", "sub", {"server_name": channel.server_name,
+                                                               "channel_name": channel.channel_name,
+                                                               "relay_ao": a,
+                                                               "relay_dc": d})
+        status = self.getresp("module/discord", "connected" if self.is_connected() else "disconnected")
+        blob = self.getresp("module/discord", "blob", {"connected": status,
+                                                       "count": counter,
+                                                       "servers": servers,
+                                                       "subs": subs})
 
-        blob += "\n\nDiscord Module written by <highlight>Vladimirovna<end>"
-
-        return ChatBlob("Discord info", blob)
+        return ChatBlob(self.getresp("module/discord", "title"), blob)
 
     @command(command="discord", params=[Const("connect")], access_level="moderator", sub_command="manage",
              description="Manually connect to Discord")
     def discord_connect_cmd(self, request, _):
         if self.is_connected():
-            return "Discord is already connected."
+            return self.getresp("module/discord", "already_connected")
         else:
             token = self.get_discord_token()
             if token:
                 self.connect_discord_client(token)
-                return "Connected to Discord successfully."
+                return self.getresp("module/discord", "connect_success")
             else:
-                return "Cannot connect to Discord, no bot token is set."
+                return self.getresp("module/discord", "no_token")
 
     @command(command="discord", params=[Const("disconnect")], access_level="moderator", sub_command="manage",
              description="Manually disconnect from Discord")
     def discord_disconnect_cmd(self, request, _):
         if not self.is_connected():
-            return "Discord is not connected."
+            return self.getresp("module/discord", "not_connected")
         else:
             self.disconnect_discord_client()
-            return "Disconnected from Discord successfully."
+            return self.getresp("module/discord", "disconnect_msg")
 
     @command(command="discord", params=[Const("relay")], access_level="moderator", sub_command="manage",
              description="Setup relaying of channels")
     def discord_relay_cmd(self, request, _):
         action = "disconnect" if self.is_connected() else "connect"
-        loglink = self.text.make_chatcmd(action, "/tell <myname> discord %s" % action)
-        constatus = "<green>Connected<end>" if self.is_connected() else "<red>Disconnected<end>"
-
-        blob = "<header2>Info<end>\n"
-        blob += "Status: %s [%s]\n" % (constatus, loglink)
-        blob += "Channels available: <highlight>%d<end>\n\n" % len(self.channels)
-
-        blob += "<header2>Subscription setup<end>\n"
+        loglink = self.text.make_chatcmd(self.getresp("module/discord", action), "/tell <myname> discord %s" % action)
+        constatus = self.getresp("module/discord", "connected" if self.is_connected() else "disconnected")
+        subs = ""
         for cid, channel in self.channels.items():
             a = "<green>on<end>" if channel.relay_ao else "<red>off<end>"
             d = "<green>on<end>" if channel.relay_dc else "<red>off<end>"
-
             arelay = "off" if channel.relay_ao else "on"
             drelay = "off" if channel.relay_dc else "on"
 
-            alink = self.text.make_chatcmd(arelay, "/tell <myname> discord relay %s %s %s" % (channel.channel_id, "ao", arelay))
-            dlink = self.text.make_chatcmd(drelay, "/tell <myname> discord relay %s %s %s" % (channel.channel_id, "discord", drelay))
+            alink = self.text.make_chatcmd(self.getresp("module/discord", arelay), "/tell <myname> discord relay %s %s %s" % (channel.channel_id, "ao", arelay))
+            dlink = self.text.make_chatcmd(self.getresp("module/discord", drelay), "/tell <myname> discord relay %s %s %s" % (channel.channel_id, "discord", drelay))
+            subs += self.getresp("module/discord", "relay", {"server_name": channel.server_name,
+                                                             "channel_name": channel.channel_name,
+                                                             "relay_ao": a,
+                                                             "switch_ao": alink,
+                                                             "relay_dc": d,
+                                                             "switch_dc": dlink
+                                                             })
+        blob = self.getresp("module/discord", "blob_relay", {"connected": constatus,
+                                                             "switch_connection": loglink,
+                                                             "count": len(self.channels),
+                                                             "subs": subs})
 
-            blob += "<highlight>%s<end> :: <highlight>%s<end>\n" % (channel.server_name, channel.channel_name)
-            blob += " | relaying from AO [%s] [%s]\n" % (a, alink)
-            blob += " | relaying from Discord [%s] [%s]\n" % (d, dlink)
+        return ChatBlob(self.getresp("module/discord", "relay_title"), blob)
 
-        blob += "\n\nDiscord Module written by <highlight>Vladimirovna<end>"
-
-        return ChatBlob("Discord Relay", blob)
-    
     @command(command="discord", params=[Const("relay"), Any("channel_id"), Options(["ao", "discord"]), Options(["on", "off"])], access_level="moderator",
              description="Changes relay setting for specific channel", sub_command="manage")
     def discord_relay_change_cmd(self, request, _, channel_id, relay_type, relay):
@@ -207,11 +216,12 @@ class DiscordController:
             if channel is not None:
                 channel.relay_dc = True if relay == "on" else False
         else:
-            return "Unknown relay type."
+
+            return self.getresp("module/discord", "unknown_relay_type")
 
         self.update_discord_channels()
-
-        return "Changed relay for %s to %s." % (channel.channel_name, relay)
+        return self.getresp("module/discord", "changed_relay", {"channel": channel.channel_name,
+                                                                "changed": self.getresp("module/discord", relay)})
 
     @command(command="discord", params=[Const("getinvite"), Int("server_id")], access_level="member",
              description="Get an invite for specified server", sub_command="getinvite")
@@ -221,7 +231,7 @@ class DiscordController:
                 if server.id == str(server_id):
                     self.send_to_discord("get_invite", (request.sender.name, server))
                     return
-        return "Could not find Discord server with ID <highlight>%d<end>." % server_id
+        return self.getresp("module/discord", "no_dc", {"id": server_id})
 
     @timerevent(budatime="1s", description="Discord relay queue handler", is_hidden=False)
     def handle_discord_queue_event(self, event_type, event_data):
@@ -291,26 +301,28 @@ class DiscordController:
         sender = event_data[0]
         invites = event_data[1]
 
-        blob = "<header2>Available invites<end>\n"
-
+        blob = ""
+        server_invites = ""
         if len(invites) > 0:
             for invite in invites:
-                link = self.text.make_chatcmd("join", "/start %s" % invite.url)
+                link = self.text.make_chatcmd(self.getresp("module/discord", "join"), "/start %s" % invite.url)
                 timeleft = "Permanent" if invite.max_age == 0 else str(datetime.timedelta(seconds=invite.max_age))
                 used = str(invite.uses) if invite.uses is not None else "N/A"
                 useleft = str(invite.max_uses) if invite.max_uses is not None else "N/A"
-                channel = " | for channel: %s\n" % invite.channel.name if invite.channel is not None else None
+                channel = self.getresp("module/discord", "inv_channel", {"channel": invite.channel.name})\
+                    if invite.channel is not None else None
+                server_invites += self.getresp("module/discord", "invite", {"server": invite.server.name,
+                                                                            "link": link,
+                                                                            "time_left": timeleft,
+                                                                            "count_used": used,
+                                                                            "count_left": useleft,
+                                                                            "channel": channel})
+            blob += self.getresp("module/discord", "blob_invites", {"invites": server_invites})
 
-                blob += "%s [%s]\n" % (invite.server.name, link)
-                blob += " | life time: %s\n" % timeleft
-                blob += " | used: %s\n" % used
-                blob += " | uses left: %s\n" % useleft
-                blob += channel
-                blob += "\n"
         else:
-            blob += "None available, maybe the bot user does not have sufficient permissions to see invites, or no invites exists.\n\n"
+            blob += self.getresp("module/discord", "no_invites")
 
-        self.bot.send_private_message(sender, ChatBlob("Discord invites", blob))
+        self.bot.send_private_message(sender, ChatBlob(self.getresp("module/discord", "invite_title"), blob))
 
     def register_discord_command_handler(self, callback, command_str, params):
         r = re.compile(self.command_service.get_regex_from_params(params), re.IGNORECASE | re.DOTALL)
