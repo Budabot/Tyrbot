@@ -3,7 +3,7 @@ mysql-connector-python==8.0.15
 pytz==2018.9
 hjson==3.0.1
 discord==0.16.12
-psutil==5.6.1
+psutil==5.6.6
 bbcode==1.0.32
 beautifulsoup4==4.7.1
 websocket-client==0.56.0
