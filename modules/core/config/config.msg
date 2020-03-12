@@ -20,7 +20,7 @@
     "de_DE": "Der Alias <highlight>{alias}<end> konnte nicht gefunden werden."
   },
   "cmdlist_commands": {
-    "en_US": "Commands ({amount}",
+    "en_US": "Commands ({amount})",
     "de_DE": "Befehlsliste ({amount})"
   },
   "cmd_unknown_channel": {
@@ -38,6 +38,10 @@
   "disabled_low": {
     "en_US": "disabled",
     "de_DE": "deaktiviert"
+  },
+  "run": {
+    "en_US": "run",
+    "de_DE": "ausgeführt"
   },
   "enabled_high": {
     "en_US": "<green>Enabled<end>",
@@ -117,7 +121,7 @@
   },
   "set_clr": {
     "en_US": "Setting <highlight>{setting}<end> has been cleared.",
-    "de_DE": "Die Einstellung <highlight>{setting}<end> wurde geleert. "
+    "de_DE": "Die Einstellung <highlight>{setting}<end> wurde geleert."
   },
   "set_new": {
     "en_US": "Setting <highlight>{setting}<end> has been set to {value}.",
@@ -153,7 +157,7 @@
   },
   "event_manual": {
     "en_US": "Only <highlight>timer<end> events can be run manually.",
-    "de_DE": "Es können nur <highlight>timer<end> Event manuell angestoßen werden."
+    "de_DE": "Es können nur <highlight>timer<end> Events manuell angestoßen werden."
   },
   "blob_events": {
     "en_US": "Events ({amount})",

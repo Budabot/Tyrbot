@@ -47,7 +47,7 @@ class NotesController:
     @command(command="notes", params=[Options(["rem", "remove"]), Int("note_id")], access_level="all",
              description="Remove a note")
     def notes_remove_cmd(self, request, _, note_id):
-        note = self.db.query_single("SELECT n.*, p.name FROM notes n LEFT JOIN player P ON n.char_id = p.char_id WHERE n.id = ?", [note_id])
+        note = self.db.query_single("SELECT n.*, p.name FROM notes n LEFT JOIN player p ON n.char_id = p.char_id WHERE n.id = ?", [note_id])
 
         if not note:
             return "Could not find note with ID <highlight>%d<end>." % note_id

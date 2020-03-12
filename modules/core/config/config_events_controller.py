@@ -62,7 +62,7 @@ class ConfigEventsController:
             return self.getresp("module/config", "event_manual")
         else:
             self.event_service.execute_timed_event(row, int(time.time()))
-            action = self.getresp("module/config", "enabled_high" if action == "enable" else "disabled_high")
+            action = self.getresp("module/config", "run")
             return self.getresp("module/config", "event_enable_success", {"type": event_type,
                                                                           "handler": event_handler,
                                                                           "changedto": action})
