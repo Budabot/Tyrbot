@@ -16,11 +16,12 @@ class WaveCounterController:
         self.bot = registry.get_instance("bot")
         self.job_scheduler = registry.get_instance("job_scheduler")
 
-    @event(event_type=PublicChannelService.ORG_MSG_EVENT, description="Start wave counter when city is targeted by aliens")
+    @event(event_type=PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, description="Start wave counter when city is targeted by aliens")
     def check_for_city_raid_start(self, event_type, event_data):
         ext_msg = event_data.extended_message
-        if [ext_msg.category_id, ext_msg.instance_id] == self.CITY_TARGETED:
-            self.start_counter()
+        if ext_msg:
+            if [ext_msg.category_id, ext_msg.instance_id] == self.CITY_TARGETED:
+                self.start_counter()
 
     def start_counter(self):
         if self.scheduled_job_id:
