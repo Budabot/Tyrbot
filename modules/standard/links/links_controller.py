@@ -25,7 +25,7 @@ class LinksController:
 
         blob = ""
         for row in data:
-            blob += "%s <highlight>%s<end> [%s] %s" % (self.text.make_chatcmd("[Link]", "/start %s" % row.website),
+            blob += "%s <highlight>%s<end> [%s] %s \n" % (self.text.make_chatcmd("[Link]", "/start %s" % row.website),
                                                        row.comments,
                                                        row.name,
                                                        self.text.make_chatcmd("Remove", "/tell <myname> links remove %d" % row.id))
