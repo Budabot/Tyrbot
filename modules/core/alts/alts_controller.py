@@ -11,8 +11,9 @@ from core.translation_service import TranslationService
 class AltsController:
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
-        self.alts_service = registry.get_instance("alts_service")
+        self.alts_service: AltsService = registry.get_instance("alts_service")
         self.buddy_service = registry.get_instance("buddy_service")
+        self.util = registry.get_instance("util")
         self.ts: TranslationService = registry.get_instance("translation_service")
         self.getresp = self.ts.get_response
 
@@ -99,8 +100,11 @@ class AltsController:
     def format_alt_list(self, alts):
         blob = ""
         for alt in alts:
+
             blob += "<highlight>%s<end> (%d/<green>%d<end>) %s %s" % (alt.name, alt.level, alt.ai_level, alt.faction, alt.profession)
             if self.buddy_service.is_online(alt.char_id):
                 blob += " [<green>Online<end>]"
+            elif alt.last_seen != None:
+                blob += "\n  - Last seen on %s\n" % self.util.format_datetime(int(alt.last_seen))
             blob += "\n"
         return blob

@@ -19,8 +19,8 @@ class AltsService:
         self.event_service.register_event_type(self.MAIN_CHANGED_EVENT_TYPE)
 
     def get_alts(self, char_id):
-        sql = "SELECT p.*, a.group_id, a.status FROM player p " \
-              "LEFT JOIN alts a ON p.char_id = a.char_id " \
+        sql = "SELECT p.*, a.group_id, a.status, o.last_seen FROM player p " \
+              "LEFT JOIN alts a ON p.char_id = a.char_id LEFT JOIN org_member o ON p.char_id = o.char_id " \
               "WHERE p.char_id = ? OR a.group_id = (" \
               "SELECT group_id FROM alts WHERE char_id = ?) " \
               "ORDER BY a.status DESC, p.level DESC, p.name ASC"
