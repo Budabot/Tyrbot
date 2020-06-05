@@ -267,9 +267,7 @@ class LootListsController:
              description="Get list of items from Pyramid of Home", access_level="all")
     def poh_loot_cmd(self, _, category_name):
         category = self.get_real_category_name(category_name)
-
-        items = self.get_items("poh", category)
-
+        items = self.get_items("Pyramid of Home", category)
         if items:
             return ChatBlob("%s loot table" % category, self.build_list(items, "poh", category))
         else:
