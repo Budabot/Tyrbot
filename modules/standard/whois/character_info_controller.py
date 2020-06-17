@@ -38,7 +38,7 @@ class CharacterInfoController:
         if dimension != self.bot.dimension:
             char_info = self.pork_service.request_char_info(char.name, dimension)
             if char_info:
-                blob = "Name: %s\n" % self.get_full_name(char_info)
+                blob = "Name: %s (%s)\n" % (self.get_full_name(char_info), self.text.make_chatcmd("History", "/tell <myname> history " + char_info.name + str(char_info.dimension)))
                 blob += "Profession: %s\n" % char_info.profession
                 blob += "Faction: <%s>%s<end>\n" % (char_info.faction.lower(), char_info.faction)
                 blob += "Breed: %s\n" % char_info.breed
@@ -46,7 +46,7 @@ class CharacterInfoController:
                 blob += "Level: %d\n" % char_info.level
                 blob += "AI Level: <green>%d<end>\n" % char_info.ai_level
                 if char_info.org_id:
-                    blob += "Org: <highlight>%s<end> (%d)\n" % (char_info.org_name, char_info.org_id)
+                    blob += "Org: <highlight>%s<end> (%d) (%s)\n" % (char_info.org_name, char_info.org_id, self.text.make_chatcmd("orglist", "/tell <myname> orglist " + char_info.name))
                     blob += "Org Rank: %s (%d)\n" % (char_info.org_rank_name, char_info.org_rank_id)
                 else:
                     blob += "Org: &lt;None&gt;\n"
@@ -67,7 +67,7 @@ class CharacterInfoController:
         max_cache_age = 0 if force_update else 86400
         char_info = self.pork_service.get_character_info(char.name, max_cache_age)
         if char_info:
-            blob = "Name: %s\n" % self.get_full_name(char_info)
+            blob = "Name: %s (%s)\n" % (self.get_full_name(char_info), self.text.make_chatcmd("History", "/tell <myname> history " + char_info.name))
             blob += "Profession: %s\n" % char_info.profession
             blob += "Faction: <%s>%s<end>\n" % (char_info.faction.lower(), char_info.faction)
             blob += "Breed: %s\n" % char_info.breed
@@ -75,7 +75,7 @@ class CharacterInfoController:
             blob += "Level: %d\n" % char_info.level
             blob += "AI Level: <green>%d<end>\n" % char_info.ai_level
             if char_info.org_id:
-                blob += "Org: <highlight>%s<end> (%d)\n" % (char_info.org_name, char_info.org_id)
+                blob += "Org: <highlight>%s<end> (%d) (%s)\n" % (char_info.org_name, char_info.org_id, self.text.make_chatcmd("orglist", "/tell <myname> orglist " + char_info.name))
                 blob += "Org Rank: %s (%d)\n" % (char_info.org_rank_name, char_info.org_rank_id)
             else:
                 blob += "Org: &lt;None&gt;\n"
