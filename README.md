@@ -60,6 +60,17 @@ docker build -t tyrbot .
 docker run --rm -it --name name_of_bot -v /path/to/tyrbot:/app tyrbot
 ```
 
+Cloud version of docker:
+1. Configurate with env settings (docker -e)
+1. Mount sqlite directory to the container
+1. Disable logging to filesystem
+1. Let docker handle bot restart
+
+```bash
+docker build -t tyrbot -f Dockerfile.prod .
+docker run -d --restart=always -v /path/to/tyrbot/data:/app/data tyrbot
+```
+
 We recommend [using a docker-compose setup](https://github.com/Budabot/Tyrbot/wiki/Running-Tyrbot-with-Docker-Compose)
 to host a stable bot in docker.
 
