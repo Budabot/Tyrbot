@@ -1,0 +1,8 @@
+.dockerignore
+.git
+Dockerfile*
+conf/*
+data/*
+k8s
+win32
+logs/*
