@@ -54,7 +54,7 @@ class RecipeController:
 
         return self.format_recipe(recipe)
 
-    @command(command="recipe", params=[Any("search"), NamedParameters(["page"])], access_level="member", description="Search for a recipe")
+    @command(command="recipe", params=[Any("search"), NamedParameters(["page"])], access_level="all", description="Search for a recipe")
     def recipe_search_cmd(self, request, search, named_params):
         page = int(named_params.page or "1")
         page_size = 30
