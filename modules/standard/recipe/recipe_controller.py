@@ -24,125 +24,29 @@ class RecipeController:
         self.command_alias_service.add_alias("tradeskill", "recipe")
 
         recipe_dir = os.path.dirname(os.path.realpath(__file__)) + "/recipes/"
-        self.db.exec("DROP TABLE IF EXISTS recipe")
-        self.db.exec("CREATE TABLE recipe (id INT NOT NULL PRIMARY KEY, name VARCHAR(50) NOT NULL, author VARCHAR(50) NOT NULL, recipe TEXT NOT NULL);")
+        recipes = self.db.query("SELECT id, dt FROM recipe")
 
         for file in os.listdir(recipe_dir):
             m = self.recipe_name_regex.match(file)
             if m:
                 recipe_id = m.group(1)
                 file_type = m.group(2)
+                dt = int(os.path.getmtime(recipe_dir+file))
 
-                if file_type == "txt":
-                    with open(recipe_dir + file) as f:
-                        lines = f.readlines()
+                recipe = self.find_recipe(recipe_id, recipes)
+                if recipe:
+                    recipes.remove(recipe)
+                    if recipe.dt == dt:
+                        continue
 
-                    name = lines.pop(0).strip()[6:]
-                    author = lines.pop(0).strip()[8:]
-                    content = "".join(lines)
-
-                    self.db.exec("INSERT INTO recipe (id, name, author, recipe) VALUES (?, ?, ?, ?)", [recipe_id, name, author, content])
-                elif file_type == "json":
-                    with open(recipe_dir + file) as f:
-                        recipe = json.load(f)
-
-                    name = recipe["name"]
-                    author = recipe["author"]
-
-                    items = {}
-                    for i in recipe["items"]:
-                        item = self.items_controller.get_by_item_id(i["item_id"], i.get("ql"))
-                        if not item:
-                            raise Exception("Could not fund recipe item '%d' for recipe id %s" % (i["item_id"], recipe_id))
-
-                        item.ql = i.get("ql") or (item.highql if i["item_id"] == item.highid else item.lowql)
-                        items[i["alias"]] = item
-
-                    content = "<font color=#FFFF00>------------------------------</font>\n"
-                    content += "<font color=#FF0000>Ingredients</font>\n"
-                    content += "<font color=#FFFF00>------------------------------</font>\n\n"
-
-                    ingredients = items.copy()
-                    for step in recipe["steps"]:
-                        del ingredients[step["result"]]
-
-                    for _, ingredient in ingredients.items():
-                        content += self.text.make_image(ingredient["icon"]) + "<tab>"
-                        content += self.text.make_item(ingredient["lowid"], ingredient["highid"], ingredient["ql"], ingredient["name"]) + "\n"
-
-                    content += "\n"
-                    content += "<font color=#FFFF00>------------------------------</font>\n"
-                    content += "<font color=#FF0000>Recipe</font>\n"
-                    content += "<font color=#FFFF00>------------------------------</font>\n\n"
-
-                    for step in recipe["steps"]:
-                        source = items[step["source"]]
-                        target = items[step["target"]]
-                        result = items[step["result"]]
-                        content += "<a href='itemref://%d/%d/%d'>%s</a>" % \
-                                   (source["lowid"], source["highid"], source["ql"],
-                                    self.text.make_image(source["icon"])) + ""
-                        content += "<font color=#FFFFFF><tab>+<tab></font> "
-                        content += "<a href='itemref://%d/%d/%d'>%s</a>" % \
-                                   (target["lowid"], target["highid"], target["ql"],
-                                    self.text.make_image(target["icon"])) + ""
-                        content += "<font color=#FFFFFF><tab>=<tab></font> "
-                        content += "<a href='itemref://%d/%d/%d'>%s</a>" % \
-                                   (result["lowid"], result["highid"], result["ql"],
-                                    self.text.make_image(result["icon"]))
-                        content += "\n<tab><tab>" + self.text.make_item(source["lowid"], source["highid"], source["ql"], source["name"])
-                        content += "\n + <tab>" + self.text.make_item(target["lowid"], target["highid"], target["ql"], target["name"])
-                        content += "\n = <tab>" + self.text.make_item(result["lowid"], result["highid"], result["ql"], result["name"]) + "\n"
-
-                        if "skills" in step:
-                            content += "<font color=#FFFF00>Skills: | %s |</font>\n" % step["skills"]
-                        content += "\n\n"
-
-                    if "details" in recipe:
-                        content += "<font color=#FFFF00>------------------------------</font>\n"
-                        content += "<font color=#FF0000>Details</font>\n"
-                        content += "<font color=#FFFF00>------------------------------</font>\n\n"
-
-                        last_type = ""
-                        for detail in recipe["details"]:
-                            if "item" in detail:
-                                last_type = "item"
-                                i = detail["item"]
-
-                                item = None
-                                if "ql" in i:
-                                    item = self.items_controller.get_by_item_id(i["id"], i["ql"])
-                                else:
-                                    item = self.items_controller.get_by_item_id(i["id"])
-                                    item["ql"] = item["highql"]
-
-                                content += "<font color=#009B00>%s</font>" % \
-                                           self.text.make_item(item["lowid"],
-                                                               item["highid"],
-                                                               item["ql"],
-                                                               item["name"])
-
-                                if "comment" in i:
-                                    content += " - " + i["comment"]
-
-                                content += "\n"
-
-                            elif "text" in detail:
-                                if last_type == "item":
-                                    content += "\n"
-
-                                last_type = "text"
-                                content += "<font color=#FFFFFF>%s</font>\n" % detail["text"]
-
-                    self.db.exec("INSERT INTO recipe (id, name, author, recipe) VALUES (?, ?, ?, ?)", [recipe_id, name, author, content])
+                self.update_recipe(recipe_dir, file, recipe_id, file_type, dt)
 
             elif file.startswith("_"):
                 pass
             else:
                 raise Exception("Unknown recipe format for '%s'" % file)
 
-    @command(command="recipe", params=[Int("recipe_id")], access_level="all",
-             description="Show a recipe")
+    @command(command="recipe", params=[Int("recipe_id")], access_level="member", description="Show a recipe")
     def recipe_show_cmd(self, request, recipe_id):
         recipe = self.get_recipe(recipe_id)
         if not recipe:
@@ -150,8 +54,7 @@ class RecipeController:
 
         return self.format_recipe(recipe)
 
-    @command(command="recipe", params=[Any("search"), NamedParameters(["page"])], access_level="all",
-             description="Search for a recipe")
+    @command(command="recipe", params=[Any("search"), NamedParameters(["page"])], access_level="member", description="Search for a recipe")
     def recipe_search_cmd(self, request, search, named_params):
         page = int(named_params.page or "1")
         page_size = 30
@@ -204,3 +107,114 @@ class RecipeController:
 
     def get_chat_command(self, search, page):
         return "/tell <myname> recipe %s --page=%d" % (search, page)
+
+    def find_recipe(self,recipe_id,recipes):
+        for row in recipes:
+            if str(row.id) == recipe_id:
+                return row
+        return None
+
+
+    def update_recipe(self, recipe_dir, file, recipe_id, file_type, dt):
+        if file_type == "txt":
+            with open(recipe_dir + file) as f:
+                lines = f.readlines()
+
+            name = lines.pop(0).strip()[6:]
+            author = lines.pop(0).strip()[8:]
+            content = "".join(lines)
+
+            #self.db.exec("INSERT INTO recipe (id, name, author, recipe) VALUES (?, ?, ?, ?)", [recipe_id, name, author, content])
+        elif file_type == "json":
+            with open(recipe_dir + file) as f:
+                recipe = json.load(f)
+
+            name = recipe["name"]
+            author = recipe["author"]
+
+            items = {}
+            for i in recipe["items"]:
+                item = self.items_controller.get_by_item_id(i["item_id"], i.get("ql"))
+                if not item:
+                    raise Exception("Could not find recipe item '%d' for recipe id %s" % (i["item_id"], recipe_id))
+
+                item.ql = i.get("ql") or (item.highql if i["item_id"] == item.highid else item.lowql)
+                items[i["alias"]] = item
+
+            content = "<font color=#FFFF00>------------------------------</font>\n"
+            content += "<font color=#FF0000>Ingredients</font>\n"
+            content += "<font color=#FFFF00>------------------------------</font>\n\n"
+
+            ingredients = items.copy()
+            for step in recipe["steps"]:
+                del ingredients[step["result"]]
+
+            for _, ingredient in ingredients.items():
+                content += self.text.make_image(ingredient["icon"]) + "<tab>"
+                content += self.text.make_item(ingredient["lowid"], ingredient["highid"], ingredient["ql"], ingredient["name"]) + "\n"
+
+            content += "\n"
+            content += "<font color=#FFFF00>------------------------------</font>\n"
+            content += "<font color=#FF0000>Recipe</font>\n"
+            content += "<font color=#FFFF00>------------------------------</font>\n\n"
+
+            for step in recipe["steps"]:
+                source = items[step["source"]]
+                target = items[step["target"]]
+                result = items[step["result"]]
+                content += "<a href='itemref://%d/%d/%d'>%s</a>" % \
+                           (source["lowid"], source["highid"], source["ql"],
+                            self.text.make_image(source["icon"])) + ""
+                content += "<font color=#FFFFFF><tab>+<tab></font> "
+                content += "<a href='itemref://%d/%d/%d'>%s</a>" % \
+                           (target["lowid"], target["highid"], target["ql"],
+                            self.text.make_image(target["icon"])) + ""
+                content += "<font color=#FFFFFF><tab>=<tab></font> "
+                content += "<a href='itemref://%d/%d/%d'>%s</a>" % \
+                           (result["lowid"], result["highid"], result["ql"],
+                            self.text.make_image(result["icon"]))
+                content += "\n<tab><tab>" + self.text.make_item(source["lowid"], source["highid"], source["ql"], source["name"])
+                content += "\n + <tab>" + self.text.make_item(target["lowid"], target["highid"], target["ql"], target["name"])
+                content += "\n = <tab>" + self.text.make_item(result["lowid"], result["highid"], result["ql"], result["name"]) + "\n"
+
+                if "skills" in step:
+                    content += "<font color=#FFFF00>Skills: | %s |</font>\n" % step["skills"]
+                content += "\n\n"
+
+            if "details" in recipe:
+                content += "<font color=#FFFF00>------------------------------</font>\n"
+                content += "<font color=#FF0000>Details</font>\n"
+                content += "<font color=#FFFF00>------------------------------</font>\n\n"
+
+                last_type = ""
+                for detail in recipe["details"]:
+                    if "item" in detail:
+                        last_type = "item"
+                        i = detail["item"]
+
+                        item = None
+                        if "ql" in i:
+                            item = self.items_controller.get_by_item_id(i["id"], i["ql"])
+                        else:
+                            item = self.items_controller.get_by_item_id(i["id"])
+                            item["ql"] = item["highql"]
+
+                        content += "<font color=#009B00>%s</font>" % \
+                                   self.text.make_item(item["lowid"],
+                                                       item["highid"],
+                                                       item["ql"],
+                                                       item["name"])
+
+                        if "comment" in i:
+                            content += " - " + i["comment"]
+
+                        content += "\n"
+
+                    elif "text" in detail:
+                        if last_type == "item":
+                            content += "\n"
+
+                        last_type = "text"
+                        content += "<font color=#FFFFFF>%s</font>\n" % detail["text"]
+
+        self.db.exec("REPLACE INTO recipe (id, name, author, recipe, dt) VALUES (?, ?, ?, ?, ?)", [recipe_id, name, author, content, dt])
