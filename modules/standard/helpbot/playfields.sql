@@ -1,9 +1,5 @@
 DROP TABLE IF EXISTS `playfields`;
-CREATE TABLE `playfields`  (`id` smallint(6) NOT NULL,  `long_name` varchar(250) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,  `short_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,  `dungeon` tinyint(255) NOT NULL DEFAULT 0,  PRIMARY KEY (`id`) USING BTREE,  UNIQUE INDEX `long_name`(`long_name`, `id`) USING BTREE,  UNIQUE INDEX `short_name`(`short_name`) USING BTREE) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
-
--- ----------------------------
--- Records of playfields
--- ----------------------------
+CREATE TABLE `playfields`  (`id` smallint(6) NOT NULL,  `long_name` varchar(100) NOT NULL,  `short_name` varchar(30) DEFAULT NULL,  `dungeon` tinyint(255) NOT NULL DEFAULT 0,  PRIMARY KEY (`id`),  UNIQUE (`long_name`, `id`),  UNIQUE (`short_name`));
 INSERT INTO `playfields` VALUES (100, 'Needed PF-stuff', NULL, 0);
 INSERT INTO `playfields` VALUES (101, 'Default Door Links', NULL, 0);
 INSERT INTO `playfields` VALUES (102, 'Monster and NPC dependencies', NULL, 0);
@@ -16,7 +12,7 @@ INSERT INTO `playfields` VALUES (110, 'Dependency EP1 Mons', NULL, 0);
 INSERT INTO `playfields` VALUES (111, 'RK Quick Export Dependancy', NULL, 0);
 INSERT INTO `playfields` VALUES (120, 'Camelot', 'TARA', 0);
 INSERT INTO `playfields` VALUES (124, 'Tir Assembly Hall', NULL, 0);
-INSERT INTO `playfields` VALUES (125, 'Smuggler\'s Rearranged', NULL, 0);
+INSERT INTO `playfields` VALUES (125, "Smuggler's Rearranged", NULL, 0);
 INSERT INTO `playfields` VALUES (127, 'Abandoned Mall', 'SUBWAY', 1);
 INSERT INTO `playfields` VALUES (128, 'Subway Junction', NULL, 1);
 INSERT INTO `playfields` VALUES (152, 'Grid', 'GRID', 0);
@@ -202,7 +198,7 @@ INSERT INTO `playfields` VALUES (1827, 'Omni Military Barracks', NULL, 0);
 INSERT INTO `playfields` VALUES (1833, 'Cyborg Barracks', NULL, 1);
 INSERT INTO `playfields` VALUES (1836, 'Baboons Nightclub', NULL, 0);
 INSERT INTO `playfields` VALUES (1840, 'Rompa Bar', NULL, 0);
-INSERT INTO `playfields` VALUES (1846, 'McRiid\'s Office', NULL, 0);
+INSERT INTO `playfields` VALUES (1846, "McRiid's Office", NULL, 0);
 INSERT INTO `playfields` VALUES (1862, 'The Smugglers Den', NULL, 0);
 INSERT INTO `playfields` VALUES (1866, 'The HQ of Omni-Mine', NULL, 0);
 INSERT INTO `playfields` VALUES (1886, 'Versailles Tower', NULL, 0);
@@ -212,7 +208,7 @@ INSERT INTO `playfields` VALUES (1892, 'Enjoy it While it Lasts', NULL, 0);
 INSERT INTO `playfields` VALUES (1893, 'The Cup', NULL, 0);
 INSERT INTO `playfields` VALUES (1894, 'Clan Registration Office', NULL, 0);
 INSERT INTO `playfields` VALUES (1901, 'Neutral Organisation Office', NULL, 0);
-INSERT INTO `playfields` VALUES (1902, 'Neuters \'R\' Us', NULL, 0);
+INSERT INTO `playfields` VALUES (1902, "Neuters 'R' Us", NULL, 0);
 INSERT INTO `playfields` VALUES (1913, 'Reet Retreat', NULL, 1);
 INSERT INTO `playfields` VALUES (1931, 'Temple of Three Winds', NULL, 1);
 INSERT INTO `playfields` VALUES (1933, 'Steps of Madness', NULL, 1);
@@ -597,7 +593,7 @@ INSERT INTO `playfields` VALUES (6306, 'SBC-Xpm Site Alpha-Romeo 29', NULL, 0);
 INSERT INTO `playfields` VALUES (6550, 'Uturn Canyon', 'UC', 0);
 INSERT INTO `playfields` VALUES (6551, 'Uturn Forest', 'UF', 0);
 INSERT INTO `playfields` VALUES (6553, 'Arete', 'ARETE', 0);
-INSERT INTO `playfields` VALUES (7001, 'Palmiero\'s Office', NULL, 0);
+INSERT INTO `playfields` VALUES (7001, "Palmiero's Office", NULL, 0);
 INSERT INTO `playfields` VALUES (7010, 'DOJA Research', NULL, 0);
 INSERT INTO `playfields` VALUES (7011, 'Omni Tek Agency', NULL, 0);
 INSERT INTO `playfields` VALUES (7012, 'Clan Quest HQ', NULL, 0);
@@ -614,4 +610,5 @@ INSERT INTO `playfields` VALUES (8040, 'Foundry of Nightmares', NULL, 0);
 INSERT INTO `playfields` VALUES (8045, 'Foundry of Nightmares', NULL, 0);
 INSERT INTO `playfields` VALUES (8046, 'Foundry of Nightmares', NULL, 0);
 INSERT INTO `playfields` VALUES (8050, 'Foundry of Nightmares', NULL, 0);
+
 INSERT INTO `playfields` VALUES (8080, 'Santa Leet Event - Aliums', NULL, 0);
