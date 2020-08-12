@@ -6057,7 +6057,7 @@ INSERT INTO aodb VALUES (161647, 161648, 21, 40, 'Dented MTI Defender', 161057);
 INSERT INTO aodb VALUES (142789, 142790, 19, 28, 'Dented Madam Freeze', 13336);
 INSERT INTO aodb VALUES (160114, 160115, 51, 100, 'Dented OT Riot-Police Shield', 160124);
 INSERT INTO aodb VALUES (290937, 290937, 1, 1, 'Dependancy Leet Doll Of Doom', 265381);
-INSERT INTO aodb VALUES (41325, 41325, 1, 1, 'Dependency Item', 82195);
+INSERT INTO aodb VALUES (41325, 41325, 1, 1, 'Dependency Item', 49561);
 INSERT INTO aodb VALUES (284222, 284222, 1, 1, 'Depreciated Costume Generator', 284189);
 INSERT INTO aodb VALUES (203100, 204587, 175, 250, 'Depredating Pulse Turret', 202214);
 INSERT INTO aodb VALUES (203101, 204588, 175, 250, 'Depredating Pulse Turret', 202214);
