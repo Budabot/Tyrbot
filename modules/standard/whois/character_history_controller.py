@@ -38,10 +38,9 @@ class CharacterHistoryController:
                 org = ""
 
             last_changed = self.util.format_date(int(float(row.last_changed)))
-
-            blob += "%s |  %s  | <green>%s<end> | %s | %s | %s\n" % \
+            if row.deleted == "1": ## This value is output as string
+                blob += "%s |  <red>DELETED<end>\n" % (last_changed)
+            else:
+                blob += "%s |  %s  | <green>%s<end> | %s | %s | %s\n" % \
                     (last_changed, row.level, row.defender_rank or 0, row.faction, row.breed, org)
-
-        blob += "\nHistory provided by Auno.org, Chrisax, and Athen Paladins"
-
         return blob
