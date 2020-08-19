@@ -43,4 +43,5 @@ class CharacterHistoryController:
             else:
                 blob += "%s |  %s  | <green>%s<end> | %s | %s | %s\n" % \
                     (last_changed, row.level, row.defender_rank or 0, row.faction, row.breed, org)
+        blob += "\nHistory provided by Auno.org, Chrisax, and Athen Paladins"
         return blob
