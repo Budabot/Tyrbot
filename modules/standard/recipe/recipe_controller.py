@@ -46,7 +46,7 @@ class RecipeController:
             else:
                 raise Exception("Unknown recipe format for '%s'" % file)
 
-    @command(command="recipe", params=[Int("recipe_id")], access_level="member", description="Show a recipe")
+    @command(command="recipe", params=[Int("recipe_id")], access_level="all", description="Show a recipe")
     def recipe_show_cmd(self, request, recipe_id):
         recipe = self.get_recipe(recipe_id)
         if not recipe:
