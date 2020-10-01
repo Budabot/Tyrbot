@@ -1,5 +1,5 @@
 from core.decorators import instance, command
-from core.command_param_types import Regex, Int, Any
+from core.command_param_types import Regex, Int, Any, Const
 from core.db import DB
 from core.text import Text
 from core.chat_blob import ChatBlob
@@ -15,10 +15,13 @@ class PlayfieldController:
     def start(self):
         self.command_alias_service.add_alias("playfields", "playfield")
 
-    @command(command="playfield", params=[], access_level="all",
+    @command(command="playfield", params=[Const("all", is_optional=True)], access_level="all",
              description="Show a list of playfields")
-    def playfield_list_command(self, request):
-        data = self.db.query("SELECT * FROM playfields ORDER BY long_name")
+    def playfield_list_command(self, request, all):
+        if all:
+            data = self.db.query("SELECT * FROM playfields ORDER BY long_name")
+        else:
+            data = self.db.query("SELECT * FROM playfields WHERE short_name != '' ORDER BY long_name")
 
         blob = ""
         for row in data:

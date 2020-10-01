@@ -2,7 +2,7 @@ import time
 
 from core.aochat.server_packets import PublicChannelMessage
 from core.chat_blob import ChatBlob
-from core.decorators import instance, command, event
+from core.decorators import instance, command, event, timerevent
 from core.dict_object import DictObject
 from core.sender_obj import SenderObj
 
@@ -51,6 +51,17 @@ class CloakController:
     @event(event_type=CLOAK_EVENT, description="Record when the city cloak is turned off and on", is_hidden=True)
     def city_cloak_event(self, event_type, event_data):
         self.db.exec("INSERT INTO cloak_status (char_id, action, created_at) VALUES (?, ?, ?)", [event_data.sender.char_id, event_data.action, int(time.time())])
+
+    @timerevent(budatime="15m", description="Reminds the players to toggle the cloak")
+    def cloak_reminder_event(self, event_type, event_data):
+        data = self.db.query("SELECT c.*, p.name FROM cloak_status c LEFT JOIN player p ON c.char_id = p.char_id ORDER BY created_at DESC LIMIT 1")
+
+        for row in data:
+            one_hour = 3600
+            time_until_change = row.created_at + one_hour - int(time.time())
+            if row.action == "off":
+                if time_until_change <= 0:
+                    self.bot.send_org_message("The cloaking device is <orange>disabled<end>. It is possible to enable it. <highlight>%s<end> disabled it earlier, but forgot it!" % row.name)
 
     @event(event_type=CLOAK_EVENT, description="Set a timer for when cloak can be raised and lowered")
     def city_cloak_timer_event(self, event_type, event_data):
