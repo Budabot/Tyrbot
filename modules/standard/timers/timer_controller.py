@@ -97,6 +97,8 @@ class TimerController:
              description="Add a timer")
     def rtimer_add_cmd(self, request, _, start_time, repeating_time, timer_name):
         timer_name = timer_name or self.get_timer_name(request.sender.name)
+        if repeating_time < 120:
+            return "The timer named <highlight>%s<end> has not been created, because there is an <highlight>minimum repeating time of 2 minutes<end>."
 
         if self.get_timer(timer_name):
             return "A timer named <highlight>%s<end> is already running." % timer_name

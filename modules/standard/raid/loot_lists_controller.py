@@ -54,7 +54,29 @@ class LootListsController:
             "dbarmor": "DB Armor",
             "util": "Util",
             "poh": "Pyramid of Home",
-            "sb": "Shadowbreeds"
+
+            "totwh": "Temple of Three Winds (HL)",
+            "binyacht": "Binyacht the Faithful",
+            "guardian": "Guardian of the Three",
+            "summoner": "The Immortal Summoner",
+            "lien": "Lien the Memory-Devourer",
+            "loremaster": "The Loremaster",
+            "nematet": "Nematet the Subjugator of Time",
+            "aegis": "Aegis of Tomorrow",
+            "gartua": "Gartua the Gate Guardian",
+            "aztur": "Aztur the Immortal",
+            "khalum": "Khalum the Weaver of Flesh",
+            "uklesh": "Uklesh the Beguiling",
+
+            "subh": "Condemned Subway (HL)",
+            "shiro": "Eliminator Shiro",
+            "eumen": "Eumenides",
+            "qets": "Queen of the Slums",
+            "psion": "The Psion",
+            "pbc": "Primal Bloodcreeper",
+            "aneid": "Vergil Aeneid",
+            "abmouth": "Abmouth Supremus",
+
         }
 
     def inject(self, registry):
@@ -289,6 +311,68 @@ class LootListsController:
             blob += " | [%s]\n\n" % show_loot
         return ChatBlob("Pyramid of Home loot tables", blob)
 
+    #########################################
+    #   Temple of Three Winds (Highlevel)   #
+    #########################################
+
+    @command(command="totwh", params=[Options(
+        ["binyacht", "guardian", "summoner", "loremaster", "nematet", "aegis", "lien", "gartua", "aztur", "khalum",
+         "uklesh", "gen", "armor"])],
+             description="Get list of items from Temple of Three Winds", access_level="all")
+    def totwh_loot_cmd(self, _, category_name):
+        category = self.get_real_category_name(category_name)
+        items = self.get_items("Temple of Three Winds (HL)", category)
+        if items:
+            return ChatBlob("%s loot table" % category, self.build_list(items, "totwh", category))
+        else:
+            return "No loot registered for <highlight>%s<end>." % category_name
+
+    @command(command="totwh", params=[], description="Get list of items from Temple of Three Winds", access_level="all")
+    def totwh_tables_cmd(self, _):
+        blob = ""
+        sql = "SELECT category FROM raid_loot WHERE raid = 'Temple of Three Winds (HL)' GROUP BY category"
+        raids = self.db.query(sql)
+        for raid in raids:
+            show_loot = self.text.make_chatcmd(
+                "Loot table", "/tell <myname> totwh %s" % self.get_real_category_name(raid.category, True))
+
+            sql = "SELECT COUNT(*) AS count FROM raid_loot WHERE category = ? and raid=?"
+            count = self.db.query_single(sql, [raid.category, "Temple of Three Winds (HL)"]).count
+
+            blob += "%s - %s items\n" % (raid.category, count)
+            blob += " | [%s]\n\n" % show_loot
+        return ChatBlob("Temple of Three Winds (HL) loot tables", blob)
+
+    ###############################
+    #   Condemned Subway (raid)   #
+    ###############################
+
+    @command(command="subh", params=[Options(["shiro", "eumen", "qets", "psion", "pbc", "aneid", "abmouth", "gen"])],
+             description="Get list of items from Condemned Subway (HL)", access_level="all")
+    def subh_loot_cmd(self, _, category_name):
+        category = self.get_real_category_name(category_name)
+        items = self.get_items("Condemned Subway (HL)", category)
+        if items:
+            return ChatBlob("%s loot table" % category, self.build_list(items, "subh", category))
+        else:
+            return "No loot registered for <highlight>%s<end>." % category_name
+
+    @command(command="subh", params=[], description="Get list of items from Condemned Subway (HL)", access_level="all")
+    def subh_tables_cmd(self, _):
+        blob = ""
+        sql = "SELECT category FROM raid_loot WHERE raid = 'Condemned Subway (HL)' GROUP BY category"
+        raids = self.db.query(sql)
+        for raid in raids:
+            show_loot = self.text.make_chatcmd(
+                "Loot table", "/tell <myname> subh %s" % self.get_real_category_name(raid.category, True))
+
+            sql = "SELECT COUNT(*) AS count FROM raid_loot WHERE category = ? and raid=?"
+            count = self.db.query_single(sql, [raid.category, "Condemned Subway (HL)"]).count
+
+            blob += "%s - %s items\n" % (raid.category, count)
+            blob += " | [%s]\n\n" % show_loot
+        return ChatBlob("Condemned Subway (HL) loot tables", blob)
+
     # Raids available in AO:
     # s7, s10, s13, s28, s35, s42, aquarius, virgo, sagittarius, beastweapons, beastarmor,
     # beaststars, tnh, aries, leo, cancer, gemini, libra, pisces, taurus,
@@ -302,8 +386,13 @@ class LootListsController:
                 "Add all", "/tell <myname> loot addraid %s %s" % (raid, category))
 
         blob += "<header2>%s<end>\n" % category if category is not None else ""
-
+        last_item = None
         for item in items:
+            if last_item:
+                if item.ident != 0 and item.forced_icon != 0:
+                    if (last_item.ident == item.ident) and (last_item.forced_icon == item.forced_icon):
+                        continue
+
             if item.multiloot > 1:
                 single_link = self.text.make_chatcmd("Add x1", "/tell <myname> loot addraiditem %s 1" % item.id)
                 multi_link = self.text.make_chatcmd(
@@ -315,17 +404,23 @@ class LootListsController:
             comment = " (%s)" % item.comment if item.comment != "" else ""
 
             if self.setting_service.get("use_item_icons").get_value():
-                item_link = self.text.make_item(item.low_id, item.high_id, item.ql, "<img src=rdb://%s>" % item.icon)
+                item_link = self.text.make_item(item.low_id,
+                                                item.high_id if item.ident == 0 else item.ident,
+                                                item.ql,
+                                                self.text.make_image(
+                                                    item.icon if item.forced_icon == 0 else item.forced_icon))
                 blob += "%s\n%s%s\n | %s\n\n" % (item_link, item.name, comment, add_links)
             else:
-                item_link = self.text.make_item(item.low_id, item.high_id, item.ql, item.name)
+                item_link = self.text.make_item(item.low_id, item.high_id if item.ident == 0 else item.ident, item.ql,
+                                                item.name)
+                # item_link = self.text.make_item(item.low_id, item.high_id, item.ql, item.name)
                 blob += "%s%s\n | %s\n\n" % (item_link, comment, add_links)
-
+            last_item = item
         return blob
 
     def get_items(self, raid, category):
         return self.db.query(
-            "SELECT r.raid, r.category, r.id, r.ql, r.name, r.comment, "
+            "SELECT r.raid, r.category, r.ident, r.forced_icon, r.id, r.ql, r.name, r.comment, "
             "r.multiloot, a.lowid AS low_id, a.highid AS high_id, a.icon "
             "FROM raid_loot r "
             "LEFT JOIN aodb a "

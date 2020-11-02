@@ -132,7 +132,7 @@ class PrivateChannelController:
         char_name = self.character_service.resolve_char_to_name(event_data.char_id)
         msg = self.getresp("module/private_channel", "leave",
                            {"char": char_name,
-                            "logoff": self.log_controller.get_logon(event_data.char_id)})
+                            "logoff": self.log_controller.get_logoff(event_data.char_id)})
         self.bot.send_private_channel_message(msg)
 
     @event(event_type=Tyrbot.OUTGOING_PRIVATE_CHANNEL_MESSAGE_EVENT, description="Relay commands from the private channel to the relay hub")
