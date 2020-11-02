@@ -33,6 +33,7 @@ class LootListsController:
             "barmor": "Beast Armor",
             "bweapons": "Beast Weapons",
             "bstars": "Stars",
+            "sb": "Shadowbreeds",
             "alba": "Albtraum",
             "samples": "Samples",
             "ancients": "Ancients",
@@ -54,7 +55,6 @@ class LootListsController:
             "dbarmor": "DB Armor",
             "util": "Util",
             "poh": "Pyramid of Home",
-
             "totwh": "Temple of Three Winds (HL)",
             "binyacht": "Binyacht the Faithful",
             "guardian": "Guardian of the Three",
@@ -386,12 +386,7 @@ class LootListsController:
                 "Add all", "/tell <myname> loot addraid %s %s" % (raid, category))
 
         blob += "<header2>%s<end>\n" % category if category is not None else ""
-        last_item = None
         for item in items:
-            if last_item:
-                if item.ident != 0 and item.forced_icon != 0:
-                    if (last_item.ident == item.ident) and (last_item.forced_icon == item.forced_icon):
-                        continue
 
             if item.multiloot > 1:
                 single_link = self.text.make_chatcmd("Add x1", "/tell <myname> loot addraiditem %s 1" % item.id)
@@ -404,27 +399,20 @@ class LootListsController:
             comment = " (%s)" % item.comment if item.comment != "" else ""
 
             if self.setting_service.get("use_item_icons").get_value():
-                item_link = self.text.make_item(item.low_id,
-                                                item.high_id if item.ident == 0 else item.ident,
-                                                item.ql,
-                                                self.text.make_image(
-                                                    item.icon if item.forced_icon == 0 else item.forced_icon))
+                item_link = self.text.make_item(item.low_id, item.high_id, item.ql, self.text.make_image(item.icon))
                 blob += "%s\n%s%s\n | %s\n\n" % (item_link, item.name, comment, add_links)
             else:
-                item_link = self.text.make_item(item.low_id, item.high_id if item.ident == 0 else item.ident, item.ql,
-                                                item.name)
-                # item_link = self.text.make_item(item.low_id, item.high_id, item.ql, item.name)
+                item_link = self.text.make_item(item.low_id, item.high_id, item.ql, item.name)
                 blob += "%s%s\n | %s\n\n" % (item_link, comment, add_links)
-            last_item = item
         return blob
 
     def get_items(self, raid, category):
         return self.db.query(
-            "SELECT r.raid, r.category, r.ident, r.forced_icon, r.id, r.ql, r.name, r.comment, "
+            "SELECT r.raid, r.category, r.id, r.ql, r.name, r.comment, "
             "r.multiloot, a.lowid AS low_id, a.highid AS high_id, a.icon "
             "FROM raid_loot r "
             "LEFT JOIN aodb a "
-            "ON (r.name = a.name AND r.ql <= a.highql) "
+            "ON (r.high_id = a.highid OR (r.high_id = 0 AND r.name = a.name AND r.ql <= a.highql)) "
             "WHERE r.raid = ? AND r.category = ? "
             "ORDER BY r.name",
             [raid, category]

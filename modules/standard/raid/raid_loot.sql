@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS raid_loot;
-CREATE TABLE raid_loot (id INT PRIMARY KEY AUTO_INCREMENT, raid VARCHAR(30) NOT NULL, category VARCHAR(50) NOT NULL, ql INT NOT NULL, name VARCHAR(255) NOT NULL, ident int default 0, forced_icon int default 0, comment VARCHAR(255) NOT NULL, multiloot INT NOT NULL);
+CREATE TABLE raid_loot (id INT PRIMARY KEY AUTO_INCREMENT, raid VARCHAR(30) NOT NULL, category VARCHAR(50) NOT NULL, ql INT NOT NULL, name VARCHAR(255) NOT NULL, high_id int default 0, comment VARCHAR(255) NOT NULL, multiloot INT NOT NULL);
 
 -- Vortexx
 INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Vortexx', 'General', 300, 'Base NCU - Type 00 (0/6)', '', 1);
@@ -513,9 +513,9 @@ INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Te
 INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Uklesh the Beguiling', 1, 'Uklesh''s Talon', '', 1);
 
 
-INSERT INTO raid_loot (raid, category, ql, name, ident, forced_icon, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'General', 1, 'Notum Ring of the Three', 305488, 286792, 'green', 1);
-INSERT INTO raid_loot (raid, category, ql, name, ident, forced_icon, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'General', 1, 'Notum Ring of the Three', 305488, 286793, 'red', 1);
-INSERT INTO raid_loot (raid, category, ql, name, ident, forced_icon, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'General', 1, 'Notum Ring of the Three', 305490, 286794, 'yellow', 1);
+INSERT INTO raid_loot (raid, category, ql, name, high_id, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'General', 1, 'Notum Ring of the Three', 305488, 'green', 1);
+INSERT INTO raid_loot (raid, category, ql, name, high_id, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'General', 1, 'Notum Ring of the Three', 305489, 'red', 1);
+INSERT INTO raid_loot (raid, category, ql, name, high_id, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'General', 1, 'Notum Ring of the Three', 305490, 'yellow', 1);
 INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'General', 1, 'Rod of Dismissal', '', 1);
 INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'General', 1, 'Corrupted Bloodmark', '', 1);
 INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'General', 1, 'Corrupted Soulmark', '', 1);
