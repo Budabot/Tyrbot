@@ -46,7 +46,7 @@ class WantsController:
     @command(command="wants", params=[Options(["rem", "remove"]), Int("want_id")], access_level="all",
              description="Remove a want")
     def wants_remove_cmd(self, request, _, want_id):
-        want = self.db.query_single("SELECT n.*, p.name FROM wants n LEFT JOIN player P ON n.char_id = p.char_id WHERE n.id = ?", [want_id])
+        want = self.db.query_single("SELECT n.*, p.name FROM wants n LEFT JOIN player p ON n.char_id = p.char_id WHERE n.id = ?", [want_id])
 
         if not want:
             return "Could not find want with ID <highlight>%d<end>." % want_id

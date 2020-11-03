@@ -57,7 +57,7 @@ class BuddyController:
             self.buddy_service.remove_buddy(char_id, None, True)
             count += 1
 
-            return self.getresp("module/buddy", "rem_all", {"count": count})
+        return self.getresp("module/buddy", "rem_all", {"count": count})
 
     @command(command="buddylist", params=[Options(["rem", "remove"]), Character("character"), Any("type")], access_level="admin",
              description="Remove a character from the buddy list")

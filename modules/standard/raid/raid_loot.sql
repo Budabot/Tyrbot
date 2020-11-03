@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS raid_loot;
-CREATE TABLE raid_loot (id INT PRIMARY KEY AUTO_INCREMENT, raid VARCHAR(30) NOT NULL, category VARCHAR(50) NOT NULL, ql INT NOT NULL, name VARCHAR(255) NOT NULL, comment VARCHAR(255) NOT NULL, multiloot INT NOT NULL);
+CREATE TABLE raid_loot (id INT PRIMARY KEY AUTO_INCREMENT, raid VARCHAR(30) NOT NULL, category VARCHAR(50) NOT NULL, ql INT NOT NULL, name VARCHAR(255) NOT NULL, high_id int default 0, comment VARCHAR(255) NOT NULL, multiloot INT NOT NULL);
 
 -- Vortexx
 INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Vortexx', 'General', 300, 'Base NCU - Type 00 (0/6)', '', 1);
@@ -425,3 +425,161 @@ INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Py
 INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Pyramid of Home', 'HUD/NCU', 100, 'Ancient Aggressive Webbing', '', 1);
 INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Pyramid of Home', 'HUD/NCU', 300, 'Dense Nanite Aegis', '', 1);
 INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Pyramid of Home', 'HUD/NCU', 100, 'Ancient Protective Drone', '', 1);
+
+-- #########################
+-- #   TOTW (Highlevel)    #
+-- #########################
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Binyacht the Faithful', 300, 'Corrupted Edge', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Binyacht the Faithful', 1, 'Purified Hood of the Faithful', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Binyacht the Faithful', 1, 'Purified Robe of the Faithful', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Binyacht the Faithful', 1, 'Tattered book: Sting of the Viper (section 5)', '', 1);
+
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Guardian of the Three', 1, 'Bloodthrall Ring', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Guardian of the Three', 1, 'Ring of Purifying Flame', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Guardian of the Three', 1, 'Sanguine Vambrace', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Guardian of the Three', 1, 'Tattered book: Stampede of the Boar (section 1)', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Guardian of the Three', 1, 'Tattered book: Sting of the Viper (section 1)', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Guardian of the Three', 1, 'Tattered book: Sting of the Viper (section 5)', '', 1);
+
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'The Immortal Summoner', 1, 'Bloodthrall Ring', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'The Immortal Summoner', 1, 'Bone Staff of The Immortal Summoner', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'The Immortal Summoner', 1, 'Ornate Funeral Urn', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'The Immortal Summoner', 1, 'Ring of Purifying Flame', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'The Immortal Summoner', 1, 'Tattered book: Stampede of the Boar (section 2)', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'The Immortal Summoner', 1, 'Tattered book: Sting of the Viper (section 5)', '', 1);
+
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Lien the Memory-Devourer', 1, 'Lucid Nightmares', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Lien the Memory-Devourer', 1, 'Memory of Future Events', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Lien the Memory-Devourer', 1, 'Mnemonic Shard', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Lien the Memory-Devourer', 1, 'Ring of the Coiled Serpent', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Lien the Memory-Devourer', 1, 'Tattered book: Stampede of the Boar (section 4)', '', 1);
+
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'The Loremaster', 1, 'Blessing of the Gripper', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'The Loremaster', 1, 'Bloodthrall Ring', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'The Loremaster', 1, 'Knowledge of the Immortal One', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'The Loremaster', 1, 'Mountain Razing Gauntlets', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'The Loremaster', 1, 'Sanguine Vambrace', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'The Loremaster', 1, 'Tattered book: Sting of the Viper (section 2)', '', 1);
+
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Nematet the Subjugator of Time', 1, 'Ceremonial Blade', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Nematet the Subjugator of Time', 1, 'Desecrated Flesh', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Nematet the Subjugator of Time', 1, 'Envoy to Chaos', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Nematet the Subjugator of Time', 1, 'Ethereal Embrace', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Nematet the Subjugator of Time', 1, 'Grasp of the Immortal', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Nematet the Subjugator of Time', 1, 'Nematet''s Third Eye', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Nematet the Subjugator of Time', 1, 'Notum Graft', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Nematet the Subjugator of Time', 1, 'Ring of Blighted Flesh', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Nematet the Subjugator of Time', 1, 'Ring of Purifying Flame', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Nematet the Subjugator of Time', 1, 'Sacred Chalice', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Nematet the Subjugator of Time', 1, 'Strength of the Immortal', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Nematet the Subjugator of Time', 1, 'Tattered book: Stampede of the Boar (section 3)', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Nematet the Subjugator of Time', 1, 'Tattered book: Stampede of the Boar (section 5)', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Nematet the Subjugator of Time', 1, 'Vision of the Heretic', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Nematet the Subjugator of Time', 1, 'Wit of the Immortal', '', 1);
+
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Aegis of Tomorrow', 1, 'Aegis Circuit Board', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Aegis of Tomorrow', 1, 'Bloodthrall Ring', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Aegis of Tomorrow', 1, 'Guardian Heavy Tank Armor', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Aegis of Tomorrow', 1, 'Ring of Purifying Flame', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Aegis of Tomorrow', 1, 'Sanguine Vambrace', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Aegis of Tomorrow', 1, 'Tattered book: Sting of the Viper (section 5)', '', 1);
+
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Gartua the Gate Guardian', 1, 'Gartua''s Second Coat', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Gartua the Gate Guardian', 1, 'Inner Peace', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Gartua the Gate Guardian', 1, 'Keeper''s Vigor', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Gartua the Gate Guardian', 1, 'Ring of Purifying Flame', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Gartua the Gate Guardian', 1, 'Tattered book: Sting of the Viper (section 5)', '', 1);
+
+
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Aztur the Immortal', 1, 'Bloodthrall Ring', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Aztur the Immortal', 1, 'Ceremonial Blade', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Aztur the Immortal', 1, 'Desecrated Flesh', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Aztur the Immortal', 1, 'Envoy to Chaos', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Aztur the Immortal', 1, 'Obsidian Desecrator', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Aztur the Immortal', 1, 'Ring of Blighted Flesh', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Aztur the Immortal', 1, 'Ring of Purifying Flame', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Aztur the Immortal', 1, 'Sacred Chalice', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Aztur the Immortal', 1, 'Sacred Text of the Immortal One', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Aztur the Immortal', 1, 'Sanguine Vambrace', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Aztur the Immortal', 1, 'Strength of the Immortal', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Aztur the Immortal', 1, 'Tattered book: Stampede of the Boar (section 5)', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Aztur the Immortal', 1, 'Tattered book: Stampede of the Boar (section 6)', '', 1);
+
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Khalum the Weaver of Flesh', 1, 'Fist of Heavens', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Khalum the Weaver of Flesh', 1, 'Summoner''s Staff of Dismissal', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Khalum the Weaver of Flesh', 1, 'Tattered book: Sting of the Viper (section 6)', '', 1);
+
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Uklesh the Beguiling', 1, 'Fist of Heavens', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'Uklesh the Beguiling', 1, 'Uklesh''s Talon', '', 1);
+
+
+INSERT INTO raid_loot (raid, category, ql, name, high_id, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'General', 1, 'Notum Ring of the Three', 305488, 'green', 1);
+INSERT INTO raid_loot (raid, category, ql, name, high_id, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'General', 1, 'Notum Ring of the Three', 305489, 'red', 1);
+INSERT INTO raid_loot (raid, category, ql, name, high_id, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'General', 1, 'Notum Ring of the Three', 305490, 'yellow', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'General', 1, 'Rod of Dismissal', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'General', 1, 'Corrupted Bloodmark', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'General', 1, 'Corrupted Soulmark', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'General', 1, 'Twilight Entreatment Armor (Helmet)', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'General', 1, 'Twilight Entreatment Armor (Gloves)', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'General', 1, 'Twilight Entreatment Armor (Pants)', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'General', 1, 'Twilight Entreatment Armor (Sleeves)', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'General', 1, 'Twilight Entreatment Armor (Body)', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Temple of Three Winds (HL)', 'General', 1, 'Twilight Entreatment Armor (Boots)', '', 1);
+
+-- ####################
+-- #   Subway (HL)    #
+-- ####################
+
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'General', 1, 'Counterfeit fr00b T-shirt', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'General', 1, 'Fetid Vagabond Cloak', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'General', 1, 'Fortified Construction Sleeves', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'General', 1, 'Purification Stim', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'General', 1, 'Reinforced Bau Cyber Body Armor', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'General', 1, 'Reinforced Bau Cyber Female Body Armor', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'General', 1, 'Reinforced Bau Cyber Armor Helmet', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'General', 1, 'Reinforced Bau Cyber Armor Pants', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'General', 1, 'Reinforced Bau Cyber Armor Sleeves', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'General', 1, 'Reinforced Bau Cyber Armor Gloves', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'General', 1, 'Reinforced Bau Cyber Armor Boots', '', 1);
+
+
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'Eliminator Shiro', 1, 'Combat Assist Wen-Wen', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'Eliminator Shiro', 1, 'Distraction Rifle', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'Eliminator Shiro', 1, 'Notum-Infused Wool Balaclava Mask', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'Eliminator Shiro', 1, 'Unstable Damage Augmentation Device', '', 1);
+
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'Eumenides', 1, 'BBI Faithful 1000', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'Eumenides', 1, 'Eumenides''s Omni-Pol Forest Body Armor', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'Eumenides', 1, 'Superior Ring of the Nucleus Basalis', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'Eumenides', 1, 'Supreme Office Worker Suit', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'Eumenides', 1, 'Technical Guidance Personal Terminal', '', 1);
+
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'Queen of the Slums', 1, 'Amalgamated Research Attunement Device', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'Queen of the Slums', 1, 'Aspect of Paralyzing Fear', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'Queen of the Slums', 1, 'Illegally Augmented Ofab Mongoose', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'Queen of the Slums', 1, 'Survivalist Leather Armor Legwear', '', 1);
+
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'The Psion', 1, 'Aspect of Paralyzing Fear', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'The Psion', 1, 'Eye of The Psion', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'The Psion', 1, 'Illegally Modified Dreadloch Panther', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'The Psion', 1, 'Illegally-Modified Dreadloch Tigress', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'The Psion', 1, 'Symbiotic Nanite Gloves', '', 1);
+
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'Primal Bloodcreeper', 1, 'Mark of the Bloodless', '', 1);
+
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'Vergil Aeneid', 1, 'Boots of Gridspace Distortion', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'Vergil Aeneid', 1, 'Illegally Modified Dreadloch Remodulator', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'Vergil Aeneid', 1, 'Illegally Modified Dreadloch Thrasher', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'Vergil Aeneid', 1, 'Lost Blade of Elder Tsunayoshi', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'Vergil Aeneid', 1, 'Vergil''s Black Trenchcoat', '', 1);
+
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'Abmouth Supremus', 1, 'Aspect of Paralyzing Fear', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'Abmouth Supremus', 1, 'Belt of Great Justice', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'Abmouth Supremus', 1, 'Condemned Bulwark', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'Abmouth Supremus', 1, 'Eumenides''s Omni-Pol Forest Body Armor', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'Abmouth Supremus', 1, 'Illegally Modified Dreadloch Obliterator', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'Abmouth Supremus', 1, 'Illegally Modified Dreadloch Modified Shark', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'Abmouth Supremus', 1, 'Jester''s Gift', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'Abmouth Supremus', 1, 'Patchwork Defensive Drone', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'Abmouth Supremus', 1, 'Vergil''s Black Trenchcoat', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'Abmouth Supremus', 1, 'Vicious Support Beam of Malice', '', 1);
