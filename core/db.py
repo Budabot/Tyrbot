@@ -52,7 +52,10 @@ class DB:
 
         start_time = time.time()
         try:
-            cur.execute(sql if self.type == self.SQLITE else sql.replace("?", "%s"), params)
+            if self.type == self.MYSQL:
+                sql = sql.replace("OR IGNORE", "IGNORE")
+                sql = sql.replace("?", "%s")
+            cur.execute(sql, params)
         except Exception as e:
             raise SqlException("SQL Error: '%s' for '%s' [%s]" % (str(e), sql, ", ".join(map(lambda x: str(x), params)))) from e
 
