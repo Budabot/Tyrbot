@@ -80,7 +80,7 @@ class DiscordController:
         self.relay_hub_service.register_relay(self.RELAY_HUB_SOURCE, self.handle_incoming_relay_message)
         self.register_discord_command_handler(self.help_discord_cmd, "help", [])
 
-        self.db.exec("CREATE TABLE IF NOT EXISTS discord (channel_id INTEGER(64) NOT NULL UNIQUE, server_name VARCHAR(256) NOT NULL, channel_name VARCHAR(256) NOT NULL, relay_ao SMALLINT NOT NULL DEFAULT 0, relay_dc SMALLINT NOT NULL DEFAULT 0)")
+        self.db.exec("CREATE TABLE IF NOT EXISTS discord (channel_id BIGINT(32) NOT NULL UNIQUE, server_name VARCHAR(256) NOT NULL, channel_name VARCHAR(256) NOT NULL, relay_ao SMALLINT NOT NULL DEFAULT 0, relay_dc SMALLINT NOT NULL DEFAULT 0)")
 
         channels = self.db.query("SELECT * FROM discord")
 

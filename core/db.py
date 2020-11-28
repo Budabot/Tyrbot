@@ -52,10 +52,7 @@ class DB:
 
         start_time = time.time()
         try:
-            if self.type == self.MYSQL:
-                sql = sql.replace("OR IGNORE", "IGNORE")
-                sql = sql.replace("?", "%s")
-            cur.execute(sql, params)
+            cur.execute(sql if self.type == self.SQLITE else sql.replace("?", "%s"), params)
         except Exception as e:
             raise SqlException("SQL Error: '%s' for '%s' [%s]" % (str(e), sql, ", ".join(map(lambda x: str(x), params)))) from e
 
@@ -122,6 +119,7 @@ class DB:
         if self.type == self.SQLITE:
             sql = sql.replace("AUTO_INCREMENT", "AUTOINCREMENT")
             sql = sql.replace(" INT ", " INTEGER ")
+            sql = sql.replace("INSERT IGNORE", "INSERT OR IGNORE")
 
         return sql, params
 
