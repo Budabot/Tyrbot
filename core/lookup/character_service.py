@@ -64,10 +64,7 @@ class CharacterService:
 
     def _update_name_history(self, char_name, char_id):
         params = [char_name, char_id, int(time.time())]
-        if self.db.type == DB.MYSQL:
-            self.db.exec("INSERT IGNORE INTO name_history (name, char_id, created_at) VALUES (?, ?, ?)", params)
-        else:
-            self.db.exec("INSERT OR IGNORE INTO name_history (name, char_id, created_at) VALUES (?, ?, ?)", params)
+        self.db.exec("INSERT IGNORE INTO name_history (name, char_id, created_at) VALUES (?, ?, ?)", params)
 
     def _send_lookup_if_needed(self, char_name):
         # char_name must be .capitalize()'ed

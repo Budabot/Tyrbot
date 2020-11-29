@@ -80,7 +80,7 @@ class DiscordController:
         self.relay_hub_service.register_relay(self.RELAY_HUB_SOURCE, self.handle_incoming_relay_message)
         self.register_discord_command_handler(self.help_discord_cmd, "help", [])
 
-        self.db.exec("CREATE TABLE IF NOT EXISTS discord (channel_id VARCHAR(64) NOT NULL, server_name VARCHAR(256) NOT NULL, channel_name VARCHAR(256) NOT NULL, relay_ao SMALLINT NOT NULL DEFAULT 0, relay_dc SMALLINT NOT NULL DEFAULT 0)")
+        self.db.exec("CREATE TABLE IF NOT EXISTS discord (channel_id BIGINT(32) NOT NULL UNIQUE, server_name VARCHAR(256) NOT NULL, channel_name VARCHAR(256) NOT NULL, relay_ao SMALLINT NOT NULL DEFAULT 0, relay_dc SMALLINT NOT NULL DEFAULT 0)")
 
         channels = self.db.query("SELECT * FROM discord")
 
@@ -127,7 +127,6 @@ class DiscordController:
             for server in self.servers:
                 invites = self.text.make_chatcmd(self.getresp("module/discord", "get_invite"),
                                                  "/tell <myname> discord getinvite %s" % server.id)
-
                 owner = server.owner.nick or re.sub(pattern=r"#\d+", repl="", string=str(server.owner))
                 servers += self.getresp("module/discord", "server", {"server_name": server.name,
                                                                      "invite": invites,
@@ -204,7 +203,7 @@ class DiscordController:
 
         return ChatBlob(self.getresp("module/discord", "relay_title"), blob)
 
-    @command(command="discord", params=[Const("relay"), Any("channel_id"), Options(["ao", "discord"]), Options(["on", "off"])], access_level="moderator",
+    @command(command="discord", params=[Const("relay"), Int("channel_id"), Options(["ao", "discord"]), Options(["on", "off"])], access_level="moderator",
              description="Changes relay setting for specific channel", sub_command="manage")
     def discord_relay_change_cmd(self, request, _, channel_id, relay_type, relay):
         channel = self.channels[channel_id]
@@ -228,7 +227,7 @@ class DiscordController:
     def discord_getinvite_cmd(self, request, _, server_id):
         if self.servers:
             for server in self.servers:
-                if server.id == str(server_id):
+                if server.id == server_id:
                     self.send_to_discord("get_invite", (request.sender.name, server))
                     return
         return self.getresp("module/discord", "no_dc", {"id": server_id})
@@ -251,9 +250,9 @@ class DiscordController:
             if channel.type is ChannelType.text:
                 cid = channel.id
                 if cid not in self.channels:
-                    self.channels[cid] = DiscordChannel(cid, channel.server.name, channel.name, False, False)
+                    self.channels[cid] = DiscordChannel(cid, channel.guild.name, channel.name, False, False)
                 else:
-                    self.channels[cid].server_name = channel.server.name
+                    self.channels[cid].server_name = channel.guild.name
                     self.channels[cid].channel_name = channel.name
 
         self.update_discord_channels()
@@ -311,7 +310,7 @@ class DiscordController:
                 useleft = str(invite.max_uses) if invite.max_uses is not None else "N/A"
                 channel = self.getresp("module/discord", "inv_channel", {"channel": invite.channel.name})\
                     if invite.channel is not None else None
-                server_invites += self.getresp("module/discord", "invite", {"server": invite.server.name,
+                server_invites += self.getresp("module/discord", "invite", {"server": invite.guild.name,
                                                                             "link": link,
                                                                             "time_left": timeleft,
                                                                             "count_used": used,
@@ -382,7 +381,7 @@ class DiscordController:
         reply(msg, "Help")
 
     def is_connected(self):
-        return self.client and self.client.is_logged_in
+        return self.client and self.client.is_ready()
 
     def get_char_info_display(self, char_id):
         char_info = self.pork_service.get_character_info(char_id)
