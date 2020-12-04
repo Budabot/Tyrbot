@@ -49,14 +49,21 @@ class PlayfieldController:
         return self.create_waypoint_blob(x_coords, y_coords, playfield_arg)
 
     def create_waypoint_blob(self, x_coords, y_coords, playfield_arg):
+        x_coords = int(float(x_coords))
+        y_coords = int(float(y_coords))
         playfield = self.get_playfield_by_name(playfield_arg) or self.get_playfield_by_id(playfield_arg)
 
         if not playfield:
             return "Could not find playfield <highlight>%s<end>." % playfield_arg
         else:
             title = "waypoint: %sx%s %s" % (x_coords, y_coords, playfield.long_name)
-            blob = "Click here to use waypoint: "
-            blob += self.text.make_chatcmd(title, "/waypoint %s %s %d" % (x_coords, y_coords, playfield.id))
+            blob = "Zone: %s (%s)\n" % (playfield.long_name, playfield.id)
+            blob += "Coords: %s x %s\n\n" % (x_coords, y_coords)
+            blob += "<center>%s\n" % self.text.make_chatcmd(self.text.make_image(11336), "/waypoint %s %s %d" % (x_coords, y_coords, playfield.id))
+            blob += "%s" % self.text.make_chatcmd("Click for waypoint", "/waypoint %s %s %d" % (x_coords, y_coords, playfield.id))
+
+            blob += "\n\n%s\n" % self.text.make_chatcmd(self.text.make_image(275054), "/start https://yeets.org/map/#%s,%s,%s,8" % (x_coords, y_coords, playfield.id))
+            blob += "%s</center>" % self.text.make_chatcmd("View interactive map", "/start https://yeets.org/map/#%s,%s,%s,8" % (x_coords, y_coords, playfield.id))
             return ChatBlob(title, blob)
 
     def get_playfield_by_name(self, name):
