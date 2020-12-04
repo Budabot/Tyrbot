@@ -123,3 +123,11 @@ if version == 9:
         db.exec("INSERT INTO event_config SELECT event_type, event_sub_type, handler, description, module, enabled, verified, 0 FROM event_config_old")
         db.exec("DROP TABLE event_config_old")
     version = update_version(version)
+
+if version == 10:
+    if table_exists("discord"):
+        db.exec("ALTER TABLE discord RENAME TO discord_old")
+        db.exec("CREATE TABLE IF NOT EXISTS discord (channel_id INTEGER(64) NOT NULL UNIQUE, server_name VARCHAR(256) NOT NULL, channel_name VARCHAR(256) NOT NULL, relay_ao SMALLINT NOT NULL DEFAULT 0, relay_dc SMALLINT NOT NULL DEFAULT 0)")
+        db.exec("INSERT INTO discord SELECT channel_id, server_name, channel_name, relay_ao, relay_dc FROM discord_old")
+        db.exec("DROP TABLE discord_old")
+    version = update_version(version)

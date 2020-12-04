@@ -1,7 +1,7 @@
 {
   "alias_blob_title": {
-    "en_US": "Aliases ({amount}}",
-    "de_DE": "Alias Liste ({amount}"
+    "en_US": "Aliases ({amount})",
+    "de_DE": "Alias Liste ({amount})"
   },
   "alias_add_success": {
     "en_US": "Alias <highlight>{alias}<end> for command <highlight>{cmd}<end> added successfully.",

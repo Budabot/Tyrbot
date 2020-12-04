@@ -119,6 +119,7 @@ class DB:
         if self.type == self.SQLITE:
             sql = sql.replace("AUTO_INCREMENT", "AUTOINCREMENT")
             sql = sql.replace(" INT ", " INTEGER ")
+            sql = sql.replace("INSERT IGNORE", "INSERT OR IGNORE")
 
         return sql, params
 

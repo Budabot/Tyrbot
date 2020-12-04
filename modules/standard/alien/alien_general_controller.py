@@ -2,6 +2,7 @@ from core.chat_blob import ChatBlob
 from core.command_param_types import Options
 from core.decorators import instance, command
 from core.text import Text
+from core.translation_service import TranslationService
 
 
 @instance()
@@ -9,17 +10,13 @@ class AlienGeneralController:
     def inject(self, registry):
         self.text: Text = registry.get_instance("text")
         self.items_controller = registry.get_instance("items_controller")
+        self.ts: TranslationService = registry.get_instance("translation_service")
+        self.getresp = self.ts.get_response
 
     @command(command="aigen", params=[], access_level="all",
              description="List alien city ground generals")
     def aigen_list_command(self, request):
-        generals = ["Ankari", "Ilari", "Rimah", "Jaax", "Xoch", "Cha"]
-
-        blob = ""
-        for general in generals:
-            blob += self.text.make_chatcmd(general, "/tell <myname> aigen %s" % general) + "\n"
-
-        return ChatBlob("Alien Generals", blob)
+        return ChatBlob(self.getresp("module/alien", "ai_gen_list_title"), self.getresp("module/alien", "ai_gen_list"))
 
     @command(command="aigen", params=[Options(["ankari", "ilari", "rimah", "jaax", "xoch", "cha"])], access_level="all",
              description="Show info about an alien city ground general")

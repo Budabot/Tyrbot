@@ -133,7 +133,7 @@ class PorkService:
         self.db.exec("DELETE FROM player WHERE char_id = ?", [char_info["char_id"]])
 
         insert_sql = """
-            INSERT INTO player ( char_id, name, first_name, last_name, level, breed, gender, faction, profession,
+            INSERT IGNORE INTO player ( char_id, name, first_name, last_name, level, breed, gender, faction, profession,
                 profession_title, ai_rank, ai_level, org_id, org_name, org_rank_name, org_rank_id, dimension, head_id,
                 pvp_rating, pvp_title, source, last_updated)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -170,7 +170,7 @@ class PorkService:
                 self.db.exec("UPDATE player SET name = ? WHERE char_id = ?", [packet.name, packet.char_id])
         else:
             insert_sql = """
-                INSERT INTO player ( char_id, name, first_name, last_name, level, breed, gender, faction, profession,
+                INSERT IGNORE INTO player ( char_id, name, first_name, last_name, level, breed, gender, faction, profession,
                 profession_title, ai_rank, ai_level, org_id, org_name, org_rank_name, org_rank_id, dimension, head_id,
                 pvp_rating, pvp_title, source, last_updated)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"""

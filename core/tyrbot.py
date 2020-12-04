@@ -173,6 +173,9 @@ class Tyrbot(Bot):
                 packet = self.system_message_ext_msg_handling(packet)
             elif isinstance(packet, server_packets.PublicChannelMessage):
                 packet = self.public_channel_message_ext_msg_handling(packet)
+            if isinstance(packet, server_packets.BuddyAdded):
+                if packet.char_id == 0:
+                    return
 
             for handler in self.packet_handlers.get(packet.id, []):
                 handler.handler(packet)

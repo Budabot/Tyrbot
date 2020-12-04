@@ -20,7 +20,7 @@ class AliasController:
         for row in data:
             blob += row.alias + " - " + row.command + "\n"
 
-        return ChatBlob(self.getresp("module/config", "alias_blob_title", {"amount":count}), blob)
+        return ChatBlob(self.getresp("module/config", "alias_blob_title", {"amount": count}), blob)
 
     @command(command="alias", params=[Const("add"), Any("alias"), Any("command")], access_level="admin",
              description="Add a command alias", sub_command="modify")

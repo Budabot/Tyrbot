@@ -74,16 +74,17 @@ class RaffleController:
             return "There is already a raffle in progress."
 
         t = int(time.time())
+        finished_at = t + duration
 
         self.raffle = DictObject({
             "owner": request.sender,
             "item": self.get_item_name(item),
             "started_at": t,
             "duration": duration,
-            "finished_at": t + duration,
+            "finished_at": finished_at,
             "members": [],
             "reply": request.reply,
-            "scheduled_job_id": self.job_scheduler.scheduled_job(self.alert_raffle_status, t + 60)
+            "scheduled_job_id": self.job_scheduler.scheduled_job(self.alert_raffle_status, self.get_next_alert_time(t, finished_at))
         })
 
         chatblob = self.get_raffle_display(t)
@@ -121,7 +122,7 @@ class RaffleController:
             self.raffle = None
         else:
             self.spam_raffle_channels(self.get_raffle_display(t))
-            self.raffle.scheduled_job_id = self.job_scheduler.scheduled_job(self.alert_raffle_status, t + 60)
+            self.raffle.scheduled_job_id = self.job_scheduler.scheduled_job(self.alert_raffle_status, self.get_next_alert_time(t, self.raffle.finished_at))
 
     def spam_raffle_channels(self, msg):
         self.bot.send_private_channel_message(msg, fire_outgoing_event=False)
@@ -129,3 +130,10 @@ class RaffleController:
 
     def get_raffle_winner(self):
         return random.choice(self.raffle.members)
+
+    def get_next_alert_time(self, current_time, finished_at):
+        time_left = finished_at - current_time
+        if time_left > 60:
+            return current_time + 60
+        else:
+            return current_time + time_left
