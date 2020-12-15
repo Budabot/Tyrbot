@@ -136,15 +136,15 @@ class ItemsController:
 
     def get_by_item_id(self, item_id, ql=None):
         if ql:
-            return self.db.query_single("SELECT * FROM aodb WHERE (highid = ? OR lowid = ?) AND (highql = ? OR lowql = ?) ORDER BY highid = ?", [item_id, item_id, ql, ql, item_id])
+            return self.db.query_single("SELECT * FROM aodb WHERE (highid = ? OR lowid = ?) AND (lowql <= ? AND highql >= ?) ORDER BY highid DESC LIMIT 1", [item_id, item_id, ql, ql])
         else:
-            return self.db.query_single("SELECT * FROM aodb WHERE highid = ? OR lowid = ? ORDER BY highid = ?", [item_id, item_id, item_id])
+            return self.db.query_single("SELECT * FROM aodb WHERE highid = ? OR lowid = ? ORDER BY highid DESC LIMIT 1", [item_id, item_id])
 
     def find_by_name(self, name, ql=None):
         if ql:
-            return self.db.query_single("SELECT * FROM aodb WHERE name = ? AND lowql <= ? AND highql >= ? ORDER BY highid DESC", [name, ql, ql])
+            return self.db.query_single("SELECT * FROM aodb WHERE name = ? AND lowql <= ? AND highql >= ? ORDER BY highid DESC LIMIT 1", [name, ql, ql])
         else:
-            return self.db.query_single("SELECT * FROM aodb WHERE name = ? ORDER BY highql DESC, highid DESC", [name])
+            return self.db.query_single("SELECT * FROM aodb WHERE name = ? ORDER BY highql DESC, highid DESC LIMIT 1", [name])
 
     def get_chat_command(self, ql, search, page):
         if ql:
