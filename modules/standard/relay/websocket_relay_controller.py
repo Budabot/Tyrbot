@@ -1,10 +1,18 @@
 import json
 import threading
+import base64
+import string
+import random
 
 from core.decorators import instance, event, timerevent, setting
 from core.logger import Logger
-from core.setting_types import ColorSettingType, TextSettingType
+from core.dict_object import DictObject
+from core.setting_types import ColorSettingType, TextSettingType, HiddenSettingType
 from .websocket_relay_worker import WebsocketRelayWorker
+from core.registry import Registry
+from cryptography.fernet import Fernet
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
 
 @instance()
@@ -16,16 +24,29 @@ class WebsocketRelayController:
         self.queue = []
         self.logger = Logger(__name__)
         self.worker = None
+        self.encrypter = None
 
     def inject(self, registry):
         self.relay_hub_service = registry.get_instance("relay_hub_service")
+        self.util = registry.get_instance("util")
 
     def start(self):
         self.relay_hub_service.register_relay(self.RELAY_HUB_SOURCE, self.handle_incoming_relay_message)
+        if self.websocket_encryption_key().get_value():
+            password = self.websocket_encryption_key().get_value().encode("utf-8")
+            salt = b"tyrbot"  # using hard-coded salt is less secure as it nullifies the function of the salt and allows for rainbow attacks
+            kdf = PBKDF2HMAC(
+                algorithm=hashes.SHA256(),
+                length=32,
+                salt=salt,
+                iterations=100000,)
+            key = base64.urlsafe_b64encode(kdf.derive(password))
+            self.encrypter = Fernet(key)
 
-    @setting(name="websocket_relay_server_address", value="ws://localhost/subscribe/relay", description="The address of the websocket relay server")
+    @setting(name="websocket_relay_server_address", value="ws://localhost/subscribe/relay", description="The address of the websocket relay server",
+             extended_description="All bots on the relay must connect to the same server and channel. If using the public relay server, use a unique channel name. Example: ws://relay.jkbff.com/subscribe/unique123 (<highlight>relay.jkbff.com<end> is the server and <highlight>unique123<end> is the channel)")
     def websocket_relay_server_address(self):
-        return TextSettingType(["ws://localhost/subscribe/relay"])
+        return TextSettingType(["ws://localhost/subscribe/relay", "ws://relay.jkbff.com/subscribe/relay"])
 
     @setting(name="websocket_relay_channel_color", value="#FFFF00", description="Color of the channel in websocket relay messages")
     def websocket_channel_color(self):
@@ -39,12 +60,20 @@ class WebsocketRelayController:
     def websocket_sender_color(self):
         return ColorSettingType()
 
+    @setting(name="websocket_encryption_key", value="", description="An encryption key used to encrypt messages over a public websocket relay",
+             extended_description="")
+    def websocket_encryption_key(self):
+        return HiddenSettingType()
+
     @timerevent(budatime="1s", description="Relay messages from websocket relay to the relay hub")
     def handle_queue_event(self, event_type, event_data):
         while self.queue:
-            obj = self.queue.pop(0)
+            obj = DictObject(json.loads(self.queue.pop(0)))
             if obj.type == "message":
                 payload = obj.payload
+                if self.encrypter:
+                    payload = self.encrypter.decrypt(payload.encode('utf-8'))
+                payload = DictObject(json.loads(payload))
                 # message = ("[Relay] <channel_color>[%s]<end> <sender_color>%s<end>: <message_color>%s<end>" % (payload.channel, payload.sender.name, payload.message))\
                 #     .replace("<channel_color>", self.websocket_channel_color().get_font_color())\
                 #     .replace("<message_color>", self.websocket_message_color().get_font_color())\
@@ -62,6 +91,8 @@ class WebsocketRelayController:
             obj = json.dumps({"sender": ctx.sender,
                               "message": ctx.message,
                               "channel": None})
+            if self.encrypter:
+                obj = self.encrypter.encrypt(obj.encode('utf-8'))
             self.worker.send_message(obj)
 
     def connect(self):
