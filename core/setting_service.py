@@ -21,16 +21,17 @@ class SettingService:
         for _, inst in Registry.get_all_instances().items():
             for name, method in get_attrs(inst).items():
                 if hasattr(method, "setting"):
-                    setting_name, value, description, obj = getattr(method, "setting")
+                    setting_name, value, description, extended_description, obj = getattr(method, "setting")
                     handler = getattr(inst, name)
                     module = self.util.get_module_name(handler)
-                    self.register(setting_name, value, description, obj, module)
+                    self.register(setting_name, value, description, obj, module, extended_description)
 
-    def register(self, name, value, description, setting: SettingType, module):
+    def register(self, name, value, description, setting: SettingType, module, extended_description=None):
         name = name.lower()
         module = module.lower()
         setting.set_name(name)
         setting.set_description(description)
+        setting.set_extended_description(extended_description)
 
         if not description:
             self.logger.warning("No description specified for setting '%s'" % name)
