@@ -144,6 +144,8 @@ class ConfigController:
         if setting:
             blob += self.getresp("module/config", "current_value", {"value": str(setting.get_display_value())})
             blob += self.getresp("module/config", "description", {"desc": setting.get_description()})
+            if setting.get_extended_description():
+                blob += setting.get_extended_description() + "\n\n"
             blob += setting.get_display()
             return ChatBlob(self.getresp("module/config", "setting", {"setting": setting_name}), blob)
         else:

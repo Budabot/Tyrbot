@@ -138,7 +138,7 @@ class ItemsController:
         if ql:
             return self.db.query_single("SELECT * FROM aodb WHERE (highid = ? OR lowid = ?) AND (lowql <= ? AND highql >= ?) ORDER BY highid = ? LIMIT 1", [item_id, item_id, ql, ql, item_id])
         else:
-            return self.db.query_single("SELECT * FROM aodb WHERE highid = ? OR lowid = ? ORDER BY highid = ? LIMIT 1", [item_id, item_id, item_id]])
+            return self.db.query_single("SELECT * FROM aodb WHERE highid = ? OR lowid = ? ORDER BY highid = ? LIMIT 1", [item_id, item_id, item_id])
 
     def find_by_name(self, name, ql=None):
         if ql:

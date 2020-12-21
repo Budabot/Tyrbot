@@ -64,7 +64,7 @@
     "de_DE": "Teilweise aktiviert"
   },
   "config": {
-  "en_US": "config ({count})",
+  "en_US": "Config ({count})",
   "de_DE": "Einstellungen ({count})"
   },
   "cmd_toggle_success": {

@@ -42,6 +42,12 @@ class SettingType:
     def get_description(self):
         return self.description
 
+    def set_extended_description(self, extended_description):
+        self.extended_description = extended_description
+
+    def get_extended_description(self):
+        return self.extended_description
+
 
 class TextSettingType(SettingType):
     def __init__(self, options=None):
@@ -92,7 +98,7 @@ class DictionarySettingType(SettingType):
         return "<highlight>%s<end>" % (self.get_value() or "&lt;empty&gt;")
 
     def get_display(self):
-        return """This setting is control by the bot and cannot be set manually."""
+        return """This setting is controlled by the bot and cannot be set manually."""
 
 
 class HiddenSettingType(TextSettingType):

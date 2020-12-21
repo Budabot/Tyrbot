@@ -38,12 +38,12 @@ def timerevent(handler, budatime, description, is_hidden=False):
 
 
 @parametrized
-def setting(handler, name, value, description):
+def setting(handler, name, value, description, extended_description=None):
     obj = handler(None)
 
     def new_handler(self):
         return obj
 
-    new_handler.setting = [name, value, description, obj]
+    new_handler.setting = [name, value, description, extended_description, obj]
     new_handler.__module__ = handler.__module__
     return new_handler
