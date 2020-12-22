@@ -238,7 +238,7 @@ class DiscordController:
             dtype, message = self.dqueue.pop(0)
             self.event_service.fire_event(dtype, message)
 
-    @event(event_type="connect", description="Connects the Discord client automatically on startup, if a token exists")
+    @event(event_type="connect", description="Connects the Discord client automatically on startup, if a token exists", is_enabled=False)
     def handle_connect_event(self, event_type, event_data):
         token = self.setting_service.get("discord_bot_token").get_value()
         if token:
