@@ -104,15 +104,18 @@ class WebsocketRelayController:
             self.worker.send_message(obj)
 
     def connect(self):
-        self.worker = WebsocketRelayWorker(self.queue, self.websocket_relay_server_address().get_value())
-
         self.disconnect()
+        
+        self.worker = WebsocketRelayWorker(self.queue, self.websocket_relay_server_address().get_value())
         self.dthread = threading.Thread(target=self.worker.run, daemon=True)
         self.dthread.start()
 
     def disconnect(self):
-        # TODO
-        pass
+        if self.worker:
+            self.worker.close()
+            self.worker = None
+            self.dthread.join()
+            self.dthread = None
 
     def websocket_relay_status_changed(self, name, old_value, new_value):
         for handler in [self.handle_connect_event, self.handle_queue_event]:
