@@ -41,11 +41,13 @@ class WebsocketRelayController:
                 algorithm=hashes.SHA256(),
                 length=32,
                 salt=salt,
-                iterations=100000,)
+                iterations=10000,)
             key = base64.urlsafe_b64encode(kdf.derive(password))
             self.encrypter = Fernet(key)
             
-        self.setting_service.register_change_listener("websocket_relay_enabled", self.websocket_relay_status_changed)
+        self.setting_service.register_change_listener("websocket_relay_enabled", self.websocket_relay_update)
+        self.setting_service.register_change_listener("websocket_relay_server_address", self.websocket_relay_update)
+        self.setting_service.register_change_listener("websocket_encryption_key", self.websocket_relay_update)
 
     @setting(name="websocket_relay_enabled", value=False, description="Enable or disable the websocket relay")
     def websocket_relay_enabled(self):
@@ -117,13 +119,16 @@ class WebsocketRelayController:
             self.dthread.join()
             self.dthread = None
 
-    def websocket_relay_status_changed(self, name, old_value, new_value):
-        for handler in [self.handle_connect_event, self.handle_queue_event]:
-            event_handler = self.util.get_handler_name(handler)
-            event_base_type, event_sub_type = self.event_service.get_event_type_parts(handler.event[0])
-            self.event_service.update_event_status(event_base_type, event_sub_type, event_handler, 1 if new_value else 0)
+    def websocket_relay_update(self, setting_name, old_value, new_value):
+        if setting_name == "websocket_relay_enabled":
+            for handler in [self.handle_connect_event, self.handle_queue_event]:
+                event_handler = self.util.get_handler_name(handler)
+                event_base_type, event_sub_type = self.event_service.get_event_type_parts(handler.event[0])
+                self.event_service.update_event_status(event_base_type, event_sub_type, event_handler, 1 if new_value else 0)
 
-        if new_value:
+            if new_value:
+                self.connect()
+            else:
+                self.disconnect()
+        elif setting_name == "websocket_relay_server_address" or setting_name == "websocket_encryption_key":
             self.connect()
-        else:
-            self.disconnect()
