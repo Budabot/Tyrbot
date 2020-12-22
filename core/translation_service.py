@@ -52,10 +52,6 @@ class TranslationService:
 
     # This method will load another language, defined in the param 'lang'
     def reload_translation(self, lang):
-        self.bot.send_private_channel_message("My language got changed. reloading translations...",
-                                              fire_outgoing_event=False)
-        self.bot.send_org_message("My language got changed. reloading translations...",
-                                  fire_outgoing_event=False)
         self.event_service.fire_event("reload_translation")
         self.language = lang
         for k1 in self.strings:
@@ -78,23 +74,19 @@ class TranslationService:
             variables = {}
         msg = ""
         try:
-            if self.strings.get(category):
-                if self.strings.get(category).get(key):
-                    if isinstance(self.strings.get(category).get(key), list):
-                        for line in self.strings.get(category).get(key):
-                            msg += line.format(**variables)
-                    else:
-                        msg = self.strings.get(category).get(key).format(**variables)
+            val = self.strings.get(category, {}).get(key)
+            if val:
+                if isinstance(val, list):
+                    for line in val:
+                        msg += line.format(**variables)
                 else:
-                    self.logger.error("translating key '{key}' in category '{category}' not found"
-                                      .format(key=key, category=category))
-                    msg = "Error: message for translation key <highlight>'{key}'<end> not found." \
-                        .format(key=key)
+                    msg = val.format(**variables)
             else:
-                self.logger.error("translation category '{category}' was not found".format(category=category))
+                self.logger.error("translating key '{key}' in category '{category}' not found"
+                    .format(key=key, category=category))
+                msg = "Error: message for translation key <highlight>'{key}'<end> not found."
+                    .format(key=key)
 
-                msg = "Error: translating category <highlight>'{category}'<end> not found." \
-                    .format(category=category)
         except KeyError as e:
             self.logger.error(
                 "translating error category: {mod} key: {key} with params: {params}\n Error: {stcktr}"
