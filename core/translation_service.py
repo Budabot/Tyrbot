@@ -13,8 +13,9 @@ from core.util import Util
 class TranslationService:
     strings = {}
     translation_callbacks = {}
-    language = "en_US"
+    language = None
     lang_codes = ["en_US", "de_DE"]
+    LANGUAGE_SETTING = "language"
 
     def __init__(self):
         self.logger = Logger(__name__)
@@ -26,13 +27,14 @@ class TranslationService:
         self.bot: Tyrbot = registry.get_instance("bot")
 
     def pre_start(self):
-        self.language = self.setting_service.get_value("language") or self.language
         self.event_service.register_event_type("reload_translation")
 
     def start(self):
-        self.setting_service.register("language", "en_US", "Language of the Bot",
+        self.setting_service.register(self.LANGUAGE_SETTING, "en_US", "Language of the Bot",
                                       TextSettingType(self.lang_codes), "core.system")
+        self.language = self.setting_service.get_value(self.LANGUAGE_SETTING)
         self.register_translation("global", self.load_global_msg)
+        self.setting_service.register_change_listener(self.LANGUAGE_SETTING, self.language_setting_changed)
 
     def register_translation(self, category, callback):
         if self.translation_callbacks.get(category) is None:
@@ -44,6 +46,10 @@ class TranslationService:
         with open("core/global.msg", mode="r", encoding="UTF-8") as f:
             return hjson.load(f)
 
+    def language_setting_changed(self, name, old_value, new_value):
+        if name == self.LANGUAGE_SETTING and new_value != old_value:
+            self.reload_translation(new_value)
+
     # This method will load another language, defined in the param 'lang'
     def reload_translation(self, lang):
         self.bot.send_private_channel_message("My language got changed. reloading translations...",
@@ -52,7 +58,6 @@ class TranslationService:
                                   fire_outgoing_event=False)
         self.event_service.fire_event("reload_translation")
         self.language = lang
-        self.setting_service.set_value("language", lang)
         for k1 in self.strings:
             for callback in self.translation_callbacks.get(k1):
                 self.update_msg(k1, callback)
@@ -61,10 +66,9 @@ class TranslationService:
     def update_msg(self, category, callback):
         data = callback()
         for k in data:
-            if self.strings.get(category):
-                self.strings[category][k] = data[k].get(self.language) or data[k].get("en_US")
-            else:
-                self.strings[category] = {k: data[k].get(self.language) or data[k].get("en_US")}
+            if not category in self.strings:
+                self.strings[category] = {}
+            self.strings[category][k] = data[k].get(self.language) or data[k].get("en_US")
 
     #
     # the param 'variables' accepts dictionary's ONLY.
