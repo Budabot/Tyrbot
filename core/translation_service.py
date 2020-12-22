@@ -58,7 +58,7 @@ class TranslationService:
             for callback in self.translation_callbacks.get(k1):
                 self.update_msg(k1, callback)
 
-    #updates the msg's
+    #updates the msgs
     def update_msg(self, category, callback):
         data = callback()
         for k in data:
@@ -67,26 +67,19 @@ class TranslationService:
             self.strings[category][k] = data[k].get(self.language) or data[k].get("en_US")
 
     #
-    # the param 'variables' accepts dictionary's ONLY.
+    # the param 'variables' accepts dictionaries ONLY.
     #
     def get_response(self, category, key, variables=None):
         if variables is None:
             variables = {}
         msg = ""
         try:
-            val = self.strings.get(category, {}).get(key)
-            if val:
-                if isinstance(val, list):
-                    for line in val:
-                        msg += line.format(**variables)
-                else:
-                    msg = val.format(**variables)
+            val = self.strings[category][key]
+            if isinstance(val, list):
+                for line in val:
+                    msg += line.format(**variables)
             else:
-                self.logger.error("translating key '{key}' in category '{category}' not found" \
-                    .format(key=key, category=category))
-                msg = "Error: message for translation key <highlight>'{key}'<end> not found." \
-                    .format(key=key)
-
+                msg = val.format(**variables)
         except KeyError as e:
             self.logger.error(
                 "translating error category: {mod} key: {key} with params: {params}\n Error: {stcktr}" \
