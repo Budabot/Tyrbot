@@ -7,7 +7,7 @@ import random
 from core.decorators import instance, event, timerevent, setting
 from core.logger import Logger
 from core.dict_object import DictObject
-from core.setting_types import ColorSettingType, TextSettingType, HiddenSettingType
+from core.setting_types import ColorSettingType, TextSettingType, HiddenSettingType, BooleanSettingType
 from .websocket_relay_worker import WebsocketRelayWorker
 from core.registry import Registry
 from cryptography.fernet import Fernet
@@ -29,6 +29,8 @@ class WebsocketRelayController:
     def inject(self, registry):
         self.relay_hub_service = registry.get_instance("relay_hub_service")
         self.util = registry.get_instance("util")
+        self.setting_service = registry.get_instance("setting_service")
+        self.event_service = registry.get_instance("event_service")
 
     def start(self):
         self.relay_hub_service.register_relay(self.RELAY_HUB_SOURCE, self.handle_incoming_relay_message)
@@ -42,6 +44,12 @@ class WebsocketRelayController:
                 iterations=100000,)
             key = base64.urlsafe_b64encode(kdf.derive(password))
             self.encrypter = Fernet(key)
+            
+        self.setting_service.register_change_listener("websocket_relay_enabled", self.websocket_relay_status_changed)
+
+    @setting(name="websocket_relay_enabled", value=False, description="Enable or disable the websocket relay")
+    def websocket_relay_enabled(self):
+        return BooleanSettingType()
 
     @setting(name="websocket_relay_server_address", value="ws://localhost/subscribe/relay", description="The address of the websocket relay server",
              extended_description="All bots on the relay must connect to the same server and channel. If using the public relay server, use a unique channel name. Example: ws://relay.jkbff.com/subscribe/unique123 (<highlight>relay.jkbff.com<end> is the server and <highlight>unique123<end> is the channel)")
@@ -65,7 +73,7 @@ class WebsocketRelayController:
     def websocket_encryption_key(self):
         return HiddenSettingType()
 
-    @timerevent(budatime="1s", description="Relay messages from websocket relay to the relay hub")
+    @timerevent(budatime="1s", description="Relay messages from websocket relay to the relay hub", is_hidden=True)
     def handle_queue_event(self, event_type, event_data):
         while self.queue:
             obj = DictObject(json.loads(self.queue.pop(0)))
@@ -82,7 +90,7 @@ class WebsocketRelayController:
 
                 self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, obj.get("sender", None), message)
 
-    @event(event_type="connect", description="Connect to Websocket relay on startup")
+    @event(event_type="connect", description="Connect to Websocket relay on startup", is_hidden=True)
     def handle_connect_event(self, event_type, event_data):
         self.connect()
 
@@ -105,3 +113,14 @@ class WebsocketRelayController:
     def disconnect(self):
         # TODO
         pass
+
+    def websocket_relay_status_changed(self, name, old_value, new_value):
+        for handler in [self.handle_connect_event, self.handle_queue_event]:
+            event_handler = self.util.get_handler_name(handler)
+            event_base_type, event_sub_type = self.event_service.get_event_type_parts(handler.event[0])
+            self.event_service.update_event_status(event_base_type, event_sub_type, event_handler, 1 if new_value else 0)
+
+        if new_value:
+            self.connect()
+        else:
+            self.disconnect()
