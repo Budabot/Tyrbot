@@ -75,7 +75,7 @@ class WebsocketRelayController:
     def websocket_encryption_key(self):
         return HiddenSettingType()
 
-    @timerevent(budatime="1s", description="Relay messages from websocket relay to the relay hub", is_hidden=True)
+    @timerevent(budatime="1s", description="Relay messages from websocket relay to the relay hub", is_hidden=True, is_enabled=False)
     def handle_queue_event(self, event_type, event_data):
         while self.queue:
             obj = DictObject(json.loads(self.queue.pop(0)))
@@ -92,9 +92,10 @@ class WebsocketRelayController:
 
                 self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, obj.get("sender", None), message)
 
-    @event(event_type="connect", description="Connect to Websocket relay on startup", is_hidden=True)
+    @timerevent(budatime="1m", description="Ensure the bot is connected to websocket relay", is_hidden=True, is_enabled=False)
     def handle_connect_event(self, event_type, event_data):
-        self.connect()
+        if not self.worker or not self.dthread.is_alive():
+            self.connect()
 
     def handle_incoming_relay_message(self, ctx):
         if self.worker:
