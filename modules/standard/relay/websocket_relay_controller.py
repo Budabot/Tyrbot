@@ -49,7 +49,7 @@ class WebsocketRelayController:
         self.setting_service.register_change_listener("websocket_relay_server_address", self.websocket_relay_update)
         self.setting_service.register_change_listener("websocket_encryption_key", self.websocket_relay_update)
 
-    @setting(name="websocket_relay_enabled", value=False, description="Enable or disable the websocket relay")
+    @setting(name="websocket_relay_enabled", value=False, description="Enable the websocket relay")
     def websocket_relay_enabled(self):
         return BooleanSettingType()
 
@@ -108,7 +108,7 @@ class WebsocketRelayController:
 
     def connect(self):
         self.disconnect()
-        
+
         self.worker = WebsocketRelayWorker(self.queue, self.websocket_relay_server_address().get_value())
         self.dthread = threading.Thread(target=self.worker.run, daemon=True)
         self.dthread.start()

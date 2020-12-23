@@ -143,7 +143,7 @@ class EventService:
         # clear cache
         self.db_cache[event_base_type + ":" + event_sub_type] = None
 
-        return self.db.exec("UPDATE event_config SET enabled = ? WHERE is_hidden = 0 AND event_type = ? AND event_sub_type = ? AND handler LIKE ?",
+        return self.db.exec("UPDATE event_config SET enabled = ? WHERE event_type = ? AND event_sub_type = ? AND handler LIKE ?",
                             [enabled_status, event_base_type, event_sub_type, event_handler])
 
     def get_event_types(self):
