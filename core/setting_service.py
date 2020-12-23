@@ -40,8 +40,7 @@ class SettingService:
         if " " in name:
             raise Exception("One or more spaces found in setting name '%s' for module '%s'" % (name, module))
 
-        row = self.db.query_single("SELECT name, value, description FROM setting WHERE name = ?",
-                                   [name])
+        row = self.db.query_single("SELECT name, value, description FROM setting WHERE name = ?", [name])
 
         if row is None:
             self.logger.debug("Adding setting '%s'" % name)
