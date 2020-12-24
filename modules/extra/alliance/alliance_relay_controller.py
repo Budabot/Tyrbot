@@ -63,7 +63,7 @@ class AllianceRelayController:
 
         message = message[6:]
         formatted_message = "{color}{msg}</font>" \
-            .format(color=self.setting_service.get("arelay_color_guild").get_font_color(),
+            .format(color=self.setting_service.get("arelay_color").get_font_color(),
                     msg=message)
 
         # sender is not the bot that sent it, but rather the original char that sent the message
