@@ -20,6 +20,7 @@ class AllianceRelayController:
         self.setting_service: SettingService = registry.get_instance("setting_service")
         self.character_service: CharacterService = registry.get_instance("character_service")
         self.message_hub_service = registry.get_instance("message_hub_service")
+        self.public_channel_service = registry.get_instance("public_channel_service")
 
     def start(self):
         self.setting_service.register("arelay_symbol", "#", "Symbol for external relay",

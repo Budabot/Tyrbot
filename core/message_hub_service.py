@@ -46,4 +46,4 @@ class MessageHubService:
                 try:
                     c.callback(ctx)
                 except Exception as e:
-                    self.logger.error(e)
+                    self.logger.error("", e)
