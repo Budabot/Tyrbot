@@ -12,7 +12,7 @@ from modules.core.org_members.org_member_controller import OrgMemberController
 
 @instance()
 class OrgChannelController:
-    RELAY_HUB_SOURCE = "org_channel"
+    MESSAGE_SOURCE = "org_channel"
 
     def __init__(self):
         self.logger = Logger(__name__)
@@ -20,7 +20,7 @@ class OrgChannelController:
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
         self.character_service = registry.get_instance("character_service")
-        self.relay_hub_service = registry.get_instance("relay_hub_service")
+        self.message_hub_service = registry.get_instance("message_hub_service")
         self.setting_service: SettingService = registry.get_instance("setting_service")
         self.ban_service = registry.get_instance("ban_service")
         self.log_controller = registry.get_instance("log_controller")
@@ -29,7 +29,7 @@ class OrgChannelController:
         self.text: Text = registry.get_instance("text")
 
     def start(self):
-        self.relay_hub_service.register_relay(self.RELAY_HUB_SOURCE, self.handle_incoming_relay_message)
+        self.message_hub_service.register_message_source(self.MESSAGE_SOURCE, self.handle_incoming_relay_message)
 
     def handle_incoming_relay_message(self, ctx):
         self.bot.send_org_message(ctx.formatted_message, fire_outgoing_event=False)
@@ -57,7 +57,7 @@ class OrgChannelController:
             formatted_message = "[%s] %s: %s" % (self.relay_controller.get_org_channel_prefix(),
                                                  self.text.make_charlink(char_name), message)
 
-        self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, sender, message, formatted_message)
+        self.message_hub_service.send_message(self.MESSAGE_SOURCE, sender, message, formatted_message)
 
     @event(event_type=OrgMemberController.ORG_MEMBER_LOGON_EVENT, description="Notify when org member logs on")
     def org_member_logon_event(self, event_type, event_data):
@@ -81,19 +81,19 @@ class OrgChannelController:
             if len(pages) < 4:
                 for page in pages:
                     message = "{org} {message}".format(org=org, message=page)
-                    self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE,
-                                                        DictObject({"name": self.bot.char_name, "char_id": self.bot.char_id}),
-                                                        page,
-                                                        message)
+                    self.message_hub_service.send_message(self.MESSAGE_SOURCE,
+                                                          DictObject({"name": self.bot.char_name, "char_id": self.bot.char_id}),
+                                                          page,
+                                                          message)
             else:
                 message ="{org} {message}".format(org=org, message=event_data.message.title)
-                self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE,
-                                                    DictObject({"name": self.bot.char_name, "char_id": self.bot.char_id}),
-                                                    event_data.message.title,
-                                                    message)
+                self.message_hub_service.send_message(self.MESSAGE_SOURCE,
+                                                      DictObject({"name": self.bot.char_name, "char_id": self.bot.char_id}),
+                                                      event_data.message.title,
+                                                      message)
         else:
             message = "{org} {message}".format(org=org, message=event_data.message)
-            self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE,
-                                                DictObject({"name": self.bot.char_name,"char_id": self.bot.char_id}),
-                                                event_data.message,
-                                                message)
+            self.message_hub_service.send_message(self.MESSAGE_SOURCE,
+                                                  DictObject({"name": self.bot.char_name,"char_id": self.bot.char_id}),
+                                                  event_data.message,
+                                                  message)

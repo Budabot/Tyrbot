@@ -15,7 +15,7 @@ from core.tyrbot import Tyrbot
 
 @instance()
 class PrivateChannelController:
-    RELAY_HUB_SOURCE = "private_channel"
+    MESSAGE_SOURCE = "private_channel"
 
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
@@ -23,7 +23,7 @@ class PrivateChannelController:
         self.character_service = registry.get_instance("character_service")
         self.job_scheduler = registry.get_instance("job_scheduler")
         self.access_service = registry.get_instance("access_service")
-        self.relay_hub_service = registry.get_instance("relay_hub_service")
+        self.message_hub_service = registry.get_instance("message_hub_service")
         self.ban_service = registry.get_instance("ban_service")
         self.log_controller = registry.get_instance("log_controller")
         self.online_controller = registry.get_instance("online_controller")
@@ -34,7 +34,7 @@ class PrivateChannelController:
         self.setting_service: SettingService = registry.get_instance("setting_service")
 
     def start(self):
-        self.relay_hub_service.register_relay(self.RELAY_HUB_SOURCE, self.handle_incoming_relay_message)
+        self.message_hub_service.register_message_source(self.MESSAGE_SOURCE, self.handle_incoming_relay_message)
         self.ts.register_translation("module/private_channel", self.load_private_channel_msg)
 
     def load_private_channel_msg(self):
@@ -116,7 +116,7 @@ class PrivateChannelController:
                                                                                        "priv": priv,
                                                                                        "char": char,
                                                                                        "message": event_data.message})
-        self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, sender, event_data.message, formatted_message)
+        self.message_hub_service.send_message(self.MESSAGE_SOURCE, sender, event_data.message, formatted_message)
 
     @event(event_type=PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, description="Notify when a character joins the private channel")
     def handle_private_channel_joined_event(self, event_type, event_data):
@@ -142,19 +142,19 @@ class PrivateChannelController:
             if len(pages) < 4:
                 for page in pages:
                     message = "{org}{priv} {message}".format(org=org, priv=priv, message=page)
-                    self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE,
-                                                        DictObject({"name": self.bot.char_name, "char_id": self.bot.char_id}),
-                                                        page,
-                                                        message)
+                    self.message_hub_service.send_message(self.MESSAGE_SOURCE,
+                                                          DictObject({"name": self.bot.char_name, "char_id": self.bot.char_id}),
+                                                          page,
+                                                          message)
             else:
                 message = "{org}{priv} {message}".format(org=org, priv=priv, message=event_data.message.title)
-                self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE,
-                                                    DictObject({"name": self.bot.char_name, "char_id": self.bot.char_id}),
-                                                    event_data.message.title,
-                                                    message)
+                self.message_hub_service.send_message(self.MESSAGE_SOURCE,
+                                                      DictObject({"name": self.bot.char_name, "char_id": self.bot.char_id}),
+                                                      event_data.message.title,
+                                                      message)
         else:
             message = "{org}{priv} {message}".format(org=org, priv=priv, message=event_data.message, char="")
-            self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE,
-                                                DictObject({"name": self.bot.char_name, "char_id": self.bot.char_id}),
-                                                event_data.message,
-                                                message)
+            self.message_hub_service.send_message(self.MESSAGE_SOURCE,
+                                                  DictObject({"name": self.bot.char_name, "char_id": self.bot.char_id}),
+                                                  event_data.message,
+                                                  message)

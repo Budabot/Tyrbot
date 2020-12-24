@@ -10,7 +10,7 @@ from core.tyrbot import Tyrbot
 @instance("AllianceRelayController")
 class AllianceRelayController:
     relay_channel_id = None
-    RELAY_HUB_SOURCE = "alliance"
+    MESSAGE_SOURCE = "alliance"
 
     def __init__(self):
         self.logger = Logger(__name__)
@@ -19,7 +19,7 @@ class AllianceRelayController:
         self.bot: Tyrbot = registry.get_instance("bot")
         self.setting_service: SettingService = registry.get_instance("setting_service")
         self.character_service: CharacterService = registry.get_instance("character_service")
-        self.relay_hub_service = registry.get_instance("relay_hub_service")
+        self.message_hub_service = registry.get_instance("message_hub_service")
 
     def start(self):
         self.setting_service.register("arelay_symbol", "#", "Symbol for external relay",
@@ -34,7 +34,7 @@ class AllianceRelayController:
         self.setting_service.register("arelay_color", "#C3C3C3", "Color of messages from relay",
                                       ColorSettingType(), "custom.arelay")
 
-        self.relay_hub_service.register_relay(self.RELAY_HUB_SOURCE, self.handle_relay_hub_message)
+        self.message_hub_service.register_message_source(self.MESSAGE_SOURCE, self.handle_relay_hub_message)
 
         self.bot.add_packet_handler(server_packets.PrivateChannelInvited.id, self.handle_private_channel_invite, 100)
         self.bot.add_packet_handler(server_packets.PrivateChannelMessage.id, self.handle_private_channel_message)
@@ -71,7 +71,7 @@ class AllianceRelayController:
         # but currently this is not done
         sender = None
 
-        self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, sender, None, formatted_message)
+        self.message_hub_service.send_message(self.MESSAGE_SOURCE, sender, None, formatted_message)
 
     def handle_relay_hub_message(self, ctx):
         if not self.setting_service.get("arelay_enabled").get_value():

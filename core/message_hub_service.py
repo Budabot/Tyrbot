@@ -6,7 +6,7 @@ from core.text import Text
 
 
 @instance()
-class RelayHubService:
+class MessageHubService:
     DEFAULT_GROUP = "default"
 
     def __init__(self):
@@ -19,7 +19,7 @@ class RelayHubService:
         self.character_service: CharacterService = registry.get_instance("character_service")
         self.text: Text = registry.get_instance("text")
 
-    def register_relay(self, source, callback):
+    def register_message_source(self, source, callback):
         if source in self.hub:
             raise Exception("Relay source '%s' already registered" % source)
 
@@ -28,11 +28,11 @@ class RelayHubService:
                                         "group": self.DEFAULT_GROUP}))
 
     def send_message(self, source, sender, message, formatted_message):
-        relay = self.hub.get(source, None)
-        if not relay:
+        obj = self.hub.get(source, None)
+        if not obj:
             return
 
-        group = relay.group
+        group = obj.group
         if not group:
             return
 

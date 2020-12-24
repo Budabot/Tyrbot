@@ -41,7 +41,7 @@ class MLStripper(HTMLParser):
 
 @instance()
 class DiscordController:
-    RELAY_HUB_SOURCE = "discord"
+    MESSAGE_SOURCE = "discord"
 
     def __init__(self):
         self.servers = []
@@ -64,7 +64,7 @@ class DiscordController:
         self.text: Text = registry.get_instance("text")
         self.command_service = registry.get_instance("command_service")
         self.ban_service = registry.get_instance("ban_service")
-        self.relay_hub_service = registry.get_instance("relay_hub_service")
+        self.message_hub_service = registry.get_instance("message_hub_service")
         self.pork_service = registry.get_instance("pork_service")
         self.ts: TranslationService = registry.get_instance("translation_service")
         self.getresp = self.ts.get_response
@@ -77,7 +77,7 @@ class DiscordController:
         self.event_service.register_event_type("discord_invites")
 
     def start(self):
-        self.relay_hub_service.register_relay(self.RELAY_HUB_SOURCE, self.handle_incoming_relay_message)
+        self.message_hub_service.register_message_source(self.MESSAGE_SOURCE, self.handle_incoming_relay_message)
         self.register_discord_command_handler(self.help_discord_cmd, "help", [])
 
         self.db.exec("CREATE TABLE IF NOT EXISTS discord (channel_id BIGINT(32) NOT NULL UNIQUE, server_name VARCHAR(256) NOT NULL, channel_name VARCHAR(256) NOT NULL, relay_ao SMALLINT NOT NULL DEFAULT 0, relay_dc SMALLINT NOT NULL DEFAULT 0)")
@@ -293,7 +293,7 @@ class DiscordController:
 
         formatted_message = "<grey>[<end>%sDiscord<end><grey>]<end> %s%s<end><grey>:<end> %s%s<end>" % (chanclr, nameclr, name, mesgclr, message.content)
 
-        self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, None, message.content, formatted_message)
+        self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, message.content, formatted_message)
 
     @event(event_type="discord_invites", description="Handles invite requests")
     def handle_discord_invite_event(self, event_type, event_data):
