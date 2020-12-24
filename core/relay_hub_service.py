@@ -3,15 +3,11 @@ from core.dict_object import DictObject
 from core.logger import Logger
 from core.lookup.character_service import CharacterService
 from core.text import Text
-from modules.core.private_channel.private_channel_controller import PrivateChannelController
-from modules.extra.alliance.alliance_relay_controller import AllianceRelayController
-from modules.standard.discord.discord_controller import DiscordController
-from modules.standard.org.org_channel_controller import OrgChannelController
 
 
 @instance()
 class RelayHubService:
-    DEFAULT_GROUP = "relay"
+    DEFAULT_GROUP = "default"
 
     def __init__(self):
         self.logger = Logger(__name__)
