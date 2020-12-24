@@ -3,7 +3,7 @@ from core.decorators import instance
 from core.logger import Logger
 from core.lookup.character_service import CharacterService
 from core.setting_service import SettingService
-from core.setting_types import TextSettingType, BooleanSettingType
+from core.setting_types import TextSettingType, BooleanSettingType, ColorSettingType
 from core.tyrbot import Tyrbot
 
 
@@ -31,6 +31,8 @@ class AllianceRelayController:
                                       "custom.arelay")
         self.setting_service.register("arelay_guild_abbreviation", "", "Abbreviation to use for org name",
                                       TextSettingType([]), "custom.arelay")
+        self.setting_service.register("arelay_color", "#C3C3C3", "Color of messages from relay",
+                                      ColorSettingType(), "custom.arelay")
 
         self.relay_hub_service.register_relay(self.RELAY_HUB_SOURCE, self.handle_relay_hub_message)
 
@@ -60,13 +62,16 @@ class AllianceRelayController:
             return
 
         message = message[6:]
+        formatted_message = "{color}{msg}</font>" \
+            .format(color=self.setting_service.get("arelay_color_guild").get_font_color(),
+                    msg=message)
 
         # sender is not the bot that sent it, but rather the original char that sent the message
         # given the format of !agcr messages, it could be possible to parse the sender for the message
         # but currently this is not done
         sender = None
 
-        self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, sender, None, message)
+        self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, sender, None, formatted_message)
 
     def handle_relay_hub_message(self, ctx):
         if not self.setting_service.get("arelay_enabled").get_value():
