@@ -47,6 +47,7 @@ class PrivateChannelController:
     @setting(name="prefix_org", value="true", description="Should the prefix [Org Tag] be displayed in relayed messages", )
     def prefix_priv(self):
         return BooleanSettingType()
+
     @command(command="join", params=[], access_level="all",
              description="Join the private channel")
     def join_cmd(self, request):
@@ -111,11 +112,11 @@ class PrivateChannelController:
         sender = DictObject({"char_id": event_data.char_id, "name": char_name})
         org = ("[" + self.relay_controller.get_org_channel_prefix() + "]") if self.setting_service.get_value("prefix_org") == "1" else ""
         priv = "[Private]"
-        char = self.text.make_charlink(char_name) + ": "
-        formatted_message = self.getresp("module/private_channel", "relay_from_priv", {"org": org,
-                                                                                       "priv": priv,
-                                                                                       "char": char,
-                                                                                       "message": event_data.message})
+        char = self.text.make_charlink(char_name)
+        formatted_message = "{org}{priv} {char}: {message}".format(org=org,
+                                                                 priv=priv,
+                                                                 char=char,
+                                                                 message=event_data.message)
         self.message_hub_service.send_message(self.MESSAGE_SOURCE, sender, event_data.message, formatted_message)
 
     @event(event_type=PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, description="Notify when a character joins the private channel")
