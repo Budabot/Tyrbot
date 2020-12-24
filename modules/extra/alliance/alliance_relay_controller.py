@@ -5,6 +5,7 @@ from core.lookup.character_service import CharacterService
 from core.setting_service import SettingService
 from core.setting_types import TextSettingType, BooleanSettingType, ColorSettingType
 from core.tyrbot import Tyrbot
+from modules.standard.org.org_channel_controller import OrgChannelController
 
 
 @instance("AllianceRelayController")
@@ -76,6 +77,10 @@ class AllianceRelayController:
 
     def handle_relay_hub_message(self, ctx):
         if not self.setting_service.get("arelay_enabled").get_value():
+            return
+
+        # only allow messages from org channel to be sent to alliance relay
+        if ctx.source != OrgChannelController.MESSAGE_SOURCE:
             return
 
         method = self.setting_service.get_value("arelay_symbol_method")
