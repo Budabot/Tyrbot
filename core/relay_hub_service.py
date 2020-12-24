@@ -3,6 +3,10 @@ from core.dict_object import DictObject
 from core.logger import Logger
 from core.lookup.character_service import CharacterService
 from core.text import Text
+from modules.core.private_channel.private_channel_controller import PrivateChannelController
+from modules.extra.alliance.alliance_relay_controller import AllianceRelayController
+from modules.standard.discord.discord_controller import DiscordController
+from modules.standard.org.org_channel_controller import OrgChannelController
 
 
 @instance()
@@ -20,11 +24,14 @@ class RelayHubService:
         self.text: Text = registry.get_instance("text")
 
     def register_relay(self, source, callback):
+        if source in self.hub:
+            raise Exception("Relay source '%s' already registered" % source)
+
         self.hub[source] = (DictObject({"source": source,
                                         "callback": callback,
                                         "group": self.DEFAULT_GROUP}))
 
-    def send_message(self, source, sender, message):
+    def send_message(self, source, sender, message, formatted_message):
         relay = self.hub.get(source, None)
         if not relay:
             return
@@ -35,7 +42,8 @@ class RelayHubService:
 
         ctx = DictObject({"source": source,
                           "sender": sender,
-                          "message": message})
+                          "message": message,
+                          "formatted_message": formatted_message})
 
         for _, c in self.hub.items():
             if c.source != source and c.group == group:

@@ -291,9 +291,9 @@ class DiscordController:
         nameclr = self.setting_service.get("relay_color_name").get_font_color()
         mesgclr = self.setting_service.get("relay_color_message").get_font_color()
 
-        content = "<grey>[<end>%sDiscord<end><grey>]<end> %s%s<end><grey>:<end> %s%s<end>" % (chanclr, nameclr, name, mesgclr, message.content)
+        formatted_message = "<grey>[<end>%sDiscord<end><grey>]<end> %s%s<end><grey>:<end> %s%s<end>" % (chanclr, nameclr, name, mesgclr, message.content)
 
-        self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, DictObject({"name": name}), content)
+        self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, None, message.content, formatted_message)
 
     @event(event_type="discord_invites", description="Handles invite requests")
     def handle_discord_invite_event(self, event_type, event_data):
@@ -405,5 +405,5 @@ class DiscordController:
         if not self.is_connected():
             return
 
-        message = DiscordMessage("plain", "", "", self.strip_html_tags(ctx.message))
+        message = DiscordMessage("plain", "", "", self.strip_html_tags(ctx.formatted_message))
         self.send_to_discord("msg", message)

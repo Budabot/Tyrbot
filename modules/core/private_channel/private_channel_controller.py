@@ -42,9 +42,7 @@ class PrivateChannelController:
             return hjson.load(f)
 
     def handle_incoming_relay_message(self, ctx):
-        message = ctx.message
-
-        self.bot.send_private_channel_message(message, fire_outgoing_event=False)
+        self.bot.send_private_channel_message(ctx.formatted_message, fire_outgoing_event=False)
 
     @setting(name="prefix_org", value="true", description="Should the prefix [Org Tag] be displayed in relayed messages", )
     def prefix_priv(self):
@@ -114,11 +112,11 @@ class PrivateChannelController:
         org = ("[" + self.relay_controller.get_org_channel_prefix() + "]") if self.setting_service.get_value("prefix_org") == "1" else ""
         priv = "[Private]"
         char = self.text.make_charlink(char_name) + ": "
-        message = self.getresp("module/private_channel", "relay_from_priv", {"org": org,
-                                                                             "priv": priv,
-                                                                             "char": char,
-                                                                             "message": event_data.message})
-        self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, sender, message)
+        formatted_message = self.getresp("module/private_channel", "relay_from_priv", {"org": org,
+                                                                                       "priv": priv,
+                                                                                       "char": char,
+                                                                                       "message": event_data.message})
+        self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, sender, event_data.message, formatted_message)
 
     @event(event_type=PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, description="Notify when a character joins the private channel")
     def handle_private_channel_joined_event(self, event_type, event_data):
@@ -143,13 +141,20 @@ class PrivateChannelController:
             pages = self.text.paginate(ChatBlob(event_data.message.title, event_data.message.msg), self.setting_service.get("org_channel_max_page_length").get_value())
             if len(pages) < 4:
                 for page in pages:
-                    message = self.getresp("module/private_channel", "relay_from_priv", {"org": org, "priv": priv, "message": page, "char": ""})
-                    #message = "[%s][Private] %s" % (self.relay_controller.get_org_channel_prefix(), page)
-                    self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, DictObject({"name": self.bot.char_name, "char_id": self.bot.char_id}), message)
+                    message = "{org}{priv} {message}".format(org=org, priv=priv, message=page)
+                    self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE,
+                                                        DictObject({"name": self.bot.char_name, "char_id": self.bot.char_id}),
+                                                        page,
+                                                        message)
             else:
-                message = self.getresp("module/private_channel", "relay_from_priv", {"org": org, "priv": priv, "message": event_data.message.title, "char": ""})
-                self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, DictObject({"name": self.bot.char_name, "char_id": self.bot.char_id}), message)
+                message = "{org}{priv} {message}".format(org=org, priv=priv, message=event_data.message.title)
+                self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE,
+                                                    DictObject({"name": self.bot.char_name, "char_id": self.bot.char_id}),
+                                                    event_data.message.title,
+                                                    message)
         else:
-            message = self.getresp("module/private_channel", "relay_from_priv", {"org": org, "priv": priv, "message": event_data.message, "char":""})
-            #message = "[%s][Private] %s" % (self.relay_controller.get_org_channel_prefix(), event_data.message)
-            self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, DictObject({"name": self.bot.char_name, "char_id": self.bot.char_id}), message)
+            message = "{org}{priv} {message}".format(org=org, priv=priv, message=event_data.message, char="")
+            self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE,
+                                                DictObject({"name": self.bot.char_name, "char_id": self.bot.char_id}),
+                                                event_data.message,
+                                                message)
