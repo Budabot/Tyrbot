@@ -32,7 +32,7 @@ class SettingType:
         """Get the value formatted for display"""
         v = self.get_value()
         if v == "":
-            v = "&ltempty&gt;"
+            v = "&lt;empty&gt;"
 
         return "<highlight>%s<end>" % v
 

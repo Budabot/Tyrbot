@@ -1,15 +1,12 @@
 import json
 import threading
 import base64
-import string
-import random
 
-from core.decorators import instance, event, timerevent, setting
+from core.decorators import instance, timerevent, setting
 from core.logger import Logger
 from core.dict_object import DictObject
 from core.setting_types import ColorSettingType, TextSettingType, HiddenSettingType, BooleanSettingType
 from .websocket_relay_worker import WebsocketRelayWorker
-from core.registry import Registry
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
@@ -17,7 +14,7 @@ from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
 @instance()
 class WebsocketRelayController:
-    RELAY_HUB_SOURCE = "websocket_relay"
+    MESSAGE_SOURCE = "websocket_relay"
 
     def __init__(self):
         self.dthread = None
@@ -27,13 +24,13 @@ class WebsocketRelayController:
         self.encrypter = None
 
     def inject(self, registry):
-        self.relay_hub_service = registry.get_instance("relay_hub_service")
+        self.message_hub_service = registry.get_instance("message_hub_service")
         self.util = registry.get_instance("util")
         self.setting_service = registry.get_instance("setting_service")
         self.event_service = registry.get_instance("event_service")
 
     def start(self):
-        self.relay_hub_service.register_relay(self.RELAY_HUB_SOURCE, self.handle_incoming_relay_message)
+        self.message_hub_service.register_message_source(self.MESSAGE_SOURCE, self.handle_incoming_relay_message)
         if self.websocket_encryption_key().get_value():
             password = self.websocket_encryption_key().get_value().encode("utf-8")
             salt = b"tyrbot"  # using hard-coded salt is less secure as it nullifies the function of the salt and allows for rainbow attacks
@@ -90,7 +87,7 @@ class WebsocketRelayController:
                 #     .replace("<sender_color>", self.websocket_sender_color().get_font_color())
                 message = payload.message
 
-                self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, obj.get("sender", None), message)
+                self.message_hub_service.send_message(self.MESSAGE_SOURCE, obj.get("sender", None), message)
 
     @timerevent(budatime="1m", description="Ensure the bot is connected to websocket relay", is_hidden=True, is_enabled=False)
     def handle_connect_event(self, event_type, event_data):
