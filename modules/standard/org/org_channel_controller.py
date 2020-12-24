@@ -13,6 +13,7 @@ from modules.core.org_members.org_member_controller import OrgMemberController
 @instance()
 class OrgChannelController:
     MESSAGE_SOURCE = "org_channel"
+    ORG_CHANNEL_PREFIX = "[Org]"
 
     def __init__(self):
         self.logger = Logger(__name__)
@@ -50,12 +51,14 @@ class OrgChannelController:
 
         if event_data.char_id == 4294967295 or event_data.char_id == 0:
             sender = None
-            formatted_message = "[%s] %s" % (self.relay_controller.get_org_channel_prefix(), message)
+            formatted_message = "{org} {msg}".format(org=self.ORG_CHANNEL_PREFIX,
+                                                     msg=message)
         else:
             char_name = self.character_service.resolve_char_to_name(event_data.char_id)
             sender = DictObject({"char_id": event_data.char_id, "name": char_name})
-            formatted_message = "[%s] %s: %s" % (self.relay_controller.get_org_channel_prefix(),
-                                                 self.text.make_charlink(char_name), message)
+            formatted_message = "{org} {char}: {msg}".format(org=self.ORG_CHANNEL_PREFIX,
+                                                             char=self.text.make_charlink(char_name),
+                                                             msg=message)
 
         self.message_hub_service.send_message(self.MESSAGE_SOURCE, sender, message, formatted_message)
 
@@ -75,24 +78,23 @@ class OrgChannelController:
 
     @event(event_type=Tyrbot.OUTGOING_ORG_MESSAGE_EVENT, description="Relay commands from the org channel to the relay hub")
     def outgoing_org_message_event(self, event_type, event_data):
-        org = "[" + self.relay_controller.get_org_channel_prefix() + "] " if self.setting_service.get_value("prefix_org_priv") == "1" else ""
         if isinstance(event_data.message, ChatBlob):
             pages = self.text.paginate(ChatBlob(event_data.message.title, event_data.message.msg), self.setting_service.get("org_channel_max_page_length").get_value())
             if len(pages) < 4:
                 for page in pages:
-                    message = "{org} {message}".format(org=org, message=page)
+                    message = "{org} {message}".format(org=self.ORG_CHANNEL_PREFIX, message=page)
                     self.message_hub_service.send_message(self.MESSAGE_SOURCE,
                                                           DictObject({"name": self.bot.char_name, "char_id": self.bot.char_id}),
                                                           page,
                                                           message)
             else:
-                message ="{org} {message}".format(org=org, message=event_data.message.title)
+                message ="{org} {message}".format(org=self.ORG_CHANNEL_PREFIX, message=event_data.message.title)
                 self.message_hub_service.send_message(self.MESSAGE_SOURCE,
                                                       DictObject({"name": self.bot.char_name, "char_id": self.bot.char_id}),
                                                       event_data.message.title,
                                                       message)
         else:
-            message = "{org} {message}".format(org=org, message=event_data.message)
+            message = "{org} {message}".format(org=self.ORG_CHANNEL_PREFIX, message=event_data.message)
             self.message_hub_service.send_message(self.MESSAGE_SOURCE,
                                                   DictObject({"name": self.bot.char_name,"char_id": self.bot.char_id}),
                                                   event_data.message,

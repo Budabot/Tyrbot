@@ -16,6 +16,7 @@ from core.tyrbot import Tyrbot
 @instance()
 class PrivateChannelController:
     MESSAGE_SOURCE = "private_channel"
+    PRIVATE_CHANNEL_PREFIX = "[Priv]"
 
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
@@ -110,13 +111,8 @@ class PrivateChannelController:
 
         char_name = self.character_service.resolve_char_to_name(event_data.char_id)
         sender = DictObject({"char_id": event_data.char_id, "name": char_name})
-        org = ("[" + self.relay_controller.get_org_channel_prefix() + "]") if self.setting_service.get_value("prefix_org") == "1" else ""
-        priv = "[Private]"
         char = self.text.make_charlink(char_name)
-        formatted_message = "{org}{priv} {char}: {message}".format(org=org,
-                                                                 priv=priv,
-                                                                 char=char,
-                                                                 message=event_data.message)
+        formatted_message = "{priv} {char}: {message}".format(priv=self.PRIVATE_CHANNEL_PREFIX, char=char, message=event_data.message)
         self.message_hub_service.send_message(self.MESSAGE_SOURCE, sender, event_data.message, formatted_message)
 
     @event(event_type=PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, description="Notify when a character joins the private channel")
@@ -136,25 +132,23 @@ class PrivateChannelController:
 
     @event(event_type=Tyrbot.OUTGOING_PRIVATE_CHANNEL_MESSAGE_EVENT, description="Relay commands from the private channel to the relay hub")
     def outgoing_private_channel_message_event(self, event_type, event_data):
-        org = ("[" + self.relay_controller.get_org_channel_prefix() + "]") if self.setting_service.get_value("prefix_org") == "1" else ""
-        priv = "[Private]"
         if isinstance(event_data.message, ChatBlob):
             pages = self.text.paginate(ChatBlob(event_data.message.title, event_data.message.msg), self.setting_service.get("org_channel_max_page_length").get_value())
             if len(pages) < 4:
                 for page in pages:
-                    message = "{org}{priv} {message}".format(org=org, priv=priv, message=page)
+                    message = "{priv} {message}".format(priv=self.PRIVATE_CHANNEL_PREFIX, message=page)
                     self.message_hub_service.send_message(self.MESSAGE_SOURCE,
                                                           DictObject({"name": self.bot.char_name, "char_id": self.bot.char_id}),
                                                           page,
                                                           message)
             else:
-                message = "{org}{priv} {message}".format(org=org, priv=priv, message=event_data.message.title)
+                message = "{priv} {message}".format(priv=self.PRIVATE_CHANNEL_PREFIX, message=event_data.message.title)
                 self.message_hub_service.send_message(self.MESSAGE_SOURCE,
                                                       DictObject({"name": self.bot.char_name, "char_id": self.bot.char_id}),
                                                       event_data.message.title,
                                                       message)
         else:
-            message = "{org}{priv} {message}".format(org=org, priv=priv, message=event_data.message, char="")
+            message = "{priv} {message}".format(priv=self.PRIVATE_CHANNEL_PREFIX, message=event_data.message)
             self.message_hub_service.send_message(self.MESSAGE_SOURCE,
                                                   DictObject({"name": self.bot.char_name, "char_id": self.bot.char_id}),
                                                   event_data.message,
