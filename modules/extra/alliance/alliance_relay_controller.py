@@ -85,7 +85,7 @@ class AllianceRelayController:
         if method == "unless_symbol" and len(plain_msg) > len(symbol) and plain_msg[:len(symbol)] == symbol:
             return
         elif method == "with_symbol":
-            if len(plain_msg) > len(symbol) and plain_msg[:len(symbol)] != symbol:
+            if len(plain_msg) < len(symbol) or plain_msg[:len(symbol)] != symbol:
                 return
             else:
                 # trim symbol from message
