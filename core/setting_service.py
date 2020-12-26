@@ -11,6 +11,7 @@ class SettingService:
         self.logger = Logger(__name__)
         self.settings = {}
         self.db_cache = {}
+        self.change_listeners = {}
 
     def inject(self, registry):
         self.db = registry.get_instance("db")
@@ -39,8 +40,7 @@ class SettingService:
         if " " in name:
             raise Exception("One or more spaces found in setting name '%s' for module '%s'" % (name, module))
 
-        row = self.db.query_single("SELECT name, value, description FROM setting WHERE name = ?",
-                                   [name])
+        row = self.db.query_single("SELECT name, value, description FROM setting WHERE name = ?", [name])
 
         if row is None:
             self.logger.debug("Adding setting '%s'" % name)
@@ -59,6 +59,14 @@ class SettingService:
 
         self.settings[name] = setting
 
+    def register_change_listener(self, setting_name, change_listener):
+        if setting_name in self.settings:
+            if not setting_name in self.change_listeners:
+                self.change_listeners[setting_name] = []
+            self.change_listeners[setting_name].append(change_listener)
+        else:
+            raise Exception("Could not register change_listener for setting '%s' since it does not exist" % setting_name)
+
     def get_value(self, name):
         # check cache first
         result = self.db_cache.get(name, None)
@@ -73,10 +81,16 @@ class SettingService:
             return row.value if row else None
 
     def set_value(self, name, value):
+        old_value = self.get_value(name)
+    
         # clear cache
         self.db_cache[name] = None
 
         self.db.exec("UPDATE setting SET value = ? WHERE name = ?", [value, name])
+
+        if name in self.change_listeners:
+            for change_listener in self.change_listeners[name]:
+                change_listener(name, old_value, value)
 
     def get(self, name):
         name = name.lower()

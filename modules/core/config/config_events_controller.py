@@ -70,7 +70,8 @@ class ConfigEventsController:
     @command(command="config", params=[Const("eventlist")], access_level="admin",
              description="List all events")
     def config_eventlist_cmd(self, request, _):
-        sql = "SELECT module, event_type, event_sub_type, handler, description, enabled FROM event_config WHERE is_hidden = 0"
+        sql = "SELECT module, event_type, event_sub_type, handler, description, enabled FROM event_config"
+        #sql += " WHERE is_hidden = 0"
         sql += " ORDER BY module, event_type, event_sub_type, handler"
         data = self.db.query(sql)
 

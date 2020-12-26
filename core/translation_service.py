@@ -13,8 +13,9 @@ from core.util import Util
 class TranslationService:
     strings = {}
     translation_callbacks = {}
-    language = "en_US"
+    language = None
     lang_codes = ["en_US", "de_DE"]
+    LANGUAGE_SETTING = "language"
 
     def __init__(self):
         self.logger = Logger(__name__)
@@ -26,13 +27,14 @@ class TranslationService:
         self.bot: Tyrbot = registry.get_instance("bot")
 
     def pre_start(self):
-        self.language = self.setting_service.get_value("language") or self.language
         self.event_service.register_event_type("reload_translation")
 
     def start(self):
-        self.setting_service.register("language", "en_US", "Language of the Bot",
+        self.setting_service.register(self.LANGUAGE_SETTING, "en_US", "Language of the Bot",
                                       TextSettingType(self.lang_codes), "core.system")
+        self.language = self.setting_service.get_value(self.LANGUAGE_SETTING)
         self.register_translation("global", self.load_global_msg)
+        self.setting_service.register_change_listener(self.LANGUAGE_SETTING, self.language_setting_changed)
 
     def register_translation(self, category, callback):
         if self.translation_callbacks.get(category) is None:
@@ -44,56 +46,43 @@ class TranslationService:
         with open("core/global.msg", mode="r", encoding="UTF-8") as f:
             return hjson.load(f)
 
+    def language_setting_changed(self, name, old_value, new_value):
+        if name == self.LANGUAGE_SETTING and new_value != old_value:
+            self.reload_translation(new_value)
+
     # This method will load another language, defined in the param 'lang'
     def reload_translation(self, lang):
-        self.bot.send_private_channel_message("My language got changed. reloading translations...",
-                                              fire_outgoing_event=False)
-        self.bot.send_org_message("My language got changed. reloading translations...",
-                                  fire_outgoing_event=False)
         self.event_service.fire_event("reload_translation")
         self.language = lang
-        self.setting_service.set_value("language", lang)
         for k1 in self.strings:
             for callback in self.translation_callbacks.get(k1):
                 self.update_msg(k1, callback)
 
-    #updates the msg's
+    #updates the msgs
     def update_msg(self, category, callback):
         data = callback()
         for k in data:
-            if self.strings.get(category):
-                self.strings[category][k] = data[k].get(self.language) or data[k].get("en_US")
-            else:
-                self.strings[category] = {k: data[k].get(self.language) or data[k].get("en_US")}
+            if not category in self.strings:
+                self.strings[category] = {}
+            self.strings[category][k] = data[k].get(self.language) or data[k].get("en_US")
 
     #
-    # the param 'variables' accepts dictionary's ONLY.
+    # the param 'variables' accepts dictionaries ONLY.
     #
     def get_response(self, category, key, variables=None):
         if variables is None:
             variables = {}
         msg = ""
         try:
-            if self.strings.get(category):
-                if self.strings.get(category).get(key):
-                    if isinstance(self.strings.get(category).get(key), list):
-                        for line in self.strings.get(category).get(key):
-                            msg += line.format(**variables)
-                    else:
-                        msg = self.strings.get(category).get(key).format(**variables)
-                else:
-                    self.logger.error("translating key '{key}' in category '{category}' not found"
-                                      .format(key=key, category=category))
-                    msg = "Error: message for translation key <highlight>'{key}'<end> not found." \
-                        .format(key=key)
+            val = self.strings[category][key]
+            if isinstance(val, list):
+                for line in val:
+                    msg += line.format(**variables)
             else:
-                self.logger.error("translation category '{category}' was not found".format(category=category))
-
-                msg = "Error: translating category <highlight>'{category}'<end> not found." \
-                    .format(category=category)
+                msg = val.format(**variables)
         except KeyError as e:
             self.logger.error(
-                "translating error category: {mod} key: {key} with params: {params}\n Error: {stcktr}"
+                "translating error category: {mod} key: {key} with params: {params}\n Error: {stcktr}" \
                 .format(mod=category, key=key, params=variables, stcktr=e))
             msg = "Error: translating error category: <highlight>{mod}<end> key: <highlight>{key}<end>" \
                   " with params: <highlight>{params}<end>".format(mod=category, key=key, params=variables)

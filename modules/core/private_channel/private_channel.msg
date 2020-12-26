@@ -78,8 +78,5 @@
   "off": {
     "en_US": "off",
     "de_DE": "aus"
-  },
-  "relay_from_priv":{
-    "en_US": "{org}{priv} {char}{message}"
   }
 }

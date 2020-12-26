@@ -5,7 +5,7 @@ from core.setting_types import TextSettingType
 
 @instance()
 class RelayController:
-    RELAY_HUB_SOURCE = "tell_relay"
+    MESSAGE_SOURCE = "tell_relay"
 
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
@@ -14,11 +14,11 @@ class RelayController:
         self.setting_service = registry.get_instance("setting_service")
         self.character_service = registry.get_instance("character_service")
         self.public_channel_service = registry.get_instance("public_channel_service")
-        self.relay_hub_service = registry.get_instance("relay_hub_service")
+        self.message_hub_service = registry.get_instance("message_hub_service")
         self.ban_service = registry.get_instance("ban_service")
 
     def start(self):
-        self.relay_hub_service.register_relay(self.RELAY_HUB_SOURCE, self.handle_incoming_relay_message)
+        self.message_hub_service.register_message_source(self.MESSAGE_SOURCE, self.handle_incoming_relay_message)
 
     @setting(name="relay_bot", value="", description="Name of bot character for chat relay")
     def relay_bot(self):
@@ -36,7 +36,7 @@ class RelayController:
     def process_incoming_relay_message(self, sender, message):
         relay_bot = self.relay_bot().get_value()
         if relay_bot and sender.name.lower() == relay_bot.lower():
-            self.relay_hub_service.send_message(self.RELAY_HUB_SOURCE, None, message)
+            self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, message)
 
     def handle_incoming_relay_message(self, ctx):
         message = ctx.message
