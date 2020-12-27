@@ -97,7 +97,7 @@ class DiscordController:
 
     @setting(name="discord_bot_token", value="", description="Discord bot token")
     def discord_bot_token(self):
-        return HiddenSettingType()
+        return HiddenSettingType(allow_empty=True)
 
     @setting(name="discord_embed_color", value="#00FF00", description="Discord embedded message color")
     def discord_embed_color(self):
