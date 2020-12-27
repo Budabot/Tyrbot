@@ -143,6 +143,10 @@
     "en_US": "Setting ({setting})",
     "de_DE": "Einstellung ({setting})"
   },
+  "settinglist_title": {
+    "en_US": "Settings ({count})",
+    "de_DE": "Einstellungen ({count})"
+  },
   "unknown_event": {
     "en_US": "Unknown event type <highlight>{type}<end>.",
     "de_DE": "Unbekannter Eventtyp: <highlight>{type}<end>"

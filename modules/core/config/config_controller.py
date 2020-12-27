@@ -108,6 +108,26 @@ class ConfigController:
         else:
             return self.getresp("module/config", "mod_not_found", {"mod": module})
 
+    @command(command="config", params=[Const("settinglist")], access_level="admin",
+             description="List all settings")
+    def config_settinglist_cmd(self, request, _):
+        blob = ""
+
+        data = self.db.query("SELECT * FROM setting ORDER BY module, name ASC")
+        count = len(data)
+        if data:
+            blob += self.getresp("module/config", "settings")
+            current_module = ""
+            for row in data:
+                if row.module != current_module:
+                    current_module = row.module
+                    blob += "\n<pagebreak><header2>%s<end>\n" % row.module
+
+                setting = self.setting_service.get(row.name)
+                blob += "%s: %s (%s)\n" % (setting.get_description(), setting.get_display_value(), self.text.make_chatcmd("change", "/tell <myname> config setting " + row.name))
+
+        return ChatBlob(self.getresp("module/config", "settinglist_title", {"count": count}), blob)
+
     @command(command="config", params=[Const("setting"), Any("setting_name"), Options(["set", "clear"]), Any("new_value", is_optional=True)], access_level="admin",
              description="Change a setting value")
     def config_setting_update_cmd(self, request, _, setting_name, op, new_value):
