@@ -32,23 +32,25 @@ class WebsocketRelayController:
 
     def start(self):
         self.message_hub_service.register_message_source(self.MESSAGE_SOURCE, self.handle_incoming_relay_message)
-        if self.websocket_encryption_key().get_value():
-            password = self.websocket_encryption_key().get_value().encode("utf-8")
-            self.initialize_encrypter(password)
+
+        self.initialize_encrypter(self.websocket_encryption_key().get_value())
             
         self.setting_service.register_change_listener("websocket_relay_enabled", self.websocket_relay_update)
         self.setting_service.register_change_listener("websocket_relay_server_address", self.websocket_relay_update)
         self.setting_service.register_change_listener("websocket_encryption_key", self.websocket_relay_update)
         
     def initialize_encrypter(self, password):
-        salt = b"tyrbot"  # using hard-coded salt is less secure as it nullifies the function of the salt and allows for rainbow attacks
-        kdf = PBKDF2HMAC(
-            algorithm=hashes.SHA256(),
-            length=32,
-            salt=salt,
-            iterations=10000,)
-        key = base64.urlsafe_b64encode(kdf.derive(password))
-        self.encrypter = Fernet(key)
+        if password:
+            salt = b"tyrbot"  # using hard-coded salt is less secure as it nullifies the function of the salt and allows for rainbow attacks
+            kdf = PBKDF2HMAC(
+                algorithm=hashes.SHA256(),
+                length=32,
+                salt=salt,
+                iterations=10000,)
+            key = base64.urlsafe_b64encode(kdf.derive(password.encode("utf-8")))
+            self.encrypter = Fernet(key)
+        else:
+            self.encrypter = None
 
     @setting(name="websocket_relay_enabled", value=False, description="Enable the websocket relay")
     def websocket_relay_enabled(self):
@@ -132,7 +134,9 @@ class WebsocketRelayController:
             else:
                 self.disconnect()
         elif setting_name == "websocket_relay_server_address":
-            self.connect()
+            if self.setting_service.get("websocket_relay_enabled").get_value():
+                self.connect()
         elif setting_name == "websocket_encryption_key":
             self.initialize_encrypter(new_value)
-            self.connect()
+            if self.setting_service.get("websocket_relay_enabled").get_value():
+                self.connect()
