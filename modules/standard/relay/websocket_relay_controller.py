@@ -28,23 +28,27 @@ class WebsocketRelayController:
         self.util = registry.get_instance("util")
         self.setting_service = registry.get_instance("setting_service")
         self.event_service = registry.get_instance("event_service")
+        self.relay_controller = registry.get_instance("relay_controller")
 
     def start(self):
         self.message_hub_service.register_message_source(self.MESSAGE_SOURCE, self.handle_incoming_relay_message)
         if self.websocket_encryption_key().get_value():
             password = self.websocket_encryption_key().get_value().encode("utf-8")
-            salt = b"tyrbot"  # using hard-coded salt is less secure as it nullifies the function of the salt and allows for rainbow attacks
-            kdf = PBKDF2HMAC(
-                algorithm=hashes.SHA256(),
-                length=32,
-                salt=salt,
-                iterations=10000,)
-            key = base64.urlsafe_b64encode(kdf.derive(password))
-            self.encrypter = Fernet(key)
+            self.initialize_encrypter(password)
             
         self.setting_service.register_change_listener("websocket_relay_enabled", self.websocket_relay_update)
         self.setting_service.register_change_listener("websocket_relay_server_address", self.websocket_relay_update)
         self.setting_service.register_change_listener("websocket_encryption_key", self.websocket_relay_update)
+        
+    def initialize_encrypter(self, password):
+        salt = b"tyrbot"  # using hard-coded salt is less secure as it nullifies the function of the salt and allows for rainbow attacks
+        kdf = PBKDF2HMAC(
+            algorithm=hashes.SHA256(),
+            length=32,
+            salt=salt,
+            iterations=10000,)
+        key = base64.urlsafe_b64encode(kdf.derive(password))
+        self.encrypter = Fernet(key)
 
     @setting(name="websocket_relay_enabled", value=False, description="Enable the websocket relay")
     def websocket_relay_enabled(self):
@@ -81,13 +85,12 @@ class WebsocketRelayController:
                 if self.encrypter:
                     payload = self.encrypter.decrypt(payload.encode('utf-8'))
                 payload = DictObject(json.loads(payload))
-                # message = ("[Relay] <channel_color>[%s]<end> <sender_color>%s<end>: <message_color>%s<end>" % (payload.channel, payload.sender.name, payload.message))\
-                #     .replace("<channel_color>", self.websocket_channel_color().get_font_color())\
-                #     .replace("<message_color>", self.websocket_message_color().get_font_color())\
-                #     .replace("<sender_color>", self.websocket_sender_color().get_font_color())
-                message = payload.message
+                message = ("[Relay] <channel_color>[%s]<end> <sender_color>%s<end>: <message_color>%s<end>" % (payload.channel, payload.sender.name, payload.message))\
+                     .replace("<channel_color>", self.websocket_channel_color().get_font_color())\
+                     .replace("<message_color>", self.websocket_message_color().get_font_color())\
+                     .replace("<sender_color>", self.websocket_sender_color().get_font_color())
 
-                self.message_hub_service.send_message(self.MESSAGE_SOURCE, obj.get("sender", None), message)
+                self.message_hub_service.send_message(self.MESSAGE_SOURCE, obj.get("sender", None), payload.message, message)
 
     @timerevent(budatime="1m", description="Ensure the bot is connected to websocket relay", is_hidden=True, is_enabled=False)
     def handle_connect_event(self, event_type, event_data):
@@ -98,7 +101,7 @@ class WebsocketRelayController:
         if self.worker:
             obj = json.dumps({"sender": ctx.sender,
                               "message": ctx.message,
-                              "channel": None})
+                              "channel": self.relay_controller.get_org_channel_prefix()})
             if self.encrypter:
                 obj = self.encrypter.encrypt(obj.encode('utf-8'))
             self.worker.send_message(obj)
@@ -128,5 +131,8 @@ class WebsocketRelayController:
                 self.connect()
             else:
                 self.disconnect()
-        elif setting_name == "websocket_relay_server_address" or setting_name == "websocket_encryption_key":
+        elif setting_name == "websocket_relay_server_address":
+            self.connect()
+        elif setting_name == "websocket_encryption_key":
+            self.initialize_encrypter(new_value)
             self.connect()
