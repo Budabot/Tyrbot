@@ -76,7 +76,7 @@ class WebsocketRelayController:
     @setting(name="websocket_encryption_key", value="", description="An encryption key used to encrypt messages over a public websocket relay",
              extended_description="")
     def websocket_encryption_key(self):
-        return HiddenSettingType()
+        return HiddenSettingType(allow_empty=True)
 
     @timerevent(budatime="1s", description="Relay messages from websocket relay to the relay hub", is_hidden=True, is_enabled=False)
     def handle_queue_event(self, event_type, event_data):

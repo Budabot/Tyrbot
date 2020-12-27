@@ -50,29 +50,35 @@ class SettingType:
 
 
 class TextSettingType(SettingType):
-    def __init__(self, options=None):
+    def __init__(self, options=None, allow_empty=False):
         super().__init__()
         self.options = options
+        self.allow_empty = allow_empty
 
     def set_value(self, value):
         if len(str(value)) > 255:
             raise Exception("Setting value cannot be longer than 255 characters.")
+        elif not self.allow_empty and (value is None or value == ""):
+            raise Exception("Setting value cannot be empty.")
         else:
             self._set_raw_value(value)
 
     def get_display(self):
         text = Registry.get_instance("text")
 
+        clear_str = ""
+        if self.allow_empty:
+            clear_str = "\n\nTo clear this setting:\n\n" + text.make_chatcmd("Clear this setting", "/tell <myname> config setting %s clear" % self.name)
+
+        options_str = ""
         if self.options:
             options_str = "\n\nOr choose an option below:\n\n" + "\n".join(map(lambda opt: text.make_chatcmd(str(opt), "/tell <myname> config setting %s set %s" % (self.name, opt)), self.options))
-        else:
-            options_str = ""
 
         return """For this setting you can enter any text you want (max. 255 characters).
 
 To change this setting:
 
-<highlight>/tell <myname> config setting """ + self.name + """ set <i>_value_</i><end>""" + options_str
+<highlight>/tell <myname> config setting """ + self.name + """ set <i>_value_</i><end>""" + clear_str + options_str
 
 
 class DictionarySettingType(SettingType):
@@ -102,9 +108,8 @@ class DictionarySettingType(SettingType):
 
 
 class HiddenSettingType(TextSettingType):
-    def __init__(self, options=None):
-        super().__init__()
-        self.options = options
+    def __init__(self, options=None, allow_empty=False):
+        super().__init__(options, allow_empty)
 
     def get_display_value(self):
         if self.get_value():
@@ -113,13 +118,19 @@ class HiddenSettingType(TextSettingType):
             return "<highlight>&lt;empty&gt;<end>"
 
     def get_display(self):
+        text = Registry.get_instance("text")
+
+        clear_str = ""
+        if self.allow_empty:
+            clear_str = "\n\nTo clear this setting:\n\n" + text.make_chatcmd("Clear this setting", "/tell <myname> config setting %s clear" % self.name)
+    
         return """For this setting you can enter any text you want (max. 255 characters).
 
 To change this setting:
 
-<highlight>/tell <myname> config setting """ + self.name + """ set <i>_value_</i><end>
+<highlight>/tell <myname> config setting """ + self.name + """ set <i>_value_</i><end>""" + clear_str + """
 
-The saved value is never shown in the config."""
+The saved value is never shown in the config but it may appear in the logs and is stored in plain text in the database."""
 
 
 class ColorSettingType(SettingType):
@@ -196,15 +207,14 @@ class NumberSettingType(SettingType):
 
     def get_display(self):
         text = Registry.get_instance("text")
+
+        clear_str = ""
+        if self.allow_empty:
+            clear_str = "\n\nTo clear this setting:\n\n" + text.make_chatcmd("Clear this setting", "/tell <myname> config setting %s clear" % self.name)
+
+        options_str = ""
         if self.options:
             options_str = "\n\nOr choose an option below:\n\n" + "\n".join(map(lambda opt: text.make_chatcmd(str(opt), "/tell <myname> config setting %s set %s" % (self.name, opt)), self.options))
-        else:
-            options_str = ""
-
-        if self.allow_empty:
-            clear_str = "\n\nOr: " + text.make_chatcmd("Clear this setting", "/tell <myname> config setting %s clear" % self.name)
-        else:
-            clear_str = ""
 
         return """For this setting you can set any positive integer.
 

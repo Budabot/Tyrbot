@@ -22,11 +22,11 @@ class RelayController:
 
     @setting(name="relay_bot", value="", description="Name of bot character for chat relay")
     def relay_bot(self):
-        return TextSettingType()
+        return TextSettingType(allow_empty=True)
 
     @setting(name="relay_prefix", value="", description="Name of this relay (if you don't want to use org or bot name)")
     def relay_prefix(self):
-        return TextSettingType()
+        return TextSettingType(allow_empty=True)
 
     @command(command="grc", params=[Any("message")], access_level="all",
              description="Accept incoming messages from relay bot")
