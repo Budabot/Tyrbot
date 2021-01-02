@@ -25,6 +25,7 @@ class WebsocketRelayController:
         self.logger = Logger(__name__)
         self.worker = None
         self.encrypter = None
+        self.channels = []
 
     def inject(self, registry):
         self.message_hub_service = registry.get_instance("message_hub_service")
@@ -153,7 +154,9 @@ class WebsocketRelayController:
 
     def add_online_char(self, char_id, channel):
         self.pork_service.load_character_info(char_id)
-        self.online_controller.register_online_channel(channel)
+        if channel not in self.channels:
+            self.online_controller.register_online_channel(channel)
+            self.channels.append(channel)
         self.db.exec("INSERT INTO online (char_id, afk_dt, afk_reason, channel, dt) VALUES (?, ?, ?, ?, ?)",
                      [char_id, 0, "", channel, int(time.time())])
         
@@ -182,6 +185,9 @@ class WebsocketRelayController:
         self.dthread.start()
 
     def disconnect(self):
+        for channel in self.channels:
+            self.db.exec("DELETE FROM online WHERE channel = ?", [channel])
+
         if self.worker:
             self.worker.close()
             self.worker = None
