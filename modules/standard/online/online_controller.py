@@ -302,4 +302,5 @@ class OnlineController:
         return self.db.query(sql, [AltsService.MAIN, channel, profession])
 
     def register_online_channel(self, channel):
-        self.channels.append(channel)
+        if channel not in self.channels:
+            self.channels.append(channel)

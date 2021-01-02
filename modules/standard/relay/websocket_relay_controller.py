@@ -99,23 +99,23 @@ class WebsocketRelayController:
         if not self.worker or not self.dthread.is_alive():
             self.connect()
 
-    @event(PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, "Send to websocket relay when someone joins private channel", is_hidden=True)
+    @event(PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, "Send to websocket relay when someone joins private channel", is_hidden=True, is_enabled=False)
     def private_channel_joined_event(self, event_type, event_data):
         self.send_relay_event(event_data.char_id, "logon")
 
-    @event(PrivateChannelService.LEFT_PRIVATE_CHANNEL_EVENT, "Send to websocket relay when someone joins private channel", is_hidden=True)
+    @event(PrivateChannelService.LEFT_PRIVATE_CHANNEL_EVENT, "Send to websocket relay when someone joins private channel", is_hidden=True, is_enabled=False)
     def private_channel_left_event(self, event_type, event_data):
         self.send_relay_event(event_data.char_id, "logoff")
 
-    @event(OrgMemberController.ORG_MEMBER_LOGON_EVENT, "Send to websocket relay when org member logs on", is_hidden=True)
-    def org_member_logon_record_event(self, event_type, event_data):
+    @event(OrgMemberController.ORG_MEMBER_LOGON_EVENT, "Send to websocket relay when org member logs on", is_hidden=True, is_enabled=False)
+    def org_member_logon_event(self, event_type, event_data):
         self.send_relay_event(event_data.char_id, "logon")
 
-    @event(OrgMemberController.ORG_MEMBER_LOGOFF_EVENT, "Send to websocket relay when org member logs off", is_hidden=True)
-    def org_member_logoff_record_event(self, event_type, event_data):
+    @event(OrgMemberController.ORG_MEMBER_LOGOFF_EVENT, "Send to websocket relay when org member logs off", is_hidden=True, is_enabled=False)
+    def org_member_logoff_event(self, event_type, event_data):
         self.send_relay_event(event_data.char_id, "logoff")
 
-    @event(OrgMemberController.ORG_MEMBER_REMOVED_EVENT, "Send to websocket relay when org member is removed", is_hidden=True)
+    @event(OrgMemberController.ORG_MEMBER_REMOVED_EVENT, "Send to websocket relay when org member is removed", is_hidden=True, is_enabled=False)
     def org_member_removed_event(self, event_type, event_data):
         self.send_relay_event(event_data.char_id, "logoff")
 
@@ -125,7 +125,7 @@ class WebsocketRelayController:
         obj = DictObject(json.loads(message))
 
         if obj.type == "message":
-            message = "[Relay]"
+            message = ""
             message += "%s[%s]<end> " % (self.websocket_channel_color().get_font_color(), obj.channel)
             if obj.sender:
                 message += "%s%s<end>: " % (self.websocket_sender_color().get_font_color(), obj.sender.name)
@@ -196,12 +196,14 @@ class WebsocketRelayController:
 
     def websocket_relay_update(self, setting_name, old_value, new_value):
         if setting_name == "websocket_relay_enabled":
-            for handler in [self.handle_connect_event, self.handle_queue_event]:
+            event_handlers = [self.handle_connect_event, self.handle_queue_event, self.private_channel_joined_event, self.private_channel_left_event,
+                self.org_member_logon_event, self.org_member_logoff_event, self.org_member_removed_event]
+            for handler in event_handlers:
                 event_handler = self.util.get_handler_name(handler)
                 event_base_type, event_sub_type = self.event_service.get_event_type_parts(handler.event[0])
                 self.event_service.update_event_status(event_base_type, event_sub_type, event_handler, 1 if new_value else 0)
 
-            if new_value:
+            if new_value and self.bot.is_ready():
                 self.connect()
             else:
                 self.disconnect()
