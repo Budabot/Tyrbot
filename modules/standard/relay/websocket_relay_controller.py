@@ -93,6 +93,9 @@ class WebsocketRelayController:
             if obj.type == "message":  # TODO "content"
                 payload = obj.payload
                 self.process_relay_message(payload)
+            elif obj.type == "ping":
+                return_obj = json.dumps({"type": "ping", "payload": obj.payload})
+                self.worker.send_message(return_obj)
 
     @timerevent(budatime="1m", description="Ensure the bot is connected to websocket relay", is_hidden=True, is_enabled=False)
     def handle_connect_event(self, event_type, event_data):
@@ -163,10 +166,11 @@ class WebsocketRelayController:
     def rem_online_char(self, char_id, channel):
         self.db.exec("DELETE FROM online WHERE char_id = ? AND channel = ?", [char_id, channel])
         
-    def send_relay_message(self, obj):
+    def send_relay_message(self, message):
         if self.worker:
             if self.encrypter:
-                obj = self.encrypter.encrypt(obj.encode('utf-8'))
+                message = self.encrypter.encrypt(message.encode('utf-8'))
+            obj = json.dumps({"type": "message", "payload": message})
             self.worker.send_message(obj)
 
     def handle_message_from_hub(self, ctx):
