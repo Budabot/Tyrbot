@@ -39,7 +39,7 @@ class RelayController:
             self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, message)
 
     def handle_incoming_relay_message(self, ctx):
-        message = ctx.message
+        message = ctx.formatted_message
 
         self.send_message_to_relay(message)
 
