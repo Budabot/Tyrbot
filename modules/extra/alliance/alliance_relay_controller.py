@@ -28,11 +28,11 @@ class AllianceRelayController:
                                       TextSettingType(["!", "#", "*", "@", "$", "+", "-"]), "custom.arelay")
         self.setting_service.register("arelay_symbol_method", "with_symbol", "When to relay messages",
                                       TextSettingType(["Always", "with_symbol", "unless_symbol"]), "custom.arelay")
-        self.setting_service.register("arelaybot", "", "Bot for alliance relay", TextSettingType(allow_empty=False), "custom.arelay")
+        self.setting_service.register("arelaybot", "", "Bot for alliance relay", TextSettingType(allow_empty=True), "custom.arelay")
         self.setting_service.register("arelay_enabled", False, "Enable the alliance relay", BooleanSettingType(),
                                       "custom.arelay")
         self.setting_service.register("arelay_guild_abbreviation", "", "Abbreviation to use for org name",
-                                      TextSettingType(allow_empty=False), "custom.arelay")
+                                      TextSettingType(allow_empty=True), "custom.arelay")
         self.setting_service.register("arelay_color", "#C3C3C3", "Color of messages from relay",
                                       ColorSettingType(), "custom.arelay")
 
