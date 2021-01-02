@@ -1,11 +1,14 @@
 import json
 import threading
 import base64
+import time
 
-from core.decorators import instance, timerevent, setting
+from core.decorators import instance, timerevent, setting, event
 from core.logger import Logger
 from core.dict_object import DictObject
 from core.setting_types import ColorSettingType, TextSettingType, HiddenSettingType, BooleanSettingType
+from core.private_channel_service import PrivateChannelService
+from modules.core.org_members.org_member_controller import OrgMemberController
 from .websocket_relay_worker import WebsocketRelayWorker
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
@@ -25,20 +28,24 @@ class WebsocketRelayController:
 
     def inject(self, registry):
         self.message_hub_service = registry.get_instance("message_hub_service")
+        self.db = registry.get_instance("db")
         self.util = registry.get_instance("util")
         self.setting_service = registry.get_instance("setting_service")
         self.event_service = registry.get_instance("event_service")
         self.relay_controller = registry.get_instance("relay_controller")
+        self.character_service = registry.get_instance("character_service")
+        self.pork_service = registry.get_instance("pork_service")
+        self.online_controller = registry.get_instance("online_controller")
 
     def start(self):
-        self.message_hub_service.register_message_source(self.MESSAGE_SOURCE, self.handle_incoming_relay_message)
+        self.message_hub_service.register_message_source(self.MESSAGE_SOURCE, self.handle_message_from_hub)
 
         self.initialize_encrypter(self.websocket_encryption_key().get_value())
             
         self.setting_service.register_change_listener("websocket_relay_enabled", self.websocket_relay_update)
         self.setting_service.register_change_listener("websocket_relay_server_address", self.websocket_relay_update)
         self.setting_service.register_change_listener("websocket_encryption_key", self.websocket_relay_update)
-        
+
     def initialize_encrypter(self, password):
         if password:
             salt = b"tyrbot"  # using hard-coded salt is less secure as it nullifies the function of the salt and allows for rainbow attacks
@@ -59,7 +66,7 @@ class WebsocketRelayController:
     @setting(name="websocket_relay_server_address", value="ws://localhost/subscribe/relay", description="The address of the websocket relay server",
              extended_description="All bots on the relay must connect to the same server and channel. If using the public relay server, use a unique channel name. Example: ws://relay.jkbff.com/subscribe/unique123 (<highlight>relay.jkbff.com<end> is the server and <highlight>unique123<end> is the channel)")
     def websocket_relay_server_address(self):
-        return TextSettingType(["ws://localhost/subscribe/relay", "ws://relay.jkbff.com/subscribe/relay"])
+        return TextSettingType(["ws://localhost/subscribe/relay", "wss://relay.jkbff.com/subscribe/relay"])
 
     @setting(name="websocket_relay_channel_color", value="#FFFF00", description="Color of the channel in websocket relay messages")
     def websocket_channel_color(self):
@@ -81,32 +88,91 @@ class WebsocketRelayController:
     @timerevent(budatime="1s", description="Relay messages from websocket relay to the relay hub", is_hidden=True, is_enabled=False)
     def handle_queue_event(self, event_type, event_data):
         while self.queue:
-            obj = DictObject(json.loads(self.queue.pop(0)))
-            if obj.type == "message":
+            obj = self.queue.pop(0)
+            if obj.type == "message":  # TODO "content"
                 payload = obj.payload
-                if self.encrypter:
-                    payload = self.encrypter.decrypt(payload.encode('utf-8'))
-                payload = DictObject(json.loads(payload))
-                message = ("[Relay] <channel_color>[%s]<end> <sender_color>%s<end>: <message_color>%s<end>" % (payload.channel, payload.sender.name, payload.message))\
-                     .replace("<channel_color>", self.websocket_channel_color().get_font_color())\
-                     .replace("<message_color>", self.websocket_message_color().get_font_color())\
-                     .replace("<sender_color>", self.websocket_sender_color().get_font_color())
-
-                self.message_hub_service.send_message(self.MESSAGE_SOURCE, obj.get("sender", None), payload.message, message)
+                self.process_relay_message(payload)
 
     @timerevent(budatime="1m", description="Ensure the bot is connected to websocket relay", is_hidden=True, is_enabled=False)
     def handle_connect_event(self, event_type, event_data):
         if not self.worker or not self.dthread.is_alive():
             self.connect()
 
-    def handle_incoming_relay_message(self, ctx):
+    @event(PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, "Send to websocket relay when someone joins private channel", is_hidden=True)
+    def private_channel_joined_event(self, event_type, event_data):
+        self.send_relay_event(event_data.char_id, "logon")
+
+    @event(PrivateChannelService.LEFT_PRIVATE_CHANNEL_EVENT, "Send to websocket relay when someone joins private channel", is_hidden=True)
+    def private_channel_left_event(self, event_type, event_data):
+        self.send_relay_event(event_data.char_id, "logoff")
+
+    @event(OrgMemberController.ORG_MEMBER_LOGON_EVENT, "Send to websocket relay when org member logs on", is_hidden=True)
+    def org_member_logon_record_event(self, event_type, event_data):
+        self.send_relay_event(event_data.char_id, "logon")
+
+    @event(OrgMemberController.ORG_MEMBER_LOGOFF_EVENT, "Send to websocket relay when org member logs off", is_hidden=True)
+    def org_member_logoff_record_event(self, event_type, event_data):
+        self.send_relay_event(event_data.char_id, "logoff")
+
+    @event(OrgMemberController.ORG_MEMBER_REMOVED_EVENT, "Send to websocket relay when org member is removed", is_hidden=True)
+    def org_member_removed_event(self, event_type, event_data):
+        self.send_relay_event(event_data.char_id, "logoff")
+
+    def process_relay_message(self, message):
+        if self.encrypter:
+            message = self.encrypter.decrypt(message.encode('utf-8'))
+        obj = DictObject(json.loads(message))
+
+        if obj.type == "message":
+            message = "[Relay]"
+            message += "%s[%s]<end> " % (self.websocket_channel_color().get_font_color(), obj.channel)
+            if obj.sender:
+                message += "%s%s<end>: " % (self.websocket_sender_color().get_font_color(), obj.sender.name)
+            message += "%s%s<end>" % (self.websocket_message_color().get_font_color(), obj.message)
+
+            self.message_hub_service.send_message(self.MESSAGE_SOURCE, obj.get("sender", None), obj.message, message)
+        elif obj.type == "logon":
+            self.add_online_char(obj.sender.char_id, obj.channel)
+        elif obj.type == "logoff":
+            self.rem_online_char(obj.sender.char_id, obj.channel)
+        elif obj.type == "online_list":
+            self.db.exec("DELETE FROM online WHERE channel = ?", [obj.channel])
+            for sender in obj.members:
+                self.add_online_char(sender.char_id, obj.channel)
+        elif obj.type == "online_list_request":
+            # TODO
+            print("Got " + obj.type)
+
+    def send_relay_event(self, char_id, event_type):
+        char_name = self.character_service.resolve_char_to_name(char_id)
+        obj = json.dumps({"sender": {"char_id": char_id,
+                                     "name": char_name},
+                          "type": event_type,
+                          "channel": self.relay_controller.get_org_channel_prefix()})
+        self.send_relay_message(obj)
+
+    def add_online_char(self, char_id, channel):
+        self.pork_service.load_character_info(char_id)
+        self.online_controller.register_online_channel(channel)
+        self.db.exec("INSERT INTO online (char_id, afk_dt, afk_reason, channel, dt) VALUES (?, ?, ?, ?, ?)",
+                     [char_id, 0, "", channel, int(time.time())])
+        
+    def rem_online_char(self, char_id, channel):
+        self.db.exec("DELETE FROM online WHERE char_id = ? AND channel = ?", [char_id, channel])
+        
+    def send_relay_message(self, obj):
         if self.worker:
-            obj = json.dumps({"sender": ctx.sender,
-                              "message": ctx.message,
-                              "channel": self.relay_controller.get_org_channel_prefix()})
             if self.encrypter:
                 obj = self.encrypter.encrypt(obj.encode('utf-8'))
             self.worker.send_message(obj)
+
+    def handle_message_from_hub(self, ctx):
+        if self.worker:
+            obj = json.dumps({"sender": ctx.sender,
+                              "message": ctx.message,
+                              "type": "message",
+                              "channel": self.relay_controller.get_org_channel_prefix()})
+            self.send_relay_message(obj)
 
     def connect(self):
         self.disconnect()

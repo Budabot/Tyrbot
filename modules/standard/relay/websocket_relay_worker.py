@@ -3,7 +3,7 @@ import json
 from websocket import create_connection
 
 from core.logger import Logger
-
+from core.dict_object import DictObject
 
 class WebsocketRelayWorker:
     def __init__(self, inbound_queue, url):
@@ -18,7 +18,8 @@ class WebsocketRelayWorker:
 
         result = self.ws.recv()
         while result:
-            self.inbound_queue.append(result)
+            obj = DictObject(json.loads(result))
+            self.inbound_queue.append(obj)
             result = self.ws.recv()
 
         self.ws.close()

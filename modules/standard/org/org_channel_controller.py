@@ -84,18 +84,18 @@ class OrgChannelController:
                 for page in pages:
                     message = "{org} {message}".format(org=self.ORG_CHANNEL_PREFIX, message=page)
                     self.message_hub_service.send_message(self.MESSAGE_SOURCE,
-                                                          DictObject({"name": self.bot.char_name, "char_id": self.bot.char_id}),
+                                                          None,
                                                           page,
                                                           message)
             else:
                 message ="{org} {message}".format(org=self.ORG_CHANNEL_PREFIX, message=event_data.message.title)
                 self.message_hub_service.send_message(self.MESSAGE_SOURCE,
-                                                      DictObject({"name": self.bot.char_name, "char_id": self.bot.char_id}),
+                                                      None,
                                                       event_data.message.title,
                                                       message)
         else:
             message = "{org} {message}".format(org=self.ORG_CHANNEL_PREFIX, message=event_data.message)
             self.message_hub_service.send_message(self.MESSAGE_SOURCE,
-                                                  DictObject({"name": self.bot.char_name,"char_id": self.bot.char_id}),
+                                                  None,
                                                   event_data.message,
                                                   message)

@@ -19,6 +19,7 @@ class OnlineController:
 
     def __init__(self):
         self.afk_regex = re.compile("^(afk|brb) ?(.*)$", re.IGNORECASE)
+        self.channels = [self.ORG_CHANNEL, self.PRIVATE_CHANNEL]
 
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
@@ -178,7 +179,7 @@ class OnlineController:
         blob = ""
         count = 0
 
-        for channel in [self.ORG_CHANNEL, self.PRIVATE_CHANNEL]:
+        for channel in self.channels:
             # get characters, if none are online skip this channel
             online_list = self.get_online_characters(channel)
             if len(online_list) == 0:
@@ -208,7 +209,7 @@ class OnlineController:
     def get_online_output(self):
         blob = ""
         count = 0
-        for channel in [self.ORG_CHANNEL, self.PRIVATE_CHANNEL]:
+        for channel in self.channels:
             online_list = self.get_online_characters(channel)
             if len(online_list) > 0:
                 blob += "<header2>%s Channel<end>\n" % channel
@@ -257,7 +258,7 @@ class OnlineController:
     def get_online_alts_output(self, profession):
         blob = ""
         count = 0
-        for channel in [self.ORG_CHANNEL, self.PRIVATE_CHANNEL]:
+        for channel in self.channels:
             online_list = self.get_online_alts(channel, profession)
             if len(online_list) > 0:
                 blob += "<header2>%s Channel<end>\n" % channel
@@ -299,3 +300,6 @@ class OnlineController:
               "ORDER BY p1.name ASC, p2.name ASC"
 
         return self.db.query(sql, [AltsService.MAIN, channel, profession])
+
+    def register_online_channel(self, channel):
+        self.channels.append(channel)
