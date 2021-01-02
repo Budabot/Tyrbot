@@ -36,7 +36,7 @@ class RelayController:
     def process_incoming_relay_message(self, sender, message):
         relay_bot = self.relay_bot().get_value()
         if relay_bot and sender.name.lower() == relay_bot.lower():
-            self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, message)
+            self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, message)
 
     def handle_incoming_relay_message(self, ctx):
         message = ctx.message

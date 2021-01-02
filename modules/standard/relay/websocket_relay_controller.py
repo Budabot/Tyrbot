@@ -86,7 +86,7 @@ class WebsocketRelayController:
     def websocket_encryption_key(self):
         return HiddenSettingType(allow_empty=True)
 
-    @timerevent(budatime="1s", description="Relay messages from websocket relay to the relay hub", is_hidden=True, is_enabled=False)
+    @timerevent(budatime="1s", description="Relay messages from websocket relay to the internal message hub", is_hidden=True, is_enabled=False)
     def handle_queue_event(self, event_type, event_data):
         while self.queue:
             obj = self.queue.pop(0)
@@ -174,6 +174,7 @@ class WebsocketRelayController:
             self.worker.send_message(obj)
 
     def handle_message_from_hub(self, ctx):
+        # TODO use relay_symbol to determine if message should be relayed or not
         if self.worker:
             obj = json.dumps({"sender": ctx.sender,
                               "message": ctx.message,
