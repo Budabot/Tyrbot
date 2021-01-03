@@ -117,13 +117,13 @@ class Tyrbot(Bot):
         char_name = self.character_service.resolve_char_to_name(char_id)
         return char_name == self.superadmin
 
-    def run(self):
+    async def run(self):
         start = time.time()
 
         # wait for flood of packets from login to stop sending
         time_waited = 0
         while time_waited < 5:
-            if not self.iterate():
+            if not await self.iterate():
                 time_waited += 1
 
         self.logger.info("Login complete (%fs)" % (time.time() - start))
@@ -142,10 +142,10 @@ class Tyrbot(Bot):
                 # timer events will execute no more often than once per second
                 if self.last_timer_event < timestamp:
                     self.last_timer_event = timestamp
-                    self.job_scheduler.check_for_scheduled_jobs(timestamp)
-                    self.event_service.check_for_timer_events(timestamp)
+                    await self.job_scheduler.check_for_scheduled_jobs(timestamp)
+                    await self.event_service.check_for_timer_events(timestamp)
 
-                self.iterate()
+                await self.iterate()
             except (EOFError, OSError) as e:
                 raise e
             except Exception as e:
@@ -164,7 +164,7 @@ class Tyrbot(Bot):
             if h.handler == handler:
                 handlers.remove(h)
 
-    def iterate(self):
+    async def iterate(self):
         packet = self.read_packet(1)
         if packet:
             if isinstance(packet, server_packets.SystemMessage):

@@ -8,7 +8,12 @@ import time
 import os
 import platform
 import sys
+import asyncio
 
+async def run_bot(bot):
+    status = await bot.run()
+    bot.disconnect()
+    exit(status.value)
 
 try:
     # load logging configuration
@@ -87,9 +92,8 @@ try:
         time.sleep(5)
         exit(3)
     else:
-        status = bot.run()
-        bot.disconnect()
-        exit(status.value)
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(run_bot(bot))
 except KeyboardInterrupt:
     exit(0)
 except Exception as e:

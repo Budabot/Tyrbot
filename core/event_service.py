@@ -114,7 +114,7 @@ class EventService:
     def get_event_type_key(self, event_base_type, event_sub_type):
         return event_base_type + ":" + event_sub_type
 
-    def check_for_timer_events(self, current_timestamp):
+    async def check_for_timer_events(self, current_timestamp):
         data = self.db.query("SELECT e.event_type, e.event_sub_type, e.handler, t.next_run FROM timer_event t "
                              "JOIN event_config e ON t.event_type = e.event_type AND t.handler = e.handler "
                              "WHERE t.next_run <= ? AND e.enabled = 1", [current_timestamp])
