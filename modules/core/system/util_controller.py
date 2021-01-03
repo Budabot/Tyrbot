@@ -26,7 +26,7 @@ class UtilController:
 
     @command(command="checkaccess", params=[Character("character", is_optional=True)], access_level="all",
              description="Check access level for a character")
-    def checkaccess_cmd(self, request, char):
+    async def checkaccess_cmd(self, request, char):
         char = char or request.sender
 
         if not char.char_id:
@@ -39,19 +39,19 @@ class UtilController:
 
     @command(command="macro", params=[Any("command1|command2|command3...")], access_level="all",
              description="Execute multiple commands at once")
-    def macro_cmd(self, request, commands):
+    async def macro_cmd(self, request, commands):
         commands = commands.split("|")
         for command_str in commands:
             self.command_service.process_command(command_str, request.channel, request.sender.char_id, request.reply)
 
     @command(command="echo", params=[Any("message")], access_level="all",
              description="Echo back a message")
-    def echo_cmd(self, request, message):
+    async def echo_cmd(self, request, message):
         return html.escape(message)
 
     @command(command="showcommand", params=[Character("character"), Any("message")], access_level="admin",
              description="Show command output to another character")
-    def showcommand_cmd(self, request, char, command_str):
+    async def showcommand_cmd(self, request, char, command_str):
         if not char.char_id:
             return self.getresp("global", "char_not_found", {"char": char.name})
 
@@ -66,7 +66,7 @@ class UtilController:
                              "cmd": command_str})
     @command(command="system", params=[], access_level="admin",
              description="Show system information")
-    def system_cmd(self, request):
+    async def system_cmd(self, request):
         pub_channels = ""
         event_types = ""
         access_levels = ""
@@ -102,5 +102,5 @@ class UtilController:
 
     @command(command="htmldecode", params=[Any("command")], access_level="all",
              description="Decode html entities from a command before passing to the bot for execution")
-    def htmldecode_cmd(self, request, command_str):
+    async def htmldecode_cmd(self, request, command_str):
         self.command_service.process_command(html.unescape(command_str), request.channel, request.sender.char_id, request.reply)

@@ -44,41 +44,41 @@ class SystemController:
 
     @command(command="shutdown", params=[Any("reason", is_optional=True)], access_level="superadmin",
              description="Shutdown the bot")
-    def shutdown_cmd(self, request, reason):
+    async def shutdown_cmd(self, request, reason):
         if request.channel not in [CommandService.ORG_CHANNEL, CommandService.PRIVATE_CHANNEL]:
             request.reply(self._format_message(False, reason))
-        self.shutdown(False, reason)
+        await self.shutdown(False, reason)
 
     @command(command="restart", params=[Any("reason", is_optional=True)], access_level="admin",
              description="Restart the bot")
-    def restart_cmd(self, request, reason):
+    async def restart_cmd(self, request, reason):
         if request.channel not in [CommandService.ORG_CHANNEL, CommandService.PRIVATE_CHANNEL]:
-            request.reply(self._format_message(True, reason))
-        self.shutdown(True, reason)
+            await request.reply(self._format_message(True, reason))
+        await self.shutdown(True, reason)
 
     @event(event_type="connect", description="Notify superadmin that bot has come online")
-    def connect_event(self, event_type, event_data):
+    async def connect_event(self, event_type, event_data):
         if self.expected_shutdown().get_value():
             msg = self.getresp("module/system", "expected_online")
         else:
             self.logger.error("the bot has recovered from an unexpected shutdown or restart")
             msg = self.getresp("module/system", "unexpected_online")
-        self.bot.send_private_message(self.bot.superadmin, msg)
-        self.bot.send_org_message(msg, fire_outgoing_event=False)
-        self.bot.send_private_channel_message(msg, fire_outgoing_event=False)
+        await self.bot.send_private_message(self.bot.superadmin, msg)
+        await self.bot.send_org_message(msg, fire_outgoing_event=False)
+        await self.bot.send_private_channel_message(msg, fire_outgoing_event=False)
 
         self.expected_shutdown().set_value(False)
 
     @event(event_type=SHUTDOWN_EVENT, description="Notify org channel on shutdown/restart")
-    def notify_org_channel_shutdown_event(self, event_type, event_data):
-        self.bot.send_org_message(self._format_message(event_data.restart, event_data.reason), fire_outgoing_event=False)
+    async def notify_org_channel_shutdown_event(self, event_type, event_data):
+        await self.bot.send_org_message(self._format_message(event_data.restart, event_data.reason), fire_outgoing_event=False)
 
     @event(event_type=SHUTDOWN_EVENT, description="Notify private channel on shutdown/restart")
-    def notify_private_channel_shutdown_event(self, event_type, event_data):
-        self.bot.send_private_channel_message(self._format_message(event_data.restart, event_data.reason), fire_outgoing_event=False)
+    async def notify_private_channel_shutdown_event(self, event_type, event_data):
+        await self.bot.send_private_channel_message(self._format_message(event_data.restart, event_data.reason), fire_outgoing_event=False)
 
-    def shutdown(self, should_restart, reason=None):
-        self.event_service.fire_event(self.SHUTDOWN_EVENT, DictObject({"restart": should_restart, "reason": reason}))
+    async def shutdown(self, should_restart, reason=None):
+        await self.event_service.fire_event(self.SHUTDOWN_EVENT, DictObject({"restart": should_restart, "reason": reason}))
         # set expected flag
         self.expected_shutdown().set_value(True)
         if should_restart:
