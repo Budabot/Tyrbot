@@ -42,7 +42,7 @@ class UtilController:
     async def macro_cmd(self, request, commands):
         commands = commands.split("|")
         for command_str in commands:
-            self.command_service.process_command(command_str, request.channel, request.sender.char_id, request.reply)
+            await self.command_service.process_command(command_str, request.channel, request.sender.char_id, request.reply)
 
     @command(command="echo", params=[Any("message")], access_level="all",
              description="Echo back a message")
@@ -55,15 +55,16 @@ class UtilController:
         if not char.char_id:
             return self.getresp("global", "char_not_found", {"char": char.name})
 
-        self.bot.send_private_message(char.char_id, self.getresp("module/system", "show_output_target",
+        await self.bot.send_private_message(char.char_id, self.getresp("module/system", "show_output_target",
                                                                  {"sender": request.sender.name,
                                                                   "cmd": command_str}))
 
-        self.command_service.process_command(command_str, request.channel, request.sender.char_id, lambda msg: self.bot.send_private_message(char.char_id, msg))
+        await self.command_service.process_command(command_str, request.channel, request.sender.char_id, lambda msg: self.bot.send_private_message(char.char_id, msg))
 
         return self.getresp("module/system", "show_output_self",
                             {"target": char.name,
                              "cmd": command_str})
+
     @command(command="system", params=[], access_level="admin",
              description="Show system information")
     async def system_cmd(self, request):
@@ -103,4 +104,4 @@ class UtilController:
     @command(command="htmldecode", params=[Any("command")], access_level="all",
              description="Decode html entities from a command before passing to the bot for execution")
     async def htmldecode_cmd(self, request, command_str):
-        self.command_service.process_command(html.unescape(command_str), request.channel, request.sender.char_id, request.reply)
+        await self.command_service.process_command(html.unescape(command_str), request.channel, request.sender.char_id, request.reply)

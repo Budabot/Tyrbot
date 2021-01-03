@@ -13,7 +13,7 @@ class RunasController:
 
     @command(command="runas", params=[Character("character"), Any("command")], access_level="superadmin",
              description="Run a command as another character")
-    def shutdown_cmd(self, request, char, command_str):
+    async def shutdown_cmd(self, request, char, command_str):
         if command_str[0] == self.setting_service.get("symbol").get_value():
             command_str = command_str[1:]
 
@@ -22,4 +22,4 @@ class RunasController:
         elif not self.access_service.has_sufficient_access_level(request.sender.char_id, char.char_id):
             return self.getresp("module/system", "runas_fail", {"char": char.name})
         else:
-            self.command_service.process_command(command_str, request.channel, char.char_id, request.reply)
+            await self.command_service.process_command(command_str, request.channel, char.char_id, request.reply)

@@ -11,9 +11,9 @@ class SendMessageController:
 
     @command(command="sendtell", params=[Character("character"), Any("message")], access_level="superadmin",
              description="Send a tell to another character from the bot")
-    def sendtell_cmd(self, request, char, message):
+    async def sendtell_cmd(self, request, char, message):
         if char.char_id:
-            self.bot.send_private_message(char.char_id, message, add_color=False)
+            await self.bot.send_private_message(char.char_id, message, add_color=False)
             return self.getresp("module/system", "msg_sent")
         else:
             return self.getresp("global", "char_not_found", {"char": char.name})

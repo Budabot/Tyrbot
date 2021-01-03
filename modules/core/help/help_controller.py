@@ -30,7 +30,7 @@ class HelpController:
 
     @command(command="about", params=[], access_level="all",
              description="Show information about the development of this bot")
-    def about_cmd(self, request):
+    async def about_cmd(self, request):
         blob = self.getresp("module/help", "about_head")
         blob += self.getresp("module/help", "about_body")
         blob += self.getresp("module/help", "about_special_ones")
@@ -40,7 +40,7 @@ class HelpController:
 
     @command(command="help", params=[], access_level="all",
              description="Show a list of commands to get help with")
-    def help_list_cmd(self, request):
+    async def help_list_cmd(self, request):
         data = self.db.query("SELECT command, module, access_level FROM command_config "
                              "WHERE enabled = 1 "
                              "ORDER BY module ASC, command ASC")
@@ -48,7 +48,7 @@ class HelpController:
         current_group = ""
         current_module = ""
         current_command = ""
-        access_level = self.access_service.get_access_level(request.sender.char_id)
+        access_level = await self.access_service.get_access_level(request.sender.char_id)
         for row in data:
             if access_level["level"] > self.access_service.get_access_level_by_label(row.access_level)["level"]:
                 continue
@@ -72,7 +72,7 @@ class HelpController:
 
     @command(command="help", params=[Any("command"), NamedParameters(["show_regex"])], access_level="all",
              description="Show help for a specific command")
-    def help_detail_cmd(self, request, help_topic, named_params):
+    async def help_detail_cmd(self, request, help_topic, named_params):
         help_topic = help_topic.lower()
 
         # check for alias
@@ -82,7 +82,7 @@ class HelpController:
 
         show_regex = named_params.show_regex and named_params.show_regex.lower() == "true"
 
-        help_text = self.command_service.get_help_text(request.sender.char_id, help_topic, request.channel, show_regex)
+        help_text = await self.command_service.get_help_text(request.sender.char_id, help_topic, request.channel, show_regex)
         if help_text:
             return self.command_service.format_help_text(help_topic, help_text)
         else:

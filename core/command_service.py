@@ -249,13 +249,16 @@ class CommandService:
             processed.append(param.process_matches(groups))
         return processed
 
-    def get_help_text(self, char, command_str, channel, show_regex=False):
+    async def get_help_text(self, char, command_str, channel, show_regex=False):
         data = self.db.query("SELECT command, sub_command, access_level FROM command_config "
                              "WHERE command = ? AND channel = ? AND enabled = 1",
                              [command_str, channel])
 
+        async def filter_access(row):
+            return await self.access_service.check_access(char, row.access_level)
+
         # filter out commands that character does not have access level for
-        data = filter(lambda row: self.access_service.check_access(char, row.access_level), data)
+        data = filter(filter_access , data)
 
         def get_regex(params):
             if show_regex:

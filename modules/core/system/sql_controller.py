@@ -18,7 +18,7 @@ class SqlController:
 
     @command(command="sql", params=[Const("query"), Any("sql_statement")], access_level="superadmin",
              description="Execute a SQL query and return the results")
-    def sql_query_cmd(self, request, _, sql):
+    async def sql_query_cmd(self, request, _, sql):
         try:
             results = self.db.query(sql)
             return ChatBlob(self.getresp("module/system", "sql_blob_title", {"count": len(results)}),
@@ -28,7 +28,7 @@ class SqlController:
 
     @command(command="sql", params=[Const("exec"), Any("sql_statement")], access_level="superadmin",
              description="Execute a SQL query and return number of affected rows")
-    def sql_exec_cmd(self, request, _, sql):
+    async def sql_exec_cmd(self, request, _, sql):
         try:
             row_count = self.db.exec(sql)
             return self.getresp("module/system", "sql_exec_success", {"count": row_count})
