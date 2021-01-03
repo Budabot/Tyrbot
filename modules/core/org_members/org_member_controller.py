@@ -11,7 +11,6 @@ import time
 from core.public_channel_service import PublicChannelService
 from core.setting_types import NumberSettingType, TextSettingType
 from core.translation_service import TranslationService
-from modules.standard.org.org_activity_controller import OrgActivityController
 
 
 @instance()
@@ -27,6 +26,12 @@ class OrgMemberController:
     ORG_MEMBER_LOGON_EVENT = "org_member_logon"
     ORG_MEMBER_LOGOFF_EVENT = "org_member_logoff"
     ORG_MEMBER_REMOVED_EVENT = "org_member_removed"
+
+    LEFT_ORG = [508, 45978487]
+    KICKED_FROM_ORG = [508, 37093479]
+    INVITED_TO_ORG = [508, 173558247]
+    KICKED_INACTIVE_FROM_ORG = [508, 20908201]
+    KICKED_ALIGNMENT_CHANGED = [501, 181448347]
 
     MAX_CACHE_AGE = 86400
 
