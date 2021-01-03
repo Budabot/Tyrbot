@@ -29,8 +29,13 @@ class OrgChannelController:
         self.relay_controller = registry.get_instance("relay_controller")
         self.text: Text = registry.get_instance("text")
 
+    def pre_start(self):
+        self.message_hub_service.register_message_source(self.MESSAGE_SOURCE)
+
     def start(self):
-        self.message_hub_service.register_message_source(self.MESSAGE_SOURCE, self.handle_incoming_relay_message)
+        self.message_hub_service.subscribe_message_source(self.MESSAGE_SOURCE,
+                                                          self.handle_incoming_relay_message,
+                                                          ["private_channel", "discord", "websocket_relay", "tell_relay"])
 
     def handle_incoming_relay_message(self, ctx):
         self.bot.send_org_message(ctx.formatted_message, fire_outgoing_event=False)

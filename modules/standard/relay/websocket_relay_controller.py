@@ -38,11 +38,16 @@ class WebsocketRelayController:
         self.pork_service = registry.get_instance("pork_service")
         self.online_controller = registry.get_instance("online_controller")
 
+    def pre_start(self):
+        self.message_hub_service.register_message_source(self.MESSAGE_SOURCE)
+
     def start(self):
-        self.message_hub_service.register_message_source(self.MESSAGE_SOURCE, self.handle_message_from_hub)
+        self.message_hub_service.subscribe_message_source(self.MESSAGE_SOURCE,
+                                                          self.handle_message_from_hub,
+                                                          ["private_channel", "org_channel", "discord", "tell_relay"])
 
         self.initialize_encrypter(self.websocket_encryption_key().get_value())
-            
+
         self.setting_service.register_change_listener("websocket_relay_enabled", self.websocket_relay_update)
         self.setting_service.register_change_listener("websocket_relay_server_address", self.websocket_relay_update)
         self.setting_service.register_change_listener("websocket_encryption_key", self.websocket_relay_update)

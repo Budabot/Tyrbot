@@ -23,6 +23,9 @@ class AllianceRelayController:
         self.message_hub_service = registry.get_instance("message_hub_service")
         self.public_channel_service = registry.get_instance("public_channel_service")
 
+    def pre_start(self):
+        self.message_hub_service.register_message_source(self.MESSAGE_SOURCE)
+
     def start(self):
         self.setting_service.register("arelay_symbol", "#", "Symbol for external relay",
                                       TextSettingType(["!", "#", "*", "@", "$", "+", "-"]), "custom.arelay")
@@ -36,7 +39,9 @@ class AllianceRelayController:
         self.setting_service.register("arelay_color", "#C3C3C3", "Color of messages from relay",
                                       ColorSettingType(), "custom.arelay")
 
-        self.message_hub_service.register_message_source(self.MESSAGE_SOURCE, self.handle_relay_hub_message)
+        self.message_hub_service.subscribe_message_source(self.MESSAGE_SOURCE,
+                                                          self.handle_relay_hub_message,
+                                                          ["org_channel"])
 
         self.bot.add_packet_handler(server_packets.PrivateChannelInvited.id, self.handle_private_channel_invite, 100)
         self.bot.add_packet_handler(server_packets.PrivateChannelMessage.id, self.handle_private_channel_message)
@@ -77,10 +82,6 @@ class AllianceRelayController:
 
     def handle_relay_hub_message(self, ctx):
         if not self.setting_service.get("arelay_enabled").get_value():
-            return
-
-        # only allow messages from org channel to be sent to alliance relay
-        if ctx.source != OrgChannelController.MESSAGE_SOURCE:
             return
 
         method = self.setting_service.get_value("arelay_symbol_method")

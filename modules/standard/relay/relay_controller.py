@@ -17,8 +17,13 @@ class RelayController:
         self.message_hub_service = registry.get_instance("message_hub_service")
         self.ban_service = registry.get_instance("ban_service")
 
+    def pre_start(self):
+        self.message_hub_service.register_message_source(self.MESSAGE_SOURCE)
+
     def start(self):
-        self.message_hub_service.register_message_source(self.MESSAGE_SOURCE, self.handle_incoming_relay_message)
+        self.message_hub_service.subscribe_message_source(self.MESSAGE_SOURCE,
+                                                          self.handle_incoming_relay_message,
+                                                          ["private_channel", "org_channel", "discord", "websocket_relay"])
 
     @setting(name="relay_bot", value="", description="Name of bot character for chat relay")
     def relay_bot(self):

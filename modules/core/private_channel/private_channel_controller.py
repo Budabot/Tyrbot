@@ -34,8 +34,13 @@ class PrivateChannelController:
         self.getresp = self.ts.get_response
         self.setting_service: SettingService = registry.get_instance("setting_service")
 
+    def pre_start(self):
+        self.message_hub_service.register_message_source(self.MESSAGE_SOURCE)
+
     def start(self):
-        self.message_hub_service.register_message_source(self.MESSAGE_SOURCE, self.handle_incoming_relay_message)
+        self.message_hub_service.subscribe_message_source(self.MESSAGE_SOURCE,
+                                                          self.handle_incoming_relay_message,
+                                                          ["org_channel", "discord", "websocket_relay", "tell_relay"])
         self.ts.register_translation("module/private_channel", self.load_private_channel_msg)
 
     def load_private_channel_msg(self):
