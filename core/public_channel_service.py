@@ -47,7 +47,7 @@ class PublicChannelService:
     def get_channel_name(self, channel_id):
         return self.id_to_name.get(channel_id, None)
 
-    def add(self, packet: server_packets.PublicChannelJoined):
+    async def add(self, packet: server_packets.PublicChannelJoined):
         self.id_to_name[packet.channel_id] = packet.name
         self.name_to_id[packet.name] = packet.channel_id
         if not self.org_id and self.is_org_channel_id(packet.channel_id):
@@ -61,12 +61,12 @@ class PublicChannelService:
             self.logger.info("Org Id: %d" % self.org_id)
             self.logger.info("Org Name: %s" % self.org_name)
 
-    def remove(self, packet: server_packets.PublicChannelLeft):
+    async def remove(self, packet: server_packets.PublicChannelLeft):
         channel_name = self.get_channel_name(packet.channel_id)
         del self.id_to_name[packet.channel_id]
         del self.name_to_id[channel_name]
 
-    def public_channel_message(self, packet: server_packets.PublicChannelMessage):
+    async def public_channel_message(self, packet: server_packets.PublicChannelMessage):
         if self.is_org_channel_id(packet.channel_id):
             char_name = self.character_service.get_char_name(packet.char_id)
             if packet.extended_message:
@@ -74,7 +74,7 @@ class PublicChannelService:
             else:
                 message = packet.message
             self.logger.log_chat("Org Channel", char_name, message)
-            self.event_service.fire_event(self.ORG_CHANNEL_MESSAGE_EVENT, packet)
+            await self.event_service.fire_event(self.ORG_CHANNEL_MESSAGE_EVENT, packet)
         elif packet.channel_id == self.ORG_MSG_CHANNEL_ID:
             char_name = self.character_service.get_char_name(packet.char_id)
             if packet.extended_message:
@@ -82,7 +82,7 @@ class PublicChannelService:
             else:
                 message = packet.message
             self.logger.log_chat("Org Msg", char_name, message)
-            self.event_service.fire_event(self.ORG_MSG_EVENT, packet)
+            await self.event_service.fire_event(self.ORG_MSG_EVENT, packet)
 
     def is_org_channel_id(self, channel_id):
         return channel_id >> 32 == 3

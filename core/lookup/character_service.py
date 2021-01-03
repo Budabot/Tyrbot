@@ -20,16 +20,16 @@ class CharacterService:
         self.bot.add_packet_handler(server_packets.CharacterLookup.id, self.update)
         self.bot.add_packet_handler(server_packets.CharacterName.id, self.update)
 
-    def _wait_for_char_id(self, char_name):
+    async def _wait_for_char_id(self, char_name):
         # char_name must be .capitalize()'ed
 
-        packet = self.bot.iterate()
+        packet = await self.bot.iterate()
         while packet and char_name not in self.name_to_id:
-            packet = self.bot.iterate()
+            packet = await self.bot.iterate()
 
         return self.name_to_id.get(char_name, None)
 
-    def resolve_char_to_id(self, char):
+    async def resolve_char_to_id(self, char):
         if isinstance(char, int):
             return char
         elif char.isdigit():
@@ -40,7 +40,7 @@ class CharacterService:
                 return self.name_to_id[char_name]
             else:
                 self._send_lookup_if_needed(char_name)
-                return self._wait_for_char_id(char_name)
+                return await self._wait_for_char_id(char_name)
 
     def resolve_char_to_name(self, char, default=None):
         if isinstance(char, int) or char.isdigit():
@@ -52,7 +52,7 @@ class CharacterService:
     def get_char_name(self, char_id):
         return self.id_to_name.get(char_id, None)
 
-    def update(self, packet):
+    async def update(self, packet):
         self.waiting_for_response.discard(packet.name)
 
         if packet.char_id == 4294967295:

@@ -27,22 +27,22 @@ class BuddyService:
         self.event_service.register_event_type(self.BUDDY_LOGON_EVENT)
         self.event_service.register_event_type(self.BUDDY_LOGOFF_EVENT)
 
-    def handle_add(self, packet):
+    async def handle_add(self, packet):
         buddy = self.buddy_list.get(packet.char_id, {"types": []})
         buddy["online"] = packet.online
         self.buddy_list[packet.char_id] = buddy
         if packet.online == 1:
-            self.event_service.fire_event(self.BUDDY_LOGON_EVENT, packet)
+            await self.event_service.fire_event(self.BUDDY_LOGON_EVENT, packet)
         else:
-            self.event_service.fire_event(self.BUDDY_LOGOFF_EVENT, packet)
+            await self.event_service.fire_event(self.BUDDY_LOGOFF_EVENT, packet)
 
-    def handle_remove(self, packet):
+    async def handle_remove(self, packet):
         if packet.char_id in self.buddy_list:
             if len(self.buddy_list[packet.char_id]["types"]) > 0:
                 self.logger.warning("Removing buddy %d that still has types %s" % (packet.char_id, self.buddy_list[packet.char_id]["types"]))
             del self.buddy_list[packet.char_id]
 
-    def handle_login_ok(self, packet):
+    async def handle_login_ok(self, packet):
         self.buddy_list_size += 1000
 
     def add_buddy(self, char_id, _type):

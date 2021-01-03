@@ -22,8 +22,8 @@ class AccessService:
     def get_access_levels(self):
         return self.access_levels
 
-    def get_access_level(self, char_id):
-        access_level1 = self.get_single_access_level(char_id)
+    async def get_access_level(self, char_id):
+        access_level1 = await self.get_single_access_level(char_id)
 
         alts = self.alts_service.get_alts(char_id)
         if not alts:
@@ -33,7 +33,7 @@ class AccessService:
         if main.char_id == char_id:
             return access_level1
         else:
-            access_level2 = self.get_single_access_level(main.char_id)
+            access_level2 = await self.get_single_access_level(main.char_id)
             if access_level1["level"] < access_level2["level"]:
                 return access_level1
             else:
@@ -54,7 +54,7 @@ class AccessService:
 
         return a2["level"] - a1["level"]
 
-    def has_sufficient_access_level(self, char_id1, char_id2):
+    async def has_sufficient_access_level(self, char_id1, char_id2):
         """
         Returns True if char1 has a higher access level than char2 or if char1 is a verified alt of char2, and False otherwise.
 
@@ -71,13 +71,13 @@ class AccessService:
         if self.alts_service.get_main(char_id1).char_id == self.alts_service.get_main(char_id2).char_id:
             return True
 
-        a1 = self.get_access_level(char_id1)
-        a2 = self.get_access_level(char_id2)
+        a1 = await self.get_access_level(char_id1)
+        a2 = await self.get_access_level(char_id2)
 
         return a2["level"] - a1["level"] > 0
 
-    def get_single_access_level(self, char):
-        char_id = self.character_service.resolve_char_to_id(char)
+    async def get_single_access_level(self, char):
+        char_id = await self.character_service.resolve_char_to_id(char)
         for access_level in self.access_levels:
             if access_level["handler"](char_id):
                 return access_level
@@ -95,12 +95,12 @@ class AccessService:
                 return access_level
         return None
 
-    def check_access(self, char, access_level_label):
-        char_id = self.character_service.resolve_char_to_id(char)
+    async def check_access(self, char, access_level_label):
+        char_id = await self.character_service.resolve_char_to_id(char)
         if not char_id:
             return None
 
-        return self.get_access_level(char)["level"] <= self.get_access_level_by_label(access_level_label)["level"]
+        return (await self.get_access_level(char))["level"] <= self.get_access_level_by_label(access_level_label)["level"]
 
     def no_access(self, char_id):
         return False

@@ -82,7 +82,7 @@ class EventService:
         # load command handler
         self.handlers[handler_name] = handler
 
-    def fire_event(self, event_type, event_data=None):
+    async def fire_event(self, event_type, event_data=None):
         event_base_type, event_sub_type = self.get_event_type_parts(event_type)
 
         if event_base_type not in self.event_types:
@@ -91,16 +91,16 @@ class EventService:
 
         data = self.get_handlers(event_base_type, event_sub_type)
         for row in data:
-            self.call_handler(row.handler, event_type, event_data)
+            await self.call_handler(row.handler, event_type, event_data)
 
-    def call_handler(self, handler_method, event_type, event_data):
+    async def call_handler(self, handler_method, event_type, event_data):
         handler = self.handlers.get(handler_method, None)
         if not handler:
             self.logger.error("Could not find handler callback for event type '%s' and handler '%s'" % (event_type, handler_method))
             return
 
         try:
-            handler(event_type, event_data)
+            await handler(event_type, event_data)
         except Exception as e:
             self.logger.error("error processing event '%s'" % event_type, e)
 

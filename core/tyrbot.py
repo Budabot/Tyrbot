@@ -129,7 +129,7 @@ class Tyrbot(Bot):
         self.logger.info("Login complete (%fs)" % (time.time() - start))
 
         start = time.time()
-        self.event_service.fire_event("connect", None)
+        await self.event_service.fire_event("connect", None)
         self.logger.info("Connect events finished (%fs)" % (time.time() - start))
 
         self.ready = True
@@ -176,9 +176,9 @@ class Tyrbot(Bot):
                     return
 
             for handler in self.packet_handlers.get(packet.id, []):
-                handler.handler(packet)
+                await handler.handler(packet)
 
-            self.event_service.fire_event("packet:" + str(packet.id), packet)
+            await self.event_service.fire_event("packet:" + str(packet.id), packet)
 
         self.check_outgoing_message_queue()
 
@@ -226,7 +226,7 @@ class Tyrbot(Bot):
 
         return packet
 
-    def send_org_message(self, msg, add_color=True, fire_outgoing_event=True):
+    async def send_org_message(self, msg, add_color=True, fire_outgoing_event=True):
         org_channel_id = self.public_channel_service.org_channel_id
         if org_channel_id is None:
             self.logger.debug("ignoring message to org channel since the org_channel_id is unknown")
@@ -239,11 +239,11 @@ class Tyrbot(Bot):
                 self.check_outgoing_message_queue()
 
             if fire_outgoing_event:
-                self.event_service.fire_event(self.OUTGOING_ORG_MESSAGE_EVENT, DictObject({"org_channel_id": org_channel_id,
+                await self.event_service.fire_event(self.OUTGOING_ORG_MESSAGE_EVENT, DictObject({"org_channel_id": org_channel_id,
                                                                                            "message": msg}))
 
-    def send_private_message(self, char, msg, add_color=True, fire_outgoing_event=True):
-        char_id = self.character_service.resolve_char_to_id(char)
+    async def send_private_message(self, char, msg, add_color=True, fire_outgoing_event=True):
+        char_id = await self.character_service.resolve_char_to_id(char)
         if char_id is None:
             self.logger.warning("Could not send message to %s, could not find char id" % char)
         else:
@@ -256,14 +256,14 @@ class Tyrbot(Bot):
                 self.check_outgoing_message_queue()
 
             if fire_outgoing_event:
-                self.event_service.fire_event(self.OUTGOING_PRIVATE_MESSAGE_EVENT, DictObject({"char_id": char_id,
+                await self.event_service.fire_event(self.OUTGOING_PRIVATE_MESSAGE_EVENT, DictObject({"char_id": char_id,
                                                                                                "message": msg}))
 
-    def send_private_channel_message(self, msg, private_channel=None, add_color=True, fire_outgoing_event=True):
+    async def send_private_channel_message(self, msg, private_channel=None, add_color=True, fire_outgoing_event=True):
         if private_channel is None:
             private_channel = self.char_id
 
-        private_channel_id = self.character_service.resolve_char_to_id(private_channel)
+        private_channel_id = await self.character_service.resolve_char_to_id(private_channel)
         if private_channel_id is None:
             self.logger.warning("Could not send message to private channel %s, could not find private channel" % private_channel)
         else:
@@ -274,12 +274,12 @@ class Tyrbot(Bot):
                 self.send_packet(packet)
 
             if fire_outgoing_event and private_channel_id == self.char_id:
-                self.event_service.fire_event(self.OUTGOING_PRIVATE_CHANNEL_MESSAGE_EVENT, DictObject({"private_channel_id": private_channel_id,
+                await self.event_service.fire_event(self.OUTGOING_PRIVATE_CHANNEL_MESSAGE_EVENT, DictObject({"private_channel_id": private_channel_id,
                                                                                                        "message": msg}))
 
-    def handle_private_message(self, packet: server_packets.PrivateMessage):
+    async def handle_private_message(self, packet: server_packets.PrivateMessage):
         self.logger.log_tell("From", self.character_service.get_char_name(packet.char_id), packet.message)
-        self.event_service.fire_event(self.PRIVATE_MSG_EVENT, packet)
+        await self.event_service.fire_event(self.PRIVATE_MSG_EVENT, packet)
 
     def get_text_pages(self, msg, max_page_length):
         if isinstance(msg, ChatBlob):

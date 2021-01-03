@@ -158,7 +158,7 @@ class PorkService:
         else:
             return None
 
-    def update(self, packet):
+    async def update(self, packet):
         # don't update if we didn't get a valid response
         if packet.char_id == 4294967295:
             return

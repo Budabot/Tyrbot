@@ -143,7 +143,7 @@ class CommandService:
     def is_command_channel(self, channel):
         return channel in self.channels
 
-    def process_command(self, message: str, channel: str, char_id, reply):
+    async def process_command(self, message: str, channel: str, char_id, reply):
         try:
             context = DictObject({"message": message, "char_id": char_id, "channel": channel, "reply": reply})
             for pre_processor in self.pre_processors:
@@ -171,40 +171,40 @@ class CommandService:
                     raise Exception("Command alias infinite recursion detected for command '%s'" % message)
 
             cmd_configs = self.get_command_configs(command_str, channel, 1)
-            access_level = self.access_service.get_access_level(char_id)
+            access_level = await self.access_service.get_access_level(char_id)
             sender = SenderObj(char_id, self.character_service.resolve_char_to_name(char_id, "Unknown(%d)" % char_id), access_level)
             if cmd_configs:
                 # given a list of cmd_configs that are enabled, see if one has regex that matches incoming command_str
                 cmd_config, matches, handler = self.get_matches(cmd_configs, command_args)
                 if matches:
-                    if handler["check_access"](char_id, cmd_config.access_level):
-                        response = handler["callback"](CommandRequest(channel, sender, reply), *self.process_matches(matches, handler["params"]))
+                    if await (handler["check_access"](char_id, cmd_config.access_level)):
+                        response = await (handler["callback"](CommandRequest(channel, sender, reply), *self.process_matches(matches, handler["params"])))
                         if response is not None:
-                            reply(response)
+                            await reply(response)
 
                         # record command usage
                         self.usage_service.add_usage(command_str, handler["callback"].__qualname__, char_id, channel)
                     else:
-                        self.access_denied_response(message, sender, cmd_config, reply)
+                        await self.access_denied_response(message, sender, cmd_config, reply)
                 else:
                     # handlers were found, but no handler regex matched
                     help_text = self.get_help_text(char_id, command_str, channel)
                     if help_text:
-                        reply(self.format_help_text(command_str, help_text))
+                        await reply(self.format_help_text(command_str, help_text))
                     else:
                         # the command is known, but no help is returned, therefore user does not have access to command
-                        reply(self.getresp("global", "access_denied"))
+                        await reply(self.getresp("global", "access_denied"))
             else:
-                self.handle_unknown_command(command_str, command_args, channel, sender, reply)
+                await self.handle_unknown_command(command_str, command_args, channel, sender, reply)
         except Exception as e:
             self.logger.error("error processing command: %s" % message, e)
-            reply(self.getresp("global", "error_proccessing"))
+            await reply(self.getresp("global", "error_proccessing"))
 
-    def handle_unknown_command(self, command_str, command_args, channel, sender, reply):
-        reply(self.getresp("global", "unknown_command", {"cmd":command_str}))
+    async def handle_unknown_command(self, command_str, command_args, channel, sender, reply):
+        await reply(self.getresp("global", "unknown_command", {"cmd":command_str}))
 
-    def access_denied_response(self, message, sender, cmd_config, reply):
-        reply(self.getresp("global", "access_denied"))
+    async def access_denied_response(self, message, sender, cmd_config, reply):
+        await reply(self.getresp("global", "access_denied"))
 
     def get_command_parts(self, message):
         parts = message.split(" ", 1)
@@ -311,7 +311,7 @@ class CommandService:
     def get_handlers(self, command_key):
         return self.handlers.get(command_key, None)
 
-    def handle_private_message(self, packet: server_packets.PrivateMessage):
+    async def handle_private_message(self, packet: server_packets.PrivateMessage):
         # since the command symbol is not required for private messages,
         # the command_str must have length of at least 1 in order to be valid,
         # otherwise it is ignored
@@ -326,13 +326,16 @@ class CommandService:
         else:
             command_str = message
 
-        self.process_command(
+        async def send_msg(msg):
+            await self.bot.send_private_message(packet.char_id, msg)
+
+        await self.process_command(
             command_str,
             self.PRIVATE_MESSAGE_CHANNEL,
             packet.char_id,
-            lambda msg: self.bot.send_private_message(packet.char_id, msg))
+            send_msg)
 
-    def handle_private_channel_message(self, packet: server_packets.PrivateChannelMessage):
+    async def handle_private_channel_message(self, packet: server_packets.PrivateChannelMessage):
         # since the command symbol is required in the private channel,
         # the command_str must have length of at least 2 in order to be valid,
         # otherwise it is ignored
@@ -345,13 +348,13 @@ class CommandService:
         symbol = message[:1]
         command_str = message[1:]
         if symbol == self.setting_service.get("symbol").get_value() and packet.private_channel_id == self.bot.char_id:
-            self.process_command(
+            await self.process_command(
                 command_str,
                 self.PRIVATE_CHANNEL,
                 packet.char_id,
                 lambda msg: self.bot.send_private_channel_message(msg))
 
-    def handle_public_channel_message(self, packet: server_packets.PublicChannelMessage):
+    async def handle_public_channel_message(self, packet: server_packets.PublicChannelMessage):
         # since the command symbol is required in the org channel,
         # the command_str must have length of at least 2 in order to be valid,
         # otherwise it is ignored
@@ -364,7 +367,7 @@ class CommandService:
         symbol = message[:1]
         command_str = message[1:]
         if symbol == self.setting_service.get("symbol").get_value() and self.public_channel_service.is_org_channel_id(packet.channel_id):
-            self.process_command(
+            await self.process_command(
                 command_str,
                 self.ORG_CHANNEL,
                 packet.char_id,
