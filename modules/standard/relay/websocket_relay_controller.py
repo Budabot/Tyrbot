@@ -210,7 +210,7 @@ class WebsocketRelayController:
         if self.worker:
             message = json.dumps(message)
             if self.encrypter:
-                message = self.encrypter.encrypt(message.encode('utf-8'))
+                message = self.encrypter.encrypt(message.encode('utf-8')).decode('utf-8')
             obj = json.dumps({"type": "message", "payload": message})
             self.worker.send_message(obj)
 
