@@ -5,14 +5,14 @@ class DictObject(dict):
     def get_value(self, name):
         val = self[name]
         # convert dict to DictObject
-        if isinstance(val, dict) and not isinstance(val, DictObject):
+        if not isinstance(val, DictObject) and isinstance(val, dict):
             self[name] = DictObject(val)
             val = self[name]
 
         # convert list of dicts to list of DictObjects
         elif isinstance(val, list):
             for k, v in enumerate(val):
-                if isinstance(v, dict) and not isinstance(v, DictObject):
+                if not isinstance(v, DictObject) and isinstance(v, dict):
                     self[name][k] = DictObject(v)
             val = self[name]
 

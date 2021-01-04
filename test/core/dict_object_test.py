@@ -67,3 +67,10 @@ class DictObjectTest(unittest.TestCase):
         self.assertEqual(2, len(d))
         d["test2"] = 3
         self.assertEqual(2, len(d))
+
+    def test_nested_arrays(self):
+        d = DictObject({"users": [{"id": 1}, {"id": 2}, None]})
+        self.assertEqual(d.users, [{"id": 1}, {"id": 2}, None])
+        self.assertEqual(d.users[0], {"id": 1})
+        self.assertEqual(d.users[0].id, 1)
+        self.assertEqual(d.users[2], None)
