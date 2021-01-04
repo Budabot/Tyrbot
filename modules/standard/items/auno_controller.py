@@ -89,8 +89,11 @@ class AunoController:
         link_auno = self.text.make_chatcmd("Auno", "/start %s" % self.get_auno_request_url(high_id))
         link_aoitems = self.text.make_chatcmd("AOItems", "/start %s" % self.get_aoitems_request_url(high_id))
 
-        ql = self.items_controller.get_by_item_id(high_id).highql
-        blob = "Item: %s\n" % self.text.make_item(int(low_id), int(high_id), int(ql), name)
+        item = self.items_controller.get_by_item_id(high_id)
+        blob = ""
+        if item:
+            ql = item.highql
+            blob += "Item: %s\n" % self.text.make_item(int(low_id), int(high_id), int(ql), name)
         blob += "Item links: [%s] [%s]\n\n" % (link_auno, link_aoitems)
         blob += "<header2>Comments<end>\n"
 
