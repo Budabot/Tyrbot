@@ -149,21 +149,24 @@ class WebsocketRelayController:
         elif obj.type == "logoff":
             self.rem_online_char(obj.user.id, self.get_channel_name(obj.source))
         elif obj.type == "online_list":
-            for source in obj.sources:
-                if source.type not in ["org", "priv"]:
+            for online_obj in obj.online:
+                if online_obj.source.type not in ["org", "priv"]:
                     continue
 
-                channel = self.get_channel_name(source)
+                channel = self.get_channel_name(online_obj.source)
                 self.db.exec("DELETE FROM online WHERE channel = ?", [channel])
-                for user in source.users:
+                for user in online_obj.users:
                     self.add_online_char(user.id, channel)
         elif obj.type == "online_list_request":
             self.send_relay_message(self.get_online_list_obj())
 
     def get_online_list_obj(self):
         sources = []
-        # TODO if not an org bot, skip ORG_CHANNEL
         for channel in [OnlineController.ORG_CHANNEL, OnlineController.PRIVATE_CHANNEL]:
+            # if not an org bot, skip ORG_CHANNEL
+            if not self.public_channel_service.get_org_id():
+                continue
+
             sql = """
                 SELECT
                     o.char_id AS id,
@@ -173,16 +176,16 @@ class WebsocketRelayController:
                 WHERE channel = ?
             """
             data = self.db.query(sql, [channel])
-            source_obj = self.create_source_obj(channel)
-            source_obj["users"]  = data
 
-            sources.append(source_obj)
+            sources.append({
+                "source": self.create_source_obj(channel),
+                "users": data
+            })
 
-        response_obj = {
+        return {
             "type": "online_list",
-            "sources": sources
+            "online": sources
         }
-        self.send_relay_message(response_obj)
 
     def send_relay_event(self, char_id, event_type, source):
         char_name = self.character_service.resolve_char_to_name(char_id)
@@ -204,8 +207,8 @@ class WebsocketRelayController:
         self.db.exec("DELETE FROM online WHERE char_id = ? AND channel = ?", [char_id, channel])
         
     def send_relay_message(self, message):
-        message = json.dumps(message)
         if self.worker:
+            message = json.dumps(message)
             if self.encrypter:
                 message = self.encrypter.encrypt(message.encode('utf-8'))
             obj = json.dumps({"type": "message", "payload": message})
@@ -289,5 +292,6 @@ class WebsocketRelayController:
             "name": self.public_channel_service.get_org_name() or self.bot.char_name,
             "label": self.setting_service.get("relay_prefix").get_value() or "",
             "channel": channel,
-            "type": type
+            "type": type,
+            "server": self.bot.dimension
         }
