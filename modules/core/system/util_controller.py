@@ -42,7 +42,11 @@ class UtilController:
     def macro_cmd(self, request, commands):
         commands = commands.split("|")
         for command_str in commands:
-            self.command_service.process_command(command_str, request.channel, request.sender.char_id, request.reply)
+            self.command_service.process_command(
+                self.command_service.trim_command_symbol(command_str),
+                request.channel,
+                request.sender.char_id,
+                request.reply)
 
     @command(command="echo", params=[Any("message")], access_level="all",
              description="Echo back a message")
@@ -59,7 +63,11 @@ class UtilController:
                                                                  {"sender": request.sender.name,
                                                                   "cmd": command_str}))
 
-        self.command_service.process_command(command_str, request.channel, request.sender.char_id, lambda msg: self.bot.send_private_message(char.char_id, msg))
+        self.command_service.process_command(
+            self.command_service.trim_command_symbol(command_str),
+            request.channel,
+            request.sender.char_id,
+            lambda msg: self.bot.send_private_message(char.char_id, msg))
 
         return self.getresp("module/system", "show_output_self",
                             {"target": char.name,

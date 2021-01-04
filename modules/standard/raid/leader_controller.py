@@ -126,14 +126,14 @@ class LeaderController:
     def leader_echo_private_event(self, _, event_data):
         if self.leader and self.echo:
             if self.leader.char_id == event_data.char_id:
-                if self.setting_service.get("symbol").get_value() != event_data.message[0]:
+                if not event_data.message.startswith(self.setting_service.get("symbol").get_value()):
                     self.leader_echo(event_data.char_id, event_data.message, "priv")
 
     @event(PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, "Echo leader messages from org channel", is_hidden=True)
     def leader_echo_org_event(self, _, event_data):
         if self.leader and self.echo:
             if self.leader.char_id == event_data.char_id:
-                if self.setting_service.get("symbol").get_value() != event_data.message[0]:
+                if not event_data.message.startswith(self.setting_service.get("symbol").get_value()):
                     self.leader_echo(event_data.char_id, event_data.message, "org")
 
     def leader_echo(self, char_id, message, channel):
