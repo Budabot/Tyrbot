@@ -1,8 +1,14 @@
 .dockerignore
 .git
 Dockerfile*
-conf/*.hjson
+conf/*
+!conf/config.template.hjson
+!conf/logging.py
 data/*
 k8s
 win32
 logs/*
+/venv
+**/__pycache__
+/docs
+.idea
