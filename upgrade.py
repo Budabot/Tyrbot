@@ -131,3 +131,8 @@ if version == 10:
         db.exec("INSERT INTO discord SELECT channel_id, server_name, channel_name, relay_ao, relay_dc FROM discord_old")
         db.exec("DROP TABLE discord_old")
     version = update_version(version)
+
+if version == 11:
+    if table_exists("discord"):
+        db.exec("DROP TABLE discord")
+    version = update_version(version)

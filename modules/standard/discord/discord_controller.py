@@ -2,6 +2,8 @@ import datetime
 import logging
 import re
 import threading
+import time
+import asyncio
 from html.parser import HTMLParser
 
 import hjson
@@ -13,7 +15,7 @@ from core.decorators import instance, command, event, timerevent, setting
 from core.dict_object import DictObject
 from core.logger import Logger
 from core.lookup.character_service import CharacterService
-from core.setting_types import HiddenSettingType, ColorSettingType
+from core.setting_types import HiddenSettingType, ColorSettingType, TextSettingType
 from core.text import Text
 from core.translation_service import TranslationService
 from .discord_channel import DiscordChannel
@@ -44,8 +46,6 @@ class DiscordController:
     MESSAGE_SOURCE = "discord"
 
     def __init__(self):
-        self.servers = []
-        self.channels = {}
         self.dthread = None
         self.dqueue = []
         self.aoqueue = []
@@ -80,15 +80,8 @@ class DiscordController:
         self.message_hub_service.register_message_source(self.MESSAGE_SOURCE, self.handle_incoming_relay_message)
         self.register_discord_command_handler(self.help_discord_cmd, "help", [])
 
-        self.db.exec("CREATE TABLE IF NOT EXISTS discord (channel_id BIGINT(32) NOT NULL UNIQUE, server_name VARCHAR(256) NOT NULL, channel_name VARCHAR(256) NOT NULL, relay_ao SMALLINT NOT NULL DEFAULT 0, relay_dc SMALLINT NOT NULL DEFAULT 0)")
+        self.setting_service.register_change_listener("discord_channel_id", self.update_discord_channel_id)
 
-        channels = self.db.query("SELECT * FROM discord")
-
-        if channels is not None:
-            for row in channels:
-                a = True if row.relay_ao == 1 else False
-                d = True if row.relay_dc == 1 else False
-                self.channels[row.channel_id] = DiscordChannel(row.channel_id, row.server_name, row.channel_name, a, d)
         self.ts.register_translation("module/discord", self.load_discord_msg)
 
     def load_discord_msg(self):
@@ -98,6 +91,10 @@ class DiscordController:
     @setting(name="discord_bot_token", value="", description="Discord bot token")
     def discord_bot_token(self):
         return HiddenSettingType(allow_empty=True)
+
+    @setting(name="discord_channel_id", value="", description="Discord channel id to relay with")
+    def discord_channel_id(self):
+        return TextSettingType(allow_empty=True)
 
     @setting(name="discord_embed_color", value="#00FF00", description="Discord embedded message color")
     def discord_embed_color(self):
@@ -118,13 +115,9 @@ class DiscordController:
     @command(command="discord", params=[], access_level="member",
              description="See Discord info")
     def discord_cmd(self, request):
-        counter = 0
-        for cid, channel in self.channels.items():
-            if channel.relay_ao or channel.relay_dc:
-                counter += 1
         servers = ""
-        if self.servers:
-            for server in self.servers:
+        if self.client and self.client.guilds:
+            for server in self.client.guilds:
                 invites = self.text.make_chatcmd(self.getresp("module/discord", "get_invite"),
                                                  "/tell <myname> discord getinvite %s" % server.id)
                 owner = server.owner.nick or re.sub(pattern=r"#\d+", repl="", string=str(server.owner))
@@ -136,17 +129,12 @@ class DiscordController:
             servers += self.getresp("module/discord", "no_server")
 
         subs = ""
-        for cid, channel in self.channels.items():
-            if channel.relay_ao or channel.relay_dc:
-                a = self.getresp("module/discord", "on")if channel.relay_ao else self.getresp("module/discord", "off")
-                d = self.getresp("module/discord", "on") if channel.relay_dc else self.getresp("module/discord", "off")
-                subs += self.getresp("module/discord", "sub", {"server_name": channel.server_name,
-                                                               "channel_name": channel.channel_name,
-                                                               "relay_ao": a,
-                                                               "relay_dc": d})
+        for channel in self.get_text_channels():
+            subs += self.getresp("module/discord", "sub", {"server_name": channel.guild.name,
+                                                           "channel_name": channel.name})
         status = self.getresp("module/discord", "connected" if self.is_connected() else "disconnected")
         blob = self.getresp("module/discord", "blob", {"connected": status,
-                                                       "count": counter,
+                                                       "count": len(self.get_text_channels()),
                                                        "servers": servers,
                                                        "subs": subs})
 
@@ -181,52 +169,25 @@ class DiscordController:
         loglink = self.text.make_chatcmd(self.getresp("module/discord", action), "/tell <myname> discord %s" % action)
         constatus = self.getresp("module/discord", "connected" if self.is_connected() else "disconnected")
         subs = ""
-        for cid, channel in self.channels.items():
-            a = "<green>on<end>" if channel.relay_ao else "<red>off<end>"
-            d = "<green>on<end>" if channel.relay_dc else "<red>off<end>"
-            arelay = "off" if channel.relay_ao else "on"
-            drelay = "off" if channel.relay_dc else "on"
-
-            alink = self.text.make_chatcmd(self.getresp("module/discord", arelay), "/tell <myname> discord relay %s %s %s" % (channel.channel_id, "ao", arelay))
-            dlink = self.text.make_chatcmd(self.getresp("module/discord", drelay), "/tell <myname> discord relay %s %s %s" % (channel.channel_id, "discord", drelay))
-            subs += self.getresp("module/discord", "relay", {"server_name": channel.server_name,
-                                                             "channel_name": channel.channel_name,
-                                                             "relay_ao": a,
-                                                             "switch_ao": alink,
-                                                             "relay_dc": d,
-                                                             "switch_dc": dlink
+        for channel in self.get_text_channels():
+            select_link = self.text.make_chatcmd("select", "/tell <myname> config setting discord_channel_id set %s" % channel.id)
+            subs += self.getresp("module/discord", "relay", {"server_name": channel.guild.name,
+                                                             "channel_name": channel.name,
+                                                             "select": select_link,
                                                              })
+
         blob = self.getresp("module/discord", "blob_relay", {"connected": constatus,
                                                              "switch_connection": loglink,
-                                                             "count": len(self.channels),
+                                                             "count": len(self.get_text_channels()),
                                                              "subs": subs})
 
         return ChatBlob(self.getresp("module/discord", "relay_title"), blob)
 
-    @command(command="discord", params=[Const("relay"), Int("channel_id"), Options(["ao", "discord"]), Options(["on", "off"])], access_level="moderator",
-             description="Changes relay setting for specific channel", sub_command="manage")
-    def discord_relay_change_cmd(self, request, _, channel_id, relay_type, relay):
-        channel = self.channels[channel_id]
-
-        if relay_type.lower() == "ao":
-            if channel is not None:
-                channel.relay_ao = True if relay == "on" else False
-        elif relay_type.lower() == "discord":
-            if channel is not None:
-                channel.relay_dc = True if relay == "on" else False
-        else:
-
-            return self.getresp("module/discord", "unknown_relay_type")
-
-        self.update_discord_channels()
-        return self.getresp("module/discord", "changed_relay", {"channel": channel.channel_name,
-                                                                "changed": self.getresp("module/discord", relay)})
-
     @command(command="discord", params=[Const("getinvite"), Int("server_id")], access_level="member",
              description="Get an invite for specified server", sub_command="getinvite")
     def discord_getinvite_cmd(self, request, _, server_id):
-        if self.servers:
-            for server in self.servers:
+        if self.client and self.client.guilds:
+            for server in self.client.guilds:
                 if server.id == server_id:
                     self.send_to_discord("get_invite", (request.sender.name, server))
                     return
@@ -243,19 +204,6 @@ class DiscordController:
         token = self.setting_service.get("discord_bot_token").get_value()
         if token:
             self.connect_discord_client(token)
-
-    @event(event_type="discord_channels", description="Updates the list of channels available for relaying", is_hidden=True)
-    def handle_discord_channels_event(self, event_type, message):
-        for channel in message:
-            if channel.type is ChannelType.text:
-                cid = channel.id
-                if cid not in self.channels:
-                    self.channels[cid] = DiscordChannel(cid, channel.guild.name, channel.name, False, False)
-                else:
-                    self.channels[cid].server_name = channel.guild.name
-                    self.channels[cid].channel_name = channel.name
-
-        self.update_discord_channels()
 
     @event(event_type="discord_command", description="Handles Discord commands", is_hidden=True)
     def handle_discord_command_event(self, event_type, message):
@@ -328,42 +276,26 @@ class DiscordController:
         self.command_handlers.append(DictObject({"callback": callback, "command": command_str, "params": params, "regex": r}))
 
     def connect_discord_client(self, token):
-        self.client = DiscordWrapper(self.channels, self.servers, self.dqueue, self.aoqueue, self.db)
+        self.client = DiscordWrapper(
+            int(self.setting_service.get("discord_channel_id").get_value() or 0),
+            self.dqueue,
+            self.aoqueue)
 
         self.dthread = threading.Thread(target=self.run_discord_thread, args=(token,), daemon=True)
         self.dthread.start()
         self.client.loop.create_task(self.client.relay_message())
 
     def run_discord_thread(self, *args, **kwargs):
-        should_run = True
-        while should_run:
-            try:
-                self.client.run(*args, **kwargs)
-                should_run = False
-            except Exception as e:
-                self.logger.error("discord connection lost", e)
-                self.logger.info("reconnecting to discord")
+        try:
+            self.logger.info("connecting to discord")
+            loop = asyncio.new_event_loop()
+            loop.run_until_complete(self.client.run(*args, **kwargs))
+        except Exception as e:
+            self.logger.error("discord connection lost", e)
 
     def disconnect_discord_client(self):
         self.client.loop.create_task(self.client.logout())
         self.client = None
-
-    def update_discord_channels(self):
-        result = self.db.query("SELECT * FROM discord")
-        worked = []
-
-        if result is not None:
-            for row in result:
-                if row.channel_id in self.channels:
-                    channel = self.channels[row.channel_id]
-                    self.db.exec("UPDATE discord SET server_name = ?, channel_name = ?, relay_ao = ?, relay_dc = ? WHERE channel_id = ?",
-                                 [channel.server_name, channel.channel_name, channel.relay_ao, channel.relay_dc, row.channel_id])
-                    worked.append(row.channel_id)
-
-        for cid, channel in self.channels.items():
-            if channel.channel_id not in worked:
-                self.db.exec("INSERT INTO discord (channel_id, server_name, channel_name, relay_ao, relay_dc) VALUES (?, ?, ?, ?, ?)",
-                             [channel.channel_id, channel.server_name, channel.channel_name, channel.relay_ao, channel.relay_dc])
 
     def strip_html_tags(self, html):
         s = MLStripper()
@@ -407,3 +339,13 @@ class DiscordController:
 
         message = DiscordMessage("plain", "", "", self.strip_html_tags(ctx.formatted_message))
         self.send_to_discord("msg", message)
+
+    def get_text_channels(self):
+        if self.client:
+            return list(filter(lambda x: x.type is ChannelType.text, self.client.get_all_channels()))
+        else:
+            return []
+
+    def update_discord_channel_id(self, setting_name, old_value, new_value):
+        if self.client:
+            self.client.channel_id = int(new_value or 0)
