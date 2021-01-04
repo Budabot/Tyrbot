@@ -100,7 +100,9 @@ class WebsocketRelayController:
                 return_obj = json.dumps({"type": "ping", "payload": obj.payload})
                 self.worker.send_message(return_obj)
             elif obj.type == "connected":
+                # TODO how to handle when a bot disconnects from the relay who had online members
                 self.send_relay_message({"type": "online_list_request"})
+                self.send_relay_message(self.get_online_list_obj())
 
     @timerevent(budatime="1m", description="Ensure the bot is connected to websocket relay", is_hidden=True, is_enabled=False)
     def handle_connect_event(self, event_type, event_data):
@@ -156,28 +158,31 @@ class WebsocketRelayController:
                 for user in source.users:
                     self.add_online_char(user.id, channel)
         elif obj.type == "online_list_request":
-            sources = []
-            # TODO if not an org bot, skip ORG_CHANNEL
-            for channel in [OnlineController.ORG_CHANNEL, OnlineController.PRIVATE_CHANNEL]:
-                sql = """
-                    SELECT
-                        o.char_id AS id,
-                        COALESCE(p.name, o.char_id) AS name
-                    FROM online o
-                    LEFT JOIN player p ON (o.char_id = p.char_id)
-                    WHERE channel = ?
-                """
-                data = self.db.query(sql, [channel])
-                source_obj = self.create_source_obj(channel)
-                source_obj["users"]  = data
+            self.send_relay_message(self.get_online_list_obj())
 
-                sources.append(source_obj)
+    def get_online_list_obj(self):
+        sources = []
+        # TODO if not an org bot, skip ORG_CHANNEL
+        for channel in [OnlineController.ORG_CHANNEL, OnlineController.PRIVATE_CHANNEL]:
+            sql = """
+                SELECT
+                    o.char_id AS id,
+                    COALESCE(p.name, o.char_id) AS name
+                FROM online o
+                LEFT JOIN player p ON (o.char_id = p.char_id)
+                WHERE channel = ?
+            """
+            data = self.db.query(sql, [channel])
+            source_obj = self.create_source_obj(channel)
+            source_obj["users"]  = data
 
-            response_obj = {
-                "type": "online_list",
-                "sources": sources
-            }
-            self.send_relay_message(response_obj)
+            sources.append(source_obj)
+
+        response_obj = {
+            "type": "online_list",
+            "sources": sources
+        }
+        self.send_relay_message(response_obj)
 
     def send_relay_event(self, char_id, event_type, source):
         char_name = self.character_service.resolve_char_to_name(char_id)
