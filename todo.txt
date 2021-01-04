@@ -12,7 +12,6 @@ combine !is and !whois?
 decide whether commands should be singular or plural
 add bot name to database and fail on non-match
 automatically give leader when using loot:change commands
-rewrite config handling
 trader drain command
 
 

@@ -3,6 +3,7 @@ from core import config_creator
 from core.dict_object import DictObject
 from core.logger import Logger
 from core.aochat.mmdb_parser import MMDBParser
+from __init__ import merge_dicts
 import hjson
 import time
 import os
@@ -10,33 +11,8 @@ import platform
 import sys
 
 
-try:
-    # load logging configuration
-    import conf.logging
-
-    Registry.logger = Logger("core.registry")
-
-    logger = Logger("core.bootstrap")
-    logger.info("Starting Tyrbot...")
-    config_file = "./conf/config.hjson"
-
-    if sys.version_info < (3, 6):
-        logger.error("Python 3.6 is required (3.5 will not work)")
-        exit(0)
-
-    if sys.version_info >= (3, 7):
-        logger.warning("Python 3.7 is not yet supported; if you run into issues, considering downgrading to Python 3.6")
-
-    # start config wizard if config file does not exist
-    if not os.path.exists(config_file):
-        config_creator.create_new_cfg(config_file, "./conf/config.template.hjson")
-
-    # load config
-    logger.debug("Reading config file '%s'" % config_file)
-    with open(config_file, "r") as cfg:
-        config = DictObject(hjson.load(cfg))
-
-    # overwrite config values with env vars
+def get_config_from_env():
+    config = DictObject()
     for k, v in os.environ.items():
         if k.startswith("TYRBOT_"):
             keys = k[7:].lower().split("_")
@@ -48,6 +24,45 @@ try:
                 temp_config = temp_config.get(key)
             logger.debug("overriding config value from env var '%s'" % k)
             temp_config[keys[-1]] = v
+    return config
+
+
+try:
+    # load logging configuration
+    import conf.logging
+
+    Registry.logger = Logger("core.registry")
+
+    logger = Logger("core.bootstrap")
+    logger.info("Starting Tyrbot...")
+    template_config_file = "./conf/config.template.hjson"
+    config_file = "./conf/config.hjson"
+
+    if sys.version_info < (3, 6):
+        logger.error("Python 3.6 is required (3.5 will not work)")
+        exit(0)
+
+    if sys.version_info >= (3, 7):
+        logger.warning("Python 3.7 is not yet supported; if you run into issues, considering downgrading to Python 3.6")
+
+    # load template config file as a base set of defaults
+    with open(template_config_file, "r") as cfg:
+        config = DictObject(hjson.load(cfg))
+
+    # load config values from env vars
+    env_config = get_config_from_env()
+    if env_config:
+        config = merge_dicts(config, env_config)
+        logger.info("Reading config from env vars")
+    else:
+        # start config wizard if config file does not exist
+        if not os.path.exists(config_file):
+            config_creator.create_new_cfg(config_file, template_config_file)
+
+        # load config
+        logger.info("Reading config from file '%s'" % config_file)
+        with open(config_file, "r") as cfg:
+            config = DictObject(hjson.load(cfg))
 
     # ensure dimension is integer
     if isinstance(config.server.dimension, str):
