@@ -22,11 +22,7 @@ class DiscordWrapper(discord.Client):
         self.dqueue.append(("discord_ready", "ready"))
 
     async def on_message(self, message):
-        # TODO use bot command symbol
-        if message.content.startswith("!") and len(message.content) > 1:
-            command = message.content[1:]
-            self.dqueue.append(("discord_command", command))
-        elif not message.author.bot and message.channel.id == self.channel_id:
+        if not message.author.bot and message.channel.id == self.channel_id:
             self.dqueue.append(("discord_message", message))
 
     async def relay_message(self):
