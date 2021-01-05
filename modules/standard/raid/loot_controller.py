@@ -270,10 +270,10 @@ class LootController:
         if item_count is None:
             item_count = 1
         items = re.findall(r"(([^<]+)?<a href=[\"\']itemref://(\d+)/(\d+)/(\d+)[\"\']>([^<]+)</a>([^<]+)?)", item)
-        if items and item_count is 1:
+        if items and item_count == 1:
             for item in items:
                 item = self.text.make_item(int(item[2]), int(item[3]), int(item[4]), item[5])
-                if loot is not "":
+                if loot != "":
                     loot += ", " + item
                 else:
                     loot += item
