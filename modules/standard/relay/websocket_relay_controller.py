@@ -209,7 +209,7 @@ class WebsocketRelayController:
         self.db.exec("INSERT INTO online (char_id, afk_dt, afk_reason, channel, dt) VALUES (?, ?, ?, ?, ?)",
                      [char_id, 0, "", channel, int(time.time())])
         
-    def rem_online_char(self, char_id, channel):
+    def rem_online_char(self, char_id, source):
         channel = self.get_channel_name(source)
         self.db.exec("DELETE FROM online WHERE char_id = ? AND channel = ?", [char_id, channel])
         
