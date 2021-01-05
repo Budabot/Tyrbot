@@ -38,7 +38,7 @@ class CharacterHistoryController:
                 org = ""
 
             last_changed = self.util.format_date(int(float(row.last_changed)))
-            if row.deleted == "1": ## This value is output as string
+            if row.deleted == "1":  # This value is output as string
                 blob += "%s |  <red>DELETED<end>\n" % (last_changed)
             else:
                 blob += "%s |  %s  | <green>%s<end> | %s | %s | %s\n" % \

@@ -45,7 +45,7 @@ class WebsocketRelayController:
         self.message_hub_service.register_message_source(self.MESSAGE_SOURCE, self.handle_message_from_hub)
 
         self.initialize_encrypter(self.websocket_encryption_key().get_value())
-            
+
         self.setting_service.register_change_listener("websocket_relay_enabled", self.websocket_relay_update)
         self.setting_service.register_change_listener("websocket_relay_server_address", self.websocket_relay_update)
         self.setting_service.register_change_listener("websocket_encryption_key", self.websocket_relay_update)
@@ -208,11 +208,11 @@ class WebsocketRelayController:
 
         self.db.exec("INSERT INTO online (char_id, afk_dt, afk_reason, channel, dt) VALUES (?, ?, ?, ?, ?)",
                      [char_id, 0, "", channel, int(time.time())])
-        
+
     def rem_online_char(self, char_id, source):
         channel = self.get_channel_name(source)
         self.db.exec("DELETE FROM online WHERE char_id = ? AND channel = ?", [char_id, channel])
-        
+
     def send_relay_message(self, message):
         if self.worker:
             message = json.dumps(message)
@@ -226,7 +226,7 @@ class WebsocketRelayController:
             # TODO use relay_symbol to determine if message should be relayed or not
 
             obj = {"user": self.create_user_obj(ctx.sender),
-                   "message": ctx.message,
+                   "message": ctx.message or ctx.formatted_message,
                    "type": "message",
                    "source": self.create_source_obj(ctx.source)}
             self.send_relay_message(obj)
