@@ -211,8 +211,10 @@ class OnlineController:
         count = 0
         for channel in self.channels:
             online_list = self.get_online_characters(channel)
-            if len(online_list) > 0:
-                blob += "<header2>%s Channel<end>\n" % channel
+            if len(online_list) == 0:
+                continue
+
+            blob += "<header2>%s Channel<end>\n" % channel
 
             current_main = ""
             for row in online_list:
