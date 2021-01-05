@@ -164,7 +164,7 @@ class WebsocketRelayController:
         sources = []
         for channel in [OnlineController.ORG_CHANNEL, OnlineController.PRIVATE_CHANNEL]:
             # if not an org bot, skip ORG_CHANNEL
-            if not self.public_channel_service.get_org_id():
+            if channel == OnlineController.ORG_CHANNEL and not self.public_channel_service.get_org_id():
                 continue
 
             sql = """
@@ -222,8 +222,9 @@ class WebsocketRelayController:
             self.worker.send_message(obj)
 
     def handle_message_from_hub(self, ctx):
-        # TODO use relay_symbol to determine if message should be relayed or not
         if self.worker:
+            # TODO use relay_symbol to determine if message should be relayed or not
+
             obj = {"user": self.create_user_obj(ctx.sender),
                    "message": ctx.message,
                    "type": "message",
