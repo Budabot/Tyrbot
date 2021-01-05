@@ -20,5 +20,5 @@ class CalculatorControllerTest(unittest.TestCase):
         self.assertEqual("~10 = -11", calculator_controller.calc_cmd(None, "~10"))
         self.assertEqual("10 << 1 = 20", calculator_controller.calc_cmd(None, "10 << 1"))
         self.assertEqual("10 >> 1 = 5", calculator_controller.calc_cmd(None, "10 >> 1"))
-        self.assertEqual("Invalid character detected.", calculator_controller.calc_cmd(None, "1 + 1 = 2f"))
-        self.assertEqual("Invalid formula supplied.", calculator_controller.calc_cmd(None, "10+-&"))
+        self.assertEqual("Error! Invalid character detected.", calculator_controller.calc_cmd(None, "1 + 1 = 2f"))
+        self.assertEqual("Error! Invalid formula supplied.", calculator_controller.calc_cmd(None, "10+-&"))
