@@ -1,8 +1,8 @@
 # Tyrbot
 
-This is a rewrite of the original [Budabot](https://github.com/Budabot/Budabot) in Python3.  
+Tyrbot is an in-game chatbot for the MMORPG Anarchy Online released by Funcom in 2001.
 
-Budabot is an in-game chat-bot for the MMORPG Anarchy Online released by Funcom in 2001.
+This is a rewrite of [Budabot](https://github.com/Budabot/Budabot) in Python 3.
 
 ## Requirements
 
@@ -12,7 +12,7 @@ Tyrbot requires Python 3.6.  Neither Python 3.5 or Python 3.7 will work.  We are
 
 Tyrbot is now ready for general use and is recommended over Budabot or any other bot for all new installations.
 
-Currently there are no releases for Tyrbot but you can download the bot from here which will always have the very latest changes: [https://github.com/Budabot/Tyrbot/archive/master.zip](https://github.com/Budabot/Tyrbot/archive/master.zip)
+Currently there are no releases for Tyrbot but you can download the bot from here which will always have the very latest changes: https://github.com/Budabot/Tyrbot/archive/master.zip
 
 Then simply unzip the bot somewhere before starting it.
 
@@ -20,7 +20,7 @@ Then simply unzip the bot somewhere before starting it.
 
 If you are running a version of Tyrbot and simply want to upgrade to the latest version, follow these steps:
 
-1. Download the latest version from here: [https://github.com/Budabot/Tyrbot/archive/master.zip](https://github.com/Budabot/Tyrbot/archive/master.zip)
+1. Download the latest version from here: https://github.com/Budabot/Tyrbot/archive/master.zip
 1. Unzip the bot to a new location (do not just unzip it over the top of the old installation)
 1. From the old installation, copy the `./conf`, `./data`, and optionally, the `./logs` directories to the new installation
 1. If you have any custom modules, copy the `./modules/custom/` directory over as well
@@ -36,12 +36,11 @@ If it is your first time running the bot, or if the config.json file does not ex
 
 ## Support
 
-If you need help or support with Tyrbot, join our discord channel: [https://discord.gg/2x9WesJ](https://discord.gg/2x9WesJ)
+If you need help or support with Tyrbot, join our discord channel: https://discord.gg/2x9WesJ
 
 ## Discord Module Setup
 
-If you would like to connect your bot to your Discord server, follow this guide:
-[https://github.com/Budabot/Tyrbot/wiki/Discord-Setup](https://github.com/Budabot/Tyrbot/wiki/Discord-Setup)
+If you would like to connect your bot to your Discord server, follow this guide: https://github.com/Budabot/Tyrbot/wiki/Discord-Setup
 
 - The library used to build the module can be found https://discordpy.readthedocs.io/en/latest/index.html.
 - The official Discord API documentation can be found https://discordapp.com/developers/docs/intro.
@@ -67,4 +66,4 @@ You can choose to mount a config file into the container, or set the config valu
 
 You may also wish to disable logging to the file system by mounting a custom `conf/logging.py` file.
 
-You can also look at our guide for using docker-compose to manage a Docker container withy Tyrbot: https://github.com/Budabot/Tyrbot/wiki/Running-Tyrbot-with-Docker-Compose
+You can also look at our guide for using docker-compose to manage a Docker container running Tyrbot: https://github.com/Budabot/Tyrbot/wiki/Running-Tyrbot-with-Docker-Compose
