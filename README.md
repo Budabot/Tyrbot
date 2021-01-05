@@ -43,47 +43,28 @@ If you need help or support with Tyrbot, join our discord channel: [https://disc
 If you would like to connect your bot to your Discord server, follow this guide:
 [https://github.com/Budabot/Tyrbot/wiki/Discord-Setup](https://github.com/Budabot/Tyrbot/wiki/Discord-Setup)
 
-- The library used to build the module can be found [here](https://discordpy.readthedocs.io/en/latest/index.html).
-- The official Discord API documentation can be found [here](https://discordapp.com/developers/docs/intro).
-- The official Discord API server can be joined [here](https://discord.gg/discord-api).
+- The library used to build the module can be found https://discordpy.readthedocs.io/en/latest/index.html.
+- The official Discord API documentation can be found https://discordapp.com/developers/docs/intro.
+- The official Discord API server can be joined at https://discord.gg/discord-api.
 
 ## Writing Custom Modules
 
-See the Wiki page: [https://github.com/Budabot/Tyrbot/wiki/Writing-Custom-Modules](https://github.com/Budabot/Tyrbot/wiki/Writing-Custom-Modules)
+See the Wiki page: https://github.com/Budabot/Tyrbot/wiki/Writing-Custom-Modules
 
 ## Running in Docker
 
-Basic commands for running the bot in docker:
-
+Example:
 ```bash
-docker build -t tyrbot .
-docker run --rm -it --name name_of_bot -v /path/to/tyrbot:/app tyrbot
+docker run -d --restart=always -v /path/on/host/data:/app/data -e TYRBOT_USERNAME="username" -e TYRBOT_PASSWORD="password" -e TYRBOT_CHARACTER="bot_character" -e TYRBOT_SUPERADMIN="your_character" tyrbot:latest
 ```
+Note: The container puts the Tyrbot files in /app
 
-Cloud version of docker:
-1. Configurate with env settings (docker -e)
-1. Mount sqlite directory to the container
-1. Disable logging to filesystem
-1. Let docker handle bot restart
+Other mounts you may want:
+`-v /path/on/host/logs:/app/logs` for capturing logs
+`-v /path/on/host/conf:/app/conf` for specifying a config file or overriding logging configuration
 
-```bash
-docker build -t tyrbot -f Dockerfile.prod .
-docker run -d --restart=always -v /path/to/tyrbot/data:/app/data tyrbot
-```
+You can choose to mount a config file into the container, or set the config values through ENV vars. All ENV vars should start with "TYRBOT_", be in all capital letters, and use underscore (`_`) to denote a sub category in the config (ex: TYRBOT_DATABASE_TYPE=sqlite).  The bot will ignore your config file if any "TYRBOT_*" ENV vars have been set. If you need to override the `module_paths` value then you must mount a `conf/config.hjson` file as there is no way to set that via ENV vars.
 
-We recommend [using a docker-compose setup](https://github.com/Budabot/Tyrbot/wiki/Running-Tyrbot-with-Docker-Compose)
-to host a stable bot in docker.
+You may also wish to disable logging to the file system by mounting a custom `conf/logging.py` file.
 
-## Advanced
-
-In more advanced cases you might not want to put credentials
-in the `config.hjson` file. Enviroment variables can instead
-be used. The account fields in the config file can left blank when
-the following enviroment variables are defined.
-
-```bash
-TYRBOT_USERNAME=myaccount
-TYRBOT_PASSWORD=mypassword
-TYRBOT_CHARACTER=Bot
-TYRBOT_SUPERADMIN=TheBoss
-```
+You can also look at our guide for using docker-compose to manage a Docker container withy Tyrbot: https://github.com/Budabot/Tyrbot/wiki/Running-Tyrbot-with-Docker-Compose
