@@ -210,6 +210,7 @@ class WebsocketRelayController:
                      [char_id, 0, "", channel, int(time.time())])
         
     def rem_online_char(self, char_id, channel):
+        channel = self.get_channel_name(source)
         self.db.exec("DELETE FROM online WHERE char_id = ? AND channel = ?", [char_id, channel])
         
     def send_relay_message(self, message):
