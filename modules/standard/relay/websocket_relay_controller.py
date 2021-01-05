@@ -287,21 +287,23 @@ class WebsocketRelayController:
     def create_source_obj(self, source):
         org_name = self.public_channel_service.get_org_name()
         channel = ""
-        if org_name and (source == "private_channel" or source == OnlineController.PRIVATE_CHANNEL):
-            channel = "Guest"
+        if org_name:
+            if source == "private_channel" or source == OnlineController.PRIVATE_CHANNEL:
+                channel = "Guest"
         else:
-            channel = source.capitalize()
+            if source != "private_channel" and source != OnlineController.PRIVATE_CHANNEL:
+                channel = source.capitalize()
 
-        type = source
+        channel_type = source
         if source == "private_channel" or source == OnlineController.PRIVATE_CHANNEL:
-            type = "priv"
+            channel_type = "priv"
         elif source == "org_channel" or source == OnlineController.ORG_CHANNEL:
-            type = "org"
+            channel_type = "org"
 
         return {
-            "name": self.public_channel_service.get_org_name() or self.bot.char_name,
+            "name": org_name or self.bot.char_name,
             "label": self.setting_service.get("relay_prefix").get_value() or "",
             "channel": channel,
-            "type": type,
+            "type": channel_type,
             "server": self.bot.dimension
         }
