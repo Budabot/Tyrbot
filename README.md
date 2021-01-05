@@ -28,6 +28,8 @@ If you are running a version of Tyrbot and simply want to upgrade to the latest 
 1. In a few rare cases, the bot may not start because the config file format changed between versions and you may need to compare your config.hjson to the template version and make changes accordingly
 1. You can now delete the old installation
 
+If you want to upgrade from Budabot, follow the instructions here: https://github.com/Budabot/Tyrbot/wiki/Migrating-From-Budabot
+
 ## Starting Tyrbot
 
 To start the bot, run either `start.bat` or `start.sh`.
