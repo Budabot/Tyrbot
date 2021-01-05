@@ -281,15 +281,14 @@ class DiscordController:
             self.dqueue,
             self.aoqueue)
 
-        self.dthread = threading.Thread(target=self.run_discord_thread, args=(token,), daemon=True)
+        self.dthread = threading.Thread(target=self.run_discord_thread, args=(self.client, token), daemon=True)
         self.dthread.start()
-        self.client.loop.create_task(self.client.relay_message())
 
-    def run_discord_thread(self, *args, **kwargs):
+    def run_discord_thread(self, client, token):
         try:
             self.logger.info("connecting to discord")
-            loop = asyncio.new_event_loop()
-            loop.run_until_complete(self.client.run(*args, **kwargs))
+            client.loop.create_task(client.start(token))
+            client.loop.run_until_complete(client.relay_message())
         except Exception as e:
             self.logger.error("discord connection lost", e)
 

@@ -12,6 +12,7 @@ from modules.standard.discord.discord_message import DiscordMessage
 class DiscordWrapper(discord.Client):
     def __init__(self, channel_id, dqueue, aoqueue):
         super().__init__(intents=discord.Intents(guilds=True, invites=True, guild_messages=True, members=True))
+        asyncio.set_event_loop(asyncio.new_event_loop())
         self.logger = Logger(__name__)
         self.dqueue = dqueue
         self.aoqueue = aoqueue
