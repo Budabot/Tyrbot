@@ -145,9 +145,9 @@ class WebsocketRelayController:
 
             self.message_hub_service.send_message(self.MESSAGE_SOURCE, obj.get("user", None), obj.message, message)
         elif obj.type == "logon":
-            self.add_online_char(obj.user.id, self.get_channel_name(obj.source))
+            self.add_online_char(obj.user.id, obj.user.name, obj.source)
         elif obj.type == "logoff":
-            self.rem_online_char(obj.user.id, self.get_channel_name(obj.source))
+            self.rem_online_char(obj.user.id, obj.source)
         elif obj.type == "online_list":
             for online_obj in obj.online:
                 if online_obj.source.type not in ["org", "priv"]:
@@ -156,7 +156,7 @@ class WebsocketRelayController:
                 channel = self.get_channel_name(online_obj.source)
                 self.db.exec("DELETE FROM online WHERE channel = ?", [channel])
                 for user in online_obj.users:
-                    self.add_online_char(user.id, channel)
+                    self.add_online_char(user.id, user.name, online_obj.source)
         elif obj.type == "online_list_request":
             self.send_relay_message(self.get_online_list_obj())
 
@@ -195,11 +195,17 @@ class WebsocketRelayController:
                "source": self.create_source_obj(source)}
         self.send_relay_message(obj)
 
-    def add_online_char(self, char_id, channel):
-        self.pork_service.load_character_info(char_id)
+    def add_online_char(self, char_id, name, source):
+        # TODO how to handle chars not on current server
+        if not char_id or (source.server and source.server != self.bot.dimension):
+            return
+
+        self.pork_service.load_character_info(char_id, name)
+        channel = self.get_channel_name(source)
         if channel not in self.channels:
             self.online_controller.register_online_channel(channel)
             self.channels.append(channel)
+
         self.db.exec("INSERT INTO online (char_id, afk_dt, afk_reason, channel, dt) VALUES (?, ?, ?, ?, ?)",
                      [char_id, 0, "", channel, int(time.time())])
         
@@ -281,8 +287,8 @@ class WebsocketRelayController:
         channel = ""
         if org_name and (source == "private_channel" or source == OnlineController.PRIVATE_CHANNEL):
             channel = "Guest"
-        elif source == "discord":
-            channel = "Discord"
+        else:
+            channel = source.capitalize()
 
         type = source
         if source == "private_channel" or source == OnlineController.PRIVATE_CHANNEL:
