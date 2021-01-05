@@ -241,7 +241,7 @@ class DiscordController:
 
         formatted_message = "<grey>[<end>%sDiscord<end><grey>]<end> %s%s<end><grey>:<end> %s%s<end>" % (chanclr, nameclr, name, mesgclr, message.content)
 
-        self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, message.content, formatted_message)
+        self.message_hub_service.send_message(self.MESSAGE_SOURCE, DictObject({"name": name}), message.content, formatted_message)
 
     @event(event_type="discord_invites", description="Handles invite requests")
     def handle_discord_invite_event(self, event_type, event_data):

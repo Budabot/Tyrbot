@@ -270,7 +270,7 @@ class WebsocketRelayController:
     def create_user_obj(self, sender):
         if sender:
             return {
-                "id": sender.char_id,
+                "id": sender.get("char_id", None),
                 "name": sender.name
             }
         else:
@@ -281,6 +281,8 @@ class WebsocketRelayController:
         channel = ""
         if org_name and (source == "private_channel" or source == OnlineController.PRIVATE_CHANNEL):
             channel = "Guest"
+        elif source == "discord":
+            channel = "Discord"
 
         type = source
         if source == "private_channel" or source == OnlineController.PRIVATE_CHANNEL:
