@@ -50,6 +50,7 @@ class CommandService:
         self.usage_service = registry.get_instance("usage_service")
         self.public_channel_service = registry.get_instance("public_channel_service")
         self.ban_service = registry.get_instance("ban_service")
+        self.executor_service = registry.get_instance("executor_service")
         self.getresp = registry.get_instance("translation_service").get_response
 
     def pre_start(self):
@@ -67,7 +68,7 @@ class CommandService:
         for _, inst in Registry.get_all_instances().items():
             for name, method in get_attrs(inst).items():
                 if hasattr(method, "command"):
-                    cmd_name, params, access_level, description, help_file, sub_command, extended_description = getattr(method, "command")
+                    cmd_name, params, access_level, description, help_file, sub_command, extended_description, thread_support = getattr(method, "command")
                     handler = getattr(inst, name)
                     module = self.util.get_module_name(handler)
                     help_text = self.get_help_file(module, help_file)
@@ -178,9 +179,17 @@ class CommandService:
                 cmd_config, matches, handler = self.get_matches(cmd_configs, command_args)
                 if matches:
                     if handler["check_access"](char_id, cmd_config.access_level):
-                        response = handler["callback"](CommandRequest(channel, sender, reply), *self.process_matches(matches, handler["params"]))
-                        if response is not None:
-                            reply(response)
+                        thread_support = getattr(handler["callback"], "command")[7]
+
+                        def call_command_handler():
+                            response = handler["callback"](CommandRequest(channel, sender, reply), *self.process_matches(matches, handler["params"]))
+                            if response is not None:
+                                reply(response)
+
+                        if thread_support:
+                            self.executor_service.submit_job(10, call_command_handler)
+                        else:
+                            call_command_handler()
 
                         # record command usage
                         self.usage_service.add_usage(command_str, handler["callback"].__qualname__, char_id, channel)

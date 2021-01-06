@@ -32,12 +32,12 @@ class OrgListController:
         self.character_service = registry.get_instance("character_service")
 
     @command(command="orglist", params=[Int("org_id")], access_level="all",
-             description="Show online status of characters in an org")
+             description="Show online status of characters in an org", thread_support=True)
     def orglist_cmd(self, request, org_id):
         self.start_orglist_lookup(request.reply, org_id)
 
     @command(command="orglist", params=[Any("character|org_name|org_id")], access_level="all",
-             description="Show online status of characters in an org")
+             description="Show online status of characters in an org", thread_support=True)
     def orglist_character_cmd(self, request, search):
         if search.isdigit():
             org_id = int(search)
@@ -83,10 +83,8 @@ class OrgListController:
         reply("Checking online status for %d members of <highlight>%s<end>..." % (len(self.orglist.org_members), self.orglist.org_info.name))
 
         # process all name lookups
-        while self.bot.iterate():
-            pass
-
-        self.iterate_org_members()
+        #while self.bot.iterate():
+        #    pass
 
         self.check_for_orglist_end()
 

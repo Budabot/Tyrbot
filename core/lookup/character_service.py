@@ -1,3 +1,5 @@
+import threading
+
 from core.decorators import instance
 from core.aochat.client_packets import CharacterLookup
 from core.aochat import server_packets
@@ -11,6 +13,7 @@ class CharacterService:
         self.name_to_id = {}
         self.id_to_name = {}
         self.waiting_for_response = set()
+        self.notify_on_receive = {}
 
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
@@ -23,9 +26,13 @@ class CharacterService:
     def _wait_for_char_id(self, char_name):
         # char_name must be .capitalize()'ed
 
-        packet = self.bot.iterate()
-        while packet and char_name not in self.name_to_id:
-            packet = self.bot.iterate()
+        event = self.notify_on_receive.get(char_name, None)
+        if event is None:
+            event = threading.Event()
+            self.notify_on_receive[char_name] = event
+
+        if char_name not in self.name_to_id:
+            event.wait(2)
 
         return self.name_to_id.get(char_name, None)
 
@@ -61,6 +68,10 @@ class CharacterService:
             self.id_to_name[packet.char_id] = packet.name
             self.name_to_id[packet.name] = packet.char_id
             self._update_name_history(packet.name, packet.char_id)
+
+        event = self.notify_on_receive.pop(packet.name, None)
+        if event:
+            event.set()
 
     def _update_name_history(self, char_name, char_id):
         params = [char_name, char_id, int(time.time())]
