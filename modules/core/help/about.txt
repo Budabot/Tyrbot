@@ -8,9 +8,10 @@ I would like to give special thanks to these people who contributed significant 
 -<highlight>eli(vlad)<end> for his large contributions to Tyrbot including the news, discord, and raid modules
 -<highlight>Teeko<end> for all the time he spent testing new features, reporting bugs, and making suggestions
 -<highlight>nepherius/wafflespower<end> who was critical during the early parts of development in testing and suggesting changes
+-<highlight>minidodo<end> for his significant contributions and fixes to Tyrbot, and his willingness to assist other users in the Discord channel
+
 
 Thanks to these people who submitted PRs on GitHub to improve Tyrbot:
-<highlight>minidodo<end>
 <highlight>hughp135<end>
 <highlight>jroovers<end>
 <highlight>dustify<end>
