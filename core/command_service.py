@@ -182,9 +182,13 @@ class CommandService:
                         thread_support = getattr(handler["callback"], "command")[7]
 
                         def call_command_handler():
-                            response = handler["callback"](CommandRequest(channel, sender, reply), *self.process_matches(matches, handler["params"]))
-                            if response is not None:
-                                reply(response)
+                            try:
+                                response = handler["callback"](CommandRequest(channel, sender, reply), *self.process_matches(matches, handler["params"]))
+                                if response is not None:
+                                    reply(response)
+                            except Exception as e:
+                                self.logger.error("error processing command: %s" % message, e)
+                                reply(self.getresp("global", "error_proccessing"))
 
                         if thread_support:
                             self.executor_service.submit_job(10, call_command_handler)
