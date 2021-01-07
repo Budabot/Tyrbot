@@ -45,9 +45,10 @@ class WebsocketRelayController:
         self.message_hub_service.register_message_source(self.MESSAGE_SOURCE)
 
     def start(self):
-        self.message_hub_service.subscribe_message_source(self.MESSAGE_SOURCE,
-                                                          self.handle_message_from_hub,
-                                                          ["private_channel", "org_channel", "discord", "tell_relay"])
+        self.message_hub_service.register_message_destination(self.MESSAGE_SOURCE,
+                                                              self.handle_message_from_hub,
+                                                              ["private_channel", "org_channel", "discord", "tell_relay"],
+                                                              [self.MESSAGE_SOURCE])
 
         self.initialize_encrypter(self.websocket_encryption_key().get_value())
 

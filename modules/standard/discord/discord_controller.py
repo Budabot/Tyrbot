@@ -2,8 +2,6 @@ import datetime
 import logging
 import re
 import threading
-import time
-import asyncio
 from html.parser import HTMLParser
 
 import hjson
@@ -79,9 +77,10 @@ class DiscordController:
         self.message_hub_service.register_message_source(self.MESSAGE_SOURCE)
 
     def start(self):
-        self.message_hub_service.subscribe_message_source(self.MESSAGE_SOURCE,
-                                                          self.handle_incoming_relay_message,
-                                                          ["private_channel", "org_channel", "websocket_relay", "tell_relay"])
+        self.message_hub_service.register_message_destination(self.MESSAGE_SOURCE,
+                                                              self.handle_incoming_relay_message,
+                                                              ["private_channel", "org_channel", "websocket_relay", "tell_relay"],
+                                                              [self.MESSAGE_SOURCE])
         self.register_discord_command_handler(self.help_discord_cmd, "help", [])
 
         self.setting_service.register_change_listener("discord_channel_id", self.update_discord_channel_id)
@@ -218,8 +217,12 @@ class DiscordController:
 
     @event(event_type="discord_command", description="Handles Discord commands", is_hidden=True)
     def handle_discord_command_event(self, event_type, message):
+        if not self.find_discord_command_handler(message):
+            # TODO fall back to normal command handlers
+            pass
+
+    def find_discord_command_handler(self, message):
         command_str, command_args = self.command_service.get_command_parts(message)
-        # TODO fall back to normal command if no discord equivalents are found
         for handler in self.command_handlers:
             if handler.command == command_str:
                 matches = handler.regex.search(command_args)
@@ -227,10 +230,12 @@ class DiscordController:
                 ctx = DictObject()
 
                 if matches:
-                    handler.callback(ctx, self.discord_command_reply, self.command_service.process_matches(matches, handler.params))
+                    handler.callback(ctx, self.discord_command_reply,
+                                     self.command_service.process_matches(matches, handler.params))
                 else:
                     self.discord_command_reply(self.generate_help(command_str, handler.params), "Command Help")
-                break
+                return True
+        return False
 
     def discord_command_reply(self, content, title=None):
         if isinstance(content, ChatBlob):

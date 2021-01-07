@@ -39,9 +39,10 @@ class AllianceRelayController:
         self.setting_service.register("arelay_color", "#C3C3C3", "Color of messages from relay",
                                       ColorSettingType(), "custom.arelay")
 
-        self.message_hub_service.subscribe_message_source(self.MESSAGE_SOURCE,
-                                                          self.handle_relay_hub_message,
-                                                          ["org_channel"])
+        self.message_hub_service.register_message_destination(self.MESSAGE_SOURCE,
+                                                              self.handle_relay_hub_message,
+                                                              ["org_channel"],
+                                                              [self.MESSAGE_SOURCE])
 
         self.bot.add_packet_handler(server_packets.PrivateChannelInvited.id, self.handle_private_channel_invite, 100)
         self.bot.add_packet_handler(server_packets.PrivateChannelMessage.id, self.handle_private_channel_message)

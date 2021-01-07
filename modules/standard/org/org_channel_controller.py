@@ -33,9 +33,10 @@ class OrgChannelController:
         self.message_hub_service.register_message_source(self.MESSAGE_SOURCE)
 
     def start(self):
-        self.message_hub_service.subscribe_message_source(self.MESSAGE_SOURCE,
-                                                          self.handle_incoming_relay_message,
-                                                          ["private_channel", "discord", "websocket_relay", "tell_relay"])
+        self.message_hub_service.register_message_destination(self.MESSAGE_SOURCE,
+                                                              self.handle_incoming_relay_message,
+                                                              ["private_channel", "discord", "websocket_relay", "tell_relay"],
+                                                              [self.MESSAGE_SOURCE])
 
     def handle_incoming_relay_message(self, ctx):
         self.bot.send_org_message(ctx.formatted_message, fire_outgoing_event=False)
