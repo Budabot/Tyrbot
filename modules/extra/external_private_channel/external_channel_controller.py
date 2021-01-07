@@ -40,11 +40,9 @@ class ExternalChannelController:
             # ignore leading space
             message = packet.message.lstrip()
 
-            symbol = message[:1]
-            command_str = message[1:]
-            if symbol == self.setting_service.get("symbol").get_value():
+            if message.startswith(self.setting_service.get("symbol").get_value()):
                 self.command_service.process_command(
-                    command_str,
+                    self.command_service.trim_command_symbol(message),
                     self.command_service.PRIVATE_CHANNEL,
                     packet.char_id,
                     lambda msg: self.bot.send_private_channel_message(msg, private_channel=packet.private_channel_id))

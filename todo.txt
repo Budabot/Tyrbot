@@ -1,6 +1,5 @@
 remove timer_event table and store next_run in meta_data column of event_config
 
-consider a replication strategy
 Time command param to include both seconds and time_str
 fix number grouping on linux
 investigate async/await for events and commands
@@ -11,10 +10,9 @@ expose poh loot with !loot command
 add a command to list all raid loot categories, cleanup !loot subcommands
 combine !is and !whois?
 decide whether commands should be singular or plural
-add callback for settings, allow callbacks to modify/format setting value -or- have them create a custom setting and override set value, but this does not allow for a setting context
-add better char_id -> char_name resolution
 add bot name to database and fail on non-match
 automatically give leader when using loot:change commands
+trader drain command
 
 
 EVENTS

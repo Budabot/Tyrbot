@@ -1,5 +1,5 @@
 import itertools
-
+from core.dict_object import DictObject
 
 def flatmap(func, *iterable):
     return itertools.chain.from_iterable(map(func, *iterable))
@@ -12,3 +12,7 @@ def get_attrs(obj):
         attrs.update(cls.__dict__.items())
     attrs.update(obj.__class__.__dict__.items())
     return attrs
+
+def merge_dicts(dict1, dict2):
+    res = DictObject({**dict1, **dict2})
+    return res

@@ -35,7 +35,7 @@ if not old_db.get_type():
 if not new_db.get_type():
     print("Error! Specify connection method for new_db")
     exit(1)
-	
+
 # TODO check python version
 
 # admin
@@ -146,6 +146,7 @@ with new_db.transaction():
                     [row.ai_level, row.ai_rank, row.breed, row.charid, row.dimension, row.faction, row.firstname, row.gender, row.head_id if row.head_id else 0, row.lastname, row.last_update, row.level,
                      row.name, row.guild_id, row.guild, row.guild_rank_id, row.guild_rank, row.profession, row.prof_title, row.pvp_rating if row.pvp_rating else 0, row.pvp_title if row.pvp_title else "", row.source])
 print("migrated %d records" % len(data))
+# maybe this is needed also? new_db_exec("DELETE FROM player WHERE char_id = 4294967295")
 
 # quote
 print("migrating data to quote table")

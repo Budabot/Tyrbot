@@ -321,13 +321,8 @@ class CommandService:
         # ignore leading space
         message = packet.message.lstrip()
 
-        if message[:1] == self.setting_service.get("symbol").get_value():
-            command_str = message[1:]
-        else:
-            command_str = message
-
         self.process_command(
-            command_str,
+            self.trim_command_symbol(message),
             self.PRIVATE_MESSAGE_CHANNEL,
             packet.char_id,
             lambda msg: self.bot.send_private_message(packet.char_id, msg))
@@ -342,11 +337,9 @@ class CommandService:
         # ignore leading space
         message = packet.message.lstrip()
 
-        symbol = message[:1]
-        command_str = message[1:]
-        if symbol == self.setting_service.get("symbol").get_value() and packet.private_channel_id == self.bot.char_id:
+        if message.startswith(self.setting_service.get("symbol").get_value()) and packet.private_channel_id == self.bot.char_id:
             self.process_command(
-                command_str,
+                self.trim_command_symbol(message),
                 self.PRIVATE_CHANNEL,
                 packet.char_id,
                 lambda msg: self.bot.send_private_channel_message(msg))
@@ -361,11 +354,15 @@ class CommandService:
         # ignore leading space
         message = packet.message.lstrip()
 
-        symbol = message[:1]
-        command_str = message[1:]
-        if symbol == self.setting_service.get("symbol").get_value() and self.public_channel_service.is_org_channel_id(packet.channel_id):
+        if message.startswith(self.setting_service.get("symbol").get_value()) and self.public_channel_service.is_org_channel_id(packet.channel_id):
             self.process_command(
-                command_str,
+                self.trim_command_symbol(message),
                 self.ORG_CHANNEL,
                 packet.char_id,
                 lambda msg: self.bot.send_org_message(msg))
+
+    def trim_command_symbol(self, s):
+        symbol = self.setting_service.get("symbol").get_value()
+        if s.startswith(symbol):
+            s = s[len(symbol):]
+        return s

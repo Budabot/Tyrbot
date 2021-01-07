@@ -98,8 +98,10 @@ class PorkService:
 
             return db_char_info
 
-    def load_character_info(self, char_id):
+    def load_character_info(self, char_id, char_name=None):
         char_info = self.get_character_info(char_id)
+        if not char_info and char_name:
+            char_info = self.get_character_info(char_name)
         if not char_info:
             char_info = DictObject({
                 "name": "Unknown:" + str(char_id),

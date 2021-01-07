@@ -6,7 +6,7 @@
       "Channels available: <highlight>{count}<end>\n\n",
       "<header2>Servers<end>\n",
       "{servers}\n",
-      "<header2>Subscribed channels<end>\n",
+      "<header2>Channels<end>\n",
       "{subs}",
       "\n\nDiscord Module written by <highlight>Vladimirovna<end>\n"
     ],
@@ -16,7 +16,7 @@
       "Verfügbare Channel: <highlight>{count}<end>\n\n",
       "<header2>Server<end>\n",
       "{servers}\n",
-      "<header2>Abonnierte Channel<end>\n",
+      "<header2>Channel<end>\n",
       "{subs}",
       "\n\nDas Discord Modul wurde von <highlight>Vladimirovna<end> geschrieben\n"
     ]
@@ -79,25 +79,17 @@
   "sub": {
     "en_US": [
       "<highlight>{server_name}<end> :: <highlight>{channel_name}<end>\n",
-      " └ relaying from AO [{relay_ao}]\n",
-      " └ relaying from Discord [{relay_dc}]\n"
     ],
     "de_DE": [
       "<highlight>{server_name}<end> :: <highlight>{channel_name}<end>\n",
-      " └ Weiterleitung vom AO Chat ist [{relay_ao}]\n",
-      " └ Weiterleitung vom Discord Chat ist [{relay_dc}]\n"
     ]
   },
   "relay": {
     "en_US": [
-      "<highlight>{server_name}<end> :: <highlight>{channel_name}<end>\n",
-      " └ relaying from AO [{relay_ao}] [{switch_ao}]\n",
-      " └ relaying from Discord [{relay_dc}] [{switch_dc}]\n"
+      "<highlight>{server_name}<end> :: <highlight>{channel_name}<end> [{select}]\n",
     ],
     "de_DE": [
-      "<highlight>{server_name}<end> :: <highlight>{channel_name}<end>\n",
-      " └ Weiterleitung vom AO Chat ist [{relay_ao}] [{switch_ao}]\n",
-      " └ Weiterleitung vom Discord Chat ist [{relay_dc}] [{switch_dc}]\n"
+      "<highlight>{server_name}<end> :: <highlight>{channel_name}<end> [{select}]\n",
     ]
   },
   "title": {
