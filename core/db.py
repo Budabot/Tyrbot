@@ -1,3 +1,5 @@
+import threading
+
 from core.decorators import instance
 from core.dict_object import DictObject
 from core.logger import Logger
@@ -20,6 +22,7 @@ class DB:
         self.lastrowid = None
         self.logger = Logger(__name__)
         self.type = None
+        self.transaction_level = 0
 
     def sqlite_row_factory(self, cursor: sqlite3.Cursor, row):
         d = {}
@@ -36,7 +39,7 @@ class DB:
 
     def connect_sqlite(self, filename):
         self.type = self.SQLITE
-        self.conn = sqlite3.connect(filename, isolation_level=None)
+        self.conn = sqlite3.connect(filename, isolation_level=None, check_same_thread=False)
         self.conn.row_factory = self.sqlite_row_factory
         self.create_db_version_table()
 
@@ -209,13 +212,19 @@ class DB:
         return False
 
     def begin_transaction(self):
-        self.exec("BEGIN;")
+        if self.transaction_level == 0:
+            self.exec("BEGIN;")
+        self.transaction_level += 1
 
     def commit_transaction(self):
-        self.exec("COMMIT;")
+        if self.transaction_level == 1:
+            self.exec("COMMIT;")
+        self.transaction_level -= 1
 
     def rollback_transaction(self):
-        self.exec("ROLLBACK;")
+        if self.transaction_level == 1:
+            self.exec("ROLLBACK;")
+        self.transaction_level -= 1
 
 
 class SqlException(Exception):

@@ -1,9 +1,6 @@
-import math
-
 from core.chat_blob import ChatBlob
 from core.decorators import instance, command
-from core.command_param_types import Any, Const, Int
-from core.dict_object import DictObject
+from core.command_param_types import Any, Int
 
 
 @instance()
@@ -14,7 +11,6 @@ class PerksController:
     def inject(self, registry):
         self.db = registry.get_instance("db")
         self.util = registry.get_instance("util")
-        self.text = registry.get_instance("text")
 
     @command(command="perks", params=[Int("level"), Any("profession")], access_level="all",
              description="Show what perks are available for specified level and profession")
