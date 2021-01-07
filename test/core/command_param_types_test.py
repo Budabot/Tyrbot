@@ -1,7 +1,7 @@
 import re
 import unittest
 
-from core.command_param_types import Const, Int, Decimal, Any, Options, Time, Item, NamedParameters
+from core.command_param_types import Const, Int, Decimal, Any, Options, Time, Item, NamedParameters, NamedFlagParameters
 
 
 class CommandParamTypesTest(unittest.TestCase):
@@ -59,6 +59,15 @@ class CommandParamTypesTest(unittest.TestCase):
         self.assertEqual({'test1': '', 'test2': '2', 'test3': ''}, self.param_test(param, "--test2=2"))
         self.assertEqual({'test1': 'one and two and three', 'test2': '', 'test3': ''}, self.param_test(param, "--test1=one and two and three"))
         self.assertEqual({'test1': 'one and two', 'test2': '', 'test3': 'three and four'}, self.param_test(param, "--test1=one and two --test3=three and four"))
+        self.assertIsNone(self.param_test(param, ""))
+
+    def test_named_flag_parameters(self):
+        param = NamedFlagParameters(["test1", "test2", "test3"])
+        self.assertEqual({'test1': True, 'test2': True, 'test3': True}, self.param_test(param, "--test1 --test2 --test3"))
+        self.assertEqual({'test1': True, 'test2': True, 'test3': True}, self.param_test(param, "--test3 --test2 --test1"))
+        self.assertEqual({'test1': False, 'test2': True, 'test3': False}, self.param_test(param, "--test2"))
+        self.assertEqual({'test1': False, 'test2': True, 'test3': True}, self.param_test(param, "--test2 --test3"))
+        self.assertEqual({'test1': True, 'test2': True, 'test3': False}, self.param_test(param, "--test2 --test1"))
         self.assertIsNone(self.param_test(param, ""))
 
     def param_test(self, param, param_input):
