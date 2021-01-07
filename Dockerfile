@@ -1,4 +1,4 @@
-FROM python:3.6.6
+FROM python:3.9.1
 
 WORKDIR /app
 
@@ -8,7 +8,7 @@ RUN pip install  --no-cache-dir virtualenv && virtualenv .venv && . .venv/bin/ac
 
 # TODO run tests
 
-FROM python:3.6.6-slim
+FROM python:3.9.1-slim
 
 RUN useradd -u 1000 user
 COPY --chown=1000:1000 --from=0 /app /app
