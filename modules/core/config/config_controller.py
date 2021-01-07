@@ -4,7 +4,7 @@ from core.decorators import instance, command
 from core.db import DB
 from core.text import Text
 from core.chat_blob import ChatBlob
-from core.command_param_types import Const, Any, Options
+from core.command_param_types import Const, Any, Options, NamedFlagParameters
 from core.translation_service import TranslationService
 
 
@@ -66,9 +66,9 @@ class ConfigController:
 
         return ChatBlob(self.getresp("module/config", "config", {"count": count}), blob)
 
-    @command(command="config", params=[Options(["mod", "module"]), Any("module_name")], access_level="admin",
+    @command(command="config", params=[Options(["mod", "module"]), Any("module_name"), NamedFlagParameters(["include_hidden_events"])], access_level="admin",
              description="Show configuration options for a specific module")
-    def config_module_list_cmd(self, request, _, module):
+    def config_module_list_cmd(self, request, _, module, named_params):
         module = module.lower()
 
         blob = ""
@@ -87,23 +87,15 @@ class ConfigController:
                 command_key = self.command_service.get_command_key(row.command, row.sub_command)
                 blob += self.text.make_chatcmd(command_key, "/tell <myname> config cmd " + command_key) + "\n"
 
-        data = self.db.query("SELECT event_type, event_sub_type, handler, description, enabled "
-                             "FROM event_config WHERE module = ? AND is_hidden = 0 "
-                             "ORDER BY event_type, handler ASC",
-                             [module])
-        if data:
-            blob += self.getresp("module/config", "events")
-            for row in data:
-                event_type_key = self.event_service.get_event_type_key(row.event_type, row.event_sub_type)
-                enabled = self.getresp("module/config", "enabled_high" if row.enabled == 1 else "disabled_high")
-                blob += "%s - %s [%s]" % (self.config_events_controller.format_event_type(row), row.description, enabled)
-                blob += " " + self.text.make_chatcmd("On", "/tell <myname> config event %s %s enable" % (event_type_key, row.handler))
-                blob += " " + self.text.make_chatcmd("Off", "/tell <myname> config event %s %s disable" % (event_type_key, row.handler))
-                if row.event_type == 'timer':
-                    blob += " " + self.text.make_chatcmd("Run Now", "/tell <myname> config event %s %s run" % (event_type_key, row.handler))
-                blob += "\n"
+        blob += self.format_events(self.get_events(module, False), self.getresp("module/config", "events"))
+
+        if named_params.include_hidden_events:
+            blob += self.format_events(self.get_events(module, True), self.getresp("module/config", "hidden_events"))
 
         if blob:
+            if not named_params.include_hidden_events:
+                blob += "\n" + self.text.make_chatcmd(self.getresp("module/config", "include_hidden_events"), f"/tell <myname> config mod {module} --include_hidden_events")
+
             return ChatBlob(self.getresp("module/config", "mod_title", {"mod": module}), blob)
         else:
             return self.getresp("module/config", "mod_not_found", {"mod": module})
@@ -170,3 +162,24 @@ class ConfigController:
             return ChatBlob(self.getresp("module/config", "setting", {"setting": setting_name}), blob)
         else:
             return self.getresp("module/config", "setting_not_found", {"setting": setting_name})
+
+    def get_events(self, module, is_hidden):
+        return self.db.query("SELECT event_type, event_sub_type, handler, description, enabled, is_hidden "
+                             f"FROM event_config WHERE module = ? AND is_hidden = ? "
+                             "ORDER BY is_hidden, event_type, handler ASC",
+                             [module, 1 if is_hidden else 0])
+
+    def format_events(self, data, title):
+        blob = ""
+        if data:
+            blob += f"\n<header2>{title}<end>\n"
+            for row in data:
+                event_type_key = self.event_service.get_event_type_key(row.event_type, row.event_sub_type)
+                enabled = self.getresp("module/config", "enabled_high" if row.enabled == 1 else "disabled_high")
+                blob += "%s - %s [%s]" % (self.config_events_controller.format_event_type(row), row.description, enabled)
+                blob += " " + self.text.make_chatcmd("On", "/tell <myname> config event %s %s enable" % (event_type_key, row.handler))
+                blob += " " + self.text.make_chatcmd("Off", "/tell <myname> config event %s %s disable" % (event_type_key, row.handler))
+                if row.event_type == "timer":
+                    blob += " " + self.text.make_chatcmd("Run Now", "/tell <myname> config event %s %s run" % (event_type_key, row.handler))
+                blob += "\n"
+        return blob

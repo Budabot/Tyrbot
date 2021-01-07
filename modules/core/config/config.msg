@@ -104,8 +104,12 @@
     "de_DE": "\n<header2>Befehle<end>\n"
   },
   "events": {
-    "en_US": "\n<header2>Events<end>\n",
-    "de_DE": "\n<header2>Events<end>\n"
+    "en_US": "Events",
+    "de_DE": "Events"
+  },
+  "hidden_events": {
+    "en_US": "Hidden Events",
+    "de_DE": "Verstecke Events"
   },
   "mod_title": {
     "en_US": "Module ({mod})",
@@ -166,5 +170,13 @@
   "blob_events": {
     "en_US": "Events ({amount})",
     "de_DE": "Events ({amount})"
+  },
+  "hidden": {
+    "en_US": "hidden",
+    "de_DE": "versteckt"
+  },
+  "include_hidden_events": {
+    "en_US": "Include hidden events",
+    "de_DE": "Versteckte Events anzeigen"
   }
 }
