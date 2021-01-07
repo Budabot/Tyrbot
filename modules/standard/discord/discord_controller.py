@@ -175,9 +175,11 @@ class DiscordController:
         subs = ""
         for channel in self.get_text_channels():
             select_link = self.text.make_chatcmd("select", "/tell <myname> config setting discord_channel_id set %s" % channel.id)
+            selected = "(selected)" if self.setting_service.get("discord_channel_id").get_value() == str(channel.id) else ""
             subs += self.getresp("module/discord", "relay", {"server_name": channel.guild.name,
                                                              "channel_name": channel.name,
                                                              "select": select_link,
+                                                             "selected": selected
                                                              })
 
         blob = self.getresp("module/discord", "blob_relay", {"connected": constatus,

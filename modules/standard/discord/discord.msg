@@ -86,10 +86,10 @@
   },
   "relay": {
     "en_US": [
-      "<highlight>{server_name}<end> :: <highlight>{channel_name}<end> [{select}]\n",
+      "<highlight>{server_name}<end> :: <highlight>{channel_name}<end> [{select}] {selected}\n",
     ],
     "de_DE": [
-      "<highlight>{server_name}<end> :: <highlight>{channel_name}<end> [{select}]\n",
+      "<highlight>{server_name}<end> :: <highlight>{channel_name}<end> [{select}] {selected}\n",
     ]
   },
   "title": {
