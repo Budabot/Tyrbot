@@ -40,7 +40,7 @@ class PrivateChannelController:
     def start(self):
         self.message_hub_service.register_message_destination(self.MESSAGE_SOURCE,
                                                               self.handle_incoming_relay_message,
-                                                              ["org_channel", "discord", "websocket_relay", "tell_relay", "broadcast"],
+                                                              ["org_channel", "discord", "websocket_relay", "tell_relay", "broadcast", "raffle"],
                                                               [self.MESSAGE_SOURCE])
         self.ts.register_translation("module/private_channel", self.load_private_channel_msg)
 

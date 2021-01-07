@@ -9,6 +9,8 @@ import re
 
 @instance()
 class RaffleController:
+    MESSAGE_SOURCE = "raffle"
+
     def __init__(self):
         self.raffle = None
 
@@ -18,6 +20,10 @@ class RaffleController:
         self.text = registry.get_instance("text")
         self.util = registry.get_instance("util")
         self.job_scheduler = registry.get_instance("job_scheduler")
+        self.message_hub_service = registry.get_instance("message_hub_service")
+
+    def pre_start(self):
+        self.message_hub_service.register_message_source(self.MESSAGE_SOURCE)
 
     @command(command="raffle", params=[], access_level="all",
              description="Show current raffle")
@@ -118,15 +124,14 @@ class RaffleController:
             if len(self.raffle.members) == 0:
                 self.spam_raffle_channels("The raffle has ended and there is no winner because no one entered the raffle.")
             else:
-                self.spam_raffle_channels("Congrations <highlight>%s<end>! You have won the raffle for <highlight>%s<end>." % (self.get_raffle_winner(), self.raffle.item))
+                self.spam_raffle_channels("Congratulations <highlight>%s<end>! You have won the raffle for <highlight>%s<end>." % (self.get_raffle_winner(), self.raffle.item))
             self.raffle = None
         else:
             self.spam_raffle_channels(self.get_raffle_display(t))
             self.raffle.scheduled_job_id = self.job_scheduler.scheduled_job(self.alert_raffle_status, self.get_next_alert_time(t, self.raffle.finished_at))
 
     def spam_raffle_channels(self, msg):
-        self.bot.send_private_channel_message(msg, fire_outgoing_event=False)
-        self.bot.send_org_message(msg, fire_outgoing_event=False)
+        self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)
 
     def get_raffle_winner(self):
         return random.choice(self.raffle.members)
