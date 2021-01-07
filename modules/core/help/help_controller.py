@@ -1,5 +1,3 @@
-import os
-
 import hjson
 
 from core.decorators import instance, command

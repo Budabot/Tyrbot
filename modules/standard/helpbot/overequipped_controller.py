@@ -12,10 +12,11 @@ class OverequippedController:
     def inject(self, registry):
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
-        self.discord_controller = registry.get_instance("discord_controller")
+        self.discord_controller = registry.get_instance("discord_controller", is_optional=True)
 
     def start(self):
-        self.discord_controller.register_discord_command_handler(self.oe_discord_cmd, "oe", [Int("skill_level")])
+        if self.discord_controller:
+            self.discord_controller.register_discord_command_handler(self.oe_discord_cmd, "oe", [Int("skill_level")])
 
     @command(command="oe", params=[Int("skill_level")], access_level="all",
              description="Show the current time in every timezone")

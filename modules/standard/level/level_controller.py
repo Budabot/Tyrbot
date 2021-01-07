@@ -11,7 +11,7 @@ class LevelController:
         self.db: DB = registry.get_instance("db")
         self.util = registry.get_instance("util")
         self.command_alias_service = registry.get_instance("command_alias_service")
-        self.discord_controller = registry.get_instance("discord_controller")
+        self.discord_controller = registry.get_instance("discord_controller", is_optional=True)
 
     def start(self):
         self.command_alias_service.add_alias("lvl", "level")
@@ -21,8 +21,9 @@ class LevelController:
         self.command_alias_service.add_alias("mish", "mission")
         self.command_alias_service.add_alias("ailevel", "axp")
 
-        self.discord_controller.register_discord_command_handler(self.level_discord_cmd, "level", [Int("level")])
-        self.discord_controller.register_discord_command_handler(self.mission_discord_cmd, "mission", [Int("mission_level")])
+        if self.discord_controller:
+            self.discord_controller.register_discord_command_handler(self.level_discord_cmd, "level", [Int("level")])
+            self.discord_controller.register_discord_command_handler(self.mission_discord_cmd, "mission", [Int("mission_level")])
 
     @command(command="level", params=[Int("level")], access_level="all",
              description="Show information about a character level")

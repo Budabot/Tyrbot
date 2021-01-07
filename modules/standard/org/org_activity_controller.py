@@ -4,16 +4,10 @@ from core.chat_blob import ChatBlob
 from core.decorators import instance, command, event
 from core.logger import Logger
 from core.public_channel_service import PublicChannelService
-
+from modules.core.org_members.org_member_controller import OrgMemberController
 
 @instance()
 class OrgActivityController:
-    LEFT_ORG = [508, 45978487]
-    KICKED_FROM_ORG = [508, 37093479]
-    INVITED_TO_ORG = [508, 173558247]
-    KICKED_INACTIVE_FROM_ORG = [508, 20908201]
-    KICKED_ALIGNMENT_CHANGED = [501, 181448347]
-
     def __init__(self):
         self.logger = Logger(__name__)
 
@@ -55,14 +49,16 @@ class OrgActivityController:
     @event(PublicChannelService.ORG_MSG_EVENT, "Record org member activity", is_hidden=True)
     def org_msg_event(self, event_type, event_data):
         ext_msg = event_data.extended_message
-        if [ext_msg.category_id, ext_msg.instance_id] == self.LEFT_ORG:
+        if [ext_msg.category_id, ext_msg.instance_id] == OrgMemberController.LEFT_ORG:
             self.save_activity(ext_msg.params[0], ext_msg.params[0], "left")
-        elif [ext_msg.category_id, ext_msg.instance_id] == self.KICKED_FROM_ORG:
+        elif [ext_msg.category_id, ext_msg.instance_id] == OrgMemberController.KICKED_FROM_ORG:
             self.save_activity(ext_msg.params[0], ext_msg.params[1], "kicked")
-        elif [ext_msg.category_id, ext_msg.instance_id] == self.INVITED_TO_ORG:
+        elif [ext_msg.category_id, ext_msg.instance_id] == OrgMemberController.INVITED_TO_ORG:
             self.save_activity(ext_msg.params[0], ext_msg.params[1], "invited")
-        elif [ext_msg.category_id, ext_msg.instance_id] == self.KICKED_INACTIVE_FROM_ORG:
+        elif [ext_msg.category_id, ext_msg.instance_id] == OrgMemberController.KICKED_INACTIVE_FROM_ORG:
             self.save_activity(ext_msg.params[0], ext_msg.params[1], "removed")
+        elif [ext_msg.category_id, ext_msg.instance_id] == OrgMemberController.KICKED_ALIGNMENT_CHANGED:
+            self.save_activity(ext_msg.params[0], ext_msg.params[0], "alignment changed")
 
     def save_activity(self, actor, actee, action):
         actor_id = self.character_service.resolve_char_to_id(actor)

@@ -10,8 +10,8 @@ from core.decorators import instance, command, timerevent
 from core.setting_service import SettingService
 from core.text import Text
 from modules.standard.items.items_controller import ItemsController
-from modules.standard.raid.item_types import LootItem
-from modules.standard.raid.leader_controller import LeaderController
+from .item_types import LootItem
+from .leader_controller import LeaderController
 
 
 @instance()

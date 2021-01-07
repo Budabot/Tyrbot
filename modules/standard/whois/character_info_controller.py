@@ -21,14 +21,15 @@ class CharacterInfoController:
         self.util = registry.get_instance("util")
         self.alts_service = registry.get_instance("alts_service")
         self.alts_controller = registry.get_instance("alts_controller")
-        self.discord_controller = registry.get_instance("discord_controller")
+        self.discord_controller = registry.get_instance("discord_controller", is_optional=True)
 
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS name_history (char_id INT NOT NULL, name VARCHAR(20) NOT NULL, created_at INT NOT NULL, PRIMARY KEY (char_id, name))")
         self.command_alias_service.add_alias("w", "whois")
         self.command_alias_service.add_alias("lookup", "whois")
 
-        self.discord_controller.register_discord_command_handler(self.whois_discord_cmd, "whois", [Character("character")])
+        if self.discord_controller:
+            self.discord_controller.register_discord_command_handler(self.whois_discord_cmd, "whois", [Character("character")])
 
     @command(command="whois", params=[Character("character"), Int("dimension", is_optional=True), Const("forceupdate", is_optional=True)], access_level="member",
              description="Get whois information for a character")

@@ -4,7 +4,6 @@ from core.decorators import instance, command
 from core.chat_blob import ChatBlob
 from core.command_param_types import Any, Const, Int
 from xml.etree import ElementTree
-import os
 import requests
 import re
 import bbcode

@@ -5,7 +5,6 @@ from core.lookup.character_service import CharacterService
 from core.setting_service import SettingService
 from core.setting_types import TextSettingType, BooleanSettingType, ColorSettingType
 from core.tyrbot import Tyrbot
-from modules.standard.org.org_channel_controller import OrgChannelController
 
 
 @instance("AllianceRelayController")

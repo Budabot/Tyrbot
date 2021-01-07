@@ -18,7 +18,7 @@ class CloakController:
         self.util = registry.get_instance("util")
         self.character_service = registry.get_instance("character_service")
         self.command_alias_service = registry.get_instance("command_alias_service")
-        self.timer_controller = registry.get_instance("timer_controller")
+        self.timer_controller = registry.get_instance("timer_controller", is_optional=True)
         self.event_service = registry.get_instance("event_service")
         self.access_service = registry.get_instance("access_service")
         self.message_hub_service = registry.get_instance("message_hub_service")

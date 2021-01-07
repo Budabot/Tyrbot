@@ -2,7 +2,7 @@ import hjson
 
 from core.decorators import instance, command
 from core.chat_blob import ChatBlob
-from core.command_param_types import Any, Const, Options, Character
+from core.command_param_types import Const, Options, Character
 from core.admin.admin_service import AdminService
 from core.translation_service import TranslationService
 
