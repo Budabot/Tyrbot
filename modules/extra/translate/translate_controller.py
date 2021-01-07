@@ -1,15 +1,13 @@
-from core.chat_blob import ChatBlob
-from core.dict_object import DictObject
+from core.db import DB
 from core.logger import Logger
 from core.decorators import instance, command, setting
 from core.command_param_types import Any, Options
-from core.setting_service import SettingService
 from core.setting_types import TextSettingType
+from core.text import Text
+from core.tyrbot import Tyrbot
 
 import requests
-import time
 import json
-
 
 @instance()
 class TranslateController:
@@ -30,9 +28,10 @@ class TranslateController:
     def setting_azure_region(self):
         return TextSettingType(["None","westeurope"])
 
-    @setting(name="setting_translate_language", value="en", description="Enter your default output language")
+    @setting(name="setting_translate_language", value="en", description="Enter your default output language",
+             extended_description="See a full list of supported languages here: https://docs.microsoft.com/en-us/azure/cognitive-services/translator/language-support")
     def setting_translate_language(self):
-        return TextSettingType(["en"])
+        return TextSettingType(["de", "en", "es", "fr"])
 
     @command(command="translate", params=[Options(["en","de","fr","fi","es","nl","nb","ru","sv","el","da","et","it","hu","hr","id","bs","ko","ja","lt","lv","pt","pl","tlh-Lat"]),Any("text")], access_level="member", description="Translate text to a specific language")
     def translate_to_cmd(self, request, opt_language, query):

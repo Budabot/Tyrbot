@@ -33,7 +33,6 @@ class MessageHubService:
         if destination in self.hub:
             raise Exception("Message hub destination '%s' already subscribed" % destination)
 
-        # TODO check if there are existing source subscriptions
         for source in default_sources:
             if source not in self.sources:
                 raise Exception("Could not subscribe destination '%s' to source '%s' because source does not exist" % (destination, source))

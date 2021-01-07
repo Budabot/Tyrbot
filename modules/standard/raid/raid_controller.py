@@ -103,8 +103,7 @@ class RaidController:
         msg += "%s to join\n" % join_link
         msg += "<highlight>----------------------------------------<end>"
 
-        self.bot.send_org_message(msg)
-        self.bot.send_private_channel_message(msg)
+        self.send_message(msg)
 
     @command(command="raid", params=[Options(["end", "cancel"])], description="End raid without saving/logging.",
              access_level="moderator", sub_command="manage")
@@ -114,8 +113,8 @@ class RaidController:
 
         raid_name = self.raid.raid_name
         self.raid = None
-        self.bot.send_org_message("<highlight>%s<end> canceled the <highlight>%s<end> raid prematurely." % (request.sender.name, raid_name))
-        self.bot.send_private_channel_message("<highlight>%s<end> canceled the <highlight>%s<end> raid prematurely." % (request.sender.name, raid_name))
+
+        self.send_message("<highlight>%s<end> canceled the <highlight>%s<end> raid prematurely." % (request.sender.name, raid_name))
 
     @command(command="raid", params=[Const("join")], description="Join the ongoing raid", access_level="member")
     def raid_join_cmd(self, request, _):
@@ -136,14 +135,13 @@ class RaidController:
                     in_raid.was_kicked = None
                     in_raid.was_kicked_reason = None
                     in_raid.left_raid = None
-                    self.bot.send_private_channel_message("%s returned to actively participating in the raid." % request.sender.name)
-                    self.bot.send_org_message("%s returned to actively participating in the raid." % request.sender.name)
+
+                    self.send_message("%s returned to actively participating in the raid." % request.sender.name)
 
             elif in_raid.is_active:
                 former_active_name = self.character_service.resolve_char_to_name(in_raid.active_id)
                 in_raid.active_id = request.sender.char_id
-                self.bot.send_private_channel_message("<highlight>%s<end> joined the raid with a different alt, <highlight>%s<end>." % (former_active_name, request.sender.name))
-                self.bot.send_org_message("<highlight>%s<end> joined the raid with a different alt, <highlight>%s<end>." % (former_active_name, request.sender.name))
+                self.send_message("<highlight>%s<end> joined the raid with a different alt, <highlight>%s<end>." % (former_active_name, request.sender.name))
 
             elif not in_raid.is_active:
                 if not self.raid.is_open:
@@ -153,14 +151,12 @@ class RaidController:
                 in_raid.was_kicked = None
                 in_raid.was_kicked_reason = None
                 in_raid.left_raid = None
-                self.bot.send_private_channel_message("%s returned to actively participate with a different alt, <highlight>%s<end>." % (former_active_name, request.sender.name))
-                self.bot.send_org_message("%s returned to actively participate with a different alt, <highlight>%s<end>." % (former_active_name, request.sender.name))
+                self.send_message("%s returned to actively participate with a different alt, <highlight>%s<end>." % (former_active_name, request.sender.name))
 
         elif self.raid.is_open:
             alts = self.alts_service.get_alts(request.sender.char_id)
             self.raid.raiders.append(Raider(alts, request.sender.char_id))
-            self.bot.send_private_channel_message("<highlight>%s<end> joined the raid." % request.sender.name)
-            self.bot.send_org_message("<highlight>%s<end> joined the raid." % request.sender.name)
+            self.send_message("<highlight>%s<end> joined the raid." % request.sender.name)
         else:
             return "Raid is closed."
 
@@ -173,8 +169,7 @@ class RaidController:
 
             in_raid.is_active = False
             in_raid.left_raid = int(time.time())
-            self.bot.send_private_channel_message("<highlight>%s<end> left the raid." % request.sender.name)
-            self.bot.send_org_message("<highlight>%s<end> left the raid." % request.sender.name)
+            self.send_message("<highlight>%s<end> left the raid." % request.sender.name)
         else:
             return "You are not in the raid."
 
@@ -282,14 +277,12 @@ class RaidController:
             if self.raid.is_open:
                 return "Raid is already open."
             self.raid.is_open = True
-            self.bot.send_private_channel_message("Raid has been opened by %s." % request.sender.name)
-            self.bot.send_org_message("Raid has been opened by %s." % request.sender.name)
+            self.send_message("Raid has been opened by %s." % request.sender.name)
             return
         elif action == "close":
             if self.raid.is_open:
                 self.raid.is_open = False
-                self.bot.send_private_channel_message("Raid has been closed by %s." % request.sender.name)
-                self.bot.send_org_message("Raid has been closed by %s." % request.sender.name)
+                self.send_message("Raid has been closed by %s." % request.sender.name)
                 return
             return "Raid is already closed."
 
@@ -404,3 +397,8 @@ class RaidController:
                "the raid.\n<highlight>Ask for help<end> if you're in doubt of where to go." % self.raid.raid_name
 
         return self.text.paginate_single(ChatBlob(link_txt, blob))
+
+    def send_message(self, msg):
+        # TODO use message_hub_service
+        self.bot.send_private_channel_message(msg)
+        self.bot.send_org_message(msg)

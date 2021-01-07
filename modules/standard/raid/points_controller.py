@@ -1,4 +1,3 @@
-from core.tyrbot import Tyrbot
 from core.sender_obj import SenderObj
 from core.db import DB
 from core.decorators import command, instance, setting
@@ -19,7 +18,6 @@ class PointsController:
         pass
 
     def inject(self, registry):
-        self.bot: Tyrbot = registry.get_instance("bot")
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
         self.character_service: CharacterService = registry.get_instance("character_service")

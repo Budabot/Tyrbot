@@ -290,6 +290,8 @@ class LootController:
             if int(time.time()) - self.last_modify > 3600 and self.loot_list:
                 self.last_modify = None
                 self.loot_list = OrderedDict()
+
+                # TODO use message_hub_service
                 self.bot.send_org_message("Loot was last modified more than 1 hour ago, list has been cleared.")
                 self.bot.send_private_channel_message("Loot was last modified more than 1 hour ago, list has been cleared.")
 
@@ -307,7 +309,7 @@ class LootController:
             # this prevents loot items from being re-numbered when items are removed
             end_index = list(self.loot_list.keys())[-1] + 1 if len(self.loot_list) > 0 else 1
 
-            self.loot_list[end_index] = LootItem(item, comment, None, None, item_count)
+            self.loot_list[end_index] = LootItem(item, comment, item_count)
 
         self.last_modify = int(time.time())
 

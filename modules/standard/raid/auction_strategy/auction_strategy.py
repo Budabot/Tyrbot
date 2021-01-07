@@ -161,6 +161,7 @@ class AuctionStrategy:
         pass
 
     def spam_raid_message(self, message):
+        # TODO use message_hub_service
         self.bot.send_private_channel_message(message, fire_outgoing_event=False)
         self.bot.send_org_message(message, fire_outgoing_event=False)
 
