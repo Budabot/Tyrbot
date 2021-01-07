@@ -100,7 +100,7 @@ class ImplantController:
 
         blob += "\n\nBased on the !impql command written for %s by <highlight>Lucier<end>" % self.text.make_chatcmd("Ttst", "/tell ttst help")
 
-        return ChatBlob("Implant QL%d" % ql, blob)
+        return ChatBlob(f"Implant QL{ql} ({implant.treatment} Treatment, {implant.ability} Ability)", blob)
 
     def get_implant_by_ql(self, ql):
         implant = DictObject({})
