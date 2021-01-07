@@ -1,7 +1,6 @@
 from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Int, NamedParameters
 from core.decorators import instance, command, event
-from core.dict_object import DictObject
 from core.logger import Logger
 from modules.standard.tower.tower_controller import TowerController
 import time

@@ -136,3 +136,11 @@ if version == 11:
     if table_exists("discord"):
         db.exec("DROP TABLE discord")
     version = update_version(version)
+
+if version == 12:
+    if table_exists("broadcast"):
+        db.exec("ALTER TABLE broadcast RENAME TO broadcast_old")
+        db.exec("CREATE TABLE broadcast (char_id INT NOT NULL PRIMARY KEY, alias VARCHAR(50), created_at INT NOT NULL)")
+        db.exec("INSERT INTO broadcast SELECT char_id, NULL, created_at FROM broadcast_old")
+        db.exec("DROP TABLE broadcast_old")
+    version = update_version(version)
