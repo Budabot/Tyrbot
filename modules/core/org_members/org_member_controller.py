@@ -181,7 +181,7 @@ class OrgMemberController:
         elif [ext_msg.category_id, ext_msg.instance_id] == self.KICKED_INACTIVE_FROM_ORG:
             self.process_org_msg(ext_msg.params[1], self.MODE_REM_MANUAL)
 
-    @event(event_type=PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, description="Automatically add chars that speak in the org channel to the org roster")
+    @event(event_type=PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, description="Automatically add chars that speak in the org channel to the org roster", is_enabled=False)
     def auto_add_org_members_event(self, event_type, event_data):
         org_member = self.get_org_member(event_data.char_id)
         old_mode = org_member.mode if org_member else None

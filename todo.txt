@@ -13,6 +13,7 @@ decide whether commands should be singular or plural
 add bot name to database and fail on non-match
 automatically give leader when using loot:change commands
 trader drain command
+evaluate which other events should be hidden
 
 
 EVENTS
