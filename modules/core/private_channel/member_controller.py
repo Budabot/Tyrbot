@@ -110,7 +110,7 @@ class MemberController:
             if row.auto_invite == 1:
                 self.buddy_service.add_buddy(row.char_id, self.MEMBER_BUDDY_TYPE)
 
-    @event(event_type=MEMBER_LOGON_EVENT, description="Auto invite members to the private channel when they logon")
+    @event(event_type=MEMBER_LOGON_EVENT, description="Auto invite members to the private channel when they logon", is_hidden=True)
     def handle_buddy_logon(self, event_type, event_data):
         if event_data.auto_invite == 1:
             self.bot.send_private_message(event_data.char_id, self.getresp("module/private_channel", "auto_invited"))

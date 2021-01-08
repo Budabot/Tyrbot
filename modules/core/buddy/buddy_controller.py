@@ -89,7 +89,7 @@ class BuddyController:
         blob = self.format_buddies(buddy_list)
         return ChatBlob(self.getresp("module/buddy", "search_title", {"amount": len(buddy_list)}), blob)
 
-    @timerevent(budatime="24h", description="Remove orphaned buddies")
+    @timerevent(budatime="24h", description="Remove orphaned buddies", is_hidden=True)
     def remove_orphaned_buddies_event(self, event_type, event_data):
         self.logger.debug("removing %d orphaned buddies" % self.remove_orphaned_buddies())
 

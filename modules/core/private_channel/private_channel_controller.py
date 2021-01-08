@@ -39,7 +39,7 @@ class PrivateChannelController:
     def start(self):
         self.message_hub_service.register_message_destination(self.MESSAGE_SOURCE,
                                                               self.handle_incoming_relay_message,
-                                                              ["org_channel", "discord", "websocket_relay", "tell_relay", "broadcast", "raffle"],
+                                                              ["org_channel", "discord", "websocket_relay", "tell_relay", "broadcast", "raffle", "shutdown_notice"],
                                                               [self.MESSAGE_SOURCE])
         self.ts.register_translation("module/private_channel", self.load_private_channel_msg)
 
@@ -135,7 +135,7 @@ class PrivateChannelController:
                             "logoff": self.log_controller.get_logoff(event_data.char_id) if self.log_controller else ""})
         self.bot.send_private_channel_message(msg)
 
-    @event(event_type=Tyrbot.OUTGOING_PRIVATE_CHANNEL_MESSAGE_EVENT, description="Relay commands from the private channel to the relay hub")
+    @event(event_type=Tyrbot.OUTGOING_PRIVATE_CHANNEL_MESSAGE_EVENT, description="Relay commands from the private channel to the relay hub", is_hidden=True)
     def outgoing_private_channel_message_event(self, event_type, event_data):
         if isinstance(event_data.message, ChatBlob):
             pages = self.text.paginate(ChatBlob(event_data.message.title, event_data.message.msg), self.setting_service.get("org_channel_max_page_length").get_value())

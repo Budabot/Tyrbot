@@ -79,7 +79,7 @@ class DiscordController:
     def start(self):
         self.message_hub_service.register_message_destination(self.MESSAGE_SOURCE,
                                                               self.handle_incoming_relay_message,
-                                                              ["private_channel", "org_channel", "websocket_relay", "tell_relay"],
+                                                              ["private_channel", "org_channel", "websocket_relay", "tell_relay", "shutdown_notice"],
                                                               [self.MESSAGE_SOURCE])
         self.register_discord_command_handler(self.help_discord_cmd, "help", [])
 
@@ -198,7 +198,7 @@ class DiscordController:
                     return
         return self.getresp("module/discord", "no_dc", {"id": server_id})
 
-    @timerevent(budatime="1s", description="Discord relay queue handler", is_hidden=False)
+    @timerevent(budatime="1s", description="Discord relay queue handler", is_hidden=True)
     def handle_discord_queue_event(self, event_type, event_data):
         if self.dqueue:
             dtype, message = self.dqueue.pop(0)
@@ -220,6 +220,49 @@ class DiscordController:
         if not self.find_discord_command_handler(message):
             # TODO fall back to normal command handlers
             pass
+
+    @event(event_type="discord_message", description="Relays Discord messages to relay hub", is_hidden=True)
+    def handle_discord_message_event(self, event_type, message):
+        if isinstance(message.author, Member):
+            name = message.author.nick or message.author.name
+        else:
+            name = message.author.name
+
+        chanclr = self.setting_service.get("relay_color_prefix").get_font_color()
+        nameclr = self.setting_service.get("relay_color_name").get_font_color()
+        mesgclr = self.setting_service.get("relay_color_message").get_font_color()
+
+        formatted_message = "<grey>[<end>%sDiscord<end><grey>]<end> %s%s<end><grey>:<end> %s%s<end>" % (chanclr, nameclr, name, mesgclr, message.content)
+
+        self.message_hub_service.send_message(self.MESSAGE_SOURCE, DictObject({"name": name}), message.content, formatted_message)
+
+    @event(event_type="discord_invites", description="Handles invite requests", is_hidden=True)
+    def handle_discord_invite_event(self, event_type, event_data):
+        sender = event_data[0]
+        invites = event_data[1]
+
+        blob = ""
+        server_invites = ""
+        if len(invites) > 0:
+            for invite in invites:
+                link = self.text.make_chatcmd(self.getresp("module/discord", "join"), "/start %s" % invite.url)
+                timeleft = "Permanent" if invite.max_age == 0 else str(datetime.timedelta(seconds=invite.max_age))
+                used = str(invite.uses) if invite.uses is not None else "N/A"
+                useleft = str(invite.max_uses) if invite.max_uses is not None else "N/A"
+                channel = self.getresp("module/discord", "inv_channel", {"channel": invite.channel.name})\
+                    if invite.channel is not None else None
+                server_invites += self.getresp("module/discord", "invite", {"server": invite.guild.name,
+                                                                            "link": link,
+                                                                            "time_left": timeleft,
+                                                                            "count_used": used,
+                                                                            "count_left": useleft,
+                                                                            "channel": channel})
+            blob += self.getresp("module/discord", "blob_invites", {"invites": server_invites})
+
+        else:
+            blob += self.getresp("module/discord", "no_invites")
+
+        self.bot.send_private_message(sender, ChatBlob(self.getresp("module/discord", "invite_title"), blob))
 
     def find_discord_command_handler(self, message):
         command_str, command_args = self.command_service.get_command_parts(message)
@@ -264,49 +307,6 @@ class DiscordController:
         msg = re.sub(r"<header2>(.*?)<end>", r"```yaml\n\1\n```", msg)
         msg = re.sub(r"<highlight>(.*?)<end>", r"`\1`", msg)
         return self.strip_html_tags(msg)
-
-    @event(event_type="discord_message", description="Relays Discord messages to relay hub", is_hidden=True)
-    def handle_discord_message_event(self, event_type, message):
-        if isinstance(message.author, Member):
-            name = message.author.nick or message.author.name
-        else:
-            name = message.author.name
-
-        chanclr = self.setting_service.get("relay_color_prefix").get_font_color()
-        nameclr = self.setting_service.get("relay_color_name").get_font_color()
-        mesgclr = self.setting_service.get("relay_color_message").get_font_color()
-
-        formatted_message = "<grey>[<end>%sDiscord<end><grey>]<end> %s%s<end><grey>:<end> %s%s<end>" % (chanclr, nameclr, name, mesgclr, message.content)
-
-        self.message_hub_service.send_message(self.MESSAGE_SOURCE, DictObject({"name": name}), message.content, formatted_message)
-
-    @event(event_type="discord_invites", description="Handles invite requests")
-    def handle_discord_invite_event(self, event_type, event_data):
-        sender = event_data[0]
-        invites = event_data[1]
-
-        blob = ""
-        server_invites = ""
-        if len(invites) > 0:
-            for invite in invites:
-                link = self.text.make_chatcmd(self.getresp("module/discord", "join"), "/start %s" % invite.url)
-                timeleft = "Permanent" if invite.max_age == 0 else str(datetime.timedelta(seconds=invite.max_age))
-                used = str(invite.uses) if invite.uses is not None else "N/A"
-                useleft = str(invite.max_uses) if invite.max_uses is not None else "N/A"
-                channel = self.getresp("module/discord", "inv_channel", {"channel": invite.channel.name})\
-                    if invite.channel is not None else None
-                server_invites += self.getresp("module/discord", "invite", {"server": invite.guild.name,
-                                                                            "link": link,
-                                                                            "time_left": timeleft,
-                                                                            "count_used": used,
-                                                                            "count_left": useleft,
-                                                                            "channel": channel})
-            blob += self.getresp("module/discord", "blob_invites", {"invites": server_invites})
-
-        else:
-            blob += self.getresp("module/discord", "no_invites")
-
-        self.bot.send_private_message(sender, ChatBlob(self.getresp("module/discord", "invite_title"), blob))
 
     def register_discord_command_handler(self, callback, command_str, params):
         r = re.compile(self.command_service.get_regex_from_params(params), re.IGNORECASE | re.DOTALL)
