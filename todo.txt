@@ -15,6 +15,7 @@ automatically give leader when using loot:change commands
 trader drain command
 evaluate which other events should be hidden
 add self.module_name to controllers/components
+allow chatblobs in message_hub
 
 
 EVENTS
