@@ -64,9 +64,9 @@ class Text:
             return "<highlight>CharId(%d)<end>" % char_info.char_id
 
     def paginate_single(self, chatblob):
-        return self.paginate(chatblob, 10000, 1)[0]
+        return self.paginate(chatblob)[0]
 
-    def paginate(self, chatblob, max_page_length, max_num_pages=None, footer=None):
+    def paginate(self, chatblob, max_page_length=None, max_num_pages=None, footer=None):
         label = chatblob.title
         msg = chatblob.msg
         separators = iter(self.separators)
@@ -98,7 +98,7 @@ class Text:
             line_length = len(line)
 
             # if separator is not sufficient, try the next one
-            if line_length > max_page_length:
+            if max_page_length and line_length > max_page_length:
                 try:
                     separator = next(separators)
                     rest = line + rest
@@ -108,17 +108,17 @@ class Text:
                     raise Exception("Could not paginate: page is too large")
 
             if max_num_pages == len(pages) + 1:
-                if len(current_page) + line_length + len(footer) > max_page_length:
+                if max_page_length and (len(current_page) + line_length + len(footer) > max_page_length):
                     break
             else:
-                if len(current_page) + line_length > max_page_length:
+                if max_page_length and len(current_page) + line_length > max_page_length:
                     pages.append(current_page.strip())
                     current_page = ""
 
             current_page += line
 
         current_page = current_page.strip()
-        if len(current_page) + len(footer) > max_page_length:
+        if max_page_length and len(current_page) + len(footer) > max_page_length:
             pages.append(current_page)
             pages.append(footer.strip())
         else:
