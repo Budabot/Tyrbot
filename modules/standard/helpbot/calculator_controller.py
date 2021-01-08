@@ -9,10 +9,11 @@ class CalculatorController:
         self.allow_chars_regex = re.compile(r"^[0123456789.+\-*%()/ &|^~<>]+$")
 
     def inject(self, registry):
-        self.discord_controller = registry.get_instance("discord_controller")
+        self.discord_controller = registry.get_instance("discord_controller", is_optional=True)
 
     def start(self):
-        self.discord_controller.register_discord_command_handler(self.calc_discord_cmd, "calc", [Any("formula")])
+        if self.discord_controller:
+            self.discord_controller.register_discord_command_handler(self.calc_discord_cmd, "calc", [Any("formula")])
 
     @command(command="calc", params=[Any("formula")], access_level="all",
              description="Perform a calculation", extended_description="Supported operators:\n\n+ (addition)\n- (subtraction)\n* (multiplication)\n/ (division)\n"

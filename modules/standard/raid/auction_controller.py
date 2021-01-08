@@ -3,7 +3,7 @@ import re
 from core.command_param_types import Const, Options, Int, Any
 from core.decorators import command, instance, setting
 from core.setting_types import TimeSettingType
-from modules.standard.raid.auction_strategy.auction_strategy import AuctionStrategy
+from .auction_strategy.auction_strategy import AuctionStrategy
 
 
 @instance()

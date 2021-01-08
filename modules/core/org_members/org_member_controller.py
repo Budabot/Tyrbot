@@ -11,7 +11,6 @@ import time
 from core.public_channel_service import PublicChannelService
 from core.setting_types import NumberSettingType, TextSettingType
 from core.translation_service import TranslationService
-from modules.standard.org.org_activity_controller import OrgActivityController
 
 
 @instance()
@@ -27,6 +26,12 @@ class OrgMemberController:
     ORG_MEMBER_LOGON_EVENT = "org_member_logon"
     ORG_MEMBER_LOGOFF_EVENT = "org_member_logoff"
     ORG_MEMBER_REMOVED_EVENT = "org_member_removed"
+
+    LEFT_ORG = [508, 45978487]
+    KICKED_FROM_ORG = [508, 37093479]
+    INVITED_TO_ORG = [508, 173558247]
+    KICKED_INACTIVE_FROM_ORG = [508, 20908201]
+    KICKED_ALIGNMENT_CHANGED = [501, 181448347]
 
     MAX_CACHE_AGE = 86400
 
@@ -131,7 +136,7 @@ class OrgMemberController:
         if self.bot.is_ready():
             self.update_last_seen(event_data.char_id)
 
-    @timerevent(budatime="24h", description="Download the org_members roster")
+    @timerevent(budatime="24h", description="Download the org_members roster", is_hidden=True)
     def download_org_roster_event(self, event_type, event_data):
         org_id = self.public_channel_service.get_org_id()
         if org_id:
@@ -165,15 +170,15 @@ class OrgMemberController:
     @event(PublicChannelService.ORG_MSG_EVENT, "Update org roster when characters join or leave", is_hidden=True)
     def org_msg_event(self, event_type, event_data):
         ext_msg = event_data.extended_message
-        if [ext_msg.category_id, ext_msg.instance_id] == OrgActivityController.LEFT_ORG:
+        if [ext_msg.category_id, ext_msg.instance_id] == self.LEFT_ORG:
             self.process_org_msg(ext_msg.params[0], self.MODE_REM_MANUAL)
-        elif [ext_msg.category_id, ext_msg.instance_id] == OrgActivityController.KICKED_FROM_ORG:
+        elif [ext_msg.category_id, ext_msg.instance_id] == self.KICKED_FROM_ORG:
             self.process_org_msg(ext_msg.params[1], self.MODE_REM_MANUAL)
-        elif [ext_msg.category_id, ext_msg.instance_id] == OrgActivityController.KICKED_ALIGNMENT_CHANGED:
+        elif [ext_msg.category_id, ext_msg.instance_id] == self.KICKED_ALIGNMENT_CHANGED:
             self.process_org_msg(ext_msg.params[0], self.MODE_REM_MANUAL)
-        elif [ext_msg.category_id, ext_msg.instance_id] == OrgActivityController.INVITED_TO_ORG:
+        elif [ext_msg.category_id, ext_msg.instance_id] == self.INVITED_TO_ORG:
             self.process_org_msg(ext_msg.params[1], self.MODE_ADD_MANUAL)
-        elif [ext_msg.category_id, ext_msg.instance_id] == OrgActivityController.KICKED_INACTIVE_FROM_ORG:
+        elif [ext_msg.category_id, ext_msg.instance_id] == self.KICKED_INACTIVE_FROM_ORG:
             self.process_org_msg(ext_msg.params[1], self.MODE_REM_MANUAL)
 
     @event(event_type=PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, description="Automatically add chars that speak in the org channel to the org roster")

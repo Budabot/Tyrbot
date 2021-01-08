@@ -1,7 +1,6 @@
 from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Int, NamedParameters
 from core.decorators import instance, command, event
-from core.dict_object import DictObject
 from core.logger import Logger
 from modules.standard.tower.tower_controller import TowerController
 import time
@@ -18,7 +17,6 @@ class TowerAttackController:
         self.text = registry.get_instance("text")
         self.util = registry.get_instance("util")
         self.event_service = registry.get_instance("event_service")
-        self.playfield_controller = registry.get_instance("playfield_controller")
         self.command_alias_service = registry.get_instance("command_alias_service")
         self.public_channel_service = registry.get_instance("public_channel_service")
 

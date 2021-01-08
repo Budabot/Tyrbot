@@ -13,6 +13,9 @@ decide whether commands should be singular or plural
 add bot name to database and fail on non-match
 automatically give leader when using loot:change commands
 trader drain command
+evaluate which other events should be hidden
+add self.module_name to controllers/components
+allow chatblobs in message_hub
 
 
 EVENTS
@@ -37,14 +40,14 @@ USAGE - ignore for now, needs !usage command, needs to submit usage
 ALIEN - done
 BANK - ignore
 BASIC_CHAT - moved to raid
-BROADCAST - ignore
+BROADCAST - done
 CITY - done
 DEV - ignore
-FUN - ignore
+FUN - done
 GIT - ignore
 GUIDE - done
 HELPBOT - done
-IMPLANT - needs !impreq, !implantdesigner
+IMPLANT - needs !implantdesigner
 ITEMS - done
 LEVEL - done
 NANO - done

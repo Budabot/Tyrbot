@@ -13,6 +13,7 @@ from core.translation_service import TranslationService
 @instance()
 class SystemController:
     SHUTDOWN_EVENT = "shutdown"
+    MESSAGE_SOURCE = "shutdown_notice"
 
     def __init__(self):
         self.logger = Logger(__name__)
@@ -22,10 +23,12 @@ class SystemController:
         self.setting_service: SettingService = registry.get_instance("setting_service")
         self.event_service = registry.get_instance("event_service")
         self.ts: TranslationService = registry.get_instance("translation_service")
+        self.message_hub_service = registry.get_instance("message_hub_service")
         self.getresp = self.ts.get_response
 
     def pre_start(self):
         self.event_service.register_event_type(self.SHUTDOWN_EVENT)
+        self.message_hub_service.register_message_source(self.MESSAGE_SOURCE)
 
     def start(self):
         self.ts.register_translation("module/system", self.load_system_msg)
@@ -69,18 +72,11 @@ class SystemController:
 
         self.expected_shutdown().set_value(False)
 
-    @event(event_type=SHUTDOWN_EVENT, description="Notify org channel on shutdown/restart")
-    def notify_org_channel_shutdown_event(self, event_type, event_data):
-        self.bot.send_org_message(self._format_message(event_data.restart, event_data.reason), fire_outgoing_event=False)
-
-    @event(event_type=SHUTDOWN_EVENT, description="Notify private channel on shutdown/restart")
-    def notify_private_channel_shutdown_event(self, event_type, event_data):
-        self.bot.send_private_channel_message(self._format_message(event_data.restart, event_data.reason), fire_outgoing_event=False)
-
     def shutdown(self, should_restart, reason=None):
         self.event_service.fire_event(self.SHUTDOWN_EVENT, DictObject({"restart": should_restart, "reason": reason}))
         # set expected flag
         self.expected_shutdown().set_value(True)
+        self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, self._format_message(should_restart, reason))
         if should_restart:
             self.bot.restart()
         else:
@@ -94,5 +90,3 @@ class SystemController:
         if reason:
             return self.getresp("module/system", "shutdown") + self.getresp("module/system", "reason", {"reason": reason})
         return self.getresp("module/system", "shutdown") + ".."
-
-

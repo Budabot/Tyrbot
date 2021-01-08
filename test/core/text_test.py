@@ -16,7 +16,7 @@ class TextTest(unittest.TestCase):
     def test_paginate(self):
         setting = Mock()
         setting.get_value = MagicMock(return_value="test")
-        setting.get_font_color = MagicMock(return_value="color")
+        setting.get_font_color = MagicMock(return_value="<font>")
         setting_service = Mock()
         setting_service.get = MagicMock(return_value=setting)
 
@@ -34,19 +34,23 @@ class TextTest(unittest.TestCase):
 
         msg = "hello this is a test\nthis is another test as well\nand a third\ntest also\nwhich is very\nshort"
         chatblob = ChatBlob("label", msg)
-        prefix = "test_prefix"
-        postfix = "test_postfix"
-        chatblob.page_prefix = prefix
-        chatblob.page_postfix = postfix
-        pages = text.paginate(chatblob, 110)
+        page_prefix = "test_page_prefix"
+        page_postfix = "test_page_postfix"
+        chatblob.page_prefix = page_prefix
+        chatblob.page_postfix = page_postfix
+        pages = text.paginate(chatblob, 115)
 
         self.assertEqual(2, len(pages))
         self.assertTrue("text://short" in pages[1])
 
         # page prefix
-        self.assertTrue(pages[0].startswith(prefix))
-        self.assertTrue(pages[1].startswith(prefix))
+        self.assertTrue(pages[0].startswith(page_prefix))
+        self.assertTrue(pages[1].startswith(page_prefix))
 
         # page postfix
-        self.assertTrue(pages[0].endswith(postfix))
-        self.assertTrue(pages[1].endswith(postfix))
+        self.assertTrue(pages[0].endswith(page_postfix))
+        self.assertTrue(pages[1].endswith(page_postfix))
+
+        # no max_page_length
+        pages2 = text.paginate(chatblob)
+        self.assertEqual(1, len(pages2))

@@ -3,15 +3,11 @@ from core.registry import Registry
 
 
 class LootItem:
-    def __init__(self, item, comment, prefix=None, suffix=None, count=1):
+    def __init__(self, item, comment, count=1):
         self.item = item
         self.comment = comment
         self.bidders = []
         self.count = count
-
-        # TODO is prefix and suffix needed/used?
-        self.prefix = prefix
-        self.suffix = suffix
 
     def get_item_str(self):
         if isinstance(self.item, DictObject):
@@ -27,8 +23,8 @@ class LootItem:
 
 
 class AuctionItem(LootItem):
-    def __init__(self, item, comment, auctioneer_id, prefix=None, suffix=None, count=1):
-        super().__init__(item, comment, prefix, suffix, count)
+    def __init__(self, item, comment, auctioneer_id, count=1):
+        super().__init__(item, comment, count)
         self.auctioneer_id = auctioneer_id
         self.winner_id = None
         self.winning_bid = 0

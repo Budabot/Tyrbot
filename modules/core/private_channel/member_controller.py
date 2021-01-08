@@ -5,7 +5,7 @@ from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Options, Character
 from core.decorators import instance, command, event, setting
 from core.setting_service import SettingService
-from core.setting_types import TextSettingType, SettingType
+from core.setting_types import TextSettingType
 from core.translation_service import TranslationService
 from modules.core.org_members.org_member_controller import OrgMemberController
 
@@ -29,7 +29,6 @@ class MemberController:
         self.ts: TranslationService = registry.get_instance("translation_service")
         self.getresp = self.ts.get_response
         self.settings_service: SettingService = registry.get_instance("setting_service")
-        self.org_member_controller: OrgMemberController = registry.get_instance("org_member_controller")
 
     def pre_start(self):
         self.access_service.register_access_level(self.MEMBER_ACCESS_LEVEL, 80, self.check_member)
@@ -111,7 +110,7 @@ class MemberController:
             if row.auto_invite == 1:
                 self.buddy_service.add_buddy(row.char_id, self.MEMBER_BUDDY_TYPE)
 
-    @event(event_type=MEMBER_LOGON_EVENT, description="Auto invite members to the private channel when they logon")
+    @event(event_type=MEMBER_LOGON_EVENT, description="Auto invite members to the private channel when they logon", is_hidden=True)
     def handle_buddy_logon(self, event_type, event_data):
         if event_data.auto_invite == 1:
             self.bot.send_private_message(event_data.char_id, self.getresp("module/private_channel", "auto_invited"))

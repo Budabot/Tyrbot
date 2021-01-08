@@ -3,7 +3,7 @@ from core.db import DB
 from core.dict_object import DictObject
 from core.text import Text
 from core.chat_blob import ChatBlob
-from core.command_param_types import Any, Regex, CommandParam
+from core.command_param_types import Any, CommandParam
 import re
 
 

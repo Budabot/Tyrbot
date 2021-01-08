@@ -9,7 +9,6 @@ import time
 import re
 
 from modules.core.org_members.org_member_controller import OrgMemberController
-from modules.standard.online.log_controller import LogController
 
 
 @instance()
@@ -28,17 +27,18 @@ class OnlineController:
         self.util = registry.get_instance("util")
         self.pork_service = registry.get_instance("pork_service")
         self.character_service = registry.get_instance("character_service")
-        self.discord_controller = registry.get_instance("discord_controller")
+        self.discord_controller = registry.get_instance("discord_controller", is_optional=True)
         self.command_alias_service = registry.get_instance("command_alias_service")
         self.alts_service = registry.get_instance("alts_service")
         self.alts_controller = registry.get_instance("alts_controller")
-        self.log_controller: LogController = registry.get_instance("log_controller")
 
     def start(self):
         self.db.exec("DROP TABLE IF EXISTS online")
         self.db.exec("CREATE TABLE online (char_id INT NOT NULL, afk_dt INT NOT NULL, afk_reason VARCHAR(255) DEFAULT '', channel CHAR(50) NOT NULL, dt INT NOT NULL, UNIQUE(char_id, channel))")
         self.db.exec("DELETE FROM online")
-        self.discord_controller.register_discord_command_handler(self.online_discord_cmd, "online", [])
+
+        if self.discord_controller:
+            self.discord_controller.register_discord_command_handler(self.online_discord_cmd, "online", [])
 
         self.command_alias_service.add_alias("o", "online")
 

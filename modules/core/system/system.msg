@@ -122,5 +122,38 @@
   "status_title": {
     "en_US": "System Info",
     "de_DE": "Systeminformationen"
+  },
+  "messagehub_title": {
+    "en_US": "Message Hub Subscriptions ({count})"
+  },
+  "messagehub_info": {
+    "en_US": "Destinations are listed below, along with the sources they are subscribed to."
+  },
+  "subscribed": {
+    "en_US": "Subscribed"
+  },
+  "unsubscribed": {
+    "en_US": "Unsubscribed"
+  },
+  "messagehub_edit_title": {
+    "en_US": "{destination} Subscriptions ({count})"
+  },
+  "messagehub_already_subscribed": {
+    "en_US": "Destination <highlight>{destination}<end> is already subscribed to source <highlight>{source}<end>."
+  },
+  "messagehub_not_subscribed": {
+    "en_US": "Destination <highlight>{destination}<end> is not subscribed to source <highlight>{source}<end>."
+  },
+  "messagehub_invalid_subscription": {
+    "en_US": "Destination <highlight>{destination}<end> cannot be subscribed to source <highlight>{source}<end>."
+  },
+  "messagehub_subscribe_success": {
+    "en_US": "Destination <highlight>{destination}<end> has been subscribed to source <highlight>{source}<end> successfully."
+  },
+  "messagehub_unsubscribe_success": {
+    "en_US": "Destination <highlight>{destination}<end> has been unsubscribed from source <highlight>{source}<end> successfully."
+  },
+  "destination_not_exist": {
+    "en_US": "Destination <highlight>{destination}<end> does not exist."
   }
 }

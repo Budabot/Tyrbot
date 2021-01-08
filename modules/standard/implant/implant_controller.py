@@ -46,13 +46,37 @@ class ImplantController:
         self.command_alias_service.add_alias("implants", "implant")
 
     @command(command="implant", params=[Int("ql")], access_level="all",
-             description="Shows information about implants at given QL")
+             description="Shows information about an implant at given QL")
     def implant_cmd(self, request, ql):
         if ql > 300 or ql < 1:
             return "Implant QL must be between <highlight>1<end> and <highlight>300<end>."
 
         implant = self.get_implant_by_ql(ql)
+        blob = self.format_implant(implant)
 
+        return ChatBlob(f"Implant QL{implant.ql} ({implant.ability} Ability, {implant.treatment} Treatment)", blob)
+
+    @command(command="implant", params=[Int("ability"), Int("treatment")], access_level="all",
+             description="Shows highest QL implant for a given ability and treatment")
+    def implant_requirement_cmd(self, request, ability, treatment):
+        implant = self.get_implant_by_requirements(ability, treatment)
+        if not implant:
+            return "You do not have enough ability or treatment to wear an implant."
+
+        blob = self.format_implant(implant)
+
+        return ChatBlob(f"Implant QL{implant.ql} ({implant.ability} Ability, {implant.treatment} Treatment)", blob)
+
+    def get_implant_by_requirements(self, ability, treatment):
+        row = self.db.query_single("SELECT ql FROM implant_requirement WHERE ability <= ? AND treatment <= ? ORDER BY ql DESC LIMIT 1",
+                                   [ability, treatment])
+
+        if row:
+            return self.get_implant_by_ql(row.ql)
+        else:
+            return None
+
+    def format_implant(self, implant):
         blob = "<header2>Requirements to Wear<end>\n"
         blob += "<highlight>%d<end> Treatment\n" % implant.treatment
         blob += "<highlight>%d<end> Ability\n" % implant.ability
@@ -68,7 +92,7 @@ class ImplantController:
         blob += "<highlight>%d<end> Faded (%d - %d)\n" % (implant.skill_faded, implant.skill_faded_min, implant.skill_faded_max)
 
         blob += "\n<header2>Requirements to Clean<end>\n"
-        if ql <= 200:
+        if implant.ql <= 200:
             blob += "<highlight>%d<end> Break&Entry\n" % implant.clean_break_and_entry
             blob += "<highlight>%d<end> NanoProgramming\n" % implant.clean_nano_programming
         else:
@@ -84,7 +108,7 @@ class ImplantController:
         blob += "<highlight>%d<end> Bright\n" % implant.minimum_cluster_bright
         blob += "<highlight>%d<end> Faded\n" % implant.minimum_cluster_faded
 
-        if ql >= 99:
+        if implant.ql >= 99:
             blob += "\n<header>Jobe Requirements<end>\n"
 
             blob += "\n<header2>Requirements to Wear<end>\n"
@@ -100,15 +124,15 @@ class ImplantController:
 
         blob += "\n\nBased on the !impql command written for %s by <highlight>Lucier<end>" % self.text.make_chatcmd("Ttst", "/tell ttst help")
 
-        return ChatBlob("Implant QL%d" % ql, blob)
+        return blob
 
     def get_implant_by_ql(self, ql):
         implant = DictObject({})
 
         implant.ql = ql
 
-        implant.treatment = self.util.interpolate_value(ql, self.normal_treatment_req)
-        implant.ability = self.util.interpolate_value(ql, self.normal_ability_req)
+        implant.treatment = int(self.util.interpolate_value(ql, self.normal_treatment_req))
+        implant.ability = int(self.util.interpolate_value(ql, self.normal_ability_req))
 
         implant.jobe_treatment = self.util.interpolate_value(ql, self.jobe_treatment_req)
         implant.jobe_ability = self.util.interpolate_value(ql, self.jobe_ability_req)

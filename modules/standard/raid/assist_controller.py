@@ -1,6 +1,6 @@
 from core.decorators import instance, command
 from core.command_param_types import Any, Const
-from modules.standard.raid.leader_controller import LeaderController
+from .leader_controller import LeaderController
 
 
 @instance()

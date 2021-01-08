@@ -4,7 +4,7 @@ from core.decorators import instance, command
 from core.db import DB
 from core.text import Text
 from core.chat_blob import ChatBlob
-from core.command_param_types import Const, Any, Options
+from core.command_param_types import Const, Any, Options, NamedFlagParameters
 from core.translation_service import TranslationService
 
 
@@ -70,12 +70,12 @@ class ConfigEventsController:
     @command(command="config", params=[Const("eventlist")], access_level="admin",
              description="List all events")
     def config_eventlist_cmd(self, request, _):
-        sql = "SELECT module, event_type, event_sub_type, handler, description, enabled FROM event_config"
+        sql = "SELECT module, event_type, event_sub_type, handler, description, enabled, is_hidden FROM event_config"
         #sql += " WHERE is_hidden = 0"
-        sql += " ORDER BY module, event_type, event_sub_type, handler"
+        sql += " ORDER BY module, is_hidden, event_type, event_sub_type, handler"
         data = self.db.query(sql)
 
-        blob = ""
+        blob = "Asterisk (*) denotes a hidden event. Only change these events if you understand the implications.\n"
         current_module = ""
         for row in data:
             if current_module != row.module:
@@ -87,6 +87,8 @@ class ConfigEventsController:
             on_link = self.text.make_chatcmd("On", "/tell <myname> config event %s %s enable" % (event_type_key, row.handler))
             off_link = self.text.make_chatcmd("Off", "/tell <myname> config event %s %s disable" % (event_type_key, row.handler))
 
+            if row.is_hidden == 1:
+                blob += "*"
             blob += "%s [%s] %s %s - %s\n" % (event_type_key, self.format_enabled(row.enabled), on_link, off_link, row.description)
 
         return ChatBlob(self.getresp("module/config", "blob_events", {"amount": len(data)}), blob)

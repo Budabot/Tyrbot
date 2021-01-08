@@ -24,18 +24,18 @@ class OrgChannelController:
         self.message_hub_service = registry.get_instance("message_hub_service")
         self.setting_service: SettingService = registry.get_instance("setting_service")
         self.ban_service = registry.get_instance("ban_service")
-        self.log_controller = registry.get_instance("log_controller")
+        self.log_controller = registry.get_instance("log_controller", is_optional=True)
         self.online_controller = registry.get_instance("online_controller")
-        self.relay_controller = registry.get_instance("relay_controller")
         self.text: Text = registry.get_instance("text")
 
     def pre_start(self):
         self.message_hub_service.register_message_source(self.MESSAGE_SOURCE)
 
     def start(self):
-        self.message_hub_service.subscribe_message_source(self.MESSAGE_SOURCE,
-                                                          self.handle_incoming_relay_message,
-                                                          ["private_channel", "discord", "websocket_relay", "tell_relay"])
+        self.message_hub_service.register_message_destination(
+            self.MESSAGE_SOURCE, self.handle_incoming_relay_message,
+            ["private_channel", "discord", "websocket_relay", "tell_relay", "broadcast", "raffle", "cloak_reminder", "wave_counter", "shutdown_notice"],
+            [self.MESSAGE_SOURCE])
 
     def handle_incoming_relay_message(self, ctx):
         self.bot.send_org_message(ctx.formatted_message, fire_outgoing_event=False)
@@ -71,17 +71,18 @@ class OrgChannelController:
     def org_member_logon_event(self, event_type, event_data):
         if self.bot.is_ready():
             msg = "%s has logged on. %s" % (self.online_controller.get_char_info_display(event_data.char_id),
-                                            self.log_controller.get_logon(event_data.char_id))
+                                            self.log_controller.get_logon(event_data.char_id) if self.log_controller else "")
             self.bot.send_org_message(msg)
 
     @event(event_type=OrgMemberController.ORG_MEMBER_LOGOFF_EVENT, description="Notify when org member logs off")
     def org_member_logoff_event(self, event_type, event_data):
         if self.bot.is_ready():
             char_name = self.character_service.resolve_char_to_name(event_data.char_id)
-            msg = "<highlight>%s<end> has logged off. %s" % (char_name, self.log_controller.get_logoff(event_data.char_id))
+            msg = "<highlight>%s<end> has logged off. %s" % (char_name,
+                                                             self.log_controller.get_logoff(event_data.char_id) if self.log_controller else "")
             self.bot.send_org_message(msg)
 
-    @event(event_type=Tyrbot.OUTGOING_ORG_MESSAGE_EVENT, description="Relay commands from the org channel to the relay hub")
+    @event(event_type=Tyrbot.OUTGOING_ORG_MESSAGE_EVENT, description="Relay commands from the org channel to the relay hub", is_hidden=True)
     def outgoing_org_message_event(self, event_type, event_data):
         if isinstance(event_data.message, ChatBlob):
             pages = self.text.paginate(ChatBlob(event_data.message.title, event_data.message.msg), self.setting_service.get("org_channel_max_page_length").get_value())

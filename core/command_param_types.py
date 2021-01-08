@@ -299,3 +299,31 @@ class NamedParameters(CommandParam):
             values[name] = results[2]
             results = results[3:]
         return values
+
+class NamedFlagParameters(CommandParam):
+    def __init__(self, names):
+        super().__init__()
+        self.names = names
+        for name in names:
+            if " " in name:
+                raise Exception("One or more spaces found in command named param option '%s'." % name)
+
+    def get_regex(self):
+        regex = "((" + "|".join(map(lambda x: r"\s+--%s" % x, self.names)) + ")*)"
+        return regex
+
+    def get_name(self):
+        return " ".join(map(lambda x: "<highlight>[--%s]<end>" % x, self.names))
+
+    def process_matches(self, params):
+        v = params.pop(0)
+        params.pop(0)
+
+        regex = "^(" + "|".join(map(lambda x: r"(\s+--(%s))" % x, self.names)) + ")*$"
+        p = re.compile(regex)
+        results = p.findall(v)[0][1:]
+        values = DictObject()
+        for name in self.names:
+            values[name] = True if results[1] else False
+            results = results[2:]
+        return values

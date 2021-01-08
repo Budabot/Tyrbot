@@ -9,7 +9,7 @@ class TyrbotTest(unittest.TestCase):
 
     def test_system_message_ext_msg_handling(self):
         # tests SystemMessage with an ExtendedMessage containing a reference param
-        mmdb_parser = MMDBParser("../../text.mdb")
+        mmdb_parser = MMDBParser("./text.mdb")
         bot = Tyrbot()
         bot.mmdb_parser = mmdb_parser
 
@@ -20,7 +20,7 @@ class TyrbotTest(unittest.TestCase):
 
     def test_public_channel_message_ext_msg_handling(self):
         # tests PublicChannelMessage with an ExtendedMessage containing a tower attack
-        mmdb_parser = MMDBParser("../../text.mdb")
+        mmdb_parser = MMDBParser("./text.mdb")
         bot = Tyrbot()
         bot.mmdb_parser = mmdb_parser
 

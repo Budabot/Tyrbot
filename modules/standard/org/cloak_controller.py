@@ -9,6 +9,7 @@ from core.sender_obj import SenderObj
 
 @instance()
 class CloakController:
+    MESSAGE_SOURCE = "cloak_reminder"
     CLOAK_EVENT = "cloak"
 
     def inject(self, registry):
@@ -17,13 +18,15 @@ class CloakController:
         self.util = registry.get_instance("util")
         self.character_service = registry.get_instance("character_service")
         self.command_alias_service = registry.get_instance("command_alias_service")
-        self.timer_controller = registry.get_instance("timer_controller")
+        self.timer_controller = registry.get_instance("timer_controller", is_optional=True)
         self.event_service = registry.get_instance("event_service")
         self.access_service = registry.get_instance("access_service")
+        self.message_hub_service = registry.get_instance("message_hub_service")
 
     def pre_start(self):
         self.bot.add_packet_handler(PublicChannelMessage.id, self.handle_public_message)
         self.event_service.register_event_type(self.CLOAK_EVENT)
+        self.message_hub_service.register_message_source(self.MESSAGE_SOURCE)
 
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS cloak_status (char_id INT NOT NULL, action VARCHAR(10) NOT NULL, created_at INT NOT NULL)")
@@ -58,10 +61,13 @@ class CloakController:
 
         for row in data:
             one_hour = 3600
-            time_until_change = row.created_at + one_hour - int(time.time())
+            t = int(time.time())
+            time_until_change = row.created_at + one_hour - t
             if row.action == "off":
                 if time_until_change <= 0:
-                    self.bot.send_org_message("The cloaking device is <orange>disabled<end>. It is possible to enable it. <highlight>%s<end> disabled it earlier, but forgot it!" % row.name)
+                    time_str = self.util.time_to_readable(t - row.created_at)
+                    msg = "The cloaking device is <orange>disabled<end> but can be enabled. <highlight>%s<end> disabled it %s ago." % (row.name, time_str)
+                    self.message_hub_service(self.MESSAGE_SOURCE, None, None, msg)
 
     @event(event_type=CLOAK_EVENT, description="Set a timer for when cloak can be raised and lowered")
     def city_cloak_timer_event(self, event_type, event_data):
