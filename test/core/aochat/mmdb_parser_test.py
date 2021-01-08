@@ -6,17 +6,17 @@ from core.aochat.mmdb_parser import MMDBParser
 class MMDBParserTest(unittest.TestCase):
     def test_parse_params(self):
         # param type S
-        mmdb_parser = MMDBParser("../../../text.mdb")
+        mmdb_parser = MMDBParser("./text.mdb")
         params = mmdb_parser.parse_params(b'S\x00\x08TestOrg1')
         self.assertEqual(["TestOrg1"], params)
 
         # param type s
-        mmdb_parser = MMDBParser("../../../text.mdb")
+        mmdb_parser = MMDBParser("./text.mdb")
         params = mmdb_parser.parse_params(b's\x09TestOrg1')
         self.assertEqual(["TestOrg1"], params)
 
         # param type I
-        mmdb_parser = MMDBParser("../../../text.mdb")
+        mmdb_parser = MMDBParser("./text.mdb")
         params = mmdb_parser.parse_params(b'I\x01\x02\x03\x04')
         self.assertEqual([16909060], params)
 

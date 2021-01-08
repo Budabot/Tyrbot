@@ -4,9 +4,11 @@ WORKDIR /app
 
 ADD . /app
 
-RUN pip install  --no-cache-dir virtualenv && virtualenv .venv && . .venv/bin/activate && pip install  --no-cache-dir -r requirements.txt
-
-# TODO run tests
+RUN pip install  --no-cache-dir virtualenv && \
+    virtualenv .venv && \
+    . .venv/bin/activate && \
+    pip install  --no-cache-dir -r requirements.txt && \
+    python -m unittest discover -p '*_test.py'
 
 FROM python:3.6.6-slim
 
