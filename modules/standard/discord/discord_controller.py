@@ -83,7 +83,7 @@ class DiscordController:
                                                               [self.MESSAGE_SOURCE])
         self.register_discord_command_handler(self.help_discord_cmd, "help", [])
 
-        self.setting_service.register_change_listener("discord_channel_id", self.update_discord_channel_id)
+        self.setting_service.register_change_listener("discord_channel_name", self.update_discord_channel_name)
 
         self.ts.register_translation("module/discord", self.load_discord_msg)
 
@@ -95,23 +95,23 @@ class DiscordController:
     def discord_bot_token(self):
         return HiddenSettingType(allow_empty=True)
 
-    @setting(name="discord_channel_id", value="", description="Discord channel id to relay with")
-    def discord_channel_id(self):
-        return TextSettingType(allow_empty=True)
+    @setting(name="discord_channel_name", value="general", description="Discord channel name to relay with")
+    def discord_channel_name(self):
+        return TextSettingType(["general"], allow_empty=True)
 
     @setting(name="discord_embed_color", value="#00FF00", description="Discord embedded message color")
     def discord_embed_color(self):
         return ColorSettingType()
 
-    @setting(name="relay_color_prefix", value="#FCA712", description="Set the prefix color for relayed messages in org/private channel")
+    @setting(name="relay_color_prefix", value="#FCA712", description="Set the prefix color for messages coming from Discord")
     def relay_color_prefix(self):
         return ColorSettingType()
 
-    @setting(name="relay_color_name", value="#808080", description="Set the color of the name in the relayed message in org/private channel")
+    @setting(name="relay_color_name", value="#808080", description="Set the color of the name for messages coming from Discord")
     def relay_color_name(self):
         return ColorSettingType()
 
-    @setting(name="relay_color_message", value="#00DE42", description="Set the color of the content of the relayed message in org/private channel")
+    @setting(name="relay_color_message", value="#00DE42", description="Set the color of the content for messages coming from Discord")
     def relay_color_message(self):
         return ColorSettingType()
 
@@ -143,28 +143,6 @@ class DiscordController:
 
         return ChatBlob(self.getresp("module/discord", "title"), blob)
 
-    @command(command="discord", params=[Const("connect")], access_level="moderator", sub_command="manage",
-             description="Manually connect to Discord")
-    def discord_connect_cmd(self, request, _):
-        if self.is_connected():
-            return self.getresp("module/discord", "already_connected")
-        else:
-            token = self.get_discord_token()
-            if token:
-                self.connect_discord_client(token)
-                return self.getresp("module/discord", "connect_success")
-            else:
-                return self.getresp("module/discord", "no_token")
-
-    @command(command="discord", params=[Const("disconnect")], access_level="moderator", sub_command="manage",
-             description="Manually disconnect from Discord")
-    def discord_disconnect_cmd(self, request, _):
-        if not self.is_connected():
-            return self.getresp("module/discord", "not_connected")
-        else:
-            self.disconnect_discord_client()
-            return self.getresp("module/discord", "disconnect_msg")
-
     @command(command="discord", params=[Const("relay")], access_level="moderator", sub_command="manage",
              description="Setup relaying of channels")
     def discord_relay_cmd(self, request, _):
@@ -173,8 +151,8 @@ class DiscordController:
         constatus = self.getresp("module/discord", "connected" if self.is_connected() else "disconnected")
         subs = ""
         for channel in self.get_text_channels():
-            select_link = self.text.make_chatcmd("select", "/tell <myname> config setting discord_channel_id set %s" % channel.id)
-            selected = "(selected)" if self.setting_service.get("discord_channel_id").get_value() == str(channel.id) else ""
+            select_link = self.text.make_chatcmd("select", "/tell <myname> config setting discord_channel_name set %s" % channel.name)
+            selected = "(selected)" if self.setting_service.get("discord_channel_name").get_value() == channel.name else ""
             subs += self.getresp("module/discord", "relay", {"server_name": channel.guild.name,
                                                              "channel_name": channel.name,
                                                              "select": select_link,
@@ -209,11 +187,14 @@ class DiscordController:
 
             self.event_service.fire_event(dtype, message)
 
-    @event(event_type="connect", description="Connects the Discord client automatically on startup, if a token exists", is_enabled=False)
+    @timerevent(budatime="1m", description="Ensure the bot is connected to Discord", is_enabled=False)
     def handle_connect_event(self, event_type, event_data):
-        token = self.setting_service.get("discord_bot_token").get_value()
-        if token:
-            self.connect_discord_client(token)
+        if not self.client or not self.dthread.is_alive():
+            token = self.setting_service.get("discord_bot_token").get_value()
+            if token:
+                self.connect_discord_client(token)
+            else:
+                self.logger.warning("Unable to connect to Discord, discord_bot_token has not been set")
 
     @event(event_type="discord_command", description="Handles Discord commands", is_hidden=True)
     def handle_discord_command_event(self, event_type, message):
@@ -314,7 +295,7 @@ class DiscordController:
 
     def connect_discord_client(self, token):
         self.client = DiscordWrapper(
-            int(self.setting_service.get("discord_channel_id").get_value() or 0),
+            self.setting_service.get("discord_channel_name").get_value(),
             self.dqueue,
             self.aoqueue)
 
@@ -378,10 +359,11 @@ class DiscordController:
 
     def get_text_channels(self):
         if self.client:
-            return list(filter(lambda x: x.type is ChannelType.text, self.client.get_all_channels()))
+            return self.client.get_text_channels()
         else:
             return []
 
-    def update_discord_channel_id(self, setting_name, old_value, new_value):
+    def update_discord_channel_name(self, setting_name, old_value, new_value):
         if self.client:
-            self.client.channel_id = int(new_value or 0)
+            if not self.client.set_channel_name(new_value):
+                self.logger.warning(f"Could not find discord channel '{new_value}'")
