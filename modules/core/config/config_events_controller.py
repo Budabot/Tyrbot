@@ -4,7 +4,7 @@ from core.decorators import instance, command
 from core.db import DB
 from core.text import Text
 from core.chat_blob import ChatBlob
-from core.command_param_types import Const, Any, Options, NamedFlagParameters
+from core.command_param_types import Const, Any, Options, NamedFlagParameters, NamedParameters
 from core.translation_service import TranslationService
 
 
@@ -67,13 +67,17 @@ class ConfigEventsController:
                                                                           "handler": event_handler,
                                                                           "changedto": action})
 
-    @command(command="config", params=[Const("eventlist")], access_level="admin",
+    @command(command="config", params=[Const("eventlist"), NamedParameters(["event_type"])], access_level="admin",
              description="List all events")
-    def config_eventlist_cmd(self, request, _):
+    def config_eventlist_cmd(self, request, _, named_params):
+        params = []
         sql = "SELECT module, event_type, event_sub_type, handler, description, enabled, is_hidden FROM event_config"
         #sql += " WHERE is_hidden = 0"
+        if named_params.event_type:
+            sql += " WHERE event_type = ?"
+            params.append(named_params.event_type)
         sql += " ORDER BY module, is_hidden, event_type, event_sub_type, handler"
-        data = self.db.query(sql)
+        data = self.db.query(sql, params)
 
         blob = "Asterisk (*) denotes a hidden event. Only change these events if you understand the implications.\n"
         current_module = ""
