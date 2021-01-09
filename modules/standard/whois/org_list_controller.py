@@ -110,7 +110,6 @@ class OrgListController:
     def check_for_orglist_end(self):
         if self.orglist.org_members:
             self.iterate_org_members()
-            return
 
         if not self.orglist.waiting_org_members:
             self.orglist.reply(self.format_result())
