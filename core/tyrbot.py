@@ -133,17 +133,13 @@ class Tyrbot(Bot):
         self.logger.info("Connect events finished (%fs)" % (time.time() - start))
 
         self.ready = True
+        timestamp = None
 
         # TODO this prevents restarting as a way to clear the packet queue
         while self.status == BotStatus.RUN or len(self.packet_queue) > 0:
             try:
                 timestamp = int(time.time())
-
-                # timer events will execute no more often than once per second
-                if self.last_timer_event < timestamp:
-                    self.last_timer_event = timestamp
-                    self.job_scheduler.check_for_scheduled_jobs(timestamp)
-                    self.event_service.check_for_timer_events(timestamp)
+                self.check_for_timer_events(timestamp)
 
                 self.iterate()
             except (EOFError, OSError) as e:
@@ -151,7 +147,17 @@ class Tyrbot(Bot):
             except Exception as e:
                 self.logger.error("", e)
 
+        # run any pending jobs/events
+        self.check_for_timer_events(timestamp + 1)
+
         return self.status
+
+    def check_for_timer_events(self, timestamp):
+        # timer events will execute no more often than once per second
+        if self.last_timer_event < timestamp:
+            self.last_timer_event = timestamp
+            self.job_scheduler.check_for_scheduled_jobs(timestamp)
+            self.event_service.check_for_timer_events(timestamp)
 
     def add_packet_handler(self, packet_id: int, handler, priority=50):
         handlers = self.packet_handlers.get(packet_id, [])
