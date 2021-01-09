@@ -32,7 +32,7 @@ class CharacterService:
             self.notify_on_receive[char_name] = event
 
         if char_name not in self.name_to_id:
-            event.wait(2)
+            event.wait(10)
 
         return self.name_to_id.get(char_name, None)
 
