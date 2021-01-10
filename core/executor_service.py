@@ -17,10 +17,10 @@ class ExecutorService:
     def start(self):
         self.executor = ThreadPoolExecutor(max_workers=10)
 
-    def submit_job(self, max_timeout, job, *args, **kwargs):
+    def submit_job(self, start_timeout, job, *args, **kwargs):
         fut = self.executor.submit(job, *args, **kwargs)
         self.jobs.append(DictObject({"future": fut,
-                                     "expires": int(time.time()) + max_timeout}))
+                                     "expires": int(time.time()) + start_timeout}))
         self.jobs.sort(key=lambda x: x.expires)
         self.update_next_expiration()
 
@@ -34,5 +34,6 @@ class ExecutorService:
     def cancel_expired_jobs(self, t):
         while self.jobs and self.jobs[0].expires <= t:
             job = self.jobs.pop(0)
-            job.future.cancel()
+            if job.future.cancel():
+                self.logger.warning("canceling job due to timeout: '%s'" % job)
         self.update_next_expiration()
