@@ -129,7 +129,9 @@ class TowerController:
                 name = attack.attacker.name
                 faction = attack.attacker.faction
                 org_name = attack.attacker.org_name
-                attack.attacker = self.pork_service.get_character_info(name) or DictObject()
+                char_info = self.pork_service.get_character_info(name)
+                attack.attacker = char_info or DictObject()
+                attack.attacker.name = name
                 attack.attacker.faction = faction or attack.attacker.get("faction", "Unknown")
                 attack.attacker.org_name = org_name
 
