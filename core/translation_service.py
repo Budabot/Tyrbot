@@ -69,9 +69,7 @@ class TranslationService:
     #
     # the param 'variables' accepts dictionaries ONLY.
     #
-    def get_response(self, category, key, variables=None):
-        if variables is None:
-            variables = {}
+    def get_response(self, category, key, variables={}):
         msg = ""
         try:
             val = self.strings[category][key]

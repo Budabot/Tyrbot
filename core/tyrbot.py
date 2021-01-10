@@ -133,9 +133,8 @@ class Tyrbot(Bot):
         self.logger.info("Connect events finished (%fs)" % (time.time() - start))
 
         self.ready = True
-        timestamp = None
+        timestamp = int(time.time())
 
-        # TODO this prevents restarting as a way to clear the packet queue
         while self.status == BotStatus.RUN or len(self.packet_queue) > 0:
             try:
                 timestamp = int(time.time())

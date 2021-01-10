@@ -16,6 +16,7 @@ class EventService:
     def inject(self, registry):
         self.db = registry.get_instance("db")
         self.util = registry.get_instance("util")
+        self.executor_service = registry.get_instance("executor_service")
 
     def pre_start(self):
         self.register_event_type("timer")
@@ -91,7 +92,7 @@ class EventService:
 
         data = self.get_handlers(event_base_type, event_sub_type)
         for row in data:
-            self.call_handler(row.handler, event_type, event_data)
+            self.executor_service.submit_job(100, self.call_handler, row.handler, event_type, event_data)
 
     def call_handler(self, handler_method, event_type, event_data):
         handler = self.handlers.get(handler_method, None)
