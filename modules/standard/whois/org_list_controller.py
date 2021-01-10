@@ -71,6 +71,7 @@ class OrgListController:
         reply("Downloading org roster for org id %d..." % org_id)
 
         self.orglist = self.org_pork_service.get_org_info(org_id)
+        self.orglist.org_members = list(self.orglist.org_members.values())
 
         if not self.orglist:
             reply("Could not find org with ID <highlight>%d<end>." % org_id)
@@ -145,7 +146,7 @@ class OrgListController:
                 blob += "<font color='#555555'>" + ", ".join(map(lambda x: x.name, rank_info.offline_members)) + "<end>"
                 blob += "\n"
             else:
-                blob += "<font color='#555555'>Offline members ommitted for brevity<end>\n"
+                blob += "<font color='#555555'>Offline members omitted for brevity<end>\n"
             blob += "\n"
 
         return ChatBlob("Orglist for '%s' (%d / %d)" % (self.orglist.org_info.name, num_online, num_total), blob)
@@ -154,9 +155,10 @@ class OrgListController:
         # add org_members that we don't have online status for as buddies
         if len(self.orglist.waiting_org_members) >= 200:
             return
-        for char_id, org_member in self.orglist.org_members.copy().items():
-            self.orglist.waiting_org_members[char_id] = self.orglist.org_members[char_id]
-            del self.orglist.org_members[char_id]
+        while self.orglist.org_members:
+            org_member = self.orglist.org_members.pop()
+            char_id = org_member.char_id
+            self.orglist.waiting_org_members[char_id] = org_member
             is_online = self.buddy_service.is_online(char_id)
             if is_online is None:
                 if self.character_service.resolve_char_to_id(org_member.name):
