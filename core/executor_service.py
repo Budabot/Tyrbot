@@ -3,6 +3,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 from core.decorators import instance
 from core.dict_object import DictObject
+from core.feature_flags import FeatureFlags
 
 
 @instance()
@@ -15,14 +16,17 @@ class ExecutorService:
         self.job_scheduler = registry.get_instance("job_scheduler")
 
     def start(self):
-        self.executor = ThreadPoolExecutor(max_workers=10)
+        self.executor = ThreadPoolExecutor(max_workers=100)
 
     def submit_job(self, start_timeout, job, *args, **kwargs):
-        fut = self.executor.submit(job, *args, **kwargs)
-        self.jobs.append(DictObject({"future": fut,
-                                     "expires": int(time.time()) + start_timeout}))
-        self.jobs.sort(key=lambda x: x.expires)
-        self.update_next_expiration()
+        if FeatureFlags.THREADING:
+            fut = self.executor.submit(job, *args, **kwargs)
+            self.jobs.append(DictObject({"future": fut,
+                                         "expires": int(time.time()) + start_timeout}))
+            self.jobs.sort(key=lambda x: x.expires)
+            self.update_next_expiration()
+        else:
+            job(*args, **kwargs)
 
     def update_next_expiration(self):
         if self.jobs:

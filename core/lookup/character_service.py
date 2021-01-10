@@ -3,8 +3,9 @@ import threading
 from core.decorators import instance
 from core.aochat.client_packets import CharacterLookup
 from core.aochat import server_packets
-from core.db import DB
 import time
+
+from core.feature_flags import FeatureFlags
 
 
 @instance()
@@ -24,6 +25,16 @@ class CharacterService:
         self.bot.add_packet_handler(server_packets.CharacterName.id, self.update)
 
     def _wait_for_char_id(self, char_name):
+        # char_name must be .capitalize()'ed
+
+        packet = self.bot.iterate()
+        while packet and char_name not in self.name_to_id:
+            packet = self.bot.iterate()
+
+        return self.name_to_id.get(char_name, None)
+
+    # FeatureFlags.THREADING
+    def _wait_for_char_id_threading(self, char_name):
         # char_name must be .capitalize()'ed
 
         event = self.notify_on_receive.get(char_name, None)
@@ -47,7 +58,10 @@ class CharacterService:
                 return self.name_to_id[char_name]
             else:
                 self._send_lookup_if_needed(char_name)
-                return self._wait_for_char_id(char_name)
+                if FeatureFlags.THREADING:
+                    return self._wait_for_char_id_threading(char_name)
+                else:
+                    return self._wait_for_char_id(char_name)
 
     def resolve_char_to_name(self, char, default=None):
         if isinstance(char, int) or char.isdigit():
@@ -69,9 +83,10 @@ class CharacterService:
             self.name_to_id[packet.name] = packet.char_id
             self._update_name_history(packet.name, packet.char_id)
 
-        event = self.notify_on_receive.pop(packet.name, None)
-        if event:
-            event.set()
+        if FeatureFlags.THREADING:
+            event = self.notify_on_receive.pop(packet.name, None)
+            if event:
+                event.set()
 
     def _update_name_history(self, char_name, char_id):
         params = [char_name, char_id, int(time.time())]

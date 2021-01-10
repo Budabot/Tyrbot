@@ -1,0 +1,2 @@
+class FeatureFlags:
+    THREADING = False

@@ -4,6 +4,8 @@ from core.logger import Logger
 from __init__ import get_attrs
 import time
 
+from core.tyrbot import Tyrbot
+
 
 @instance()
 class EventService:
@@ -92,7 +94,8 @@ class EventService:
 
         data = self.get_handlers(event_base_type, event_sub_type)
         for row in data:
-            self.executor_service.submit_job(100, self.call_handler, row.handler, event_type, event_data)
+            # FeatureFlags.THREADING
+            self.executor_service.submit_job(10, self.call_handler, row.handler, event_type, event_data)
 
     def call_handler(self, handler_method, event_type, event_data):
         handler = self.handlers.get(handler_method, None)
