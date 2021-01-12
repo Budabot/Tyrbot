@@ -69,7 +69,7 @@ class Text:
         return msg
 
     def paginate_single(self, chatblob):
-        return self.paginate(chatblob)[0]
+        return self.paginate(chatblob, 8000)[0]
 
     def paginate(self, chatblob, max_page_length=None, max_num_pages=None, footer=None):
         label = chatblob.title
