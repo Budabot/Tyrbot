@@ -91,6 +91,7 @@ class CharacterInfoController:
         char_info = self.pork_service.get_character_info(char.name, max_cache_age)
         if char_info and char_info.source != "chat_server":
             blob = "Name: %s (%s)\n" % (self.get_full_name(char_info), self.text.make_chatcmd("History", "/tell <myname> history " + char_info.name))
+            blob += "Character Id: %d\n" % char_info.char_id
             blob += "Profession: %s\n" % char_info.profession
             blob += "Faction: <%s>%s<end>\n" % (char_info.faction.lower(), char_info.faction)
             blob += "Breed: %s\n" % char_info.breed
@@ -103,13 +104,14 @@ class CharacterInfoController:
             else:
                 blob += "Org: &lt;None&gt;\n"
                 blob += "Org Rank: &lt;None&gt;\n"
-            blob += "Head Id: %d\n" % char_info.head_id
-            blob += "PVP Rating: %d\n" % char_info.pvp_rating
-            blob += "PVP Title: %s\n" % char_info.pvp_title
-            blob += "Character Id: %d\n" % char_info.char_id
+            #blob += "Head Id: %d\n" % char_info.head_id
+            #blob += "PVP Rating: %d\n" % char_info.pvp_rating
+            #blob += "PVP Title: %s\n" % char_info.pvp_title
             blob += "Source: %s\n" % self.format_source(char_info, max_cache_age)
             blob += "Dimension: %s\n" % char_info.dimension
             blob += "Status: %s\n" % ("<green>Active<end>" if char.char_id else "<red>Inactive<end>")
+
+            blob += self.get_name_history(char.char_id)
 
             alts = self.alts_controller.alts_service.get_alts(char.char_id)
             blob += "\n<header2>Alts (%d)<end>\n" % len(alts)
@@ -123,12 +125,20 @@ class CharacterInfoController:
             blob += "Name: <highlight>%s<end>\n" % char.name
             blob += "Character ID: <highlight>%d<end>\n" % char.char_id
             if online_status is not None:
-                blob += "Online status: " + ("<green>Online<end>" if online_status else "<red>Offline<end>")
+                blob += "Online status: %s\n" % ("<green>Online<end>" if online_status else "<red>Offline<end>")
+            blob += self.get_name_history(char.char_id)
             msg = ChatBlob("Basic Info for %s" % char.name, blob)
         else:
             msg = "Could not find character <highlight>%s<end> on RK%d." % (char.name, dimension)
 
         reply(msg)
+
+    def get_name_history(self, char_id):
+        blob = "\n<header2>Name History<end>\n"
+        data = self.db.query("SELECT name, created_at FROM name_history WHERE char_id = ?", [char_id])
+        for row in data:
+            blob += "%s [%s]\n" % (row.name, self.util.format_date(row.created_at))
+        return blob
 
     @event(event_type="packet:20", description="Capture name history", is_hidden=True)
     def character_name_event(self, event_type, event_data):
