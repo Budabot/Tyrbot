@@ -2,10 +2,8 @@ remove timer_event table and store next_run in meta_data column of event_config
 
 Time command param to include both seconds and time_str
 fix number grouping on linux
-investigate async/await for events and commands
 off/on relay commands between org and private channels
 allow adjusting timer event times with !config
-add credits to !about
 expose poh loot with !loot command
 add a command to list all raid loot categories, cleanup !loot subcommands
 combine !is and !whois?
