@@ -51,20 +51,25 @@ class Text:
             return {"icon": self.make_item(item.lowid, item.highid, ql, self.make_image(item.icon)),
                     "text": self.make_item(item.lowid, item.highid, ql, item.name)}
 
-    def format_char_info(self, char_info):
+    def format_char_info(self, char_info, online_status=None):
         if char_info.org_name and char_info.org_rank_name:
-            return "<highlight>%s<end> (%d/<green>%d<end>) <%s>%s<end> %s, %s of <highlight>%s<end>" % \
+            msg = "<highlight>%s<end> (%d/<green>%d<end>) <%s>%s<end> %s, %s of <highlight>%s<end>" % \
                    (char_info.name, char_info.level, char_info.ai_level, char_info.faction.lower(), char_info.faction, char_info.profession, char_info.org_rank_name, char_info.org_name)
         elif char_info.level:
-            return "<highlight>%s<end> (%d/<green>%d<end>) <%s>%s<end> %s" % \
+            msg = "<highlight>%s<end> (%d/<green>%d<end>) <%s>%s<end> %s" % \
                    (char_info.name, char_info.level, char_info.ai_level, char_info.faction.lower(), char_info.faction, char_info.profession)
         elif char_info.name:
-            return "<highlight>%s<end>" % char_info.name
+            msg = "<highlight>%s<end>" % char_info.name
         else:
-            return "<highlight>CharId(%d)<end>" % char_info.char_id
+            msg = "<highlight>CharId(%d)<end>" % char_info.char_id
+
+        if online_status is not None:
+            msg += " :: " + ("<green>Online<end>" if online_status else "<red>Offline<end>")
+
+        return msg
 
     def paginate_single(self, chatblob):
-        return self.paginate(chatblob)[0]
+        return self.paginate(chatblob, 8000)[0]
 
     def paginate(self, chatblob, max_page_length=None, max_num_pages=None, footer=None):
         label = chatblob.title

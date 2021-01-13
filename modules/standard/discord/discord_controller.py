@@ -5,15 +5,15 @@ import threading
 from html.parser import HTMLParser
 
 import hjson
-from discord import Member, ChannelType
+from discord import Member
 
 from core.chat_blob import ChatBlob
-from core.command_param_types import Int, Any, Const, Options
+from core.command_param_types import Int, Const
 from core.decorators import instance, command, event, timerevent, setting
 from core.dict_object import DictObject
 from core.logger import Logger
 from core.lookup.character_service import CharacterService
-from core.setting_types import HiddenSettingType, ColorSettingType, TextSettingType
+from core.setting_types import HiddenSettingType, ColorSettingType, TextSettingType, BooleanSettingType
 from core.text import Text
 from core.translation_service import TranslationService
 
@@ -51,11 +51,10 @@ class DiscordController:
         self.client = None
         self.command_handlers = []
 
-        logging.getLogger("discord").setLevel(logging.INFO)
-
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
         self.db = registry.get_instance("db")
+        self.util = registry.get_instance("util")
         self.setting_service = registry.get_instance("setting_service")
         self.event_service = registry.get_instance("event_service")
         self.character_service: CharacterService = registry.get_instance("character_service")
@@ -84,12 +83,17 @@ class DiscordController:
         self.register_discord_command_handler(self.help_discord_cmd, "help", [])
 
         self.setting_service.register_change_listener("discord_channel_name", self.update_discord_channel_name)
+        self.setting_service.register_change_listener("discord_enabled", self.update_discord_state)
 
         self.ts.register_translation("module/discord", self.load_discord_msg)
 
     def load_discord_msg(self):
         with open("modules/standard/discord/discord.msg", mode="r", encoding="utf-8") as f:
             return hjson.load(f)
+
+    @setting(name="discord_enabled", value=False, description="Enable the Discord relay")
+    def discord_enabled(self):
+        return BooleanSettingType()
 
     @setting(name="discord_bot_token", value="", description="Discord bot token")
     def discord_bot_token(self):
@@ -184,17 +188,15 @@ class DiscordController:
             if dtype == "discord_message" and message.content.startswith(self.setting_service.get("symbol").get_value()):
                 message = self.command_service.trim_command_symbol(message.content)
                 dtype = "discord_command"
+            elif dtype == "discord_ready":
+                self.send_to_discord("msg", DiscordMessage("plain", "", "", f"{self.bot.char_name} is now connected."))
 
             self.event_service.fire_event(dtype, message)
 
-    @timerevent(budatime="1m", description="Ensure the bot is connected to Discord", is_enabled=False)
+    @timerevent(budatime="1m", description="Ensure the bot is connected to Discord", is_enabled=False, is_hidden=True)
     def handle_connect_event(self, event_type, event_data):
-        if not self.client or not self.dthread.is_alive():
-            token = self.setting_service.get("discord_bot_token").get_value()
-            if token:
-                self.connect_discord_client(token)
-            else:
-                self.logger.warning("Unable to connect to Discord, discord_bot_token has not been set")
+        if not self.is_connected():
+            self.connect_discord_client()
 
     @event(event_type="discord_command", description="Handles Discord commands", is_hidden=True)
     def handle_discord_command_event(self, event_type, message):
@@ -293,14 +295,20 @@ class DiscordController:
         r = re.compile(self.command_service.get_regex_from_params(params), re.IGNORECASE | re.DOTALL)
         self.command_handlers.append(DictObject({"callback": callback, "command": command_str, "params": params, "regex": r}))
 
-    def connect_discord_client(self, token):
-        self.client = DiscordWrapper(
-            self.setting_service.get("discord_channel_name").get_value(),
-            self.dqueue,
-            self.aoqueue)
+    def connect_discord_client(self):
+        token = self.setting_service.get("discord_bot_token").get_value()
+        if not token:
+            self.logger.warning("Unable to connect to Discord, discord_bot_token has not been set")
+        else:
+            self.disconnect_discord_client()
 
-        self.dthread = threading.Thread(target=self.run_discord_thread, args=(self.client, token), daemon=True)
-        self.dthread.start()
+            self.client = DiscordWrapper(
+                self.setting_service.get("discord_channel_name").get_value(),
+                self.dqueue,
+                self.aoqueue)
+
+            self.dthread = threading.Thread(target=self.run_discord_thread, args=(self.client, token), daemon=True)
+            self.dthread.start()
 
     def run_discord_thread(self, client, token):
         try:
@@ -311,8 +319,14 @@ class DiscordController:
             self.logger.error("discord connection lost", e)
 
     def disconnect_discord_client(self):
-        self.client.loop.create_task(self.client.logout())
-        self.client = None
+        if self.client:
+            self.client.loop.create_task(self.client.logout_with_message(f"{self.bot.char_name} is disconnecting..."))
+            self.client = None
+        if self.dthread:
+            self.dthread.join()
+            self.dthread = None
+        self.dqueue = []
+        self.aoqueue = []
 
     def strip_html_tags(self, html):
         s = MLStripper()
@@ -330,7 +344,8 @@ class DiscordController:
         reply(msg, "Help")
 
     def is_connected(self):
-        return self.client and self.client.is_ready()
+        #not self.client or not self.dthread.is_alive()
+        return self.client and self.client.is_ready() and self.dthread and self.dthread.is_alive()
 
     def get_char_info_display(self, char_id):
         char_info = self.pork_service.get_character_info(char_id)
@@ -340,12 +355,6 @@ class DiscordController:
             name = self.character_service.resolve_char_to_name(char_id)
 
         return name
-
-    def get_discord_token(self):
-        # TODO allow setting discord token in config
-        token = self.setting_service.get("discord_bot_token").get_value()
-
-        return token
 
     def send_to_discord(self, message_type, data):
         self.aoqueue.append((message_type, data))
@@ -367,3 +376,15 @@ class DiscordController:
         if self.client:
             if not self.client.set_channel_name(new_value):
                 self.logger.warning(f"Could not find discord channel '{new_value}'")
+
+    def update_discord_state(self, setting_name, old_value, new_value):
+        if setting_name == "discord_enabled":
+            event_handlers = [self.handle_connect_event, self.handle_discord_queue_event, self.handle_discord_invite_event,
+                              self.handle_discord_message_event, self.handle_discord_command_event]
+            for handler in event_handlers:
+                event_handler = self.util.get_handler_name(handler)
+                event_base_type, event_sub_type = self.event_service.get_event_type_parts(handler.event[0])
+                self.event_service.update_event_status(event_base_type, event_sub_type, event_handler, 1 if new_value else 0)
+
+            if not new_value:
+                self.disconnect_discord_client()
