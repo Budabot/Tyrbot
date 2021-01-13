@@ -17,21 +17,21 @@ class ChatXmlConverter:
         (re.compile(r"<highlight>(.+?)<end>"), r"<strong>\1</strong>"),
         (re.compile(r"<notice>(.+?)<end>"), r"<strong>\1</strong>"),
 
-        (re.compile(r"<omni>(.+?)<end>"), r"<omni>\1</omni>"),
-        (re.compile(r"<clan>(.+?)<end>"), r"<clan>\1</clan>"),
-        (re.compile(r"<neutral>(.+?)<end>"), r"<neutral>\1</neutral>"),
-        (re.compile(r"<unknown>(.+?)<end>"), r"<unknown>\1</unknown>"),
-
-        (re.compile(r"<green>(.+?)<end>"), r"<black>\1</black>"),
-        (re.compile(r"<white>(.+?)<end>"), r"<white>\1</white>"),
-        (re.compile(r"<yellow>(.+?)<end>"), r"<yellow>\1</yellow>"),
-        (re.compile(r"<blue>(.+?)<end>"), r"<blue>\1</blue>"),
-        (re.compile(r"<green>(.+?)<end>"), r"<green>\1</green>"),
-        (re.compile(r"<red>(.+?)<end>"), r"<red>\1</red>"),
-        (re.compile(r"<orange>(.+?)<end>"), r"<orange>\1</orange>"),
-        (re.compile(r"<grey>(.+?)<end>"), r"<grey>\1</grey>"),
-        (re.compile(r"<cyan>(.+?)<end>"), r"<cyan>\1</cyan>"),
-        (re.compile(r"<violet>(.+?)<end>"), r"<violet>\1</violet>"),
+        # (re.compile(r"<omni>(.+?)<end>"), r"<omni>\1</omni>"),
+        # (re.compile(r"<clan>(.+?)<end>"), r"<clan>\1</clan>"),
+        # (re.compile(r"<neutral>(.+?)<end>"), r"<neutral>\1</neutral>"),
+        # (re.compile(r"<unknown>(.+?)<end>"), r"<unknown>\1</unknown>"),
+        #
+        # (re.compile(r"<black>(.+?)<black>"), r"<black>\1</black>"),
+        # (re.compile(r"<white>(.+?)<end>"), r"<white>\1</white>"),
+        # (re.compile(r"<yellow>(.+?)<end>"), r"<yellow>\1</yellow>"),
+        # (re.compile(r"<blue>(.+?)<end>"), r"<blue>\1</blue>"),
+        # (re.compile(r"<green>(.+?)<end>"), r"<green>\1</green>"),
+        # (re.compile(r"<red>(.+?)<end>"), r"<red>\1</red>"),
+        # (re.compile(r"<orange>(.+?)<end>"), r"<orange>\1</orange>"),
+        # (re.compile(r"<grey>(.+?)<end>"), r"<grey>\1</grey>"),
+        # (re.compile(r"<cyan>(.+?)<end>"), r"<cyan>\1</cyan>"),
+        # (re.compile(r"<violet>(.+?)<end>"), r"<violet>\1</violet>"),
     ]
 
     xml_to_aoml_replacements = {
