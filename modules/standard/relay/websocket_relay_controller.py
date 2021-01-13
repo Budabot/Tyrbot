@@ -263,9 +263,7 @@ class WebsocketRelayController:
                 event_base_type, event_sub_type = self.event_service.get_event_type_parts(handler.event[0])
                 self.event_service.update_event_status(event_base_type, event_sub_type, event_handler, 1 if new_value else 0)
 
-            if new_value and self.bot.is_ready():
-                self.connect()
-            else:
+            if not new_value:
                 self.disconnect()
         elif setting_name == "websocket_relay_server_address":
             if self.setting_service.get("websocket_relay_enabled").get_value():

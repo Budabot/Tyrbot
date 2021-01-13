@@ -15,6 +15,11 @@ class DiscordWrapper(discord.Client):
         self.channel_name = channel_name
         self.channel = None
 
+    async def logout_with_message(self, msg):
+        if self.channel:
+            await self.channel.send(msg)
+        await super().logout()
+
     async def on_ready(self):
         self.set_channel_name(self.channel_name)
         self.dqueue.append(("discord_ready", "ready"))

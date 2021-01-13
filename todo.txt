@@ -13,8 +13,7 @@ automatically give leader when using loot:change commands
 trader drain command
 add self.module_name to controllers/components
 allow chatblobs in message_hub
-
-EVENTS
+update websocket relay to remove buddies when bot disconnects
 
 done
 ----
