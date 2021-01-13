@@ -135,7 +135,7 @@ class CharacterInfoController:
 
     def get_name_history(self, char_id):
         blob = "\n<header2>Name History<end>\n"
-        data = self.db.query("SELECT name, created_at FROM name_history WHERE char_id = ?", [char_id])
+        data = self.db.query("SELECT name, created_at FROM name_history WHERE char_id = ? ORDER BY created_at DESC", [char_id])
         for row in data:
             blob += "%s [%s]\n" % (row.name, self.util.format_date(row.created_at))
         return blob
