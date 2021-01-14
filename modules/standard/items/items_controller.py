@@ -51,6 +51,9 @@ class ItemsController:
                 return "No QL <highlight>%d<end> items found matching <highlight>%s<end>." % (ql, search)
             else:
                 return "No items found matching <highlight>%s<end>." % search
+        elif cnt == 1:
+            item = items[0]
+            return self.format_single_item(item, ql)
         else:
             blob = ""
             # blob += "Version: <highlight>%s<end>\n" % "unknown"
@@ -77,20 +80,25 @@ class ItemsController:
         for item in items:
             blob += "<pagebreak>"
             blob += self.text.make_image(item.icon) + "\n"
-            if ql:
-                blob += "QL %d " % ql
-                blob += self.text.make_item(item.lowid, item.highid, ql, item.name)
-            else:
-                blob += self.text.make_item(item.lowid, item.highid, item.highql, item.name)
-
-            if item.lowql != item.highql:
-                blob += " (QL%d - %d)\n" % (item.lowql, item.highql)
-            else:
-                blob += " (QL%d)\n" % item.highql
-
-            blob += "\n"
+            blob += self.format_single_item(item, ql)
+            blob += "\n\n"
 
         return blob
+
+    def format_single_item(self, item, ql):
+        msg = ""
+        if ql:
+            msg += "QL %d " % ql
+            msg += self.text.make_item(item.lowid, item.highid, ql, item.name)
+        else:
+            msg += self.text.make_item(item.lowid, item.highid, item.highql, item.name)
+
+        if item.lowql != item.highql:
+            msg += " (QL%d - %d)\n" % (item.lowql, item.highql)
+        else:
+            msg += " (QL%d)\n" % item.highql
+
+        return msg
 
     def find_items(self, name, ql=None):
         params = [name]
