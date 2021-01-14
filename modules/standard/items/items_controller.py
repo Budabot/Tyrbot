@@ -88,15 +88,19 @@ class ItemsController:
     def format_single_item(self, item, ql):
         msg = ""
         if ql:
-            msg += "QL %d " % ql
-            msg += self.text.make_item(item.lowid, item.highid, ql, item.name)
+            if item.lowql != item.highql:
+                msg += item.name
+                msg += " %s" % self.text.make_item(item.lowid, item.highid, item.highql, ql)
+                msg += " [%s - %s]" % (self.text.make_item(item.lowid, item.highid, item.lowql, item.lowql), self.text.make_item(item.lowid, item.highid, item.highql, item.highql))
+            elif item.lowql == item.highql:
+                msg += " %s" % item.name
+                msg += " [%s] " % self.text.make_item(item.lowid, item.highid, item.highql, item.highql)
+        elif item.lowql == item.highql:
+            msg += " %s" % item.name
+            msg += " [%s] " % self.text.make_item(item.lowid, item.highid, item.highql, item.highql)
         else:
-            msg += self.text.make_item(item.lowid, item.highid, item.highql, item.name)
-
-        if item.lowql != item.highql:
-            msg += " (QL%d - %d)\n" % (item.lowql, item.highql)
-        else:
-            msg += " (QL%d)\n" % item.highql
+            msg += item.name
+            msg += " [%s - %s]" % (self.text.make_item(item.lowid, item.highid, item.highql, item.lowql), self.text.make_item(item.lowid, item.highid, item.highql, item.highql))
 
         return msg
 
