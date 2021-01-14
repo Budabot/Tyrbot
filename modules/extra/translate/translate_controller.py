@@ -43,14 +43,10 @@ class TranslateController:
         azure_url = "https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=%s" % opt_language
         payload_data = [{'Text':query}]
         header_data = {'Ocp-Apim-Subscription-Key': self.setting_azure_token().get_value(), 'Ocp-Apim-Subscription-Region': self.setting_azure_region().get_value(), 'Content-Type': 'application/json'}
-        try:
-            r = requests.post(azure_url, headers=header_data, json=payload_data, timeout=2)
-            response = json.loads(r.content)
-            return "(%s) %s >> (%s) %s" % (response[0]['detectedLanguage']['language'], query, response[0]['translations'][0]['to'], response[0]['translations'][0]['text'])
-        except Exception as e:
-            self.logger.warning('Exception occured: '+e)
-            self.logger.warning(r.content)
-            return "Something went wrong, try again later."
+
+        r = requests.post(azure_url, headers=header_data, json=payload_data, timeout=2)
+        response = json.loads(r.content)
+        return "(%s) %s >> (%s) %s" % (response[0]['detectedLanguage']['language'], query, response[0]['translations'][0]['to'], response[0]['translations'][0]['text'])
 
     @command(command="translate", params=[Any("text")], access_level="member", description="Translate text")
     def translate_cmd(self, request, query):
@@ -61,11 +57,7 @@ class TranslateController:
         azure_url = "https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=%s" % self.setting_translate_language().get_value()
         payload_data = [{'Text':query}]
         header_data = {'Ocp-Apim-Subscription-Key': self.setting_azure_token().get_value(), 'Ocp-Apim-Subscription-Region': self.setting_azure_region().get_value(), 'Content-Type': 'application/json'}
-        try:
-            r = requests.post(azure_url, headers=header_data, json=payload_data, timeout=2)
-            response = json.loads(r.content)
-            return "(%s) %s >> (%s) %s" % (response[0]['detectedLanguage']['language'], query, response[0]['translations'][0]['to'], response[0]['translations'][0]['text'])
-        except Exception as e:
-            self.logger.warning('Exception occured: '+e)
-            self.logger.warning(r.content)
-            return "Something went wrong, try again later."
+
+        r = requests.post(azure_url, headers=header_data, json=payload_data, timeout=2)
+        response = json.loads(r.content)
+        return "(%s) %s >> (%s) %s" % (response[0]['detectedLanguage']['language'], query, response[0]['translations'][0]['to'], response[0]['translations'][0]['text'])
