@@ -4,8 +4,6 @@ from core.logger import Logger
 from __init__ import get_attrs
 import time
 
-from core.tyrbot import Tyrbot
-
 
 @instance()
 class EventService:
@@ -30,8 +28,7 @@ class EventService:
                 if hasattr(method, "event"):
                     event_type, description, is_hidden, is_enabled = getattr(method, "event")
                     handler = getattr(inst, name)
-                    module = self.util.get_module_name(handler)
-                    self.register(handler, event_type, description, module, is_hidden, is_enabled)
+                    self.register(handler, event_type, description, inst.module_name, is_hidden, is_enabled)
 
     def register_event_type(self, event_type):
         event_type = event_type.lower()

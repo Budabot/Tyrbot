@@ -23,9 +23,7 @@ class SettingService:
             for name, method in get_attrs(inst).items():
                 if hasattr(method, "setting"):
                     setting_name, value, description, extended_description, obj = getattr(method, "setting")
-                    handler = getattr(inst, name)
-                    module = self.util.get_module_name(handler)
-                    self.register(setting_name, value, description, obj, module, extended_description)
+                    self.register(setting_name, value, description, obj, inst.module_name, extended_description)
 
     def register(self, name, value, description, setting: SettingType, module, extended_description=None):
         name = name.lower()
@@ -82,7 +80,7 @@ class SettingService:
 
     def set_value(self, name, value):
         old_value = self.get_value(name)
-    
+
         # clear cache
         self.db_cache[name] = None
 

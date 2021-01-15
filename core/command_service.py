@@ -70,8 +70,7 @@ class CommandService:
                 if hasattr(method, "command"):
                     cmd_name, params, access_level, description, help_file, sub_command, extended_description = getattr(method, "command")
                     handler = getattr(inst, name)
-                    module = self.util.get_module_name(handler)
-                    help_text = self.get_help_file(module, help_file)
+                    help_text = self.get_help_file(inst.module_name, help_file)
 
                     command_key = self.get_command_key(cmd_name.lower(), sub_command.lower() if sub_command else "")
                     al = access_levels.get(command_key, None)
@@ -79,7 +78,7 @@ class CommandService:
                         raise Exception("Different access levels specified for forms of command '%s'" % command_key)
                     access_levels[command_key] = access_level
 
-                    self.register(handler, cmd_name, params, access_level, description, module, help_text, sub_command, extended_description)
+                    self.register(handler, cmd_name, params, access_level, description, inst.module_name, help_text, sub_command, extended_description)
 
     def register(self, handler, command, params, access_level, description, module, help_text=None, sub_command=None, extended_description=None, check_access=None):
         if len(inspect.signature(handler).parameters) != len(params) + 1:

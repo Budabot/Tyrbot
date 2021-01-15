@@ -56,6 +56,10 @@ class Registry:
     @classmethod
     def add_instance(cls, name, inst, override=False):
         name = cls.format_name(name)
+
+        module_name = Registry.get_module_name(inst)
+        inst.module_name = module_name
+
         if not override and name in cls._registry:
             raise Exception("Overriding '%s' with new instance" % name)
         cls._registry[name] = inst
@@ -88,3 +92,15 @@ class Registry:
         # strip the extension
         file = file[:-3]
         importlib.import_module(file.replace("\\", ".").replace("/", "."))
+
+    @classmethod
+    def get_module_name(cls, inst):
+        parts = inst.__module__.split(".")
+        if parts[0] == "core":
+            return "core"
+        # TODO use values from config module_paths to be more accurate here
+        # last name in directory path should be first part, then the next name should be last part
+        elif parts[0] == "modules":
+            return parts[1] + "." + parts[2]
+        else:
+            return ".".join(parts[:-1])
