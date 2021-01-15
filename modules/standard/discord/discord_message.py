@@ -2,12 +2,13 @@ from discord import Embed
 
 
 class DiscordMessage:
-    def __init__(self, dtype, channel, sender, content, color=None):
+    def __init__(self, dtype, title, sender, content, channel=None, color=None):
         self.dtype = str(dtype)
-        self.channel = str(channel)
+        self.title = str(title)
         self.sender = sender
         self.content = str(content).replace("\"", "'")
         self.color = color
+        self.channel = channel
 
         if self.color is None:
             self.color = 0
@@ -15,7 +16,7 @@ class DiscordMessage:
     def build_command_message(self):
         content = "\n" + self.content
 
-        return Embed(title=self.channel, description=content, color=self.color)
+        return Embed(title=self.title, description=content, color=self.color)
 
     def build_message(self):
         if self.sender:
@@ -23,8 +24,8 @@ class DiscordMessage:
         else:
             content = self.content
 
-        if self.channel:
-            return "[%s] %s" % (self.channel, content)
+        if self.title:
+            return "[%s] %s" % (self.title, content)
         else:
             return content
 

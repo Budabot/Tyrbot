@@ -1,11 +1,11 @@
 import datetime
-import logging
 import re
 import threading
+from functools import partial
 from html.parser import HTMLParser
 
 import hjson
-from discord import Member
+from discord import Member, ChannelType
 
 from core.chat_blob import ChatBlob
 from core.command_param_types import Int, Const
@@ -185,9 +185,11 @@ class DiscordController:
         if self.dqueue:
             dtype, message = self.dqueue.pop(0)
 
-            if dtype == "discord_message" and message.content.startswith(self.setting_service.get("symbol").get_value()):
-                message = self.command_service.trim_command_symbol(message.content)
-                dtype = "discord_command"
+            if dtype == "discord_message":
+                if message.channel.type == ChannelType.private or message.content.startswith(self.setting_service.get("symbol").get_value()):
+                    self.handle_discord_command_event(message)
+                else:
+                    self.handle_discord_message_event(message)
             elif dtype == "discord_ready":
                 self.send_to_discord("msg", DiscordMessage("plain", "", "", f"{self.bot.char_name} is now connected."))
 
@@ -198,14 +200,13 @@ class DiscordController:
         if not self.is_connected():
             self.connect_discord_client()
 
-    @event(event_type="discord_command", description="Handles Discord commands", is_hidden=True)
-    def handle_discord_command_event(self, event_type, message):
+    def handle_discord_command_event(self, message):
         if not self.find_discord_command_handler(message):
+            #self.command_service.process_command(message, )
             # TODO fall back to normal command handlers
             pass
 
-    @event(event_type="discord_message", description="Relays Discord messages to relay hub", is_hidden=True)
-    def handle_discord_message_event(self, event_type, message):
+    def handle_discord_message_event(self, message):
         if isinstance(message.author, Member):
             name = message.author.nick or message.author.name
         else:
@@ -248,22 +249,23 @@ class DiscordController:
         self.bot.send_private_message(sender, ChatBlob(self.getresp("module/discord", "invite_title"), blob))
 
     def find_discord_command_handler(self, message):
-        command_str, command_args = self.command_service.get_command_parts(message)
+        message_str = self.command_service.trim_command_symbol(message.content)
+        command_str, command_args = self.command_service.get_command_parts(message_str)
         for handler in self.command_handlers:
             if handler.command == command_str:
                 matches = handler.regex.search(command_args)
 
-                ctx = DictObject()
+                ctx = DictObject({"message": message})
 
                 if matches:
-                    handler.callback(ctx, self.discord_command_reply,
+                    handler.callback(ctx, partial(self.discord_command_reply, channel=message.channel),
                                      self.command_service.process_matches(matches, handler.params))
                 else:
-                    self.discord_command_reply(self.generate_help(command_str, handler.params), "Command Help")
+                    self.discord_command_reply(self.generate_help(command_str, handler.params), "Command Help", message.channel)
                 return True
         return False
 
-    def discord_command_reply(self, content, title=None):
+    def discord_command_reply(self, content, title=None, channel=None):
         if isinstance(content, ChatBlob):
             if not title:
                 title = content.title
@@ -275,7 +277,7 @@ class DiscordController:
 
         if isinstance(content, str):
             msgcolor = self.setting_service.get("discord_embed_color").get_int_value()
-            content = DiscordMessage("embed", title, self.bot.char_name, self.format_message(content), msgcolor)
+            content = DiscordMessage("embed", title, self.bot.char_name, self.format_message(content), channel, msgcolor)
 
         if isinstance(content, DiscordMessage):
             self.send_to_discord("command_reply", content)
