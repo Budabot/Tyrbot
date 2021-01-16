@@ -79,7 +79,7 @@ class DB:
 
         def map_result(cur):
             row = cur.fetchone()
-            return row if row is None else DictObject(row)
+            return DictObject(row) if row else None
 
         return self._execute_wrapper(sql, params, map_result)
 

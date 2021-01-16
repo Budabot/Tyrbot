@@ -381,8 +381,7 @@ class DiscordController:
 
     def update_discord_state(self, setting_name, old_value, new_value):
         if setting_name == "discord_enabled":
-            event_handlers = [self.handle_connect_event, self.handle_discord_queue_event, self.handle_discord_invite_event,
-                              self.handle_discord_message_event, self.handle_discord_command_event]
+            event_handlers = [self.handle_connect_event, self.handle_discord_queue_event, self.handle_discord_invite_event]
             for handler in event_handlers:
                 event_handler = self.util.get_handler_name(handler)
                 event_base_type, event_sub_type = self.event_service.get_event_type_parts(handler.event[0])

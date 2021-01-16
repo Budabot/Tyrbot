@@ -62,6 +62,8 @@ class Registry:
 
         if not override and name in cls._registry:
             raise Exception("Overriding '%s' with new instance" % name)
+        elif override and name not in cls._registry:
+            raise Exception("No instance '%s' to override" % name)
         cls._registry[name] = inst
 
     @classmethod
