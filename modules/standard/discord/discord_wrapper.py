@@ -54,7 +54,7 @@ class DiscordWrapper(discord.Client):
                 except Exception as e:
                     self.logger.error("Exception raised during Discord event (%s, %s)" % (str(dtype), str(message)), e)
 
-            await asyncio.sleep(1)
+            await asyncio.sleep(0.1)
 
     def set_channel_name(self, channel_name):
         self.channel_name = channel_name

@@ -170,7 +170,7 @@ class Tyrbot(Bot):
                 handlers.remove(h)
 
     def iterate(self):
-        packet = self.read_packet(1)
+        packet = self.read_packet(0.1)
         if packet:
             if isinstance(packet, server_packets.SystemMessage):
                 packet = self.system_message_ext_msg_handling(packet)
