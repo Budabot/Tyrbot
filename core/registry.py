@@ -1,7 +1,7 @@
 import re
 import os
 import importlib
-from __init__ import flatmap
+from core.functions import flatmap
 
 
 class Registry:

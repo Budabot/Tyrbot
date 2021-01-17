@@ -2,7 +2,7 @@ from core.decorators import instance
 from core.logger import Logger
 from .setting_types import SettingType
 from core.registry import Registry
-from __init__ import get_attrs
+from core.functions import get_attrs
 
 
 @instance()

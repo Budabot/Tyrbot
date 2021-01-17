@@ -12,7 +12,7 @@ from core.aochat import server_packets, client_packets
 from core.aochat.extended_message import ExtendedMessage
 from core.aochat.delay_queue import DelayQueue
 from core.bot_status import BotStatus
-from __init__ import flatmap
+from core.functions import flatmap
 import os
 import time
 

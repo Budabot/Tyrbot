@@ -10,7 +10,7 @@ from core.registry import Registry
 from core.logger import Logger
 from core.tyrbot import Tyrbot
 from core.chat_blob import ChatBlob
-from __init__ import flatmap, get_attrs
+from core.functions import flatmap, get_attrs
 import collections
 import re
 import inspect

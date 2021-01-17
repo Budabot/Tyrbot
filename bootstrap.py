@@ -3,7 +3,7 @@ from core import config_creator
 from core.dict_object import DictObject
 from core.logger import Logger
 from core.aochat.mmdb_parser import MMDBParser
-from __init__ import merge_dicts
+from core.functions import merge_dicts
 import hjson
 import time
 import os
