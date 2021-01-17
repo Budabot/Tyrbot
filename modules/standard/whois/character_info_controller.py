@@ -27,7 +27,6 @@ class CharacterInfoController:
         self.util = registry.get_instance("util")
         self.alts_service = registry.get_instance("alts_service")
         self.alts_controller = registry.get_instance("alts_controller")
-        self.discord_controller = registry.get_instance("discord_controller", is_optional=True)
         self.buddy_service = registry.get_instance("buddy_service")
 
     def start(self):
@@ -35,9 +34,6 @@ class CharacterInfoController:
         self.command_alias_service.add_alias("w", "whois")
         self.command_alias_service.add_alias("lookup", "whois")
         self.command_alias_service.add_alias("is", "whois")
-
-        if self.discord_controller:
-            self.discord_controller.register_discord_command_handler(self.whois_discord_cmd, "whois", [Character("character")])
 
     @command(command="whois", params=[Character("character"), Int("dimension", is_optional=True), Const("forceupdate", is_optional=True)], access_level="member",
              description="Get whois information for a character")
@@ -190,14 +186,3 @@ class CharacterInfoController:
                 self.bot.remove_packet_handler(BuddyAdded.id, self.handle_buddy_status)
 
             obj.callback(packet.online == 1)
-
-    def whois_discord_cmd(self, ctx, reply, args):
-        char, = args
-
-        char_info = self.pork_service.get_character_info(char.name)
-        if char_info:
-            msg = self.text.format_char_info(char_info)
-        else:
-            msg = "Could not find info for character `%s`." % char.name
-
-        reply(msg, "Whois")

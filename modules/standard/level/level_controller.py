@@ -11,7 +11,6 @@ class LevelController:
         self.db: DB = registry.get_instance("db")
         self.util = registry.get_instance("util")
         self.command_alias_service = registry.get_instance("command_alias_service")
-        self.discord_controller = registry.get_instance("discord_controller", is_optional=True)
 
     def start(self):
         self.command_alias_service.add_alias("lvl", "level")
@@ -20,10 +19,6 @@ class LevelController:
         self.command_alias_service.add_alias("missions", "mission")
         self.command_alias_service.add_alias("mish", "mission")
         self.command_alias_service.add_alias("ailevel", "axp")
-
-        if self.discord_controller:
-            self.discord_controller.register_discord_command_handler(self.level_discord_cmd, "level", [Int("level")])
-            self.discord_controller.register_discord_command_handler(self.mission_discord_cmd, "mission", [Int("mission_level")])
 
     @command(command="level", params=[Int("level")], access_level="all",
              description="Show information about a character level")
@@ -99,32 +94,9 @@ class LevelController:
 
         return levels
 
-    def level_discord_cmd(self, ctx, reply, args):
-        level, = args
-        row = self.get_level_info(level)
-
-        if row:
-            msg = "L %d: Team %d-%d | PvP %d-%d | Missions %s | %d token(s)" % \
-                  (row.level, row.team_min, row.team_max, row.pvp_min, row.pvp_max, row.missions, row.tokens)
-        else:
-            msg = "Level must be between `1` and `220`<end>."
-
-        reply(msg, "Level")
-
-    def mission_discord_cmd(self, ctx, reply, args):
-        mission_level, = args
-        if 1 <= mission_level <= 250:
-            levels = self.get_mission_levels(mission_level)
-
-            msg = "QL%d missions can be rolled from these levels: %s" % (mission_level, " ".join(levels))
-        else:
-            msg = "Mission level must be between `1` and `250`."
-
-        reply(msg, "Mission")
-
     def get_mission_levels2(self, level):
         mission_coefficients = [0.7001, 0.75, 0.8, 0.85, 0.9, 1.0, 1.1, 1.2, 1.3, 1.5, 1.7913]
-        mission_levels = set();
+        mission_levels = set()
         for i in mission_coefficients:
             val = math.floor(level * i)
             if val < 1:

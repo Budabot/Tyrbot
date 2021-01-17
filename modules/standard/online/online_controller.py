@@ -38,7 +38,7 @@ class OnlineController:
         self.db.exec("DELETE FROM online")
 
         if self.discord_controller:
-            self.discord_controller.register_discord_command_handler(self.online_discord_cmd, "online", [])
+            self.discord_controller.register_discord_command_handler(self.discord_online_cmd, "online", [])
 
         self.command_alias_service.add_alias("o", "online")
 
@@ -175,7 +175,7 @@ class OnlineController:
     def set_afk(self, char_id, dt, reason):
         self.db.exec("UPDATE online SET afk_dt = ?, afk_reason = ? WHERE char_id = ?", [dt, reason, char_id])
 
-    def online_discord_cmd(self, ctx, reply, args):
+    def discord_online_cmd(self, ctx, reply, args):
         blob = ""
         count = 0
 
