@@ -7,8 +7,9 @@ from html.parser import HTMLParser
 import hjson
 from discord import Member, ChannelType
 
+from core.alts.alts_service import AltsService
 from core.chat_blob import ChatBlob
-from core.command_param_types import Int, Const
+from core.command_param_types import Int, Const, Character
 from core.decorators import instance, command, event, timerevent, setting
 from core.dict_object import DictObject
 from core.logger import Logger
@@ -42,6 +43,7 @@ class MLStripper(HTMLParser):
 @instance()
 class DiscordController:
     MESSAGE_SOURCE = "discord"
+    COMMAND_CHANNEL = "discord"
 
     def __init__(self):
         self.dthread = None
@@ -63,6 +65,7 @@ class DiscordController:
         self.ban_service = registry.get_instance("ban_service")
         self.message_hub_service = registry.get_instance("message_hub_service")
         self.pork_service = registry.get_instance("pork_service")
+        self.alts_service = registry.get_instance("alts_service")
         self.ts: TranslationService = registry.get_instance("translation_service")
         self.getresp = self.ts.get_response
 
@@ -75,12 +78,18 @@ class DiscordController:
 
         self.message_hub_service.register_message_source(self.MESSAGE_SOURCE)
 
+        self.command_service.register_command_channel("Discord", self.COMMAND_CHANNEL)
+
     def start(self):
+        self.db.exec("CREATE TABLE IF NOT EXISTS discord_char_link (discord_id BIGINT NOT NULL, char_id INT NOT NULL)")
+
         self.message_hub_service.register_message_destination(self.MESSAGE_SOURCE,
                                                               self.handle_incoming_relay_message,
                                                               ["private_channel", "org_channel", "websocket_relay", "tell_relay", "shutdown_notice"],
                                                               [self.MESSAGE_SOURCE])
-        self.register_discord_command_handler(self.help_discord_cmd, "help", [])
+        self.register_discord_command_handler(self.discord_help_cmd, "help", [])
+        self.register_discord_command_handler(self.discord_link_cmd, "discord", [Const("link"), Character("ao_character")])
+        self.register_discord_command_handler(self.discord_unlink_cmd, "discord", [Const("unlink"), Character("ao_character")])
 
         self.setting_service.register_change_listener("discord_channel_name", self.update_discord_channel_name)
         self.setting_service.register_change_listener("discord_enabled", self.update_discord_state)
@@ -170,6 +179,18 @@ class DiscordController:
 
         return ChatBlob(self.getresp("module/discord", "relay_title"), blob)
 
+    @command(command="discord", params=[Const("confirm"), Int("discord_id")], access_level="member",
+             description="Confirm link of a Discord user")
+    def discord_confirm_cmd(self, request, _, discord_id):
+        main = self.alts_service.get_main(request.sender.char_id)
+        if main.char_id != request.sender.char_id:
+            return f"You must run this command from your main character <highlight>{main.name}<end>."
+
+        self.db.exec("DELETE FROM discord_char_link WHERE discord_id = ? OR char_id = ?", [discord_id, main.char_id])
+        self.db.exec("INSERT INTO discord_char_link (discord_id, char_id) VALUES (?, ?)", [discord_id, main.char_id])
+
+        return f"You have been linked with discord user <highlight>{discord_id}<end> successfully."
+
     @command(command="discord", params=[Const("getinvite"), Int("server_id")], access_level="member",
              description="Get an invite for specified server", sub_command="getinvite")
     def discord_getinvite_cmd(self, request, _, server_id):
@@ -200,25 +221,13 @@ class DiscordController:
         if not self.is_connected():
             self.connect_discord_client()
 
-    def handle_discord_command_event(self, message):
-        if not self.find_discord_command_handler(message):
-            #self.command_service.process_command(message, )
-            # TODO fall back to normal command handlers
-            pass
-
-    def handle_discord_message_event(self, message):
-        if isinstance(message.author, Member):
-            name = message.author.nick or message.author.name
-        else:
-            name = message.author.name
-
-        chanclr = self.setting_service.get("relay_color_prefix").get_font_color()
-        nameclr = self.setting_service.get("relay_color_name").get_font_color()
-        mesgclr = self.setting_service.get("relay_color_message").get_font_color()
-
-        formatted_message = "<grey>[<end>%sDiscord<end><grey>]<end> %s%s<end><grey>:<end> %s%s<end>" % (chanclr, nameclr, name, mesgclr, message.content)
-
-        self.message_hub_service.send_message(self.MESSAGE_SOURCE, DictObject({"name": name}), message.content, formatted_message)
+    @event(event_type=AltsService.MAIN_CHANGED_EVENT_TYPE, description="Update discord character link when a main is changed", is_hidden=True)
+    def handle_main_changed(self, event_type, event_data):
+        old_row = self.db.query_single("SELECT discord_id FROM discord_char_link WHERE char_id = ?", [event_data.old_main_id])
+        if old_row:
+            new_row = self.db.query_single("SELECT discord_id FROM discord_char_link WHERE char_id = ?", [event_data.new_main_id])
+            if not new_row:
+                self.db.exec("INSERT INTO discord_char_link (discord_id, char_id) VALUES (?, ?)", [old_row.discord_id, event_data.new_main_id])
 
     @event(event_type="discord_invites", description="Handles invite requests", is_hidden=True)
     def handle_discord_invite_event(self, event_type, event_data):
@@ -248,6 +257,30 @@ class DiscordController:
 
         self.bot.send_private_message(sender, ChatBlob(self.getresp("module/discord", "invite_title"), blob))
 
+    def handle_discord_command_event(self, message):
+        if not self.find_discord_command_handler(message):
+            reply = partial(self.discord_command_reply, channel=message.channel)
+            row = self.db.query_single("SELECT char_id FROM discord_char_link WHERE discord_id = ?", [message.author.id])
+            if row:
+                message_str = self.command_service.trim_command_symbol(message.content)
+                self.command_service.process_command(message_str, self.COMMAND_CHANNEL, row.char_id, reply)
+            else:
+                reply("You must use `!discord link` in order to access the full range of commands.")
+
+    def handle_discord_message_event(self, message):
+        if isinstance(message.author, Member):
+            name = message.author.nick or message.author.name
+        else:
+            name = message.author.name
+
+        chanclr = self.setting_service.get("relay_color_prefix").get_font_color()
+        nameclr = self.setting_service.get("relay_color_name").get_font_color()
+        mesgclr = self.setting_service.get("relay_color_message").get_font_color()
+
+        formatted_message = "<grey>[<end>%sDiscord<end><grey>]<end> %s%s<end><grey>:<end> %s%s<end>" % (chanclr, nameclr, name, mesgclr, message.content)
+
+        self.message_hub_service.send_message(self.MESSAGE_SOURCE, DictObject({"name": name}), message.content, formatted_message)
+
     def find_discord_command_handler(self, message):
         message_str = self.command_service.trim_command_symbol(message.content)
         command_str, command_args = self.command_service.get_command_parts(message_str)
@@ -255,9 +288,9 @@ class DiscordController:
             if handler.command == command_str:
                 matches = handler.regex.search(command_args)
 
-                ctx = DictObject({"message": message})
-
                 if matches:
+                    ctx = DictObject({"message": message})
+
                     handler.callback(ctx, partial(self.discord_command_reply, channel=message.channel),
                                      self.command_service.process_matches(matches, handler.params))
                 else:
@@ -274,10 +307,18 @@ class DiscordController:
 
         if not title:
             title = "Command"
+        title = self.format_message(title)
 
         if isinstance(content, str):
             msgcolor = self.setting_service.get("discord_embed_color").get_int_value()
-            content = DiscordMessage("embed", title, self.bot.char_name, self.format_message(content), channel, msgcolor)
+            pages = self.text.split_by_separators(self.format_message(content), 2048) # discord max is 2048
+            num_pages = len(pages)
+            page_title = title
+            for page_num, page in enumerate(pages, start=1):
+                if num_pages > 1:
+                    page_title = title + f" (Page {page_num} / {num_pages})"
+                self.send_to_discord("command_reply", DiscordMessage("embed", page_title, self.bot.char_name, page, channel, msgcolor))
+            return
 
         if isinstance(content, DiscordMessage):
             self.send_to_discord("command_reply", content)
@@ -288,7 +329,7 @@ class DiscordController:
         return "!" + command_str + " " + " ".join(map(lambda x: x.get_name(), params))
 
     def format_message(self, msg):
-        msg = re.sub(r"<header>(.*?)<end>", r"```yaml\n\1\n```", msg)
+        msg = re.sub(r"<header>(.*?)<end>", r"```less\n\1\n```", msg)
         msg = re.sub(r"<header2>(.*?)<end>", r"```yaml\n\1\n```", msg)
         msg = re.sub(r"<highlight>(.*?)<end>", r"`\1`", msg)
         return self.strip_html_tags(msg)
@@ -338,10 +379,37 @@ class DiscordController:
     def should_relay_message(self, char_id):
         return self.is_connected() and char_id != self.bot.char_id and not self.ban_service.get_ban(char_id)
 
-    def help_discord_cmd(self, ctx, reply, args):
+    def discord_help_cmd(self, ctx, reply, args):
         msg = ""
         for handler in self.command_handlers:
             msg += self.generate_help(handler.command, handler.params) + "\n"
+
+        reply(msg, "Help")
+
+    def discord_link_cmd(self, ctx, reply, args):
+        char = args[1]
+        if not char.char_id:
+            reply(f"Character <highlight>{char.name} does not exist.")
+            return
+
+        main = self.alts_service.get_main(char.char_id)
+        if main.char_id != char.char_id:
+            reply("You cannot link an alt, you must link with a main character.")
+            return
+
+        author = ctx.message.author
+        discord_user = "%s#%s (%d)" % (author.name, author.discriminator, author.id)
+        blob = f"Discord user {discord_user} would like to link to this character.\n\n"
+        blob += "This discord user will inherit your access level on the bot so be sure that this is what you want to do.\n\n"
+        blob += "If you are currently linked to another Discord user, this will replace that link.\n\n"
+        blob += "To confirm, click here: " + self.text.make_chatcmd("Confirm", "/tell <myname> discord confirm %d" % author.id)
+        self.bot.send_private_message(char.char_id, ChatBlob("Discord Confirm Link", blob))
+
+        reply(f"A confirmation has been sent to {char.name}. You must confirm the link from that character.")
+
+    def discord_unlink_cmd(self, ctx, reply, args):
+        msg = ""
+
 
         reply(msg, "Help")
 
