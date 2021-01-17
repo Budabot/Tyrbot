@@ -74,27 +74,47 @@ class Text:
     def paginate(self, chatblob, max_page_length=None, max_num_pages=None, footer=None):
         label = chatblob.title
         msg = chatblob.msg
-        separators = iter(self.separators)
 
         msg = msg.strip()
-        msg = self.items_regex.sub(r"<a href='itemref://\1/\2/\3'>\4</a>", msg)
 
         # chat blobs with empty messages are rendered as simple strings instead of links
         if not msg:
             return [label]
+
+        msg = self.items_regex.sub(r"<a href='itemref://\1/\2/\3'>\4</a>", msg)
 
         color = self.setting_service.get("blob_color").get_font_color()
         msg = ("<header>" + label + "<end>\n\n" + color + msg).replace("\"", "&quot;")
         msg = self.format_message(msg)
 
         if footer:
-            footer = "\n\n" + self.format_message(footer.replace("\"", "&quot;"))
+            footer = "\n\n" + self.format_message(footer.replace("\"", "&quot;").strip())
         else:
             footer = ""
 
-        separator = next(separators)
+        adjusted_max_page_length = None
+        if max_page_length:
+            adjusted_max_page_length = max_page_length - len(footer)
+        pages = self.split_by_separators(msg, adjusted_max_page_length, max_num_pages)
+        pages = list(map(lambda p: p + footer, pages))
 
-        rest = msg
+        num_pages = len(pages)
+
+        def mapper(tup):
+            page, index = tup
+            if num_pages == 1:
+                label2 = self.format_message(label)
+            else:
+                label2 = self.format_message(label) + " (Page " + str(index) + " / " + str(num_pages) + ")"
+            return chatblob.page_prefix + self.format_page(label2, page) + chatblob.page_postfix
+
+        return list(map(mapper, zip(pages, range(1, num_pages + 1))))
+
+    def split_by_separators(self, content, max_page_length=None, max_num_pages=None):
+        separators = iter(self.separators)
+
+        separator = next(separators)
+        rest = content
         current_page = ""
         pages = []
 
@@ -113,7 +133,7 @@ class Text:
                     raise Exception("Could not paginate: page is too large")
 
             if max_num_pages == len(pages) + 1:
-                if max_page_length and (len(current_page) + line_length + len(footer) > max_page_length):
+                if max_page_length and (len(current_page) + line_length > max_page_length):
                     break
             else:
                 if max_page_length and len(current_page) + line_length > max_page_length:
@@ -123,23 +143,12 @@ class Text:
             current_page += line
 
         current_page = current_page.strip()
-        if max_page_length and len(current_page) + len(footer) > max_page_length:
+        if max_page_length and len(current_page) > max_page_length:
             pages.append(current_page)
-            pages.append(footer.strip())
         else:
-            pages.append(current_page + footer)
+            pages.append(current_page)
 
-        num_pages = len(pages)
-
-        def mapper(tup):
-            page, index = tup
-            if num_pages == 1:
-                label2 = self.format_message(label)
-            else:
-                label2 = self.format_message(label) + " (Page " + str(index) + " / " + str(num_pages) + ")"
-            return chatblob.page_prefix + self.format_page(label2, page) + chatblob.page_postfix
-
-        return list(map(mapper, zip(pages, range(1, num_pages + 1))))
+        return pages
 
     def format_page(self, label, msg):
         return "<a href=\"text://%s\">%s</a>" % (msg, label)
