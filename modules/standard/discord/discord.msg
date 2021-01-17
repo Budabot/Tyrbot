@@ -185,7 +185,31 @@
   "relay_title": {
     "en_US": "Discord Relay",
     "de_DE": "Discord Weiterleitungen"
+  },
+  "must_link_main": {
+    "en_US": "You cannot link an alt, you must link with a main character."
+  },
+  "must_run_from_main": {
+    "en_US": "You must run this command from your main character <highlight>{char}<end>."
+  },
+  "link_success": {
+    "en_US": "You have been linked with discord user <highlight>{discord_user}<end> successfully"
   }
-
-
+  "confirm_instructions": {
+    "en_US": [
+        "Discord user {discord_user} would like to link to this character.\n\n",
+        "This discord user will inherit your access level on the bot so be sure that this is what you want to do.\n\n",
+        "If you are currently linked to another Discord user, this will replace that link.\n\n",
+        "To confirm, click here: {confirm_link}"
+    ]
+  },
+  "link_response": {
+    "en_US": "A confirmation has been sent to {char}. You must confirm the link from that character."
+  },
+  "unlink_success": {
+    "en_US": "You have successfully been unlinked from your AO character."
+  },
+  "discord_user_not_linked": {
+    "en_US": "You must use `!discord link &lt;your_ao_character&gt;` to link your Discord user to an AO character in order to access the full range of commands."
+  }
 }

@@ -87,9 +87,9 @@ class DiscordController:
                                                               self.handle_incoming_relay_message,
                                                               ["private_channel", "org_channel", "websocket_relay", "tell_relay", "shutdown_notice"],
                                                               [self.MESSAGE_SOURCE])
-        self.register_discord_command_handler(self.discord_help_cmd, "help", [])
+
         self.register_discord_command_handler(self.discord_link_cmd, "discord", [Const("link"), Character("ao_character")])
-        self.register_discord_command_handler(self.discord_unlink_cmd, "discord", [Const("unlink"), Character("ao_character")])
+        self.register_discord_command_handler(self.discord_unlink_cmd, "discord", [Const("unlink")])
 
         self.setting_service.register_change_listener("discord_channel_name", self.update_discord_channel_name)
         self.setting_service.register_change_listener("discord_enabled", self.update_discord_state)
@@ -184,12 +184,12 @@ class DiscordController:
     def discord_confirm_cmd(self, request, _, discord_id):
         main = self.alts_service.get_main(request.sender.char_id)
         if main.char_id != request.sender.char_id:
-            return f"You must run this command from your main character <highlight>{main.name}<end>."
+            return self.getresp("module/discord", "must_run_from_main", {"char": main.name})
 
         self.db.exec("DELETE FROM discord_char_link WHERE discord_id = ? OR char_id = ?", [discord_id, main.char_id])
         self.db.exec("INSERT INTO discord_char_link (discord_id, char_id) VALUES (?, ?)", [discord_id, main.char_id])
 
-        return f"You have been linked with discord user <highlight>{discord_id}<end> successfully."
+        return self.getresp("module/discord", "link_success", {"discord_user": discord_id})
 
     @command(command="discord", params=[Const("getinvite"), Int("server_id")], access_level="member",
              description="Get an invite for specified server", sub_command="getinvite")
@@ -265,7 +265,7 @@ class DiscordController:
                 message_str = self.command_service.trim_command_symbol(message.content)
                 self.command_service.process_command(message_str, self.COMMAND_CHANNEL, row.char_id, reply)
             else:
-                reply("You must use `!discord link` in order to access the full range of commands.")
+                reply(self.getresp("module/discord", "discord_user_not_linked"))
 
     def handle_discord_message_event(self, message):
         if isinstance(message.author, Member):
@@ -293,9 +293,7 @@ class DiscordController:
 
                     handler.callback(ctx, partial(self.discord_command_reply, channel=message.channel),
                                      self.command_service.process_matches(matches, handler.params))
-                else:
-                    self.discord_command_reply(self.generate_help(command_str, handler.params), "Command Help", message.channel)
-                return True
+                    return True
         return False
 
     def discord_command_reply(self, content, title=None, channel=None):
@@ -329,8 +327,8 @@ class DiscordController:
         return "!" + command_str + " " + " ".join(map(lambda x: x.get_name(), params))
 
     def format_message(self, msg):
-        msg = re.sub(r"<header>(.*?)<end>", r"```less\n\1\n```", msg)
-        msg = re.sub(r"<header2>(.*?)<end>", r"```yaml\n\1\n```", msg)
+        msg = re.sub(r"<header>(.*?)<end>\n?", r"```less\n\1\n```", msg)
+        msg = re.sub(r"<header2>(.*?)<end>\n?", r"```yaml\n\1\n```", msg)
         msg = re.sub(r"<highlight>(.*?)<end>", r"`\1`", msg)
         return self.strip_html_tags(msg)
 
@@ -379,39 +377,29 @@ class DiscordController:
     def should_relay_message(self, char_id):
         return self.is_connected() and char_id != self.bot.char_id and not self.ban_service.get_ban(char_id)
 
-    def discord_help_cmd(self, ctx, reply, args):
-        msg = ""
-        for handler in self.command_handlers:
-            msg += self.generate_help(handler.command, handler.params) + "\n"
-
-        reply(msg, "Help")
-
     def discord_link_cmd(self, ctx, reply, args):
         char = args[1]
         if not char.char_id:
-            reply(f"Character <highlight>{char.name} does not exist.")
+            reply(self.getresp("global", "char_not_found", {"char": char.name}))
             return
 
         main = self.alts_service.get_main(char.char_id)
         if main.char_id != char.char_id:
-            reply("You cannot link an alt, you must link with a main character.")
+            reply(self.getresp("module/discord", "must_link_main"))
             return
 
         author = ctx.message.author
         discord_user = "%s#%s (%d)" % (author.name, author.discriminator, author.id)
-        blob = f"Discord user {discord_user} would like to link to this character.\n\n"
-        blob += "This discord user will inherit your access level on the bot so be sure that this is what you want to do.\n\n"
-        blob += "If you are currently linked to another Discord user, this will replace that link.\n\n"
-        blob += "To confirm, click here: " + self.text.make_chatcmd("Confirm", "/tell <myname> discord confirm %d" % author.id)
+        blob = self.getresp("module/discord", "confirm_instructions", {"discord_user": discord_user,
+                                                                       "confirm_link": self.text.make_chatcmd("Confirm", "/tell <myname> discord confirm %d" % author.id)})
         self.bot.send_private_message(char.char_id, ChatBlob("Discord Confirm Link", blob))
 
-        reply(f"A confirmation has been sent to {char.name}. You must confirm the link from that character.")
+        reply(self.getresp("module/discord", "link_response", {"char": char.name}))
 
     def discord_unlink_cmd(self, ctx, reply, args):
-        msg = ""
+        self.db.exec("DELETE FROM discord_char_link WHERE discord_id = ?", [ctx.message.author.id])
 
-
-        reply(msg, "Help")
+        reply(self.getresp("module/discord", "unlink_success"))
 
     def is_connected(self):
         #not self.client or not self.dthread.is_alive()

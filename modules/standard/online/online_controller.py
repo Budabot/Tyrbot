@@ -27,7 +27,6 @@ class OnlineController:
         self.util = registry.get_instance("util")
         self.pork_service = registry.get_instance("pork_service")
         self.character_service = registry.get_instance("character_service")
-        self.discord_controller = registry.get_instance("discord_controller", is_optional=True)
         self.command_alias_service = registry.get_instance("command_alias_service")
         self.alts_service = registry.get_instance("alts_service")
         self.alts_controller = registry.get_instance("alts_controller")
@@ -36,9 +35,6 @@ class OnlineController:
         self.db.exec("DROP TABLE IF EXISTS online")
         self.db.exec("CREATE TABLE online (char_id INT NOT NULL, afk_dt INT NOT NULL, afk_reason VARCHAR(255) DEFAULT '', channel CHAR(50) NOT NULL, dt INT NOT NULL, UNIQUE(char_id, channel))")
         self.db.exec("DELETE FROM online")
-
-        if self.discord_controller:
-            self.discord_controller.register_discord_command_handler(self.discord_online_cmd, "online", [])
 
         self.command_alias_service.add_alias("o", "online")
 
@@ -174,37 +170,6 @@ class OnlineController:
 
     def set_afk(self, char_id, dt, reason):
         self.db.exec("UPDATE online SET afk_dt = ?, afk_reason = ? WHERE char_id = ?", [dt, reason, char_id])
-
-    def discord_online_cmd(self, ctx, reply, args):
-        blob = ""
-        count = 0
-
-        for channel, _ in self.channels:
-            # get characters, if none are online skip this channel
-            online_list = self.get_online_characters(channel)
-            if len(online_list) == 0:
-                continue
-
-            # start content with channel name, start monospaced (```)
-            blob += "\n[%s]\n```yaml\n" % channel
-            current_main = ""
-            for character in online_list:
-                # add main character line
-                if current_main != character.main:
-                    count += 1
-                    current_main = character.main
-                    blob += character.main + ": \n"
-                # add online character line
-                character_line = " | " + ("{:13} ".format(character.name)) + "({:3}".format(
-                    character.level or 0) + "/" + "{:2}) ".format(character.ai_level or 0) + "{:7} ".format(
-                    character.faction) + "{:15} \n".format(character.profession)
-                blob += character_line
-            # end monospaced content
-            blob += "```"
-        if not blob:
-            blob = "No characters online."
-
-        reply(blob, "Online (%d)" % count)
 
     def get_online_output(self):
         blob = ""
