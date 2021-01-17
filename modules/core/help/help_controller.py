@@ -1,8 +1,10 @@
+import os
+
 import hjson
 
 from core.decorators import instance, command
 from core.chat_blob import ChatBlob
-from core.command_param_types import Any, NamedParameters, NamedFlagParameters
+from core.command_param_types import Any, NamedFlagParameters
 from core.translation_service import TranslationService
 
 
@@ -29,12 +31,8 @@ class HelpController:
     @command(command="about", params=[], access_level="all",
              description="Show information about the development of this bot")
     def about_cmd(self, request):
-        blob = self.getresp("module/help", "about_head")
-        blob += self.getresp("module/help", "about_body")
-        blob += self.getresp("module/help", "about_special_ones")
-        blob += self.getresp("module/help", "about_improvers")
-        blob += self.getresp("module/help", "about_bottom")
-        return ChatBlob(self.getresp("module/help", "blob_title", {"ver": self.bot.version}), blob)
+        with open(os.path.dirname(os.path.realpath(__file__)) + os.sep + "about.txt", "r") as f:
+            return ChatBlob(self.getresp("module/help", "about_title", {"version": self.bot.version}), f.read())
 
     @command(command="help", params=[], access_level="all",
              description="Show a list of commands to get help with")
