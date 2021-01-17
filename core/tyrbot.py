@@ -37,7 +37,7 @@ class Tyrbot(Bot):
         self.packet_queue = DelayQueue(2, 2.5)
         self.last_timer_event = 0
         self.start_time = int(time.time())
-        self.version = "0.4-beta"
+        self.version = "0.5-beta"
 
     def inject(self, registry):
         self.db = registry.get_instance("db")
