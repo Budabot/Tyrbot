@@ -2,7 +2,7 @@ import hjson
 
 from core.alts.alts_service import AltsService
 from core.chat_blob import ChatBlob
-from core.command_param_types import Const, Options, Character
+from core.command_param_types import Const, Options, Character, Multiple, Int
 from core.decorators import instance, command
 from core.translation_service import TranslationService
 
@@ -53,23 +53,29 @@ class AltsController:
         else:
             raise Exception("Unknown msg: " + msg)
 
-    @command(command="alts", params=[Const("add"), Character("character")], access_level="all",
+    @command(command="alts", params=[Const("add"), Multiple(Character("character"))], access_level="all",
              description="Add an alt")
-    def alts_add_cmd(self, request, _, alt_char):
-        if not alt_char.char_id:
-            return self.getresp("global", "char_not_found", {"char": alt_char.name})
-        elif alt_char.char_id == request.sender.char_id:
-            return self.getresp("module/alts", "add_fail_self")
+    def alts_add_cmd(self, request, _, alt_chars):
+        responses = []
+        for alt_char in alt_chars:
+            if not alt_char.char_id:
+                responses.append(self.getresp("global", "char_not_found", {"char": alt_char.name}))
+                continue
+            elif alt_char.char_id == request.sender.char_id:
+                responses.append(self.getresp("module/alts", "add_fail_self"))
+                continue
 
-        msg, result = self.alts_service.add_alt(request.sender.char_id, alt_char.char_id)
-        if result:
-            self.bot.send_private_message(alt_char.char_id, self.getresp("module/alts", "add_success_target",
-                                                                         {"char": request.sender.name}))
-            return self.getresp("module/alts", "add_success_self", {"char": alt_char.name})
-        elif msg == "another_main":
-            return self.getresp("module/alts", "add_fail_already", {"char": alt_char.name})
-        else:
-            raise Exception("Unknown msg: " + msg)
+            msg, result = self.alts_service.add_alt(request.sender.char_id, alt_char.char_id)
+            if result:
+                self.bot.send_private_message(alt_char.char_id, self.getresp("module/alts", "add_success_target",
+                                                                             {"char": request.sender.name}))
+                responses.append(self.getresp("module/alts", "add_success_self", {"char": alt_char.name}))
+            elif msg == "another_main":
+                responses.append(self.getresp("module/alts", "add_fail_already", {"char": alt_char.name}))
+            else:
+                raise Exception("Unknown msg: " + msg)
+
+        return "\n".join(responses)
 
     @command(command="alts", params=[Options(["rem", "remove"]), Character("character")], access_level="all",
              description="Remove an alt")

@@ -5,9 +5,6 @@ from core.sender_obj import SenderObj
 
 
 class CommandParam:
-    def __init__(self):
-        pass
-
     def get_regex(self):
         pass
 
@@ -17,7 +14,6 @@ class CommandParam:
 
 class Const(CommandParam):
     def __init__(self, name, is_optional=False):
-        super().__init__()
         self.name = name
         self.is_optional = is_optional
         if " " in name:
@@ -43,7 +39,6 @@ class Const(CommandParam):
 
 class Int(CommandParam):
     def __init__(self, name, is_optional=False):
-        super().__init__()
         self.name = name
         self.is_optional = is_optional
         if " " in name:
@@ -78,7 +73,6 @@ class SignedInt(Int):
 
 class Decimal(CommandParam):
     def __init__(self, name, is_optional=False):
-        super().__init__()
         self.name = name
         self.is_optional = is_optional
         if " " in name:
@@ -104,7 +98,6 @@ class Decimal(CommandParam):
 
 class Any(CommandParam):
     def __init__(self, name, is_optional=False, allowed_chars="."):
-        super().__init__()
         self.name = name
         self.is_optional = is_optional
         self.allowed_chars = allowed_chars
@@ -131,7 +124,6 @@ class Any(CommandParam):
 
 class Regex(CommandParam):
     def __init__(self, name, regex, is_optional=False, num_groups=1):
-        super().__init__()
         self.name = name
         self.regex = regex
         self.is_optional = is_optional
@@ -157,7 +149,6 @@ class Regex(CommandParam):
 
 class Options(CommandParam):
     def __init__(self, options, is_optional=False):
-        super().__init__()
         self.options = options
         self.is_optional = is_optional
         for name in options:
@@ -184,7 +175,6 @@ class Options(CommandParam):
 
 class Time(CommandParam):
     def __init__(self, name, is_optional=False):
-        super().__init__()
         self.name = name
         self.is_optional = is_optional
         if " " in name:
@@ -215,7 +205,6 @@ class Time(CommandParam):
 
 class Item(CommandParam):
     def __init__(self, name, is_optional=False):
-        super().__init__()
         self.name = name
         self.is_optional = is_optional
         if " " in name:
@@ -274,7 +263,6 @@ class Character(Any):
 # Note: NamedParameters need to be validated manually to ensure they have valid values
 class NamedParameters(CommandParam):
     def __init__(self, names):
-        super().__init__()
         self.names = names
         for name in names:
             if " " in name:
@@ -300,6 +288,7 @@ class NamedParameters(CommandParam):
             results = results[3:]
         return values
 
+# Note: NamedFlagParameters should always go at the end of the command parameter list
 class NamedFlagParameters(CommandParam):
     def __init__(self, names):
         super().__init__()
@@ -327,3 +316,37 @@ class NamedFlagParameters(CommandParam):
             values[name] = True if results[1] else False
             results = results[2:]
         return values
+
+# Note: cannot be used with Any due to eagerness!
+class Multiple(CommandParam):
+    def __init__(self, inner_type, min_num=1, max_num=None):
+        if type(inner_type) is Any:
+            raise Exception("Multiple cannot be used with Any command param type")
+        self.inner_type = inner_type
+        self.min = min_num or ""
+        self.max = max_num or ""
+
+    def get_regex(self):
+        regex = "(" + self.inner_type.get_regex() + "{%s,%s})" % (self.min, self.max)
+        return regex
+
+    def get_name(self):
+        return self.inner_type.get_name() + "*"
+
+    def process_matches(self, params):
+        v = params.pop(0)
+
+        # remove unused params
+        self.inner_type.process_matches(params)
+
+        results = []
+        p = re.compile(self.inner_type.get_regex())
+
+        matches = p.search(v)
+        while matches:
+            v = v[matches.end():]
+            a = self.inner_type.process_matches(list(matches.groups()))
+            results.append(a)
+            matches = p.search(v)
+
+        return results

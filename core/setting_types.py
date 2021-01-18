@@ -123,7 +123,7 @@ class HiddenSettingType(TextSettingType):
         clear_str = ""
         if self.allow_empty:
             clear_str = "\n\nTo clear this setting:\n\n" + text.make_chatcmd("Clear this setting", "/tell <myname> config setting %s clear" % self.name)
-    
+
         return """For this setting you can enter any text you want (max. 255 characters).
 
 To change this setting:
