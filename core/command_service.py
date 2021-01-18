@@ -285,7 +285,7 @@ class CommandService:
         if help_file:
             try:
                 help_file = "./" + module.replace(".", "/") + "/" + help_file
-                with open(help_file) as f:
+                with open(help_file, mode="r", encoding="UTF-8") as f:
                     return f.read().strip()
             except FileNotFoundError as e:
                 self.logger.error("Error reading help file", e)

@@ -173,7 +173,7 @@ class DB:
             return None
 
     def _load_file(self, filename):
-        with open(filename, "r") as f:
+        with open(filename, mode="r", encoding="UTF-8") as f:
             with self.transaction():
                 cur = self.conn.cursor()
                 line_num = 1

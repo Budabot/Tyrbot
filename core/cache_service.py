@@ -3,7 +3,6 @@ from core.dict_object import DictObject
 from core.logger import Logger
 from pathlib import Path
 import os
-import time
 
 
 @instance()
@@ -18,7 +17,7 @@ class CacheService:
         base_path = os.getcwd() + self.CACHE_DIR + os.sep + group
         Path(base_path).mkdir(exist_ok=True)
 
-        with open(base_path + os.sep + filename, "w") as f:
+        with open(base_path + os.sep + filename, mode="w", encoding="UTF-8") as f:
             f.write(contents)
 
     def retrieve(self, group, filename):
@@ -27,7 +26,7 @@ class CacheService:
         full_path = base_path + os.sep + filename
 
         try:
-            with open(full_path, "r") as f:
+            with open(full_path, mode="r", encoding="UTF-8") as f:
                 last_modified = int(os.path.getmtime(full_path))
                 return DictObject({"data": f.read(), "last_modified": last_modified})
         except FileNotFoundError:

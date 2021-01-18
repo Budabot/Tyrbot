@@ -31,7 +31,7 @@ class HelpController:
     @command(command="about", params=[], access_level="all",
              description="Show information about the development of this bot")
     def about_cmd(self, request):
-        with open(os.path.dirname(os.path.realpath(__file__)) + os.sep + "about.txt", "r") as f:
+        with open(os.path.dirname(os.path.realpath(__file__)) + os.sep + "about.txt", mode="r", encoding="UTF-8") as f:
             return ChatBlob(self.getresp("module/help", "about_title", {"version": self.bot.version}), f.read())
 
     @command(command="help", params=[], access_level="all",

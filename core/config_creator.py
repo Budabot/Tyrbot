@@ -22,11 +22,11 @@ def create_new_cfg(config_file, config_template_file):
               }}
 
     # load defaults from config template
-    with open(config_template_file, "r") as cfg:
+    with open(config_template_file, mode="r", encoding="UTF-8") as cfg:
         template_config = hjson.load(cfg)
         template_config.update(config)
 
-    with open(config_file, "wb") as f:
+    with open(config_file, mode="wb", encoding="UTF-8") as f:
         json.dump(template_config, codecs.getwriter("utf-8")(f), ensure_ascii=False, indent=2, sort_keys=False)
 
 

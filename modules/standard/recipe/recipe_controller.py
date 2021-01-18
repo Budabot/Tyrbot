@@ -117,7 +117,7 @@ class RecipeController:
 
     def update_recipe(self, recipe_dir, file, recipe_id, file_type, dt):
         if file_type == "txt":
-            with open(recipe_dir + file) as f:
+            with open(recipe_dir + file, mode="r", encoding="UTF-8") as f:
                 lines = f.readlines()
 
             name = lines.pop(0).strip()[6:]
@@ -126,7 +126,7 @@ class RecipeController:
 
             #self.db.exec("INSERT INTO recipe (id, name, author, recipe) VALUES (?, ?, ?, ?)", [recipe_id, name, author, content])
         elif file_type == "json":
-            with open(recipe_dir + file) as f:
+            with open(recipe_dir + file, mode="r", encoding="UTF-8") as f:
                 recipe = json.load(f)
 
             name = recipe["name"]

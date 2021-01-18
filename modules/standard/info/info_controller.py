@@ -61,7 +61,7 @@ class InfoController:
         for base in reversed(self.paths):
             file_path = base + os.sep + name + self.FILE_EXT
             try:
-                with open(file_path, "r") as f:
+                with open(file_path, mode="r", encoding="UTF-8") as f:
                     return f.read()
             except FileNotFoundError:
                 pass
