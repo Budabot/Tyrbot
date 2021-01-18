@@ -123,7 +123,7 @@ class Tyrbot(Bot):
         # wait for flood of packets from login to stop sending
         time_waited = 0
         while time_waited < 5:
-            if not self.iterate():
+            if not self.iterate(1):
                 time_waited += 1
 
         self.logger.info("Login complete (%fs)" % (time.time() - start))
@@ -169,8 +169,8 @@ class Tyrbot(Bot):
             if h.handler == handler:
                 handlers.remove(h)
 
-    def iterate(self):
-        packet = self.read_packet(0.1)
+    def iterate(self, timeout=0.1):
+        packet = self.read_packet(timeout)
         if packet:
             if isinstance(packet, server_packets.SystemMessage):
                 packet = self.system_message_ext_msg_handling(packet)

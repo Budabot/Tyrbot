@@ -27,9 +27,9 @@ class CharacterService:
     def _wait_for_char_id(self, char_name):
         # char_name must be .capitalize()'ed
 
-        packet = self.bot.iterate()
+        packet = self.bot.iterate(1)
         while packet and char_name not in self.name_to_id:
-            packet = self.bot.iterate()
+            packet = self.bot.iterate(1)
 
         return self.name_to_id.get(char_name, None)
 

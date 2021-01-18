@@ -84,7 +84,7 @@ class OrgListController:
         reply("Checking online status for %d members of <highlight>%s<end>..." % (len(self.orglist.org_members), self.orglist.org_info.name))
 
         # process all name lookups
-        while self.bot.iterate():
+        while self.bot.iterate(1):
             pass
 
         self.check_for_orglist_end()
