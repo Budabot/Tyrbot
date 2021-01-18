@@ -1,11 +1,18 @@
 #!/usr/bin/env bash
 
+PYTHON_BINARY=python3
+if ! [ -x "$(command -v $PYTHON_BINARY)" ]; then
+  PYTHON_BINARY=python
+fi
+
+$PYTHON_BINARY --version
+
 # Ensure virtualenv is present. This is not always the case
-python3 -m pip install virtualenv --user
+$PYTHON_BINARY -m pip install virtualenv --user
 
 # Create and activate the virtualenv. This can be done even if it already exists
 # and will ensure setuptools, wheel and pip are up to date
-python3 -m virtualenv venv
+$PYTHON_BINARY -m virtualenv venv
 source venv/bin/activate
 
 # From there on we use 'pip' and 'python' (refers to versions in the virtualenv)
