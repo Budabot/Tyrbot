@@ -8,7 +8,7 @@ class MMDBParser:
         self.logger = Logger(__name__)
 
     def get_message_string(self, category_id, instance_id):
-        with open(self.filename, mode="rb", encoding="UTF-8") as file:
+        with open(self.filename, mode="rb") as file:
             categories = self.get_categories(file)
 
             try:
@@ -28,7 +28,7 @@ class MMDBParser:
                 return None
 
     def get_all_message_strings(self):
-        with open(self.filename, mode="rb", encoding="UTF-8") as file:
+        with open(self.filename, mode="rb") as file:
             categories = iter(list(self.get_categories(file)))
             next_category = next(categories)
 

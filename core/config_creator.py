@@ -26,7 +26,7 @@ def create_new_cfg(config_file, config_template_file):
         template_config = hjson.load(cfg)
         template_config.update(config)
 
-    with open(config_file, mode="wb", encoding="UTF-8") as f:
+    with open(config_file, mode="wb") as f:
         json.dump(template_config, codecs.getwriter("utf-8")(f), ensure_ascii=False, indent=2, sort_keys=False)
 
 
