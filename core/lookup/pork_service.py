@@ -22,6 +22,9 @@ class PorkService:
         self.bot.add_packet_handler(server_packets.CharacterLookup.id, self.update)
         self.bot.add_packet_handler(server_packets.CharacterName.id, self.update)
 
+    # forces a lookup from remote PoRK server
+    # this should not be called directly unless you are requesting info for a char on a different server
+    # since cache will not be used and the result will also update the cache
     def request_char_info(self, char_name, server_num):
         url = self.get_pork_url(server_num, char_name)
 
@@ -67,6 +70,7 @@ class PorkService:
 
         return char_info
 
+    # standard method to get character pork data when character is on the same server
     def get_character_info(self, char, max_cache_age=86400):
         char_id = self.character_service.resolve_char_to_id(char)
         char_name = self.character_service.resolve_char_to_name(char)
@@ -98,6 +102,8 @@ class PorkService:
 
             return db_char_info
 
+    # forces a skeleton object into the player table in the case that PoRK does not return any data
+    # call this method if you don't need the data now but want to ensure there is a record in the database
     def load_character_info(self, char_id, char_name=None):
         char_info = self.get_character_info(char_id)
         if not char_info and char_name:
