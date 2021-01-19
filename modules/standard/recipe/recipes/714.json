@@ -1,0 +1,73 @@
+{
+    "name": "Sector 10 Tradeskills",
+    "author": "",
+    "items": [
+        {
+            "alias": "Alien Armor Materials",
+            "item_id": 268508
+        },
+        {
+            "alias": "Alien Activation Crystal",
+            "item_id": 268478
+        },
+        {
+            "alias": "Inactive Alien Material Conversion kit",
+            "item_id": 268510
+        },
+        {
+            "alias": "Inactive Alien Tank Armor",
+            "item_id": 268507
+        },
+        {
+            "alias": "Inactive Alien Battery",
+            "item_id": 268496
+        },
+        {
+            "alias": "Inactive Alien Reflex Modifier",
+            "item_id": 268499
+        },
+        {
+            "alias": "Inactive Alien Beacon",
+            "item_id": 268494
+        },
+        {
+            "alias": "Inactive Alien Translation Device",
+            "item_id": 268477
+        },
+        {
+            "alias": "Inactive Empty Alien Augmentation Device",
+            "item_id": 268493
+        },
+        {
+            "alias": "Alien Data Storage Crystal - Combat",
+            "item_id": 268479
+        },
+        {
+            "alias": "Alien Data Storage Crystal - Nano Technology",
+            "item_id": 268480
+        },
+        {
+            "alias": "Alien Data Storage Crystal - Defense",
+            "item_id": 268481
+        },
+        {
+            "alias": "Alien Data Storage Crystal - Technical",
+            "item_id": 268482
+        },
+        {
+            "alias": "Alien Data Storage Crystal - Medical",
+            "item_id": 268483
+        },
+        {
+            "alias": "Alien Data Storage Crystal - Insight",
+            "item_id": 268484
+        },
+        {
+            "alias": "Alien Data Storage Crystal - Protection",
+            "item_id": 268485
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00> The parts listed drop in Sector 10 and can be used for various tradeskill processes.\nClick on the recipe name to go to the corresponding recipe.</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------\n#L \"Alien Tank Armor\" \"/tell <myname> recipe 712\"\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n<img src=rdb://144715>\n#L \"Alien Armor Materials\" \"268508\" \n\n<img src=rdb://12252>\n#L \"Alien Activation Crystal\" \"268478\"\n\n<img src=rdb://99658>\n#L \"Inactive Alien Material Conversion kit\" \"268510\" \n\n<img src=rdb://22401>\n#L \"Inactive Alien Tank Armor\" \"268507\"\n\n</font><font color=#FFFF00>------------------------------\n#L \"Alien Utilities\" \"/tell <myname> recipe 711\"\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n<img src=rdb://12252>\n#L \"Alien Activation Crystal\" \"268478\"\n\n<img src=rdb://220416>\n#L \"Inactive Alien Battery\" \"268496\"\n\n<img src=rdb://220416>\n#L \"Inactive Alien Reflex Modifier\" \"268499\"\n\n<img src=rdb://220416>\n#L \"Inactive Alien Beacon\" \"268494\"\n\n</font><font color=#FFFF00>------------------------------\n#L \"Alien Augmentation Device\" \"/tell <myname> recipe 713\"\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n<img src=rdb://12252>\n#L \"Alien Activation Crystal\" \"268478\"\n\n<img src=rdb://12692>\n#L \"Inactive Alien Translation Device\" \"268477\"\n\n<img src=rdb://218751>\n#L \"Inactive Empty Alien Augmentation Device\" \"268493\"\n\n<img src=rdb://83069>\n#L \"Alien Data Storage Crystal - Combat\" \"268479\"\n#L \"Alien Data Storage Crystal - Nano Technology\" \"268480\"\n#L \"Alien Data Storage Crystal - Defense\" \"268481\"\n#L \"Alien Data Storage Crystal - Technical\" \"268482\"\n#L \"Alien Data Storage Crystal - Medical\" \"268483\"\n#L \"Alien Data Storage Crystal - Insight\" \"268484\"\n#L \"Alien Data Storage Crystal - Protection\" \"268485\""
+}

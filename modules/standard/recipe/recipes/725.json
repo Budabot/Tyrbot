@@ -1,0 +1,21 @@
+{
+    "name": "Extruder's Molybdenum Crash Helmet",
+    "author": "",
+    "items": [
+        {
+            "alias": "Action Probability Estimator",
+            "item_id": 257960
+        },
+        {
+            "alias": "Kegern's Molybdenum Plate Helmet",
+            "item_id": 252017
+        },
+        {
+            "alias": "Extruder's Molybdenum Crash Helmet",
+            "item_id": 257379
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients </font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n</font><font color=#FFFF00> The Action Probability Estimator drops in Sector 13 and can be used for various tradeskill processes.</font><font color=#009B00>\n\n#L \"Action Probability Estimator\" \"257960\"\n<img src=rdb://203502>\n\n#L \"Kegern's Molybdenum Plate Helmet\" \"252017\"\n<img src=rdb://252429>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe </font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAction Probability Estimator\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nKegern's Molybdenum Plate Helmet\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://252429>\n#L \"Extruder's Molybdenum Crash Helmet\" \"257379\"\n</font><font color=#FFFF00>Note: Omni Helmet</font><font color=#009B00>"
+}

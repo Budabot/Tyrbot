@@ -1,0 +1,21 @@
+{
+    "name": "Codex of the Insulting Emerto",
+    "author": "",
+    "items": [
+        {
+            "alias": "Library of Foul Language",
+            "item_id": 165111
+        },
+        {
+            "alias": "Alien Language Matrix",
+            "item_id": 253171
+        },
+        {
+            "alias": "Codex of the Insulting Emerto",
+            "item_id": 253187
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Library of Foul Language\" \"165111\"\n<img src=rdb://131266>\n\n#L \"Alien Language Matrix\" \"253171\"\n<img src=rdb://144714>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nLibrary of Foul Language\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nAlien Language Matrix\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://131266>\n#L \"Codex of the Insulting Emerto\" \"253187\"\n</font><font color=#FFFF00>Skills: |  BE  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Comments</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAn Enforcer taunt item\n"
+}

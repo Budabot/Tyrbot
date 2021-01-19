@@ -1,0 +1,29 @@
+{
+    "name": "Mechanical Analyzer",
+    "author": "",
+    "items": [
+        {
+            "alias": "Technoscavenger Brain",
+            "item_id": 164538
+        },
+        {
+            "alias": "Bio Analyzing Computer",
+            "item_id": 156021
+        },
+        {
+            "alias": "Screwdriver",
+            "item_id": 150922
+        },
+        {
+            "alias": "Technoscavenger Mechanics Library",
+            "item_id": 164541
+        },
+        {
+            "alias": "Mechanical Analyzer",
+            "item_id": 164548
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Technoscavenger Brain\" \"164538\"\n<img src=rdb://130562>\n\n#L \"Bio Analysing Computer\" \"156021\"\n<img src=rdb://156084>\n\n#L \"Screwdriver\" \"150922\"\n<img src=rdb://151011>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nScrewdriver\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nTechnoscavenger Brain\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://100321>\n#L \"Technoscavenger Mechanics Library\" \"164541\"\n</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nTechnoscavenger Mechanics Library\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nBio Analysing Computer\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://156512>\n#L \"Mechanical Analyzer\" \"164548\"\n</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Comments</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nHandy little buffer. But you can only have one.\n"
+}

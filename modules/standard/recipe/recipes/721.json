@@ -1,0 +1,21 @@
+{
+    "name": "High Lord of Angst",
+    "author": "",
+    "items": [
+        {
+            "alias": "Dynamic Gas Redistribution Valves",
+            "item_id": 257962
+        },
+        {
+            "alias": "Lord of Angst",
+            "item_id": 244821
+        },
+        {
+            "alias": "High Lord of Angst",
+            "item_id": 257128
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients </font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n</font><font color=#FFFF00> The Dynamic Gas Redistribution Valves drops in Alien Playfields and can be used for various tradeskill processes.</font><font color=#009B00>\n\n#L \"Dynamic Gas Redistribution Valves\" \"257962\"\n<img src=rdb://205508>\n\n#L \"Lord of Angst\" \"244821\"\n<img src=rdb://245082>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe </font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nDynamic Gas Redistribution Valves\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nLord of Angst\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://245082>\n#L \"High Lord of Angst\" \"257128\"\n"
+}

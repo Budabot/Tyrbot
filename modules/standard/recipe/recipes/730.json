@@ -1,0 +1,21 @@
+{
+    "name": "ObiTom's Nano Calculato",
+    "author": "",
+    "items": [
+        {
+            "alias": "Notum Amplification Coil",
+            "item_id": 257963
+        },
+        {
+            "alias": "Aquarius's Multitask Calculator",
+            "item_id": 244376
+        },
+        {
+            "alias": "ObiTom's Nano Calculator",
+            "item_id": 257118
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients </font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n</font><font color=#FFFF00> The Notum Amplification Coil drops in Alien Playfields and can be used for various tradeskill processes.</font><font color=#009B00>\n\n#L \"Notum Amplification Coil\" \"257963\"\n<img src=rdb://257195>\n\n#L \"Aquarius's Multitask Calculator\" \"244376\"\n<img src=rdb://205528>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe </font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nNotum Amplification Coil\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nAquarius's Multitask Calculator\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://205528>\n#L \"ObiTom's Nano Calculator\" \"257118\"\n</font><font color=#FFFF00>Skills: | 1250 CL |</font><font color=#009B00>\n"
+}

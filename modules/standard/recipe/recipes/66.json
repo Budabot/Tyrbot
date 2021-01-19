@@ -1,0 +1,45 @@
+{
+    "name": "Mausser Chemical Streamer",
+    "author": "",
+    "items": [
+        {
+            "alias": "Premium Mausser Particle Streamer",
+            "item_id": 122443
+        },
+        {
+            "alias": "Advanced Hacker Tool",
+            "item_id": 87814
+        },
+        {
+            "alias": "Sheet of Curved Carbonum Plating",
+            "item_id": 156017
+        },
+        {
+            "alias": "Composite Barrel",
+            "item_id": 137236
+        },
+        {
+            "alias": "Compression Chamber for Chemicals",
+            "item_id": 137248
+        },
+        {
+            "alias": "Mausser Particle Streamer Base",
+            "item_id": 157718
+        },
+        {
+            "alias": "Mausser Chemical Streamer - Step 1",
+            "item_id": 157720
+        },
+        {
+            "alias": "Mausser Chemical Streamer - Step 2",
+            "item_id": 157722
+        },
+        {
+            "alias": "Exquisite Mausser Chemical Streamer",
+            "item_id": 157716
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Mausser Particle Streamer\" \"122443\"\n<img src=rdb://31807>\n\n#L \"Hacker Tool\" \"87814\"\n<img src=rdb://99282>\n\n#L \"Sheet of Curved Carbonum Plating\" \"156017\"\n<img src=rdb://156091>\n\n#L \"Composite Barrel\" \"137236\"\n<img src=rdb://130708>\n\n#L \"Compression Chamber for Chemicals\" \"137248\"\n<img src=rdb://130687>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nHacker Tool\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nMausser Particle Streamer\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://157696>\n#L \"Mausser Particle Streamer Base\" \"157718\"\n</font><font color=#FFFF00>Skills: |  BE  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nCompression Chamber for Chemicals\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nMausser Particle Streamer Base\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://157697>\n#L \"Mausser Chemical Streamer - Step 1\" \"157720\"\n</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nComposite Barrel\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nMausser Chemical Streamer - Step 1\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://157698>\n#L \"Mausser Chemical Streamer - Step 2\" \"157722\"\n</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nSheet of Curved Carbonum Plating\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nMausser Chemical Streamer - Step 2\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://33154>\n#L \"Mausser Chemical Streamer\" \"157716\"\n</font><font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Comments</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nThis weapon can only be built. It increases the damage of the mausser, but in addition it inflicts chemical damage and its clip is slightly larger. A very good weapon.\n"
+}

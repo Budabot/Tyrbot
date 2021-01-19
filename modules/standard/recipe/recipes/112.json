@@ -1,0 +1,153 @@
+{
+    "name": "Solar-Powered Engineer Pistol",
+    "author": "",
+    "items": [
+        {
+            "alias": "Basic Calculator",
+            "item_id": 156058
+        },
+        {
+            "alias": "Auto Targeting Computer -IIR 4 -Ultra-",
+            "item_id": 137292
+        },
+        {
+            "alias": "Jandawit Cleanup Cluster",
+            "item_id": 137282
+        },
+        {
+            "alias": "Irreparable River MV",
+            "item_id": 123667
+        },
+        {
+            "alias": "Solar-Powered Weapon Supervisor",
+            "item_id": 164523
+        },
+        {
+            "alias": "Solar-Powered Weapon Device",
+            "item_id": 164525
+        },
+        {
+            "alias": "Solar-Powered Pistol",
+            "item_id": 121567
+        },
+        {
+            "alias": "Jensen Personal Ore Extractor",
+            "item_id": 150276
+        },
+        {
+            "alias": "Screwdriver",
+            "item_id": 150922
+        },
+        {
+            "alias": "Robotic Self-Preservation System",
+            "item_id": 164529
+        },
+        {
+            "alias": "Notum Chip",
+            "item_id": 136623
+        },
+        {
+            "alias": "Notum Fragment",
+            "item_id": 136625
+        },
+        {
+            "alias": "Modified Jensen Ore Extractor",
+            "item_id": 164527
+        },
+        {
+            "alias": "Unstable Preservation System",
+            "item_id": 164531
+        },
+        {
+            "alias": "Stable Preservation System",
+            "item_id": 164536
+        },
+        {
+            "alias": "Solar-Powered Tinker Pistol",
+            "item_id": 164490
+        },
+        {
+            "alias": "Solar-Powered Mender Pistol",
+            "item_id": 164498
+        },
+        {
+            "alias": "Electrical Engineering Tutoring Device",
+            "item_id": 55693
+        },
+        {
+            "alias": "Advanced Hacker Tool",
+            "item_id": 87814
+        },
+        {
+            "alias": "Disposal Unit Electrical Toolset",
+            "item_id": 164552
+        },
+        {
+            "alias": "Hacked Electrical Engineering Tutoring Device",
+            "item_id": 164550
+        },
+        {
+            "alias": "Modified Electrical Toolset",
+            "item_id": 164553
+        },
+        {
+            "alias": "Solar-Powered Mechanic Pistol",
+            "item_id": 164501
+        },
+        {
+            "alias": "Solar-Powered Machinist Pistol",
+            "item_id": 164511
+        },
+        {
+            "alias": "Experimental Nanobot Classifying Computer",
+            "item_id": 164568
+        },
+        {
+            "alias": "Mist-Filled Jar",
+            "item_id": 164566
+        },
+        {
+            "alias": "Energized Nanobot Transmitter",
+            "item_id": 164574
+        },
+        {
+            "alias": "Solar-Powered Engineer Pistol",
+            "item_id": 164513
+        },
+        {
+            "alias": "Accelerated NCU Memory",
+            "item_id": 164608
+        },
+        {
+            "alias": "Crystalized Medusa Queen Hippocampus",
+            "item_id": 164598
+        },
+        {
+            "alias": "Symbiotic NCU",
+            "item_id": 164620
+        },
+        {
+            "alias": "Solar-Powered Master Engineer Pistol",
+            "item_id": 164515
+        },
+        {
+            "alias": "Dust Brigade Solar Notum Infuser",
+            "item_id": 274558
+        },
+        {
+            "alias": "Infused Solar-Powered Master Engineer Pistol",
+            "item_id": 274557
+        },
+        {
+            "alias": "Crude Upgrade Kit",
+            "item_id": 274975
+        },
+        {
+            "alias": "Augmented Master Engineer Pistol",
+            "item_id": 274973
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "<highlight>Step 1: Solar-Powered Pistol<end>\n\nJump to step 2 if you already have a Start Up Pistol.\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Basic Calculator\" \"156058\"\n<img src=rdb://156319>\n\n#L \"Auto Targeting Computer -IIR 4 -Ultra-\" \"137291\"\n<img src=rdb://130761>\n\n#L \"Jandawit Cleanup Cluster\" \"137281\"\n<img src=rdb://130755>\n\n#L \"Irreparable River MV\" \"123667\"\n<img src=rdb://29116>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAuto Targeting Computer -IIR 4 -Ultra-\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nBasic Calculator\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://130762>\n#L \"Solar-Powered Weapon Supervisor\" \"164523\"\n</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nJandawit Cleanup Cluster\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nSolar-Powered Weapon Supervisor\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://130758>\n#L \"Solar-Powered Weapon Device\" \"164525\"\n</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nSolar-Powered Weapon Device\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nIrreparable River MV\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://29116>\n#L \"Solar-Powered Pistol\" \"121567\"\n</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n\n<highlight>Step 2: Solar-Powered Tinker Pistol<end>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Jensen Personal Ore Extractor\" \"150281\"\n<img src=rdb://149947>\n\n#L \"Screwdriver\" \"150922\"\n<img src=rdb://151011>\n\n#L \"Robotic Self-Preservation System\" \"164529\"\n<img src=rdb://11606>\n\n#L \"Notum Chip\" \"136623\"\n<img src=rdb://25794>\n</font><font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Notum Fragment\" \"136625\"\n<img src=rdb://25795>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nScrewdriver\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nJensen Personal Ore Extractor\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://149948>\n#L \"Modified Jensen Ore Extractor\" \"164527\"\n</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nRobotic Self-Preservation System\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nModified Jensen Ore Extractor\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://149948>\n#L \"Unstable Preservation System\" \"164531\"\n</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nNotum\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nUnstable Preservation System\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://149947>\n#L \"Stable Preservation System\" \"164536\"\n</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nStable Preservation System\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nSolar-Powered Pistol\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://29116>\n#L \"Solar-Powered Tinker Pistol\" \"164490\"\n</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n\n<highlight>Step 3: Solar-Powered Mender Pistol<end>\n\nIncrease the QL of your pistol to 39 by right-clicking on it.\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nMechanical Analyzer (#L \"recipe\" \"/tell <myname> recipe 67\")\n<img src=rdb://156512>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nMechanical Analyzer\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nSolar-Powered Tinker Pistol\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://29116>\n#L \"Solar-Powered Mender Pistol\" \"164498\"\n</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n\n<highlight>Step 4: Solar-Powered Mechanic Pistol<end>\n\nIncrease the QL of your pistol to 99 by right-clicking on it.\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Electrical Engineering Tutoring Device\" \"55693\"\n<img src=rdb://99294>\n\n#L \"Hacker Tool\" \"87814\"\n<img src=rdb://99282>\n\n#L \"Disposal Unit Electrical Toolset\" \"164552\"\n<img src=rdb://12710>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nHacker Tool\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nElectrical Engineering Tutoring Device\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://161873>\n#L \"Hacked Electrical Engineering Tutoring Device\" \"164550\"\n</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nHacked Electrical Engineering Tutoring Device\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nDisposal Unit Electrical Toolset\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://161873>\n#L \"Modified Electrical Toolset\" \"164553\"\n</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nModified Electrical Toolset\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nSolar-Powered Mender Pistol\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://29116>\n#L \"Solar-Powered Mechanic Pistol\" \"164501\"\n</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n\n<highlight>Step 5: Solar-Powered Machinist Pistol<end>\n\nIncrease the QL of your pistol to 139 by right-clicking on it.\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nNotum Threaded Backpack\n(#L \"recipe\" \"/tell <myname> recipe 78\")\n<img src=rdb://99660>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nNotum Threaded Backpack\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nSolar-Powered Mechanic Pistol\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://29116>\n#L \"Solar-Powered Machinist Pistol\" \"164511\"\n</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n\n<highlight>Step 6: Solar-Powered Engineer Pistol<end>\n\nIncrease the QL of your pistol to 179 by right-clicking on it.\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Experimental Nanobot Classifying Computer\" \"164568\"\n<img src=rdb://72783>\n\n#L \"Mist-Filled Jar\" \"164566\"\n<img src=rdb://154194>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nExperimental Nanobot Classifying Computer\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nMist-Filled Jar\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://72783>\n#L \"Energized Nanobot Transmitter\" \"164574\"\n</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nEnergized Nanobot Transmitter\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nSolar-Powered Machinist Pistol\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://29116>\n#L \"Solar-Powered Engineer Pistol\" \"164513\"\n</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n\n<highlight>Step 7: Solar-Powered Master Engineer Pistol<end>\n\nIncrease the QL of your pistol to 199 by right-clicking on it.\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Accelerated NCU\" \"164608\" ( #L \"recipe\" \"/tell <myname> recipe 1\" )\n<img src=rdb://13367>\n\n#L \"Crystalized Medusa Queen Hippocampus\" \"164598\"\n<img src=rdb://156559>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAccelerated NCU\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nCrystalized MedusaQueen Hippocampus\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://100323>\n#L \"Symbiotic NCU\" \"164620\"\n</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nSymbiotic NCU\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nSolar-Powered Engineer Pistol\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://29116>\n#L \"Solar-Powered Master Engineer Pistol\" \"164515\"\n</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n\n<highlight>Step 8: Infused Solar-Powered Master Engineer Pistol<end>\n\nYou must have Lost Eden Expansion to use the pistol once modified beyond this point!\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Dust Brigade Solar Notum Infuser\" \"274558\"\n<img src=rdb://218768>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nDust Brigade Solar Notum Infuser\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nSolar-Powered Master Engineer Pistol\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://264789>\n#L \"Infused Solar-Powered Master Engineer Pistol\" \"274557\"\n</font><font color=#FFFF00>Skills: | 1000WS,1800ME,1800EE |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n\n<highlight>Step 9: Augmented Master Engineer Pistol<end>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Crude Upgrade Kit\" \"274975\"\n<img src=rdb://218768>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nInfused Solar-Powered Master Engineer Pistol\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nCrude Upgrade Kit\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://264789>\n#L \"Augmented Master Engineer Pistol\" \"274973\"\n</font><font color=#FFFF00>Skills: | 1500WS,2100ME,2100EE |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Comments</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nThe engineers best friend (besides his pet robots and his screwdriver) now has an extra 2 steps of upgrading for those high level engis with Lost Eden Expansions.\n"
+}

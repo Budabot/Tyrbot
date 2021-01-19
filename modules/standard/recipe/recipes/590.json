@@ -1,0 +1,37 @@
+{
+    "name": "Upgrading Ofab Armor",
+    "author": "",
+    "items": [
+        {
+            "alias": "Kyr'Ozch Bio-Material - Type 64",
+            "item_id": 265334
+        },
+        {
+            "alias": "Kyr'Ozch Bio-Material - Type 295",
+            "item_id": 265330
+        },
+        {
+            "alias": "Kyr'Ozch Bio-Material - Type 468",
+            "item_id": 265336
+        },
+        {
+            "alias": "Kyr'Ozch Bio-Material - Type 935",
+            "item_id": 265332
+        },
+        {
+            "alias": "Ofab Soldier Helmet",
+            "item_id": 264432
+        },
+        {
+            "alias": "Improved Ofab Soldier Helmet",
+            "item_id": 264430
+        },
+        {
+            "alias": "Penultimate Ofab Soldier Helmet",
+            "item_id": 264428
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Kyr'Ozch Bio-Material - Type 64\" \"265333\"\nDoctors, Engineers, Keepers, Meta-physicists \n<img src=rdb://247101>\n\n#L \"Kyr'Ozch Bio-Material - Type 295\" \"265330\"\nAdventurers, Enforcers, Martial artists, Soldiers\n<img src=rdb://247101>\n\n#L \"Kyr'Ozch Bio-Material - Type 468\" \"265336\"\nBureaucrats, Nano-technicians, Traders\n<img src=rdb://247101>\n\n#L \"Kyr'Ozch Bio-Material - Type 935\" \"265332\"\nAgents, Fixers, Shades\n<img src=rdb://247101>\n\nA piece of ofab armor\n(ie: #L \"Ofab Soldier Helmet\" \"264432\")\n<img src=rdb://266393>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nExample:\n\nKyr'Ozch Bio-Material - Type 295\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nOfab Soldier Helmet\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://266393>\n#L \"Improved Ofab Soldier Helmet\" \"264430\"\n</font><font color=#FFFF00>Skills: |  --  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nKyr'Ozch Bio-Material - Type 295\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nImproved Ofab Soldier Helmet\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://266394>\n#L \"Penultimate Ofab Soldier Helmet\" \"264428\"\n</font><font color=#FFFF00>Skills: |  --  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Comments</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nThese upgrades require no tradeskills.  Simply combine the ofab piece with the bio-material and you're set.  **NOTE** The clump must be at least 85% the ql of the Ofab piece.\n"
+}

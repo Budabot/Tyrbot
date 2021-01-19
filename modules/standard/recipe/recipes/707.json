@@ -1,0 +1,21 @@
+{
+    "name": "Viral Communications Larvae",
+    "author": "",
+    "items": [
+        {
+            "alias": "Screwdriver",
+            "item_id": 150922
+        },
+        {
+            "alias": "Kyr'Ozch Storage Box",
+            "item_id": 288137
+        },
+        {
+            "alias": "Viral Communications Larvae",
+            "item_id": 288281
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients </font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Screwdriver\" \"150922\"\n<img src=rdb://151011>\n\n#L \"Kyr'Ozch Storage Box\" \"288137\"\n<img src=rdb://288096>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe </font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nScrewdriver\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nKyr'Ozch Storage Box\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://288690>\n#L \"Viral Communications Larvae\" \"288281\"\n"
+}

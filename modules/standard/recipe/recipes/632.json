@@ -1,0 +1,25 @@
+{
+    "name": "Full Data Receptacle Container",
+    "author": "",
+    "items": [
+        {
+            "alias": "Empty Data Receptacle Container",
+            "item_id": 275056
+        },
+        {
+            "alias": "Quiescent Grid Waveform Template",
+            "item_id": 265479
+        },
+        {
+            "alias": "Full Data Receptacle Container",
+            "item_id": 275057
+        },
+        {
+            "alias": "Data Receptacle",
+            "item_id": 160978
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients </font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n</font><font color=#FFFF00> Empty Data Receptacle Containers can be found on RK team mission bosses and dyna's. \nA Fixer can fill it and the owner of the container can use it to enter the Fixer Grid</font><font color=#009B00>\n\n#L \"Empty Data Receptacle Container\" \"275056\"\n<img src=rdb://275054>\n\n#L \"Quiescent Grid Waveform Template\" \"265479\"\n<img src=rdb://149936>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe </font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nEmpty Data Receptacle Container\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nQuiescent Grid Waveform Template\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://275055>\n#L \"Full Data Receptacle Container\" \"275057\"\n</font><font color=#FFFF00>Skills: | No Skills Required |</font><font color=#009B00>\n</font><font color=#FFFF00>Note: by right clicking the full container it will revert to an empty container and also spawn:</font><font color=#009B00>\n\n#L \"Data Receptacle\" \"160978\"\n<img src=rdb://287621>\n\n</font><font color=#FFFF00>Click the Data Receptacle on a Grid Terminal and you will be granted access to the Fixer Grid.</font><font color=#009B00>"
+}

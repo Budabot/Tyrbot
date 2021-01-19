@@ -1,0 +1,21 @@
+{
+    "name": "Dusk of the Xan",
+    "author": "",
+    "items": [
+        {
+            "alias": "Xan Weapon Upgrade Device",
+            "item_id": 280786
+        },
+        {
+            "alias": "Sword of Dusk",
+            "item_id": 246256
+        },
+        {
+            "alias": "Dusk of the Xan",
+            "item_id": 280730
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients </font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n</font><font color=#FFFF00> The Xan Weapon Upgrade Device which drops from the Mitaar Hero, Ground Chief Vortexx and 12-Man instances can be tradeskilled with 30 different Shadowlands weapons/</font><font color=#009B00>\n\n#L \"Xan Weapon Upgrade Device\" \"280786\"\n<img src=rdb://246391>\n\n#L \"Sword of Dusk\" \"246256\"\n<img src=rdb://246240>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe </font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nXan Weapon Upgrade Device\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nSword of Dusk\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://246240>\n#L \"Dusk of the Xan\" \"280730\""
+}

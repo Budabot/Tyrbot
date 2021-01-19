@@ -1,0 +1,37 @@
+{
+    "name": "Trimmer - Damage Modifier",
+    "author": "",
+    "items": [
+        {
+            "alias": "Charged Energy Core",
+            "item_id": 249646
+        },
+        {
+            "alias": "Trimmer Casing",
+            "item_id": 154938
+        },
+        {
+            "alias": "Trimmer - Energy Damage Modifier",
+            "item_id": 249110
+        },
+        {
+            "alias": "Heated Energy Core",
+            "item_id": 249647
+        },
+        {
+            "alias": "Trimmer - Fire Damage Modifier",
+            "item_id": 249109
+        },
+        {
+            "alias": "Cooled Energy Core",
+            "item_id": 249648
+        },
+        {
+            "alias": "Trimmer - Cold Damage Modifier",
+            "item_id": 249107
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAn Energy Core\n( ie : #L \"Charged Energy Core\" \"249646\" )\n<img src=rdb://20405>\n\n#L \"Trimmer Casing\" \"154938\"\n<img src=rdb://154935>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nEnergy Core\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nTrimmer Casing\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://12697>\nTrimmer - Damage Modifier\n( ie : #L \"Trimmer - Energy Damage Modifier\" \"249110\" )\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Details</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Charged Energy Core\" \"249646\" - #L \"Trimmer - Energy Damage Modifier\" \"249110\"\n#L \"Heated Energy Core\" \"249647\" - #L \"Trimmer - Fire Damage Modifier\" \"249109\"\n#L \"Cooled Energy Core\" \"249648\" - #L \"Trimmer - Cold Damage Modifier\" \"249107\"\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Comments</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nSupercharged Trimmers for players with Ai Expansion.\n"
+}

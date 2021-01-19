@@ -1,0 +1,25 @@
+{
+    "name": "Hatred of the Xan",
+    "author": "",
+    "items": [
+        {
+            "alias": "Xan Weapon Upgrade Device",
+            "item_id": 280786
+        },
+        {
+            "alias": "Lord of Hatred",
+            "item_id": 244762
+        },
+        {
+            "alias": "Lady of Hatred",
+            "item_id": 244761
+        },
+        {
+            "alias": "Hatred of the Xan",
+            "item_id": 280718
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients </font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n</font><font color=#FFFF00> The Xan Weapon Upgrade Device which drops from the Mitaar Hero, Ground Chief Vortexx and 12-Man instances can be tradeskilled with 30 different Shadowlands weapons/</font><font color=#009B00>\n\n#L \"Xan Weapon Upgrade Device\" \"280786\"\n<img src=rdb://246391>\n\n#L \"Lord of Hatred\" \"244762\"\n<img src=rdb://158269>\n</font><font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Lady of Hatred\" \"244761\"\n<img src=rdb://158269>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe </font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nXan Weapon Upgrade Device\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nLord of Hatred\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://280922>\n#L \"Hatred of the Xan\" \"280718\"\n\n</font><font color=#FFFFFF>or</font><font color=#009B00>\n\nXan Weapon Upgrade Device\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nLady of Hatred\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://280922>\n#L \"Hatred of the Xan\" \"280718\""
+}

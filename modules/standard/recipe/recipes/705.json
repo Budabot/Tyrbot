@@ -1,0 +1,8 @@
+{
+    "name": "Alien Armor",
+    "author": "",
+    "items": [],
+    "steps": [],
+    "details": [],
+    "raw": "</center><blue>To show the Recipe for an Alien Armor piece do:<end>\n<cyan><symbol>aiarmor 'type'<end>\n<blue>If you want to specify the QL do:<end>\n<cyan><symbol>aiarmor 'type' 'ql of the armor'<end>\n<blue>Or<end>\n<cyan><symbol>aiarmor 'ql of the armor' 'type'<end>\n\n<blue>Allowed Types:<end><yellow>\n<lime>cc<end> - Combined Commando's\n<lime>cm<end> - Combined Mercenary's\n<lime>co<end> - Combined Officer's\n<lime>cp<end> - Combined Paramedic's\n<lime>cs<end> - Combined Scout's\n<lime>ss<end> - Combined Sharpshooter's\n<lime>strong<end> - Strong Armor\n<lime>supple<end> - Supple Armor\n<lime>enduring<end> - Enduring Armor\n<lime>observant<end> - Observant Armor\n<lime>arithmetic<end> - Arithmetic Armor\n<lime>spiritual<end> - Spiritual Armor<end>\n\nExample: #L \"!aiarmor 150 cc\" \"/tell <myname> aiarmor 150 cc\""
+}

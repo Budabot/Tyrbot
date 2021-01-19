@@ -1,0 +1,33 @@
+{
+    "name": "Range Meter",
+    "author": "",
+    "items": [
+        {
+            "alias": "Antonio's Adaptation Factory",
+            "item_id": 248306
+        },
+        {
+            "alias": "Power Supply",
+            "item_id": 248307
+        },
+        {
+            "alias": "Optical Enhancer",
+            "item_id": 248318
+        },
+        {
+            "alias": "Adapted Power Supply",
+            "item_id": 248308
+        },
+        {
+            "alias": "Recalibrated Scope Unit",
+            "item_id": 248317
+        },
+        {
+            "alias": "Range Meter",
+            "item_id": 248374
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Antonio's Adaptation Factory\" \"248306\" x 2\n<img src=rdb://205493>\n\n#L \"Power Supply\" \"248307\"\n<img src=rdb://20412>\n\n#L \"Optical Enhancer\" \"248318\"\n<img src=rdb://130837>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAntonio's Adaptation Factory\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nPower Supply\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://20402>\n#L \"Adapted Power Supply\" \"248308\"\n</font><font color=#FFFF00>Skills: | CL20 |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAntonio's Adaptation Factory\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nOptical Enhancer\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://130777>\n#L \"Recalibrated Scope Unit\" \"248317\"\n</font><font color=#FFFF00>Skills: | CL20 |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAdapted Power Supply\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nRecalibrated Scope Unit\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://99262>\n#L \"Range Meter\" \"248374\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Comments</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nCrit Increase item.\n"
+}

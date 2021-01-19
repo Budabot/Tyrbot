@@ -1,0 +1,45 @@
+{
+    "name": "Hadrulf's Viral Belt Component Platform",
+    "author": "",
+    "items": [
+        {
+            "alias": "Inertial Adjustment Processing Unit",
+            "item_id": 257959
+        },
+        {
+            "alias": "Viral Data Storage",
+            "item_id": 251225
+        },
+        {
+            "alias": "Overheated Compiler",
+            "item_id": 251221
+        },
+        {
+            "alias": "Canister of Powder",
+            "item_id": 253153
+        },
+        {
+            "alias": "Disassembled Belt with Memory",
+            "item_id": 257540
+        },
+        {
+            "alias": "Disassembled Belt with Memory and Compiler",
+            "item_id": 257541
+        },
+        {
+            "alias": "Hadrulf's Viral Belt Component Platform",
+            "item_id": 257119
+        },
+        {
+            "alias": "Diamondine Kick Pistol",
+            "item_id": 165168
+        },
+        {
+            "alias": "Murder Maul",
+            "item_id": 233336
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Inertial Adjustment Processing Unit\" \"257959\" >= QL240\n<img src=rdb://11618>\n\n#L \"Viral Data Storage\" \"251225\" >= QL240\n<img src=rdb://246275>\n\n#L \"Overheated Compiler\" \"251221\" >= QL240\n<img src=rdb://119132>\n\n#L \"Cannister of Powder\" \"253153\" >= QL240\n<img src=rdb://99236>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nViral Data Storage\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nInertial Adjustment Processing Unit\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://119145>\n#L \"Disassembled Belt with Memory\" \"257540\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nOverheated Compiler\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nDisassembled Belt with Memory\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://119145>\n#L \"Disassembled Belt with Memory and Compiler\" \"257541\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nCannister of Powder\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nDisassembled Belt with Memory and Compiler\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://246126>\n#L \"Hadrulf's Viral Belt Component Platform\" \"257119\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>Note: To remove the \"Atrox Only\" equipping requirement of a QL 250+ #L \"Diamondine Kick Pistol\" \"165168\" \nor #L \"Murder Maul\" \"233336\", combine them with the #L \"Inertial Adjustment Processing Unit\" \"257959\".</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Comments</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAwesome belts for those with the AI expansion."
+}

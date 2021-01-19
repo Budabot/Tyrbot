@@ -1,0 +1,37 @@
+Could not find recipe item '157668 - Unfinished Alsaqri Chemical Rifle' for recipe id 105
+Could not find recipe item '157674 - Unfinished HSR Explorer 661' for recipe id 105
+Could not find recipe item '157646 - Unfinished IMI Tellus TT' for recipe id 105
+Could not find recipe item '162907 - Unfinished Ithaca Ki12 Vulture' for recipe id 105
+Could not find recipe item '162937 - Unfinished River Seasons XP' for recipe id 105
+Could not find recipe item '157656 - Unfinished Soft Pepper Pistol' for recipe id 105
+Could not find recipe item '157652 - Unfinished Sol Chironis Systems' for recipe id 105
+Could not find recipe item '157452 - Unfinished Summer SMP' for recipe id 105
+Could not find recipe item '150817 - Unfinished Bracelet of Arul Saba' for recipe id 25
+Could not find recipe item '150850 - Bracelet of Arul Saba' for recipe id 25
+Could not find recipe item '162222 - Programmed Photon Particle Emitter (Shape Soft Armor)' for recipe id 27
+Could not find recipe item '162222 - Programmed Photon Particle Emitter (Shape Soft Armor)' for recipe id 27
+Could not find recipe item '162221 - Programmed Photon Particle Emitter (Shape Hard Armor)' for recipe id 30
+Could not find recipe item '145848 - Compiled Algorithm (A Maker's Touch)' for recipe id 45
+Could not find recipe item '148848 - Programmed Photon Particle Emitter (A Maker's Touch)' for recipe id 45
+Could not find recipe item '162222 - Programmed Photon Particle Emitter (Shape Soft Armor)' for recipe id 46
+Could not find recipe item '155544 - Programmed Photon Particle Emitter (Improve Slashing Weapons)' for recipe id 54
+Could not find recipe item '245260 - Reanimator's Cloak' for recipe id 563
+Could not find recipe item '245260 - Reanimator's Cloak' for recipe id 603
+Could not find recipe item '162221 - Programmed Photon Particle Emitter (Shape Hard Armor)' for recipe id 620
+Could not find recipe item '162222 - Programmed Photon Particle Emitter (Shape Soft Armor)' for recipe id 620
+Could not find recipe item '155905 - Programmed Photon Particle Emitter (Improve Crushing Weapons)' for recipe id 620
+Could not find recipe item '162222 - Programmed Photon Particle Emitter (Shape Soft Armor)' for recipe id 63
+Could not find recipe item '162222 - Programmed Photon Particle Emitter (Shape Soft Armor)' for recipe id 70
+Could not find recipe item '247326 - Kyr'Ozch Rifle - Type 3' for recipe id 722
+Could not find recipe item '121391 - Rapid-Reload-And-Fire Gyro' for recipe id 752
+Could not find recipe item '121277 - Nano Pylon' for recipe id 755
+Could not find recipe item '25895 - Sealed Container of Foodstuffs Awaiting Credentials' for recipe id 766
+Could not find recipe item '162221 - Programmed Photon Particle Emitter (Shape Hard Armor)' for recipe id 77
+Could not find recipe item '244836 - Lord of Envy' for recipe id 775
+Could not find recipe item '229180 - Abhan Pattern of 'Screech'' for recipe id 87
+Could not find recipe item '229181 - Bhotaar Pattern of 'Screech'' for recipe id 87
+Could not find recipe item '229182 - Chi Pattern of 'Screech'' for recipe id 87
+Could not find recipe item '229183 - Dom Pattern of 'Screech'' for recipe id 87
+Could not find recipe item '229186 - Complete Blueprint Pattern of 'Screech'' for recipe id 87
+Could not find recipe item '229187 - Notum Crystal with Etched 'Screech'' for recipe id 87
+Could not find recipe item '229188 - Novictalized Notum Crystal with 'Screech'' for recipe id 87

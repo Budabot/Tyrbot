@@ -1,0 +1,21 @@
+{
+    "name": "Nano Controller Unit",
+    "author": "",
+    "items": [
+        {
+            "alias": "Disk of Cloudy Crystal",
+            "item_id": 253177
+        },
+        {
+            "alias": "Nano Programming Interface",
+            "item_id": 161699
+        },
+        {
+            "alias": "Nano Controller Unit",
+            "item_id": 253193
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Disk of Cloudy Crystal\" \"253177\"\n<img src=rdb://227251>\n\n#L \"Nano programming interface\" \"161699\"\n<img src=rdb://99279>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nNano programming interface\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nDisk of Cloudy Crystal\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://99279>\n#L \"Nano Controller Unit\" \"253193\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Comments</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nBuff all your nano skills with this great item.\n"
+}

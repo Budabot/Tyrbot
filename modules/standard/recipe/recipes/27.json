@@ -1,0 +1,73 @@
+{
+    "name": "Bronto Hide Armor",
+    "author": "",
+    "items": [
+        {
+            "alias": "Large Patch of Hard Bronto Hide",
+            "item_id": 162224
+        },
+        {
+            "alias": "B.B.I. - Nano Enhanced B-12 Tanning Acid",
+            "item_id": 162247
+        },
+        {
+            "alias": "Ultimate Mass Relocating Robot",
+            "item_id": 155592
+        },
+        {
+            "alias": "Mass Relocating Robot (Shape Soft Armor)",
+            "item_id": 162220
+        },
+        {
+            "alias": "Large Patch of Hard Bronto Hide - Tanned",
+            "item_id": 162236
+        },
+        {
+            "alias": "Bronto Hide Tunic",
+            "item_id": 162206
+        },
+        {
+            "alias": "Large Patch of Soft Bronto Hide",
+            "item_id": 162226
+        },
+        {
+            "alias": "Bronto Hide Legwear",
+            "item_id": 162216
+        },
+        {
+            "alias": "Patch of Hard Bronto Hide",
+            "item_id": 162228
+        },
+        {
+            "alias": "Bronto Hide Boots",
+            "item_id": 162208
+        },
+        {
+            "alias": "Patch of Soft Bronto Hide",
+            "item_id": 162230
+        },
+        {
+            "alias": "Bronto Hide Sleeves",
+            "item_id": 162204
+        },
+        {
+            "alias": "Small Patch of Hard Bronto Hide",
+            "item_id": 162232
+        },
+        {
+            "alias": "Bronto Hide Gloves",
+            "item_id": 162210
+        },
+        {
+            "alias": "Small Patch of Soft Bronto Hide",
+            "item_id": 162234
+        },
+        {
+            "alias": "Bronto Hide Hood",
+            "item_id": 162212
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients </font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nA piece of Bronto Hide\n(ie: #L \"Large Patch of Hard Bronto Hide\" \"162224\")\n<img src=rdb://161079>\n\n#L \"B.B.I. - Nano Enhanced B-12 Tanning Acid\" \"162247\"\n<img src=rdb://156490>\n\n#L \"Programmed Photon Particle Emitter (Shape Soft Armor)\" \"162222\"\n<img src=rdb://144476>\n\n#L \"Mass Relocating Robot\" \"155592\"\n<img src=rdb://155928>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe </font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nProgrammed Photon Particle Emitter (Shape Soft Armor)\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nMass Relocating Robot\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://163857>\n#L \"Mass Relocating Robot (Shape Soft Armor)\" \"162220\"\n</font><font color=#FFFF00>Skills: | 2.5EE,2.5ME,2.5NP |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nB.B.I. - Nano Enhanced B-12 Tanning Acid\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nA piece of Bronto Hide\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://161082>\nA piece of Tanned Bronto Hide\n(ie: #L \"Large Patch of Hard Bronto Hide - Tanned\" \"162236\")\n</font><font color=#FFFF00>Skills: | CH,AG |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nMass Relocating Robot (Shape Soft Armor)\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nA piece of Tanned Bronto Hide\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://13240>\nA Bronto Hide Armor part\n(ie: #L \"Bronto Hide Tunic\" \"162206\")\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Details</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Large Patch of Hard Bronto Hide\" \"162224\" -> #L \"Bronto Hide Tunic\" \"162206\"\n#L \"Large Patch of Soft Bronto Hide\" \"162226\" -> #L \"Bronto Hide Legwear\" \"162216\"\n#L \"Patch of Hard Bronto Hide\" \"162228\" -> #L \"Bronto Hide Boots\" \"162208\"\n#L \"Patch of Soft Bronto Hide\" \"162230\" -> #L \"Bronto Hide Sleeves\" \"162204\"\n#L \"Small Patch of Hard Bronto Hide\" \"162232\" -> #L \"Bronto Hide Gloves\" \"162210\"\n#L \"Small Patch of Soft Bronto Hide\" \"162234\" -> #L \"Bronto Hide Hood\" \"162212\"\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Comments</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nVery good overall AC stats along with Max Nano modifier. The #L \"Programmed Photon Particle Emitter (Shape Soft Armor)\" \"162222\" is very very rare, Team boss loot Ql60 :(\n"
+}

@@ -1,0 +1,37 @@
+{
+    "name": "Viral Component Belt",
+    "author": "",
+    "items": [
+        {
+            "alias": "Viral Belt Control Component",
+            "item_id": 288130
+        },
+        {
+            "alias": "Basic Belt",
+            "item_id": 288131
+        },
+        {
+            "alias": "Viral Belt NCU Slots",
+            "item_id": 288133
+        },
+        {
+            "alias": "Viral Belt Nanobot Power Unit",
+            "item_id": 288135
+        },
+        {
+            "alias": "Belt with Control Component",
+            "item_id": 288132
+        },
+        {
+            "alias": "Viral Belt",
+            "item_id": 288134
+        },
+        {
+            "alias": "Viral Belt Component Platform",
+            "item_id": 288084
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients </font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Viral Belt Control Component\" \"288130\"\n<img src=rdb://288090>\n\n#L \"Basic Belt\" \"288131\"\n<img src=rdb://288089>\n\n#L \"Viral Belt NCU Slots\" \"288133\"\n<img src=rdb://288091>\n\n#L \"Viral Belt Nanobot Power Unit\" \"288135\"\n<img src=rdb://288092>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe </font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nViral Belt Control Component\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nBasic Belt\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://288093>\n#L \"Belt with Control Component\" \"288132\"\n\nViral Belt NCU Slots\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nBelt with Control Component\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://288094>\n#L \"Viral Belt\" \"288134\"\n\nViral Belt Nanobot Power Unit\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nViral Belt\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://288088>\n#L \"Viral Belt Component Platform\" \"288084\""
+}

@@ -1,0 +1,81 @@
+{
+    "name": "Inamorata and Sacrosanct Weapons",
+    "author": "",
+    "items": [
+        {
+            "alias": "Grey Glyph of Aban",
+            "item_id": 218372
+        },
+        {
+            "alias": "Inamorata Assault Rifle",
+            "item_id": 212302
+        },
+        {
+            "alias": "Inamorata Bhotaar Assault Rifle",
+            "item_id": 212282
+        },
+        {
+            "alias": "Grey Glyph of Ocra-Bhotaar",
+            "item_id": 218380
+        },
+        {
+            "alias": "Grey Glyph of Aban-Shere",
+            "item_id": 218392
+        },
+        {
+            "alias": "Grey Glyph of Ocra-Roch",
+            "item_id": 218382
+        },
+        {
+            "alias": "Grey Glyph of Aban-Thar",
+            "item_id": 218390
+        },
+        {
+            "alias": "Grey Glyph of Ocra-Shere",
+            "item_id": 218378
+        },
+        {
+            "alias": "Grey Glyph of Bhotaar",
+            "item_id": 218364
+        },
+        {
+            "alias": "Grey Glyph of Ocra-Xum",
+            "item_id": 218384
+        },
+        {
+            "alias": "Grey Glyph of Enel",
+            "item_id": 218370
+        },
+        {
+            "alias": "Grey Glyph of Roch",
+            "item_id": 218366
+        },
+        {
+            "alias": "Grey Glyph of Enel-Thar",
+            "item_id": 218388
+        },
+        {
+            "alias": "Grey Glyph of Shere",
+            "item_id": 218368
+        },
+        {
+            "alias": "Grey Glyph of Enel-Xum",
+            "item_id": 218386
+        },
+        {
+            "alias": "Grey Glyph of Thar",
+            "item_id": 218374
+        },
+        {
+            "alias": "Grey Glyph of Ocra",
+            "item_id": 218362
+        },
+        {
+            "alias": "Grey Glyph of Xum",
+            "item_id": 218376
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\na Grey Glyph\n( ie : #L \"Grey Glyph of Aban\" \"218372\" )\n<img src=rdb://25802>\n\nan Inamorata or Sacrosanct Weapon\n( ie : #L \"Inamorata Assault Rifle\" \"212302\" )\n<img src=rdb://210174>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nGrey Glyph\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nInamorata Weapon\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://210174>\nan improved Inamorata Weapon\n( ie : #L \"Inamorata Bhotaar Assault Rifle\" \"212282\" )\n</font><font color=#FFFF00>Skills: | ME,EE |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Details</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Grey Glyph of Aban\" \"218372\" : Adds Sneak Attack\n#L \"Grey Glyph of Ocra-Bhotaar\" \"218380\" : Adds Burst and Fling Shot \n#L \"Grey Glyph of Aban-Shere\" \"218392\" : Adds Sneak Attack, Fast Attack and Brawl\n#L \"Grey Glyph of Ocra-Roch\" \"218382\" : Adds Fling Shot and Fullauto \n#L \"Grey Glyph of Aban-Thar\" \"218390\" : Adds Sneak Attack and Fast Attack\n#L \"Grey Glyph of Ocra-Shere\" \"218378\" : Adds Fling Shot and Aimed Shot \n#L \"Grey Glyph of Bhotaar\" \"218364\" : Adds Burst\n#L \"Grey Glyph of Ocra-Xum\" \"218384\" : Adds Burst and Fullauto \n#L \"Grey Glyph of Enel\" \"218370\" : Adds Brawl\n#L \"Grey Glyph of Roch\" \"218366\" : Adds Fullauto \n#L \"Grey Glyph of Enel-Thar\" \"218388\" : Adds Brawl and Fast Attack\n#L \"Grey Glyph of Shere\" \"218368\" : Adds Aimed Shot \n#L \"Grey Glyph of Enel-Xum\" \"218386\" : Adds Brawl and Dimach\n#L \"Grey Glyph of Thar\" \"218374\" : Adds Fast Attack \n#L \"Grey Glyph of Ocra\" \"218362\" : Adds Fling Shot \n#L \"Grey Glyph of Xum\" \"218376\" : Adds Dimach\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Comments</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nsee also #L \"Turn Spirit Weapon\" \"/tell <myname> recipe 569\" recipe.\n"
+}

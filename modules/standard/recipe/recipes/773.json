@@ -1,0 +1,21 @@
+{
+    "name": "Variable Density Tanto",
+    "author": "",
+    "items": [
+        {
+            "alias": "Viral Weapon Upgrade",
+            "item_id": 248517
+        },
+        {
+            "alias": "Premium Tanto",
+            "item_id": 144100
+        },
+        {
+            "alias": "Premium Variable Density Tanto",
+            "item_id": 249079
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients </font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Viral Weapon Upgrade\" \"248517\"\n<img src=rdb://100335>\n\n#L \"Premium Tanto\" \"144100\"\n<img src=rdb://113986>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe </font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nViral Weapon Upgrade\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nPremium Tanto\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://113986>\n#L \"Premium Variable Density Tanto\" \"249079\"\n</font><font color=#FFFF00>Skills: |  |</font><font color=#009B00>"
+}

@@ -1,0 +1,61 @@
+{
+    "name": "Building Nanoprograms",
+    "author": "",
+    "items": [
+        {
+            "alias": "Instruction Disc (A Maker's Touch)",
+            "item_id": 147348
+        },
+        {
+            "alias": "Symbol Library - Medical",
+            "item_id": 149853
+        },
+        {
+            "alias": "Photon Particle Emitter",
+            "item_id": 149863
+        },
+        {
+            "alias": "Carbonrich Rock",
+            "item_id": 150273
+        },
+        {
+            "alias": "Jensen Personal Ore Extractor",
+            "item_id": 150276
+        },
+        {
+            "alias": "Isotope Separator",
+            "item_id": 149814
+        },
+        {
+            "alias": "Neutron Displacer",
+            "item_id": 149818
+        },
+        {
+            "alias": "Crystal Reflection Pattern - Medical",
+            "item_id": 149883
+        },
+        {
+            "alias": "Carbonrich Ore",
+            "item_id": 144767
+        },
+        {
+            "alias": "Pure Carbon Crystal",
+            "item_id": 144799
+        },
+        {
+            "alias": "Program Crystal",
+            "item_id": 144802
+        },
+        {
+            "alias": "Prepared Program Crystal - Medical",
+            "item_id": 149831
+        },
+        {
+            "alias": "Nano Crystal (A Maker's Touch)",
+            "item_id": 116804
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Forward</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nIn this recipe everything will be done by using:\n\n#L \"Instruction Disc (A Maker's Touch)\" \"147348\"\n\nas an example.\n\nTo build a Nanoprogram, you first need to make a Programmed Photon Particle Emitter. The construction of this item require different ingredients depending of the Instruction Disc. In fact, to make it you need a Symbol Library. To know which one you need, just read the description of the Instruction Disc. In our case, it'll be a #L \"Symbol Library - Medical\" \"144796\". As for the Crystal Reflection Pattern (Medical one in this case).\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients </font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------\n\n#L \"Instruction Disc (A Maker's Touch)\" \"147348\"\n<img src=rdb://83413>\n\n#L \"Symbol Library - Medical\" \"144796\"\n<img src=rdb://72779>\n\n#L \"Photon Particle Emitter\" \"144788\"\n<img src=rdb://83869>\n\n#L \"Carbonrich Rock\" \"150274\"\n<img src=rdb://72772>\n\n#L \"Jensen Personal Ore Extractor\" \"150281\"\n<img src=rdb://149947>\n\n#L \"Isotope Separator\" \"144785\"\n<img src=rdb://72783>\n\n#L \"Neutron Displacer\" \"144784\"\n<img src=rdb://99235>\n\n#L \"Crystal Reflection Pattern - Medical\" \"144778\"\n<img src=rdb://72776>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe </font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nInstruction Disc (A Maker's Touch)\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nSymbol Library - Medical\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://83118>\n#L \"Compiled Algorithm (A Maker's Touch)\" \"145848\"\n</font><font color=#FFFF00>Skills: | NP,CL |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nCompiled Algorithm (A Maker's Touch)\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nPhoton Particle Emitter\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://83706>\n#L \"Programmed Photon Particle Emitter (A Maker's Touch)\" \"148848\"\n</font><font color=#FFFF00>Skills: |  NP  |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nCarbonrich Rock\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nJensen Personal Ore Extractor\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://72766>\n#L \"Carbonrich Ore\" \"144770\"\n</font><font color=#FFFF00>Skills: | NP,CL |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nIsotope Separator\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nCarbonrich Ore\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://72765>\n#L \"Pure Carbon Crystal\" \"144800\"\n</font><font color=#FFFF00>Skills: |  EE  |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nPure Carbon Crystal\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nNeutron Displacer\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://72764>\n#L \"Program Crystal\" \"144801\"\n</font><font color=#FFFF00>Skills: | ME,QT |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nProgram Crystal\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nCrystal Reflection Pattern - Medical\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://72762>\n#L \"Prepared Program Crystal - Medical\" \"144809\"\n</font><font color=#FFFF00>Skills: | EE,QT |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nProgrammed Photon Particle Emitter (A Maker's Touch)\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nPrepared Program Crystal - Medical\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://42448>\n#L \"Nano Crystal (A Maker's Touch)\" \"116804\"\n</font><font color=#FFFF00>Skills: | ME,NP |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Comments</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nOnce you have all the tools (and the reqs...), it's very profitable to build Nanoprograms. Especially since the cost of all the parts have been greatly reduced since 14.4 Patch. Moreover some Nanoprograms are only available by making them from the Instruction Disc...\n"
+}

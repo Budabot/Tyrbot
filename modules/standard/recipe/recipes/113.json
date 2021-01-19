@@ -1,0 +1,61 @@
+{
+    "name": "Special Turrets",
+    "author": "",
+    "items": [
+        {
+            "alias": "Cloud of Infuriated Nanobots",
+            "item_id": 202534
+        },
+        {
+            "alias": "Advanced Turret Construction Base",
+            "item_id": 202583
+        },
+        {
+            "alias": "HSR Compressed Regenerating Bioplate",
+            "item_id": 202540
+        },
+        {
+            "alias": "Revolving Cold Laser",
+            "item_id": 202780
+        },
+        {
+            "alias": "Turret Controller",
+            "item_id": 202584
+        },
+        {
+            "alias": "Cold Laser Turret Controller",
+            "item_id": 202588
+        },
+        {
+            "alias": "Cold Laser Turret",
+            "item_id": 203081
+        },
+        {
+            "alias": "Sentient Corrosion Sprayer",
+            "item_id": 202783
+        },
+        {
+            "alias": "Sentient Corrosion Turret Controller",
+            "item_id": 202590
+        },
+        {
+            "alias": "Sentient Corrosive Turret",
+            "item_id": 203085
+        },
+        {
+            "alias": "Augias X-11 Ejector",
+            "item_id": 202785
+        },
+        {
+            "alias": "X-11 Ejector Turret Controller",
+            "item_id": 202592
+        },
+        {
+            "alias": "X-11 Ejector Turret",
+            "item_id": 203089
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "<highlight>Type 1: Cold Laser Turret<end>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Cloud of Infuriated Nanobots\" \"202534\"\n<img src=rdb://203581>\n\n#L \"Turret Construction Base\" \"202583\" \n<img src=rdb://203578>\n\n#L \"HSR Compressed Regenerating Bioplate\" \"202540\"\n<img src=rdb://203584>\n\n#L \"Revolving Cold Laser\" \"202780\"\n<img src=rdb://13329>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nCloud of Infuriated Nanobots\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nTurret Construction Base\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://203579>\n#L \"Turret Controller\" \"202584\"\n</font><font color=#FFFF00>Skills: | ME,NP |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nTurret Controller\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nRevolving Cold Laser\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://203580>\n#L \"Cold Laser Turret Controller\" \"202588\"\n</font><font color=#FFFF00>Skills: | ME,WS |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nHSR Compressed Regenerating Bioplate\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nCold Laser Turret Controller\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://202242>\n#L \"Cold Laser Turret\" \"203080\"\n</font><font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n\n<highlight>Type 2: Corrosive Turret<end>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Cloud of Infuriated Nanobots\" \"202534\"\n<img src=rdb://203581>\n\n#L \"Turret Construction Base\" \"202583\" \n<img src=rdb://203578>\n\n#L \"HSR Compressed Regenerating Bioplate\" \"202540\"\n<img src=rdb://203584>\n\n#L \"Sentient Corrosion Sprayer\" \"202783\"\n<img src=rdb://33161>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nCloud of Infuriated Nanobots\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nTurret Construction Base\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://203579>\n#L \"Turret Controller\" \"202584\"\n</font><font color=#FFFF00>Skills: | ME,NP |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nTurret Controller\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nSentient Corrosion Sprayer\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://203580>\n#L \"Sentient Corrosion Turret Controller\" \"202590\"\n</font><font color=#FFFF00>Skills: | ME,WS |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nHSR Compressed Regenerating Bioplate\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nSentient Corrosion Turret Controller\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://202227>\n#L \"Sentient Corrosive Turret\" \"203085\"\n</font><font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n\n<highlight>Type 3: X-11 Ejector Turret<end>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Cloud of Infuriated Nanobots\" \"202534\"\n<img src=rdb://203581>\n\n#L \"Turret Construction Base\" \"202583\" \n<img src=rdb://203578>\n\n#L \"HSR Compressed Regenerating Bioplate\" \"202540\"\n<img src=rdb://203584>\n\n#L \"Augias X-11 Ejector\" \"202785\"\n<img src=rdb://31808>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nCloud of Infuriated Nanobots\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nTurret Construction Base\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://203579>\n#L \"Turret Controller\" \"202584\"\n</font><font color=#FFFF00>Skills: | ME,NP |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nTurret Controller\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nAugias X-11 Ejector\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://203580>\n#L \"X-11 Ejector Turret Controller\" \"202592\"\n</font><font color=#FFFF00>Skills: | ME,WS |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nHSR Compressed Regenerating Bioplate\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nX-11 Ejector Turret Controller\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://202210>\n#L \"X-11 Ejector Turret\" \"203089\"\n</font><font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Comments</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nThe best towers in the game are the ones you build yourself, and these are no exception.  The weapons used in the process are difficult to get your hands on though.\n"
+}

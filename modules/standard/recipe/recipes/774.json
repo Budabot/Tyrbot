@@ -1,0 +1,21 @@
+{
+    "name": "Xnemth Plasmaprojector",
+    "author": "",
+    "items": [
+        {
+            "alias": "Viral Weapon Upgrade",
+            "item_id": 248517
+        },
+        {
+            "alias": "Premium Plasmaprojector",
+            "item_id": 121892
+        },
+        {
+            "alias": "Premium Xnemth Plasmaprojector",
+            "item_id": 248626
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients </font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Viral Weapon Upgrade\" \"248517\"\n<img src=rdb://100335>\n\n#L \"Premium Plasmaprojector\" \"121892\"\n<img src=rdb://21145>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe </font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nViral Weapon Upgrade\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nPremium Plasmaprojector\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://113986>\n#L \"Premium Xnemth Plasmaprojector\" \"248626\"\n</font><font color=#FFFF00>Skills: |  |</font><font color=#009B00>"
+}

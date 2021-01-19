@@ -1,0 +1,45 @@
+{
+    "name": "Transmographic Dimension Shifter",
+    "author": "",
+    "items": [
+        {
+            "alias": "Semi Working Cellular Assembler",
+            "item_id": 275464
+        },
+        {
+            "alias": "Insulated Nano Wire",
+            "item_id": 275461
+        },
+        {
+            "alias": "Tube of Flexible Carbon Fiber",
+            "item_id": 275462
+        },
+        {
+            "alias": "Set-and-Reset Flip-Flop",
+            "item_id": 275463
+        },
+        {
+            "alias": "Cellular Assembler with Wire Sticking Out",
+            "item_id": 275467
+        },
+        {
+            "alias": "A Highly Sustainable Device",
+            "item_id": 275466
+        },
+        {
+            "alias": "Ness' Decoy Device",
+            "item_id": 275456
+        },
+        {
+            "alias": "Algorithm: Replotting Matrix",
+            "item_id": 288453
+        },
+        {
+            "alias": "Transmographic Dimension Shifter",
+            "item_id": 288452
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients </font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n</font><font color=#FFFF00> Dr. Ness (from the Arid Rift quest) has a very nice tool for you after you've built a Ness' Decoy Device for him. The tool will warp you out of whatever place in Arid Rift back to the Unicorn staging area</font><font color=#009B00>\n\n#L \"Semi Working Cellular Assembler\" \"275464\"\n<img src=rdb://205510>\n\n#L \"Insulated Nano Wire\" \"275461\"\n<img src=rdb://151017>\n\n#L \"Tube of Flexible Carbon Fiber\" \"275462\"\n<img src=rdb://205519>\n\n#L \"Set-and-Reset Flip-Flop\" \"275463\"\n<img src=rdb://205505>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe </font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nSemi Working Cellular Assembler\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nInsulated Nano Wire\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://205511>\n#L \"Cellular Assembler with Wire Sticking Out\" \"275467\"\n\nCellular Assembler with Wire Sticking Out\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nTube of Flexible Carbon Fiber\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://205512>\n#L \"A Highly Sustainable Device\" \"275466\"\n\nA Highly Sustainable Device\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nSet-and-Reset Flip-Flop\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://205515>\n#L \"Ness' Decoy Device\" \"275456\"\n\n</font><font color=#FFFF00>In the team alien mission you will have to give Dr. Ness the Ness' Decoy Device in order to finish the mission. But you can talk with him a little longer and he will tell you about this wonderful idea about an enhancement to this device. He will give you a:</font><font color=#009B00>\n\n#L \"Algorithm: Replotting Matrix\" \"288453\"\n<img src=rdb://100339>\n\n#16Combine these:</font><font color=#009B00>\n\n\nAlgorithm: Replotting Matrix\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nNess' Decoy Device\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://289658>\n#L \"Transmographic Dimension Shifter\" \"288452\""
+}

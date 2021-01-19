@@ -1,0 +1,45 @@
+{
+    "name": "Crude Upgrades",
+    "author": "",
+    "items": [
+        {
+            "alias": "Crude Upgrade Kit",
+            "item_id": 274975
+        },
+        {
+            "alias": "Reflex Pistol",
+            "item_id": 274977
+        },
+        {
+            "alias": "Black Clan Heavy Tank Armor",
+            "item_id": 206662
+        },
+        {
+            "alias": "Hacked Medi-Blade",
+            "item_id": 274974
+        },
+        {
+            "alias": "Infused Solar-Powered Master Engineer Pistol",
+            "item_id": 274557
+        },
+        {
+            "alias": "Twitch Pistol",
+            "item_id": 274979
+        },
+        {
+            "alias": "Improved Black Clan Heavy Tank Armor",
+            "item_id": 274987
+        },
+        {
+            "alias": "Improved Hacked Medi-Blade",
+            "item_id": 274978
+        },
+        {
+            "alias": "Augmented Master Engineer Pistol",
+            "item_id": 274973
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients </font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n</font><font color=#FFFF00> Crude Upgrade Kits drop from Escaped Prisoners.</font><font color=#009B00>\n\n#L \"Crude Upgrade Kit\" \"274975\"\n<img src=rdb://218768>\n\n#L \"Reflex Pistol\" \"274977\"\n<img src=rdb://264785>\n\n#L \"Black Clan Heavy Tank Armor\" \"206662\"\n<img src=rdb://22395>\n\n#L \"Hacked Medi-Blade\" \"274974\"\n<img src=rdb://264782>\n\n#L \"Infused Solar-Powered Master Engineer Pistol\" \"274557\"\n<img src=rdb://264789>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe </font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nReflex Pistol\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nCrude Upgrade Kit\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://264785>\n#L \"Twitch Pistol\" \"274979\"\n\nBlack Clan Heavy Tank Armor\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nCrude Upgrade Kit\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://22395>\n#L \"Improved Black Clan Heavy Tank Armor\" \"274987\"\n\nHacked Medi-Blade\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nCrude Upgrade Kit\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://264780>\n#L \"Improved Hacked Medi-Blade\" \"274978\"\n\nInfused Solar-Powered Master Engineer Pistol\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nCrude Upgrade Kit\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://264789>\n#L \"Augmented Master Engineer Pistol\" \"274973\"\n</font><font color=#FFFF00>Skills: | 1350 WS,  2100 ME and 2100 EE | </font><font color=#009B00> "
+}

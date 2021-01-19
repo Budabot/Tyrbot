@@ -1,0 +1,21 @@
+{
+    "name": "Enhanced Mantis Scissors",
+    "author": "",
+    "items": [
+        {
+            "alias": "Mantis Scissors",
+            "item_id": 157760
+        },
+        {
+            "alias": "Diamond-Matrix Mesh",
+            "item_id": 202266
+        },
+        {
+            "alias": "Enhanced Mantis Scissors",
+            "item_id": 202265
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Mantis Scissors\" \"157760\"\n<img src=rdb://158238>\n\n#L \"Diamond-Matrix Mesh\" \"202266\"\n<img src=rdb://11615>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nDiamond-Matrix Mesh\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nMantis Scissors\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://158238>\n#L \"Enhanced Mantis Scissors\" \"202265\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Comments</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nNice weapon if you can get the parts.\n"
+}

@@ -1,0 +1,29 @@
+{
+    "name": "Kuma Tonfa",
+    "author": "",
+    "items": [
+        {
+            "alias": "Xan Weapon Upgrade Device",
+            "item_id": 280786
+        },
+        {
+            "alias": "Lord of Wisdom",
+            "item_id": 293997
+        },
+        {
+            "alias": "Lady of Wisdom",
+            "item_id": 294000
+        },
+        {
+            "alias": "Kuma Tonfa - Right Hand",
+            "item_id": 293995
+        },
+        {
+            "alias": "Kuma Tonfa - Left Hand",
+            "item_id": 281962
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients </font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n</font><font color=#FFFF00> The Xan Weapon Upgrade Device which drops from the Mitaar Hero, Ground Chief Vortexx and 12-Man instances can be tradeskilled with 30 different Shadowlands weapons/</font><font color=#009B00>\n\n#L \"Xan Weapon Upgrade Device\" \"280786\"\n<img src=rdb://246391>\n\n#L \"Lord of Wisdom\" \"293997\"\n<img src=rdb://293991>\n</font><font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Lady of Wisdom\" \"294000\"\n<img src=rdb://293991>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe </font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nXan Weapon Upgrade Device\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nLord of Wisdom\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://293992>\n#L \"Kuma Tonfa - Right Hand\" \"293995\"\n\n</font><font color=#FFFFFF>or</font><font color=#009B00>\n\nXan Weapon Upgrade Device\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nLady of Wisdom\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://293992>\n#L \"Kuma Tonfa - Left Hand\" \"281962\""
+}

@@ -1,0 +1,29 @@
+{
+    "name": "Prohibited Hand Mortar of Bacam-Xum",
+    "author": "",
+    "items": [
+        {
+            "alias": "Barrel of Bacam-Xum",
+            "item_id": 246874
+        },
+        {
+            "alias": "Ignition Chamber of Bacam-Xum",
+            "item_id": 246875
+        },
+        {
+            "alias": "Stock of Bacam-Xum",
+            "item_id": 246877
+        },
+        {
+            "alias": "Half-Finished Hand-Mortar of Bacam-Xum",
+            "item_id": 246876
+        },
+        {
+            "alias": "Prohibited Hand-Mortar of Bacam-Xum",
+            "item_id": 246873
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Barrel of Bacam-Xum\" \"246874\"\n<img src=rdb://130706>\n\n#L \"Ignition chamber of Bacam-Xum\" \"246875\"\n<img src=rdb://130672>\n\n#L \"Stock of Bacam-Xum\" \"246877\"\n<img src=rdb://130872>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nIgnition chamber of Bacam-Xum\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nBarrel of Bacam-Xum\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://130705>\n#L \"Half-Finished Hand-Mortar of Bacam-Xum\" \"246876\"\n</font><font color=#FFFF00>Skills: |  1750WS,1250ME  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nStock of Bacam-Xum\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nHalf-Finished Hand-Mortar of Bacam-Xum\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://233213>\n#L \"Prohibited Hand-Mortar of Bacam-Xum\" \"246873\"\n</font><font color=#FFFF00>Skills: |  1750WS,1250ME  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Comments</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nExtremely hard (if not impossible) to equip at level 205 without some seriously expensive buffing armor on.  As if the Tradeskilling wasnt hard enough for this item.\n"
+}

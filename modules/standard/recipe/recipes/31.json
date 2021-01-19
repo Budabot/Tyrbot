@@ -1,0 +1,45 @@
+{
+    "name": "CAS Symbiotic Armor",
+    "author": "",
+    "items": [
+        {
+            "alias": "Notum Fragment",
+            "item_id": 136625
+        },
+        {
+            "alias": "Notum Chip",
+            "item_id": 136623
+        },
+        {
+            "alias": "Nano Programming Interface",
+            "item_id": 161699
+        },
+        {
+            "alias": "Inactive OT Metamorphing Liquid Nanobots",
+            "item_id": 164952
+        },
+        {
+            "alias": "Flawless Graft Armor Boots",
+            "item_id": 142685
+        },
+        {
+            "alias": "Activated OT Metamorphing Liquid Nanobots",
+            "item_id": 164954
+        },
+        {
+            "alias": "Stabilized OT Metamorphing Liquid Nanobots",
+            "item_id": 164956
+        },
+        {
+            "alias": "Super-Stabilized OT Metamorphing Liquid Nanobots",
+            "item_id": 164958
+        },
+        {
+            "alias": "CAS Symbiotic Armor Boots",
+            "item_id": 165000
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n2 pieces of Notum\n#L \"Notum Fragment\" \"136624\"\n<img src=rdb://25795>\n</font><font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Notum Chip\" \"136622\"\n<img src=rdb://25794>\n\n#L \"Nano Programming Interface\" \"161699\"\n<img src=rdb://99279>\n\n#L \"Inactive OT Metamorphing Liquid Nanobots\" \"164952\"\n<img src=rdb://156496>\n\nA Graft Armor part\n( ie : #L \"Flawless Graft Armor Boots\" \"142685\" )\n<img src=rdb://99787>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nNano Programming Interface\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nInactive OT Metamorphing Liquid Nanobots\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://156492>\n#L \"Activated OT Metamorphing Liquid Nanobots\" \"164954\"\n</font><font color=#FFFF00>Skills: | NP,CH |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nNotum piece\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nActivated OT Metamorphing Liquid Nanobots\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://164949>\n#L \"Stabilized OT Metamorphing Liquid Nanobots\" \"164956\"\n</font><font color=#FFFF00>Skills: | NP,CH |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nNotum piece\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nStabilized OT Metamorphing Liquid Nanobots\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://164950>\n#L \"Super-Stabilized OT Metamorphing Liquid Nanobots\" \"164958\"\n</font><font color=#FFFF00>Skills: | NP,CH |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nSuper-Stabilized OT Metamorphing Liquid Nanobots\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nGraft Armor\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://37596>\nCAS Symbiotic Armor\n( ie : #L \"CAS Symbiotic Armor Boots\" \"165000\" )\n</font><font color=#FFFF00>Skills: | NP,CH |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Comments</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nPopular Froob armor\n"
+}

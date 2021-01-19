@@ -1,0 +1,21 @@
+{
+    "name": "Enhanced Pads of Dedication",
+    "author": "",
+    "items": [
+        {
+            "alias": "Omnifier",
+            "item_id": 208312
+        },
+        {
+            "alias": "Pads of Dedication",
+            "item_id": 157998
+        },
+        {
+            "alias": "Enhanced Pads of Dedication",
+            "item_id": 209237
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients </font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n</font><font color=#FF0000> *** </font><font color=#FFFF00> Omni-Tek employees and Neutrals will be happy to know that their Pads of Dedication which can be obtained by doing the Shoulderpads Quest can be upgraded even further. What's even better is that the upgrade doesn't require any skills to do.\n\nAll you will need besides your Pads is an Omnifier. You can find it in missions, it's a common from mobs and you can also find it in chests.\n</font><font color=#FF0000> *** </font><font color=#009B00>\n\n#L \"Omnifier\" \"208312\"\n<img src=rdb://156479>\n\n#L \"Pads of Dedication\" \"157998\"\n<img src=rdb://31537>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe </font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nOmnifier\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nPads of Dedication\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://31537>\n#L \"Enhanced Pads of Dedication\" \"209237\"\n</font><font color=#FFFF00>Skills: | None | </font><font color=#009B00>\n\nComparing stats between the original and upgraded versions, most of them have been enhanced by 50%. Oh and the Pads turn into a nice shiny black color which perfectly matches the popular Omni-Tek Armed Forces armor omnis wear."
+}

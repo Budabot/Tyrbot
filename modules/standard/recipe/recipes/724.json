@@ -1,0 +1,21 @@
+{
+    "name": "Nophex's Molybdenum Crash Helmet",
+    "author": "",
+    "items": [
+        {
+            "alias": "Action Probability Estimator",
+            "item_id": 257960
+        },
+        {
+            "alias": "Jathos' Molybdenum Plate Helmet",
+            "item_id": 252005
+        },
+        {
+            "alias": "Nophex's Molybdenum Crash Helmet",
+            "item_id": 257378
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients </font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n</font><font color=#FFFF00> The Action Probability Estimator drops in Sector 13 and can be used for various tradeskill processes.</font><font color=#009B00>\n\n#L \"Action Probability Estimator\" \"257960\"\n<img src=rdb://203502>\n\n#L \"Jathos' Molybdenum Plate Helmet\" \"252005\"\n<img src=rdb://252430>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe </font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAction Probability Estimator\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nJathos' Molybdenum Plate Helmet\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://252430>\n#L \"Nophex's Molybdenum Crash Helmet\" \"257378\"\n</font><font color=#FFFF00>Note: Clan Helmet</font><font color=#009B00>"
+}

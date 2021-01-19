@@ -1,0 +1,53 @@
+{
+    "name": "Charged Liquid Bombs",
+    "author": "",
+    "items": [
+        {
+            "alias": "Ammo: Flamethrower Ammunition",
+            "item_id": 21601
+        },
+        {
+            "alias": "Advanced Active Tube",
+            "item_id": 156029
+        },
+        {
+            "alias": "Key Detonator",
+            "item_id": 156033
+        },
+        {
+            "alias": "Screwdriver",
+            "item_id": 150922
+        },
+        {
+            "alias": "Container of Liquid Ammo",
+            "item_id": 156074
+        },
+        {
+            "alias": "Liquid Explosive Charge",
+            "item_id": 156031
+        },
+        {
+            "alias": "A Single Charged Liquid Bomb",
+            "item_id": 156038
+        },
+        {
+            "alias": "Liquid Explosive Double Charge",
+            "item_id": 156303
+        },
+        {
+            "alias": "Twice Charged Liquid Bomb",
+            "item_id": 156047
+        },
+        {
+            "alias": "Liquid Explosive Triple Charge",
+            "item_id": 156305
+        },
+        {
+            "alias": "Complete Liquid Explosive",
+            "item_id": 156049
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "<highlight>Single Charged Liquid Bomb<end>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Flamethrower Ammunition\" \"21601\"\n<img src=rdb://32168>\n\n#L \"Active Tube\" \"156029\"\n<img src=rdb://156093>\n\n#L \"Key Detonator\" \"156033\"\n<img src=rdb://156201>\n\n#L \"Screwdriver\" \"150922\"\n<img src=rdb://151011>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nScrewdriver\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nFlamethrower Ammunition\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://32171>\n#L \"Container of Liquid Ammo\" \"156074\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nContainer of Liquid Ammo\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nActive Tube\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://156207>\n#L \"Liquid Explosive Charge\" \"156031\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nKey Detonator\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nLiquid Explosive Charge\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://131257>\n#L \"Single Charged Liquid Bomb\" \"156038\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n\n<highlight>Double Charged Liquid Bomb<end>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Flamethrower Ammunition\" \"21601\" x 2\n<img src=rdb://32168>\n\n#L \"Active Tube\" \"156029\"\n<img src=rdb://156093>\n\n#L \"Key Detonator\" \"156033\"\n<img src=rdb://156201>\n\n#L \"Screwdriver\" \"150922\"\n<img src=rdb://151011>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nScrewdriver\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nFlamethrower Ammunition\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://32171>\n#L \"Container of Liquid Ammo\" \"156074\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nContainer of Liquid Ammo\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nActive Tube\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://156207>\n#L \"Liquid Explosive Charge\" \"156031\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nScrewdriver\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nFlamethrower Ammunition\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://32171>\n#L \"Container of Liquid Ammo\" \"156074\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nContainer of Liquid Ammo\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nLiquid Explosive Charge\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://156210>\n#L \"Liquid Explosive Double Charge\" \"156303\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nKey Detonator\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nLiquid Explosive Double Charge\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://131249>\n#L \"Twice Charged Liquid Bomb\" \"156047\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n\n<highlight>Complete Liquid Explosive<end>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Flamethrower Ammunition\" \"21601\" x 3\n<img src=rdb://32168>\n\n#L \"Active Tube\" \"156029\"\n<img src=rdb://156093>\n\n#L \"Key Detonator\" \"156033\"\n<img src=rdb://156201>\n\n#L \"Screwdriver\" \"150922\"\n<img src=rdb://151011>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nScrewdriver\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nFlamethrower Ammunition\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://32171>\n#L \"Container of Liquid Ammo\" \"156074\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nContainer of Liquid Ammo\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nActive Tube\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://156207>\n#L \"Liquid Explosive Charge\" \"156031\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nScrewdriver\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nFlamethrower Ammunition\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://32171>\n#L \"Container of Liquid Ammo\" \"156074\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nContainer of Liquid Ammo\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nLiquid Explosive Charge\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://156210>\n#L \"Liquid Explosive Double Charge\" \"156303\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nScrewdriver\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nFlamethrower Ammunition\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://32171>\n#L \"Container of Liquid Ammo\" \"156074\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nContainer of Liquid Ammo\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nLiquid Explosive Double Charge\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://156205>\n#L \"Liquid Explosive Triple Charge\" \"156305\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nKey Detonator\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nLiquid Explosive Triple Charge\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://131248>\n#L \"Complete Liquid Explosive\" \"156049\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Comments</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nSnippet from auno.org: \"Due to the QL of certain KEY COMPONENTS... the best you could ever do is making single charged liquid explosives at whatever QL or you could make a fantastic TRIPLE CHARGED LIQUID EXPLOSIVE at an astounding... quality level of three.\"\n"
+}

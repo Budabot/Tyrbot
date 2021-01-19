@@ -1,0 +1,53 @@
+{
+    "name": "Nano Breed Service Suit Armor",
+    "author": "",
+    "items": [
+        {
+            "alias": "Nano Breed Survival Suit Body Armor",
+            "item_id": 206609
+        },
+        {
+            "alias": "Nano Breed Survival Suit Boots",
+            "item_id": 206610
+        },
+        {
+            "alias": "Nano Breed Survival Suit Pants",
+            "item_id": 206611
+        },
+        {
+            "alias": "Nano Breed Survival Suit Sleeves",
+            "item_id": 206608
+        },
+        {
+            "alias": "Inactive OT Metamorphing Liquid Nanobots",
+            "item_id": 164952
+        },
+        {
+            "alias": "Nano Programming Interface",
+            "item_id": 161699
+        },
+        {
+            "alias": "Advanced Hacker Tool",
+            "item_id": 87814
+        },
+        {
+            "alias": "Activated OT Metamorphing Liquid Nanobots",
+            "item_id": 164954
+        },
+        {
+            "alias": "Hacked Nano Breed Survival Suit Body Armor",
+            "item_id": 206614
+        },
+        {
+            "alias": "Nano Breed Service Suit Body Armor - Once Augmented",
+            "item_id": 206645
+        },
+        {
+            "alias": "Nano Breed Service Suit Body Armor - Maximum Augmented",
+            "item_id": 206636
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients </font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n</font><font color=#FF0000> *** </font><font color=#FFFF00> Before you go on, this armor is one of rarest found on Rubi-Ka. So far only handfull of pieces were found, even if it made ingame years ago (only confirmed drop is reported from lvl 59 Nano Breed mob inside mission). And since it's limited buffs, mostly collectors would be interested in it. </font><font color=#FF0000> *** </font><font color=#009B00>\n\n#L \"Nano Breed Survival Suit Body Armor\" \"206609\"\n<img src=rdb://13252>\n\n#L \"Nano Breed Survival Suit Boots\" \"206610\"\n<img src=rdb://155112>\n\n#L \"Nano Breed Survival Suit Pants\" \"206611\"\n<img src=rdb://13302>\n\n#L \"Nano Breed Survival Suit Sleeves\" \"206608\"\n<img src=rdb://22949>\n\n#L \"Inactive OT Metamorphing Liquid Nanobots\" \"164952\"\n<img src=rdb://156496>\n\n#L \"Nano Programming Interface\" \"161699\"\n<img src=rdb://99279>\n\n#L \"Advanced Hacker Tool\" \"87814\"\n<img src=rdb://99282>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe </font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n</font><font color=#FFFF00> The Nano Programming Interface can be bought from tools terminals. Inactive OT Metamorphing Liquid Nanobots are in armor and clothing components terminals. Hacker Tool drop from missions and can also be purchased at regular shops. \n\nFirst, you need to prepare OT Metamorphing Liquid Nanobots. If you want fully augmented armor, you'll need 10 pieces of them for each armor piece you're making. Nano Programming Interface doesn't get used up in the process.</font><font color=#009B00>\n\nInactive OT Metamorphing Liquid Nanobots\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nNano Programming Interface\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://156492>\n#L \"Activated OT Metamorphing Liquid Nanobots\" \"164954\"\n</font><font color=#FFFF00>Skills: | x2.5 CL x4 NP based on QL of Nanobots | </font><font color=#009B00>\n</font><font color=#FFFF00>Notes: Inactive OT Nanobots must be within 90% of armor. </font><font color=#009B00>\n\n</font><font color=#FFFF00> Once this is sorted, you're ready to start on armor itself.</font><font color=#009B00>\n\nNano Breed Survival Suit Body Armor\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nAdvanced Hacker Tool\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://13252>\n#L \"Hacked Nano Breed Survival Suit Body Armor\" \"206614\"\n</font><font color=#FFFF00>Skills: | 48 BE | </font><font color=#009B00>\n\nHacked Nano Breed Survival Suit Body Armor\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nActivated OT Metamorphing Liquid Nanobots\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://13252>\n#L \"Nano Breed Service Suit Body Armor - Once Augmented\" \"206645\"\n</font><font color=#FFFF00>Skills: | 60 NP | </font><font color=#009B00>\n\n</font><font color=#FFFF00> You can repeat this process 9 more times each time after the 2nd upgrade the NP increases by 60 points to a final skill of 540 NP on final upgrade.</font><font color=#009B00>\n\nNano Breed Service Suit Body Armor - Nine Times Augmented\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nActivated OT Metamorphing Liquid Nanobots\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://13252>\n#L \"Nano Breed Service Suit Body Armor - Maximum Augmented\" \"206636\"\n</font><font color=#FFFF00>Skills: | 540 NP | </font><font color=#009B00>\n\n</font><font color=#FFFF00> If you manage to collect all 5 pieces of armor (4 different pieces and extra sleeve, since there aren't that many one-armed characters around) and upgrade them to maximum, you'll get bonus of:\n\nMaxNanoEnergy: 1100\nNanoC.Init: 250\n\nWith that, only practical use for it, that I can think of, is maybe some NT or Doctor twink, but they would still be penalized for lack of AC or Nano Skill mods on this armor.</font><font color=#009B00>"
+}

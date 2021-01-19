@@ -1,0 +1,105 @@
+{
+    "name": "Building Alien Invasion Houses",
+    "author": "",
+    "items": [
+        {
+            "alias": "Generic Volatile Nanobots",
+            "item_id": 247760
+        },
+        {
+            "alias": "HSR Compressed Regenerating Bioplate",
+            "item_id": 202540
+        },
+        {
+            "alias": "Generic Organic Immunity System",
+            "item_id": 254822
+        },
+        {
+            "alias": "Blueprint - Regular Building Structure",
+            "item_id": 247768
+        },
+        {
+            "alias": "Strong Regenerating Bioplate",
+            "item_id": 247757
+        },
+        {
+            "alias": "Superior Bioplate",
+            "item_id": 254806
+        },
+        {
+            "alias": "Regular Building Structure",
+            "item_id": 254807
+        },
+        {
+            "alias": "Floorplan - Omni-Tek Notum Silo",
+            "item_id": 255476
+        },
+        {
+            "alias": "Omni-Tek Notum Silo",
+            "item_id": 254144
+        },
+        {
+            "alias": "Floorplan - Neutral Small Organization Headquarters",
+            "item_id": 254790
+        },
+        {
+            "alias": "Fertilized Giant Chirop Egg",
+            "item_id": 247788
+        },
+        {
+            "alias": "Unrefined Notum Salt",
+            "item_id": 247786
+        },
+        {
+            "alias": "Slow-Killing Poison",
+            "item_id": 247791
+        },
+        {
+            "alias": "Uncle Bazzit's Bio-Mechanical AI",
+            "item_id": 247794
+        },
+        {
+            "alias": "Advanced Bio-Comminutor",
+            "item_id": 154332
+        },
+        {
+            "alias": "Mutating Giant Chirop Egg",
+            "item_id": 247789
+        },
+        {
+            "alias": "Poisoned Giant Chirop Egg",
+            "item_id": 247790
+        },
+        {
+            "alias": "Mutating Bio-Pulp",
+            "item_id": 247792
+        },
+        {
+            "alias": "Bio-Mechanical Computer",
+            "item_id": 247795
+        },
+        {
+            "alias": "Superior Building Structure",
+            "item_id": 254829
+        },
+        {
+            "alias": "Small Omni-Tek Organization Headquarters",
+            "item_id": 254210
+        },
+        {
+            "alias": "Kyr'Ozch Viral Serum",
+            "item_id": 254805
+        },
+        {
+            "alias": "Manteze Scout Nasal Membrane",
+            "item_id": 247762
+        },
+        {
+            "alias": "Membrane Pulp",
+            "item_id": 247763
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "<highlight>1) Regular Building Structure<end>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients </font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Generic Volatile Nanobots\" \"247760\"\n<img src=rdb://156482>\n\n#L \"HSR Compressed Regenerating Bioplate\" \"202540\"\n<img src=rdb://203584>\n\n#L \"Generic Organic Immunity System\" \"254822\"\n<img src=rdb://100334>\n\n#L \"Blueprint - Regular Building Structure\" \"247768\"\n<img src=rdb://247770>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe </font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nGeneric Volatile Nanobots\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nHSR Compressed Regenerating Bioplate\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://247756>\n#L \"Strong Regenerating Bioplate\" \"247757\"\n</font><font color=#FFFF00>Skills: |  CH  |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nGeneric Organic Immunity System\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nStrong Regenerating Bioplate\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://247769>\n#L \"Superior Bioplate\" \"254806\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nBlueprint - Regular Building Structure\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nSuperior Bioplate\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://256071>\n#L \"Regular Building Structure\" \"254807\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n\n<highlight>2) Build a Simple Structure<end>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients </font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Regular Building Structure\" \"254807\"\n<img src=rdb://256071>\n\na Floorplan\n( ie : #L \"Floorplan - Omni-Tek Notum Silo\" \"255476\" )\n<img src=rdb://121435>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe </font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nFloorplan\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nRegular Building Structure\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://255801>\na Stucture\n( ie : #L \"Omni-Tek Notum Silo\" \"254144\" )\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n\n<highlight>3) Build a HQ Structure<end>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients </font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Regular Building Structure\" \"254807\"\n<img src=rdb://256071>\n\na HQ Floorplan\n( ie : #L \"Floorplan - Neutral Small Organization Headquarters\" \"254790\" )\n<img src=rdb://121435>\n\n#L \"Fertilized Giant Chirop Egg\" \"247788\"\n<img src=rdb://20405>\n\n#L \"Unrefined Notum Salt\" \"247786\"\n<img src=rdb://247785>\n\n#L \"Slow-Killing Poison\" \"247791\"\n<img src=rdb://100335>\n\n#L \"Uncle Bazzit's Bio-Mechanical AI\" \"247794\"\n<img src=rdb://247793>\n\n#L \"Advanced Bio-Comminutor\" \"154332\"\n<img src=rdb://149951>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe </font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nUnrefined Notum Salt\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nFertilized Giant Chirop Egg\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://20405>\n#L \"Mutating Giant Chirop Egg\" \"247789\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nSlow-Killing Poison\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nMutating Giant Chirop Egg\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://20405>\n#L \"Poisoned Giant Chirop Egg\" \"247790\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nBio-Comminutor\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nPoisoned Giant Chirop Egg\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://99239>\n#L \"Mutating Bio-Pulp\" \"247792\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nMutating Bio-Pulp\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nUncle Bazzit's Bio-Mechanical AI\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://247793>\n#L \"Bio-Mechanical Computer\" \"247795\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nBio-Mechanical Computer\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nRegular Building Structure\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://256070>\n#L \"Superior Building Structure\" \"254829\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nHQ Floorplan\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nSuperior Building Structure\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://255790>\na HQ Stucture\n( ie : #L \"Small Omni-Tek Organization Headquarters\" \"254210\" )\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n\n<highlight>4) Build High QL HQ Structure<end>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients </font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Kyr'Ozch Viral Serum\" \"254805\"\n<img src=rdb://100337>\n\n#L \"Manteze Scout Nasal Membrane\" \"247762\"\n<img src=rdb://247761>\n\n#L \"Advanced Bio-Comminutor\" \"154332\"\n<img src=rdb://149951>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe </font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nBio-Comminutor\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nManteze Scout Nasal Membrane\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://99236>\n#L \"Membrane Pulp\" \"247763\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nMembrane Pulp\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nKyr'Ozch Viral Serum\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://100334>\n#L \"Generic Organic Immunity System\" \"254822\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\nNow, build a Regular Building Structure with this Generic Organic Immunity System which is of a higher QL than in shop. Then Build a high HQ with this Regular Building Structure.\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Comments</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nWorth all the messing around I think :)\n"
+}

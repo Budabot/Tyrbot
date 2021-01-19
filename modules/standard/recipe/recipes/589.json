@@ -1,0 +1,17 @@
+{
+    "name": "Sealed Inner Sanctum Pass",
+    "author": "",
+    "items": [
+        {
+            "alias": "Exarch Robe",
+            "item_id": 204759
+        },
+        {
+            "alias": "Sealed Inner Sanctum Pass",
+            "item_id": 207107
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Exarch Robe\" \"204759\"\n<img src=rdb://159569>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nGive it to the Blind Cultist outside TOTW to receive\n\n#L \"Sealed Inner Sanctum Pass\" \"207107\"\n<img src=rdb://154676>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Comments</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nYour pass to the inner sanctum.  Robes drop from exarches in totw.\n"
+}

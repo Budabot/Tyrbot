@@ -1,0 +1,37 @@
+{
+    "name": "Massive Steel Body Armor",
+    "author": "",
+    "items": [
+        {
+            "alias": "Advanced Hacker Tool",
+            "item_id": 87814
+        },
+        {
+            "alias": "Expendable Hologram Camera",
+            "item_id": 156054
+        },
+        {
+            "alias": "ID-extractor",
+            "item_id": 156339
+        },
+        {
+            "alias": "Massive Steel Body Armor",
+            "item_id": 204855
+        },
+        {
+            "alias": "ID-data",
+            "item_id": 156340
+        },
+        {
+            "alias": "Hacked Massive Steel Body Armor",
+            "item_id": 204856
+        },
+        {
+            "alias": "Massive Steel Body Armor",
+            "item_id": 204854
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Hacker Tool\" \"87814\"\n<img src=rdb://99282>\n\n#L \"Expendable Hologram Camera\" \"156054\"\n<img src=rdb://156092>\n\n#L \"ID-extractor\" \"156339\"\n<img src=rdb://156324>\n\n#L \"Massive Steel Body Armor\" \"204855\"\n<img src=rdb://22972>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nID-extractor\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nExpendable Hologram Camera\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://156323>\n#L \"ID-data\" \"156340\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nHacker Tool\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nMassive Steel Body Armor\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://22972>\n#L \"Hacked Massive Steel Body Armor\" \"204856\"\n</font><font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nID-data\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nHacked Massive Steel Body Armor\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://22972>\n#L \"Massive Steel Body Armor\" \"204854\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Comments</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nMale only...\n"
+}

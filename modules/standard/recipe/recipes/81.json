@@ -1,0 +1,37 @@
+{
+    "name": "Personalized Basic Robot Brain",
+    "author": "",
+    "items": [
+        {
+            "alias": "Screwdriver",
+            "item_id": 150922
+        },
+        {
+            "alias": "Robot Junk",
+            "item_id": 42619
+        },
+        {
+            "alias": "Bio Analyzing Computer",
+            "item_id": 156021
+        },
+        {
+            "alias": "MasterComm - Personalization Device",
+            "item_id": 156025
+        },
+        {
+            "alias": "Nano Sensor",
+            "item_id": 150924
+        },
+        {
+            "alias": "Basic Robot Brain",
+            "item_id": 156023
+        },
+        {
+            "alias": "Personalized Basic Robot Brain",
+            "item_id": 156027
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Screwdriver\" \"150922\"\n<img src=rdb://151011>\n\n#L \"Robot Junk\" \"42619\"\n<img src=rdb://144715>\n\n#L \"Bio Analyzing Computer\" \"156021\"\n<img src=rdb://156084>\n\n#L \"MasterComm - Personalization Device\" \"156024\"\n<img src=rdb://11618>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nScrewdriver\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nRobot Junk\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://149940>\n#L \"Nano Sensor\" \"150924\"\n</font><font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nBio Analyzing Computer\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nNano Sensor\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://156085>\n#L \"Basic Robot Brain\" \"156023\"\n</font><font color=#FFFF00>Skills: |  EE  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nMasterComm - Personalization Device\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nBasic Robot Brain\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://156087>\n#L \"Personalized Basic Robot Brain\" \"156027\"\n</font><font color=#FFFF00>Skills: |  EE  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Comments</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nThis nifty little thing costs quite a lot to make and only gives a little bit of sense when equipped. However, it can useful for equipping Sense/Agi armors.\n"
+}

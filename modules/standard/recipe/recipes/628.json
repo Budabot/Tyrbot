@@ -1,0 +1,21 @@
+{
+    "name": "Infused Ancient Defender",
+    "author": "",
+    "items": [
+        {
+            "alias": "Dust Brigade Notum Infuser",
+            "item_id": 274552
+        },
+        {
+            "alias": "Ancient Defender",
+            "item_id": 267627
+        },
+        {
+            "alias": "Infused Ancient Defender",
+            "item_id": 274556
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients </font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Dust Brigade Notum Infuser\" \"274552\"\n<img src=rdb://218768>\n\n#L \"Ancient Defender\" \"267627\"\n<img src=rdb://218752>\n\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe </font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n</font><font color=#FFFF00>Note:To build your Ancient Defender, go here:\n#L \"Ancient Defender\" \"/tell <myname> recipe 621\"</font><font color=#009B00>\n\nDust Brigade Notum Infuser\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nAncient Defender\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://218752>\n#L \"Infused Ancient Defender\" \"274556\"\n</font><font color=#FFFF00>Skills: | CL 1500 |</font><font color=#009B00>"
+}

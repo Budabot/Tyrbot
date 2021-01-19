@@ -1,0 +1,21 @@
+{
+    "name": "Kyr'Ozch Structural Analyzer",
+    "author": "",
+    "items": [
+        {
+            "alias": "Kyr'Ozch Atomic Re-Structuralizing Tool",
+            "item_id": 247099
+        },
+        {
+            "alias": "Field Quantum Physics All-Purpose Tool",
+            "item_id": 164558
+        },
+        {
+            "alias": "Kyr'Ozch Structural Analyzer",
+            "item_id": 247100
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Kyr'Ozch Atomic Re-Structuralizing Tool\" \"247099\"\n<img src=rdb://247098>\n\n#L \"Field Quantum Physics All-Purpose Tool\" \"164558\"\n<img src=rdb://20410>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nField Quantum Physics All-Purpose Tool\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nKyr'Ozch Atomic Re-Structuralizing Tool\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://247097>\n#L \"Kyr'Ozch Structural Analyzer\" \"247100\"\n</font><font color=#FFFF00>Skills: |  QT  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Comments</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nHandy Tool for AI Tradeskilling.\n"
+}

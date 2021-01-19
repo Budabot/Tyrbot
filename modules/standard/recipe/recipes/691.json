@@ -1,0 +1,69 @@
+{
+    "name": "Masterpiece Ancient Manual Aiming Aid",
+    "author": "",
+    "items": [
+        {
+            "alias": "Empty Ancient Device",
+            "item_id": 267709
+        },
+        {
+            "alias": "Ancient Scrap of Spirit Knowledge",
+            "item_id": 267677
+        },
+        {
+            "alias": "Ancient Scrap of Saturated Spirit Knowledge",
+            "item_id": 267679
+        },
+        {
+            "alias": "Crystalised Memories of an Archer",
+            "item_id": 267708
+        },
+        {
+            "alias": "Crystalised Memories of a Technician",
+            "item_id": 267698
+        },
+        {
+            "alias": "Crystalised Memories of a Mechanic",
+            "item_id": 267701
+        },
+        {
+            "alias": "Crystalised Memories of a Sniper",
+            "item_id": 267704
+        },
+        {
+            "alias": "Crystalised Memories of a Warrior",
+            "item_id": 267697
+        },
+        {
+            "alias": "Ancient Manual Aiming Aid",
+            "item_id": 267651
+        },
+        {
+            "alias": "Ancient Scrap of Condensed Spirit Knowledge",
+            "item_id": 267680
+        },
+        {
+            "alias": "Combined Crystalised Combat Memories",
+            "item_id": 267705
+        },
+        {
+            "alias": "Ancient Scrap of Spirit Combat Knowledge",
+            "item_id": 267681
+        },
+        {
+            "alias": "Improved Ancient Manual Aiming Aid",
+            "item_id": 267706
+        },
+        {
+            "alias": "Combined Crystalised Technical Memories",
+            "item_id": 267702
+        },
+        {
+            "alias": "Masterpiece Ancient Manual Aiming Aid",
+            "item_id": 267707
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients </font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n</font><font color=#FFFF00> All parts required for this process can be found in Albtraum.</font><font color=#009B00>\n\n#L \"Empty Ancient Device\" \"267709\"\n<img src=rdb://218753>\n\n#L \"Ancient Scrap of Spirit Knowledge\" \"267677\" x 2\n<img src=rdb://163575>\n\n#L \"Ancient Scrap of Saturated Spirit Knowledge\" \"267679\" x 2\n<img src=rdb://163575>\n\n#L \"Crystalised Memories of an Archer\" \"267708\"\n<img src=rdb://72771>\n\n#L \"Crystalised Memories of a Technician\" \"267698\"\n<img src=rdb://72770>\n\n#L \"Crystalised Memories of a Mechanic\" \"267701\"\n<img src=rdb://72771>\n\n#L \"Crystalised Memories of a Sniper\" \"267704\"\n<img src=rdb://72771>\n\n#L \"Crystalised Memories of a Warrior\" \"267697\"\n<img src=rdb://72771>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe </font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n<highlight>Ancient Manual Aiming Aid<end>\n\nEmpty Ancient Device\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nCrystalised Memories of an Archer\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://218779>\n#L \"Ancient Manual Aiming Aid\" \"267651\"\n</font><font color=#FFFF00>Skills: | 1250 CL |</font><font color=#009B00>\n\n<highlight>Improved Ancient Manual Aiming Aid<end>\n\nAncient Scrap of Spirit Knowledge\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nAncient Scrap of Saturated Spirit Knowledge\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://163575>\n#L \"Ancient Scrap of Condensed Spirit Knowledge\" \"267680\"\n</font><font color=#FFFF00>Skills: | 1750 PT |</font><font color=#009B00>\n\nCrystalised Memories of a Sniper\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nCrystalised Memories of a Warrior\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://72769>\n#L \"Combined Crystalised Combat Memories\" \"267705\"\n</font><font color=#FFFF00>Skills: | 1250 NP |</font><font color=#009B00>\n\nCombined Crystalised Combat Memories\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nAncient Scrap of Condensed Spirit Knowledge\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://163575>\n#L \"Ancient Scrap of Spirit Combat Knowledge\" \"267681\"\n</font><font color=#FFFF00>Skills: | 1250 CL |</font><font color=#009B00>\n\nAncient Manual Aiming Aid\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nAncient Scrap of Spirit Combat Knowledge\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://218778>\n#L \"Improved Ancient Manual Aiming Aid\" \"267706\"\n</font><font color=#FFFF00>Skills: | 1250 CL |</font><font color=#009B00>\n\n<highlight>Masterpiece Ancient Manual Aiming Aid<end>\n\nCrystalised Memories of a Technician\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nCrystalised Memories of a Mechanic\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://72769>\n#L \"Combined Crystalised Technical Memories\" \"267702\"\n</font><font color=#FFFF00>Skills: | 1875 NP |</font><font color=#009B00>\n\nAncient Scrap of Spirit Knowledge\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nAncient Scrap of Saturated Spirit Knowledge\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://163575>\n#L \"Ancient Scrap of Condensed Spirit Knowledge\" \"267680\"\n</font><font color=#FFFF00>Skills: | 1750 PT |</font><font color=#009B00>\n\nCombined Crystalised Technical Memories\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nAncient Scrap of Condensed Spirit Knowledge\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://163575>\n#L \"Ancient Scrap of Spirit Technical Knowledge\" \"267681\"\n</font><font color=#FFFF00>Skills: | 1875 NP |</font><font color=#009B00>\n\nImproved Ancient Manual Aiming Aid\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nAncient Scrap of Spirit Technical Knowledge\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://218778>\n#L \"Masterpiece Ancient Manual Aiming Aid\" \"267707\"\n</font><font color=#FFFF00>Skills: | 1250 CL |</font><font color=#009B00>"
+}

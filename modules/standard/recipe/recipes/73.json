@@ -1,0 +1,29 @@
+{
+    "name": "Muscular Stim",
+    "author": "",
+    "items": [
+        {
+            "alias": "Mimicking Cellular Oil",
+            "item_id": 154268
+        },
+        {
+            "alias": "Receptive Bots",
+            "item_id": 154266
+        },
+        {
+            "alias": "Shining Nano Knot of Muscular Increase",
+            "item_id": 154667
+        },
+        {
+            "alias": "Purple Glowing Stim",
+            "item_id": 154274
+        },
+        {
+            "alias": "Muscular Stim",
+            "item_id": 154665
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Mimicking Cellular Oil\" \"154268\"\n<img src=rdb://100306>\n\n#L \"Receptive Bots\" \"154266\"\n<img src=rdb://11755>\n\n#L \"Shining Nano Knot of Muscular Increase\" \"154667\"\n<img src=rdb://19862>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nMimicking Cellular Oil\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nReceptive Bots\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://11754>\n#L \"Purple Glowing Stim\" \"154274\"\n</font><font color=#FFFF00>Skills: |  PT  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nShining Nano Knot of Muscular Increase\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nPurple Glowing Stim\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://11713>\n#L \"Muscular Stim\" \"154665\"\n</font><font color=#FFFF00>Skills: |  PT  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Comments</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nGood buffing item to equip TOTW/IS items which require Body Dev\n"
+}

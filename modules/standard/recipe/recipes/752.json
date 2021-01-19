@@ -1,0 +1,33 @@
+{
+    "name": "Envy of the Xan",
+    "author": "",
+    "items": [
+        {
+            "alias": "Xan Weapon Upgrade Device",
+            "item_id": 280786
+        },
+        {
+            "alias": "Lord of Envy",
+            "item_id": 244843
+        },
+        {
+            "alias": "Lady of Envy",
+            "item_id": 244842
+        },
+        {
+            "alias": "Superior Rebuilt Perennium Beamer",
+            "item_id": 260713
+        },
+        {
+            "alias": "Envy of the Xan",
+            "item_id": 280724
+        },
+        {
+            "alias": "Rhat'Ata Gun",
+            "item_id": 281507
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients </font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n</font><font color=#FFFF00> The Xan Weapon Upgrade Device which drops from the Mitaar Hero, Ground Chief Vortexx and 12-Man instances can be tradeskilled with 30 different Shadowlands weapons/</font><font color=#009B00>\n\n#L \"Xan Weapon Upgrade Device\" \"280786\"\n<img src=rdb://246391>\n\n#L \"Rapid-Reload-And-Fire Gyro\" \"121391\"\n<img src=rdb://130700>\n\n#L \"Lord of Envy\" \"244843\"\n<img src=rdb://244836>\n</font><font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Lady of Envy\" \"244842\"\n<img src=rdb://244836>\n</font><font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Superior Rebuilt Perennium Beamer\" \"260713\"\n<img src=rdb://244836>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe </font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nXan Weapon Upgrade Device\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nLord of Envy\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://281599>\n#L \"Envy of the Xan\" \"280724\"\n\n</font><font color=#FFFFFF>or</font><font color=#009B00>\n\nXan Weapon Upgrade Device\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nLady of Envy\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://281599>\n#L \"Envy of the Xan\" \"280724\"\n\n</font><font color=#FFFFFF>or</font><font color=#009B00>\n\nXan Weapon Upgrade Device\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nSuperior Rebuilt Perennium Beamer\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://281599>\n#L \"Envy of the Xan\" \"280724\"\n\n</font><font color=#FFFF00>Note: The Envy can be further upgraded with ql150+ shop bought items:</font><font color=#009B00>\n\nRapid-Reload-And-Fire Gyro\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nEnvy of the Xan\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://281599>\n#L \"Rhat'Ata Gun\" \"281507\""
+}

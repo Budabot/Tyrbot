@@ -1,0 +1,25 @@
+{
+    "name": "Reanimator's Cloak",
+    "author": "",
+    "items": [
+        {
+            "alias": "Pit Demon Heart",
+            "item_id": 245171
+        },
+        {
+            "alias": "Necromancer Cloak",
+            "item_id": 245170
+        },
+        {
+            "alias": "Advanced Bio-Comminutor",
+            "item_id": 154332
+        },
+        {
+            "alias": "Indigo Carmine",
+            "item_id": 245270
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Pit Demon Heart\" \"245171\"\n<img src=rdb://231393>\n\n#L \"Necromancer Cloak\" \"245170\"\n<img src=rdb://22892>\n\n#L \"Bio-Comminutor\" \"154332\"\n<img src=rdb://149951>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nBio-Comminutor\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nPit Demon Heart\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://100335>\n#L \"Indigo Carmine\" \"245270\"\n</font><font color=#FFFF00>Skills: | CH525 |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nIndigo Carmine\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nNecromancer Cloak\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://22892>\n#L \"Reanimator's Cloak\" \"245260\"\n</font><font color=#FFFF00>Skills: | CL450 |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Comments</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nGreat back item which you can level by right clicking it.\n"
+}

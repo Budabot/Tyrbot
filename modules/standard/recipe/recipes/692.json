@@ -1,0 +1,61 @@
+{
+    "name": "NCU Memories",
+    "author": "",
+    "items": [
+        {
+            "alias": "Base NCU - Type 00 (0/6)",
+            "item_id": 277436
+        },
+        {
+            "alias": "NCU Memory Cell",
+            "item_id": 277182
+        },
+        {
+            "alias": "Intelligence Memory Cell",
+            "item_id": 277170
+        },
+        {
+            "alias": "Biological Metamorphosis Memory Cell",
+            "item_id": 277831
+        },
+        {
+            "alias": "1-Hand Blunt Memory Cell",
+            "item_id": 277904
+        },
+        {
+            "alias": "Memory NCU (1/6)",
+            "item_id": 278757
+        },
+        {
+            "alias": "Memory NCU (6/6)",
+            "item_id": 278782
+        },
+        {
+            "alias": "Abilities NCU - Type 02 (1/6)",
+            "item_id": 277051
+        },
+        {
+            "alias": "Abilities NCU - Type 3F (6/6)",
+            "item_id": 277166
+        },
+        {
+            "alias": "Nano NCU - Type 01 (1/6)",
+            "item_id": 277506
+        },
+        {
+            "alias": "Nano NCU - Type 3F (6/6)",
+            "item_id": 277823
+        },
+        {
+            "alias": "1-Hand Blunt Skill NCU (1/6)",
+            "item_id": 278314
+        },
+        {
+            "alias": "1-Hand Blunt Skill NCU (6/6)",
+            "item_id": 278339
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients </font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n</font><font color=#FFFF00> The Legacy of Xan NCU memories come in 4 different sorts and can be upgraded 6 times.</font><font color=#009B00>\n\n#L \"Base NCU - Type 00 (0/6)\" \"277436\"\n<img src=rdb://276942>\n\n#L \"NCU Memory Cell\" \"277182\" x 6\n<img src=rdb://276923>\n</font><font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Intelligence Memory Cell\" \"277170\" x 6\n<img src=rdb://276921>\n</font><font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Biological Metamorphosis Memory Cell\" \"277831\" x 6\n<img src=rdb://276920>\n</font><font color=#FFFFFF>or</font><font color=#009B00>\n#L \"1-Hand Blunt Memory Cell\" \"277904\" x 6 \n<img src=rdb://276922>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe </font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n\n<highlight>NCU Memory NCU<end>\n\n</font><font color=#FFFF00>Note:NCU Memory exclusively buffs your NCU.\nAt QL300 it will buff a massive 192 NCU with 6 Memory Cells added to it. </font><font color=#009B00>\n\nBase NCU - Type 00 (0/6)\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nNCU Memory Cell\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://276936>\n#L \"Memory NCU (1/6)\" \"278757\"\n</font><font color=#FFFF00>Skills: | Requires QLx1.5 EE QLx1.5 NP QLx4.5 CL|</font><font color=#009B00>\n\n</font><font color=#FFFFFF>Repeat 5 times for:</font><font color=#009B00>\n#L \"Memory NCU (6/6)\" \"278782\"\n<img src=rdb://276941>\n\n<highlight>Abilities NCU<end>\n\n</font><font color=#FFFF00>Note:Abilities NCU can buff all your base abilities by up to 5 per NCU.\nIt can include one cell of each ability </font><font color=#009B00>\n\nBase NCU - Type 00 (0/6)\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nIntelligence Memory Cell\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://276924>\n#L \"Abilities NCU - Type 02 (1/6)\" \"277051\"\n</font><font color=#FFFF00>Skills: | Requires QLx1.5 EE QLx1.5 NP QLx4.5 CL|</font><font color=#009B00>\n\n</font><font color=#FFFFFF>Repeat 5 times for:</font><font color=#009B00>\n#L \"Abilities NCU - Type 3F (6/6)\" \"277166\"\n<img src=rdb://276929>\n\n<highlight>Nano NCU<end>\n\n</font><font color=#FFFF00>Note:Nano NCUs can buff all six nano skills at the same time by up to 5 per NCU.\nIt can only include one cell of each ability </font><font color=#009B00>\n\nBase NCU - Type 00 (0/6)\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nBiological Metamorphosis Memory Cell\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://276943>\n#L \"Nano NCU - Type 01 (1/6)\" \"277506\"\n</font><font color=#FFFF00>Skills: | Requires QLx1.5 EE QLx1.5 NP QLx4.5 CL|</font><font color=#009B00>\n\n</font><font color=#FFFFFF>Repeat 5 times for:</font><font color=#009B00>\n#L \"Nano NCU - Type 3F (6/6)\" \"277823\"\n<img src=rdb://276918>\n\n<highlight>Weapons NCU<end>\n\n</font><font color=#FFFF00>Note:Abilities NCU can buff all your base abilities by up to 5 per NCU.\nIt can include one cell of each ability </font><font color=#009B00>\n\nBase NCU - Type 00 (0/6)\n</font><font color=#FFFFFF>+</font><font color=#009B00>\n1-Hand Blunt Memory Cell\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://276930>\n#L \"1-Hand Blunt Skill NCU (1/6)\" \"278314\"\n</font><font color=#FFFF00>Skills: | Requires QLx1.5 EE QLx1.5 NP QLx4.5 CL|</font><font color=#009B00>\n\n</font><font color=#FFFFFF>Repeat 5 times for:</font><font color=#009B00>\n#L \"1-Hand Blunt Skill NCU (6/6)\" \"278339\"\n<img src=rdb://276935>"
+}

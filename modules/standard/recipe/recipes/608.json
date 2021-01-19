@@ -1,0 +1,29 @@
+{
+    "name": "Cranium Nano Cloak",
+    "author": "",
+    "items": [
+        {
+            "alias": "Red Cranium Nano Cloak",
+            "item_id": 204996
+        },
+        {
+            "alias": "Field Quantum Physics All-Purpose Tool",
+            "item_id": 164558
+        },
+        {
+            "alias": "Advanced Hacker Tool",
+            "item_id": 87814
+        },
+        {
+            "alias": "Grey Cranium Nano Cloak",
+            "item_id": 204998
+        },
+        {
+            "alias": "Grey Nano Cloak",
+            "item_id": 205000
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients </font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n</font><font color=#FF0000> *** </font><font color=#FFFF00> The Red Cranium Nano Cloak is a Clan & Meta-Physicist only\nitem but you can remove some of these requirements. Doing so however will\nalso remove or lower some of the modifiers: Nano Init. and MaxNanoEnergy.\nThe quality of the Field Quantum Physics All-Purpose Tool and Hacker Tool\nmust be at least 40% of QL of the cloak.\n</font><font color=#FF0000> *** </font><font color=#009B00>\n\n#L \"Red Cranium Nano Cloak\" \"204996\"\n<img src=rdb://85941>\n\n#L \"Field Quantum Physics All-Purpose Tool\" \"164558\"\n<img src=rdb://20410>\n\n#L \"Advanced Hacker Tool\" \"87814\"\n<img src=rdb://99282>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe </font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nRed Cranium Nano Cloak\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nField Quantum Physics All-Purpose Tool\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://85942>\n#L \"Grey Cranium Nano Cloak\" \"204998\"\n</font><font color=#FFFF00>Skills: |FQP tool needs to be at least 40% the ql of Tank Armor. You'll\nneed 5x Field Quantum Physics skill to hack it.|</font><font color=#009B00>\n\n\nGrey Cranium Nano Cloak\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nAdvanced Hacker Tool\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://85945>\n#L \"Grey Nano Cloak\" \"205000\"\n</font><font color=#FFFF00>Skills: |Hacker Tool needs to be at least 40% of the ql of the Cloak.\nRequires 6X of cloaks QL of Breaking & Entering and the QL of the.|</font><font color=#009B00>"
+}

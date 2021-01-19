@@ -1,0 +1,29 @@
+{
+    "name": "Scoped Salabim Shotgun Supremo",
+    "author": "",
+    "items": [
+        {
+            "alias": "Visible Light Remodulation Device",
+            "item_id": 257964
+        },
+        {
+            "alias": "Viral Targeting Subunit",
+            "item_id": 251240
+        },
+        {
+            "alias": "Salabim Shotgun",
+            "item_id": 253235
+        },
+        {
+            "alias": "Projectile Weapon Upgrade",
+            "item_id": 257969
+        },
+        {
+            "alias": "Scoped Salabim Shotgun Supremo",
+            "item_id": 257141
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients </font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n</font><font color=#FFFF00> The Visible Light Remodulation Device drops in Alien Playfields and can be used for various tradeskill processes.</font><font color=#009B00>\n\n#L \"Visible Light Remodulation Device\" \"257964\"\n<img src=rdb://235270>\n\n#L \"Viral Targeting Subunit\" \"251240\"\n<img src=rdb://99272>\n\n#L \"Salabim Shotgun\" \"253235\"\n<img src=rdb://113991>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe </font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nVisible Light Remodulation Device\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nViral Targeting Subunit\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://205501>\n#L \"Projectile Weapon Upgrade\" \"257969\"\n</font><font color=#FFFF00>Note: Viral Targeting Subunit needs to be QL250+</font><font color=#009B00>\n\nProjectile Weapon Upgrade\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nSalabim Shotgun\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://257711>\n#L \"Scoped Salabim Shotgun Supremo\" \"257141\"\n</font><font color=#FFFF00>Note: Salabim Shotgun needs to be QL250+</font><font color=#009B00>"
+}

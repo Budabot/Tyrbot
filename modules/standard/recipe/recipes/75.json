@@ -1,0 +1,77 @@
+{
+    "name": "NotuComm Mesh Trenchcoat",
+    "author": "",
+    "items": [
+        {
+            "alias": "Trenchcoat",
+            "item_id": 31516
+        },
+        {
+            "alias": "Cold Stone",
+            "item_id": 136649
+        },
+        {
+            "alias": "Reinforced NotuComm Wire",
+            "item_id": 203646
+        },
+        {
+            "alias": "Nano Programming Interface",
+            "item_id": 161699
+        },
+        {
+            "alias": "Solid Spiritech Mesh",
+            "item_id": 245676
+        },
+        {
+            "alias": "Sentient Cold Stone",
+            "item_id": 203648
+        },
+        {
+            "alias": "NotuComm Circuitry with One Sensor",
+            "item_id": 203630
+        },
+        {
+            "alias": "NotuComm Circuitry with Two Sensors",
+            "item_id": 203626
+        },
+        {
+            "alias": "NotuComm Circuitry with Three Sensors",
+            "item_id": 203628
+        },
+        {
+            "alias": "NotuComm Circuitry with Four Sensors",
+            "item_id": 203632
+        },
+        {
+            "alias": "NotuComm Circuitry with Five Sensors",
+            "item_id": 203634
+        },
+        {
+            "alias": "Complete NotuComm Circuitry",
+            "item_id": 203642
+        },
+        {
+            "alias": "Double NotuComm Circuitry",
+            "item_id": 203640
+        },
+        {
+            "alias": "Quadruple NotuComm Circuitry",
+            "item_id": 203644
+        },
+        {
+            "alias": "NotuComm Mesh",
+            "item_id": 203624
+        },
+        {
+            "alias": "NotuComm Mesh Trenchcoat",
+            "item_id": 204207
+        },
+        {
+            "alias": "Modified NotuComm Mesh Trenchcoat",
+            "item_id": 245675
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"TrenchCoat\" \"31516\"\n<img src=rdb://22891>\n\n#L \"Cold Stone\" \"136649\" x 36\n<img src=rdb://25800>\n\n#L \"Reinforced NotuComm Wire\" \"203646\" x 6\n<img src=rdb://151017>\n\n#L \"Nano Programming Interface\" \"161699\"\n<img src=rdb://99279>\n\n#L \"Solid Spiritech Mesh\" \"245676\"\n<img src=rdb://151933>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n<highlight>Repeat for the 36 Cold Stones:<end>\n\nNano Programming Interface\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nCold Stone\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://25800>\n#L \"Sentient Cold Stone\" \"203648\"\n</font><font color=#FFFF00>Skills: |  NP  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n<highlight>Repeat for the 6 Reinforced NotuComm Wires:<end>\n\nSentient Cold Stone\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nReinforced NotuComm Wire\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://130729>\n#L \"NotuComm Circuitry with One Sensor\" \"203630\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nSentient Cold Stone\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nNotuComm Circuitry with One Sensor\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://130726>\n#L \"NotuComm Circuitry with Two Sensors\" \"203626\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nSentient Cold Stone\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nNotuComm Circuitry with Two Sensors\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://130730>\n#L \"NotuComm Circuitry with Three Sensors\" \"203628\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nSentient Cold Stone\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nNotuComm Circuitry with Three Sensors\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://130733>\n#L \"NotuComm Circuitry with Four Sensors\" \"203632\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nSentient Cold Stone\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nNotuComm Circuitry with Four Sensors\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://130732>\n#L \"NotuComm Circuitry with Five Sensors\" \"203634\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nSentient Cold Stone\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nNotuComm Circuitry with Five Sensors\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://130728>\n#L \"Complete NotuComm Circuitry\" \"203642\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n<highlight>Repeat for the 6 Complete NotuComm Circuitries:<end>\n\nComplete NotuComm Circuitry\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nComplete NotuComm Circuitry\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://130727>\n#L \"Double NotuComm Circuitry\" \"203640\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nDouble NotumComm Circuitry\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nDouble NotuComm Circuitry\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://130731>\n#L \"Quadruple NotuComm Circuitry\" \"203644\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nQuadruple NotuComm Circuitry\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nDouble NotuComm Circuitry\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://130790>\n#L \"NotuComm Mesh\" \"203624\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nTrenchCoat\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nNotuComm Mesh\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://22891>\n#L \"NotuComm Mesh Trenchcoat\" \"204207\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n<highlight>and finally:<end>\n\nNotuComm Mesh Trenchcoat\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nSolid Spiritech Mesh\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://22891>\n#L \"Modified NotuComm Mesh Trenchcoat\" \"245675\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Comments</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nA lot of work but a very nice coat.\n"
+}

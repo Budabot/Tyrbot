@@ -1,0 +1,21 @@
+{
+    "name": "Survival Axe of Genevra",
+    "author": "",
+    "items": [
+        {
+            "alias": "Premium Survival Axe",
+            "item_id": 144081
+        },
+        {
+            "alias": "Viral Weapon Upgrade",
+            "item_id": 248517
+        },
+        {
+            "alias": "Premium Survival Axe of Genevra",
+            "item_id": 249055
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Survival Axe\" \"144081\"\n<img src=rdb://40782>\n\n#L \"Viral Weapon Upgrade\" \"248517\"\n<img src=rdb://100335>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nViral Weapon Upgrade\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nSurvival Axe\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://40782>\n#L \"Premium Survival Axe of Genevra\" \"249055\"\n</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Comments</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAnother Viral upgrade.\n"
+}

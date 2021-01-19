@@ -1,0 +1,29 @@
+{
+    "name": "Swim Stim",
+    "author": "",
+    "items": [
+        {
+            "alias": "Mimicking Cellular Oil",
+            "item_id": 154268
+        },
+        {
+            "alias": "Receptive Bots",
+            "item_id": 154266
+        },
+        {
+            "alias": "Shining Nano Knot of Swimming",
+            "item_id": 154385
+        },
+        {
+            "alias": "Purple Glowing Stim",
+            "item_id": 154274
+        },
+        {
+            "alias": "Swim Stim",
+            "item_id": 154384
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Mimicking Cellular Oil\" \"154268\"\n<img src=rdb://100306>\n\n#L \"Receptive Bots\" \"154266\"\n<img src=rdb://11755>\n\n#L \"Shining Nano Knot of Swimming\" \"154385\"\n<img src=rdb://19855>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nMimicking Cellular Oil\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nReceptive Bots\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://11754>\n#L \"Purple Glowing Stim\" \"154274\"\n</font><font color=#FFFF00>Skills: |  PT  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nShining Nano Knot of Swimming\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nPurple Glowing Stim\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://11707>\n#L \"Swim Stim\" \"154384\"\n</font><font color=#FFFF00>Skills: |  PT  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Comments</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nWith ql 36 ones, i buff my swimming skill of 400pts !!! It may be very useful for low level without yalm. Or for swimming competition, but beware of the drug test..\n\nIts also handy for all that swimming you have to do questing in Adonis.\n"
+}

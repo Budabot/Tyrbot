@@ -1,0 +1,65 @@
+{
+    "name": "Bureaucrat Suits",
+    "author": "",
+    "items": [
+        {
+            "alias": "Advanced Hacker Tool",
+            "item_id": 87814
+        },
+        {
+            "alias": "Sealed Order BLCG-7791",
+            "item_id": 156330
+        },
+        {
+            "alias": "Sealed Order XITL-0127",
+            "item_id": 156328
+        },
+        {
+            "alias": "Expendable Hologram Camera",
+            "item_id": 156054
+        },
+        {
+            "alias": "ID-extractor",
+            "item_id": 156339
+        },
+        {
+            "alias": "Omni-Tek Multi-Form",
+            "item_id": 156344
+        },
+        {
+            "alias": "Hacked Order BLCG-7791",
+            "item_id": 156336
+        },
+        {
+            "alias": "ID-data",
+            "item_id": 156340
+        },
+        {
+            "alias": "Personal Order BLCG-7791",
+            "item_id": 156352
+        },
+        {
+            "alias": "OT Standard Executive Secretary Suit",
+            "item_id": 156528
+        },
+        {
+            "alias": "Clans Multi-Form",
+            "item_id": 156346
+        },
+        {
+            "alias": "Standard Clans Administration Suit",
+            "item_id": 156530
+        },
+        {
+            "alias": "Multi-Form",
+            "item_id": 156345
+        },
+        {
+            "alias": "Universal Office Worker Suit",
+            "item_id": 156538
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients </font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Hacker Tool\" \"87814\"\n<img src=rdb://99282>\n\n#L \"Sealed Order BLCG-7791\" \"156330\" (For Clan)\n</font><font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Sealed Order XITL-0127\" \"156328\" (For OMNI)\n<img src=rdb://156326>\n\n#L \"Expendable Hologram Camera\" \"156054\"\n<img src=rdb://156092>\n\n#L \"ID-extractor\" \"156339\"\n<img src=rdb://156324>\n\nA Multi-Form needed\n( ie #L \"Omni-Tek Multi-Form\" \"156344\" )\n<img src=rdb://156343>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe </font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nHacker Tool\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nSealed Order\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://154678>\nHacked Order\n( ie : #L \"Hacked Order BLCG-7791\" \"156336\" )\n</font><font color=#FFFF00>Skills: |  BE  |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nID-extractor\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nExpendable Hologram Camera\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://156323>\n#L \"ID-data\" \"156340\"\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nID-data\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nHacked Order\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://156325>\nPersonal Order\n( ie : #L \"Personal Order BLCG-7791\" \"156352\" )\n</font><font color=#FFFF00>Skills: |  PS  |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nMulti-Form\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nPersonal Order\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://156357>\nBureaucrat Suits\n</font><font color=#FFFF00>Skills: |  PS  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Details</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Sealed Order XITL-0127\" \"156328\"\n#L \"Omni-Tek Multi-Form\" \"156344\"\n->\n#L \"OT Standard Executive Secretary Suit\" \"156528\"\n<img src=rdb://156357>\n\n#L \"Sealed Order BLCG-7791\" \"156330\"\n#L \"Clans Multi-Form\" \"156346\"\n->\n#L \"Standard Clans Administration Suit\" \"156530\"\n<img src=rdb://156356>\n\n#L \"Sealed Order XITL-0127\" \"156328\"\n#L \"Clans Multi-Form\" \"156345\"\n->\n#L \"Universal Office Worker Suit\" \"156538\"\n<img src=rdb://156355>\n\n#L \"Sealed Order BLCG-7791\" \"156330\"\n#L \"Omni-Tek Multi-Form\" \"156344\"\n->\n#L \"Universal Office Worker Suit\" \"156538\"\n<img src=rdb://156355>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Comments</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nNice buffs and they look great too.\n"
+}

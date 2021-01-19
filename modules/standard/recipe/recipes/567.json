@@ -1,0 +1,21 @@
+{
+    "name": "Sharky's Kevlar Bow",
+    "author": "",
+    "items": [
+        {
+            "alias": "Premium Kevlar Bow",
+            "item_id": 122728
+        },
+        {
+            "alias": "Viral Weapon Upgrade",
+            "item_id": 248517
+        },
+        {
+            "alias": "Premium Sharky's Kevlar Bow",
+            "item_id": 248539
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Kevlar Bow\" \"122728\"\n<img src=rdb://85167>\n\n#L \"Viral Weapon Upgrade\" \"248517\"\n<img src=rdb://100335>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nKevlar Bow\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nViral Weapon Upgrade\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://85167>\n#L \"Sharky's Kevlar Bow\" \"248539\"\n</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Comments</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAnother Viral upgrade.\n"
+}

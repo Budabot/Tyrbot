@@ -1,0 +1,25 @@
+{
+    "name": "Galactic Jewel",
+    "author": "",
+    "items": [
+        {
+            "alias": "Frozen Crystal Compound",
+            "item_id": 269800
+        },
+        {
+            "alias": "Permafrost Melting Tool",
+            "item_id": 269805
+        },
+        {
+            "alias": "Galactic Jewel of the Jagged Landscape",
+            "item_id": 168717
+        },
+        {
+            "alias": "Robe of City Lights",
+            "item_id": 269999
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients </font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n</font><font color=#FFFF00> Frozen Crystal Compound drops from Cascading Molokh, Novictum Blight and Reprogrammed Mezzorash in Alappaa.\nWhile all the Compounds looks almost the same there are really several types that drop. Easiest way to check which one dropped is to open the tradeskill window and check the result.</font><font color=#009B00>\n\n#L \"Frozen Crystal Compound\" \"269800\"\n<img src=rdb://269799>\n\n#L \"Permafrost Melting Tool\" \"269805\"\n<img src=rdb://269844>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe </font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n</font><font color=#FFFF00>Note: Depending on what Compound you found, you will end up with a different Jewel (or Robe)</font><font color=#009B00>\n\nFrozen Crystal Compound\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nPermafrost Melting Tool\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://286769>\n#L \"Galactic Jewel of the Jagged Landscape\" \"168717\"\n</font><font color=#FFFF00>Skills: | 1750 CH |</font><font color=#009B00>\n</font><font color=#FFFFFF>or</font><font color=#009B00>\nFrozen Crystal Compound\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nPermafrost Melting Tool\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://159128>\n#L \"Robe of City Lights\" \"269999\"\n</font><font color=#FFFF00>Skills: | 1500 EE |</font><font color=#009B00>"
+}

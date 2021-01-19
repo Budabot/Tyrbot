@@ -1,0 +1,21 @@
+{
+    "name": "NCU Hacker Interface",
+    "author": "",
+    "items": [
+        {
+            "alias": "Lock Pick",
+            "item_id": 95577
+        },
+        {
+            "alias": "Nano Programming Interface",
+            "item_id": 161699
+        },
+        {
+            "alias": "NCU Hacker Interface",
+            "item_id": 158417
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Lock Pick\" \"95577\"\n<img src=rdb://12709>\n\n#L \"Nano Programming Interface\" \"161699\"\n<img src=rdb://99279>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nLock Pick\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nNano Programming Interface\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://99279>\n#L \"NCU Hacker Interface\" \"158417\"\n</font><font color=#FFFF00>Skills: | BE,NP |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Comments</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nFixers tool only. It adds some points in all Nanoskills, up to 60 for a QL200 one. Right click on it after each level to upgrade it.\n"
+}

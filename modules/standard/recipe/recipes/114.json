@@ -1,0 +1,29 @@
+{
+    "name": "Spider Shank Machete",
+    "author": "",
+    "items": [
+        {
+            "alias": "Snake Bile",
+            "item_id": 227173
+        },
+        {
+            "alias": "Spider Shank",
+            "item_id": 227171
+        },
+        {
+            "alias": "Handle-Shaped Gofle Toe Bone",
+            "item_id": 227175
+        },
+        {
+            "alias": "Bone Handle",
+            "item_id": 227177
+        },
+        {
+            "alias": "Spider Shank Machete",
+            "item_id": 227089
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Snake Bile\" \"227172\"\n<img src=rdb://156493>\n\n#L \"Spider Shank\" \"227171\"\n<img src=rdb://158238>\n\n#L \"Handle-Shaped Gofle Toe Bone\" \"227175\"\n<img src=rdb://130862>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nSnake Bile\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nHandle-Shaped Gofle Toe Bone\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://130862>\n#L \"Bone Handle\" \"227177\"\n</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nBone Handle\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nSpider Shank\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://158238>\n#L \"Spider Shank Machete\" \"227089\"\n</font><font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Comments</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nMore startup weapons for the SL nooby. :)\n"
+}

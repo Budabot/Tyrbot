@@ -1,0 +1,21 @@
+{
+    "name": "Infused Ancient Vision Preservation Unit",
+    "author": "",
+    "items": [
+        {
+            "alias": "Dust Brigade Notum Infuser",
+            "item_id": 274552
+        },
+        {
+            "alias": "Ancient Vision Preservation Unit",
+            "item_id": 267626
+        },
+        {
+            "alias": "Infused Ancient Vision Preservation Unit",
+            "item_id": 274553
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients </font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Dust Brigade Notum Infuser\" \"274552\"\n<img src=rdb://218768>\n\n#L \"Ancient Vision Preservation Unit\" \"267626\"\n<img src=rdb://218752>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe </font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nDust Brigade Notum Infuser\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nAncient Vision Preservation Unit\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://218752>\n#L \"Infused Ancient Vision Preservation Unit\" \"274553\"\n</font><font color=#FFFF00>Skills: | CL 1500 |</font><font color=#009B00>"
+}

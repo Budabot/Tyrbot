@@ -1,0 +1,61 @@
+{
+    "name": "Nano Cube of Death",
+    "author": "",
+    "items": [
+        {
+            "alias": "Nophex Cube",
+            "item_id": 255542
+        },
+        {
+            "alias": "Pattern of Approaching Death",
+            "item_id": 255550
+        },
+        {
+            "alias": "Kenneth's Polishing Gel",
+            "item_id": 255555
+        },
+        {
+            "alias": "Nophex Cube of Approaching Death",
+            "item_id": 255545
+        },
+        {
+            "alias": "Nano Cube (Cellular Re-Structure)",
+            "item_id": 254433
+        },
+        {
+            "alias": "Nano Cube (Poisoned Thorns)",
+            "item_id": 254436
+        },
+        {
+            "alias": "Pattern of Impending Death",
+            "item_id": 255551
+        },
+        {
+            "alias": "Nano Cube (Frost Blades)",
+            "item_id": 254438
+        },
+        {
+            "alias": "Pattern of Inevitable Death",
+            "item_id": 255552
+        },
+        {
+            "alias": "Nano Cube (Magma Covering)",
+            "item_id": 254440
+        },
+        {
+            "alias": "Pattern of Imminent Death",
+            "item_id": 255553
+        },
+        {
+            "alias": "Nano Cube (Self Illumination)",
+            "item_id": 254442
+        },
+        {
+            "alias": "Pattern of the Occurence of Death",
+            "item_id": 255554
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Nophex Cube\" \"255542\"\n<img src=rdb://233133>\n\na special Pattern of Death\n( ie : #L \"Pattern of Approaching Death\" \"255550\" )\n<img src=rdb://231182>\n\n#L \"Kenneth's Polishing Gel\" \"255555\"\n<img src=rdb://156504>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nPattern of Death\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nNophex Cube\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://233135>\nNophex Cube of Death\n( ie : #L \"Nophex Cube of Approaching Death\" \"255545\" )\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nKenneth's Polishing Gel\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nNophex Cube of Death\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://233132>\nNano Cube\n( ie : #L \"Nano Cube (Cellular Re-Structure)\" \"254433\" )\n</font><font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Details</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Nano Cube (Cellular Re-Structure)\" \"254433\": #L \"Pattern of Approaching Death\" \"255550\"\n#L \"Nano Cube (Poisoned Thorns)\" \"254436\": #L \"Pattern of Impending Death\" \"255551\"\n#L \"Nano Cube (Frost Blades)\" \"254438\": #L \"Pattern of Inevitable Death\" \"255552\"\n#L \"Nano Cube (Magma Covering)\" \"254440\": #L \"Pattern of Imminent Death\" \"255553\"\n#L \"Nano Cube (Self Illumination)\" \"254442\": #L \"Pattern of the Occurence of Death\" \"255554\"\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Comments</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nNT secret weapons...\n"
+}

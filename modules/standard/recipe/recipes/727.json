@@ -1,0 +1,21 @@
+{
+    "name": "Conscientious Knight Commander Nizno's Helmet",
+    "author": "",
+    "items": [
+        {
+            "alias": "Action Probability Estimator",
+            "item_id": 257960
+        },
+        {
+            "alias": "Conscientious Knight's Helmet",
+            "item_id": 225541
+        },
+        {
+            "alias": "Conscientious Knight Commander Nizno's Helmet",
+            "item_id": 257115
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients </font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n</font><font color=#FFFF00> The Action Probability Estimator drops in Sector 13 and can be used for various tradeskill processes.</font><font color=#009B00>\n\n#L \"Action Probability Estimator\" \"257960\"\n<img src=rdb://203502>\n\n#L \"Conscientious Knight's Helmet\" \"225541\"\n<img src=rdb://32163>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe </font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAction Probability Estimator\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nConscientious Knight's Helmet\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://257712>\n#L \"Conscientious Knight Commander Nizno's Helmet\" \"257115\""
+}

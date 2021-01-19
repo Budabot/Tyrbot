@@ -1,0 +1,21 @@
+{
+    "name": "Rebuilt NCU Wrist Implant",
+    "author": "",
+    "items": [
+        {
+            "alias": "Outdated NCU Wrist Implant",
+            "item_id": 204979
+        },
+        {
+            "alias": "Field Quantum Physics All-Purpose Tool",
+            "item_id": 164558
+        },
+        {
+            "alias": "Rebuilt NCU Wrist Implant",
+            "item_id": 204981
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Outdated NCU Wrist Implant\" \"204979\"\n<img src=rdb://20412>\n\n#L \"Field Quantum Physics All-Purpose Tool\" \"164558\"\n<img src=rdb://20410>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nField Quantum Physics All-Purpose Tool\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nOutdated NCU Wrist Implant\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://20412>\n#L \"Rebuilt NCU Wrist Implant\" \"204981\"\n</font><font color=#FFFF00>Skills: |  QT  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Comments</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nImplant some NCU into character...\n"
+}

@@ -1,0 +1,45 @@
+{
+    "name": "Sector 7 Tradeskills",
+    "author": "",
+    "items": [
+        {
+            "alias": "Power Core Stabilizer",
+            "item_id": 287976
+        },
+        {
+            "alias": "Power Core Mainboard",
+            "item_id": 287975
+        },
+        {
+            "alias": "Inactive Power Core",
+            "item_id": 287974
+        },
+        {
+            "alias": "Kyr'Ozch Storage Box",
+            "item_id": 288137
+        },
+        {
+            "alias": "Kyr'Ozch Storage Container",
+            "item_id": 288138
+        },
+        {
+            "alias": "Viral Belt Control Component",
+            "item_id": 288130
+        },
+        {
+            "alias": "Basic Belt",
+            "item_id": 288131
+        },
+        {
+            "alias": "Viral Belt NCU Slots",
+            "item_id": 288133
+        },
+        {
+            "alias": "Viral Belt Nanobot Power Unit",
+            "item_id": 288135
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00> The parts listed drop in Sector 7 and can be used for various tradeskill processes.\nClick on the recipe name to go to the corresponding recipe.</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------\n#L \"Power Core\" \"/tell <myname> recipe 708\"\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n<img src=rdb://287971>\n#L \"Power Core Stabilizer\" \"287976\"\n\n<img src=rdb://287968>\n#L \"Power Core Mainboard\" \"287975\"\n\n<img src=rdb://287970>\n#L \"Inactive Power Core\" \"287974\"\n\n</font><font color=#FFFF00>------------------------------\n#L \"Viral Communications Larvae\" \"/tell <myname> recipe 707\"\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n<img src=rdb://288096>\n#L \"Kyr'Ozch Storage Box\" \"288137\"\n\n</font><font color=#FFFF00>------------------------------\n#L \"Kyr'Ozch Nano Protection Ring\" \"/tell <myname> recipe 709\"\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n<img src=rdb://288095>\n#L \"Kyr'Ozch Storage Container\" \"288138\"\n\n</font><font color=#FFFF00>------------------------------\n#L \"Viral Component Belt\" \"/tell <myname> recipe 706\"\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n<img src=rdb://288090>\n#L \"Viral Belt Control Component\" \"288130\"\n\n<img src=rdb://288089>\n#L \"Basic Belt\" \"288131\"\n\n<img src=rdb://288091>\n#L \"Viral Belt NCU Slots\" \"288133\"\n\n<img src=rdb://288092>\n#L \"Viral Belt Nanobot Power Unit\" \"288135\""
+}

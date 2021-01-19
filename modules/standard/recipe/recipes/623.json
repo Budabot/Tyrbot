@@ -1,0 +1,25 @@
+{
+    "name": "Ancient Nano Enhancer",
+    "author": "",
+    "items": [
+        {
+            "alias": "Empty Ancient Device",
+            "item_id": 267709
+        },
+        {
+            "alias": "Crystalised Memories of a Scientist",
+            "item_id": 267713
+        },
+        {
+            "alias": "Ancient Nano Enhancer",
+            "item_id": 267712
+        },
+        {
+            "alias": "Dust Brigade Notum Infuser",
+            "item_id": 274552
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients </font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n</font><font color=#FFFF00> Both parts required for this process can be found in Albtraum</font><font color=#009B00>\n\n#L \"Empty Ancient Device\" \"267709\"\n<img src=rdb://218753>\n\n#L \"Crystalised Memories of a Scientist\" \"267713\"\n<img src=rdb://72771>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe </font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nEmpty Ancient Device\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nCrystalised Memories of a Scientist\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://218768>\n#L \"Ancient Nano Enhancer\" \"267712\"\n</font><font color=#FFFF00>Skills: | 1250 CL |</font><font color=#009B00>\n\n</font><font color=#FFFF00>Note: You can upgrade this item with a #L \"Dust Brigade Notum Infuser\" \"274552\"\nThe recipe for this can be found here:#L \"Infused Ancient Nano Enhancer\" \"/tell <myname> recipe 630\"#C2"
+}

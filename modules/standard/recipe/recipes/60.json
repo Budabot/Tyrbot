@@ -1,0 +1,45 @@
+{
+    "name": "Emergency Treatment Laboratory",
+    "author": "",
+    "items": [
+        {
+            "alias": "HQ Antiseptic Jar",
+            "item_id": 154330
+        },
+        {
+            "alias": "Mimicking Cellular Oil",
+            "item_id": 154268
+        },
+        {
+            "alias": "Revitalizing Serum",
+            "item_id": 154344
+        },
+        {
+            "alias": "Blood Plasma",
+            "item_id": 154359
+        },
+        {
+            "alias": "Treatment Laboratory Bot-Injector",
+            "item_id": 154340
+        },
+        {
+            "alias": "Jar of Mimicking Cellular Oil",
+            "item_id": 154334
+        },
+        {
+            "alias": "Jar of Prepared Serum",
+            "item_id": 154336
+        },
+        {
+            "alias": "Jar of Transient Fluid",
+            "item_id": 154338
+        },
+        {
+            "alias": "First-rate Emergency Treatment Laboratory",
+            "item_id": 154328
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Antiseptic Jar\" \"154330\"\n<img src=rdb://37966>\n\n#L \"Mimicking Cellular Oil\" \"154268\"\n<img src=rdb://100306>\n\n#L \"Revitalizing Serum\" \"154344\"\n<img src=rdb://20192>\n\n#L \"Blood Plasma\" \"154359\" #L \"Recipe\" \"/tell <myname> recipe 20\"\n<img src=rdb://19857>\n\n#L \"Treatment Laboratory Bot-Injector\" \"154340\"\n<img src=rdb://154420>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nMimicking Cellular Oil\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nAntiseptic Jar\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://154419>\n#L \"Jar of Mimicking Cellular Oil\" \"154334\"\n</font><font color=#FFFF00>Skills: |  PT  |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nRevitalizing Serum\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nJar of Mimicking Cellular Oil\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://154417>\n#L \"Jar of Prepared Serum\" \"154336\"\n</font><font color=#FFFF00>Skills: |  PT  |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nBlood Plasma\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nJar of Prepared Serum\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://154418>\n#L \"Jar of Transient Fluid\" \"154338\"\n</font><font color=#FFFF00>Skills: |  PT  |</font><font color=#009B00>\n\n</font><font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nJar of Transient Fluid\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nTreatment Laboratory Bot-Injector\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://37994>\n#L \"Emergency Treatment Laboratory\" \"154328\"\n</font><font color=#FFFF00>Skills: |  PT  |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Comments</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nTheses Emergency Treatment Laboratory are extremeley efficient and can be sold very high. Sadly, the cost of the ingredients involved to make them is really high too...\n"
+}

@@ -1,0 +1,25 @@
+{
+    "name": "Yalmaha Tuning",
+    "author": "",
+    "items": [
+        {
+            "alias": "Yalmaha XL - 29478",
+            "item_id": 96088
+        },
+        {
+            "alias": "Auto Paint v. 303 - XL Gold Flash",
+            "item_id": 204205
+        },
+        {
+            "alias": "Yalmaha XL Gold Flash - 29478",
+            "item_id": 203293
+        },
+        {
+            "alias": "Auto Paint - Adaga Paint Remover",
+            "item_id": 207719
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\na Yalmaha\n( ie : #L \"Yalmaha XL - 29478\" \"117322\" )\n<img src=rdb://38023>\n\na Auto Paint\n( ie : #L \"Auto Paint v. 303 - XL Gold Flash\" \"204205\" )\n<img src=rdb://20403>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAuto Paint\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nYalmaha XL - 29478\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://202446>\nPainted Yalmaha\n( ie : #L \"Yalmaha XL Gold Flash - 29478\" \"203292\" )\n</font><font color=#FFFF00>Skills: | ME,CL |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Comments</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nYou can remove paint by using a #L \"Auto Paint - Adaga Paint Remover\" \"207719\" (in theory), but apparently it doesnt work with all the painted yalms.. like Gold Flash for example.\n"
+}

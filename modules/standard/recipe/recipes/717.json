@@ -1,0 +1,21 @@
+{
+    "name": "Vektor ND Grand Wyrm",
+    "author": "",
+    "items": [
+        {
+            "alias": "Energy Redistribution Unit",
+            "item_id": 257961
+        },
+        {
+            "alias": "Vektor ND DRAGON Shotgun",
+            "item_id": 124262
+        },
+        {
+            "alias": "Vektor ND Grand Wyrm",
+            "item_id": 257123
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients </font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n</font><font color=#FFFF00> The Energy Redistribution Unit drops in Alien Playfields and can be used for various tradeskill processes.</font><font color=#009B00>\n\n#L \"Energy Redistribution Unit\" \"257961\"\n<img src=rdb://257197>\n\n#L \"Vektor ND DRAGON Shotgun\" \"124262\"\n<img src=rdb://21144>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe </font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nEnergy Redistribution Unit\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nVektor ND DRAGON Shotgun\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://257711>\n#L \"Vektor ND Grand Wyrm\" \"257123\"\n"
+}

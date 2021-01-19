@@ -1,0 +1,49 @@
+{
+    "name": "Repairman's Hat",
+    "author": "",
+    "items": [
+        {
+            "alias": "Notum Fragment",
+            "item_id": 136625
+        },
+        {
+            "alias": "Notum Chip",
+            "item_id": 136623
+        },
+        {
+            "alias": "Salesman's Hat",
+            "item_id": 205738
+        },
+        {
+            "alias": "Nano Programming Interface",
+            "item_id": 161699
+        },
+        {
+            "alias": "Inactive OT Metamorphing Liquid Nanobots",
+            "item_id": 164952
+        },
+        {
+            "alias": "Field Quantum Physics All-Purpose Tool",
+            "item_id": 164558
+        },
+        {
+            "alias": "Transformed Salesman's Hat",
+            "item_id": 205741
+        },
+        {
+            "alias": "Activated OT Metamorphing Liquid Nanobots",
+            "item_id": 164954
+        },
+        {
+            "alias": "Stabilized OT Metamorphing Liquid Nanobots",
+            "item_id": 164956
+        },
+        {
+            "alias": "Repairman's Hat",
+            "item_id": 205743
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients</font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nSome Notum \n#L \"Notum Fragment\" \"136624\"\n<img src=rdb://25795>\n</font><font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Notum Chip\" \"136622\"\n<img src=rdb://25794>\n\n#L \"Salesman's Hat\" \"205738\"\n<img src=rdb://205771>\n\n#L \"Nano Programming Interface\" \"161699\"\n<img src=rdb://99279>\n\n#L \"Inactive OT Metamorphing Liquid Nanobots\" \"164952\"\n<img src=rdb://156496>\n\n#L \"Field Quantum Physics All-Purpose Tool\" \"164558\"\n<img src=rdb://20410>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nField Quantum Physics All-Purpose Tool\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nSalesman's Hat\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://205772>\n#L \"Transformed Salesman's Hat\" \"205741\"\n</font><font color=#FFFF00>Skills: | NP,CH |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nNano Programming Interface\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nInactive OT Metamorphing Liquid Nanobots\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://156492>\n#L \"Activated OT Metamorphing Liquid Nanobots\" \"164954\"\n</font><font color=#FFFF00>Skills: | NP,CH |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nNotum\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nActivated OT Metamorphing Liquid Nanobots\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://164949>\n#L \"Stabilized OT Metamorphing Liquid Nanobots\" \"164956\"\n</font><font color=#FFFF00>Skills: | NP,CH |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nStabilized OT Metamorphing Liquid Nanobots\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nTransformed Salesman's Hat\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://205772>\n#L \"Repairman's Hat\" \"205743\"\n</font><font color=#FFFF00>Skills: | NP,CH |</font><font color=#009B00>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Comments</font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nYou can right-clic it to upgrad it up to QL50.\n"
+}

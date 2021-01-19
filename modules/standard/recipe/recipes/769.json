@@ -1,0 +1,25 @@
+{
+    "name": "May Fly Throwing Grenade",
+    "author": "",
+    "items": [
+        {
+            "alias": "Pseudo-Nano Multibenzonoxydant Sulphosalycilic Liquid",
+            "item_id": 165121
+        },
+        {
+            "alias": "Throwing Grenade Basic Kit",
+            "item_id": 165123
+        },
+        {
+            "alias": "Secured May Fly Throwing Grenade",
+            "item_id": 165119
+        },
+        {
+            "alias": "May Fly Throwing Grenade",
+            "item_id": 165117
+        }
+    ],
+    "steps": [],
+    "details": [],
+    "raw": "</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Ingredients </font><font color=#009B00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n</font><font color=#FFFF00> All parts can be foundin the tradeskill section of any general store</font><font color=#009B00>\n\n#L \"Pseudo-Nano Multibenzonoxydant Sulphosalycilic Liquid\" \"165120\"\n<img src=rdb://156495>\n\n#L \"Throwing Grenade Basic Kit\" \"165122\"\n<img src=rdb://156202>\n\n</font><font color=#FFFF00>------------------------------\n</font><font color=#FF0000>Recipe </font><font color=#FFFF00>\n</font><font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nPseudo-Nano Multibenzonoxydant Sulphosalycilic Liquid\n</font><font color=#FFFFFF>+</font><font color=#009B00>\nThrowing Grenade Basic Kit\n</font><font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://131256>\n#L \"Secured May Fly Throwing Grenade\" \"165119\"\n</font><font color=#FFFF00>Skills: | 4 x QL of the Kit in WS |</font><font color=#009B00>\n\n</font><font color=#FFFF00>Note: Right clicking it will activate the grenade. Once activated it becomes unstable and will disappear in 20 seconds. In a final note, the Secured May Fly Throwing Grenade is Unique so you can only have one at a time. The end result: </font><font color=#009B00>\n\n<img src=rdb://131253>\n#L \"May Fly Throwing Grenade\" \"165116\""
+}
