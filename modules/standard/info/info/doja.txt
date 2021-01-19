@@ -2,7 +2,7 @@
 
 Below you can read about where to loot DOJA Chips. This information will show you the level requirements and the mobs that will drop the DOJA Chips for each level range. There are two types of Doja Chips, normal and special. You can turn one normal and one special chip in each day. Clicking the monster links below will set a waypoint to help you find your way.
 
-<header2>Normal DOJA Chips<end>
+<header2> ::: Normal DOJA Chips :::<end>
 
 <a href='itemref://284954/284954/1'>Nascense</a>
 <a href='itemref://284954/284954/1'><img src='rdb://293716'></a>
@@ -35,7 +35,7 @@ Level Range: <highlight>205-220<end>
 Looted from: <a  href='chatcmd:///waypoint 1671.8 1090.6 4005'>Demons of Shadow</a>, <a  href='chatcmd:///waypoint 1380.7 611.8 4005'>Fiery Chimeras</a> and <a  href='chatcmd:///waypoint 1680.8 869.9 4005'>Somphos Logees</a>
 
 
-<header2>Special DOJA Chips<end>
+<header2> ::: Special DOJA Chips :::<end>
 Anything in these zones can drop a chip except maybe adds, special mobs and bosses.
 
 <a href='itemref://282144/282144/1'>Dark Ruins(Team)</a>

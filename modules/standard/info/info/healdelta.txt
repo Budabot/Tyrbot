@@ -43,7 +43,7 @@ Stamina  -> HD tick standing/sitting
 
 by Imoutochan (RK1)
 
-<header2>Hitpoints by Breed<end>
+<header2> ::: Hitpoints by Breed :::<end>
 
 Atrox 4 hitpoints from each point in bodydev
 Opifex 3 hitpoints

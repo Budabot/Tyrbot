@@ -14,7 +14,7 @@ class Bot:
         self.char_id = None
         self.char_name = None
         self.logger = Logger(__name__)
-        self.packet_last_sent_timestamp = 0
+        self.packet_last_received_timestamp = 0
 
     def connect(self, host, port):
         self.logger.info("Connecting to '%s:%d'" % (host, port))
@@ -75,7 +75,7 @@ class Bot:
 
         read, write, error = select.select([self.socket], [], [], max_delay_time)
         if not read:
-            if time.time() - self.packet_last_sent_timestamp > 60:
+            if time.time() - self.packet_last_received_timestamp > 60:
                 self.send_packet(Ping("tyrbot_aochat"))
 
             return None
@@ -86,6 +86,7 @@ class Bot:
             data = self.read_bytes(packet_length)
 
             try:
+                self.packet_last_received_timestamp = time.time()
                 return ServerPacket.get_instance(packet_type, data)
             except Exception as e:
                 self.logger.error("Error parsing packet parameters for packet_type '%d' and payload: %s" % (packet_type, data), e)
@@ -96,7 +97,6 @@ class Bot:
         data = struct.pack(">2H", packet.id, len(data)) + data
 
         self.write_bytes(data)
-        self.packet_last_sent_timestamp = time.time()
 
     def read_bytes(self, num_bytes):
         data = bytes()

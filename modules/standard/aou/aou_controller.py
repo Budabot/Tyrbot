@@ -1,14 +1,16 @@
+import re
 import time
+from xml.etree import ElementTree
 
-from core.decorators import instance, command
+import bbcode
+import hjson
+import requests
+
 from core.chat_blob import ChatBlob
 from core.command_param_types import Any, Const, Int
-from xml.etree import ElementTree
-import requests
-import re
-import bbcode
-
+from core.decorators import instance, command
 from core.dict_object import DictObject
+from core.translation_service import TranslationService
 
 
 @instance()
@@ -19,11 +21,13 @@ class AOUController:
     CACHE_MAX_AGE = 604800
 
     def __init__(self):
-        self.item_regex = re.compile(r"\[(item|itemname|itemicon)( nolink)?\](\d+)\[\/(item|itemname|itemicon)\]", re.IGNORECASE)
+        self.item_regex = re.compile(r"\[(item|itemname|itemicon)( nolink)?\](\d+)\[\/(item|itemname|itemicon)\]",
+                                     re.IGNORECASE)
         self.guide_id_regex = re.compile(r"pid=(\d+)", re.IGNORECASE)
 
         # initialize bbcode parser
-        self.parser = bbcode.Parser(install_defaults=False, newline="\n", replace_links=False, replace_cosmetic=False, drop_unrecognized=True)
+        self.parser = bbcode.Parser(install_defaults=False, newline="\n", replace_links=False, replace_cosmetic=False,
+                                    drop_unrecognized=True)
         self.parser.add_simple_formatter("i", "<i>%(value)s</i>")
         self.parser.add_simple_formatter("b", "<highlight>%(value)s<end>")
         self.parser.add_simple_formatter("ts_ts", " + ", standalone=True)
@@ -44,6 +48,8 @@ class AOUController:
         self.items_controller = registry.get_instance("items_controller")
         self.cache_service = registry.get_instance("cache_service")
         self.command_alias_service = registry.get_instance("command_alias_service")
+        self.ts: TranslationService = registry.get_instance("translation_service")
+        self.getresp = self.ts.get_response
 
     def start(self):
         self.command_alias_service.add_alias("title", "aou 11")
@@ -51,6 +57,11 @@ class AOUController:
         self.command_alias_service.add_alias("som", "macro aou 169|aou 383")
         self.command_alias_service.add_alias("reck", "aou 629")
         self.command_alias_service.add_alias("pets", "aou 2")
+        self.ts.register_translation("module/aou", self.load_aou_msg)
+
+    def load_aou_msg(self):
+        with open("modules/standard/aou/aou.msg", mode="r", encoding="utf-8") as f:
+            return hjson.load(f)
 
     @command(command="aou", params=[Int("guide_id")], access_level="all",
              description="Show an AO-Universe guide")
@@ -58,19 +69,16 @@ class AOUController:
         guide_info = self.retrieve_guide(guide_id)
 
         if not guide_info:
-            return "Could not find AO-Universe guide with id <highlight>%d<end>." % guide_id
+            return self.getresp("module/aou", "no_guide_id", {"id": guide_id})
 
-        blob = ""
-        blob += "Id: " + self.text.make_chatcmd(guide_info.id, "/start https://www.ao-universe.com/main.php?site=knowledge&id=%s" % guide_info.id) + "\n"
-        blob += "Updated: <highlight>%s<end>\n" % guide_info.updated
-        blob += "Profession: <highlight>%s<end>\n" % guide_info.profession
-        blob += "Faction: <highlight>%s<end>\n" % guide_info.faction
-        blob += "Level: <highlight>%s<end>\n" % guide_info.level
-        blob += "Author: <highlight>%s<end>\n\n" % self.format_bbcode_code(guide_info.author)
-        blob += self.format_bbcode_code(guide_info.text)
-        blob += "\n\n<highlight>Powered by<end> " + self.text.make_chatcmd("AO-Universe.com", "/start https://www.ao-universe.com")
-
-        return ChatBlob(guide_info.name, blob)
+        guide_info["id"] = self.text.make_chatcmd(guide_info.id,
+                                                  "/start https://www.ao-universe.com/main.php?site=knowledge&id=%s" % guide_info.id)
+        guide_info["aou"] = self.text.make_chatcmd("AO-Universe.com", "/start https://www.ao-universe.com")
+        guide_info["text"] = self.format_bbcode_code(guide_info.text)
+        return ChatBlob(guide_info.name, self.getresp("module/aou", "guide", {**guide_info,
+                                                                              "aou": self.text.make_chatcmd(
+                                                                                  "AO-Universe.com",
+                                                                                  "/start https://www.ao-universe.com")}))
 
     @command(command="aou", params=[Const("all", is_optional=True), Any("search")], access_level="all",
              description="Search for an AO-Universe guides")
@@ -97,9 +105,10 @@ class AOUController:
         blob += "\n\nPowered by %s" % self.text.make_chatcmd("AO-Universe.com", "/start https://www.ao-universe.com")
 
         if count == 0:
-            return "Could not find any AO-Universe guides for search <highlight>%s<end>." % search
+            return self.getresp("module/aou", "no_guide_id", {"search": search})
         else:
-            return ChatBlob("%sAOU Guides containing '%s' (%d)" % ("All " if include_all_matches else "", search, count), blob)
+            return ChatBlob(self.getresp("module/aou", "search_guide_title" + ("_all" if include_all_matches else ""),
+                                         {"search": search, "count": count}), blob)
 
     def retrieve_guide(self, guide_id):
         cache_key = "%d.xml" % guide_id

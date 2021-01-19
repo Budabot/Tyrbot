@@ -14,6 +14,7 @@
 <a href=skillid://342>Heal delta (interval)</a> (tick in secs)
 <a href=skillid://343>Heal delta (amount)</a>
 <a href=skillid://535>Heal modifier</a>
+<a href=skillid://689>Heal reactivity</a>
 
 <header2>::: Nano :::<end>
 <a href=skillid://363>Nano delta (interval)</a> (tick in secs)

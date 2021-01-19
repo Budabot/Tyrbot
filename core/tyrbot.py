@@ -193,7 +193,9 @@ class Tyrbot(Bot):
                 handler.handler(packet)
 
             self.event_service.fire_event("packet:" + str(packet.id), packet)
-
+        else:
+            if time.time() - self.packet_last_received_timestamp > 90:
+                self.restart()
         self.check_outgoing_message_queue()
 
         return packet

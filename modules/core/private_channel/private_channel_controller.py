@@ -26,7 +26,7 @@ class PrivateChannelController:
         self.message_hub_service = registry.get_instance("message_hub_service")
         self.ban_service = registry.get_instance("ban_service")
         self.log_controller = registry.get_instance("log_controller", is_optional=True)  # TODO core module depending on standard module
-        self.online_controller = registry.get_instance("online_controller")  # TODO core module depending on standard module
+        self.online_controller = registry.get_instance("online_controller", is_optional=True)  # TODO core module depending on standard module
         self.text: Text = registry.get_instance("text")
         self.ts: TranslationService = registry.get_instance("translation_service")
         self.getresp = self.ts.get_response
@@ -118,7 +118,7 @@ class PrivateChannelController:
     @event(event_type=PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, description="Notify when a character joins the private channel")
     def handle_private_channel_joined_event(self, event_type, event_data):
         msg = self.getresp("module/private_channel", "join",
-                           {"char": self.online_controller.get_char_info_display(event_data.char_id),
+                           {"char": self.online_controller.get_char_info_display(event_data.char_id) if self.online_controller else self.character_service.resolve_char_to_name(event_data.char_id),
                             "logon": self.log_controller.get_logon(event_data.char_id) if self.log_controller else ""})
         self.bot.send_private_channel_message(msg, fire_outgoing_event=False)
         self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)

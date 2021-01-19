@@ -25,7 +25,7 @@ class OrgChannelController:
         self.setting_service: SettingService = registry.get_instance("setting_service")
         self.ban_service = registry.get_instance("ban_service")
         self.log_controller = registry.get_instance("log_controller", is_optional=True)
-        self.online_controller = registry.get_instance("online_controller")
+        self.online_controller = registry.get_instance("online_controller", is_optional=True)
         self.text: Text = registry.get_instance("text")
 
     def pre_start(self):
@@ -68,7 +68,7 @@ class OrgChannelController:
     @event(event_type=OrgMemberController.ORG_MEMBER_LOGON_EVENT, description="Notify when org member logs on")
     def org_member_logon_event(self, event_type, event_data):
         if self.bot.is_ready():
-            msg = "%s has logged on. %s" % (self.online_controller.get_char_info_display(event_data.char_id),
+            msg = "%s has logged on. %s" % (self.online_controller.get_char_info_display(event_data.char_id) if self.online_controller else self.character_service.resolve_char_to_name(event_data.char_id),
                                             self.log_controller.get_logon(event_data.char_id) if self.log_controller else "")
             self.bot.send_org_message(msg, fire_outgoing_event=False)
             self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)
