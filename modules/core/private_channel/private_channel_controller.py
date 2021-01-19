@@ -125,7 +125,8 @@ class PrivateChannelController:
         msg = self.getresp("module/private_channel", "join",
                            {"char": self.online_controller.get_char_info_display(event_data.char_id),
                             "logon": self.log_controller.get_logon(event_data.char_id) if self.log_controller else ""})
-        self.bot.send_private_channel_message(msg)
+        self.bot.send_private_channel_message(msg, fire_outgoing_event=False)
+        self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)
 
     @event(event_type=PrivateChannelService.LEFT_PRIVATE_CHANNEL_EVENT, description="Notify when a character leaves the private channel")
     def handle_private_channel_left_event(self, event_type, event_data):
@@ -133,7 +134,8 @@ class PrivateChannelController:
         msg = self.getresp("module/private_channel", "leave",
                            {"char": char_name,
                             "logoff": self.log_controller.get_logoff(event_data.char_id) if self.log_controller else ""})
-        self.bot.send_private_channel_message(msg)
+        self.bot.send_private_channel_message(msg, fire_outgoing_event=False)
+        self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)
 
     @event(event_type=Tyrbot.OUTGOING_PRIVATE_CHANNEL_MESSAGE_EVENT, description="Relay commands from the private channel to the relay hub", is_hidden=True)
     def outgoing_private_channel_message_event(self, event_type, event_data):

@@ -72,7 +72,8 @@ class OrgChannelController:
         if self.bot.is_ready():
             msg = "%s has logged on. %s" % (self.online_controller.get_char_info_display(event_data.char_id),
                                             self.log_controller.get_logon(event_data.char_id) if self.log_controller else "")
-            self.bot.send_org_message(msg)
+            self.bot.send_org_message(msg, fire_outgoing_event=False)
+            self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)
 
     @event(event_type=OrgMemberController.ORG_MEMBER_LOGOFF_EVENT, description="Notify when org member logs off")
     def org_member_logoff_event(self, event_type, event_data):
@@ -80,7 +81,8 @@ class OrgChannelController:
             char_name = self.character_service.resolve_char_to_name(event_data.char_id)
             msg = "<highlight>%s<end> has logged off. %s" % (char_name,
                                                              self.log_controller.get_logoff(event_data.char_id) if self.log_controller else "")
-            self.bot.send_org_message(msg)
+            self.bot.send_org_message(msg, fire_outgoing_event=False)
+            self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)
 
     @event(event_type=Tyrbot.OUTGOING_ORG_MESSAGE_EVENT, description="Relay commands from the org channel to the relay hub", is_hidden=True)
     def outgoing_org_message_event(self, event_type, event_data):
