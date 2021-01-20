@@ -32,12 +32,28 @@ class MLStripper(HTMLParser):
         self.strict = False
         self.convert_charrefs = True
         self.fed = []
+        self.chat_commands = []
 
     def handle_data(self, d):
         self.fed.append(d)
 
     def get_data(self):
         return "".join(self.fed)
+
+    def handle_starttag(self, tag, attrs):
+        if tag == "a":
+            for k, v in attrs:
+                if k == "href" and v.startswith("chatcmd://"):
+                    self.chat_commands.append(v[10:])
+                    return
+            self.chat_commands.append("")
+
+    def handle_endtag(self, tag):
+        if tag == "a":
+            cmd = self.chat_commands.pop(0)
+            if cmd:
+                cmd = cmd.replace("/tell <myname> ", "!")
+                self.handle_data(f" `{cmd}`")
 
 
 @instance()
