@@ -276,3 +276,9 @@ class OnlineController:
         if channel not in self.channels:
             self.channels.append((channel, sort_priority))
             self.channels.sort(key=self.sort_channels)
+
+    def deregister_online_channel(self, channel):
+        self.db.query("DELETE FROM online WHERE channel = ?", [channel])
+        for i, obj in enumerate(self.channels):
+            if obj[0] == channel:
+                del self.channels[i]

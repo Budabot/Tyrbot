@@ -26,7 +26,7 @@ class WebsocketRelayController:
         self.logger = Logger(__name__)
         self.worker = None
         self.encrypter = None
-        self.channels = []
+        self.channels = {}
 
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
@@ -47,7 +47,7 @@ class WebsocketRelayController:
     def start(self):
         self.message_hub_service.register_message_destination(self.MESSAGE_SOURCE,
                                                               self.handle_message_from_hub,
-                                                              ["private_channel", "org_channel", "discord", "tell_relay", "shutdown_notice"],
+                                                              ["private_channel", "org_channel", "discord", "tell_relay"],
                                                               [self.MESSAGE_SOURCE])
 
         self.initialize_encrypter(self.websocket_encryption_key().get_value())
@@ -99,16 +99,21 @@ class WebsocketRelayController:
     def handle_queue_event(self, event_type, event_data):
         while self.queue:
             obj = self.queue.pop(0)
-            if obj.type == "message":  # TODO "content"
+            if obj.type == "message":
                 payload = obj.payload
-                self.process_relay_message(payload)
+                self.process_relay_message(obj.client_id, payload)
             elif obj.type == "ping":
                 return_obj = json.dumps({"type": "ping", "payload": obj.payload})
                 self.worker.send_message(return_obj)
             elif obj.type == "connected":
-                # TODO how to handle when a bot disconnects from the relay who had online members
                 self.send_relay_message({"type": "online_list_request"})
                 self.send_relay_message(self.get_online_list_obj())
+            elif obj.type == "joined":
+                pass
+            elif obj.type == "left":
+                for channel in self.channels[obj.client_id]:
+                    self.online_controller.deregister_online_channel(channel)
+                del self.channels[obj.client_id]
 
     @timerevent(budatime="1m", description="Ensure the bot is connected to websocket relay", is_hidden=True, is_enabled=False)
     def handle_connect_event(self, event_type, event_data):
@@ -135,7 +140,7 @@ class WebsocketRelayController:
     def org_member_removed_event(self, event_type, event_data):
         self.send_relay_event(event_data.char_id, "logoff", "org_channel")
 
-    def process_relay_message(self, message):
+    def process_relay_message(self, client_id, message):
         if self.encrypter:
             message = self.encrypter.decrypt(message.encode('utf-8'))
         obj = DictObject(json.loads(message))
@@ -151,7 +156,7 @@ class WebsocketRelayController:
 
             self.message_hub_service.send_message(self.MESSAGE_SOURCE, obj.get("user", None), obj.message, message)
         elif obj.type == "logon":
-            self.add_online_char(obj.user.id, obj.user.name, obj.source)
+            self.add_online_char(obj.user.id, obj.user.name, obj.source, client_id)
         elif obj.type == "logoff":
             self.rem_online_char(obj.user.id, obj.source)
         elif obj.type == "online_list":
@@ -162,7 +167,7 @@ class WebsocketRelayController:
                 channel = self.get_channel_name(online_obj.source)
                 self.db.exec("DELETE FROM online WHERE channel = ?", [channel])
                 for user in online_obj.users:
-                    self.add_online_char(user.id, user.name, online_obj.source)
+                    self.add_online_char(user.id, user.name, online_obj.source, client_id)
         elif obj.type == "online_list_request":
             self.send_relay_message(self.get_online_list_obj())
 
@@ -201,16 +206,18 @@ class WebsocketRelayController:
                "source": self.create_source_obj(source)}
         self.send_relay_message(obj)
 
-    def add_online_char(self, char_id, name, source):
+    def add_online_char(self, char_id, name, source, client_id):
         # TODO how to handle chars not on current server
         if not char_id or (source.server and source.server != self.bot.dimension):
             return
 
         self.pork_service.load_character_info(char_id, name)
         channel = self.get_channel_name(source)
-        if channel not in self.channels:
+        if client_id not in self.channels:
+            self.channels[client_id] = []
+        if channel not in self.channels[client_id]:
             self.online_controller.register_online_channel(channel)
-            self.channels.append(channel)
+            self.channels[client_id].append(channel)
 
         self.db.exec("INSERT INTO online (char_id, afk_dt, afk_reason, channel, dt) VALUES (?, ?, ?, ?, ?)",
                      [char_id, 0, "", channel, int(time.time())])
@@ -245,8 +252,9 @@ class WebsocketRelayController:
         self.dthread.start()
 
     def disconnect(self):
-        for channel in self.channels:
-            self.db.exec("DELETE FROM online WHERE channel = ?", [channel])
+        for channels in self.channels.values():
+            for channel in channels:
+                self.online_controller.deregister_online_channel(channel)
 
         if self.worker:
             self.worker.close()
