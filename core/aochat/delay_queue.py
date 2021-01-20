@@ -2,22 +2,25 @@ import time
 
 
 class DelayQueue:
-    def __init__(self, delay: int, burst=0):
-        self.delay = delay
+    def __init__(self, recovery: int, burst=0):
+        self.recovery = recovery
         self.burst = burst
         self.items = []
         self.next_packet = 0
 
     def enqueue(self, item):
-        time_with_burst = time.time() - (self.burst * self.delay)
-        if self.next_packet < time_with_burst:
-            self.next_packet = time_with_burst
         self.items.insert(0, item)
 
     def dequeue(self):
-        if self.items and time.time() > self.next_packet:
-            self.next_packet += self.delay
-            return self.items.pop()
+        if self.items:
+            t = time.time()
+            time_with_burst = t - (self.burst * self.recovery)
+            if self.next_packet < time_with_burst:
+                self.next_packet = time_with_burst
+
+            if t >= self.next_packet:
+                self.next_packet += self.recovery
+                return self.items.pop()
         else:
             return None
 

@@ -34,7 +34,7 @@ class Tyrbot(Bot):
         self.superadmin = None
         self.status: BotStatus = BotStatus.SHUTDOWN
         self.dimension = None
-        self.packet_queue = DelayQueue(2, 2.5)
+        self.packet_queue = DelayQueue(2, 3.5)
         self.last_timer_event = 0
         self.start_time = int(time.time())
         self.version = "0.5-beta"
