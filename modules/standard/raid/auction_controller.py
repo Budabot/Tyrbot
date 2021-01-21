@@ -11,13 +11,12 @@ class AuctionController:
     def __init__(self):
         self.auction: AuctionStrategy = None
 
-    @setting(name="auction_length", value="90s", description="Regular auction length in seconds")
-    def auction_length(self):
-        return TimeSettingType()
+    def inject(self, registry):
+        self.setting_service = registry.get_instance("setting_service")
 
-    @setting(name="auction_announce_interval", value="15s", description="Auction announce interval")
-    def auction_announce_interval(self):
-        return TimeSettingType()
+    def start(self):
+        self.setting_service.register_new(self.module_name, "auction_length", "90s", TimeSettingType(), "Regular auction duration")
+        self.setting_service.register_new(self.module_name, "auction_announce_interval", "15s", TimeSettingType(), "Auction announce interval")
 
     @command(command="auction", params=[], description="Show auction status",
              access_level="member")
@@ -39,8 +38,8 @@ class AuctionController:
         for item in items:
             self.auction.add_item(item[0])
 
-        auction_length = self.auction_length().get_value()
-        announce_interval = self.auction_announce_interval().get_value()
+        auction_length = self.setting_service.get("auction_length").get_value()
+        announce_interval = self.setting_service.get("auction_announce_interval").get_value()
 
         return self.auction.start(request.sender, auction_length, announce_interval)
 

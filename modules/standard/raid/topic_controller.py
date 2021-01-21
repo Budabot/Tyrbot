@@ -17,13 +17,15 @@ class TopicController:
         self.util = registry.get_instance("util")
         self.command_alias_service = registry.get_instance("command_alias_service")
         self.private_channel_service: PrivateChannelService = registry.get_instance("private_channel_service")
+        self.setting_service = registry.get_instance("setting_service")
 
     def start(self):
         self.command_alias_service.add_alias("motd", "topic")
 
-    @setting(name="topic", value="", description="The bot topic")
+        self.setting_service.register_new(self.module_name, "topic", "", DictionarySettingType(), "The bot topic")
+
     def topic(self):
-        return DictionarySettingType()
+        return self.setting_service.get("topic")
 
     @command(command="topic", params=[], access_level="all",
              description="Show the current topic")

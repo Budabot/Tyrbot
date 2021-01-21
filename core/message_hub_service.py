@@ -26,10 +26,12 @@ class MessageHubService:
                      ")")
 
     def register_message_source(self, source):
+        """Call during pre_start"""
         if source not in self.sources:
             self.sources.append(source)
 
     def register_message_destination(self, destination, callback, default_sources, invalid_sources=[]):
+        """Call during start"""
         if destination in self.hub:
             raise Exception("Message hub destination '%s' already subscribed" % destination)
 

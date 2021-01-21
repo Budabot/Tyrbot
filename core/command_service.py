@@ -81,6 +81,7 @@ class CommandService:
                     self.register(handler, cmd_name, params, access_level, description, inst.module_name, help_text, sub_command, extended_description)
 
     def register(self, handler, command, params, access_level, description, module, help_text=None, sub_command=None, extended_description=None, check_access=None):
+        """Call during start"""
         if len(inspect.signature(handler).parameters) != len(params) + 1:
             raise Exception("Incorrect number of arguments for handler '%s.%s()'" % (handler.__module__, handler.__name__))
 
@@ -130,9 +131,11 @@ class CommandService:
         self.handlers[command_key].append({"regex": r, "callback": handler, "help": help_text, "description": description, "params": params, "check_access": check_access})
 
     def register_command_pre_processor(self, pre_processor):
+        """Call during start"""
         self.pre_processors.append(pre_processor)
 
     def register_command_channel(self, label, value):
+        """Call during pre_start"""
         if value in self.channels:
             self.logger.error("Could not register command channel '%s': command channel already registered" % value)
             return

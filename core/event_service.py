@@ -31,6 +31,7 @@ class EventService:
                     self.register(handler, event_type, description, inst.module_name, is_hidden, is_enabled)
 
     def register_event_type(self, event_type):
+        """Call during pre_start"""
         event_type = event_type.lower()
 
         if event_type in self.event_types:
@@ -44,6 +45,7 @@ class EventService:
         return event_base_type in self.event_types
 
     def register(self, handler, event_type, description, module, is_hidden, is_enabled):
+        """Call during start"""
         event_base_type, event_sub_type = self.get_event_type_parts(event_type)
         module = module.lower()
         handler_name = self.util.get_handler_name(handler)

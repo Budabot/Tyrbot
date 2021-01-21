@@ -31,9 +31,7 @@ class NewsController:
         self.db.exec("CREATE TABLE IF NOT EXISTS news (id INT PRIMARY KEY AUTO_INCREMENT, char_id INT NOT NULL, news TEXT, sticky SMALLINT NOT NULL, created_at INT NOT NULL, deleted_at INT NOT NULL)")
         self.db.exec("CREATE TABLE IF NOT EXISTS news_read (char_id INTEGER NOT NULL, news_id INTEGER NOT NULL)")
 
-    @setting(name="number_news_shown", value="10", description="Maximum number of news items shown")
-    def number_news_shown(self):
-        return NumberSettingType()
+        self.setting_service.register_new(self.module_name, "number_news_shown", 10, NumberSettingType(), "Maximum number of news items shown")
 
     @command(command="news", params=[], description="Show list of news", access_level="member")
     def news_cmd(self, request):
@@ -44,7 +42,7 @@ class NewsController:
             return ChatBlob("News [Last updated %s ago]" % last_updated, self.format_news_entries(self.get_news()))
         else:
             return "No news."
-    
+
     @command(command="news", params=[Const("add"), Any("news")], description="Add news entry", access_level="moderator", sub_command="update")
     def news_add_cmd(self, request, _, news):
         sql = "INSERT INTO news (char_id, news, sticky, created_at, deleted_at) VALUES (?,?,?,?,?)"
@@ -105,7 +103,7 @@ class NewsController:
         num_rows = self.db.exec(sql, [request.sender.char_id, main.char_id])
 
         return "Successfully marked <highlight>%d<end> news entries as read." % num_rows
-    
+
     @event(event_type=OrgMemberController.ORG_MEMBER_LOGON_EVENT, description="Send news list when org member logs on")
     def orgmember_logon_event(self, event_type, event_data):
         if not self.bot.is_ready():

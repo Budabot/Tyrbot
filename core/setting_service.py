@@ -26,6 +26,12 @@ class SettingService:
                     self.register(setting_name, value, description, obj, inst.module_name, extended_description)
 
     def register(self, name, value, description, setting: SettingType, module, extended_description=None):
+        """Deprecated. Use register_new()"""
+        self.logger.warning(f"Using deprecated register method for setting '{name}' in module {module}")
+        self.register_new(module, name, value, setting, description, extended_description)
+
+    def register_new(self, module, name, value, setting: SettingType, description, extended_description=None):
+        """Call during start"""
         name = name.lower()
         module = module.lower()
         setting.set_name(name)
@@ -58,6 +64,7 @@ class SettingService:
         self.settings[name] = setting
 
     def register_change_listener(self, setting_name, change_listener):
+        """Call during start"""
         if setting_name in self.settings:
             if not setting_name in self.change_listeners:
                 self.change_listeners[setting_name] = []

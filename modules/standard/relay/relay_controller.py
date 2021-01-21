@@ -26,13 +26,14 @@ class RelayController:
                                                               ["private_channel", "org_channel", "discord", "websocket_relay", "shutdown_notice"],
                                                               [self.MESSAGE_SOURCE])
 
-    @setting(name="relay_bot", value="", description="Name of bot character for chat relay")
-    def relay_bot(self):
-        return TextSettingType(allow_empty=True)
+        self.setting_service.register_new(self.module_name, "relay_bot", "", TextSettingType(allow_empty=True), "Name of bot character for chat relay")
+        self.setting_service.register_new(self.module_name, "relay_prefix", "", TextSettingType(allow_empty=True), "Name of this relay (if you don't want to use org or bot name)")
 
-    @setting(name="relay_prefix", value="", description="Name of this relay (if you don't want to use org or bot name)")
+    def relay_bot(self):
+        return self.setting_service.get("relay_bot")
+
     def relay_prefix(self):
-        return TextSettingType(allow_empty=True)
+        return self.setting_service.get("relay_prefix")
 
     @command(command="grc", params=[Any("message")], access_level="all",
              description="Accept incoming messages from relay bot")

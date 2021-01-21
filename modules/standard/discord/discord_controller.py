@@ -107,42 +107,22 @@ class DiscordController:
         self.register_discord_command_handler(self.discord_link_cmd, "discord", [Const("link"), Character("ao_character")])
         self.register_discord_command_handler(self.discord_unlink_cmd, "discord", [Const("unlink")])
 
+        self.ts.register_translation("module/discord", self.load_discord_msg)
+
+        self.setting_service.register_new(self.module_name, "discord_enabled", False, BooleanSettingType(), "Enable the Discord relay")
+        self.setting_service.register_new(self.module_name, "discord_bot_token", "", HiddenSettingType(allow_empty=True), "Discord bot token")
+        self.setting_service.register_new(self.module_name, "discord_channel_name", "general", TextSettingType(["general"], allow_empty=True), "Discord channel name to relay with")
+        self.setting_service.register_new(self.module_name, "discord_embed_color", "#00FF00", ColorSettingType(), "Discord embedded message color")
+        self.setting_service.register_new(self.module_name, "relay_color_prefix", "#FCA712", ColorSettingType(), "Set the prefix color for messages coming from Discord")
+        self.setting_service.register_new(self.module_name, "relay_color_name", "#808080", ColorSettingType(), "Set the color of the name for messages coming from Discord")
+        self.setting_service.register_new(self.module_name, "relay_color_message", "#00DE42", ColorSettingType(), "Set the color of the content for messages coming from Discord")
+
         self.setting_service.register_change_listener("discord_channel_name", self.update_discord_channel_name)
         self.setting_service.register_change_listener("discord_enabled", self.update_discord_state)
-
-        self.ts.register_translation("module/discord", self.load_discord_msg)
 
     def load_discord_msg(self):
         with open("modules/standard/discord/discord.msg", mode="r", encoding="utf-8") as f:
             return hjson.load(f)
-
-    @setting(name="discord_enabled", value=False, description="Enable the Discord relay")
-    def discord_enabled(self):
-        return BooleanSettingType()
-
-    @setting(name="discord_bot_token", value="", description="Discord bot token")
-    def discord_bot_token(self):
-        return HiddenSettingType(allow_empty=True)
-
-    @setting(name="discord_channel_name", value="general", description="Discord channel name to relay with")
-    def discord_channel_name(self):
-        return TextSettingType(["general"], allow_empty=True)
-
-    @setting(name="discord_embed_color", value="#00FF00", description="Discord embedded message color")
-    def discord_embed_color(self):
-        return ColorSettingType()
-
-    @setting(name="relay_color_prefix", value="#FCA712", description="Set the prefix color for messages coming from Discord")
-    def relay_color_prefix(self):
-        return ColorSettingType()
-
-    @setting(name="relay_color_name", value="#808080", description="Set the color of the name for messages coming from Discord")
-    def relay_color_name(self):
-        return ColorSettingType()
-
-    @setting(name="relay_color_message", value="#00DE42", description="Set the color of the content for messages coming from Discord")
-    def relay_color_message(self):
-        return ColorSettingType()
 
     @command(command="discord", params=[], access_level="member",
              description="See Discord info")
@@ -349,6 +329,7 @@ class DiscordController:
         return self.strip_html_tags(msg)
 
     def register_discord_command_handler(self, callback, command_str, params):
+        """Call during start"""
         r = re.compile(self.command_service.get_regex_from_params(params), re.IGNORECASE | re.DOTALL)
         self.command_handlers.append(DictObject({"callback": callback, "command": command_str, "params": params, "regex": r}))
 

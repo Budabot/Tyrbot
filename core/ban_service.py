@@ -21,6 +21,8 @@ class BanService:
     def pre_start(self):
         self.event_service.register_event_type(self.BAN_ADDED_EVENT)
         self.event_service.register_event_type(self.BAN_REMOVED_EVENT)
+
+    def start(self):
         self.command_service.register_command_pre_processor(self.check_for_banned)
 
     def add_ban(self, char_id, sender_char_id, duration=None, reason=None):

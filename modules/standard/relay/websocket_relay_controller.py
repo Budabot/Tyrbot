@@ -50,7 +50,18 @@ class WebsocketRelayController:
                                                               ["private_channel", "org_channel", "discord", "tell_relay"],
                                                               [self.MESSAGE_SOURCE])
 
-        self.initialize_encrypter(self.websocket_encryption_key().get_value())
+        self.setting_service.register_new(self.module_name, "websocket_relay_enabled", False, BooleanSettingType(), "Enable the websocket relay")
+        self.setting_service.register_new(self.module_name, "websocket_relay_server_address", "ws://localhost/subscribe/relay",
+                                          TextSettingType(["ws://localhost/subscribe/relay", "wss://relay.jkbff.com/subscribe/relay"]),
+                                          "The address of the websocket relay server",
+                                          "All bots on the relay must connect to the same server and channel. If using the public relay server, use a unique channel name. "
+                                          "Example: ws://relay.jkbff.com/subscribe/unique123 (<highlight>relay.jkbff.com<end> is the server and <highlight>unique123<end> is the channel)")
+        self.setting_service.register_new(self.module_name, "websocket_relay_channel_color", "#FFFF00", ColorSettingType(), "Color of the channel in websocket relay messages")
+        self.setting_service.register_new(self.module_name, "websocket_relay_message_color", "#FCA712", ColorSettingType(), "Color of the message content in websocket relay messages")
+        self.setting_service.register_new(self.module_name, "websocket_relay_sender_color", "#00DE42", ColorSettingType(), "Color of the sender in websocket relay messages")
+        self.setting_service.register_new(self.module_name, "websocket_encryption_key", "", HiddenSettingType(allow_empty=True), "An encryption key used to encrypt messages over a public websocket relay")
+
+        self.initialize_encrypter(self.setting_service.get("websocket_encryption_key").get_value())
 
         self.setting_service.register_change_listener("websocket_relay_enabled", self.websocket_relay_update)
         self.setting_service.register_change_listener("websocket_relay_server_address", self.websocket_relay_update)
@@ -68,32 +79,6 @@ class WebsocketRelayController:
             self.encrypter = Fernet(key)
         else:
             self.encrypter = None
-
-    @setting(name="websocket_relay_enabled", value=False, description="Enable the websocket relay")
-    def websocket_relay_enabled(self):
-        return BooleanSettingType()
-
-    @setting(name="websocket_relay_server_address", value="ws://localhost/subscribe/relay", description="The address of the websocket relay server",
-             extended_description="All bots on the relay must connect to the same server and channel. If using the public relay server, use a unique channel name. Example: ws://relay.jkbff.com/subscribe/unique123 (<highlight>relay.jkbff.com<end> is the server and <highlight>unique123<end> is the channel)")
-    def websocket_relay_server_address(self):
-        return TextSettingType(["ws://localhost/subscribe/relay", "wss://relay.jkbff.com/subscribe/relay"])
-
-    @setting(name="websocket_relay_channel_color", value="#FFFF00", description="Color of the channel in websocket relay messages")
-    def websocket_channel_color(self):
-        return ColorSettingType()
-
-    @setting(name="websocket_relay_message_color", value="#FCA712", description="Color of the message content in websocket relay messages")
-    def websocket_message_color(self):
-        return ColorSettingType()
-
-    @setting(name="websocket_relay_sender_color", value="#00DE42", description="Color of the sender in websocket relay messages")
-    def websocket_sender_color(self):
-        return ColorSettingType()
-
-    @setting(name="websocket_encryption_key", value="", description="An encryption key used to encrypt messages over a public websocket relay",
-             extended_description="")
-    def websocket_encryption_key(self):
-        return HiddenSettingType(allow_empty=True)
 
     @timerevent(budatime="1s", description="Relay messages from websocket relay to the internal message hub", is_hidden=True, is_enabled=False)
     def handle_queue_event(self, event_type, event_data):
@@ -149,10 +134,10 @@ class WebsocketRelayController:
             channel = self.get_channel_name(obj.source)
 
             message = ""
-            message += "%s[%s]<end> " % (self.websocket_channel_color().get_font_color(), channel)
+            message += "%s[%s]<end> " % (self.setting_service.get("websocket_relay_channel_color").get_font_color(), channel)
             if obj.user:
-                message += "%s%s<end>: " % (self.websocket_sender_color().get_font_color(), obj.user.name)
-            message += "%s%s<end>" % (self.websocket_message_color().get_font_color(), obj.message)
+                message += "%s%s<end>: " % (self.setting_service.get("websocket_relay_sender_color").get_font_color(), obj.user.name)
+            message += "%s%s<end>" % (self.setting_service.get("websocket_relay_message_color").get_font_color(), obj.message)
 
             self.message_hub_service.send_message(self.MESSAGE_SOURCE, obj.get("user", None), obj.message, message)
         elif obj.type == "logon":
@@ -247,7 +232,7 @@ class WebsocketRelayController:
     def connect(self):
         self.disconnect()
 
-        self.worker = WebsocketRelayWorker(self.queue, self.websocket_relay_server_address().get_value())
+        self.worker = WebsocketRelayWorker(self.queue, self.setting_service.get("websocket_relay_server_address").get_value())
         self.dthread = threading.Thread(target=self.worker.run, daemon=True)
         self.dthread.start()
 

@@ -87,29 +87,37 @@ class Tyrbot(Bot):
         self.event_service.register_event_type(self.OUTGOING_PRIVATE_CHANNEL_MESSAGE_EVENT)
 
     def start(self):
-        self.setting_service.register("symbol", "!", "Symbol for executing bot commands", TextSettingType(["!", "#", "*", "@", "$", "+", "-"]), "core.system")
+        self.setting_service.register_new("core.system", "symbol", "!", TextSettingType(["!", "#", "*", "@", "$", "+", "-"]), "Symbol for executing bot commands")
 
-        self.setting_service.register("org_channel_max_page_length", 7500, "Maximum size of blobs in org channel",
-                                      NumberSettingType([4500, 6000, 7500, 9000, 10500, 12000]), "core.system")
-        self.setting_service.register("private_message_max_page_length", 7500, "Maximum size of blobs in private messages",
-                                      NumberSettingType([4500, 6000, 7500, 9000, 10500, 12000]), "core.system",)
-        self.setting_service.register("private_channel_max_page_length", 7500, "Maximum size of blobs in private channel",
-                                      NumberSettingType([4500, 6000, 7500, 9000, 10500, 12000]), "core.system")
+        self.setting_service.register_new("core.system", "org_channel_max_page_length", 7500,
+                                      NumberSettingType([4500, 6000, 7500, 9000, 10500, 12000]),
+                                      "Maximum size of blobs in org channel")
+        self.setting_service.register_new("core.system", "private_message_max_page_length", 7500,
+                                      NumberSettingType([4500, 6000, 7500, 9000, 10500, 12000]),
+                                      "Maximum size of blobs in private messages")
+        self.setting_service.register_new("core.system", "private_channel_max_page_length", 7500,
+                                      NumberSettingType([4500, 6000, 7500, 9000, 10500, 12000]),
+                                      "Maximum size of blobs in private channel")
 
-        self.setting_service.register("header_color", "#FFFF00", "color for headers", ColorSettingType(), "core.colors")
-        self.setting_service.register("header2_color", "#FCA712", "color for sub-headers", ColorSettingType(), "core.colors")
-        self.setting_service.register("highlight_color", "#00BFFF", "color for highlight", ColorSettingType(), "core.colors")
-        self.setting_service.register("notice_color", "#FF8C00", "color for important notices", ColorSettingType(), "core.colors")
+        self.setting_service.register_new("core.system", "org_id", "", NumberSettingType(allow_empty=True), "Override the default org id",
+                                          "This setting is is for development/debug purposes and should not be changed unless you understand the implications")
+        self.setting_service.register_new("core.system", "org_name", "", TextSettingType(allow_empty=True), "The exact org name of the bot",
+                                          "This setting is automatically set by the bot and should not be changed manually")
 
-        self.setting_service.register("neutral_color", "#E6E1A6", "color for neutral faction", ColorSettingType(), "core.colors")
-        self.setting_service.register("omni_color", "#FA8484", "color for omni faction", ColorSettingType(), "core.colors")
-        self.setting_service.register("clan_color", "#F79410", "color for clan faction", ColorSettingType(), "core.colors")
-        self.setting_service.register("unknown_color", "#FF0000", "color for unknown faction", ColorSettingType(), "core.colors")
+        self.setting_service.register_new("core.colors", "header_color", "#FFFF00", ColorSettingType(), "Color for headers")
+        self.setting_service.register_new("core.colors", "header2_color", "#FCA712", ColorSettingType(), "Color for sub-headers")
+        self.setting_service.register_new("core.colors", "highlight_color", "#00BFFF", ColorSettingType(), "Color for highlight")
+        self.setting_service.register_new("core.colors", "notice_color", "#FF8C00", ColorSettingType(), "Color for important notices")
 
-        self.setting_service.register("org_channel_color", "#89D2E8", "default org channel color", ColorSettingType(), "core.colors")
-        self.setting_service.register("private_channel_color", "#89D2E8", "default private channel color", ColorSettingType(), "core.colors")
-        self.setting_service.register("private_message_color", "#89D2E8", "default private message color", ColorSettingType(), "core.colors")
-        self.setting_service.register("blob_color", "#FFFFFF", "default blob content color", ColorSettingType(), "core.colors")
+        self.setting_service.register_new("core.colors", "neutral_color", "#E6E1A6", ColorSettingType(), "Color for neutral faction")
+        self.setting_service.register_new("core.colors", "omni_color", "#FA8484", ColorSettingType(), "Color for omni faction")
+        self.setting_service.register_new("core.colors", "clan_color", "#F79410", ColorSettingType(), "Color for clan faction")
+        self.setting_service.register_new("core.colors", "unknown_color", "#FF0000", ColorSettingType(), "Color for unknown faction")
+
+        self.setting_service.register_new("core.colors", "org_channel_color", "#89D2E8", ColorSettingType(), "Default org channel color")
+        self.setting_service.register_new("core.colors", "private_channel_color", "#89D2E8", ColorSettingType(), "Default private channel color")
+        self.setting_service.register_new("core.colors", "private_message_color", "#89D2E8", ColorSettingType(), "Default private message color")
+        self.setting_service.register_new("core.colors", "blob_color", "#FFFFFF", ColorSettingType(), "Default blob content color")
 
         self.add_packet_handler(server_packets.PrivateMessage.id, self.handle_private_message, priority=40)
 

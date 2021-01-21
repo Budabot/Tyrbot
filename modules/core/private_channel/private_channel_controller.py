@@ -3,11 +3,10 @@ import hjson
 from core.ban_service import BanService
 from core.chat_blob import ChatBlob
 from core.command_param_types import Character
-from core.decorators import instance, command, event, setting
+from core.decorators import instance, command, event
 from core.dict_object import DictObject
 from core.private_channel_service import PrivateChannelService
 from core.setting_service import SettingService
-from core.setting_types import BooleanSettingType
 from core.text import Text
 from core.translation_service import TranslationService
 from core.tyrbot import Tyrbot
@@ -49,10 +48,6 @@ class PrivateChannelController:
 
     def handle_incoming_relay_message(self, ctx):
         self.bot.send_private_channel_message(ctx.formatted_message, fire_outgoing_event=False)
-
-    @setting(name="prefix_org", value="true", description="Should the prefix [Org Tag] be displayed in relayed messages", )
-    def prefix_priv(self):
-        return BooleanSettingType()
 
     @command(command="join", params=[], access_level="all",
              description="Join the private channel")

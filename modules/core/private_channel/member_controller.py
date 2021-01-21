@@ -28,7 +28,7 @@ class MemberController:
         self.event_service = registry.get_instance("event_service")
         self.ts: TranslationService = registry.get_instance("translation_service")
         self.getresp = self.ts.get_response
-        self.settings_service: SettingService = registry.get_instance("setting_service")
+        self.setting_service: SettingService = registry.get_instance("setting_service")
 
     def pre_start(self):
         self.access_service.register_access_level(self.MEMBER_ACCESS_LEVEL, 80, self.check_member)
@@ -43,12 +43,9 @@ class MemberController:
         self.command_alias_service.add_alias("remuser", "member rem")
         self.command_alias_service.add_alias("members", "member")
 
-    @setting(name="autoinvite_auto_al", value="org_member",
-             description="Required Accesslevel to autoadd the player as an member (for the autoinvite)")
-    def autoinvite_auto_al(self):
-        return TextSettingType(["all", "guest", "member",
-                                "org_member", "moderator",
-                                "admin", "superadmin", "none"])
+        self.setting_service.register_new(self.module_name, "autoinvite_auto_al", "org_member",
+                                          TextSettingType(["all", "guest", "member", "org_member", "moderator", "admin", "superadmin", "none"]),
+                                          "Required Accesslevel to autoadd the player as an member (for the autoinvite)")
 
     @command(command="member", params=[Const("add"), Character("character")],
              access_level=OrgMemberController.ORG_ACCESS_LEVEL,
@@ -97,7 +94,7 @@ class MemberController:
             pref = self.getresp("module/private_channel", "on" if pref == "on" else "off")
             return self.getresp("module/private_channel", "autoinvite_changed", {"changedto": pref})
         else:
-            if self.access_service.check_access(request.sender.char_id, self.settings_service.get_value("autoinvite_auto_al")):
+            if self.access_service.check_access(request.sender.char_id, self.setting_service.get_value("autoinvite_auto_al")):
                 self.add_member(request.sender.char_id, auto_invite=1)
                 return self.getresp("module/private_channel", "autoinvite_changed",
                                     {"changedto": self.getresp("module/private_channel", "on")})

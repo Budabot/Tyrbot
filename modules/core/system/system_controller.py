@@ -33,17 +33,15 @@ class SystemController:
     def start(self):
         self.ts.register_translation("module/system", self.load_system_msg)
 
+        self.setting_service.register_new(self.module_name, "expected_shutdown", True, BooleanSettingType(),
+                                          "Helps bot to determine if last shutdown was expected or due to a problem")
+
     def load_system_msg(self):
         with open("modules/core/system/system.msg", mode="r", encoding="utf-8") as f:
             return hjson.load(f)
 
-    @setting(name="expected_shutdown", value="true", description="Helps bot to determine if last shutdown was expected or due to a problem")
     def expected_shutdown(self):
-        return BooleanSettingType()
-
-    @setting(name="restart_notify", value="true", description="Notify org and private channel when bot is restarting")
-    def restart_notify(self):
-        return BooleanSettingType()
+        return self.setting_service.get("expected_shutdown")
 
     @command(command="shutdown", params=[Any("reason", is_optional=True)], access_level="superadmin",
              description="Shutdown the bot")

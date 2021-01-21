@@ -19,19 +19,23 @@ class TranslateController:
         self.bot: Tyrbot = registry.get_instance("bot")
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
+        self.setting_service = registry.get_instance("setting_service")
 
-    @setting(name="setting_azure_token", value="None", description="Enter your Azure Translation Token here")
+    def start(self):
+        self.setting_service.register_new(self.module_name, "setting_azure_token", "", TextSettingType(allow_empty=True), "Enter your Azure Translation Token here")
+        self.setting_service.register_new(self.module_name, "setting_azure_region", "", TextSettingType(["westeurope"], allow_empty=True), "Enter your Azure Translation Region here")
+        self.setting_service.register_new(self.module_name, "setting_translate_language", "en", TextSettingType(["de", "en", "es", "fr"]),
+                                          "Enter your default output language",
+                                          "See a full list of supported languages here: https://docs.microsoft.com/en-us/azure/cognitive-services/translator/language-support")
+
     def setting_azure_token(self):
-        return TextSettingType(["None"])
+        return self.setting_service.get("setting_azure_token")
 
-    @setting(name="setting_azure_region", value="None", description="Enter your Azure Translation Region here")
     def setting_azure_region(self):
-        return TextSettingType(["None","westeurope"])
+        return self.setting_service.get("setting_azure_region")
 
-    @setting(name="setting_translate_language", value="en", description="Enter your default output language",
-             extended_description="See a full list of supported languages here: https://docs.microsoft.com/en-us/azure/cognitive-services/translator/language-support")
     def setting_translate_language(self):
-        return TextSettingType(["de", "en", "es", "fr"])
+        return self.setting_service.get("setting_translate_language")
 
     @command(command="translate", params=[Options(["en","de","fr","fi","es","nl","nb","ru","sv","el","da","et","it","hu","hr","id","bs","ko","ja","lt","lv","pt","pl","tlh-Lat"]),Any("text")], access_level="member", description="Translate text to a specific language")
     def translate_to_cmd(self, request, opt_language, query):

@@ -64,16 +64,6 @@ class OrgMemberController:
         with open("modules/core/org_members/org_members.msg", mode="r", encoding="utf-8") as f:
             return hjson.load(f)
 
-    @setting(name="org_id", value="", description="Override the default org id",
-        extended_description="This setting is is for development/debug purposes and should not be changed unless you understand the implications")
-    def org_id(self):
-        return NumberSettingType(allow_empty=True)
-
-    @setting(name="org_name", value="", description="The exact org name of the bot",
-        extended_description="This setting is automatically set by the bot and should not be changed manually")
-    def org_name(self):
-        return TextSettingType(allow_empty=True)
-
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS org_member (char_id INT NOT NULL PRIMARY KEY,"
                      "mode VARCHAR(20) NOT NULL, last_seen INT NOT NULL DEFAULT 0)")

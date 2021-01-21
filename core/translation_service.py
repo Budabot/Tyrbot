@@ -30,13 +30,14 @@ class TranslationService:
         self.event_service.register_event_type("reload_translation")
 
     def start(self):
-        self.setting_service.register(self.LANGUAGE_SETTING, "en_US", "Language of the Bot",
-                                      TextSettingType(self.lang_codes), "core.system")
+        self.setting_service.register_new("core.system", self.LANGUAGE_SETTING, "en_US", TextSettingType(self.lang_codes), "Language of the Bot")
+
         self.language = self.setting_service.get_value(self.LANGUAGE_SETTING)
         self.register_translation("global", self.load_global_msg)
         self.setting_service.register_change_listener(self.LANGUAGE_SETTING, self.language_setting_changed)
 
     def register_translation(self, category, callback):
+        """Call during start"""
         if self.translation_callbacks.get(category) is None:
             self.translation_callbacks[category] = []
         self.translation_callbacks[category].append(callback)

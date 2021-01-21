@@ -31,16 +31,10 @@ class LeaderController:
         self.bot: Tyrbot = registry.get_instance("bot")
         self.setting_service: SettingService = registry.get_instance("setting_service")
 
-    @setting(name="leader_echo_color", value="#00FF00",
-             description="Color with which the leader's messages will be echoed with")
-    def leader_echo_color(self):
-        return ColorSettingType()
-
-    @setting(name="leader_auto_echo", value=True,
-             description="If turned on, when someone assume the leader role, leader echo "
-                         "will automatically be activated for said person")
-    def leader_auto_echo(self):
-        return BooleanSettingType()
+    def start(self):
+        self.setting_service.register_new(self.module_name, "leader_echo_color", "#00FF00", ColorSettingType(), "Color with which the leader's messages will be echoed with")
+        self.setting_service.register_new(self.module_name, "leader_auto_echo", False, BooleanSettingType(),
+                                          "If turned on, when someone assume the leader role, leader echo will automatically be activated for said person")
 
     @command(command="leader", params=[], access_level="all",
              description="Show the current raid leader")

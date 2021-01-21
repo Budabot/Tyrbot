@@ -111,9 +111,7 @@ class LootListsController:
 
         self.command_alias_service.add_alias("alba", "albtraum")
 
-    @setting(name="use_item_icons", value="True", description="Use icons when building loot list")
-    def use_item_icons(self):
-        return BooleanSettingType()
+        self.setting_service.register_new(self.module_name, "use_item_icons", True, BooleanSettingType(), "Use icons when building loot list")
 
     #                   #
     #       APF         #

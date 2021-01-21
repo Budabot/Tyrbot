@@ -37,12 +37,10 @@ class OrgChannelController:
             ["private_channel", "discord", "websocket_relay", "tell_relay", "broadcast", "raffle", "cloak_reminder", "wave_counter", "shutdown_notice"],
             [self.MESSAGE_SOURCE])
 
+        self.setting_service.register_new(self.module_name, "prefix_org_priv", True, BooleanSettingType(), "Should the prefix [org] be displayed in relayed messages")
+
     def handle_incoming_relay_message(self, ctx):
         self.bot.send_org_message(ctx.formatted_message, fire_outgoing_event=False)
-
-    @setting(name="prefix_org_priv", value="true", description="Should the prefix [org] be displayed in relayed messages", )
-    def prefix_priv(self):
-        return BooleanSettingType()
 
     @event(event_type=PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, description="Relay messages from the org channel to the relay hub", is_hidden=True)
     def handle_org_message_event(self, event_type, event_data):

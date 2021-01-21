@@ -3,8 +3,7 @@ import html
 import requests
 from bs4 import BeautifulSoup
 from typing import List
-from core.decorators import instance, command, setting
-from core.setting_types import NumberSettingType
+from core.decorators import instance, command
 from core.command_param_types import Any, Int, Item
 from core.chat_blob import ChatBlob
 from core.text import Text
@@ -20,11 +19,7 @@ class AunoController:
     def inject(self, registry):
         self.text: Text = registry.get_instance("text")
         self.items_controller: ItemsController = registry.get_instance("items_controller")
-
-    @setting(name="max_multiple_results", value=10, description="Sets the default maximum number of results processed "
-                                                                "when a search string yields more than 1 result")
-    def max_multiple_results(self):
-        return NumberSettingType()
+        # TODO add cache controller
 
     @command(command="auno", params=[Int("item_id")], access_level="member",
              description="Fetch comments for item from Auno by item id")
@@ -105,7 +100,7 @@ class AunoController:
         return blob
 
     def multiple_results_blob(self, items, search):
-        max_multiple_results = self.max_multiple_results().get_value()
+        max_multiple_results = 40
 
         blob = "Found <highlight>%s<end> items matching <highlight>\"%s\"<end>\n" % (len(items), search)
         if len(items) > max_multiple_results:
