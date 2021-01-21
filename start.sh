@@ -16,7 +16,7 @@ $PYTHON_BINARY -m virtualenv venv
 source venv/bin/activate
 
 # From there on we use 'pip' and 'python' (refers to versions in the virtualenv)
-pip install -U -r requirements.txt
+pip install -r requirements.txt
 
 set -o pipefail -o errexit
 

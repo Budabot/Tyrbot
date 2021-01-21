@@ -5,7 +5,7 @@ IF EXIST .\venv\ GOTO install
 
 :install
 IF [%1] == [--skip-install] GOTO run
-venv\Scripts\pip install -U -r requirements.txt
+venv\Scripts\pip install -r requirements.txt
 
 :run
 venv\Scripts\python ./bootstrap.py
