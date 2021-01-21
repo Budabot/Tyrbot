@@ -109,7 +109,7 @@ class ImplantController:
         blob += "<highlight>%d</highlight> Faded\n" % implant.minimum_cluster_faded
 
         if implant.ql >= 99:
-            blob += "\n<header>Jobe Requirements<end>\n"
+            blob += "\n<header2>Jobe Requirements<end>\n"
 
             blob += "\n<header2>Requirements to Wear<end>\n"
             blob += "<highlight>%d</highlight> Treatment\n" % implant.jobe_treatment

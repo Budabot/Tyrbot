@@ -74,17 +74,17 @@ class OnlineController:
             orgs[org_name] = org_count + 1
 
         blob = ""
-        blob += "<header>Title Levels<end>\n"
+        blob += "<header>Title Levels</header>\n"
         for title_level, count in title_levels.items():
             if count > 0:
                 blob += "%d: %d\n" % (title_level, count)
 
-        blob += "\n\n<header>Professions<end>\n"
+        blob += "\n\n<header>Professions</header>\n"
         for prof, count in profs.items():
             if count > 0:
                 blob += "%s: %d\n" % (prof, count)
 
-        blob += "\n\n<header>Organizations<end>\n"
+        blob += "\n\n<header>Organizations</header>\n"
         for org, count in orgs.items():
             if count > 0:
                 blob += "%s: %d\n" % (org, count)
