@@ -75,10 +75,7 @@ class AOUController:
                                                   "/start https://www.ao-universe.com/main.php?site=knowledge&id=%s" % guide_info.id)
         guide_info["aou"] = self.text.make_chatcmd("AO-Universe.com", "/start https://www.ao-universe.com")
         guide_info["text"] = self.format_bbcode_code(guide_info.text)
-        return ChatBlob(guide_info.name, self.getresp("module/aou", "guide", {**guide_info,
-                                                                              "aou": self.text.make_chatcmd(
-                                                                                  "AO-Universe.com",
-                                                                                  "/start https://www.ao-universe.com")}))
+        return ChatBlob(guide_info.name, self.getresp("module/aou", "guide", {**guide_info}))
 
     @command(command="aou", params=[Const("all", is_optional=True), Any("search")], access_level="all",
              description="Search for an AO-Universe guides")

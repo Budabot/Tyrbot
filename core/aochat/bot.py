@@ -14,7 +14,7 @@ class Bot:
         self.char_id = None
         self.char_name = None
         self.logger = Logger(__name__)
-        self.packet_last_received_timestamp = 0
+        self.packet_last_received_timestamp = time.time()
 
     def connect(self, host, port):
         self.logger.info("Connecting to '%s:%d'" % (host, port))
