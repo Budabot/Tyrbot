@@ -117,7 +117,7 @@ class CharacterInfoController:
 
             msg = self.text.format_char_info(char_info, online_status) + " " + more_info
         elif char.char_id:
-            blob = "<notice>Note: Could not retrieve detailed info for character.<end>\n\n"
+            blob = "<notice>Note: Could not retrieve detailed info for character.</notice>\n\n"
             blob += "Name: <highlight>%s</highlight>\n" % char.name
             blob += "Character ID: <highlight>%d</highlight>\n" % char.char_id
             if online_status is not None:
