@@ -96,7 +96,7 @@ class WebsocketRelayController:
             elif obj.type == "joined":
                 pass
             elif obj.type == "left":
-                for channel in self.channels[obj.client_id]:
+                for channel in self.channels.get(obj.client_id, []):
                     self.online_controller.deregister_online_channel(channel)
                 del self.channels[obj.client_id]
 
