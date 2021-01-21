@@ -28,7 +28,7 @@ from modules.standard.raid.auction_strategy.auction_strategy import AuctionStrat
 #                "auction." % (amount, bid_count_text, (points_available - amount))
 #
 #     def get_item_info(self, item_index):
-#         blob += "<header2>This is a Vickrey auction<end>\n"
+#         blob += "<header2>This is a Vickrey auction</header2>\n"
 #         blob += " - In a Vickrey auction, you only get to bid twice on the same item.\n"
 #         blob += " - You won't be notified of the outcome of your bid, as all bids will be anonymous.\n"
 #         blob += " - The highest anonymous bid will win, and pay the second-highest bid.\n"

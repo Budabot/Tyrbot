@@ -39,7 +39,7 @@ class AdminController:
         current_access_level = ""
         for row in admins:
             if row.access_level != current_access_level:
-                blob += "\n<header2>%s<end>\n" % row.access_level.capitalize()
+                blob += "\n<header2>%s</header2>\n" % row.access_level.capitalize()
                 current_access_level = row.access_level
 
             blob += row.name

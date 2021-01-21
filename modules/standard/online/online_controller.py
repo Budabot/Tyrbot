@@ -179,7 +179,7 @@ class OnlineController:
             if len(online_list) == 0:
                 continue
 
-            blob += "<header2>%s Channel<end>\n" % channel
+            blob += "<header2>%s Channel</header2>\n" % channel
 
             current_main = ""
             for row in online_list:
@@ -228,7 +228,7 @@ class OnlineController:
         for channel, _ in self.channels:
             online_list = self.get_online_alts(channel, profession)
             if len(online_list) > 0:
-                blob += "<header2>%s Channel<end>\n" % channel
+                blob += "<header2>%s Channel</header2>\n" % channel
 
             current_main = ""
             for row in online_list:

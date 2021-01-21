@@ -48,7 +48,7 @@ class PerksController:
         current_perk = ""
         for row in data:
             if row.perk_name != current_perk:
-                blob += "\n<header2>%s %s<end>\n" % (row.perk_name, row.max_perk_level)
+                blob += "\n<header2>%s %s</header2>\n" % (row.perk_name, row.max_perk_level)
                 current_perk = row.perk_name
             blob += "%s <highlight>%d</highlight>\n" % (row.skill, row.buff_amount)
 

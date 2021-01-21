@@ -45,7 +45,7 @@ class BosslootController:
         data = self.db.query("SELECT * FROM boss_loot b LEFT JOIN aodb a ON b.item_name = a.name WHERE b.boss_id = ? ORDER BY b.item_name ASC", [row.id])
 
         blob = "<pagebreak>"
-        blob += "<header2>%s<end>\n" % row.name
+        blob += "<header2>%s</header2>\n" % row.name
         blob += "Location: <highlight>%s</highlight>\n" % row.answer
         blob += "Loot: " + ", ".join(map(lambda x: self.text.make_item(x.lowid, x.highid, x.highql, x.name), data))
 

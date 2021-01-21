@@ -26,7 +26,7 @@ class TimeController:
                 city = result[0]
 
             if current_region != region:
-                blob += "\n<pagebreak><header2>%s<end>\n" % region
+                blob += "\n<pagebreak><header2>%s</header2>\n" % region
                 current_region = region
 
             blob += "%s => %s\n" % (city, dt.astimezone(pytz.timezone(tz)).strftime(self.time_format))

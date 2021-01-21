@@ -156,7 +156,7 @@ class NewsController:
         for item in entries:
             if is_sticky != item.sticky:
                 if not is_sticky:
-                    blob += "<header2>Stickies<end>\n"
+                    blob += "<header2>Stickies</header2>\n"
                 elif is_sticky:
                     blob += "____________________________\n\n"
 

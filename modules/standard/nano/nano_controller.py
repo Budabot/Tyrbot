@@ -46,9 +46,9 @@ class NanoController:
         for row in paged_data:
             if current_nanoline != row.nanoline_id:
                 if row.nanoline_name:
-                    blob += "\n<header2>%s<end> - %s\n" % (row.profession, self.text.make_chatcmd(row.nanoline_name, "/tell <myname> nanolines %d" % row.nanoline_id))
+                    blob += "\n<header2>%s</header2> - %s\n" % (row.profession, self.text.make_chatcmd(row.nanoline_name, "/tell <myname> nanolines %d" % row.nanoline_id))
                 else:
-                    blob += "\n<header2>Unknown/General<end>\n"
+                    blob += "\n<header2>Unknown/General</header2>\n"
                 current_nanoline = row.nanoline_id
 
             blob += "%s [%d] %s\n" % (self.text.make_item(row.lowid, row.lowid, row.lowql, row.name), row.lowql, row.location)

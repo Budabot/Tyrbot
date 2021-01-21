@@ -36,7 +36,7 @@ class CommandListController:
                 if temp_rows:
                     blob += self.display_row_data(temp_rows)
                     temp_rows = []
-                blob += "\n<pagebreak><header2>%s<end>\n" % row.module
+                blob += "\n<pagebreak><header2>%s</header2>\n" % row.module
                 current_module = row.module
                 current_command_key = ""
 

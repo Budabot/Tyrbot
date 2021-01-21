@@ -94,7 +94,7 @@ class AOUController:
                 if include_all_matches or self.check_matches(category + " " + guide["name"] + " " + (guide["description"] or ""), search):
                     # don't show category unless we have at least one guide for it
                     if not found:
-                        blob += "\n<header2>%s<end>\n" % category
+                        blob += "\n<header2>%s</header2>\n" % category
                         found = True
 
                     count += 1

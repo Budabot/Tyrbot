@@ -16,15 +16,15 @@ class PremadeImplantController:
     @command(command="premade", params=[], access_level="all",
              description="Search for implants in the premade implant booths")
     def premade_list_cmd(self, request):
-        blob = "<header2>Professions<end>\n"
+        blob = "<header2>Professions</header2>\n"
         for row in self.db.query("SELECT Name FROM Profession WHERE ID IN (SELECT ProfessionID FROM premade_implant) ORDER BY Name ASC"):
             blob += self.text.make_chatcmd(row.Name, "/tell <myname> premade %s" % row.Name) + "\n"
 
-        blob += "\n<header2>Slots<end>\n"
+        blob += "\n<header2>Slots</header2>\n"
         for row in self.db.query("SELECT * FROM ImplantType ORDER BY ImplantTypeID ASC"):
             blob += self.text.make_chatcmd(row.Name, "/tell <myname> premade %s" % row.ShortName) + "\n"
 
-        blob += "\n<header2>Modifiers<end>\n"
+        blob += "\n<header2>Modifiers</header2>\n"
         sql = "SELECT LongName FROM Cluster WHERE ClusterID IN " \
               "(SELECT ShinyClusterID From premade_implant UNION SELECT BrightClusterID FROM premade_implant UNION SELECT FadedClusterID FROM premade_implant) " \
               "AND ClusterID != 0 " \
@@ -52,7 +52,7 @@ class PremadeImplantController:
             results = self.search_by_modifier(search)
 
         for row in results:
-            blob += "<header2>%s<end> %s <highlight>%s</highlight> %s, %s, %s\n" % (row.profession, row.slot, row.ability, row.shiny, row.bright, row.faded)
+            blob += "<header2>%s</header2> %s <highlight>%s</highlight> %s, %s, %s\n" % (row.profession, row.slot, row.ability, row.shiny, row.bright, row.faded)
 
         return ChatBlob("Premade Implant Search Results (%d)" % len(results), blob)
 

@@ -31,7 +31,7 @@ class NotesController:
             cnt += alt_cnt
 
             if alt_cnt:
-                blob += "\n<header2>%s<end>\n" % alt.name
+                blob += "\n<header2>%s</header2>\n" % alt.name
                 for row in data:
                     blob += "%s %s\n\n" % (row.note, self.text.make_chatcmd("Remove", "/tell <myname> notes remove %d" % row.id))
 

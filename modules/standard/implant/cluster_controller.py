@@ -18,12 +18,12 @@ class ClusterController:
              description="Show a list of implant slots and a list of attributes that can be buffed with an implant cluster")
     def cluster_list_cmd(self, request):
         data = self.db.query("SELECT Name, ShortName FROM ImplantType ORDER BY ImplantTypeID ASC")
-        blob = "<header2>Slots (%d)<end>\n" % len(data)
+        blob = "<header2>Slots (%d)</header2>\n" % len(data)
         for row in data:
             blob += self.text.make_chatcmd(row.Name, "/tell <myname> cluster %s" % row.ShortName) + "\n"
 
         data = self.db.query("SELECT ClusterID, LongName FROM Cluster WHERE ClusterID != 0 ORDER BY LongName ASC")
-        blob += "\n<header2>Attributes (%d)<end>\n" % len(data)
+        blob += "\n<header2>Attributes (%d)</header2>\n" % len(data)
         for row in data:
             blob += self.text.make_chatcmd(row["LongName"], "/tell <myname> cluster %s" % row["LongName"]) + "\n"
 
@@ -63,7 +63,7 @@ class ClusterController:
                                   "WHERE c1.ClusterID = ? "
                                   "ORDER BY c2.ClusterTypeID DESC", [row["ClusterID"]])
 
-            blob += "<pagebreak><header2>%s<end>\n" % row["LongName"]
+            blob += "<pagebreak><header2>%s</header2>\n" % row["LongName"]
             for row2 in data2:
                 blob += "%s: <highlight>%s</highlight><tab>" % (row2["ClusterType"].capitalize(), row2["Slot"])
             blob += "\n\n"
@@ -77,7 +77,7 @@ class ClusterController:
         current_cluster_type = ""
         for row in data:
             if row.cluster_type != current_cluster_type:
-                blob += "\n<header2>%s<end>\n" % row.cluster_type.capitalize()
+                blob += "\n<header2>%s</header2>\n" % row.cluster_type.capitalize()
                 current_cluster_type = row.cluster_type
             blob += self.text.make_chatcmd(row.attribute, "/tell <myname> cluster %s" % row.attribute) + "\n"
         blob += "\n\n"

@@ -55,7 +55,7 @@ class ConfigController:
             module = parts[1]
             if group != current_group:
                 current_group = group
-                blob += "\n<header2>" + current_group + "<end>\n"
+                blob += "\n<header2>" + current_group + "</header2>\n"
 
             blob += self.text.make_chatcmd(module, "/tell <myname> config mod " + row.module) + " "
             if row.count_enabled > 0 and row.count_disabled > 0:
@@ -113,7 +113,7 @@ class ConfigController:
             for row in data:
                 if row.module != current_module:
                     current_module = row.module
-                    blob += "\n<pagebreak><header2>%s<end>\n" % row.module
+                    blob += "\n<pagebreak><header2>%s</header2>\n" % row.module
 
                 setting = self.setting_service.get(row.name)
                 blob += "%s: %s (%s)\n" % (setting.get_description(), setting.get_display_value(), self.text.make_chatcmd("change", "/tell <myname> config setting " + row.name))
@@ -172,7 +172,7 @@ class ConfigController:
     def format_events(self, data, title):
         blob = ""
         if data:
-            blob += f"\n<header2>{title}<end>\n"
+            blob += f"\n<header2>{title}</header2>\n"
             for row in data:
                 event_type_key = self.event_service.get_event_type_key(row.event_type, row.event_sub_type)
                 enabled = self.getresp("module/config", "enabled_high" if row.enabled == 1 else "disabled_high")

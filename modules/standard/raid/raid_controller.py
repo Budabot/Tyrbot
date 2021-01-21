@@ -76,9 +76,9 @@ class RaidController:
             blob += " (%s)" % self.text.make_chatcmd("Join", "/tell <myname> raid join")
         blob += "\n\n"
         if self.raid.raid_orders:
-            blob += "<header2>Orders<end>\n"
+            blob += "<header2>Orders</header2>\n"
             blob += self.raid.raid_orders + "\n\n"
-        blob += "<header2>Raiders<end>\n"
+        blob += "<header2>Raiders</header2>\n"
         for raider in self.raid.raiders:
             if raider.is_active:
                 blob += self.text.format_char_info(raider.get_active_char()) + "\n"
@@ -334,7 +334,7 @@ class RaidController:
             main_info = self.alts_service.get_main(log_entry_spec.raider_id)
             alt_link = "Alt of %s" % main_info.name if main_info.char_id != log_entry_spec.raider_id else "Alts"
             alt_link = self.text.make_chatcmd(alt_link, "/tell <myname> alts %s" % main_info.name)
-            blob += "<header2>Log entry for %s<end>\n" % raider_name
+            blob += "<header2>Log entry for %s</header2>\n" % raider_name
             blob += "Raider: <highlight>%s</highlight> [%s]\n" % (raider_name, alt_link)
             blob += "Left raid: %s\n" % ("n/a"
                                          if log_entry_spec.left_raid is None
@@ -346,7 +346,7 @@ class RaidController:
                                              if log_entry_spec.was_kicked_reason is None
                                              else log_entry_spec.was_kicked_reason)
 
-        blob += "<header2>Participants<end>\n"
+        blob += "<header2>Participants</header2>\n"
         for raider in log_entry:
             raider_name = self.character_service.resolve_char_to_name(raider.raider_id)
             main_info = self.alts_service.get_main(raider.raider_id)
@@ -386,14 +386,14 @@ class RaidController:
                 return raider
 
     def get_raid_join_blob(self, link_txt: str):
-        blob = "<header2>1. Join the raid<end>\n" \
+        blob = "<header2>1. Join the raid</header2>\n" \
                "To join the current raid <highlight>%s</highlight>, send the following tell to <myname>\n" \
                "<tab><tab><a href='chatcmd:///tell <myname> <symbol>raid join'>/tell <myname> raid " \
-               "join</a>\n\n<header2>2. Enable LFT<end>\nWhen you have joined the raid, go lft " \
+               "join</a>\n\n<header2>2. Enable LFT</header2>\nWhen you have joined the raid, go lft " \
                "with \"<myname>\" as description\n<tab><tab><a href='chatcmd:///lft <myname>'>/lft <myname></a>\n\n" \
-               "<header2>3. Announce<end>\nYou could announce to the raid leader, that you have enabled " \
+               "<header2>3. Announce</header2>\nYou could announce to the raid leader, that you have enabled " \
                "LFT\n<tab><tab><a href='chatcmd:///group <myname> I am on lft'>Announce</a> that you have enabled " \
-               "lft\n\n<header2>4. Rally with yer mateys<end>\nFinally, move towards the starting location of " \
+               "lft\n\n<header2>4. Rally with yer mateys</header2>\nFinally, move towards the starting location of " \
                "the raid.\n<highlight>Ask for help</highlight> if you're in doubt of where to go." % self.raid.raid_name
 
         return self.text.paginate_single(ChatBlob(link_txt, blob))

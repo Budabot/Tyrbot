@@ -77,7 +77,7 @@ class TowerAttackController:
                 current_battle_id = row.battle_id
                 blob += self.format_battle_info(row, t)
                 blob += self.text.make_chatcmd("More Info", "/tell <myname> attacks battle %d" % row.battle_id) + "\n"
-                blob += "<header2>Attackers:<end>\n"
+                blob += "<header2>Attackers:</header2>\n"
 
             blob += "<tab>" + self.format_attacker(row) + "\n"
 
@@ -99,7 +99,7 @@ class TowerAttackController:
         blob = self.check_for_all_towers_channel()
         blob += self.format_battle_info(battle, t)
         blob += "Duration: <highlight>%s</highlight>\n\n" % self.util.time_to_readable(battle.last_updated - first_activity)
-        blob += "<header2>Attackers:<end>\n"
+        blob += "<header2>Attackers:</header2>\n"
 
         for row in attackers:
             blob += "<tab>" + self.format_attacker(row)

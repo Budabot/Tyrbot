@@ -114,7 +114,7 @@ class WhatBuffsController:
             blob = ""
             for row in data:
                 if current_item_type != row.item_type:
-                    blob += "\n\n<header2>%s<end>\n" % row.item_type
+                    blob += "\n\n<header2>%s</header2>\n" % row.item_type
                     current_item_type = row.item_type
 
                 blob += "%s (%d)\n" % (self.text.make_item(row.lowid, row.highid, row.highql, row.name), row.amount)

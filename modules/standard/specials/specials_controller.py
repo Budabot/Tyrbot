@@ -112,21 +112,21 @@ class SpecialsController:
 
         blob = "Dimach Skill: <highlight>%d</highlight>\n\n" % dimach_skill
 
-        blob += "<header2>Martial Artist<end>\n"
+        blob += "<header2>Martial Artist</header2>\n"
         blob += "Damage: <highlight>%d</highlight>\n" % dimach_info.ma_dmg
         blob += "Recharge: <highlight>%s</highlight>\n\n" % self.util.time_to_readable(dimach_info.ma_recharge)
 
-        blob += "<header2>Keeper<end>\n"
+        blob += "<header2>Keeper</header2>\n"
         blob += "Self Heal: <highlight>%d</highlight>\n" % dimach_info.keeper_heal
         blob += "Recharge: <highlight>5 mins</highlight> (constant)\n\n"
 
-        blob += "<header2>Shade<end>\n"
+        blob += "<header2>Shade</header2>\n"
         blob += "Damage: <highlight>%d</highlight>\n" % dimach_info.shade_dmg
         blob += "Self Heal: <highlight>%d%%</highlight> * <highlight>%d</highlight> = <highlight>%d</highlight>\n" % \
                 (dimach_info.shade_heal_percentage, dimach_info.shade_dmg, round(dimach_info.shade_heal_percentage * dimach_info.shade_dmg / 100))
         blob += "Recharge: <highlight>%s</highlight>\n\n" % self.util.time_to_readable(dimach_info.shade_recharge)
 
-        blob += "<header2>All other professions<end>\n"
+        blob += "<header2>All other professions</header2>\n"
         blob += "Damage: <highlight>%d</highlight>\n" % dimach_info.general_dmg
         blob += "Recharge: <highlight>30 mins</highlight> (constant)\n\n\n"
 
@@ -191,15 +191,15 @@ class SpecialsController:
 
         blob = "Martial Arts Skill: <highlight>%d</highlight>\n\n" % ma_skill
 
-        blob += "<header2>Martial Artist<end>\n"
+        blob += "<header2>Martial Artist</header2>\n"
         blob += "Speed: <highlight>%.2f / %.2f secs</highlight>\n" % (ma_info.ma_speed, ma_info.ma_speed)
         blob += "Damage: <highlight>%d - %d (%d)</highlight>\n\n" % (ma_info.ma_min_dmg, ma_info.ma_max_dmg, ma_info.ma_crit_dmg)
 
-        blob += "<header2>Shade<end>\n"
+        blob += "<header2>Shade</header2>\n"
         blob += "Speed: <highlight>%.2f / %.2f secs</highlight>\n" % (ma_info.shade_speed, ma_info.shade_speed)
         blob += "Damage: <highlight>%d - %d (%d)</highlight>\n\n" % (ma_info.shade_min_dmg, ma_info.shade_max_dmg, ma_info.shade_crit_dmg)
 
-        blob += "<header2>All other professions<end>\n"
+        blob += "<header2>All other professions</header2>\n"
         blob += "Speed: <highlight>%.2f / %.2f secs</highlight>\n" % (ma_info.gen_speed, ma_info.gen_speed)
         blob += "Damage: <highlight>%d - %d (%d)</highlight>\n\n" % (ma_info.gen_min_dmg, ma_info.gen_max_dmg, ma_info.gen_crit_dmg)
 
@@ -285,7 +285,7 @@ class SpecialsController:
 
         blob += self.get_inits_display(weapon_attack, weapon_recharge) + "\n"
 
-        blob += "<header2>Specials<end>\n"
+        blob += "<header2>Specials</header2>\n"
 
         if high_attributes.aimed_shot:
             as_info = self.get_aimed_shot_info(weapon_attack, weapon_recharge, 1)

@@ -90,7 +90,7 @@ class AunoController:
             ql = item.highql
             blob += "Item: %s\n" % self.text.make_item(int(low_id), int(high_id), int(ql), name)
         blob += "Item links: [%s] [%s]\n\n" % (link_auno, link_aoitems)
-        blob += "<header2>Comments<end>\n"
+        blob += "<header2>Comments</header2>\n"
 
         for comment in comments:
             blob += comment.content + "\n"

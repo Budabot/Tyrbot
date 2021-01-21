@@ -282,7 +282,7 @@ class PointsController:
         blob += "Points: %d\n" % points.points
         blob += "Status: %s\n\n" % ("<green>Open<end>" if points.disabled == 0 else "<red>Disabled<end>")
 
-        blob += "<header2>Account log<end>\n"
+        blob += "<header2>Account log</header2>\n"
         if points_log is None:
             blob += "No entries in log."
         else:

@@ -110,7 +110,7 @@ class CharacterInfoController:
             blob += self.get_name_history(char.char_id)
 
             alts = self.alts_controller.alts_service.get_alts(char.char_id)
-            blob += "\n<header2>Alts (%d)<end>\n" % len(alts)
+            blob += "\n<header2>Alts (%d)</header2>\n" % len(alts)
             blob += self.alts_controller.format_alt_list(alts)
 
             more_info = self.text.paginate_single(ChatBlob("More Info", blob))
@@ -130,7 +130,7 @@ class CharacterInfoController:
         reply(msg)
 
     def get_name_history(self, char_id):
-        blob = "\n<header2>Name History<end>\n"
+        blob = "\n<header2>Name History</header2>\n"
         data = self.db.query("SELECT name, created_at FROM name_history WHERE char_id = ? ORDER BY created_at DESC", [char_id])
         for row in data:
             blob += "%s [%s]\n" % (row.name, self.util.format_date(row.created_at))

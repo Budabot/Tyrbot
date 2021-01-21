@@ -91,7 +91,7 @@ class ConfigCommandController:
                 cmd_config = cmd_configs[0]
                 status = self.getresp("module/config", "enabled_high" if cmd_config.enabled == 1 else "disabled_high")
 
-                blob += "<header2>%s<end> %s (%s: %s)\n" % (channel_label, status, self.getresp("module/config", "access_level"), cmd_config.access_level.capitalize())
+                blob += "<header2>%s</header2> %s (%s: %s)\n" % (channel_label, status, self.getresp("module/config", "access_level"), cmd_config.access_level.capitalize())
 
                 # show status config
                 blob += "Status:"

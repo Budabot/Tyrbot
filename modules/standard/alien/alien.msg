@@ -42,13 +42,13 @@
   "ai_armor_ts": {
     "en_US": [
       "Note: All tradeskill processes are based on the lowest QL items usable.\n\n",
-      "<header2>You need the following items to build {armor_type} Armor:<end>\n",
+      "<header2>You need the following items to build {armor_type} Armor:</header2>\n",
       "- {text_viralbots} (QL{vb_ql})\n",
       "- {text_step1_tool}\n",
       "- {text_solid_clump} (QL{ql})\n",
       "- {text_vb_bot} (QL{vb_ql})\n\n",
 
-      "<header2>Step 1<end>\n",
+      "<header2>Step 1</header2>\n",
       "<tab>{icon_viralbots}<tab>+<tab>{icon_step1_tool}<tab>=<tab>{icon_memory_wiped_viralbots}\n\n",
       "<tab>(QL{vb_ql})<tab><tab><tab><tab><tab><tab><tab>(QL{vb_ql})\n\n",
       "<tab><tab>{text_viralbots} (QL{vb_ql}) (<highlight>Drops from Alien City Generals</highlight>)\n",
@@ -58,7 +58,7 @@
       "- {step1_CL} Computer Literacy\n",
       "- {step1_NP} Nano Programming\n\n",
 
-      "<header2>Step 2<end>\n",
+      "<header2>Step 2</header2>\n",
       "<tab>{icon_NPI}<tab>+<tab>{icon_memory_wiped_viralbots}<tab>=<tab>{icon_formatted_viralbots}\n\n",
       "<tab><tab><tab><tab> <tab>(QL{vb_ql})<tab><tab><tab>(QL{vb_ql})\n\n",
       "<tab><tab>{text_NPI} (<highlight>Can be bought in General Shops</highlight>)\n",
@@ -68,7 +68,7 @@
       "- {step2_CL} Computer Literacy\n",
       "- {step2_NP} Nano Programming\n\n",
 
-      "<header2>Step 3<end>\n",
+      "<header2>Step 3</header2>\n",
       "<tab>{icon_structural_analyser}<tab>+<tab>{icon_solid_clump}<tab>=<tab>{icon_mutated_material}<tab><highlight>OR</highlight><tab>{icon_pristine_material} \n\n",
       "<tab><tab> <tab><tab><tab>(QL{ql})<tab><tab><tab>(QL{ql})<tab><tab>  (QL{ql})\n\n",
       "<tab><tab>{text_structural_analyser}\n",
@@ -77,7 +77,7 @@
       "<highlight>Required Skills:</highlight>\n",
       "- {step3_chem} Chemistry (Both require the same amount)\n\n",
 
-      "<header2>Step 4<end>\n",
+      "<header2>Step 4</header2>\n",
       "<tab>{icon_mutated_material}<tab><highlight>OR</highlight><tab>{icon_pristine_material}<tab>+<tab>{icon_bazzit_generic_nano_solvent}<tab>=<tab>{icon_dna_soup} \n\n",
       "<tab>(QL{ql})<tab>  <tab> (QL{ql})<tab> <tab><tab><tab><tab><tab>  (QL{ql})\n\n",
       "<tab><tab>{text_mutated_material} (QL{ql})<tab><br><tab><tab><highlight>OR</highlight><tab>{text_pristine_material} (QL{ql})\n",
@@ -87,7 +87,7 @@
       "- {chem_prist} Chemistry(for Pristine)\n",
       "- {chem_mutat} Chemistry(for Mutated)\n\n",
 
-      "<header2>Step 5<end>\n",
+      "<header2>Step 5</header2>\n",
       "<tab>{icon_dna_soup}<tab>+<tab>{icon_human_dna}<tab>=<tab>{icon_dna_cocktail} \n\n",
       "<tab>(QL{ql})<tab> <tab><tab><tab><tab><tab><tab>(QL{ql})\n\n",
       "<tab><tab>{text_dna_soup} (QL{ql})\n",
@@ -96,7 +96,7 @@
       "<highlight>Required Skills:</highlight>\n",
       "- {pharma} Pharma Tech\n\n",
 
-      "<header2>Step 6<end>\n",
+      "<header2>Step 6</header2>\n",
       "<tab>{icon_formatted_viralbots}<tab>+<tab>{icon_dna_cocktail}<tab>=<tab>{icon_formatted_viralbot_solution} \n\n",
       "<tab>(QL{vb_ql})<tab> <tab>(QL{ql})<tab> <tab>(QL{ql})\n\n",
       "<tab><tab>{text_formatted_viralbots} (QL{vb_ql})\n",
@@ -105,7 +105,7 @@
       "<highlight>Required Skills:</highlight>\n",
       "- {pharma} Pharma Tech\n\n",
 
-      "<header2>Step 7<end>\n",
+      "<header2>Step 7</header2>\n",
       "<tab>{icon_formatted_viralbot_solution}<tab>+<tab>{icon_basic_fashion_vest}<tab>=<tab>{icon_formatted_viralbot_vest} \n\n",
       "<tab>(QL{ql})<tab><tab><tab><tab><tab><tab><tab>(QL{ql})\n\n",
       "<tab><tab>{text_formatted_viralbot_solution} (QL{ql})\n",
@@ -114,7 +114,7 @@
       "<highlight>Required Skills:</highlight>\n",
       "- {pharma} Pharma Tech\n\n",
 
-      "<header2>Step 8<end>\n",
+      "<header2>Step 8</header2>\n",
       "<tab>{icon_vb_bot}<tab>+<tab>{icon_formatted_viralbot_vest}<tab>=<tab>{icon_armor}\n",
       "<tab>(QL{vb_ql})<tab> <tab>(QL{ql})<tab> <tab>(QL{ql})\n\n",
       "<tab><tab>{text_vb_bot} (QL{vb_ql}) (<highlight>Rare Drop off Alien City Generals</highlight>)\n",
@@ -125,13 +125,13 @@
     ],
     "de_DE": [
       "Hinweis: Bei Allen Tradeskill Vorgängen ist jeweils das minimale nötige QL angegeben, welches für das gewünschte Ergebnis notwendig ist.\n\n",
-      "<header2>Zum bauen der {armor_type} Armor werden folgende Items benötigt:<end>\n",
+      "<header2>Zum bauen der {armor_type} Armor werden folgende Items benötigt:</header2>\n",
       "- {text_viralbots} (QL{vb_ql})\n",
       "- {text_step1_tool}\n",
       "- {text_solid_clump} (QL{ql})\n",
       "- {text_vb_bot} (QL{vb_ql})\n\n",
 
-      "<header2>Teil 1<end>\n",
+      "<header2>Teil 1</header2>\n",
       "<tab>{icon_viralbots}<tab>+<tab>{icon_step1_tool}<tab>=<tab>{icon_memory_wiped_viralbots}\n\n",
       "<tab>(QL{vb_ql})<tab><tab><tab><tab><tab><tab><tab>(QL{vb_ql})\n\n",
       "<tab><tab>{text_viralbots} (QL{vb_ql}) (<highlight>Droppt von Alien City Generals</highlight>)\n",
@@ -141,7 +141,7 @@
       "- {step1_CL} Computer Literacy\n",
       "- {step1_NP} Nano Programming\n\n",
 
-      "<header2>Teil 2<end>\n",
+      "<header2>Teil 2</header2>\n",
       "<tab>{icon_NPI}<tab>+<tab>{icon_memory_wiped_viralbots}<tab>=<tab>{icon_formatted_viralbots}\n\n",
       "<tab><tab><tab><tab> <tab>(QL{vb_ql})<tab><tab><tab>(QL{vb_ql})\n\n",
       "<tab><tab>{text_NPI} (<highlight>Kann in General Shops gekauft werden</highlight>)\n",
@@ -151,7 +151,7 @@
       "- {step2_CL} Computer Literacy\n",
       "- {step2_NP} Nano Programming\n\n",
 
-      "<header2>Teil 3<end>\n",
+      "<header2>Teil 3</header2>\n",
       "<tab>{icon_structural_analyser}<tab>+<tab>{icon_solid_clump}<tab>=<tab>{icon_mutated_material}<tab><highlight>ODER</highlight><tab>{icon_pristine_material} \n\n",
       "<tab><tab> <tab><tab><tab>(QL{ql})<tab><tab><tab>(QL{ql})<tab><tab>  (QL{ql})\n\n",
       "<tab><tab>{text_structural_analyser}\n",
@@ -160,7 +160,7 @@
       "<highlight>Notwendige Skills:</highlight>\n",
       "- {step3_chem} Chemistry (Pristine/Mutated haben die gleichen Skill Anforderungen)\n\n",
 
-      "<header2>Teil 4<end>\n",
+      "<header2>Teil 4</header2>\n",
       "<tab>{icon_mutated_material}<tab><highlight>ODER</highlight><tab>{icon_pristine_material}<tab>+<tab>{icon_bazzit_generic_nano_solvent}<tab>=<tab>{icon_dna_soup} \n\n",
       "<tab>(QL{ql})<tab><tab><tab> (QL{ql})<tab> <tab><tab><tab><tab><tab>  (QL{ql})\n\n",
       "<tab><tab>{text_mutated_material} (QL{ql})<tab><br><tab><tab><highlight>ODER</highlight><tab>{text_pristine_material} (QL{ql})\n",
@@ -170,7 +170,7 @@
       "- {chem_prist} Chemistry(mit Pristine)\n",
       "- {chem_mutat} Chemistry(mit Mutated)\n\n",
 
-      "<header2>Teil 5<end>\n",
+      "<header2>Teil 5</header2>\n",
       "<tab>{icon_dna_soup}<tab>+<tab>{icon_human_dna}<tab>=<tab>{icon_dna_cocktail} \n\n",
       "<tab>(QL{ql})<tab> <tab><tab><tab><tab><tab><tab>(QL{ql})\n\n",
       "<tab><tab>{text_dna_soup} (QL{ql})\n",
@@ -179,7 +179,7 @@
       "<highlight>Notwendige Skills:</highlight>\n",
       "- {pharma} Pharma Tech\n\n",
 
-      "<header2>Teil 6<end>\n",
+      "<header2>Teil 6</header2>\n",
       "<tab>{icon_formatted_viralbots}<tab>+<tab>{icon_dna_cocktail}<tab>=<tab>{icon_formatted_viralbot_solution} \n\n",
       "<tab>(QL{vb_ql})<tab> <tab>(QL{ql})<tab> <tab>(QL{ql})\n\n",
       "<tab><tab>{text_formatted_viralbots} (QL{vb_ql})\n",
@@ -188,7 +188,7 @@
       "<highlight>Notwendige Skills:</highlight>\n",
       "- {pharma} Pharma Tech\n\n",
 
-      "<header2>Teil 7<end>\n",
+      "<header2>Teil 7</header2>\n",
       "<tab>{icon_formatted_viralbot_solution}<tab>+<tab>{icon_basic_fashion_vest}<tab>=<tab>{icon_formatted_viralbot_vest} \n\n",
       "<tab>(QL{ql})<tab><tab><tab><tab><tab><tab><tab>(QL{ql})\n\n",
       "<tab><tab>{text_formatted_viralbot_solution} (QL{ql})\n",
@@ -197,7 +197,7 @@
       "<highlight>Notwendige Skills:</highlight>\n",
       "- {pharma} Pharma Tech\n\n",
 
-      "<header2>Teil 8<end>\n",
+      "<header2>Teil 8</header2>\n",
       "<tab>{icon_vb_bot}<tab>+<tab>{icon_formatted_viralbot_vest}<tab>=<tab>{icon_armor}\n",
       "<tab>(QL{vb_ql})<tab> <tab>(QL{ql})<tab> <tab>(QL{ql})\n\n",
       "<tab><tab>{text_vb_bot} (QL{vb_ql}) (<highlight>Seltener drop von Alien City Generals</highlight>)\n",
@@ -214,14 +214,14 @@
   },
   "ai_armor_combined": {
     "en_US": [
-      "<header2>Tradeskill Process<end>\n\n",
+      "<header2>Tradeskill Process</header2>\n\n",
       "<tab>{icon_source}<tab>+<tab>{icon_target}<tab>=<tab>{icon_result}\n",
       "<tab>(QL{s_ql})<tab> <tab>(QL{t_ql})<tab> <tab>(QL{t_ql})\n\n",
       "<tab><tab>{text_source} (QL{s_ql}) - ({ts_process_source})\n",
       " + <tab>{text_target} (QL{t_ql}) - ({ts_process_target})\n",
       " = <tab>{text_result} (QL{t_ql})\n"],
     "de_DE": [
-      "<header2>Bauanleitung<end>\n\n",
+      "<header2>Bauanleitung</header2>\n\n",
       "<tab>{icon_source}<tab>+<tab>{icon_target}<tab>=<tab>{icon_result}\n",
       "<tab>(QL{s_ql})<tab> <tab>(QL{t_ql})<tab> <tab>(QL{t_ql})\n\n",
       "<tab><tab>{text_source} (QL{s_ql}) - ({ts_process_source})\n",
@@ -239,26 +239,26 @@
 
   "bioinfo_list": {
     "en_US": [
-      "\n<header2>OFAB Armor Types<end>\n",
+      "\n<header2>OFAB Armor Types</header2>\n",
       "{ofab_armor}",
-      "\n<header2>OFAB Weapon Types<end>\n",
+      "\n<header2>OFAB Weapon Types</header2>\n",
       "{ofab_weap}",
-      "\n<header2>AI Armor Types<end>\n",
+      "\n<header2>AI Armor Types</header2>\n",
       "{ai_armor}",
-      "\n<header2>AI Weapon Typen<end>\n",
+      "\n<header2>AI Weapon Typen</header2>\n",
       "{ai_weap}",
-      "\n<header2>Serum Typen<end>\n",
+      "\n<header2>Serum Typen</header2>\n",
       "{serum}"],
     "de_DE": [
-      "\n<header2>OFAB Rüstung - Typen<end>\n",
+      "\n<header2>OFAB Rüstung - Typen</header2>\n",
       "{ofab_armor}",
-      "\n<header2>OFAB Waffen - Typen<end>\n",
+      "\n<header2>OFAB Waffen - Typen</header2>\n",
       "{ofab_weap}",
-      "\n<header2>Alien Rüstung - Typen<end>\n",
+      "\n<header2>Alien Rüstung - Typen</header2>\n",
       "{ai_armor}",
-      "\n<header2>Alien Waffen - Typen<end>\n",
+      "\n<header2>Alien Waffen - Typen</header2>\n",
       "{ai_weap}",
-      "\n<header2>Serum - Typen<end>\n",
+      "\n<header2>Serum - Typen</header2>\n",
       "{serum}"]
   },
   "bioinfo_list_title": {

@@ -96,12 +96,12 @@
     "de_DE": "Der Befehl <highlight>{cmd}</highlight> ist mir unbekannt."
   },
   "settings": {
-    "en_US": "<header2>Settings<end>\n",
-    "de_DE": "<header2>Einstellungen<end>\n"
+    "en_US": "<header2>Settings</header2>\n",
+    "de_DE": "<header2>Einstellungen</header2>\n"
   },
   "commands": {
-    "en_US": "\n<header2>Commands<end>\n",
-    "de_DE": "\n<header2>Befehle<end>\n"
+    "en_US": "\n<header2>Commands</header2>\n",
+    "de_DE": "\n<header2>Befehle</header2>\n"
   },
   "events": {
     "en_US": "Events",

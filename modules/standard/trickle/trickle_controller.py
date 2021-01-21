@@ -165,7 +165,7 @@ class TrickleController:
         group_name = ""
         for row in trickle_amounts:
             if row.group_name != group_name:
-                blob += "\n<header2>%s<end>\n" % row.group_name
+                blob += "\n<header2>%s</header2>\n" % row.group_name
                 group_name = row.group_name
 
             blob += "%s <highlight>%g</highlight>\n" % (row.name, row.amount / 4)

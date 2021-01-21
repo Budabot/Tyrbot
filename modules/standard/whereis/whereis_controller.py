@@ -22,7 +22,7 @@ class WhereisController:
         if count > 0:
             blob = ""
             for row in data:
-                blob += "<pagebreak><header2>" + row.name + "<end>\n" + row.answer
+                blob += "<pagebreak><header2>" + row.name + "</header2>\n" + row.answer
                 if row.playfield_id and row.xcoord and row.ycoord:
                     blob += " " + self.text.make_chatcmd("waypoint: %sx%s %s" % (row.xcoord, row.ycoord, row.short_name),
                                                          "/waypoint %s %s %d" % (row.xcoord, row.ycoord, row.playfield_id))

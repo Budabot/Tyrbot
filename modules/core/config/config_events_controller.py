@@ -83,7 +83,7 @@ class ConfigEventsController:
         current_module = ""
         for row in data:
             if current_module != row.module:
-                blob += "\n<pagebreak><header2>%s<end>\n" % row.module
+                blob += "\n<pagebreak><header2>%s</header2>\n" % row.module
                 current_module = row.module
 
             event_type_key = self.format_event_type(row)

@@ -383,7 +383,7 @@ class LootListsController:
             blob += "%s items to loot list\n\n" % self.text.make_chatcmd(
                 "Add all", "/tell <myname> loot addraid %s %s" % (raid, category))
 
-        blob += "<header2>%s<end>\n" % category if category is not None else ""
+        blob += "<header2>%s</header2>\n" % category if category is not None else ""
         for item in items:
 
             if item.multiloot > 1:

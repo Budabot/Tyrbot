@@ -75,7 +75,7 @@ class WantsController:
         for want in wants:
             alts = self.alts_service.get_alts(want.char_id)
             main_name = alts[0].name
-            blob += "<header2>%s<end>\n%s\n\n" % (main_name, want.want)
+            blob += "<header2>%s</header2>\n%s\n\n" % (main_name, want.want)
 
         return ChatBlob("Search Results (%d)" % len(wants), blob)
 
@@ -94,7 +94,7 @@ class WantsController:
         current_main_name = ""
         for want in data:
             if want.name != current_main_name:
-                blob += "\n<header2>%s<end>\n" % want.name
+                blob += "\n<header2>%s</header2>\n" % want.name
                 current_main_name = want.name
 
             blob += want.want + "\n"

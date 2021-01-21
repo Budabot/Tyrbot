@@ -54,7 +54,7 @@ class HelpController:
             module = parts[1]
             if group != current_group:
                 current_group = group
-                blob += "\n\n<header2>" + current_group + "<end>"
+                blob += "\n\n<header2>" + current_group + "</header2>"
 
             if module != current_module:
                 current_module = module

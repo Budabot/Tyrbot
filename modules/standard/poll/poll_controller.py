@@ -35,10 +35,10 @@ class PollController:
         for poll in polls:
             if poll.finished_at > t and state != "running":
                 state = "running"
-                blob += "\n<header2>Running<end>\n"
+                blob += "\n<header2>Running</header2>\n"
             elif poll.finished_at <= t and state != "finished":
                 state = "finished"
-                blob += "\n<header2>Finished<end>\n"
+                blob += "\n<header2>Finished</header2>\n"
 
             if state == "running":
                 time_string = self.util.time_to_readable(poll.finished_at - t) + " left"
@@ -155,7 +155,7 @@ class PollController:
         blob += "Created: <highlight>%s</highlight>\n" % self.util.format_datetime(poll.created_at)
         blob += "Finished: <highlight>%s</highlight>\n" % self.util.format_datetime(poll.finished_at)
 
-        blob += "\n<header2>Choices<end>\n"
+        blob += "\n<header2>Choices</header2>\n"
         idx = 1
         for choice in self.get_choices(poll.id):
             blob += "%d. %s (%d)\n" % (idx, self.text.make_chatcmd(choice.choice, "/tell <myname> poll %d vote %d" % (poll.id, choice.id)), choice.cnt)

@@ -1,40 +1,40 @@
 {
   "blob": {
     "en_US": [
-      "<header2>Info<end>\n",
+      "<header2>Info</header2>\n",
       "Status: {connected}\n",
       "Channels available: <highlight>{count}</highlight>\n\n",
-      "<header2>Servers<end>\n",
+      "<header2>Servers</header2>\n",
       "{servers}\n",
-      "<header2>Channels<end>\n",
+      "<header2>Channels</header2>\n",
       "{subs}",
       "\n\nDiscord Module written by <highlight>Vladimirovna</highlight>\n"
     ],
     "de_DE": [
-      "<header2>Informationen<end>\n",
+      "<header2>Informationen</header2>\n",
       "Status: {connected}\n",
       "Verfügbare Channel: <highlight>{count}</highlight>\n\n",
-      "<header2>Server<end>\n",
+      "<header2>Server</header2>\n",
       "{servers}\n",
-      "<header2>Channel<end>\n",
+      "<header2>Channel</header2>\n",
       "{subs}",
       "\n\nDas Discord Modul wurde von <highlight>Vladimirovna</highlight> geschrieben\n"
     ]
   },
   "blob_relay": {
     "en_US": [
-      "<header2>Info<end>\n",
+      "<header2>Info</header2>\n",
       "Status: {connected} [{switch_connection}]\n",
       "Channels available: <highlight>{count}</highlight>\n\n",
-      "<header2>Subscription setup<end>\n",
+      "<header2>Subscription setup</header2>\n",
       "{subs}",
       "\n\nDiscord Module written by <highlight>Vladimirovna</highlight>\n"
     ],
     "de_DE": [
-      "<header2>Informationen<end>\n",
+      "<header2>Informationen</header2>\n",
       "Status: {connected} [{switch_connection}]\n",
       "Verfügbare Channel: <highlight>{count}</highlight>\n\n",
-      "<header2>Abonnierte Channel<end>\n",
+      "<header2>Abonnierte Channel</header2>\n",
       "{subs}",
       "\n\nDas Discord Modul wurde von <highlight>Vladimirovna</highlight> geschrieben\n"
     ]
@@ -142,11 +142,11 @@
   },
   "blob_invites": {
     "en_US": [
-      "<header2>Available invites<end>\n",
+      "<header2>Available invites</header2>\n",
       "{invites}\n"
     ],
     "de_DE": [
-      "<header2> Verfügbare Einladungen<end>\n",
+      "<header2> Verfügbare Einladungen</header2>\n",
       "{invites}\n"
     ]
   },
