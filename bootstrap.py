@@ -42,8 +42,9 @@ try:
         logger.error("Python 3.6 is required (3.5 will not work)")
         exit(0)
 
-    if sys.version_info >= (3, 7):
-        logger.warning("Python 3.7 is not yet supported; if you run into issues, considering downgrading to Python 3.6")
+    if (3, 8) <= sys.version_info < (3, 9):
+        logger.warning("Python 3.8 has known issues with Tyrbot. If you have issues with the discord module or the websocket relay, "
+                       "consider downgrading to Python 3.6 or upgrading to Python 3.9")
 
     # load template config file as a base set of defaults
     with open(template_config_file, "r") as cfg:
