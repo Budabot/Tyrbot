@@ -24,7 +24,7 @@ Psychic  -> tick delay
 
 by Imoutochan (RK1)
 
-<header2>Nanopoints by Breed<end>
+<header2> ::: Nanopoints by Breed :::<end>
 
 Atrox gets 2 nano for each point in nanopool
 Opifex gets 3 nano

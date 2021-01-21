@@ -37,7 +37,8 @@ class MessageHubService:
 
         for source in default_sources:
             if source not in self.sources:
-                raise Exception("Could not subscribe destination '%s' to source '%s' because source does not exist" % (destination, source))
+                self.logger.warning("Could not subscribe destination '%s' to source '%s' because source does not exist" % (destination, source))
+                # raise Exception("Could not subscribe destination '%s' to source '%s' because source does not exist" % (destination, source))
 
         self.hub[destination] = (DictObject({"name": destination,
                                              "callback": callback,

@@ -20,9 +20,9 @@ class AlienArmorController:
 
     def start(self):
         self.init_static_items()
-        self.ts.register_translation("module/alien", self.load_alien_channel_msg)
+        self.ts.register_translation("module/alien", self.load_alien_msg)
 
-    def load_alien_channel_msg(self):
+    def load_alien_msg(self):
         with open("modules/standard/alien/alien.msg", mode="r", encoding="utf-8") as f:
             return hjson.load(f)
 

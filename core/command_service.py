@@ -8,7 +8,6 @@ from core.sender_obj import SenderObj
 from core.setting_service import SettingService
 from core.registry import Registry
 from core.logger import Logger
-from core.tyrbot import Tyrbot
 from core.chat_blob import ChatBlob
 from core.functions import flatmap, get_attrs
 import collections
@@ -43,7 +42,7 @@ class CommandService:
         self.db = registry.get_instance("db")
         self.util = registry.get_instance("util")
         self.access_service: AccessService = registry.get_instance("access_service")
-        self.bot: Tyrbot = registry.get_instance("bot")
+        self.bot = registry.get_instance("bot")
         self.character_service: CharacterService = registry.get_instance("character_service")
         self.setting_service: SettingService = registry.get_instance("setting_service")
         self.command_alias_service = registry.get_instance("command_alias_service")
