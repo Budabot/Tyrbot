@@ -26,9 +26,9 @@ class EventService:
         for _, inst in Registry.get_all_instances().items():
             for name, method in get_attrs(inst).items():
                 if hasattr(method, "event"):
-                    event_type, description, is_hidden, is_enabled = getattr(method, "event")
+                    attrs = getattr(method, "event")
                     handler = getattr(inst, name)
-                    self.register(handler, event_type, description, inst.module_name, is_hidden, is_enabled)
+                    self.register(handler, attrs.event_type, attrs.description, inst.module_name, attrs.is_hidden, attrs.is_enabled)
 
     def register_event_type(self, event_type):
         """Call during pre_start"""
@@ -165,3 +165,14 @@ class EventService:
             self.db_cache[event_base_type + ":" + event_sub_type] = result
 
             return result
+
+    def run_timer_events_at_startup(self):
+        t = int(time.time())
+        data = self.db.query("SELECT e.event_type, e.event_sub_type, e.handler, t.next_run FROM timer_event t "
+                             "JOIN event_config e ON t.event_type = e.event_type AND t.handler = e.handler "
+                             "WHERE e.event_type = ? AND e.enabled = 1", ["timer"])
+        for row in data:
+            handler = self.handlers[row.handler]
+            attrs = getattr(handler, "event")
+            if attrs.get("run_at_startup", False):
+                self.execute_timed_event(row, t)

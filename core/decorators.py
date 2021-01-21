@@ -1,3 +1,4 @@
+from core.dict_object import DictObject
 from core.registry import Registry
 
 
@@ -25,15 +26,22 @@ def command(handler, command, params, access_level, description, sub_command=Non
 
 @parameterized
 def event(handler, event_type, description, is_hidden=False, is_enabled=True):
-    handler.event = [event_type, description, is_hidden, is_enabled]
+    handler.event = DictObject({"event_type": event_type,
+                                "description": description,
+                                "is_hidden": is_hidden,
+                                "is_enabled": is_enabled})
     return handler
 
 
 @parameterized
-def timerevent(handler, budatime, description, is_hidden=False, is_enabled=True):
+def timerevent(handler, budatime, description, is_hidden=False, is_enabled=True, run_at_startup=False):
     util = Registry.get_instance("util")
     t = util.parse_time(budatime)
-    handler.event = ["timer:" + str(t), description, is_hidden, is_enabled]
+    handler.event = DictObject({"event_type": "timer:" + str(t),
+                                "description": description,
+                                "is_hidden": is_hidden,
+                                "is_enabled": is_enabled,
+                                "run_at_startup": run_at_startup})
     return handler
 
 

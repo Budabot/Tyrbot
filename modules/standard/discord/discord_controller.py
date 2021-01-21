@@ -212,7 +212,7 @@ class DiscordController:
 
             self.event_service.fire_event(dtype, message)
 
-    @timerevent(budatime="1m", description="Ensure the bot is connected to Discord", is_enabled=False, is_hidden=True)
+    @timerevent(budatime="1m", description="Ensure the bot is connected to Discord", is_enabled=False, is_hidden=True, run_at_startup=True)
     def handle_connect_event(self, event_type, event_data):
         if not self.is_connected():
             self.connect_discord_client()
