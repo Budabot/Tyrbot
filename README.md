@@ -56,18 +56,4 @@ See the Wiki page: https://github.com/Budabot/Tyrbot/wiki/Writing-Custom-Modules
 
 ## Running in Docker
 
-Example:
-```bash
-docker run -d --restart=always -v /path/on/host/data:/app/data -e TYRBOT_USERNAME="username" -e TYRBOT_PASSWORD="password" -e TYRBOT_CHARACTER="bot_character" -e TYRBOT_SUPERADMIN="your_character" tyrbot:latest
-```
-Note: The container puts the Tyrbot files in /app
-
-Other mounts you may want:
-`-v /path/on/host/logs:/app/logs` for capturing logs
-`-v /path/on/host/conf:/app/conf` for specifying a config file or overriding logging configuration
-
-You can choose to mount a config file into the container, or set the config values through ENV vars. All ENV vars should start with "TYRBOT_", be in all capital letters, and use underscore (`_`) to denote a sub category in the config (ex: TYRBOT_DATABASE_TYPE=sqlite).  The bot will ignore your config file if any "TYRBOT_*" ENV vars have been set. If you need to override the `module_paths` value then you must mount a `conf/config.hjson` file as there is no way to set that via ENV vars.
-
-You may also wish to disable logging to the file system by mounting a custom `conf/logging.py` file.
-
-You can also look at our guide for using docker-compose to manage a Docker container running Tyrbot: https://github.com/Budabot/Tyrbot/wiki/Running-Tyrbot-with-Docker-Compose
+See: https://github.com/Budabot/Tyrbot/wiki/Docker
