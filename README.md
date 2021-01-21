@@ -20,7 +20,7 @@ Then simply unzip the bot somewhere before starting it.
 
 ## Upgrade
 
-If you are running a version of Tyrbot and simply want to upgrade to the latest version, follow these steps:
+If you are already running Tyrbot and simply want to upgrade to the latest version, follow these steps:
 
 1. Download the latest version from here: https://github.com/Budabot/Tyrbot/archive/master.zip
 1. Unzip the bot to a new location (do not just unzip it over the top of the old installation)
@@ -56,4 +56,4 @@ See the Wiki page: https://github.com/Budabot/Tyrbot/wiki/Writing-Custom-Modules
 
 ## Running in Docker
 
-See: https://github.com/Budabot/Tyrbot/wiki/Docker
+See the Wiki page: https://github.com/Budabot/Tyrbot/wiki/Docker
