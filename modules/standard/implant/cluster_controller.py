@@ -48,7 +48,7 @@ class ClusterController:
             attribute_count = len(attribute_data)
 
             if attribute_count == 0:
-                return "No attributes or slots found that match <highlight>%s<end>." % search
+                return "No attributes or slots found that match <highlight>%s</highlight>." % search
             else:
                 return self.format_attribute_output(attribute_data)
 
@@ -65,7 +65,7 @@ class ClusterController:
 
             blob += "<pagebreak><header2>%s<end>\n" % row["LongName"]
             for row2 in data2:
-                blob += "%s: <highlight>%s<end><tab>" % (row2["ClusterType"].capitalize(), row2["Slot"])
+                blob += "%s: <highlight>%s</highlight><tab>" % (row2["ClusterType"].capitalize(), row2["Slot"])
             blob += "\n\n"
         blob += "\n* indicates Jobe Cluster"
 

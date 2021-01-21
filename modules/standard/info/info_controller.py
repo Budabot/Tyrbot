@@ -51,7 +51,7 @@ class InfoController:
         if topic:
             return ChatBlob(topic_name.capitalize(), topic)
         else:
-            return "Could not find info topic <highlight>%s<end>." % topic_name
+            return "Could not find info topic <highlight>%s</highlight>." % topic_name
 
     def register_path(self, path):
         self.paths.append(path)

@@ -49,14 +49,14 @@ class WantsController:
         want = self.db.query_single("SELECT n.*, p.name FROM wants n LEFT JOIN player p ON n.char_id = p.char_id WHERE n.id = ?", [want_id])
 
         if not want:
-            return "Could not find want with ID <highlight>%d<end>." % want_id
+            return "Could not find want with ID <highlight>%d</highlight>." % want_id
 
         if self.alts_service.get_main(request.sender.char_id).char_id != self.alts_service.get_main(want.char_id).char_id:
-            return "You must be a confirmed alt of <highlight>%s<end> to remove this want." % want.name
+            return "You must be a confirmed alt of <highlight>%s</highlight> to remove this want." % want.name
 
         self.db.exec("DELETE FROM wants WHERE id = ?", [want_id])
 
-        return "Want with ID <highlight>%d<end> deleted successfully." % want_id
+        return "Want with ID <highlight>%d</highlight> deleted successfully." % want_id
 
     @command(command="wants", params=[Const("search"), Item("item")], access_level="all",
              description="Search wants by itemref")

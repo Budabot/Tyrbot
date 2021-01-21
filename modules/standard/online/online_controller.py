@@ -48,7 +48,7 @@ class OnlineController:
     def online_profession_cmd(self, request, prof):
         profession = self.util.get_profession(prof)
         if not profession:
-            return "Error! Unknown profession <highlight>%s<end>." % prof
+            return "Error! Unknown profession <highlight>%s</highlight>." % prof
 
         return self.get_online_alts_output(profession)
 
@@ -159,14 +159,14 @@ class OnlineController:
         if matches:
             char_name = self.character_service.resolve_char_to_name(char_id)
             self.set_afk(char_id, int(time.time()), message)
-            channel_reply("<highlight>%s<end> is now afk." % char_name)
+            channel_reply("<highlight>%s</highlight> is now afk." % char_name)
         else:
             row = self.db.query_single("SELECT * FROM online WHERE char_id = ? AND afk_dt > 0", [char_id])
             if row:
                 self.set_afk(char_id, 0, "")
                 char_name = self.character_service.resolve_char_to_name(char_id)
                 time_string = self.util.time_to_readable(int(time.time()) - row.afk_dt)
-                channel_reply("<highlight>%s<end> is back after %s." % (char_name, time_string))
+                channel_reply("<highlight>%s</highlight> is back after %s." % (char_name, time_string))
 
     def set_afk(self, char_id, dt, reason):
         self.db.exec("UPDATE online SET afk_dt = ?, afk_reason = ? WHERE char_id = ?", [dt, reason, char_id])
@@ -190,7 +190,7 @@ class OnlineController:
 
                 afk = ""
                 if row.afk_dt > 0:
-                    afk = " - <highlight>%s (%s ago)<end>" % (row.afk_reason, self.util.time_to_readable(int(time.time()) - row.afk_dt))
+                    afk = " - <highlight>%s (%s ago)</highlight>" % (row.afk_reason, self.util.time_to_readable(int(time.time()) - row.afk_dt))
 
                 org_info = ""
                 if channel == self.PRIVATE_CHANNEL:
@@ -208,7 +208,7 @@ class OnlineController:
             name = self.text.format_char_info(char_info)
         else:
             char_name = self.character_service.resolve_char_to_name(char_id)
-            name = "<highlight>%s<end>" % char_name
+            name = "<highlight>%s</highlight>" % char_name
 
         alts = self.alts_service.get_alts(char_id)
         cnt = len(alts)
@@ -242,7 +242,7 @@ class OnlineController:
                     if row.org_name:
                         org_info = ", %s of %s" % (row.org_rank_name, row.org_name)
 
-                blob += " | <highlight>%s<end> (%d/<green>%d<end>) %s %s%s" % (row.name, row.level or 0, row.ai_level or 0, row.faction, row.profession, org_info)
+                blob += " | <highlight>%s</highlight> (%d/<green>%d</green>) %s %s%s" % (row.name, row.level or 0, row.ai_level or 0, row.faction, row.profession, org_info)
                 if row.online:
                     blob += " [<green>Online<end>]"
                 blob += "\n"

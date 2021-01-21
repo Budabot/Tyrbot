@@ -29,12 +29,12 @@ class OfabArmorController:
         ql = ql1 or ql2 or 300
 
         if not profession:
-            return "Could not find Ofab Armor for profession <highlight>%s<end>." % prof_name
+            return "Could not find Ofab Armor for profession <highlight>%s</highlight>." % prof_name
 
         data = self.db.query("SELECT * FROM ofab_armor o1 LEFT JOIN ofab_armor_cost o2 ON o1.slot = o2.slot WHERE o1.profession = ? AND o2.ql = ? ORDER BY upgrade ASC, name ASC",
                              [profession, ql])
         if not data:
-            return "Could not find Ofab Armor for QL <highlight>%d<end>." % ql
+            return "Could not find Ofab Armor for QL <highlight>%d</highlight>." % ql
 
         upgrade_type = self.db.query_single("SELECT type FROM ofab_armor_type WHERE profession = ?", [profession]).type
 
@@ -58,10 +58,10 @@ class OfabArmorController:
             blob += "<pagebreak>" + self.text.make_item(row.lowid, row.highid, ql, row.name)
 
             if row.upgrade == 0 or row.upgrade == 3:
-                blob += "  (<highlight>%d<end> VP)" % row.vp
+                blob += "  (<highlight>%d</highlight> VP)" % row.vp
                 total_vp += row.vp
             blob += "\n"
 
-        blob += "\nVP cost for full set: <highlight>%d<end>" % total_vp
+        blob += "\nVP cost for full set: <highlight>%d</highlight>" % total_vp
 
         return ChatBlob("%s Ofab Armor (QL %d)" % (profession, ql), blob)

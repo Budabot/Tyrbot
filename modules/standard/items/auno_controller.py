@@ -54,7 +54,7 @@ class AunoController:
             else:
                 return self.get_combined_response(items[0].lowid, items[0].highid, items[0].name)
         else:
-            return "No items found matching <highlight>%s<end>." % search
+            return "No items found matching <highlight>%s</highlight>." % search
 
     def get_combined_response(self, low_id, high_id, name):
         combined_response = self.get_auno_response(low_id, high_id)
@@ -76,7 +76,7 @@ class AunoController:
                 return ChatBlob("Comments for %s (%s)" % (name, len(comments)),
                                 self.build_comments_blob(comments, name, low_id, high_id))
             else:
-                return "No comments found for <highlight>%s<end>." % name
+                return "No comments found for <highlight>%s</highlight>." % name
         else:
             return "Error fetching comments from Auno.org."
 
@@ -94,7 +94,7 @@ class AunoController:
 
         for comment in comments:
             blob += comment.content + "\n"
-            blob += "<highlight>%s<end> [<grey>%s<end>]\n" % (comment.author, comment.date)
+            blob += "<highlight>%s</highlight> [<grey>%s</grey>]\n" % (comment.author, comment.date)
             blob += "\n<pagebreak>"
 
         return blob
@@ -102,7 +102,7 @@ class AunoController:
     def multiple_results_blob(self, items, search):
         max_multiple_results = 40
 
-        blob = "Found <highlight>%s<end> items matching <highlight>\"%s\"<end>\n" % (len(items), search)
+        blob = "Found <highlight>%s</highlight> items matching <highlight>\"%s\"</highlight>\n" % (len(items), search)
         if len(items) > max_multiple_results:
             blob += "Results have been truncated to only show the first %s results...\n\n" % max_multiple_results
             items = items[:max_multiple_results]

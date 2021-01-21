@@ -34,7 +34,7 @@ class SettingType:
         if v == "":
             v = "&lt;empty&gt;"
 
-        return "<highlight>%s<end>" % v
+        return "<highlight>%s</highlight>" % v
 
     def set_description(self, description):
         self.description = description
@@ -78,7 +78,7 @@ class TextSettingType(SettingType):
 
 To change this setting:
 
-<highlight>/tell <myname> config setting """ + self.name + """ set <i>_value_</i><end>""" + clear_str + options_str
+<highlight>/tell <myname> config setting """ + self.name + """ set <i>_value_</i></highlight>""" + clear_str + options_str
 
 
 class DictionarySettingType(SettingType):
@@ -101,7 +101,7 @@ class DictionarySettingType(SettingType):
             return value
 
     def get_display_value(self):
-        return "<highlight>%s<end>" % (self.get_value() or "&lt;empty&gt;")
+        return "<highlight>%s</highlight>" % (self.get_value() or "&lt;empty&gt;")
 
     def get_display(self):
         return """This setting is controlled by the bot and cannot be set manually."""
@@ -113,9 +113,9 @@ class HiddenSettingType(TextSettingType):
 
     def get_display_value(self):
         if self.get_value():
-            return "<highlight>&lt;hidden&gt;<end>"
+            return "<highlight>&lt;hidden&gt;</highlight>"
         else:
-            return "<highlight>&lt;empty&gt;<end>"
+            return "<highlight>&lt;empty&gt;</highlight>"
 
     def get_display(self):
         text = Registry.get_instance("text")
@@ -128,7 +128,7 @@ class HiddenSettingType(TextSettingType):
 
 To change this setting:
 
-<highlight>/tell <myname> config setting """ + self.name + """ set <i>_value_</i><end>""" + clear_str + """
+<highlight>/tell <myname> config setting """ + self.name + """ set <i>_value_</i></highlight>""" + clear_str + """
 
 The saved value is never shown in the config but it may appear in the logs and is stored in plain text in the database."""
 
@@ -220,7 +220,7 @@ class NumberSettingType(SettingType):
 
 To change this setting:
 
-<highlight>/tell <myname> config setting """ + self.name + """ set <i>_number_</i><end>""" + clear_str + options_str
+<highlight>/tell <myname> config setting """ + self.name + """ set <i>_number_</i></highlight>""" + clear_str + options_str
 
 
 class TimeSettingType(SettingType):
@@ -233,7 +233,7 @@ class TimeSettingType(SettingType):
 
     def get_display_value(self):
         util = Registry.get_instance("util")
-        return "<highlight>%s<end>" % util.time_to_readable(self.get_value())
+        return "<highlight>%s</highlight>" % util.time_to_readable(self.get_value())
 
     def set_value(self, value):
         util = Registry.get_instance("util")
@@ -251,7 +251,7 @@ class TimeSettingType(SettingType):
 
 To change this setting:
 
-<highlight>/tell <myname> config setting """ + self.name + """ set <i>_time_</i><end>
+<highlight>/tell <myname> config setting """ + self.name + """ set <i>_time_</i></highlight>
 
 Or choose an option below:\n\n""" + options_str
 
@@ -264,7 +264,7 @@ class BooleanSettingType(SettingType):
         return int(self._get_raw_value()) == 1
 
     def get_display_value(self):
-        return "<highlight>%s<end>" % ("True" if self.get_value() else "False")
+        return "<highlight>%s</highlight>" % ("True" if self.get_value() else "False")
 
     def set_value(self, value):
         if value is True:

@@ -35,7 +35,7 @@ class OfabWeaponsController:
         weapon = self.db.query_single("SELECT type, vp FROM ofab_weapons w, ofab_weapons_cost c WHERE w.name LIKE ? AND c.ql = ?", [weapon_name, ql])
 
         if not weapon:
-            return "Could not find Ofab Weapon <highlight>%s<end> for QL <highlight>%d<end>." % (weapon_name, ql)
+            return "Could not find Ofab Weapon <highlight>%s</highlight> for QL <highlight>%d</highlight>." % (weapon_name, ql)
 
         type_ql = round(ql * 0.8)
         type_link = self.text.make_chatcmd("Kyr'Ozch Bio-Material - Type %d" % weapon.type, "/tell <myname> bioinfo %d %d" % (weapon.type, type_ql))
@@ -51,7 +51,7 @@ class OfabWeaponsController:
             item = self.items_controller.find_by_name("Ofab %s Mk %d" % (weapon_name, i))
             blob += "<pagebreak>" + self.text.format_item(item)
             if i == 1:
-                blob += "  (<highlight>%d<end> VP)" % weapon.vp
+                blob += "  (<highlight>%d</highlight> VP)" % weapon.vp
             blob += "\n"
 
         return ChatBlob("Ofab %s (QL %d)" % (weapon_name, ql), blob)

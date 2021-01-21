@@ -65,7 +65,7 @@ class AuctionStrategy:
             msg = "\n<yellow>----------------------------------------<end>\n"
             msg += "<yellow>%s<end> has just started an auction " \
                    "for <yellow>%s<end>.\n" % (sender.name, item)
-            msg += "Average winning bid: <highlight>%s<end>\n" % avg_win_bid
+            msg += "Average winning bid: <highlight>%s</highlight>\n" % avg_win_bid
             msg += "%s\n" % bid_link
             msg += "<yellow>----------------------------------------<end>"
 
@@ -112,27 +112,27 @@ class AuctionStrategy:
 
         # TODO handle when they are raising their own winning bid
         if bid_amount > points_available:
-            return "You do not have enough points to make this bid. You have <highlight>%d<end> points available (<highlight>%d<end> points on account, <highlight>%d<end> points reserved for other bids)." \
+            return "You do not have enough points to make this bid. You have <highlight>%d</highlight> points available (<highlight>%d</highlight> points on account, <highlight>%d</highlight> points reserved for other bids)." \
                    % (points_available, points_available, points_used)
 
         current_amount = 0
         winning_bid = self.winning_bids.get(item_index, None)
         if winning_bid:
             if bid_amount <= winning_bid.current_amount:
-                return "Your bid of <highlight>%d<end> points was not enough. <highlight>%s<end> is currently winning with a bid of <highlight>%d<end>." % (bid_amount, winning_bid.sender.name, winning_bid.current_amount)
+                return "Your bid of <highlight>%d</highlight> points was not enough. <highlight>%s</highlight> is currently winning with a bid of <highlight>%d</highlight>." % (bid_amount, winning_bid.sender.name, winning_bid.current_amount)
             elif bid_amount <= winning_bid.max_amount:
                 winning_bid.current_amount = bid_amount
-                return "Your bid of <highlight>%d<end> points was not enough. <highlight>%s<end> is currently winning with a bid of <highlight>%d<end>." % (bid_amount, winning_bid.sender.name, winning_bid.current_amount)
+                return "Your bid of <highlight>%d</highlight> points was not enough. <highlight>%s</highlight> is currently winning with a bid of <highlight>%d</highlight>." % (bid_amount, winning_bid.sender.name, winning_bid.current_amount)
             else:
                 current_amount = winning_bid.max_amount
-                self.bot.send_private_message(winning_bid.sender.char_id, "Your bid on %s has been overtaken by <highlight>%s<end>." % (item, sender.name))
+                self.bot.send_private_message(winning_bid.sender.char_id, "Your bid on %s has been overtaken by <highlight>%s</highlight>." % (item, sender.name))
 
         # increment 1 past current max bid
         current_amount += 1
         self.winning_bids[item_index] = AuctionBid(sender, account, current_amount, bid_amount)
-        self.spam_raid_message("<highlight>%s<end> now holds the leading bid for %s with a bid of <highlight>%d<end>." % (sender.name, item, current_amount))
-        return "Your max bid of <highlight>%d<end> points for %s has put you in the lead. " \
-               "You have <highlight>%d<end> points left for bidding." % (bid_amount, item, points_available - bid_amount)
+        self.spam_raid_message("<highlight>%s</highlight> now holds the leading bid for %s with a bid of <highlight>%d</highlight>." % (sender.name, item, current_amount))
+        return "Your max bid of <highlight>%d</highlight> points for %s has put you in the lead. " \
+               "You have <highlight>%d</highlight> points left for bidding." % (bid_amount, item, points_available - bid_amount)
 
     def end(self):
         self.cancel_job()
@@ -146,7 +146,7 @@ class AuctionStrategy:
             if winning_bid:
                 self.db.exec(sql, [item, item, winning_bid.sender.char_id, self.auctioneer.char_id, t, winning_bid.current_amount, 0])
 
-                blob += "%d. %s, won by <highlight>%s<end> with <green>%d<end> points\n" % (i, item, winning_bid.sender.name, winning_bid.current_amount)
+                blob += "%d. %s, won by <highlight>%s</highlight> with <green>%d</green> points\n" % (i, item, winning_bid.sender.name, winning_bid.current_amount)
                 main_id = self.alts_service.get_main(winning_bid.sender.char_id).char_id
                 account = self.points_controller.get_account(main_id)
                 self.points_controller.alter_points(account.points, main_id, -winning_bid.current_amount, self.auctioneer.char_id, "Won auction for %s" % item)
@@ -175,7 +175,7 @@ class AuctionStrategy:
 
             winning_bid = self.winning_bids.get(i, None)
             if winning_bid:
-                blob += " | <highlight>%s<end> has the winning bid of <highlight>%d<end>\n\n" % (winning_bid.sender.name, winning_bid.current_amount)
+                blob += " | <highlight>%s</highlight> has the winning bid of <highlight>%d</highlight>\n\n" % (winning_bid.sender.name, winning_bid.current_amount)
             else:
                 blob += " | <green>No bidders<end>\n\n"
 
@@ -204,11 +204,11 @@ class AuctionStrategy:
             winning_bid = self.winning_bids.get(item_index, None)
 
             if winning_bid:
-                winner = "<highlight>%s<end> now holds the leading bid with a bid of <highlight>%d<end>." % (winning_bid.sender.name, winning_bid.current_amount)
+                winner = "<highlight>%s</highlight> now holds the leading bid with a bid of <highlight>%d</highlight>." % (winning_bid.sender.name, winning_bid.current_amount)
             else:
                 winner = "No bids made."
 
-            msg = "Auction for %s running. %s <highlight>%d<end> seconds left of auction." % (item, winner, time_left)
+            msg = "Auction for %s running. %s <highlight>%d</highlight> seconds left of auction." % (item, winner, time_left)
 
         self.spam_raid_message(msg)
         self.spam_raid_message(self.get_auction_list())

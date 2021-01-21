@@ -31,7 +31,7 @@ class DynaController:
 
         data = self.db.query("SELECT * FROM dynadb d JOIN playfields p ON d.playfield_id = p.id WHERE d.minQl >= ? AND d.maxQl <= ? ORDER BY minQl", [min_level, max_level])
 
-        blob = "Results of dyna camps between QL <highlight>%d<end> and <highlight>%d<end>\n\n" % (min_level, max_level)
+        blob = "Results of dyna camps between QL <highlight>%d</highlight> and <highlight>%d</highlight>\n\n" % (min_level, max_level)
         blob += self.format_results(data)
         url = "http://creativestudent.com/ao/files-helpfiles.html"
         blob += "Dyna camp information taken from CSP help files: " + self.text.make_chatcmd(url, "/start " + url)
@@ -46,7 +46,7 @@ class DynaController:
                              "WHERE p.long_name LIKE ? OR p.short_name LIKE ? OR d.mob LIKE ? ORDER BY d.minQl",
                              [search_param, search_param, search_param])
 
-        blob = "Results of dyna camps search for <highlight>%s<end>\n\n" % search
+        blob = "Results of dyna camps search for <highlight>%s</highlight>\n\n" % search
         blob += self.format_results(data)
         url = "http://creativestudent.com/ao/files-helpfiles.html"
         blob += "Dyna camp information taken from CSP help files: " + self.text.make_chatcmd(url, "/start " + url)
@@ -58,5 +58,5 @@ class DynaController:
         for row in data:
             coordinates = self.text.make_chatcmd("%s %dx%d" % (row.long_name, row.cX, row.cY), "/waypoint %d %d %d" % (row.cX, row.cY, row.playfield_id))
             blob += "<pagebreak>" + coordinates + "\n"
-            blob += "%s - Level <highlight>%d-%d<end>\n\n" % (row.mob, row.minQl, row.maxQl)
+            blob += "%s - Level <highlight>%d-%d</highlight>\n\n" % (row.mob, row.minQl, row.maxQl)
         return blob

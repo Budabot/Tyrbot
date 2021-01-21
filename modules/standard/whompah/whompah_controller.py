@@ -32,9 +32,9 @@ class WhompahController:
         city2 = self.get_whompah_city(city_name2)
 
         if not city1:
-            return "Could not find whompah city <highlight>%s<end>." % city_name1
+            return "Could not find whompah city <highlight>%s</highlight>." % city_name1
         elif not city2:
-            return "Could not find whompah city <highlight>%s<end>." % city_name2
+            return "Could not find whompah city <highlight>%s</highlight>." % city_name2
 
         data = self.db.query("SELECT w1.*, w2.city2_id AS city_rel FROM whompah_cities w1 JOIN whompah_cities_rel w2 ON w1.id = w2.city1_id")
 
@@ -54,7 +54,7 @@ class WhompahController:
         city = self.get_whompah_city(city_name)
 
         if not city:
-            return "Could not find whompah city <highlight>%s<end>." % city_name
+            return "Could not find whompah city <highlight>%s</highlight>." % city_name
 
         cities = self.db.query("SELECT w2.* FROM whompah_cities_rel w1 JOIN whompah_cities w2 ON w1.city2_id = w2.id WHERE w1.city1_id = ?", [city.id])
         msg = "From %s you can get to: " % city.city_name

@@ -53,15 +53,15 @@ class Text:
 
     def format_char_info(self, char_info, online_status=None):
         if char_info.org_name and char_info.org_rank_name:
-            msg = "<highlight>%s<end> (%d/<green>%d<end>) <%s>%s<end> %s, %s of <highlight>%s<end>" % \
+            msg = "<highlight>%s</highlight> (%d/<green>%d</green>) <%s>%s<end> %s, %s of <highlight>%s</highlight>" % \
                    (char_info.name, char_info.level, char_info.ai_level, char_info.faction.lower(), char_info.faction, char_info.profession, char_info.org_rank_name, char_info.org_name)
         elif char_info.level:
-            msg = "<highlight>%s<end> (%d/<green>%d<end>) <%s>%s<end> %s" % \
+            msg = "<highlight>%s</highlight> (%d/<green>%d</green>) <%s>%s<end> %s" % \
                    (char_info.name, char_info.level, char_info.ai_level, char_info.faction.lower(), char_info.faction, char_info.profession)
         elif char_info.name:
-            msg = "<highlight>%s<end>" % char_info.name
+            msg = "<highlight>%s</highlight>" % char_info.name
         else:
-            msg = "<highlight>CharId(%d)<end>" % char_info.char_id
+            msg = "<highlight>CharId(%d)</highlight>" % char_info.char_id
 
         if online_status is not None:
             msg += " :: " + ("<green>Online<end>" if online_status else "<red>Offline<end>")
@@ -84,7 +84,7 @@ class Text:
         msg = self.items_regex.sub(r"<a href='itemref://\1/\2/\3'>\4</a>", msg)
 
         color = self.setting_service.get("blob_color").get_font_color()
-        msg = ("<header>" + label + "<end>\n\n" + color + msg).replace("\"", "&quot;")
+        msg = ("<header>" + label + "</header>\n\n" + color + msg).replace("\"", "&quot;")
         msg = self.format_message(msg)
 
         if footer:
@@ -167,6 +167,10 @@ class Text:
         return line, rest
 
     def format_message(self, msg):
+        for t in ["</header>", "</header2>", "</highlight>", "</notice>", "</black>", "</white>", "</yellow>", "</blue>", "</green>", "</red>", "</orange>", "</grey>", "</cyan>",
+                  "</violet>", "</neutral>", "</omni>", "</clan>", "</unknown>"]:
+            msg = msg.replace(t, "</font>")
+
         return msg \
             .replace("<header>", self.setting_service.get("header_color").get_font_color()) \
             .replace("<header2>", self.setting_service.get("header2_color").get_font_color()) \

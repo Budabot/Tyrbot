@@ -1,19 +1,19 @@
 {
   "reload_lang": {
-    "en_US": "Language changed to <highlight>{lang_code}<end>",
-    "de_DE": "Die Sprache wurde auf <highlight>{lang_code}<end> geändert."
+    "en_US": "Language changed to <highlight>{lang_code}</highlight>",
+    "de_DE": "Die Sprache wurde auf <highlight>{lang_code}</highlight> geändert."
   },
   "current_lang": {
-    "en_US": "My current language is <highlight>{lang_code}<end>",
-    "de_DE": "Meine aktuelle Sprache ist <highlight>{lang_code}<end>."
+    "en_US": "My current language is <highlight>{lang_code}</highlight>",
+    "de_DE": "Meine aktuelle Sprache ist <highlight>{lang_code}</highlight>."
   },
   "clear_queue": {
-    "en_US": "Cleared <highlight>{count}<end> messages from the outgoing message queue.",
-    "de_DE": "Es wurden <highlight>{count}<end> Nachrichten aus der ausgehenden Nachrichten warteschlange entfernt."
+    "en_US": "Cleared <highlight>{count}</highlight> messages from the outgoing message queue.",
+    "de_DE": "Es wurden <highlight>{count}</highlight> Nachrichten aus der ausgehenden Nachrichten warteschlange entfernt."
   },
   "runas_fail": {
-    "en_US": "Error! You must have a higher access level than <highlight>{char}<end>.",
-    "de_DE": "Error! Du musst ein höheres Rechtelevel haben als <highlight>{char}<end>."
+    "en_US": "Error! You must have a higher access level than <highlight>{char}</highlight>.",
+    "de_DE": "Error! Du musst ein höheres Rechtelevel haben als <highlight>{char}</highlight>."
   },
   "msg_sent": {
     "en_US": "Your message has been sent.",
@@ -48,38 +48,38 @@
     "de_DE": "Der Bot startet nun neu."
   },
   "reason": {
-    "en_US": " <highlight>Reason: {reason}<end>",
-    "de_DE": " <highlight>Der Grund hierfür: {reason}<end>"
+    "en_US": " <highlight>Reason: {reason}</highlight>",
+    "de_DE": " <highlight>Der Grund hierfür: {reason}</highlight>"
   },
   "check_access": {
-    "en_US": "Access level for <highlight>{char}<end><end> is <highlight>{rank_main}<end> ({rank_self}).",
-    "de_DE": "Das Zugriffslevel für <highlight>{char}<end> ist <highlight>{rank_main}<end> ({rank_self})."
+    "en_US": "Access level for <highlight>{char}</highlight> is <highlight>{rank_main}</highlight> ({rank_self}).",
+    "de_DE": "Das Zugriffslevel für <highlight>{char}</highlight> ist <highlight>{rank_main}</highlight> ({rank_self})."
   },
   "show_output_target": {
-    "en_US": "<highlight>{sender}<end> is showing you output for command <highlight>{cmd}<end>:",
-    "de_DE": "<highlight>{sender}<end> zeigt dir den output des Befehls <highlight>{cmd}<end>:"
+    "en_US": "<highlight>{sender}</highlight> is showing you output for command <highlight>{cmd}</highlight>:",
+    "de_DE": "<highlight>{sender}</highlight> zeigt dir den output des Befehls <highlight>{cmd}</highlight>:"
   },
   "show_output_self": {
-    "en_US": "Command <highlight>{cmd}<end> output has been sent to <highlight>{target}<end>.",
-    "de_DE": "Die Ausgabe des Befehls <highlight>{cmd}<end> wurde an <highlight>{target}<end> weitergeleitet."
+    "en_US": "Command <highlight>{cmd}</highlight> output has been sent to <highlight>{target}</highlight>.",
+    "de_DE": "Die Ausgabe des Befehls <highlight>{cmd}</highlight> wurde an <highlight>{target}</highlight> weitergeleitet."
   },
   "status_blob": {
     "en_US": [
-      "Version: <highlight>Tyrbot {bot_ver}<end>\n",
-      "Name: <highlight><myname><end>\n",
+      "Version: <highlight>Tyrbot {bot_ver}</highlight>\n",
+      "Name: <highlight><myname></highlight>\n",
       "\n",
-      "OS: <highlight>{os_ver}<end>\n",
-      "Python: <highlight>{python_ver}<end>\n",
-      "Database: <highlight>{db_type}<end>\n",
-      "Memory Usage: <highlight>{mem_usage} KB<end>\n",
+      "OS: <highlight>{os_ver}</highlight>\n",
+      "Python: <highlight>{python_ver}</highlight>\n",
+      "Database: <highlight>{db_type}</highlight>\n",
+      "Memory Usage: <highlight>{mem_usage} KB</highlight>\n",
       "\n",
-      "Superadmin: <highlight>{superadmin}<end>\n",
-      "Buddy List: <highlight>{bl_used}/{bl_size}<end>\n",
-      "Uptime: <highlight>{uptime}<end>\n",
-      "Dimension: <highlight>{dim}<end>\n",
+      "Superadmin: <highlight>{superadmin}</highlight>\n",
+      "Buddy List: <highlight>{bl_used}/{bl_size}</highlight>\n",
+      "Uptime: <highlight>{uptime}</highlight>\n",
+      "Dimension: <highlight>{dim}</highlight>\n",
       "\n",
-      "Org Id: <highlight>{org_id}<end>\n",
-      "Org Name: <highlight>{org_name}<end>\n",
+      "Org Id: <highlight>{org_id}</highlight>\n",
+      "Org Name: <highlight>{org_name}</highlight>\n",
       "\n",
       "<pagebreak><header2>Public Channels<end>\n",
       "{pub_channels}",
@@ -92,21 +92,21 @@
       "\n"
     ],
     "de_DE": [
-      "Version: <highlight>Tyrbot {bot_ver}<end>\n",
-      "Name: <highlight><myname><end>\n",
+      "Version: <highlight>Tyrbot {bot_ver}</highlight>\n",
+      "Name: <highlight><myname></highlight>\n",
       "\n",
-      "Betriebssystem: <highlight>{os_ver}<end>\n",
-      "Python: <highlight>{python_ver}<end>\n",
-      "Datenbank: <highlight>{db_type}<end>\n",
-      "Arbeitsspeichernutzung: <highlight>{mem_usage} KB<end>\n",
+      "Betriebssystem: <highlight>{os_ver}</highlight>\n",
+      "Python: <highlight>{python_ver}</highlight>\n",
+      "Datenbank: <highlight>{db_type}</highlight>\n",
+      "Arbeitsspeichernutzung: <highlight>{mem_usage} KB</highlight>\n",
       "\n",
-      "Superadmin: <highlight>{superadmin}<end>\n",
-      "Freundesliste: <highlight>{bl_used}/{bl_size}<end>\n",
-      "Onlinezeit: <highlight>{uptime}<end>\n",
-      "Dimension: <highlight>{dim}<end>\n",
+      "Superadmin: <highlight>{superadmin}</highlight>\n",
+      "Freundesliste: <highlight>{bl_used}/{bl_size}</highlight>\n",
+      "Onlinezeit: <highlight>{uptime}</highlight>\n",
+      "Dimension: <highlight>{dim}</highlight>\n",
       "\n",
-      "Org ID: <highlight>{org_id}<end>\n",
-      "Org Name: <highlight>{org_name}<end>\n",
+      "Org ID: <highlight>{org_id}</highlight>\n",
+      "Org Name: <highlight>{org_name}</highlight>\n",
       "\n",
       "<pagebreak><header2>Öffentliche Channel<end>\n",
       "{pub_channels}",
@@ -139,21 +139,21 @@
     "en_US": "{destination} Subscriptions ({count})"
   },
   "messagehub_already_subscribed": {
-    "en_US": "Destination <highlight>{destination}<end> is already subscribed to source <highlight>{source}<end>."
+    "en_US": "Destination <highlight>{destination}</highlight> is already subscribed to source <highlight>{source}</highlight>."
   },
   "messagehub_not_subscribed": {
-    "en_US": "Destination <highlight>{destination}<end> is not subscribed to source <highlight>{source}<end>."
+    "en_US": "Destination <highlight>{destination}</highlight> is not subscribed to source <highlight>{source}</highlight>."
   },
   "messagehub_invalid_subscription": {
-    "en_US": "Destination <highlight>{destination}<end> cannot be subscribed to source <highlight>{source}<end>."
+    "en_US": "Destination <highlight>{destination}</highlight> cannot be subscribed to source <highlight>{source}</highlight>."
   },
   "messagehub_subscribe_success": {
-    "en_US": "Destination <highlight>{destination}<end> has been subscribed to source <highlight>{source}<end> successfully."
+    "en_US": "Destination <highlight>{destination}</highlight> has been subscribed to source <highlight>{source}</highlight> successfully."
   },
   "messagehub_unsubscribe_success": {
-    "en_US": "Destination <highlight>{destination}<end> has been unsubscribed from source <highlight>{source}<end> successfully."
+    "en_US": "Destination <highlight>{destination}</highlight> has been unsubscribed from source <highlight>{source}</highlight> successfully."
   },
   "destination_not_exist": {
-    "en_US": "Destination <highlight>{destination}<end> does not exist."
+    "en_US": "Destination <highlight>{destination}</highlight> does not exist."
   }
 }

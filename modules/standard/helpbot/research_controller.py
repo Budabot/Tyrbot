@@ -22,10 +22,10 @@ class ResearchController:
 
         capsk = int(row.sk * 0.1)
 
-        blob = "You must be level <highlight>%d<end> to research <highlight>Research Level %d<end>.\n" % (row.levelcap, research_level)
-        blob += "You need <highlight>%s SK<end> to reach <highlight>Research Level %d<end> per research line.\n\n" % (self.util.format_number(row.sk), research_level)
-        blob += "This equals <highlight>%s XP<end>.\n\n" % (self.util.format_number(row.sk * 1000))
-        blob += "Your research will cap at <highlight>%s XP<end> or <highlight>%s SK<end>." % (self.util.format_number(capsk * 1000), self.util.format_number(capsk))
+        blob = "You must be level <highlight>%d</highlight> to research <highlight>Research Level %d</highlight>.\n" % (row.levelcap, research_level)
+        blob += "You need <highlight>%s SK</highlight> to reach <highlight>Research Level %d</highlight> per research line.\n\n" % (self.util.format_number(row.sk), research_level)
+        blob += "This equals <highlight>%s XP</highlight>.\n\n" % (self.util.format_number(row.sk * 1000))
+        blob += "Your research will cap at <highlight>%s XP</highlight> or <highlight>%s SK</highlight>." % (self.util.format_number(capsk * 1000), self.util.format_number(capsk))
 
         return ChatBlob("Research Level %d" % research_level, blob)
 
@@ -43,9 +43,9 @@ class ResearchController:
 
         row = self.db.query_single("SELECT SUM(sk) AS total_sk, MAX(levelcap) AS levelcap FROM research WHERE level > ? AND level <= ?", [research_level1, research_level2])
 
-        blob = "You must be <highlight>Level %d<end> to reach Research Level <highlight>%d.<end>\n" % (row.levelcap, research_level2)
-        blob += "It takes <highlight>%s SK<end> to go from Research Level <highlight>%d<end> to Research Level <highlight>%d<end> per research line.\n\n" \
+        blob = "You must be <highlight>Level %d</highlight> to reach Research Level <highlight>%d.</highlight>\n" % (row.levelcap, research_level2)
+        blob += "It takes <highlight>%s SK</highlight> to go from Research Level <highlight>%d</highlight> to Research Level <highlight>%d</highlight> per research line.\n\n" \
                 % (self.util.format_number(row.total_sk), research_level1, research_level2)
-        blob += "This equals <highlight>%s XP<end>." % self.util.format_number(row.total_sk * 1000)
+        blob += "This equals <highlight>%s XP</highlight>." % self.util.format_number(row.total_sk * 1000)
 
         return ChatBlob("Research Levels %d - %d" % (research_level1, research_level2), blob)

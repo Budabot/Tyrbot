@@ -105,7 +105,7 @@ class NanoController:
         nanoline = self.db.query_single("SELECT * FROM nanolines WHERE id = ?", [nanoline_id])
 
         if not nanoline:
-            return "Could not find nanoline with ID <highlight>%d<end>." % nanoline_id
+            return "Could not find nanoline with ID <highlight>%d</highlight>." % nanoline_id
 
         data = self.db.query("SELECT n1.lowid, n1.lowql, n1.name, n1.location "
                              "FROM nanos n1 JOIN nanos_nanolines_ref n2 ON n1.lowid = n2.lowid "
@@ -124,7 +124,7 @@ class NanoController:
     def nanolines_profession_cmd(self, request, prof_name):
         profession = self.util.get_profession(prof_name)
         if not profession:
-            return "Could not find profession <highlight>%s<end>." % prof_name
+            return "Could not find profession <highlight>%s</highlight>." % prof_name
 
         data = self.db.query("SELECT * FROM nanolines WHERE profession = ? ORDER BY name ASC", [profession])
 

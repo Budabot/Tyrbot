@@ -18,19 +18,19 @@ class OverequippedController:
     def oe_command(self, request, skill_level):
         oe = self.get_oe_vals(skill_level)
 
-        blob = "With a skill requirement of <highlight>%s<end>, you will be\n" % skill_level
-        blob += "Out of OE: <highlight>%d<end> or higher\n" % oe.oe100low
-        blob += "75%%: <highlight>%d<end> to <highlight>%d<end>\n" % (oe.oe75low, oe.oe100low - 1)
-        blob += "50%%: <highlight>%d<end> to <highlight>%d<end>\n" % (oe.oe50low, oe.oe75low - 1)
-        blob += "25%%: <highlight>%d<end> to <highlight>%d<end>\n" % (oe.oe25low, oe.oe50low - 1)
-        blob += "0%%: <highlight>%d<end> or lower\n\n" % (oe.oe25low - 1)
+        blob = "With a skill requirement of <highlight>%s</highlight>, you will be\n" % skill_level
+        blob += "Out of OE: <highlight>%d</highlight> or higher\n" % oe.oe100low
+        blob += "75%%: <highlight>%d</highlight> to <highlight>%d</highlight>\n" % (oe.oe75low, oe.oe100low - 1)
+        blob += "50%%: <highlight>%d</highlight> to <highlight>%d</highlight>\n" % (oe.oe50low, oe.oe75low - 1)
+        blob += "25%%: <highlight>%d</highlight> to <highlight>%d</highlight>\n" % (oe.oe25low, oe.oe50low - 1)
+        blob += "0%%: <highlight>%d</highlight> or lower\n\n" % (oe.oe25low - 1)
 
-        blob += "With a personal skill of <highlight>%s<end>, you can use up to\n" % skill_level
-        blob += "Out of OE: <highlight>%d<end> or lower\n" % oe.oe100
-        blob += "75%%: <highlight>%d<end> to <highlight>%d<end>\n" % (oe.oe100 + 1, oe.oe75)
-        blob += "50%%: <highlight>%d<end> to <highlight>%d<end>\n" % (oe.oe75 + 1, oe.oe50)
-        blob += "25%%: <highlight>%d<end> to <highlight>%d<end>\n" % (oe.oe50 + 1, oe.oe25)
-        blob += "0%%: <highlight>%d<end> or higher\n" % (oe.oe25 - 1)
+        blob += "With a personal skill of <highlight>%s</highlight>, you can use up to\n" % skill_level
+        blob += "Out of OE: <highlight>%d</highlight> or lower\n" % oe.oe100
+        blob += "75%%: <highlight>%d</highlight> to <highlight>%d</highlight>\n" % (oe.oe100 + 1, oe.oe75)
+        blob += "50%%: <highlight>%d</highlight> to <highlight>%d</highlight>\n" % (oe.oe75 + 1, oe.oe50)
+        blob += "25%%: <highlight>%d</highlight> to <highlight>%d</highlight>\n" % (oe.oe50 + 1, oe.oe25)
+        blob += "0%%: <highlight>%d</highlight> or higher\n" % (oe.oe25 - 1)
 
         return ChatBlob("%d - %d - %d" % (oe.oe100low, skill_level, oe.oe100), blob)
 

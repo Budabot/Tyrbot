@@ -25,7 +25,7 @@ class PlayfieldController:
 
         blob = ""
         for row in data:
-            blob += "[<highlight>%d<end>] %s (%s)\n" % (row.id, row.long_name, row.short_name)
+            blob += "[<highlight>%d</highlight>] %s (%s)\n" % (row.id, row.long_name, row.short_name)
 
         return ChatBlob("Playfields", blob)
 
@@ -54,7 +54,7 @@ class PlayfieldController:
         playfield = self.get_playfield_by_name(playfield_arg) or self.get_playfield_by_id(playfield_arg)
 
         if not playfield:
-            return "Could not find playfield <highlight>%s<end>." % playfield_arg
+            return "Could not find playfield <highlight>%s</highlight>." % playfield_arg
         else:
             title = "waypoint: %sx%s %s" % (x_coords, y_coords, playfield.long_name)
             blob = "Zone: %s (%s)\n" % (playfield.long_name, playfield.id)

@@ -150,10 +150,10 @@ class AltsController:
         blob = ""
         for alt in alts:
 
-            blob += "<highlight>%s<end> (%d/<green>%d<end>) %s %s" % (
+            blob += "<highlight>%s</highlight> (%d/<green>%d</green>) %s %s" % (
                 alt.name, alt.level, alt.ai_level, alt.faction, alt.profession)
             if self.buddy_service.is_online(alt.char_id):
-                blob += " [<green>Online<end>]"
+                blob += " [<green>Online</green>]"
             elif alt.last_seen != None:
                 blob += "\n  - Last seen on %s\n" % self.util.format_datetime(int(alt.last_seen))
             blob += "\n"

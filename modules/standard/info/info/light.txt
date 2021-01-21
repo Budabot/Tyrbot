@@ -16,4 +16,4 @@
 
 (zone to reset light settings)
 
-<highlight>By DrUrban (RK1)<end>
+<highlight>By DrUrban (RK1)</highlight>

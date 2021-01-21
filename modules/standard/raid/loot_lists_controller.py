@@ -128,7 +128,7 @@ class LootListsController:
         if items:
             return ChatBlob("%s loot table" % category, self.build_list(items, "APF", category, add_all))
         else:
-            return "No loot registered for <highlight>%s<end>." % category
+            return "No loot registered for <highlight>%s</highlight>." % category
 
     @command(command="apf", params=[], description="Get list of items from APF", access_level="all")
     def apf_tables_cmd(self, _):
@@ -179,7 +179,7 @@ class LootListsController:
         if items:
             return ChatBlob("%s loot table" % category, self.build_list(items, "Albtraum", category))
         else:
-            return "No loot registered for <highlight>%s<end>." % category
+            return "No loot registered for <highlight>%s</highlight>." % category
 
     #               #
     #  Pandemonium  #
@@ -197,7 +197,7 @@ class LootListsController:
         if items:
             return ChatBlob("%s loot table" % category, self.build_list(items, "Pande", category))
         else:
-            return "No loot registered for <highlight>%s<end>." % category_name
+            return "No loot registered for <highlight>%s</highlight>." % category_name
 
     @command(command="pande", params=[], description="Get list of items from Pandemonium", access_level="all")
     def pande_tables_cmd(self, _):
@@ -226,7 +226,7 @@ class LootListsController:
         if items:
             return ChatBlob("%s loot table" % category, self.build_list(items, "DustBrigade", category))
         else:
-            return "No loot registered for <highlight>%s<end>." % category
+            return "No loot registered for <highlight>%s</highlight>." % category
 
     @command(command="db", params=[], description="Get list of items from DustBrigade", access_level="all")
     def db_tables_cmd(self, _):
@@ -291,7 +291,7 @@ class LootListsController:
         if items:
             return ChatBlob("%s loot table" % category, self.build_list(items, "poh", category))
         else:
-            return "No loot registered for <highlight>%s<end>." % category_name
+            return "No loot registered for <highlight>%s</highlight>." % category_name
 
     @command(command="poh", params=[], description="Get list of items from Pyramid of Home", access_level="all")
     def poh_tables_cmd(self, _):
@@ -323,7 +323,7 @@ class LootListsController:
         if items:
             return ChatBlob("%s loot table" % category, self.build_list(items, "totwh", category))
         else:
-            return "No loot registered for <highlight>%s<end>." % category_name
+            return "No loot registered for <highlight>%s</highlight>." % category_name
 
     @command(command="totwh", params=[], description="Get list of items from Temple of Three Winds", access_level="all")
     def totwh_tables_cmd(self, _):
@@ -353,7 +353,7 @@ class LootListsController:
         if items:
             return ChatBlob("%s loot table" % category, self.build_list(items, "subh", category))
         else:
-            return "No loot registered for <highlight>%s<end>." % category_name
+            return "No loot registered for <highlight>%s</highlight>." % category_name
 
     @command(command="subh", params=[], description="Get list of items from Condemned Subway (HL)", access_level="all")
     def subh_tables_cmd(self, _):

@@ -79,7 +79,7 @@ class UtilController:
         event_types = ""
         access_levels = ""
         for channel_id, name in self.public_channel_service.get_all_public_channels().items():
-            pub_channels += "%s - <highlight>%d<end>\n" % (name, channel_id)
+            pub_channels += "%s - <highlight>%d</highlight>\n" % (name, channel_id)
 
         for event_type in self.event_service.get_event_types():
             event_types += "%s\n" % event_type

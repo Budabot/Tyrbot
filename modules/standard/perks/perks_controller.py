@@ -16,11 +16,11 @@ class PerksController:
              description="Show what perks are available for specified level and profession")
     def perks_cmd(self, request, level, profession):
         if level < 1 or level > 220:
-            return "Level must be between <highlight>1<end> and <highlight>220<end>."
+            return "Level must be between <highlight>1</highlight> and <highlight>220</highlight>."
 
         prof = self.util.get_profession(profession)
         if not prof:
-            return "Could not find profession <highlight>%s<end>" % profession
+            return "Could not find profession <highlight>%s</highlight>" % profession
 
         sql = """
             SELECT
@@ -50,6 +50,6 @@ class PerksController:
             if row.perk_name != current_perk:
                 blob += "\n<header2>%s %s<end>\n" % (row.perk_name, row.max_perk_level)
                 current_perk = row.perk_name
-            blob += "%s <highlight>%d<end>\n" % (row.skill, row.buff_amount)
+            blob += "%s <highlight>%d</highlight>\n" % (row.skill, row.buff_amount)
 
         return ChatBlob("Buff Perks for %d %s" % (level, prof), blob)

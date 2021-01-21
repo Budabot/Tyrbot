@@ -27,7 +27,7 @@ class ItemsController:
         if item:
             return self.format_items_response(None, str(item_id), [item], 0, 1)
         else:
-            return "Could not find item with ID <highlight>%d<end>." % item_id
+            return "Could not find item with ID <highlight>%d</highlight>." % item_id
 
     @command(command="items", params=[Int("ql", is_optional=True), Any("search"), NamedParameters(["page"])], access_level="all",
              description="Search for an item")
@@ -48,19 +48,19 @@ class ItemsController:
 
         if cnt == 0:
             if ql:
-                return "No QL <highlight>%d<end> items found matching <highlight>%s<end>." % (ql, search)
+                return "No QL <highlight>%d</highlight> items found matching <highlight>%s</highlight>." % (ql, search)
             else:
-                return "No items found matching <highlight>%s<end>." % search
+                return "No items found matching <highlight>%s</highlight>." % search
         elif cnt == 1:
             item = items[0]
             return self.format_single_item(item, ql)
         else:
             blob = ""
-            # blob += "Version: <highlight>%s<end>\n" % "unknown"
+            # blob += "Version: <highlight>%s</highlight>\n" % "unknown"
             if ql:
-                blob += "Search: <highlight>QL %d %s<end>\n" % (ql, search)
+                blob += "Search: <highlight>QL %d %s</highlight>\n" % (ql, search)
             else:
-                blob += "Search: <highlight>%s<end>\n" % search
+                blob += "Search: <highlight>%s</highlight>\n" % search
             blob += "\n"
 
             if page > 1:

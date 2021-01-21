@@ -26,11 +26,11 @@ class LevelController:
         row = self.get_level_info(level)
 
         if row:
-            msg = "<white>L %d: Team %d-%d<end><highlight> | <end><cyan>PvP %d-%d<end><highlight> | <end><orange>Missions %s<end><highlight> | <end><blue>%d token(s)<end>" %\
+            msg = "<white>L %d: Team %d-%d</white><highlight> | </highlight><cyan>PvP %d-%d</cyan><highlight> | </highlight><orange>Missions %s</orange><highlight> | </highlight><blue>%d token(s)</blue>" %\
                   (row.level, row.team_min, row.team_max, row.pvp_min, row.pvp_max, row.missions, row.tokens)
             return msg
         else:
-            return "Level must be between <highlight>1<end> and <highlight>220<end>."
+            return "Level must be between <highlight>1</highlight> and <highlight>220</highlight>."
 
     @command(command="mission", params=[Int("mission_level")], access_level="all",
              description="Show what character levels can roll a specified mission level",
@@ -41,7 +41,7 @@ class LevelController:
 
             return "QL%d missions can be rolled from these levels: %s" % (level, " ".join(levels))
         else:
-            return "Mission level must be between <highlight>1<end> and <highlight>250<end>."
+            return "Mission level must be between <highlight>1</highlight> and <highlight>250</highlight>."
 
     @command(command="xp", params=[Int("start_level"), Int("end_level", is_optional=True)], access_level="all",
              description="Show the amount of XP needed to reach a certain level")
@@ -57,18 +57,18 @@ class LevelController:
         if 1 <= start_level <= 220 and 1 <= end_level <= 220:
             if end_level <= 200:
                 xp = self.db.query_single("SELECT SUM(xpsk) AS total_xp FROM level WHERE level >= ? AND level < ?", [start_level, end_level])
-                needed = "<highlight>%s<end> XP" % self.util.format_number(xp.total_xp)
+                needed = "<highlight>%s</highlight> XP" % self.util.format_number(xp.total_xp)
             elif start_level >= 200:
                 sk = self.db.query_single("SELECT SUM(xpsk) AS total_sk FROM level WHERE level >= ? AND level < ?", [start_level, end_level])
-                needed = "<highlight>%s<end> SK" % self.util.format_number(sk.total_sk)
+                needed = "<highlight>%s</highlight> SK" % self.util.format_number(sk.total_sk)
             else:
                 xp = self.db.query_single("SELECT SUM(xpsk) AS total_xp FROM level WHERE level >= ? AND level < 200", [start_level])
                 sk = self.db.query_single("SELECT SUM(xpsk) AS total_sk FROM level WHERE level >= 200 AND level < ?", [end_level])
-                needed = "<highlight>%s<end> XP and <highlight>%s<end> SK" % (self.util.format_number(xp.total_xp), self.util.format_number(sk.total_sk))
+                needed = "<highlight>%s</highlight> XP and <highlight>%s</highlight> SK" % (self.util.format_number(xp.total_xp), self.util.format_number(sk.total_sk))
 
-            return "From the beginning of level <highlight>%d<end> you need %s to reach level <highlight>%d<end>" % (start_level, needed, end_level)
+            return "From the beginning of level <highlight>%d</highlight> you need %s to reach level <highlight>%d</highlight>" % (start_level, needed, end_level)
         else:
-            return "Level must be between <highlight>1<end> and <highlight>219<end>."
+            return "Level must be between <highlight>1</highlight> and <highlight>219</highlight>."
 
     @command(command="axp", params=[], access_level="all",
              description="Show information about alien levels")
@@ -77,7 +77,7 @@ class LevelController:
 
         blob = ""
         for row in data:
-            blob += "AI Level <green>%d<end> - %s - <highlight>%s<end> - Min Level: %d\n" % (row.alien_level, self.util.format_number(row.axp), row.defender_rank, row.min_level)
+            blob += "AI Level <green>%d</green> - %s - <highlight>%s</highlight> - Min Level: %d\n" % (row.alien_level, self.util.format_number(row.axp), row.defender_rank, row.min_level)
 
         return ChatBlob("Alien Levels", blob)
 

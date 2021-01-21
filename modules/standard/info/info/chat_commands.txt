@@ -4,7 +4,7 @@ Here u can find an overview of some commands with samples.
 
 <header2>Playtime<end>
 
-<highlight>/played<end>
+<highlight>/played</highlight>
 
 Tells you for how long you have played this character. Also gives you the local time, both in-game and real-time.
 
@@ -12,7 +12,7 @@ Tells you for how long you have played this character. Also gives you the local 
 
 <header2> ::: Date of Birth :::<end>
 
-<highlight>/born<end>
+<highlight>/born</highlight>
 
 Tells you when character was created.
 
@@ -20,7 +20,7 @@ Tells you when character was created.
 
 <header2> ::: Stucked :::<end>
 
-<highlight>/stuck<end>
+<highlight>/stuck</highlight>
 
 When you are stuck, sit down and use this command and you will be moved
 
@@ -28,7 +28,7 @@ When you are stuck, sit down and use this command and you will be moved
 
 <header2> ::: Tip of the Day Infowindow :::<end>
 
-<highlight>/TipOfTheDay<end>
+<highlight>/TipOfTheDay</highlight>
 
 Will bring up the next tip.
 
@@ -36,7 +36,7 @@ Will bring up the next tip.
 
 <header2> ::: Messagebox :::<end>
 
-<highlight>/messagebox [text]<end>
+<highlight>/messagebox [text]</highlight>
 
 Opens a messagebox with [text] in it and a OK button to close it.
 
@@ -45,4 +45,4 @@ Opens a messagebox with [text] in it and a OK button to close it.
 
 Source: http://wiki.aodb.us/wiki/Chat_command
 
-by <highlight>longsdale<end>
+by <highlight>longsdale</highlight>

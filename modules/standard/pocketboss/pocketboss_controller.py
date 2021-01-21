@@ -24,8 +24,8 @@ class PocketbossController:
         num = len(data)
         if num == 1:
             row = data[0]
-            blob = "Location: <highlight>%s, %s<end>\n" % (row.long_name, row.location)
-            blob += "Found on: <highlight>%s, Level %d<end>\n\n" % (row.mob_type, row.level)
+            blob = "Location: <highlight>%s, %s</highlight>\n" % (row.long_name, row.location)
+            blob += "Found on: <highlight>%s, Level %d</highlight>\n\n" % (row.mob_type, row.level)
             symbs = self.db.query("SELECT a.* FROM pocketboss_loot p "
                                   "LEFT JOIN aodb a ON p.item_id = a.highid WHERE pocketboss_id = ? "
                                   "ORDER BY a.highql DESC, a.name ASC", [row.id])

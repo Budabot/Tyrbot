@@ -255,7 +255,7 @@ class LootController:
 
         item = self.items_controller.get_by_item_id(item_id)
         if not item:
-            return "Could not find item with ID <highlight>%d<end>." % item_id
+            return "Could not find item with ID <highlight>%d</highlight>." % item_id
 
         self.add_item_to_loot(item, None, item_count)
 
@@ -282,7 +282,7 @@ class LootController:
             loot += item
             self.add_item_to_loot(item, None, item_count)
 
-        return "<highlight>%s<end> was added to loot list." % loot
+        return "<highlight>%s</highlight> was added to loot list." % loot
 
     @timerevent(budatime="1h", description="Periodically check when loot list was last modified, and clear it if last modification was done 1+ hours ago")
     def loot_clear_event(self, _1, _2):

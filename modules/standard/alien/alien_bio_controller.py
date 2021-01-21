@@ -137,7 +137,7 @@ class AlienBioController:
         data = self.db.query("SELECT * FROM ofab_weapons WHERE type = ?", [bio_type])
 
         blob = self.display_item(name, ql) + "\n\n"
-        blob += "<highlight>Upgrades Ofab Weapons for:<end>\n"
+        blob += "<highlight>Upgrades Ofab Weapons for:</highlight>\n"
         for row in data:
             blob += self.text.make_chatcmd("Ofab %s Mk 1" % row.name, "/tell <myname> ofabweapons %s" % row.name) + "\n"
 

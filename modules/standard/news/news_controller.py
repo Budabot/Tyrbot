@@ -49,7 +49,7 @@ class NewsController:
         success = self.db.exec(sql, [request.sender.char_id, news, 0, int(time.time()), 0])
 
         if success > 0:
-            return "Successfully added news entry with ID <highlight>%d<end>." % self.db.last_insert_id()
+            return "Successfully added news entry with ID <highlight>%d</highlight>." % self.db.last_insert_id()
         else:
             return "Failed to add news entry."
 
@@ -59,9 +59,9 @@ class NewsController:
         success = self.db.exec(sql, [int(time.time()), news_id])
 
         if success > 0:
-            return "Successfully deleted news entry with ID <highlight>%d<end>." % news_id
+            return "Successfully deleted news entry with ID <highlight>%d</highlight>." % news_id
         else:
-            return "Could not find news entry with ID <highlight>%d<end>." % news_id
+            return "Could not find news entry with ID <highlight>%d</highlight>." % news_id
 
     @command(command="news", params=[Const("sticky"), Int("news_id")], description="Sticky a news entry", access_level="moderator", sub_command="update")
     def news_sticky_cmd(self, request, _, news_id):
@@ -69,9 +69,9 @@ class NewsController:
         success = self.db.exec(sql, [news_id])
 
         if success > 0:
-            return "Successfully updated news entry with ID <highlight>%d<end> to a sticky." % news_id
+            return "Successfully updated news entry with ID <highlight>%d</highlight> to a sticky." % news_id
         else:
-            return "Could not find news entry with ID <highlight>%d<end>." % news_id
+            return "Could not find news entry with ID <highlight>%d</highlight>." % news_id
 
     @command(command="news", params=[Const("unsticky"), Int("news_id")], description="Unsticky a news entry", access_level="moderator", sub_command="update")
     def news_unsticky_cmd(self, request, _, news_id):
@@ -79,19 +79,19 @@ class NewsController:
         success = self.db.exec(sql, [news_id])
 
         if success > 0:
-            return "Successfully removed news entry with ID <highlight>%d<end> as a sticky." % news_id
+            return "Successfully removed news entry with ID <highlight>%d</highlight> as a sticky." % news_id
         else:
-            return "Could not find news entry with ID <highlight>%d<end>." % news_id
+            return "Could not find news entry with ID <highlight>%d</highlight>." % news_id
 
     @command(command="news", params=[Const("markasread"), Int("news_id")], description="Mark a news entry as read", access_level="member")
     def news_markasread_cmd(self, request, _, news_id):
         if not self.get_news_entry(news_id):
-            return "Could not find news entry with ID <highlight>%d<end>." % news_id
+            return "Could not find news entry with ID <highlight>%d</highlight>." % news_id
 
         sql = "INSERT INTO news_read (char_id, news_id) VALUES (?,?)"
         self.db.exec(sql, [request.sender.char_id, news_id])
 
-        return "Successfully marked news entry with ID <highlight>%d<end> as read." % news_id
+        return "Successfully marked news entry with ID <highlight>%d</highlight> as read." % news_id
 
     @command(command="news", params=[Const("markasread"), Const("all")], description="Mark all news entries as read", access_level="member")
     def news_markasread_all_cmd(self, request, _1, _2):
@@ -102,7 +102,7 @@ class NewsController:
 
         num_rows = self.db.exec(sql, [request.sender.char_id, main.char_id])
 
-        return "Successfully marked <highlight>%d<end> news entries as read." % num_rows
+        return "Successfully marked <highlight>%d</highlight> news entries as read." % num_rows
 
     @event(event_type=OrgMemberController.ORG_MEMBER_LOGON_EVENT, description="Send news list when org member logs on")
     def orgmember_logon_event(self, event_type, event_data):
@@ -167,7 +167,7 @@ class NewsController:
             timestamp = self.util.format_datetime(item.created_at)
 
             blob += item.news + "\n"
-            blob += "- <highlight>%s<end> [%s] ID %d\n\n" % (item.author, timestamp, item.id)
+            blob += "- <highlight>%s</highlight> [%s] ID %d\n\n" % (item.author, timestamp, item.id)
 
         return blob
 
@@ -181,7 +181,7 @@ class NewsController:
 
             msg = "Unread News: "
             msg += item.news + "\n"
-            msg += "- <highlight>%s<end> [%s] ID %d %s" % (item.author, timestamp, item.id, read_link_blob)
+            msg += "- <highlight>%s</highlight> [%s] ID %d %s" % (item.author, timestamp, item.id, read_link_blob)
         else:
             blob = "%s\n\n" % self.text.make_chatcmd("Hide all", "/tell <myname> news markasread all")
 
@@ -190,7 +190,7 @@ class NewsController:
                 timestamp = self.util.format_datetime(item.created_at)
 
                 blob += item.news + "\n"
-                blob += "- <highlight>%s<end> [%s] ID %d %s\n\n" % (item.author, timestamp, item.id, read_link)
+                blob += "- <highlight>%s</highlight> [%s] ID %d %s\n\n" % (item.author, timestamp, item.id, read_link)
 
             msg = ChatBlob("Unread News (%d)" % len(entries), blob)
 

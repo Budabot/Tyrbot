@@ -4,22 +4,22 @@ If you want to see a complete guide about the Chatfilter go <a href='chatcmd:///
 
 <u>First we add specific letters to the filter for Egpal:</u>
 
-<highlight>/filter add [eE][- _.]*[gG][- _.]*[pP][- _.]*[aA][- _.]*[lL]<end>
+<highlight>/filter add [eE][- _.]*[gG][- _.]*[pP][- _.]*[aA][- _.]*[lL]</highlight>
 <a href='chatcmd:///filter add [eE][- _.]*[gG][- _.]*[pP][- _.]*[aA][- _.]*[lL]'>Singleclick to add</a>
 
 <u>Then we add MMOOK creditspammer to filter:</u>
 
-<highlight>/filter add [Mm][Mm][Oo][Oo][Kk]<end>
+<highlight>/filter add [Mm][Mm][Oo][Oo][Kk]</highlight>
 <a href='chatcmd:///filter add [Mm][Mm][Oo][Oo][Kk]'>Singleclick to add</a>
 
 <u>Now we enable the filter:</u>
 
-<highlight>/filter enable<end>
+<highlight>/filter enable</highlight>
 <a href='chatcmd:///filter enable'>Singleclick to enable</a>
 
 <u>To see if the filter is correct and look at the entries:</u>
 
-<highlight>/filter list<end>
+<highlight>/filter list</highlight>
 <a href='chatcmd:///filter list'>Singleclick to list</a>
 
 
@@ -29,4 +29,4 @@ Same goes for this guide in all channels because it contain the filtered words. 
 
 Source: AO forum and AOU
 
-by <highlight>longsdale<end>
+by <highlight>longsdale</highlight>

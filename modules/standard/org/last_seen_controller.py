@@ -43,9 +43,9 @@ class LastSeenController:
         data = self.db.query(sql, [char.char_id, char.char_id])
         blob = ""
         if len(data) == 0:
-            blob += "Note: <highlight>%s<end> must be in the same organization as the bot in order to track <highlight>lastseen<end> data." % char.name
+            blob += "Note: <highlight>%s</highlight> must be in the same organization as the bot in order to track <highlight>lastseen</highlight> data." % char.name
 
         for row in data:
-            blob += "<highlight>%s<end> last seen at %s\n" % (row.name, self.util.format_datetime(row.last_seen))
+            blob += "<highlight>%s</highlight> last seen at %s\n" % (row.name, self.util.format_datetime(row.last_seen))
 
         return ChatBlob("Last Seen for %s (%d)" % (char.name, len(data)), blob)

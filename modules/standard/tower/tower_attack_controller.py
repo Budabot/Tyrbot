@@ -88,7 +88,7 @@ class TowerAttackController:
     def attacks_battle_cmd(self, request, _, battle_id):
         battle = self.db.query_single("SELECT b.*, p.short_name FROM tower_battle b LEFT JOIN playfields p ON p.id = b.playfield_id WHERE b.id = ?", [battle_id])
         if not battle:
-            return "Could not find battle with ID <highlight>%d<end>." % battle_id
+            return "Could not find battle with ID <highlight>%d</highlight>." % battle_id
 
         t = int(time.time())
 
@@ -98,7 +98,7 @@ class TowerAttackController:
 
         blob = self.check_for_all_towers_channel()
         blob += self.format_battle_info(battle, t)
-        blob += "Duration: <highlight>%s<end>\n\n" % self.util.time_to_readable(battle.last_updated - first_activity)
+        blob += "Duration: <highlight>%s</highlight>\n\n" % self.util.time_to_readable(battle.last_updated - first_activity)
         blob += "<header2>Attackers:<end>\n"
 
         for row in attackers:
@@ -251,13 +251,13 @@ class TowerAttackController:
     def format_battle_info(self, row, t):
         blob = ""
         defeated = " - <notice>Defeated!<end>" if row.is_finished else ""
-        blob += "Site: <highlight>%s %s<end>\n" % (row.short_name, row.site_number or "?")
-        blob += "Defender: <highlight>%s<end> (%s)%s\n" % (row.def_org_name, row.def_faction, defeated)
+        blob += "Site: <highlight>%s %s</highlight>\n" % (row.short_name, row.site_number or "?")
+        blob += "Defender: <highlight>%s</highlight> (%s)%s\n" % (row.def_org_name, row.def_faction, defeated)
         blob += "Last Activity: %s\n" % self.format_timestamp(row.last_updated, t)
         return blob
 
     def format_timestamp(self, t, current_t):
-        return "<highlight>%s<end> (%s ago)" % (self.util.format_datetime(t), self.util.time_to_readable(current_t - t))
+        return "<highlight>%s</highlight> (%s ago)" % (self.util.format_datetime(t), self.util.time_to_readable(current_t - t))
 
     def get_chat_command(self, page):
         return "/tell <myname> attacks --page=%d" % page

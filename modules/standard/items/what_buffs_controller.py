@@ -40,7 +40,7 @@ class WhatBuffsController:
     def whatbuffs_skill_cmd(self, request, skill_name):
         skills = self.search_for_skill(skill_name)
         if len(skills) == 0:
-            return "Could not find skill <highlight>%s<end>." % skill_name
+            return "Could not find skill <highlight>%s</highlight>." % skill_name
         elif len(skills) == 1:
             skill = skills.pop()
 
@@ -87,7 +87,7 @@ class WhatBuffsController:
         skills = self.search_for_skill(skill_name)
 
         if len(skills) == 0:
-            return "Could not find skill <highlight>%s<end>." % skill_name
+            return "Could not find skill <highlight>%s</highlight>." % skill_name
         elif len(skills) == 1:
             skill = skills.pop()
             return self.get_search_results(item_type, skill)
@@ -108,7 +108,7 @@ class WhatBuffsController:
                              "ORDER BY item_type, amount DESC", ["%" if item_type == "All" else item_type, skill.id])
 
         if len(data) == 0:
-            return "No items found of type <highlight>%s<end> that buff <highlight>%s<end>." % (item_type, skill.name)
+            return "No items found of type <highlight>%s</highlight> that buff <highlight>%s</highlight>." % (item_type, skill.name)
         else:
             current_item_type = ""
             blob = ""

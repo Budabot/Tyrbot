@@ -4,32 +4,32 @@
     "de_DE": "Alias Liste ({amount})"
   },
   "alias_add_success": {
-    "en_US": "Alias <highlight>{alias}<end> for command <highlight>{cmd}<end> added successfully.",
-    "de_DE": "Der Alias <highlight>{alias}<end> für den Befehl <highlight>{cmd}<end> wurde erfolgreich hinzugefügt."
+    "en_US": "Alias <highlight>{alias}</highlight> for command <highlight>{cmd}</highlight> added successfully.",
+    "de_DE": "Der Alias <highlight>{alias}</highlight> für den Befehl <highlight>{cmd}</highlight> wurde erfolgreich hinzugefügt."
   },
   "alias_add_fail": {
-    "en_US": "Cannot add alias <highlight>{alias}<end> since there is already an active alias with that name.",
-    "de_DE": "Der Alias <highlight>{alias}<end> konnte nicht hinzugefügt werden, da bereits einer mit selbigem Alias existiert."
+    "en_US": "Cannot add alias <highlight>{alias}</highlight> since there is already an active alias with that name.",
+    "de_DE": "Der Alias <highlight>{alias}</highlight> konnte nicht hinzugefügt werden, da bereits einer mit selbigem Alias existiert."
   },
   "alias_rem_success": {
-    "en_US": "Alias <highlight>{alias}<end> has been removed successfully.",
-    "de_DE": "Der Alias <highlight>{alias}<end> wurde erfolgreich entfernt."
+    "en_US": "Alias <highlight>{alias}</highlight> has been removed successfully.",
+    "de_DE": "Der Alias <highlight>{alias}</highlight> wurde erfolgreich entfernt."
   },
   "alias_rem_fail": {
-    "en_US": "Could not find alias <highlight>{alias}<end>",
-    "de_DE": "Der Alias <highlight>{alias}<end> konnte nicht gefunden werden."
+    "en_US": "Could not find alias <highlight>{alias}</highlight>",
+    "de_DE": "Der Alias <highlight>{alias}</highlight> konnte nicht gefunden werden."
   },
   "cmdlist_commands": {
     "en_US": "Commands ({amount})",
     "de_DE": "Befehlsliste ({amount})"
   },
   "cmd_unknown_channel": {
-    "en_US": "Unknown command channel <highlight>{channel}<end>.",
-    "de_DE": "Der Befehlschannel <highlight>{channel}<end> existiert nicht."
+    "en_US": "Unknown command channel <highlight>{channel}</highlight>.",
+    "de_DE": "Der Befehlschannel <highlight>{channel}</highlight> existiert nicht."
   },
   "cmd_unknown_for_channel": {
-    "en_US": "Could not find command <highlight>{cmd}<end> for channel <highlight>{channel}<end>.",
-    "de_DE": "Der Befehl <highlight>{cmd}<end> für den Channel <highlight>{channel}<end> wurde nicht gefunden."
+    "en_US": "Could not find command <highlight>{cmd}</highlight> for channel <highlight>{channel}</highlight>.",
+    "de_DE": "Der Befehl <highlight>{cmd}</highlight> für den Channel <highlight>{channel}</highlight> wurde nicht gefunden."
   },
   "enabled_low": {
     "en_US": "enabled",
@@ -68,32 +68,32 @@
   "de_DE": "Einstellungen ({count})"
   },
   "cmd_toggle_success": {
-    "en_US": "Command <highlight>{cmd}<end> has been <highlight>{changedto}<end> successfully.",
-    "de_DE": "Der Befehl <highlight>{cmd}<end> ist nun <highlight>{changedto}<end>"
+    "en_US": "Command <highlight>{cmd}</highlight> has been <highlight>{changedto}</highlight> successfully.",
+    "de_DE": "Der Befehl <highlight>{cmd}</highlight> ist nun <highlight>{changedto}</highlight>"
   },
   "cmd_toggle_channel_success": {
-    "en_US": "Command <highlight>{cmd}<end> for channel <highlight>{channel}<end> has been <highlight>{changedto}<end> successfully.",
-    "de_DE": "Der Befehl <highlight>{cmd}<end> ist im channel <highlight>{channel}<end> nun <highlight>{changedto}<end>."
+    "en_US": "Command <highlight>{cmd}</highlight> for channel <highlight>{channel}</highlight> has been <highlight>{changedto}</highlight> successfully.",
+    "de_DE": "Der Befehl <highlight>{cmd}</highlight> ist im channel <highlight>{channel}</highlight> nun <highlight>{changedto}</highlight>."
   },
   "unknown_accesslevel": {
-    "en_US": "Unknown access level <highlight>{al}<end>.",
-    "de_DE": "Unbekanntes Rechtelevel: <highlight>{al}<end>"
+    "en_US": "Unknown access level <highlight>{al}</highlight>.",
+    "de_DE": "Unbekanntes Rechtelevel: <highlight>{al}</highlight>"
   },
   "set_accesslevel_success": {
-    "en_US": "Access level <highlight>{al}<end> for command <highlight>{cmd}<end> has been set successfully.",
-    "de_DE": "Für den Befehl <highlight>{cmd}<end> wurden die Zugriffsreche erfolgreich auf <highlight>{al}<end> geändert."
+    "en_US": "Access level <highlight>{al}</highlight> for command <highlight>{cmd}</highlight> has been set successfully.",
+    "de_DE": "Für den Befehl <highlight>{cmd}</highlight> wurden die Zugriffsreche erfolgreich auf <highlight>{al}</highlight> geändert."
   },
   "set_accesslevel_fail": {
-    "en_US": "Access level <highlight>{al}<end> for command <highlight>{cmd}<end> on channel <highlight>{channel}<end> has been set successfully.",
-    "de_DE": "Der Befehl <highlight>{cmd}<end> benötigt im channel <highlight>{channel}<end> nun den Rang <highlight>{al}<end>."
+    "en_US": "Access level <highlight>{al}</highlight> for command <highlight>{cmd}</highlight> on channel <highlight>{channel}</highlight> has been set successfully.",
+    "de_DE": "Der Befehl <highlight>{cmd}</highlight> benötigt im channel <highlight>{channel}</highlight> nun den Rang <highlight>{al}</highlight>."
   },
   "access_level": {
     "en_US": "Access Level",
     "de_DE": "Zugriffslevel"
   },
   "no_cmd": {
-    "en_US": "Could not find command <highlight>{cmd}<end>.",
-    "de_DE": "Der Befehl <highlight>{cmd}<end> ist mir unbekannt."
+    "en_US": "Could not find command <highlight>{cmd}</highlight>.",
+    "de_DE": "Der Befehl <highlight>{cmd}</highlight> ist mir unbekannt."
   },
   "settings": {
     "en_US": "<header2>Settings<end>\n",
@@ -116,32 +116,32 @@
     "de_DE": "Modul ({mod})"
   },
   "mod_not_found": {
-    "en_US": "Could not find module <highlight>{mod}<end>",
-    "de_DE": "Das Modul <highlight>{mod}<end> wurde nicht gefunden."
+    "en_US": "Could not find module <highlight>{mod}</highlight>",
+    "de_DE": "Das Modul <highlight>{mod}</highlight> wurde nicht gefunden."
   },
   "no_new_value": {
     "en_US": "Error! New value required to update setting.",
     "de_DE": "Error! Es muss eine neue Option eingegeben werden, um die Einstellung zu ändern."
   },
   "set_clr": {
-    "en_US": "Setting <highlight>{setting}<end> has been cleared.",
-    "de_DE": "Die Einstellung <highlight>{setting}<end> wurde geleert."
+    "en_US": "Setting <highlight>{setting}</highlight> has been cleared.",
+    "de_DE": "Die Einstellung <highlight>{setting}</highlight> wurde geleert."
   },
   "set_new": {
-    "en_US": "Setting <highlight>{setting}<end> has been set to {value}.",
-    "de_DE": "Die Einstellung <highlight>{setting}<end> hat nun den Wert: {value}"
+    "en_US": "Setting <highlight>{setting}</highlight> has been set to {value}.",
+    "de_DE": "Die Einstellung <highlight>{setting}</highlight> hat nun den Wert: {value}"
   },
   "setting_not_found": {
-    "en_US": "Could not find setting <highlight>{setting}<end>.",
-    "de_DE": "Die Einstellung <highlight>{setting}<end> wurde nicht gefunden."
+    "en_US": "Could not find setting <highlight>{setting}</highlight>.",
+    "de_DE": "Die Einstellung <highlight>{setting}</highlight> wurde nicht gefunden."
   },
   "current_value": {
-    "en_US": "Current Value: <highlight>{value}<end>\n",
-    "de_DE": "Aktueller Wert: <highlight>{value}<end>\n"
+    "en_US": "Current Value: <highlight>{value}</highlight>\n",
+    "de_DE": "Aktueller Wert: <highlight>{value}</highlight>\n"
   },
   "description": {
-    "en_US": "Description: <highlight>{desc}<end>\n\n",
-    "de_DE": "Beschreibung: <highlight>{desc}<end>\n\n"
+    "en_US": "Description: <highlight>{desc}</highlight>\n\n",
+    "de_DE": "Beschreibung: <highlight>{desc}</highlight>\n\n"
   },
   "setting": {
     "en_US": "Setting ({setting})",
@@ -152,20 +152,20 @@
     "de_DE": "Einstellungen ({count})"
   },
   "unknown_event": {
-    "en_US": "Unknown event type <highlight>{type}<end>.",
-    "de_DE": "Unbekannter Eventtyp: <highlight>{type}<end>"
+    "en_US": "Unknown event type <highlight>{type}</highlight>.",
+    "de_DE": "Unbekannter Eventtyp: <highlight>{type}</highlight>"
   },
   "event_enable_fail": {
-    "en_US": "Could not find event for type <highlight>{type}<end> and handler <highlight>{handler}<end>.",
-    "de_DE": "Es konnte kein Event des types <highlight>{type}<end> mit dem Handler <highlight>{handler}<end> gefunden werden."
+    "en_US": "Could not find event for type <highlight>{type}</highlight> and handler <highlight>{handler}</highlight>.",
+    "de_DE": "Es konnte kein Event des types <highlight>{type}</highlight> mit dem Handler <highlight>{handler}</highlight> gefunden werden."
   },
   "event_enable_success": {
-    "en_US": "Event type <highlight>{type}<end> for handler <highlight>{handler}<end> has been <highlight>{changedto}<end> successfully.",
-    "de_DE": "Für den Eventtyp <highlight>{type}<end> wurde der handler <highlight>{handler}<end> erfolgreich <highlight>{changedto}<end>."
+    "en_US": "Event type <highlight>{type}</highlight> for handler <highlight>{handler}</highlight> has been <highlight>{changedto}</highlight> successfully.",
+    "de_DE": "Für den Eventtyp <highlight>{type}</highlight> wurde der handler <highlight>{handler}</highlight> erfolgreich <highlight>{changedto}</highlight>."
   },
   "event_manual": {
-    "en_US": "Only <highlight>timer<end> events can be run manually.",
-    "de_DE": "Es können nur <highlight>timer<end> Events manuell angestoßen werden."
+    "en_US": "Only <highlight>timer</highlight> events can be run manually.",
+    "de_DE": "Es können nur <highlight>timer</highlight> Events manuell angestoßen werden."
   },
   "blob_events": {
     "en_US": "Events ({amount})",

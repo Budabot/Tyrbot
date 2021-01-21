@@ -30,7 +30,7 @@ class QuoteController:
         if quote:
             return quote
         else:
-            return "Could not find quote with ID <highlight>%d<end>." % quote_id
+            return "Could not find quote with ID <highlight>%d</highlight>." % quote_id
 
     @command(command="quote", params=[Const("add"), Any("quote")], access_level="all",
              description="Show a specific quote")

@@ -42,17 +42,17 @@ class PremadeImplantController:
         prof = self.util.get_profession(search)
         slot = self.get_slot(search)
         if prof:
-            blob = "Search by profession: <highlight>%s<end>\n\n" % prof
+            blob = "Search by profession: <highlight>%s</highlight>\n\n" % prof
             results = self.search_by_profession(prof)
         elif slot:
-            blob = "Search by slot: <highlight>%s<end>\n\n" % slot.ShortName
+            blob = "Search by slot: <highlight>%s</highlight>\n\n" % slot.ShortName
             results = self.search_by_slot(slot.ShortName)
         else:
-            blob = "Search by modifier: <highlight>%s<end>\n\n" % search
+            blob = "Search by modifier: <highlight>%s</highlight>\n\n" % search
             results = self.search_by_modifier(search)
 
         for row in results:
-            blob += "<header2>%s<end> %s <highlight>%s<end> %s, %s, %s\n" % (row.profession, row.slot, row.ability, row.shiny, row.bright, row.faded)
+            blob += "<header2>%s<end> %s <highlight>%s</highlight> %s, %s, %s\n" % (row.profession, row.slot, row.ability, row.shiny, row.bright, row.faded)
 
         return ChatBlob("Premade Implant Search Results (%d)" % len(results), blob)
 

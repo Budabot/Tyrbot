@@ -100,10 +100,10 @@ class RaffleController:
     def get_raffle_display(self, t):
         time_left_str = self.util.time_to_readable(self.raffle.finished_at - t)
 
-        blob = "Item: <highlight>%s<end>\n" % self.raffle.item
-        blob += "By: <highlight>%s<end>\n" % self.raffle.owner.name
-        blob += "Time left: <highlight>%s<end>\n" % time_left_str
-        blob += "Members (%d): <highlight>%s<end>\n\n" % (len(self.raffle.members), ", ".join(self.raffle.members))
+        blob = "Item: <highlight>%s</highlight>\n" % self.raffle.item
+        blob += "By: <highlight>%s</highlight>\n" % self.raffle.owner.name
+        blob += "Time left: <highlight>%s</highlight>\n" % time_left_str
+        blob += "Members (%d): <highlight>%s</highlight>\n\n" % (len(self.raffle.members), ", ".join(self.raffle.members))
         blob += "Click %s to join the raffle!\n\n" % self.text.make_chatcmd("here", "/tell <myname> raffle join")
         blob += "Click %s if you wish to leave the raffle." % self.text.make_chatcmd("here", "/tell <myname> raffle leave")
 
@@ -124,7 +124,7 @@ class RaffleController:
             if len(self.raffle.members) == 0:
                 self.spam_raffle_channels("The raffle has ended and there is no winner because no one entered the raffle.")
             else:
-                self.spam_raffle_channels("Congratulations <highlight>%s<end>! You have won the raffle for <highlight>%s<end>." % (self.get_raffle_winner(), self.raffle.item))
+                self.spam_raffle_channels("Congratulations <highlight>%s</highlight>! You have won the raffle for <highlight>%s</highlight>." % (self.get_raffle_winner(), self.raffle.item))
             self.raffle = None
         else:
             self.spam_raffle_channels(self.get_raffle_display(t))

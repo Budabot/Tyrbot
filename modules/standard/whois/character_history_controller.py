@@ -24,7 +24,7 @@ class CharacterHistoryController:
 
         data = self.character_history_service.get_character_history(char.name, server_num)
         if not data:
-            return "Could not find history for <highlight>%s<end> on server <highlight>%d<end>." % (char.name, server_num)
+            return "Could not find history for <highlight>%s</highlight> on server <highlight>%d</highlight>." % (char.name, server_num)
 
         return ChatBlob("History of %s (RK%d)" % (char.name, server_num), self.format_character_history(char.name, data))
 

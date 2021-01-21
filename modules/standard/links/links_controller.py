@@ -25,7 +25,7 @@ class LinksController:
 
         blob = ""
         for row in data:
-            blob += "%s <highlight>%s<end> [%s] %s \n" % (self.text.make_chatcmd("[Link]", "/start %s" % row.website),
+            blob += "%s <highlight>%s</highlight> [%s] %s \n" % (self.text.make_chatcmd("[Link]", "/start %s" % row.website),
                                                        row.comments,
                                                        row.name,
                                                        self.text.make_chatcmd("Remove", "/tell <myname> links remove %d" % row.id))
@@ -46,7 +46,7 @@ class LinksController:
     def links_remove_cmd(self, request, _, link_id):
         link = self.db.query_single("SELECT * FROM links WHERE id = ?", [link_id])
         if not link:
-            return "Could not find link with ID <highlight>%d<end>." % link_id
+            return "Could not find link with ID <highlight>%d</highlight>." % link_id
 
         self.db.exec("DELETE FROM links WHERE id = ?", [link_id])
         return "Link has been deleted"

@@ -3,40 +3,40 @@
     "en_US": [
       "<header2>Info<end>\n",
       "Status: {connected}\n",
-      "Channels available: <highlight>{count}<end>\n\n",
+      "Channels available: <highlight>{count}</highlight>\n\n",
       "<header2>Servers<end>\n",
       "{servers}\n",
       "<header2>Channels<end>\n",
       "{subs}",
-      "\n\nDiscord Module written by <highlight>Vladimirovna<end>\n"
+      "\n\nDiscord Module written by <highlight>Vladimirovna</highlight>\n"
     ],
     "de_DE": [
       "<header2>Informationen<end>\n",
       "Status: {connected}\n",
-      "Verfügbare Channel: <highlight>{count}<end>\n\n",
+      "Verfügbare Channel: <highlight>{count}</highlight>\n\n",
       "<header2>Server<end>\n",
       "{servers}\n",
       "<header2>Channel<end>\n",
       "{subs}",
-      "\n\nDas Discord Modul wurde von <highlight>Vladimirovna<end> geschrieben\n"
+      "\n\nDas Discord Modul wurde von <highlight>Vladimirovna</highlight> geschrieben\n"
     ]
   },
   "blob_relay": {
     "en_US": [
       "<header2>Info<end>\n",
       "Status: {connected} [{switch_connection}]\n",
-      "Channels available: <highlight>{count}<end>\n\n",
+      "Channels available: <highlight>{count}</highlight>\n\n",
       "<header2>Subscription setup<end>\n",
       "{subs}",
-      "\n\nDiscord Module written by <highlight>Vladimirovna<end>\n"
+      "\n\nDiscord Module written by <highlight>Vladimirovna</highlight>\n"
     ],
     "de_DE": [
       "<header2>Informationen<end>\n",
       "Status: {connected} [{switch_connection}]\n",
-      "Verfügbare Channel: <highlight>{count}<end>\n\n",
+      "Verfügbare Channel: <highlight>{count}</highlight>\n\n",
       "<header2>Abonnierte Channel<end>\n",
       "{subs}",
-      "\n\nDas Discord Modul wurde von <highlight>Vladimirovna<end> geschrieben\n"
+      "\n\nDas Discord Modul wurde von <highlight>Vladimirovna</highlight> geschrieben\n"
     ]
   },
 
@@ -78,18 +78,18 @@
   },
   "sub": {
     "en_US": [
-      "<highlight>{server_name}<end> :: <highlight>{channel_name}<end>\n",
+      "<highlight>{server_name}</highlight> :: <highlight>{channel_name}</highlight>\n",
     ],
     "de_DE": [
-      "<highlight>{server_name}<end> :: <highlight>{channel_name}<end>\n",
+      "<highlight>{server_name}</highlight> :: <highlight>{channel_name}</highlight>\n",
     ]
   },
   "relay": {
     "en_US": [
-      "<highlight>{server_name}<end> :: <highlight>{channel_name}<end> [{select}] {selected}\n",
+      "<highlight>{server_name}</highlight> :: <highlight>{channel_name}</highlight> [{select}] {selected}\n",
     ],
     "de_DE": [
-      "<highlight>{server_name}<end> :: <highlight>{channel_name}<end> [{select}] {selected}\n",
+      "<highlight>{server_name}</highlight> :: <highlight>{channel_name}</highlight> [{select}] {selected}\n",
     ]
   },
   "title": {
@@ -137,8 +137,8 @@
     "de_DE": "Die Weiterleitung des Channels {channel} ist nun {changed}"
   },
   "no_dc": {
-    "en_US": "Could not find Discord server with ID <highlight>{id}<end>.",
-    "de_DE": "Es konnte kein Discord Server mit der ID <highlight>{id}<end> gefunden werden."
+    "en_US": "Could not find Discord server with ID <highlight>{id}</highlight>.",
+    "de_DE": "Es konnte kein Discord Server mit der ID <highlight>{id}</highlight> gefunden werden."
   },
   "blob_invites": {
     "en_US": [
@@ -190,10 +190,10 @@
     "en_US": "You cannot link an alt, you must link with a main character."
   },
   "must_run_from_main": {
-    "en_US": "You must run this command from your main character <highlight>{char}<end>."
+    "en_US": "You must run this command from your main character <highlight>{char}</highlight>."
   },
   "link_success": {
-    "en_US": "You have been linked with discord user <highlight>{discord_user}<end> successfully"
+    "en_US": "You have been linked with discord user <highlight>{discord_user}</highlight> successfully"
   }
   "confirm_instructions": {
     "en_US": [

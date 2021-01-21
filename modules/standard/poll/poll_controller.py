@@ -55,7 +55,7 @@ class PollController:
         poll = self.get_poll(poll_id)
 
         if not poll:
-            return "Could not find poll with ID <highlight>%d<end>." % poll_id
+            return "Could not find poll with ID <highlight>%d</highlight>." % poll_id
 
         return self.show_poll_details_blob(poll)
 
@@ -88,11 +88,11 @@ class PollController:
     def poll_vote_cmd(self, request, poll_id, _, choice_id):
         poll = self.get_poll(poll_id)
         if not poll:
-            return "Could not find poll with id <highlight>%d<end>." % poll_id
+            return "Could not find poll with id <highlight>%d</highlight>." % poll_id
 
         choice = self.db.query_single("SELECT * FROM poll_choice WHERE poll_id = ? AND id = ?", [poll_id, choice_id])
         if not choice:
-            return "Could not find choice with id <highlight>%d<end> for poll id <highlight>%d<end>." % (choice_id, poll_id)
+            return "Could not find choice with id <highlight>%d</highlight> for poll id <highlight>%d</highlight>." % (choice_id, poll_id)
 
         main = self.alts_service.get_main(request.sender.char_id)
 
@@ -112,7 +112,7 @@ class PollController:
     def poll_remvote_cmd(self, request, poll_id, _):
         poll = self.get_poll(poll_id)
         if not poll:
-            return "Could not find poll with id <highlight>%d<end>." % poll_id
+            return "Could not find poll with id <highlight>%d</highlight>." % poll_id
 
         main = self.alts_service.get_main(request.sender.char_id)
 
@@ -151,9 +151,9 @@ class PollController:
 
     def show_poll_details_blob(self, poll):
         blob = ""
-        blob += "Duration: <highlight>%s<end>\n" % self.util.time_to_readable(poll.duration)
-        blob += "Created: <highlight>%s<end>\n" % self.util.format_datetime(poll.created_at)
-        blob += "Finished: <highlight>%s<end>\n" % self.util.format_datetime(poll.finished_at)
+        blob += "Duration: <highlight>%s</highlight>\n" % self.util.time_to_readable(poll.duration)
+        blob += "Created: <highlight>%s</highlight>\n" % self.util.format_datetime(poll.created_at)
+        blob += "Finished: <highlight>%s</highlight>\n" % self.util.format_datetime(poll.finished_at)
 
         blob += "\n<header2>Choices<end>\n"
         idx = 1
@@ -202,5 +202,5 @@ class PollController:
         self.end_poll(self.get_poll(poll_id))
 
     def end_poll(self, poll):
-        self.bot.send_private_message(poll.char_id, "Your poll <highlight>%d. %s<end> has finished." % (poll.id, poll.question))
+        self.bot.send_private_message(poll.char_id, "Your poll <highlight>%d. %s</highlight> has finished." % (poll.id, poll.question))
         self.db.exec("UPDATE poll SET is_finished = 1 WHERE id = ?", [poll.id])

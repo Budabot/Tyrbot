@@ -51,7 +51,7 @@ class CharacterInfoController:
                 blob += "Level: %d\n" % char_info.level
                 blob += "AI Level: <green>%d<end>\n" % char_info.ai_level
                 if char_info.org_id:
-                    blob += "Org: <highlight>%s<end> (%d) (%s)\n" % (char_info.org_name, char_info.org_id, self.text.make_chatcmd("orglist", "/tell <myname> orglist " + char_info.name))
+                    blob += "Org: <highlight>%s</highlight> (%d) (%s)\n" % (char_info.org_name, char_info.org_id, self.text.make_chatcmd("orglist", "/tell <myname> orglist " + char_info.name))
                     blob += "Org Rank: %s (%d)\n" % (char_info.org_rank_name, char_info.org_rank_id)
                 else:
                     blob += "Org: &lt;None&gt;\n"
@@ -67,7 +67,7 @@ class CharacterInfoController:
 
                 return self.text.format_char_info(char_info) + " " + more_info
             else:
-                return "Could not find info for character <highlight>%s<end> on RK%d." % (char.name, dimension)
+                return "Could not find info for character <highlight>%s</highlight> on RK%d." % (char.name, dimension)
         elif char.char_id:
             online_status = self.buddy_service.is_online(char.char_id)
             if online_status is None:
@@ -95,7 +95,7 @@ class CharacterInfoController:
             blob += "Level: %d\n" % char_info.level
             blob += "AI Level: <green>%d<end>\n" % char_info.ai_level
             if char_info.org_id:
-                blob += "Org: <highlight>%s<end> (%d) (%s)\n" % (char_info.org_name, char_info.org_id, self.text.make_chatcmd("orglist", "/tell <myname> orglist " + char_info.name))
+                blob += "Org: <highlight>%s</highlight> (%d) (%s)\n" % (char_info.org_name, char_info.org_id, self.text.make_chatcmd("orglist", "/tell <myname> orglist " + char_info.name))
                 blob += "Org Rank: %s (%d)\n" % (char_info.org_rank_name, char_info.org_rank_id)
             else:
                 blob += "Org: &lt;None&gt;\n"
@@ -118,14 +118,14 @@ class CharacterInfoController:
             msg = self.text.format_char_info(char_info, online_status) + " " + more_info
         elif char.char_id:
             blob = "<notice>Note: Could not retrieve detailed info for character.<end>\n\n"
-            blob += "Name: <highlight>%s<end>\n" % char.name
-            blob += "Character ID: <highlight>%d<end>\n" % char.char_id
+            blob += "Name: <highlight>%s</highlight>\n" % char.name
+            blob += "Character ID: <highlight>%d</highlight>\n" % char.char_id
             if online_status is not None:
                 blob += "Online status: %s\n" % ("<green>Online<end>" if online_status else "<red>Offline<end>")
             blob += self.get_name_history(char.char_id)
             msg = ChatBlob("Basic Info for %s" % char.name, blob)
         else:
-            msg = "Could not find character <highlight>%s<end> on RK%d." % (char.name, dimension)
+            msg = "Could not find character <highlight>%s</highlight> on RK%d." % (char.name, dimension)
 
         reply(msg)
 
@@ -162,7 +162,7 @@ class CharacterInfoController:
         if char_info.first_name:
             name += char_info.first_name + " "
 
-        name += "\"<highlight>" + char_info.name + "<end>\""
+        name += "\"<highlight>" + char_info.name + "</highlight>\""
 
         if char_info.last_name:
             name += " " + char_info.last_name

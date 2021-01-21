@@ -53,7 +53,7 @@ class TowerController:
 
         blob = ""
         for row in data:
-            blob += "%s <highlight>%s<end>\n" % (self.text.make_chatcmd(row.long_name, "/tell <myname> lc %s" % row.short_name), row.short_name)
+            blob += "%s <highlight>%s</highlight>\n" % (self.text.make_chatcmd(row.long_name, "/tell <myname> lc %s" % row.short_name), row.short_name)
 
         return ChatBlob("Land Control Playfields", blob)
 
@@ -62,7 +62,7 @@ class TowerController:
     def lc_playfield_cmd(self, request, playfield_name, site_number):
         playfield = self.playfield_controller.get_playfield_by_name(playfield_name)
         if not playfield:
-            return "Could not find playfield <highlight>%s<end>." % playfield_name
+            return "Could not find playfield <highlight>%s</highlight>." % playfield_name
 
         if site_number:
             data = self.db.query("SELECT t.*, p.short_name, p.long_name FROM tower_site t JOIN playfields p ON t.playfield_id = p.id WHERE t.playfield_id = ? AND site_number = ?",
@@ -73,9 +73,9 @@ class TowerController:
 
         if not data:
             if site_number:
-                return "Could not find tower info for <highlight>%s %d<end>." % (playfield.long_name, site_number)
+                return "Could not find tower info for <highlight>%s %d</highlight>." % (playfield.long_name, site_number)
             else:
-                return "Could not find tower info for <highlight>%s<end>." % playfield.long_name
+                return "Could not find tower info for <highlight>%s</highlight>." % playfield.long_name
 
         blob = ""
         for row in data:
@@ -94,9 +94,9 @@ class TowerController:
             self.logger.warning("This bot is a member of an org but does not have access to 'All Towers' channel and therefore will not receive tower attack messages")
 
     def format_site_info(self, row):
-        blob = "Short name: <highlight>%s %d<end>\n" % (row.short_name, row.site_number)
-        blob += "Long name: <highlight>%s, %s<end>\n" % (row.site_name, row.long_name)
-        blob += "Level range: <highlight>%d-%d<end>\n" % (row.min_ql, row.max_ql)
+        blob = "Short name: <highlight>%s %d</highlight>\n" % (row.short_name, row.site_number)
+        blob += "Long name: <highlight>%s, %s</highlight>\n" % (row.site_name, row.long_name)
+        blob += "Level range: <highlight>%d-%d</highlight>\n" % (row.min_ql, row.max_ql)
         blob += "Coordinates: %s\n" % self.text.make_chatcmd("%dx%d" % (row.x_coord, row.y_coord), "/waypoint %d %d %d" % (row.x_coord, row.y_coord, row.playfield_id))
 
         return blob

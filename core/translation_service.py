@@ -81,7 +81,7 @@ class TranslationService:
                 msg = val.format(**variables)
         except KeyError as e:
             self.logger.error(f"translating error category '{category}' and key '{key}' with params: {variables}", e)
-            msg = "Error translating category: <highlight>{mod}<end> key: <highlight>{key}<end>" \
-                  " with params: <highlight>{params}<end>".format(mod=category, key=key, params=variables)
+            msg = "Error translating category: <highlight>{mod}</highlight> key: <highlight>{key}</highlight>" \
+                  " with params: <highlight>{params}</highlight>".format(mod=category, key=key, params=variables)
         finally:
             return msg

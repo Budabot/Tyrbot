@@ -41,7 +41,7 @@ class WaveCounterController:
             self.send_message("General incoming.")
             self.scheduled_job_id = None
         else:
-            self.send_message("Wave <highlight>%d<end> incoming." % wave_number)
+            self.send_message("Wave <highlight>%d</highlight> incoming." % wave_number)
             self.scheduled_job_id = self.job_scheduler.scheduled_job(self.timer_alert, t + self.ALERT_TIMES[wave_number], wave_number)
 
     def send_message(self, msg):

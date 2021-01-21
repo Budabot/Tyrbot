@@ -68,9 +68,9 @@ class RaidController:
         t = int(time.time())
 
         blob = ""
-        blob += "Name: <highlight>%s<end>\n" % self.raid.raid_name
-        blob += "Started By: <highlight>%s<end>\n" % self.raid.started_by.name
-        blob += "Started At: <highlight>%s<end> (%s ago)\n" % (self.util.format_datetime(self.raid.started_at), self.util.time_to_readable(t - self.raid.started_at))
+        blob += "Name: <highlight>%s</highlight>\n" % self.raid.raid_name
+        blob += "Started By: <highlight>%s</highlight>\n" % self.raid.started_by.name
+        blob += "Started At: <highlight>%s</highlight> (%s ago)\n" % (self.util.format_datetime(self.raid.started_at), self.util.time_to_readable(t - self.raid.started_at))
         blob += "Status: %s" % ("<green>Open<end>" if self.raid.is_open else "<red>Closed<end>")
         if self.raid.is_open:
             blob += " (%s)" % self.text.make_chatcmd("Join", "/tell <myname> raid join")
@@ -89,7 +89,7 @@ class RaidController:
              description="Start new raid", access_level="moderator", sub_command="manage")
     def raid_start_cmd(self, request, _, raid_name: str):
         if self.raid:
-            return "The <highlight>%s<end> raid is already running." % self.raid.raid_name
+            return "The <highlight>%s</highlight> raid is already running." % self.raid.raid_name
 
         self.raid = Raid(raid_name, request.sender)
 
@@ -98,10 +98,10 @@ class RaidController:
 
         join_link = self.get_raid_join_blob("Click here")
 
-        msg = "\n<highlight>----------------------------------------<end>\n"
-        msg += "<highlight>%s<end> has just started the <highlight>%s<end> raid.\n" % (request.sender.name, raid_name)
+        msg = "\n<highlight>----------------------------------------</highlight>\n"
+        msg += "<highlight>%s</highlight> has just started the <highlight>%s</highlight> raid.\n" % (request.sender.name, raid_name)
         msg += "%s to join\n" % join_link
-        msg += "<highlight>----------------------------------------<end>"
+        msg += "<highlight>----------------------------------------</highlight>"
 
         self.send_message(msg)
 
@@ -114,7 +114,7 @@ class RaidController:
         raid_name = self.raid.raid_name
         self.raid = None
 
-        self.send_message("<highlight>%s<end> canceled the <highlight>%s<end> raid prematurely." % (request.sender.name, raid_name))
+        self.send_message("<highlight>%s</highlight> canceled the <highlight>%s</highlight> raid prematurely." % (request.sender.name, raid_name))
 
     @command(command="raid", params=[Const("join")], description="Join the ongoing raid", access_level="member")
     def raid_join_cmd(self, request, _):
@@ -141,7 +141,7 @@ class RaidController:
             elif in_raid.is_active:
                 former_active_name = self.character_service.resolve_char_to_name(in_raid.active_id)
                 in_raid.active_id = request.sender.char_id
-                self.send_message("<highlight>%s<end> joined the raid with a different alt, <highlight>%s<end>." % (former_active_name, request.sender.name))
+                self.send_message("<highlight>%s</highlight> joined the raid with a different alt, <highlight>%s</highlight>." % (former_active_name, request.sender.name))
 
             elif not in_raid.is_active:
                 if not self.raid.is_open:
@@ -151,12 +151,12 @@ class RaidController:
                 in_raid.was_kicked = None
                 in_raid.was_kicked_reason = None
                 in_raid.left_raid = None
-                self.send_message("%s returned to actively participate with a different alt, <highlight>%s<end>." % (former_active_name, request.sender.name))
+                self.send_message("%s returned to actively participate with a different alt, <highlight>%s</highlight>." % (former_active_name, request.sender.name))
 
         elif self.raid.is_open:
             alts = self.alts_service.get_alts(request.sender.char_id)
             self.raid.raiders.append(Raider(alts, request.sender.char_id))
-            self.send_message("<highlight>%s<end> joined the raid." % request.sender.name)
+            self.send_message("<highlight>%s</highlight> joined the raid." % request.sender.name)
         else:
             return "Raid is closed."
 
@@ -169,7 +169,7 @@ class RaidController:
 
             in_raid.is_active = False
             in_raid.left_raid = int(time.time())
-            self.send_message("<highlight>%s<end> left the raid." % request.sender.name)
+            self.send_message("<highlight>%s</highlight> left the raid." % request.sender.name)
         else:
             return "You are not in the raid."
 
@@ -205,7 +205,7 @@ class RaidController:
                                                          "Was inactive during raid, %s, when points for %s "
                                                          "was dished out - did not have an active account at "
                                                          "the given time." % (self.raid.raid_name, preset.name))
-        return "<highlight>%d<end> points added to all active raiders." % preset.points
+        return "<highlight>%d</highlight> points added to all active raiders." % preset.points
 
     @command(command="raid", params=[Const("active")], description="Get a list of raiders to do active check",
              access_level="moderator", sub_command="manage")
@@ -228,7 +228,7 @@ class RaidController:
             raider_name = self.character_service.resolve_char_to_name(raider.active_id)
             akick_link = self.text.make_chatcmd("Active kick", "/tell <myname> raid kick %s inactive" % raider.main_id)
             warn_link = self.text.make_chatcmd("Warn", "/tell <myname> cmd %s missed active check, please give notice." % raider_name)
-            blob += "<highlight>%s<end> [%s] [%s]\n" % (raider_name, akick_link, warn_link)
+            blob += "<highlight>%s</highlight> [%s] [%s]\n" % (raider_name, akick_link, warn_link)
             raider_names.append(raider_name)
             count += 1
 
@@ -258,14 +258,14 @@ class RaidController:
 
         if in_raid is not None:
             if not in_raid.is_active:
-                return "<highlight>%s<end> is already set as inactive." % char.name
+                return "<highlight>%s</highlight> is already set as inactive." % char.name
 
             in_raid.is_active = False
             in_raid.was_kicked = int(time.time())
             in_raid.was_kicked_reason = reason
-            return "<highlight>%s<end> has been kicked from the raid with reason \"%s\"." % (char.name, reason)
+            return "<highlight>%s</highlight> has been kicked from the raid with reason \"%s\"." % (char.name, reason)
         else:
-            return "<highlight>%s<end> is not participating." % char.name
+            return "<highlight>%s</highlight> is not participating." % char.name
 
     @command(command="raid", params=[Options(["open", "close"])], description="Open/close raid for new participants",
              access_level="moderator", sub_command="manage")
@@ -322,12 +322,12 @@ class RaidController:
         if not log_entry:
             return "No such log entry."
 
-        blob = "Raid name: <highlight>%s<end>\n" % log_entry[0].raid_name
-        blob += "Started by: <highlight>%s<end>\n" % self.character_service.resolve_char_to_name(log_entry[0].started_by)
-        blob += "Start time: <highlight>%s<end>\n" % self.util.format_datetime(log_entry[0].raid_start)
-        blob += "End time: <highlight>%s<end>\n" % self.util.format_datetime(log_entry[0].raid_end)
-        blob += "Run time: <highlight>%s<end>\n" % self.util.time_to_readable(log_entry[0].raid_end - log_entry[0].raid_start)
-        blob += "Total points: <highlight>%d<end>\n\n" % pts_sum
+        blob = "Raid name: <highlight>%s</highlight>\n" % log_entry[0].raid_name
+        blob += "Started by: <highlight>%s</highlight>\n" % self.character_service.resolve_char_to_name(log_entry[0].started_by)
+        blob += "Start time: <highlight>%s</highlight>\n" % self.util.format_datetime(log_entry[0].raid_start)
+        blob += "End time: <highlight>%s</highlight>\n" % self.util.format_datetime(log_entry[0].raid_end)
+        blob += "Run time: <highlight>%s</highlight>\n" % self.util.time_to_readable(log_entry[0].raid_end - log_entry[0].raid_start)
+        blob += "Total points: <highlight>%d</highlight>\n\n" % pts_sum
 
         if char and log_entry_spec:
             raider_name = self.character_service.resolve_char_to_name(log_entry_spec.raider_id)
@@ -335,7 +335,7 @@ class RaidController:
             alt_link = "Alt of %s" % main_info.name if main_info.char_id != log_entry_spec.raider_id else "Alts"
             alt_link = self.text.make_chatcmd(alt_link, "/tell <myname> alts %s" % main_info.name)
             blob += "<header2>Log entry for %s<end>\n" % raider_name
-            blob += "Raider: <highlight>%s<end> [%s]\n" % (raider_name, alt_link)
+            blob += "Raider: <highlight>%s</highlight> [%s]\n" % (raider_name, alt_link)
             blob += "Left raid: %s\n" % ("n/a"
                                          if log_entry_spec.left_raid is None
                                          else self.util.format_datetime(log_entry_spec.left_raid))
@@ -373,7 +373,7 @@ class RaidController:
             participant_link = self.text.make_chatcmd("Log", "/tell <myname> raid logentry %d" % raid.raid_id)
             timestamp = self.util.format_datetime(raid.raid_start)
             leader_name = self.character_service.resolve_char_to_name(raid.started_by)
-            blob += "[%d] [%s] <highlight>%s<end> started by <highlight>%s<end> [%s]\n" % (raid.raid_id, timestamp, raid.raid_name, leader_name, participant_link)
+            blob += "[%d] [%s] <highlight>%s</highlight> started by <highlight>%s</highlight> [%s]\n" % (raid.raid_id, timestamp, raid.raid_name, leader_name, participant_link)
 
         return ChatBlob("Raid history", blob)
 
@@ -387,14 +387,14 @@ class RaidController:
 
     def get_raid_join_blob(self, link_txt: str):
         blob = "<header2>1. Join the raid<end>\n" \
-               "To join the current raid <highlight>%s<end>, send the following tell to <myname>\n" \
+               "To join the current raid <highlight>%s</highlight>, send the following tell to <myname>\n" \
                "<tab><tab><a href='chatcmd:///tell <myname> <symbol>raid join'>/tell <myname> raid " \
                "join</a>\n\n<header2>2. Enable LFT<end>\nWhen you have joined the raid, go lft " \
                "with \"<myname>\" as description\n<tab><tab><a href='chatcmd:///lft <myname>'>/lft <myname></a>\n\n" \
                "<header2>3. Announce<end>\nYou could announce to the raid leader, that you have enabled " \
                "LFT\n<tab><tab><a href='chatcmd:///group <myname> I am on lft'>Announce</a> that you have enabled " \
                "lft\n\n<header2>4. Rally with yer mateys<end>\nFinally, move towards the starting location of " \
-               "the raid.\n<highlight>Ask for help<end> if you're in doubt of where to go." % self.raid.raid_name
+               "the raid.\n<highlight>Ask for help</highlight> if you're in doubt of where to go." % self.raid.raid_name
 
         return self.text.paginate_single(ChatBlob(link_txt, blob))
 

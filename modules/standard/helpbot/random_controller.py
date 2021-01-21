@@ -30,11 +30,11 @@ class RandomController:
     def roll_verify_command(self, request, _, roll_id):
         row = self.db.query_single("SELECT * FROM roll WHERE id = ?", [roll_id])
         if not row:
-            return "Could not find roll with id <highlight>%d<end>." % roll_id
+            return "Could not find roll with id <highlight>%d</highlight>." % roll_id
         else:
             time_string = self.util.time_to_readable(int(time.time()) - row.created_at)
             name = self.character_service.resolve_char_to_name(row.char_id)
-            return "<highlight>%s<end> rolled by <highlight>%s<end> %s ago. Possible options: %s." % (
+            return "<highlight>%s</highlight> rolled by <highlight>%s</highlight> %s ago. Possible options: %s." % (
                 row.result, name, time_string, row.options)
 
     @command(command="roll", params=[Int("start_value", is_optional=True), Int("end_value")], access_level="all",
@@ -52,7 +52,7 @@ class RandomController:
         options = "value between %d and %d" % (start, end)
         self.db.exec("INSERT INTO roll (created_at, char_id, options, result) VALUES (?, ?, ?, ?)",
                      [int(time.time()), request.sender.char_id, options, result])
-        return "The roll is <highlight>%d<end> out of values between %d and %d. To verify do /tell <myname> verify %d" % (
+        return "The roll is <highlight>%d</highlight> out of values between %d and %d. To verify do /tell <myname> verify %d" % (
             result, start, end, self.db.last_insert_id())
 
     # Keep this method at the bottom of file otherwise it will precede over all other commands
@@ -64,5 +64,5 @@ class RandomController:
         result = random.choice(options)
         self.db.exec("INSERT INTO roll (created_at, char_id, options, result) VALUES (?, ?, ?, ?)",
                      [int(time.time()), request.sender.char_id, items, result])
-        return "The roll is <highlight>%s<end> out of possible options: %s. To verify do /tell <myname> verify %d" % (
+        return "The roll is <highlight>%s</highlight> out of possible options: %s. To verify do /tell <myname> verify %d" % (
             result, items, self.db.last_insert_id())

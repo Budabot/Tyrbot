@@ -34,7 +34,7 @@ class LeProcsController:
         profession = self.util.get_profession(prof_name)
 
         if not profession:
-            return "Could not find profession <highlight>%s<end>." % prof_name
+            return "Could not find profession <highlight>%s</highlight>." % prof_name
 
         data = self.db.query("SELECT * FROM leprocs WHERE profession LIKE ? ORDER BY proc_type ASC, research_lvl DESC", [profession])
         proc_type = ""
@@ -42,7 +42,7 @@ class LeProcsController:
         for row in data:
             if proc_type != row.proc_type:
                 proc_type = row.proc_type
-                blob += "\n<highlight>%s<end>\n" % proc_type
+                blob += "\n<highlight>%s</highlight>\n" % proc_type
 
             blob += "<pagebreak>[%d] %s <orange>%s<end> %s <green>%s<end>\n" % (row.research_lvl, row.name, row.modifiers, row.duration, row.proc_trigger)
 

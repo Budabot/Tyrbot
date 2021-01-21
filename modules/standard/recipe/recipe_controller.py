@@ -64,7 +64,7 @@ class RecipeController:
     def recipe_show_cmd(self, request, recipe_id):
         recipe = self.get_recipe(recipe_id)
         if not recipe:
-            return "Could not find recipe with ID <highlight>%d<end>." % recipe_id
+            return "Could not find recipe with ID <highlight>%d</highlight>." % recipe_id
 
         return self.format_recipe(recipe)
 
@@ -97,8 +97,8 @@ class RecipeController:
         return self.db.query_single("SELECT * FROM recipe WHERE id = ?", [recipe_id])
 
     def format_recipe(self, recipe):
-        blob = "Recipe ID: <highlight>%d<end>\n" % recipe.id
-        blob += "Author: <highlight>%s<end>\n\n" % (recipe.author or "Unknown")
+        blob = "Recipe ID: <highlight>%d</highlight>\n" % recipe.id
+        blob += "Author: <highlight>%s</highlight>\n\n" % (recipe.author or "Unknown")
         blob += self.format_recipe_text(recipe.recipe)
 
         return ChatBlob("Recipe for '%s'" % recipe.name, blob)

@@ -48,11 +48,11 @@ class OrgListController:
                 char_info = self.pork_service.get_character_info(search)
                 if char_info:
                     if not char_info.org_id:
-                        return "<highlight>%s<end> does not appear to belong to an org." % search.capitalize()
+                        return "<highlight>%s</highlight> does not appear to belong to an org." % search.capitalize()
                     else:
                         org_id = char_info.org_id
                 else:
-                    return "Could not find character or org <highlight>%s<end>." % search
+                    return "Could not find character or org <highlight>%s</highlight>." % search
             elif num_orgs == 1:
                 org_id = orgs[0].org_id
             else:
@@ -74,14 +74,14 @@ class OrgListController:
         self.orglist.org_members = list(self.orglist.org_members.values())
 
         if not self.orglist:
-            reply("Could not find org with ID <highlight>%d<end>." % org_id)
+            reply("Could not find org with ID <highlight>%d</highlight>." % org_id)
             return
 
         self.orglist.reply = reply
         self.orglist.waiting_org_members = {}
         self.orglist.finished_org_members = {}
 
-        reply("Checking online status for %d members of <highlight>%s<end>..." % (len(self.orglist.org_members), self.orglist.org_info.name))
+        reply("Checking online status for %d members of <highlight>%s</highlight>..." % (len(self.orglist.org_members), self.orglist.org_info.name))
 
         # process all name lookups
         while self.bot.iterate(1):
@@ -141,7 +141,7 @@ class OrgListController:
             num_total += rank_num_total
             for org_member in rank_info.online_members:
                 level = org_member.level if org_member.ai_level == 0 else "%d/<green>%d<end>" % (org_member.level, org_member.ai_level)
-                blob += "%s (Level <highlight>%s<end>, %s %s <highlight>%s<end>)\n" % (org_member.name, level, org_member.gender, org_member.breed, org_member.profession)
+                blob += "%s (Level <highlight>%s</highlight>, %s %s <highlight>%s</highlight>)\n" % (org_member.name, level, org_member.gender, org_member.breed, org_member.profession)
             if rank_num_total < 200:
                 blob += "<font color='#555555'>" + ", ".join(map(lambda x: x.name, rank_info.offline_members)) + "<end>"
                 blob += "\n"

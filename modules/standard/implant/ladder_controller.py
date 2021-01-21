@@ -22,7 +22,7 @@ class LadderController:
                                   "but minus any buffs from implants that you have equipped.")
     def ladder_treatment_cmd(self, request, _, treatment):
         if treatment < 11:
-            return "Base treatment must be at least <highlight>11<end>."
+            return "Base treatment must be at least <highlight>11</highlight>."
 
         prefix = "skill_"
         result = self.optimized_steps(prefix, treatment, self.get_implant_by_max_treatment)
@@ -37,7 +37,7 @@ class LadderController:
                                   "but minus any buffs from implants you have equipped.")
     def ladder_ability_cmd(self, request, _, ability):
         if ability < 6:
-            return "Base ability must be at least <highlight>6<end>."
+            return "Base ability must be at least <highlight>6</highlight>."
 
         prefix = "ability_"
         result = self.optimized_steps(prefix, ability, self.get_implant_by_max_ability)
@@ -47,13 +47,13 @@ class LadderController:
         return ChatBlob("Laddering Ability", blob)
 
     def format_steps(self, label, steps, starting, ending):
-        blob = "Starting %s: <highlight>%s<end>\n\n" % (label, starting)
+        blob = "Starting %s: <highlight>%s</highlight>\n\n" % (label, starting)
         blob += "-------------------\n\n"
         for (action, grade, implant) in steps:
-            blob += "%s %s QL <highlight>%d<end>\n\n" % (action.capitalize(), grade, implant.ql)
+            blob += "%s %s QL <highlight>%d</highlight>\n\n" % (action.capitalize(), grade, implant.ql)
 
         blob += "-------------------\n\n"
-        blob += "Ending %s: <highlight>%s<end>\n\n" % (label, ending)
+        blob += "Ending %s: <highlight>%s</highlight>\n\n" % (label, ending)
         blob += "\nInspired by a command written by Lucier of the same name"
 
         return blob

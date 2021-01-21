@@ -75,6 +75,6 @@ class OrgActivityController:
 
     def format_org_action(self, row):
         if row.action == "left":
-            return "<highlight>%s<end> %s. %s" % (row.actor, row.action, self.util.format_datetime(row.created_at))
+            return "<highlight>%s</highlight> %s. %s" % (row.actor, row.action, self.util.format_datetime(row.created_at))
         else:
-            return "<highlight>%s<end> %s <highlight>%s<end>. %s" % (row.actor, row.action, row.actee, self.util.format_datetime(row.created_at))
+            return "<highlight>%s</highlight> %s <highlight>%s</highlight>. %s" % (row.actor, row.action, row.actee, self.util.format_datetime(row.created_at))

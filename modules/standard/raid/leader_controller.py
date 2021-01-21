@@ -40,9 +40,9 @@ class LeaderController:
              description="Show the current raid leader")
     def leader_show_command(self, _):
         if self.leader:
-            return "The current raid leader is <highlight>%s<end>." % self.leader.name
+            return "The current raid leader is <highlight>%s</highlight>." % self.leader.name
         else:
-            return "There is no current raid leader. Use <highlight><symbol>leader set<end> to become the raid leader."
+            return "There is no current raid leader. Use <highlight><symbol>leader set</highlight> to become the raid leader."
 
     @command(command="leader", params=[Const("echo"), Options(["on", "off"])], access_level="all",
              description="Echo whatever the current leader types in channel, in a distinctive color")
@@ -50,7 +50,7 @@ class LeaderController:
         if self.leader:
             if self.can_use_command(request.sender.char_id):
                 self.echo = switch_to == "on"
-                return "Leader echo for <highlight>%s<end> has been turned <highlight>%s<end>." % \
+                return "Leader echo for <highlight>%s</highlight> has been turned <highlight>%s</highlight>." % \
                        (self.leader.name, switch_to)
             else:
                 return "Insufficient access level."
@@ -62,7 +62,7 @@ class LeaderController:
     def leader_echo_status_command(self, _1, _2):
         if self.leader:
             on_off = "on" if self.echo else "off"
-            return "<highlight>%s<end> is set as leader, leader echo is <highlight>%s<end>" % \
+            return "<highlight>%s</highlight> is set as leader, leader echo is <highlight>%s</highlight>" % \
                    (self.leader.name, on_off)
         return "No current leader set."
 
@@ -80,7 +80,7 @@ class LeaderController:
              description="Set another character as raid leader")
     def leader_set_other_command(self, request, _, char):
         if not char.char_id:
-            return "Could not find <highlight>%s<end>." % char.name
+            return "Could not find <highlight>%s</highlight>." % char.name
 
         return self.set_raid_leader(request.sender, char)
 
@@ -164,11 +164,11 @@ class LeaderController:
                 self.leader = None
                 self.echo = False
                 self.bot.send_private_message(old_leader.char_id,
-                                              "You have been removed as raid leader by <highlight>%s<end>."
+                                              "You have been removed as raid leader by <highlight>%s</highlight>."
                                               % sender.name)
-                return "You have removed <highlight>%s<end> as raid leader." % old_leader.name
+                return "You have removed <highlight>%s</highlight> as raid leader." % old_leader.name
             else:
-                return "You do not have a high enough access level to remove raid leader from <highlight>%s<end>." % \
+                return "You do not have a high enough access level to remove raid leader from <highlight>%s</highlight>." % \
                        self.leader.name
         elif sender.char_id == set_to.char_id:
             if not self.leader:
@@ -186,29 +186,29 @@ class LeaderController:
                 old_leader = self.leader
                 self.leader = sender
                 self.echo = self.setting_service.get("leader_auto_echo").get_value()
-                reply = "<highlight>%s<end> has taken raid leader from you." % sender.name
+                reply = "<highlight>%s</highlight> has taken raid leader from you." % sender.name
                 if self.echo:
                     reply += " Leader echo is <green>enabled<end>."
                 self.bot.send_private_message(old_leader.char_id, reply)
-                reply = "You have taken raid leader from <highlight>%s<end>." % old_leader.name
+                reply = "You have taken raid leader from <highlight>%s</highlight>." % old_leader.name
                 if self.echo:
                     reply += " Leader echo is <green>enabled<end>."
                 return reply
             else:
-                return "You do not have a high enough access level to take raid leader from <highlight>%s<end>." % \
+                return "You do not have a high enough access level to take raid leader from <highlight>%s</highlight>." % \
                        self.leader.name
         else:
             if self.can_use_command(sender.char_id):
                 self.leader = set_to
                 self.echo = self.setting_service.get("leader_auto_echo").get_value()
-                reply = "<highlight>%s<end> has set you as raid leader." % sender.name
+                reply = "<highlight>%s</highlight> has set you as raid leader." % sender.name
                 if self.echo:
                     reply += " Leader echo is <green>enabled<end>."
                 self.bot.send_private_message(set_to.char_id, reply)
-                reply = "<highlight>%s<end> has been set as raid leader by %s." % (set_to.name, sender.name)
+                reply = "<highlight>%s</highlight> has been set as raid leader by %s." % (set_to.name, sender.name)
                 if self.echo:
                     reply += " Leader echo is <green>enabled<end>."
                 return reply
             else:
-                return "You do not have a high enough access level to take raid leader from <highlight>%s<end>." % \
+                return "You do not have a high enough access level to take raid leader from <highlight>%s</highlight>." % \
                        self.leader.name

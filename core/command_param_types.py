@@ -50,9 +50,9 @@ class Int(CommandParam):
 
     def get_name(self):
         if self.is_optional:
-            return "<highlight>[%s]<end>" % self.name
+            return "<highlight>[%s]</highlight>" % self.name
         else:
-            return "<highlight>%s<end>" % self.name
+            return "<highlight>%s</highlight>" % self.name
 
     def process_matches(self, params):
         val = params.pop(0)
@@ -84,9 +84,9 @@ class Decimal(CommandParam):
 
     def get_name(self):
         if self.is_optional:
-            return "<highlight>[%s]<end>" % self.name
+            return "<highlight>[%s]</highlight>" % self.name
         else:
-            return "<highlight>%s<end>" % self.name
+            return "<highlight>%s</highlight>" % self.name
 
     def process_matches(self, params):
         val = params.pop(0)
@@ -110,9 +110,9 @@ class Any(CommandParam):
 
     def get_name(self):
         if self.is_optional:
-            return "<highlight>[%s]<end>" % self.name
+            return "<highlight>[%s]</highlight>" % self.name
         else:
-            return "<highlight>%s<end>" % self.name
+            return "<highlight>%s</highlight>" % self.name
 
     def process_matches(self, params):
         val = params.pop(0)
@@ -136,9 +136,9 @@ class Regex(CommandParam):
 
     def get_name(self):
         if self.is_optional:
-            return "<highlight>[%s]<end>" % self.name
+            return "<highlight>[%s]</highlight>" % self.name
         else:
-            return "<highlight>%s<end>" % self.name
+            return "<highlight>%s</highlight>" % self.name
 
     def process_matches(self, params):
         p = []
@@ -186,9 +186,9 @@ class Time(CommandParam):
 
     def get_name(self):
         if self.is_optional:
-            return "<highlight>[%s]<end>" % self.name
+            return "<highlight>[%s]</highlight>" % self.name
         else:
-            return "<highlight>%s<end>" % self.name
+            return "<highlight>%s</highlight>" % self.name
 
     def process_matches(self, params):
         budatime_str = params.pop(0)
@@ -216,9 +216,9 @@ class Item(CommandParam):
 
     def get_name(self):
         if self.is_optional:
-            return "<highlight>[%s]<end>" % self.name
+            return "<highlight>[%s]</highlight>" % self.name
         else:
-            return "<highlight>%s<end>" % self.name
+            return "<highlight>%s</highlight>" % self.name
 
     def process_matches(self, params):
         if params.pop(0):
@@ -273,7 +273,7 @@ class NamedParameters(CommandParam):
         return regex
 
     def get_name(self):
-        return " ".join(map(lambda x: "<highlight>[--%s=]<end>" % x, self.names))
+        return " ".join(map(lambda x: "<highlight>[--%s=]</highlight>" % x, self.names))
 
     def process_matches(self, params):
         v = params.pop(0)
@@ -302,7 +302,7 @@ class NamedFlagParameters(CommandParam):
         return regex
 
     def get_name(self):
-        return " ".join(map(lambda x: "<highlight>[--%s]<end>" % x, self.names))
+        return " ".join(map(lambda x: "<highlight>[--%s]</highlight>" % x, self.names))
 
     def process_matches(self, params):
         v = params.pop(0)

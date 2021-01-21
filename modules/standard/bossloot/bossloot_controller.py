@@ -46,7 +46,7 @@ class BosslootController:
 
         blob = "<pagebreak>"
         blob += "<header2>%s<end>\n" % row.name
-        blob += "Location: <highlight>%s<end>\n" % row.answer
+        blob += "Location: <highlight>%s</highlight>\n" % row.answer
         blob += "Loot: " + ", ".join(map(lambda x: self.text.make_item(x.lowid, x.highid, x.highql, x.name), data))
 
         return blob

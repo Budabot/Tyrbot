@@ -18,7 +18,7 @@ class TrickleParam(CommandParam):
         return regex
 
     def get_name(self):
-        return "<highlight>ability<end> <highlight>amount<end>"
+        return "<highlight>ability</highlight> <highlight>amount</highlight>"
 
     def process_matches(self, params):
         i = params.pop(0)
@@ -66,7 +66,7 @@ class TrickleController:
         for p in trickle_params:
             ability = self.util.get_ability(p.ability)
             if not ability:
-                return "Unknown ability <highlight>%s<end>." % p.ability
+                return "Unknown ability <highlight>%s</highlight>." % p.ability
 
             abilities_map[ability] = p.amount
 
@@ -80,7 +80,7 @@ class TrickleController:
         count = len(data)
 
         if count == 0:
-            return "Could not find any skills for <highlight>%s<end>." % search
+            return "Could not find any skills for <highlight>%s</highlight>." % search
         elif count == 1:
             row = data[0]
             return self.format_trickle_amounts(row)
@@ -88,10 +88,10 @@ class TrickleController:
             blob = ""
             for row in data:
                 blob += self.format_trickle_amounts(row) + "\n"
-            return ChatBlob("Trickle Info for <highlight>%s<end>" % search, blob)
+            return ChatBlob("Trickle Info for <highlight>%s</highlight>" % search, blob)
 
     def format_trickle_amounts(self, row):
-        msg = "<highlight>%s<end> " % row.name
+        msg = "<highlight>%s</highlight> " % row.name
         for ability in self.util.get_all_abilities():
             amount = row["amount_" + ability.lower()]
             if amount > 0:
@@ -168,9 +168,9 @@ class TrickleController:
                 blob += "\n<header2>%s<end>\n" % row.group_name
                 group_name = row.group_name
 
-            blob += "%s <highlight>%g<end>\n" % (row.name, row.amount / 4)
+            blob += "%s <highlight>%g</highlight>\n" % (row.name, row.amount / 4)
 
         # create title
-        title = "Trickle Results: " + ", ".join(map(lambda x: "%s <highlight>%d<end>" % (x[0], x[1]), filter(lambda x: x[1] > 0, abilities_map.items())))
+        title = "Trickle Results: " + ", ".join(map(lambda x: "%s <highlight>%d</highlight>" % (x[0], x[1]), filter(lambda x: x[1] > 0, abilities_map.items())))
 
         return ChatBlob(title, blob)

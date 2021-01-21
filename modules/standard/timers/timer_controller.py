@@ -61,9 +61,9 @@ class TimerController:
         blob = ""
         for timer in data:
             repeats = (" (Repeats every %s)" % self.util.time_to_readable(timer.repeating_every)) if timer.repeating_every > 0 else ""
-            blob += "<pagebreak>Name: <highlight>%s<end>\n" % timer.name
-            blob += "Time left: <highlight>%s<end>%s\n" % (self.util.time_to_readable(timer.created_at + timer.duration - t, max_levels=None), repeats)
-            blob += "Owner: <highlight>%s<end>\n\n" % timer.char_name
+            blob += "<pagebreak>Name: <highlight>%s</highlight>\n" % timer.name
+            blob += "Time left: <highlight>%s</highlight>%s\n" % (self.util.time_to_readable(timer.created_at + timer.duration - t, max_levels=None), repeats)
+            blob += "Owner: <highlight>%s</highlight>\n\n" % timer.char_name
 
         return ChatBlob("Timers (%d)" % len(data), blob)
 
@@ -73,40 +73,40 @@ class TimerController:
         timer_name = timer_name or self.get_timer_name(request.sender.name)
 
         if self.get_timer(timer_name):
-            return "A timer named <highlight>%s<end> is already running." % timer_name
+            return "A timer named <highlight>%s</highlight> is already running." % timer_name
 
         t = int(time.time())
         self.add_timer(timer_name, request.sender.char_id, request.channel, t, duration)
 
-        return "Timer <highlight>%s<end> has been set for %s." % (timer_name, self.util.time_to_readable(duration, max_levels=None))
+        return "Timer <highlight>%s</highlight> has been set for %s." % (timer_name, self.util.time_to_readable(duration, max_levels=None))
 
     @command(command="timer", params=[Options(["rem", "remove"]), Any("name")], access_level="all",
              description="Remove a timer")
     def timer_remove_cmd(self, request, _, timer_name):
         timer = self.get_timer(timer_name)
         if not timer:
-            return "There is no timer named <highlight>%s<end>." % timer_name
+            return "There is no timer named <highlight>%s</highlight>." % timer_name
 
         if self.access_service.has_sufficient_access_level(request.sender.char_id, timer.char_id):
             self.remove_timer(timer_name)
-            return "Timer <highlight>%s<end> has been removed." % timer.name
+            return "Timer <highlight>%s</highlight> has been removed." % timer.name
         else:
-            return "Error! Insufficient access level to remove timer <highlight>%s<end>." % timer.name
+            return "Error! Insufficient access level to remove timer <highlight>%s</highlight>." % timer.name
 
     @command(command="rtimer", params=[Const("add", is_optional=True), TimerTime("start_time"), TimerTime("repeating_time"), Any("name", is_optional=True)], access_level="all",
              description="Add a timer")
     def rtimer_add_cmd(self, request, _, start_time, repeating_time, timer_name):
         timer_name = timer_name or self.get_timer_name(request.sender.name)
         if repeating_time < 60:
-            return "The timer named <highlight>%s<end> has not been created, because there is an <highlight>minimum repeating time of 1 minute<end>." % timer_name
+            return "The timer named <highlight>%s</highlight> has not been created, because there is an <highlight>minimum repeating time of 1 minute</highlight>." % timer_name
 
         if self.get_timer(timer_name):
-            return "A timer named <highlight>%s<end> is already running." % timer_name
+            return "A timer named <highlight>%s</highlight> is already running." % timer_name
 
         t = int(time.time())
         self.add_timer(timer_name, request.sender.char_id, request.channel, t, start_time, repeating_time)
 
-        return "Repeating timer <highlight>%s<end> will go off in <highlight>%s<end> and repeat every <highlight>%s<end>." % \
+        return "Repeating timer <highlight>%s</highlight> will go off in <highlight>%s</highlight> and repeat every <highlight>%s</highlight>." % \
                (timer_name, self.util.time_to_readable(start_time), self.util.time_to_readable(repeating_time))
 
     def get_timer_name(self, base_name):
@@ -146,14 +146,14 @@ class TimerController:
         timer = self.get_timer(timer_name)
 
         if timer.finished_at > t:
-            msg = "Timer <highlight>%s<end> has <highlight>%s<end> left." % (timer.name, self.util.time_to_readable(timer.finished_at - t))
+            msg = "Timer <highlight>%s</highlight> has <highlight>%s</highlight> left." % (timer.name, self.util.time_to_readable(timer.finished_at - t))
 
             alert_duration = self.get_next_alert(timer.finished_at - t)
             job_id = self.job_scheduler.scheduled_job(self.timer_alert, t + alert_duration, timer.name)
 
             self.db.exec("UPDATE timer SET job_id = ? WHERE name = ?", [job_id, timer.name])
         else:
-            msg = "Timer <highlight>%s<end> has gone off." % timer.name
+            msg = "Timer <highlight>%s</highlight> has gone off." % timer.name
 
             self.remove_timer(timer.name)
 

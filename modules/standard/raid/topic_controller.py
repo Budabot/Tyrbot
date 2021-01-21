@@ -58,7 +58,7 @@ class TopicController:
 
     def format_topic_message(self, topic):
         time_string = self.util.time_to_readable(int(time.time()) - topic["created_at"])
-        return "Topic: <highlight>%s<end> [set by <highlight>%s<end>][%s ago]" % (topic["topic_message"], topic["created_by"]["name"], time_string)
+        return "Topic: <highlight>%s</highlight> [set by <highlight>%s</highlight>][%s ago]" % (topic["topic_message"], topic["created_by"]["name"], time_string)
 
     @event(PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, "Show topic to characters joining the private channel")
     def show_topic(self, _, event_data):

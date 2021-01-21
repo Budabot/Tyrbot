@@ -36,15 +36,15 @@ class SpecialsController:
         inits_neutral = self.get_inits_needed(87.5, weapon_attack, weapon_recharge)
         inits_full_def = self.get_inits_needed(0, weapon_attack, weapon_recharge)
 
-        blob = "Attack: <highlight>%.2f secs<end>\n" % weapon_attack
-        blob += "Recharge: <highlight>%.2f secs<end>\n" % weapon_recharge
-        blob += "Init Skill: <highlight>%d<end>\n\n" % init_skill
+        blob = "Attack: <highlight>%.2f secs</highlight>\n" % weapon_attack
+        blob += "Recharge: <highlight>%.2f secs</highlight>\n" % weapon_recharge
+        blob += "Init Skill: <highlight>%d</highlight>\n\n" % init_skill
 
-        blob += "You must set your AGG/DEF bar at <highlight>%d%%<end> to wield your weapon at 1/1.\n\n" % int(init_result)
+        blob += "You must set your AGG/DEF bar at <highlight>%d%%</highlight> to wield your weapon at 1/1.\n\n" % int(init_result)
 
-        blob += "Init needed for max speed at Full Agg (100%%): <highlight>%d<end>\n" % inits_full_agg
-        blob += "Init needed for max speed at Neutral (87.5%%): <highlight>%d<end>\n" % inits_neutral
-        blob += "Init needed for max speed at Full Def (0%%): <highlight>%d<end>\n\n" % inits_full_def
+        blob += "Init needed for max speed at Full Agg (100%%): <highlight>%d</highlight>\n" % inits_full_agg
+        blob += "Init needed for max speed at Neutral (87.5%%): <highlight>%d</highlight>\n" % inits_neutral
+        blob += "Init needed for max speed at Full Def (0%%): <highlight>%d</highlight>\n\n" % inits_full_def
 
         blob += self.get_inits_display(weapon_attack, weapon_recharge) + "\n\n"
 
@@ -59,14 +59,14 @@ class SpecialsController:
     def aimedshot_cmd(self, request, weapon_attack, weapon_recharge, aimed_shot_skill):
         as_info = self.get_aimed_shot_info(weapon_attack, weapon_recharge, aimed_shot_skill)
 
-        blob = "Attack: <highlight>%.2f secs<end>\n" % weapon_attack
-        blob += "Recharge: <highlight>%.2f secs<end>\n" % weapon_recharge
-        blob += "Aimed Shot Skill: <highlight>%d<end>\n\n" % aimed_shot_skill
+        blob = "Attack: <highlight>%.2f secs</highlight>\n" % weapon_attack
+        blob += "Recharge: <highlight>%.2f secs</highlight>\n" % weapon_recharge
+        blob += "Aimed Shot Skill: <highlight>%d</highlight>\n\n" % aimed_shot_skill
 
-        blob += "Aimed Shot Multiplier: <highlight>1 - %dx<end>\n" % as_info.multiplier
-        blob += "Aimed Shot Recharge: <highlight>%d secs<end>\n\n" % as_info.recharge
+        blob += "Aimed Shot Multiplier: <highlight>1 - %dx</highlight>\n" % as_info.multiplier
+        blob += "Aimed Shot Recharge: <highlight>%d secs</highlight>\n\n" % as_info.recharge
 
-        blob += "You need <highlight>%d<end> Aimed Shot Skill to cap your recharge at <highlight>%d<end> seconds." % (as_info.skill_cap, as_info.hard_cap)
+        blob += "You need <highlight>%d</highlight> Aimed Shot Skill to cap your recharge at <highlight>%d</highlight> seconds." % (as_info.skill_cap, as_info.hard_cap)
 
         return ChatBlob("Aimed Shot Results", blob)
 
@@ -75,12 +75,12 @@ class SpecialsController:
     def brawl_cmd(self, request, brawl_skill):
         brawl_info = self.get_brawl_info(brawl_skill)
 
-        blob = "Brawl Skill: <highlight>%d<end>\n\n" % brawl_skill
+        blob = "Brawl Skill: <highlight>%d</highlight>\n\n" % brawl_skill
 
-        blob += "Brawl Recharge: <highlight>15 secs<end> (constant)\n"
-        blob += "Brawl Damage: <highlight> %d - %d (%d)<end>\n" % (brawl_info.min_dmg, brawl_info.max_dmg, brawl_info.crit_dmg)
-        blob += "Stun Change: <highlight>%d%%<end>\n" % brawl_info.stun_chance
-        blob += "Stun Duration: <highlight>%d secs<end>\n\n" % brawl_info.stun_duration
+        blob += "Brawl Recharge: <highlight>15 secs</highlight> (constant)\n"
+        blob += "Brawl Damage: <highlight> %d - %d (%d)</highlight>\n" % (brawl_info.min_dmg, brawl_info.max_dmg, brawl_info.crit_dmg)
+        blob += "Stun Change: <highlight>%d%%</highlight>\n" % brawl_info.stun_chance
+        blob += "Stun Duration: <highlight>%d secs</highlight>\n\n" % brawl_info.stun_duration
 
         blob += "Stun chance is 10% for brawl skill less than 1000 and 20% for brawl skill 1000 or greater.\n"
         blob += "Stun duration is 3 seconds for brawl skill less than 2001 and 4 seconds for brawl skill 2001 or greater.\n\n\n"
@@ -94,14 +94,14 @@ class SpecialsController:
     def burst_cmd(self, request, weapon_attack, weapon_recharge, burst_recharge, burst_skill):
         burst_info = self.get_burst_info(weapon_attack, weapon_recharge, burst_recharge, burst_skill)
 
-        blob = "Attack: <highlight>%.2f secs<end>\n" % weapon_attack
-        blob += "Recharge: <highlight>%.2f secs<end>\n" % weapon_recharge
-        blob += "Burst Recharge: <highlight>%d<end>\n" % burst_recharge
-        blob += "Burst Skill: <highlight>%d<end>\n\n" % burst_skill
+        blob = "Attack: <highlight>%.2f secs</highlight>\n" % weapon_attack
+        blob += "Recharge: <highlight>%.2f secs</highlight>\n" % weapon_recharge
+        blob += "Burst Recharge: <highlight>%d</highlight>\n" % burst_recharge
+        blob += "Burst Skill: <highlight>%d</highlight>\n\n" % burst_skill
 
-        blob += "Burst Recharge: <highlight>%d secs<end>\n\n" % burst_info.recharge
+        blob += "Burst Recharge: <highlight>%d secs</highlight>\n\n" % burst_info.recharge
 
-        blob += "You need <highlight>%d<end> Burst Skill to cap your recharge at <highlight>%d secs<end>." % (burst_info.skill_cap, burst_info.hard_cap)
+        blob += "You need <highlight>%d</highlight> Burst Skill to cap your recharge at <highlight>%d secs</highlight>." % (burst_info.skill_cap, burst_info.hard_cap)
 
         return ChatBlob("Burst Results", blob)
 
@@ -110,25 +110,25 @@ class SpecialsController:
     def dimach_cmd(self, request, dimach_skill):
         dimach_info = self.get_dimach_info(dimach_skill)
 
-        blob = "Dimach Skill: <highlight>%d<end>\n\n" % dimach_skill
+        blob = "Dimach Skill: <highlight>%d</highlight>\n\n" % dimach_skill
 
         blob += "<header2>Martial Artist<end>\n"
-        blob += "Damage: <highlight>%d<end>\n" % dimach_info.ma_dmg
-        blob += "Recharge: <highlight>%s<end>\n\n" % self.util.time_to_readable(dimach_info.ma_recharge)
+        blob += "Damage: <highlight>%d</highlight>\n" % dimach_info.ma_dmg
+        blob += "Recharge: <highlight>%s</highlight>\n\n" % self.util.time_to_readable(dimach_info.ma_recharge)
 
         blob += "<header2>Keeper<end>\n"
-        blob += "Self Heal: <highlight>%d<end>\n" % dimach_info.keeper_heal
-        blob += "Recharge: <highlight>5 mins<end> (constant)\n\n"
+        blob += "Self Heal: <highlight>%d</highlight>\n" % dimach_info.keeper_heal
+        blob += "Recharge: <highlight>5 mins</highlight> (constant)\n\n"
 
         blob += "<header2>Shade<end>\n"
-        blob += "Damage: <highlight>%d<end>\n" % dimach_info.shade_dmg
-        blob += "Self Heal: <highlight>%d%%<end> * <highlight>%d<end> = <highlight>%d<end>\n" % \
+        blob += "Damage: <highlight>%d</highlight>\n" % dimach_info.shade_dmg
+        blob += "Self Heal: <highlight>%d%%</highlight> * <highlight>%d</highlight> = <highlight>%d</highlight>\n" % \
                 (dimach_info.shade_heal_percentage, dimach_info.shade_dmg, round(dimach_info.shade_heal_percentage * dimach_info.shade_dmg / 100))
-        blob += "Recharge: <highlight>%s<end>\n\n" % self.util.time_to_readable(dimach_info.shade_recharge)
+        blob += "Recharge: <highlight>%s</highlight>\n\n" % self.util.time_to_readable(dimach_info.shade_recharge)
 
         blob += "<header2>All other professions<end>\n"
-        blob += "Damage: <highlight>%d<end>\n" % dimach_info.general_dmg
-        blob += "Recharge: <highlight>30 mins<end> (constant)\n\n\n"
+        blob += "Damage: <highlight>%d</highlight>\n" % dimach_info.general_dmg
+        blob += "Recharge: <highlight>30 mins</highlight> (constant)\n\n\n"
 
         blob += "Based on the !dimach command from Budabot by Imoutochan (RK1)"
 
@@ -139,12 +139,12 @@ class SpecialsController:
     def fastattack_cmd(self, request, weapon_attack, fast_attack_skill):
         fast_attack_info = self.get_fast_attack_info(weapon_attack, fast_attack_skill)
 
-        blob = "Attack: <highlight>%.2f secs<end>\n" % weapon_attack
-        blob += "Fast Attack Skill: <highlight>%d<end>\n\n" % fast_attack_skill
+        blob = "Attack: <highlight>%.2f secs</highlight>\n" % weapon_attack
+        blob += "Fast Attack Skill: <highlight>%d</highlight>\n\n" % fast_attack_skill
 
-        blob += "Fast Attack Recharge: <highlight>%.2f secs<end>\n\n" % fast_attack_info.recharge
+        blob += "Fast Attack Recharge: <highlight>%.2f secs</highlight>\n\n" % fast_attack_info.recharge
 
-        blob += "You need <highlight>%d<end> Fast Attack Skill to cap your recharge at <highlight>%.2f secs<end>." % (fast_attack_info.skill_cap, fast_attack_info.hard_cap)
+        blob += "You need <highlight>%d</highlight> Fast Attack Skill to cap your recharge at <highlight>%.2f secs</highlight>." % (fast_attack_info.skill_cap, fast_attack_info.hard_cap)
 
         return ChatBlob("Fast Attack Results", blob)
 
@@ -153,12 +153,12 @@ class SpecialsController:
     def flingshot_cmd(self, request, weapon_attack, fling_shot_skill):
         fling_shot_info = self.get_fling_shot_info(weapon_attack, fling_shot_skill)
 
-        blob = "Attack: <highlight>%.2f secs<end>\n" % weapon_attack
-        blob += "Fling Shot Skill: <highlight>%d<end>\n\n" % fling_shot_skill
+        blob = "Attack: <highlight>%.2f secs</highlight>\n" % weapon_attack
+        blob += "Fling Shot Skill: <highlight>%d</highlight>\n\n" % fling_shot_skill
 
-        blob += "Fling Shot Recharge: <highlight>%.2f secs<end>\n\n" % fling_shot_info.recharge
+        blob += "Fling Shot Recharge: <highlight>%.2f secs</highlight>\n\n" % fling_shot_info.recharge
 
-        blob += "You need <highlight>%d<end> Fling Shot Skill to cap your recharge at <highlight>%.2f secs<end>." % (fling_shot_info.skill_cap, fling_shot_info.hard_cap)
+        blob += "You need <highlight>%d</highlight> Fling Shot Skill to cap your recharge at <highlight>%.2f secs</highlight>." % (fling_shot_info.skill_cap, fling_shot_info.hard_cap)
 
         return ChatBlob("Fling Shot Results", blob)
 
@@ -167,20 +167,20 @@ class SpecialsController:
     def fullauto_cmd(self, request, weapon_attack, weapon_recharge, full_auto_recharge, full_auto_skill):
         full_auto_info = self.get_full_auto_info(weapon_attack, weapon_recharge, full_auto_recharge, full_auto_skill)
 
-        blob = "Attack: <highlight>%.2f secs<end>\n" % weapon_attack
-        blob += "Recharge: <highlight>%.2f secs<end>\n" % weapon_recharge
-        blob += "Full Auto Recharge: <highlight>%d<end>\n" % full_auto_recharge
-        blob += "Full Auto Skill: <highlight>%d<end>\n\n" % full_auto_skill
+        blob = "Attack: <highlight>%.2f secs</highlight>\n" % weapon_attack
+        blob += "Recharge: <highlight>%.2f secs</highlight>\n" % weapon_recharge
+        blob += "Full Auto Recharge: <highlight>%d</highlight>\n" % full_auto_recharge
+        blob += "Full Auto Skill: <highlight>%d</highlight>\n\n" % full_auto_skill
 
-        blob += "Full Auto Recharge: <highlight>%d secs<end>\n" % full_auto_info.recharge
-        blob += "Max Number of Bullets: <highlight>%d<end>\n\n" % full_auto_info.max_bullets
+        blob += "Full Auto Recharge: <highlight>%d secs</highlight>\n" % full_auto_info.recharge
+        blob += "Max Number of Bullets: <highlight>%d</highlight>\n\n" % full_auto_info.max_bullets
 
-        blob += "You need <highlight>%d<end> Full Auto Skill to cap your recharge at <highlight>%d secs<end>.\n\n" % (full_auto_info.skill_cap, full_auto_info.hard_cap)
+        blob += "You need <highlight>%d</highlight> Full Auto Skill to cap your recharge at <highlight>%d secs</highlight>.\n\n" % (full_auto_info.skill_cap, full_auto_info.hard_cap)
 
-        blob += "From <highlight>0 to 10K<end> damage, the bullet damage is unchanged.\n"
-        blob += "From <highlight>10K to 11.5K<end> damage, each bullet damage is halved.\n"
-        blob += "From <highlight>11K to 15K<end> damage, each bullet damage is halved again.\n"
-        blob += "<highlight>15K<end> is the damage cap."
+        blob += "From <highlight>0 to 10K</highlight> damage, the bullet damage is unchanged.\n"
+        blob += "From <highlight>10K to 11.5K</highlight> damage, each bullet damage is halved.\n"
+        blob += "From <highlight>11K to 15K</highlight> damage, each bullet damage is halved again.\n"
+        blob += "<highlight>15K</highlight> is the damage cap."
 
         return ChatBlob("Full Auto Results", blob)
 
@@ -189,19 +189,19 @@ class SpecialsController:
     def mafist_cmd(self, request, ma_skill):
         ma_info = self.get_martial_arts_info(ma_skill)
 
-        blob = "Martial Arts Skill: <highlight>%d<end>\n\n" % ma_skill
+        blob = "Martial Arts Skill: <highlight>%d</highlight>\n\n" % ma_skill
 
         blob += "<header2>Martial Artist<end>\n"
-        blob += "Speed: <highlight>%.2f / %.2f secs<end>\n" % (ma_info.ma_speed, ma_info.ma_speed)
-        blob += "Damage: <highlight>%d - %d (%d)<end>\n\n" % (ma_info.ma_min_dmg, ma_info.ma_max_dmg, ma_info.ma_crit_dmg)
+        blob += "Speed: <highlight>%.2f / %.2f secs</highlight>\n" % (ma_info.ma_speed, ma_info.ma_speed)
+        blob += "Damage: <highlight>%d - %d (%d)</highlight>\n\n" % (ma_info.ma_min_dmg, ma_info.ma_max_dmg, ma_info.ma_crit_dmg)
 
         blob += "<header2>Shade<end>\n"
-        blob += "Speed: <highlight>%.2f / %.2f secs<end>\n" % (ma_info.shade_speed, ma_info.shade_speed)
-        blob += "Damage: <highlight>%d - %d (%d)<end>\n\n" % (ma_info.shade_min_dmg, ma_info.shade_max_dmg, ma_info.shade_crit_dmg)
+        blob += "Speed: <highlight>%.2f / %.2f secs</highlight>\n" % (ma_info.shade_speed, ma_info.shade_speed)
+        blob += "Damage: <highlight>%d - %d (%d)</highlight>\n\n" % (ma_info.shade_min_dmg, ma_info.shade_max_dmg, ma_info.shade_crit_dmg)
 
         blob += "<header2>All other professions<end>\n"
-        blob += "Speed: <highlight>%.2f / %.2f secs<end>\n" % (ma_info.gen_speed, ma_info.gen_speed)
-        blob += "Damage: <highlight>%d - %d (%d)<end>\n\n" % (ma_info.gen_min_dmg, ma_info.gen_max_dmg, ma_info.gen_crit_dmg)
+        blob += "Speed: <highlight>%.2f / %.2f secs</highlight>\n" % (ma_info.gen_speed, ma_info.gen_speed)
+        blob += "Damage: <highlight>%d - %d (%d)</highlight>\n\n" % (ma_info.gen_min_dmg, ma_info.gen_max_dmg, ma_info.gen_crit_dmg)
 
         return ChatBlob("Martial Arts Results", blob)
 
@@ -210,26 +210,26 @@ class SpecialsController:
     def nanoinit_cmd(self, request, nano_attack_time, nano_cast_init):
         nano_cast_info = self.get_nano_cast_info(nano_cast_init, nano_attack_time)
 
-        blob = "Attack: <highlight>%.2f secs<end>\n" % nano_attack_time
-        blob += "Nano Cast Init: <highlight>%d<end>\n\n" % nano_cast_init
+        blob = "Attack: <highlight>%.2f secs</highlight>\n" % nano_attack_time
+        blob += "Nano Cast Init: <highlight>%d</highlight>\n\n" % nano_cast_init
 
-        blob += "Cast Time Reduction: <highlight>%.2f<end>\n" % nano_cast_info.cast_time_reduction
-        blob += "Effective Cast Time: <highlight>%.2f<end>\n\n" % nano_cast_info.effective_cast_time
+        blob += "Cast Time Reduction: <highlight>%.2f</highlight>\n" % nano_cast_info.cast_time_reduction
+        blob += "Effective Cast Time: <highlight>%.2f</highlight>\n\n" % nano_cast_info.effective_cast_time
 
         if nano_cast_info.bar_setting > 100:
             blob += "You cannot instacast this nano at any AGG/DEF setting.\n\n"
         else:
-            blob += "You must set your AGG/DEF bar to <highlight>%d%%<end> to instacast this nano.\n\n" % nano_cast_info.bar_setting
+            blob += "You must set your AGG/DEF bar to <highlight>%d%%</highlight> to instacast this nano.\n\n" % nano_cast_info.bar_setting
 
-        blob += "NanoC. Init needed to instacast at Full Agg (100%%): <highlight>%d<end>\n" % nano_cast_info.instacast_full_agg
-        blob += "NanoC. Init needed to instacast at Neutral (87.5%%): <highlight>%d<end>\n" % nano_cast_info.instacast_neutral
-        blob += "NanoC. Init needed to instacast at Half (50%%): <highlight>%d<end>\n" % nano_cast_info.instacast_half
-        blob += "NanoC. Init needed to instacast at Full Def (0%%): <highlight>%d<end>\n\n" % nano_cast_info.instacast_full_def
+        blob += "NanoC. Init needed to instacast at Full Agg (100%%): <highlight>%d</highlight>\n" % nano_cast_info.instacast_full_agg
+        blob += "NanoC. Init needed to instacast at Neutral (87.5%%): <highlight>%d</highlight>\n" % nano_cast_info.instacast_neutral
+        blob += "NanoC. Init needed to instacast at Half (50%%): <highlight>%d</highlight>\n" % nano_cast_info.instacast_half
+        blob += "NanoC. Init needed to instacast at Full Def (0%%): <highlight>%d</highlight>\n\n" % nano_cast_info.instacast_full_def
 
-        blob += "Cast time at Full Agg (100%%): <highlight>%.2f<end>\n" % nano_cast_info.cast_time_full_agg
-        blob += "Cast time at Neutral (87.5%%): <highlight>%.2f<end>\n" % nano_cast_info.cast_time_neutral
-        blob += "Cast time at Half (50%%): <highlight>%.2f<end>\n" % nano_cast_info.cast_time_half
-        blob += "Cast time at Full Def (0%%): <highlight>%.2f<end>" % nano_cast_info.cast_time_full_def
+        blob += "Cast time at Full Agg (100%%): <highlight>%.2f</highlight>\n" % nano_cast_info.cast_time_full_agg
+        blob += "Cast time at Neutral (87.5%%): <highlight>%.2f</highlight>\n" % nano_cast_info.cast_time_neutral
+        blob += "Cast time at Half (50%%): <highlight>%.2f</highlight>\n" % nano_cast_info.cast_time_half
+        blob += "Cast time at Full Def (0%%): <highlight>%.2f</highlight>" % nano_cast_info.cast_time_full_def
 
         return ChatBlob("Nano Cast Init Results", blob)
 
@@ -251,7 +251,7 @@ class SpecialsController:
             if item:
                 ql = item.highql
             else:
-                return "Could not find item with id <highlight>%d<end>." % item_id
+                return "Could not find item with id <highlight>%d</highlight>." % item_id
 
         return self.get_weapon_info(item_id, ql)
 
@@ -266,7 +266,7 @@ class SpecialsController:
             item = self.db.query_single("SELECT * FROM aodb WHERE highid = ? UNION SELECT * FROM aodb WHERE lowid = ? LIMIT 1", [item_id, item_id])
 
         if not item:
-            return "Could not find item with ID <highlight>%d<end>." % item_id
+            return "Could not find item with ID <highlight>%d</highlight>." % item_id
 
         ql = ql or item.highql
 
@@ -274,14 +274,14 @@ class SpecialsController:
         high_attributes = self.db.query_single("SELECT * FROM weapon_attributes WHERE id = ?", [item.highid])
 
         if not low_attributes or not high_attributes:
-            return "Could not find weapon information or item is not a weapon for ID <highlight>%d<end>." % item_id
+            return "Could not find weapon information or item is not a weapon for ID <highlight>%d</highlight>." % item_id
 
         weapon_attack = self.util.interpolate_value(ql, {item.lowql: low_attributes.attack_time, item.highql: high_attributes.attack_time}) / 100
         weapon_recharge = self.util.interpolate_value(ql, {item.lowql: low_attributes.recharge_time, item.highql: high_attributes.recharge_time}) / 100
 
         blob = "%s (QL %d)\n\n" % (self.text.make_item(item.lowid, item.highid, ql, item.name), ql)
-        blob += "Attack: <highlight>%.2f<end>\n" % weapon_attack
-        blob += "Recharge: <highlight>%.2f<end>\n\n" % weapon_recharge
+        blob += "Attack: <highlight>%.2f</highlight>\n" % weapon_attack
+        blob += "Recharge: <highlight>%.2f</highlight>\n\n" % weapon_recharge
 
         blob += self.get_inits_display(weapon_attack, weapon_recharge) + "\n"
 
@@ -289,29 +289,29 @@ class SpecialsController:
 
         if high_attributes.aimed_shot:
             as_info = self.get_aimed_shot_info(weapon_attack, weapon_recharge, 1)
-            blob += "Aimed Shot\n<highlight>%d<end> skill needed to cap Aimed Shot recharge at <highlight>%d secs<end>\n\n" % \
+            blob += "Aimed Shot\n<highlight>%d</highlight> skill needed to cap Aimed Shot recharge at <highlight>%d secs</highlight>\n\n" % \
                     (as_info.skill_cap, as_info.hard_cap)
 
         if high_attributes.burst:
             burst_recharge = self.util.interpolate_value(ql, {item.lowql: low_attributes.burst, item.highql: high_attributes.burst})
             burst_info = self.get_burst_info(weapon_attack, weapon_recharge, burst_recharge, 1)
-            blob += "Burst Recharge: <highlight>%d<end>\n<highlight>%d<end> skill needed to cap Burst recharge at <highlight>%d secs<end>\n\n" % \
+            blob += "Burst Recharge: <highlight>%d</highlight>\n<highlight>%d</highlight> skill needed to cap Burst recharge at <highlight>%d secs</highlight>\n\n" % \
                     (burst_recharge, burst_info.skill_cap, burst_info.hard_cap)
 
         if high_attributes.fast_attack:
             fast_attack_info = self.get_fast_attack_info(weapon_attack, 1)
-            blob += "Fast Attack\n<highlight>%d<end> skill needed to cap Fast Attack recharge at <highlight>%.2f secs<end>\n\n" % \
+            blob += "Fast Attack\n<highlight>%d</highlight> skill needed to cap Fast Attack recharge at <highlight>%.2f secs</highlight>\n\n" % \
                     (fast_attack_info.skill_cap, fast_attack_info.hard_cap)
 
         if high_attributes.fling_shot:
             fling_shot_info = self.get_fling_shot_info(weapon_attack, 1)
-            blob += "Fling Shot\n<highlight>%d<end> skill needed to cap Fling Shot recharge at <highlight>%.2f secs<end>\n\n" % \
+            blob += "Fling Shot\n<highlight>%d</highlight> skill needed to cap Fling Shot recharge at <highlight>%.2f secs</highlight>\n\n" % \
                     (fling_shot_info.skill_cap, fling_shot_info.hard_cap)
 
         if high_attributes.full_auto:
             full_auto_recharge = self.util.interpolate_value(ql, {item.lowql: low_attributes.full_auto, item.highql: high_attributes.full_auto})
             full_auto_info = self.get_full_auto_info(weapon_attack, weapon_recharge, full_auto_recharge, 1)
-            blob += "Full Auto Recharge: <highlight>%d<end>\n<highlight>%d<end> skill needed to cap Full Auto recharge at <highlight>%d secs<end>\n\n" % \
+            blob += "Full Auto Recharge: <highlight>%d</highlight>\n<highlight>%d</highlight> skill needed to cap Full Auto recharge at <highlight>%d secs</highlight>\n\n" % \
                     (full_auto_recharge, full_auto_info.skill_cap, full_auto_info.hard_cap)
 
         return ChatBlob("Weapon Info for %s (QL %d)" % (item.name, ql), blob)

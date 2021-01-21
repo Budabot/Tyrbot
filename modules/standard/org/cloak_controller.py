@@ -66,7 +66,7 @@ class CloakController:
             if row.action == "off":
                 if time_until_change <= 0:
                     time_str = self.util.time_to_readable(t - row.created_at)
-                    msg = "The cloaking device is <orange>disabled<end> but can be enabled. <highlight>%s<end> disabled it %s ago." % (row.name, time_str)
+                    msg = "The cloaking device is <orange>disabled<end> but can be enabled. <highlight>%s</highlight> disabled it %s ago." % (row.name, time_str)
                     self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)
 
     @event(event_type=CLOAK_EVENT, description="Set a timer for when cloak can be raised and lowered")

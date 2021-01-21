@@ -325,7 +325,7 @@ class DiscordController:
     def format_message(self, msg):
         msg = re.sub(r"<header>(.*?)<end>\n?", r"```less\n\1\n```", msg)
         msg = re.sub(r"<header2>(.*?)<end>\n?", r"```yaml\n\1\n```", msg)
-        msg = re.sub(r"<highlight>(.*?)<end>", r"`\1`", msg)
+        msg = re.sub(r"<highlight>(.*?)</highlight>", r"`\1`", msg)
         return self.strip_html_tags(msg)
 
     def register_discord_command_handler(self, callback, command_str, params):

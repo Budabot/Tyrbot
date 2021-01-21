@@ -55,7 +55,7 @@ class WebsocketRelayController:
                                           TextSettingType(["ws://localhost/subscribe/relay", "wss://relay.jkbff.com/subscribe/relay"]),
                                           "The address of the websocket relay server",
                                           "All bots on the relay must connect to the same server and channel. If using the public relay server, use a unique channel name. "
-                                          "Example: ws://relay.jkbff.com/subscribe/unique123 (<highlight>relay.jkbff.com<end> is the server and <highlight>unique123<end> is the channel)")
+                                          "Example: ws://relay.jkbff.com/subscribe/unique123 (<highlight>relay.jkbff.com</highlight> is the server and <highlight>unique123</highlight> is the channel)")
         self.setting_service.register_new(self.module_name, "websocket_relay_channel_color", "#FFFF00", ColorSettingType(), "Color of the channel in websocket relay messages")
         self.setting_service.register_new(self.module_name, "websocket_relay_message_color", "#FCA712", ColorSettingType(), "Color of the message content in websocket relay messages")
         self.setting_service.register_new(self.module_name, "websocket_relay_sender_color", "#00DE42", ColorSettingType(), "Color of the sender in websocket relay messages")

@@ -35,6 +35,6 @@ The grid is a fast way to teleport to other locations within Rubi-Ka.  Fixers ha
 <font color = red>*</font>440 Sentinels (Mort)
 <font color = red>*</font>450 Camelot (Avalon)
 
-<highlight>*<end> denotes CompLit needed to use the exit.
+<highlight>*</highlight> denotes CompLit needed to use the exit.
 
-Updates from Shassandrafx (RK2), Spectin(RK2) 
+Updates from Shassandrafx (RK2), Spectin(RK2)
