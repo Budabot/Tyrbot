@@ -1,4 +1,4 @@
-<header> :::::: Heal Delta :::::: <end>
+<header> :::::: Heal Delta :::::: </header>
 
 Stamina  -> HD tick standing/sitting
 <tab><img src=tdb://id:GFX_GUI_FRIENDLIST_SPLITTER>
@@ -43,7 +43,7 @@ Stamina  -> HD tick standing/sitting
 
 by Imoutochan (RK1)
 
-<header2> ::: Hitpoints by Breed :::<end>
+<header2> ::: Hitpoints by Breed :::</header2>
 
 Atrox 4 hitpoints from each point in bodydev
 Opifex 3 hitpoints
@@ -57,7 +57,7 @@ Base is 4 for atrox, 3 for opi/sol, 2 for nanomage
 healdelta tickrate formula:
 (870 - stam) / 30 = tickrate
 
-example (870-810)/30=2 secs  
+example (870-810)/30=2 secs
 
 http://forums.anarchy-online.com/showthread.php?t=525410
 http://forums.anarchy-online.com/showthread.php?t=435274

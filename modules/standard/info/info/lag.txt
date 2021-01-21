@@ -1,6 +1,6 @@
-<header> :::::: Lag Tweaks :::::: <end>
+<header> :::::: Lag Tweaks :::::: </header>
 
-<header2><tab> ::: Environment and Visual (No Zoning Required) :::<end>
+<header2><tab> ::: Environment and Visual (No Zoning Required) :::</header2>
 <a href='chatcmd:///option ShowAllNames 1'>Enable</a> <a href='chatcmd:///option ShowAllNames 0'>Disable</a> Character names show over head
 <a href='chatcmd:///option SimpleClouds 1'>Enable</a> <a href='chatcmd:///option SimpleClouds 0'>Disable</a> Display Simple Clouds
 <a href='chatcmd:///option RealisticClouds 1'>Enable</a> <a href='chatcmd:///option RealisticClouds 0'>Disable</a> Display Realistic Clouds
@@ -10,7 +10,7 @@
 <a href='chatcmd:///option IsSpaceShipsShown 1'>Enable</a> <a href='chatcmd:///option IsSpaceShipsShown 0'>Disable</a> Show Space Ships
 <a href='chatcmd:///option Shadows 1'>Enable</a> <a href='chatcmd:///option Shadows 0'>Disable</a> Show Ground Shadows
 
-<header2><tab> ::: Environment and Visual (Zoning Required) :::<end>
+<header2><tab> ::: Environment and Visual (Zoning Required) :::</header2>
 <a href='chatcmd:///option BuffsFX 1'>Enable</a> <a href='chatcmd:///option BuffsFX 0'>Disable</a> Show Buff Effects
 <a href='chatcmd:///option EnvironmentFX 1'>Enable</a> <a href='chatcmd:///option EnvironmentFX 0'>Disable</a> Show Environment Effects
 <a href='chatcmd:///option MuzzleFlashFX 1'>Enable</a> <a href='chatcmd:///option MuzzleFlashFX 0'>Disable</a> Show Muzzle Flash
@@ -18,13 +18,13 @@
 <a href='chatcmd:///option TracersFX 1'>Enable</a> <a href='chatcmd:///option TracersFX 0'>Disable</a> Show Tracers
 <a href='chatcmd:///option OthersFX 1'>Enable</a> <a href='chatcmd:///option OthersFX 0'>Disable</a> Show Others Effects
 
-<header2><tab> ::: Audio Settings (No Zoning Required) :::<end>
+<header2><tab> ::: Audio Settings (No Zoning Required) :::</header2>
 <a href='chatcmd:///option SoundOnOff 1'>Enable</a> <a href='chatcmd:///option SoundOnOff 0'>Disable</a> Sound Master
 <a href='chatcmd:///option SoundFXOn 1'>Enable</a> <a href='chatcmd:///option SoundFXOn 0'>Disable</a> Sound Effects
 <a href='chatcmd:///option MusicOn 1'>Enable</a> <a href='chatcmd:///option MusicOn 0'>Disable</a> Music
 <a href='chatcmd:///option VoiceSndFxOn 1'>Enable</a> <a href='chatcmd:///option VoiceSndFxOn 0'>Disable</a> Voices
 
-<header2><tab> ::: View Distance Settings (No Zoning Required) :::<end>
+<header2><tab> ::: View Distance Settings (No Zoning Required) :::</header2>
 <a href='chatcmd:///option ViewDistance 0.05'>Min</a> <a href='chatcmd:///option ViewDistance 0.30'>Low</a> <a href='chatcmd:///option ViewDistance 0.50'>Medium</a> <a href='chatcmd:///option ViewDistance 0.75'>High</a> <a href='chatcmd:///option ViewDistance 1'>Max</a> View Distance
 <a href='chatcmd:///option CharDist 5'>Min</a> <a href='chatcmd:///option CharDist 30'>Low</a> <a href='chatcmd:///option CharDist 50'>Medium</a> <a href='chatcmd:///option CharDist 75'>High</a> <a href='chatcmd:///option CharDist 100'>Max</a> Character View Distance
 

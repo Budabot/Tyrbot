@@ -1,8 +1,8 @@
-<header> :::::: Guide to The Grid  :::::: <end>
+<header> :::::: Guide to The Grid  :::::: </header>
 
 The grid is a fast way to teleport to other locations within Rubi-Ka.  Fixers have their own grid, but the public grid is available for all characters to use.  The Grid requires a certain amount of Computer Literacy to exit or enter the various grid terminals.  There are three floors to the Grid, each with different ranges of Computer Literacy needed:
 
-<header2> ::: First Floor ::: <end>
+<header2> ::: First Floor ::: </header2>
 <font color = red>*</font>0 : Emergency Exit
 <font color = red>*</font>0 : Organization Exit
 <font color = red>*</font>75 : Omni-1 Trade
@@ -17,7 +17,7 @@ The grid is a fast way to teleport to other locations within Rubi-Ka.  Fixers ha
 <font color = red>*</font>90 : Coast of Tranquility
 <font color = red>*</font>90 : Unicorn Defence Hub
 
-<header2> ::: Second Floor :::<end>
+<header2> ::: Second Floor :::</header2>
 <font color = red>*</font>75 : Omni-1 Entertainment
 <font color = red>*</font>80 : 2HO (Stret East Bank)
 <font color = red>*</font>90 : Meetmedere (Newland Desert)
@@ -30,7 +30,7 @@ The grid is a fast way to teleport to other locations within Rubi-Ka.  Fixers ha
 <font color = red>*</font>180 : 4 Holes
 <font color = red>*</font>250 : Broken Shores
 
-<header2> ::: Third Floor :::<end>
+<header2> ::: Third Floor :::</header2>
 <font color = red>*</font>150 Omni-1 HQ
 <font color = red>*</font>440 Sentinels (Mort)
 <font color = red>*</font>450 Camelot (Avalon)

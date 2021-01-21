@@ -1,4 +1,4 @@
-<header> :::::: Nanomage :::::: <end>
+<header> :::::: Nanomage :::::: </header>
 
 This breed is difficult to play for most new players due to the hits they take
 in the Health department and is not recommended until you have a better grasp
@@ -12,7 +12,7 @@ playing a Nanomage is a challenging proposition and is one way to ramp up the
 difficulty of the game.
 
 
-<pagebreak><header2> ::: Nanomage Breed Caps ::: <end>
+<pagebreak><header2> ::: Nanomage Breed Caps ::: </header2>
 
 * <font color='#075AFF'>Strength</font> 464/664
 * <font color='#075AFF'>Agility</font> 464/664
@@ -29,7 +29,7 @@ Max % Add Nano Cost -55%
 4 max nano per 1 point of nanopool
 
 
-<pagebreak><header2> ::: Nanomage Shadowbreeds List ::: <end>
+<pagebreak><header2> ::: Nanomage Shadowbreeds List ::: </header2>
 
 <green>Nanomage (Clan) Shadowbreed<end>
 
@@ -149,7 +149,7 @@ Hostile AoE:
 Casts a 4k Nuke
 
 
-<pagebreak><header2> ::: Nanomage Alien Invasion Perks ::: <end>
+<pagebreak><header2> ::: Nanomage Alien Invasion Perks ::: </header2>
 
 <green>Nanobreed Primary Genome<end>
 

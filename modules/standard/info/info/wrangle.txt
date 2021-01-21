@@ -1,4 +1,4 @@
-<header> :::::: Guide to Wrangles :::::: <end>
+<header> :::::: Guide to Wrangles :::::: </header>
 
 Regular wrangles are in <font color = yellow>YELLOW</font>
 Team wrangles are in <font color = white>WHITE</font> (requires teaming with Trader to have it cast)
@@ -37,7 +37,7 @@ Team wrangles are in <font color = white>WHITE</font> (requires teaming with Tra
 <orange>Dedicated to Ferrell and all other Traders, whose patience is extraordinary, if not legendary.<end>
 
 Ok, you've heard about it, listen to others ask for it, but what IS it exactly?
- 
+
 A wrangle is a nanoprogram buff that traders can cast.  They can boost your skills by a certain amount of points for 3 minutes, making it ideal for 'twinking' new weapons that have requirements far above your skill, or casting robot shells/grid armor above your current nanoskill ability.
 
 The normal Skill Wrangler nanos only affect a single target and lower the abilities of the trader while raising the abilities of the target.  There are also Team Skill Wrangler nanos, which boost the abilities of everyone teamed with the trader, while draining some of the Trader's abilities.  Umbral Wranglers, available only to those who possess expansions, are special level-locked Team Wranglers that do not reduce the trader's skills, and act as a long-lasting aura.
@@ -50,30 +50,30 @@ When asking for a wrangle, be sure to note exactly how many points that you need
 
 <font color = green>Martial arts
 1h Blunt
-1h Edged 
-2h Edged 
+1h Edged
+2h Edged
 2h Blunt
-Melee energy  
+Melee energy
 Ranged energy
 Piercing
 Sharp objects
 Grenade
 Heavy weapons
-Bow 
+Bow
 Pistol
 Rifle
-Smg 
-Shotgun 
+Smg
+Shotgun
 Assault rifle
 Sensory improvement
 Matter metamorphosis
 Biological metamorphosis
 Psychological modifications
-Matter creation 
+Matter creation
 Time and space
 </font>
 <font color = blue>Wrangles </font><font color = red>DO NOT</font><font color = blue> boost the following skills:</font>
- 
+
 <font color = red>All Abilities (Strength, Agility, etc.)
 Aimed Shot
 Burst
@@ -85,4 +85,4 @@ Multi-ranged
 Multi-melee
 Treatment
 Sneak Attack
-</font> 
+</font>

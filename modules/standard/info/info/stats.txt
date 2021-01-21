@@ -1,22 +1,22 @@
-<header> :::::: Stats :::::: <end>
+<header> :::::: Stats :::::: </header>
 
-<header2>::: Offense / Defense :::<end>
+<header2>::: Offense / Defense :::</header2>
 <a href=skillid://276>Offense (Addall-Off)</a>
 <a href=skillid://277>Defense (Addall-Def)</a>
 <a href=skillid://51>Aggdef-Slider</a>
 <a href=skillid://4>Attack Speed</a>
 
-<header2>::: Critical Strike :::<end>
+<header2>::: Critical Strike :::</header2>
 <a href=skillid://379>Crit increase</a>
 <a href=skillid://391>Crit decrease</a>
 
-<header2>::: Heal :::<end>
+<header2>::: Heal :::</header2>
 <a href=skillid://342>Heal delta (interval)</a> (tick in secs)
 <a href=skillid://343>Heal delta (amount)</a>
 <a href=skillid://535>Heal modifier</a>
 <a href=skillid://689>Heal reactivity</a>
 
-<header2>::: Nano :::<end>
+<header2>::: Nano :::</header2>
 <a href=skillid://363>Nano delta (interval)</a> (tick in secs)
 <a href=skillid://364>Nano delta (amount)</a>
 <a href=skillid://318>Nano execution cost</a>
@@ -24,7 +24,7 @@
 <a href=skillid://383>Interrupt modifier</a>
 <a href=skillid://381>Range Increase Nanoformula</a>
 
-<header2>::: Add Damage (Amount) :::<end>
+<header2>::: Add Damage (Amount) :::</header2>
 <a href=skillid://279>+Damage - Melee</a>
 <a href=skillid://280>+Damage - Energy</a>
 <a href=skillid://281>+Damage - Chemical</a>
@@ -35,7 +35,7 @@
 <a href=skillid://316>+Damage - Fire</a>
 <a href=skillid://317>+Damage - Poison</a>
 
-<header2>::: Reflect Shield (Percentage) :::<end>
+<header2>::: Reflect Shield (Percentage) :::</header2>
 <a href=skillid://205>ReflectProjectileAC</a>
 <a href=skillid://206>ReflectMeleeAC</a>
 <a href=skillid://207>ReflectEnergyAC</a>
@@ -46,7 +46,7 @@
 <a href=skillid://219>ReflectFireAC</a>
 <a href=skillid://225>ReflectPoisonAC</a>
 
-<header2>::: Reflect Shield (Amount) :::<end>
+<header2>::: Reflect Shield (Amount) :::</header2>
 <a href=skillid://475>MaxReflectedProjectileDmg</a>
 <a href=skillid://476>MaxReflectedMeleeDmg</a>
 <a href=skillid://477>MaxReflectedEnergyDmg</a>
@@ -57,7 +57,7 @@
 <a href=skillid://482>MaxReflectedFireDmg</a>
 <a href=skillid://483>MaxReflectedPoisonDmg</a>
 
-<header2>::: Damage Shield (Amount) :::<end>
+<header2>::: Damage Shield (Amount) :::</header2>
 <a href=skillid://226>ShieldProjectileAC</a>
 <a href=skillid://227>ShieldMeleeAC</a>
 <a href=skillid://228>ShieldEnergyAC</a>
@@ -68,7 +68,7 @@
 <a href=skillid://233>ShieldFireAC</a>
 <a href=skillid://234>ShieldPoisonAC</a>
 
-<header2>::: Damage Absorb (Amount) :::<end>
+<header2>::: Damage Absorb (Amount) :::</header2>
 <a href=skillid://238>AbsorbProjectileAC</a>
 <a href=skillid://239>AbsorbMeleeAC</a>
 <a href=skillid://240>AbsorbEnergyAC</a>
@@ -79,7 +79,7 @@
 <a href=skillid://245>AbsorbPoisonAC</a>
 <a href=skillid://246>AbsorbNanoAC</a>
 
-<header2>::: Misc :::<end>
+<header2>::: Misc :::</header2>
 <a href=skillid://319>XP Bonus</a>
 <a href=skillid://382>SkillLockModifier</a>
 <a href=skillid://380>Weapon Range Increase</a>

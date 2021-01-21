@@ -29,7 +29,7 @@ class AOUController:
         self.parser = bbcode.Parser(install_defaults=False, newline="\n", replace_links=False, replace_cosmetic=False,
                                     drop_unrecognized=True)
         self.parser.add_simple_formatter("i", "<i>%(value)s</i>")
-        self.parser.add_simple_formatter("b", "<highlight>%(value)s<end>")
+        self.parser.add_simple_formatter("b", "<highlight>%(value)s</highlight>")
         self.parser.add_simple_formatter("ts_ts", " + ", standalone=True)
         self.parser.add_simple_formatter("ts_ts2", " = ", standalone=True)
         self.parser.add_simple_formatter("ct", " | ", standalone=True)

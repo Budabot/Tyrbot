@@ -1,4 +1,4 @@
-<header>:::::: How to use the Chatfilter for Creditspammer :::::<end>
+<header>:::::: How to use the Chatfilter for Creditspammer :::::</header>
 
 If you want to see a complete guide about the Chatfilter go <a href='chatcmd:///tell <myname> info chatfilter'>here</a>!
 

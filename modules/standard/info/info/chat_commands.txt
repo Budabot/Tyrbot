@@ -1,8 +1,8 @@
-<header>::::: Chat Commands :::::<end>
+<header>::::: Chat Commands :::::</header>
 
 Here u can find an overview of some commands with samples.
 
-<header2>Playtime<end>
+<header2>Playtime</header2>
 
 <highlight>/played</highlight>
 
@@ -10,7 +10,7 @@ Tells you for how long you have played this character. Also gives you the local 
 
 <a href='chatcmd:///played'>Example Here</a>
 
-<header2> ::: Date of Birth :::<end>
+<header2> ::: Date of Birth :::</header2>
 
 <highlight>/born</highlight>
 
@@ -18,7 +18,7 @@ Tells you when character was created.
 
 <a href='chatcmd:///born'>Example Here</a>
 
-<header2> ::: Stucked :::<end>
+<header2> ::: Stucked :::</header2>
 
 <highlight>/stuck</highlight>
 
@@ -26,7 +26,7 @@ When you are stuck, sit down and use this command and you will be moved
 
 <a href='chatcmd:///stuck'>Example Here</a>
 
-<header2> ::: Tip of the Day Infowindow :::<end>
+<header2> ::: Tip of the Day Infowindow :::</header2>
 
 <highlight>/TipOfTheDay</highlight>
 
@@ -34,7 +34,7 @@ Will bring up the next tip.
 
 <a href='chatcmd:///tipoftheday'>Example Here</a>
 
-<header2> ::: Messagebox :::<end>
+<header2> ::: Messagebox :::</header2>
 
 <highlight>/messagebox [text]</highlight>
 

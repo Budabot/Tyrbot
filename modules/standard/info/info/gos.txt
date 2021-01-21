@@ -1,16 +1,16 @@
-<header> :::::: Guardian of Shadow  ::::::<end>
+<header> :::::: Guardian of Shadow  ::::::</header>
 
 Faction requirements for using different SL portals:
-Elysium   <tab><tab><tab><tab><highlight> 1<end>
+Elysium   <tab><tab><tab><tab><highlight> 1</highlight>
 <img src=tdb://id:GFX_GUI_FRIENDLIST_SPLITTER>
-Scheol<tab><tab><tab><tab><highlight>1001<end>
+Scheol<tab><tab><tab><tab><highlight>1001</highlight>
 <img src=tdb://id:GFX_GUI_FRIENDLIST_SPLITTER>
-Adonis<tab><tab><tab><tab><highlight>5000<end>
+Adonis<tab><tab><tab><tab><highlight>5000</highlight>
 <img src=tdb://id:GFX_GUI_FRIENDLIST_SPLITTER>
-Penerumba  <tab><highlight> 10000<end>
+Penerumba  <tab><highlight> 10000</highlight>
 <img src=tdb://id:GFX_GUI_FRIENDLIST_SPLITTER>
-Inferno   <tab><tab><highlight>  18000<end>
+Inferno   <tab><tab><highlight>  18000</highlight>
 <img src=tdb://id:GFX_GUI_FRIENDLIST_SPLITTER>
-Pandemonium <highlight>30000<end>
+Pandemonium <highlight>30000</highlight>
 
-<highlight>By DrUrban (RK1)<end>
+<highlight>By DrUrban (RK1)</highlight>

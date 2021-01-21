@@ -1,4 +1,4 @@
-<header> :::::: Nano Delta :::::: <end>
+<header> :::::: Nano Delta :::::: </header>
 
 Psychic  -> tick delay
 <img src=tdb://id:GFX_GUI_FRIENDLIST_SPLITTER>
@@ -24,7 +24,7 @@ Psychic  -> tick delay
 
 by Imoutochan (RK1)
 
-<header2> ::: Nanopoints by Breed :::<end>
+<header2> ::: Nanopoints by Breed :::</header2>
 
 Atrox gets 2 nano for each point in nanopool
 Opifex gets 3 nano
@@ -34,9 +34,9 @@ Nanomage gets 4 nano
 The amount of nanodelta you get is:
 base + (bodydev / 100) + nanodelta items
 Body Dev plays a part in the base tick amount for nano delta.
-Base tick amount for Solitus is 3 nano per tick. 
-By "base amount" I mean if you have no +nanodelta modifiers at all. 
-This base amount is then increased by +1 for every 100 points in 
+Base tick amount for Solitus is 3 nano per tick.
+By "base amount" I mean if you have no +nanodelta modifiers at all.
+This base amount is then increased by +1 for every 100 points in
 Body Dev -- i.e. with 800 body dev, a Solitus will have a base tick of 11 nano (3+8).
 
 Nano tickrate formula ; 28-(psy/30)=tickrate

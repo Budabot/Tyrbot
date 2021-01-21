@@ -1,4 +1,4 @@
-<header>::::: Deflect :::::<end>
+<header>::::: Deflect :::::</header>
 
 Parry has been renamed to Deflect.
 Deflect is a defensive stat and not a melee special. Deflect increases the chance that incoming attacks become Glancing Hits.

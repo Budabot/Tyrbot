@@ -1,4 +1,4 @@
-<header> :::::: Atrox :::::: <end>
+<header> :::::: Atrox :::::: </header>
 
 These fellas (if that's the appropriate term, since they are genderless) are
 the big workhorse breed of Anarchy Online. They receive the most Health per
@@ -16,7 +16,7 @@ because Atrox is genderless, in many cases they can wear both male and female
 outfits.
 
 
-<header2> ::: Atrox Breed Caps ::: <end>
+<header2> ::: Atrox Breed Caps ::: </header2>
 
 * <font color='#00CC88'>Strength</font> 512/912
 * <font color='#0088CC'>Agility</font>  480/780
@@ -32,7 +32,7 @@ Max % Add Nano Cost -45%
 4 max health per 1 point of bodydev
 2 max nano per 1 point of nanopool
 
-<pagebreak><header2> ::: Atrox Shadowbreeds List ::: <end>
+<pagebreak><header2> ::: Atrox Shadowbreeds List ::: </header2>
 
 <green>Atrox (Clan) Shadowbreed<end>
 
@@ -120,7 +120,7 @@ Hostile AoE
 Casts a DoT (1k, 6 hits, 3 sec delay)
 Lowers Run Speed by 1k
 
-<pagebreak><header2> ::: Atrox Alien Invasion Perks ::: <end>
+<pagebreak><header2> ::: Atrox Alien Invasion Perks ::: </header2>
 
 <green>Atrox Primary Genome<end>
 

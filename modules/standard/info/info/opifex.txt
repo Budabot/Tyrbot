@@ -1,4 +1,4 @@
-<header> :::::: Opifex :::::: <end>
+<header> :::::: Opifex :::::: </header>
 
 This grey-skinned breed is more slender and agile than Humans. They have bonuses
 to Agility and Sense (which are Light Green for them) and a penalty to Stamina
@@ -11,7 +11,7 @@ Ability penalties.
 Most of the Opifex-only items are geared toward Agility and Sense, but these
 items are few and far between.
 
-<header2> ::: Opifex Breed Caps ::: <end>
+<header2> ::: Opifex Breed Caps ::: </header2>
 
 * <font color='#0088CC'>Strength</font> 464/764
 * <font color='#00CC88'>Agility</font> 544/944
@@ -28,7 +28,7 @@ Max % Add Nano Cost -50%
 3 max nano per 1 point of nanopool
 
 
-<pagebreak><header2> ::: Opifex Shadowbreeds List ::: <end>
+<pagebreak><header2> ::: Opifex Shadowbreeds List ::: </header2>
 
 <green>Opifex (Clan) Shadowbreed<end>
 
@@ -114,7 +114,7 @@ Boosts your Add all Off by 200
 Raises your Critical Chance by 12
 
 
-<pagebreak><header2> ::: Opifex Alien Invasion Perks ::: <end>
+<pagebreak><header2> ::: Opifex Alien Invasion Perks ::: </header2>
 
 <green>Opifex Primary Genome<end>
 

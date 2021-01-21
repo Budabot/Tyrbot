@@ -1,4 +1,4 @@
-<header> :::::: Light Settings :::::: <end>
+<header> :::::: Light Settings :::::: </header>
 
 <a href='chatcmd:///fxscript Tweak_Rubi-Ka_SunLight #'>RKLight</a>
 
