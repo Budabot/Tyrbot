@@ -8,17 +8,17 @@ WORKDIR /app
 
 ADD . /app
 
-RUN pip install  --no-cache-dir virtualenv && \
+RUN pip install --no-cache-dir virtualenv && \
     virtualenv .venv && \
     . .venv/bin/activate && \
-    pip install  --no-cache-dir -r requirements.txt && \
+    pip install --no-cache-dir -r requirements.txt && \
     python -m unittest discover -p '*_test.py'
 
 FROM python:${PYTHON_VERSION}-slim
 
 RUN useradd -u 1000 user
 COPY --chown=1000:1000 --from=0 /app /app
-RUN pip install  --no-cache-dir virtualenv
+RUN pip install --no-cache-dir virtualenv
 
 # Security context in k8s requires uid as user
 USER 1000
