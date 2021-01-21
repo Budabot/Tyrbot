@@ -1,4 +1,8 @@
-FROM python:3.9.1
+ARG PYTHON_VERSION=3.9.1
+
+FROM python:${PYTHON_VERSION}
+ARG PYTHON_VERSION
+RUN echo "Building with Python version $PYTHON_VERSION"
 
 WORKDIR /app
 
@@ -10,7 +14,7 @@ RUN pip install  --no-cache-dir virtualenv && \
     pip install  --no-cache-dir -r requirements.txt && \
     python -m unittest discover -p '*_test.py'
 
-FROM python:3.9.1-slim
+FROM python:${PYTHON_VERSION}-slim
 
 RUN useradd -u 1000 user
 COPY --chown=1000:1000 --from=0 /app /app
