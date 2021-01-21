@@ -44,7 +44,7 @@ try:
 
     if (3, 8) <= sys.version_info < (3, 9):
         logger.warning("Python 3.8 has known issues with Tyrbot. If you have issues with the discord module or the websocket relay, "
-                       "consider downgrading to Python 3.6 or upgrading to Python 3.9")
+                       "or if you see SSL errors in the logs, consider downgrading to Python 3.6 or upgrading to Python 3.9")
 
     # load template config file as a base set of defaults
     with open(template_config_file, "r") as cfg:
