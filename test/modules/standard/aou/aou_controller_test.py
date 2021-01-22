@@ -12,7 +12,7 @@ class AOUControllerTest(unittest.TestCase):
         aou_controller = AOUController()
         aou_controller.text = Text()
 
-        self.assertEqual("<i><highlight>test<end></i>", aou_controller.format_bbcode_code("[center][i][b]test[/b][/i][/center]"))
+        self.assertEqual("<i><highlight>test</highlight></i>", aou_controller.format_bbcode_code("[center][i][b]test[/b][/i][/center]"))
         self.assertEqual("\n", aou_controller.format_bbcode_code("\n"))
         self.assertEqual("testtest", aou_controller.format_bbcode_code("[color=#FFCC77]test[/color][color=red]test[/color]"))
         self.assertEqual("-image--image-", aou_controller.format_bbcode_code("[center][img]something1.png[/img][img]something2.png[/img][/center]"))

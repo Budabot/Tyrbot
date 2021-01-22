@@ -16,7 +16,8 @@ class MockSettingService:
 
 class SettingTypesTest(unittest.TestCase):
     def test_boolean_setting_type(self):
-        Registry.add_instance("setting_service", MockSettingService(), override=True)
+        Registry.clear()
+        Registry.add_instance("setting_service", MockSettingService())
         setting = BooleanSettingType()
 
         setting.set_value("true")

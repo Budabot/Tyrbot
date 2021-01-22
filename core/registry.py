@@ -106,3 +106,7 @@ class Registry:
             return parts[1] + "." + parts[2]
         else:
             return ".".join(parts[:-1])
+
+    @classmethod
+    def clear(cls):
+        cls._registry = {}
