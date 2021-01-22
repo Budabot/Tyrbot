@@ -48,7 +48,7 @@ class MessageHubController:
             status = ""
             if source in obj.sources:
                 count += 1
-                status = "<green>%s<end>" % self.getresp("subscribed")
+                status = "<green>%s</green>" % self.getresp("subscribed")
             blob += "%s [%s] [%s] %s\n\n" % (source, sub_link, unsub_link, status)
 
         return ChatBlob(self.getresp("messagehub_edit_title", {"destination": destination.capitalize(), "count": count}), blob)

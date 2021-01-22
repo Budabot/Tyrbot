@@ -34,7 +34,7 @@ Team wrangles are in <font color = white>WHITE</font> (requires teaming with Tra
 <font color = yellow>    9 Bonus    5 NCU -</font> <a href='itemref://121367/121367/14'>Skill Wrangler (Patchy)</a>
 <font color = yellow>    3 Bonus    3 NCU -</font> <a href='itemref://121360/121360/8'>Skill Wrangler (Weak)</a>
 
-<orange>Dedicated to Ferrell and all other Traders, whose patience is extraordinary, if not legendary.<end>
+<orange>Dedicated to Ferrell and all other Traders, whose patience is extraordinary, if not legendary.</orange>
 
 Ok, you've heard about it, listen to others ask for it, but what IS it exactly?
 

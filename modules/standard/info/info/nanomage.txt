@@ -31,7 +31,7 @@ Max % Add Nano Cost -55%
 
 <pagebreak><header2> ::: Nanomage Shadowbreeds List ::: </header2>
 
-<green>Nanomage (Clan) Shadowbreed<end>
+<green>Nanomage (Clan) Shadowbreed</green>
 
 1: Radient
 Casts: Morning
@@ -69,7 +69,7 @@ Boosts your Nano Init by 1k
 Raises your Max Nano by 4k
 Gives root/Snare/Calm Resistances
 
-<pagebreak><green>Nanomage (Omni) Shadowbreed<end>
+<pagebreak><green>Nanomage (Omni) Shadowbreed</green>
 
 1: Benighted
 Casts: Silence
@@ -109,7 +109,7 @@ Gives a 1k Damage Shield
 Hostile AoE:
 Cast a 8k Nuke
 
-<pagebreak><green>Nanomage (Neutral) Shadowbreed<end>
+<pagebreak><green>Nanomage (Neutral) Shadowbreed</green>
 
 1: Balanced
 Casts: Silence
@@ -151,7 +151,7 @@ Casts a 4k Nuke
 
 <pagebreak><header2> ::: Nanomage Alien Invasion Perks ::: </header2>
 
-<green>Nanobreed Primary Genome<end>
+<green>Nanobreed Primary Genome</green>
 
 1. Requirements:
 
@@ -280,7 +280,7 @@ Recharge: 1 Minute, 15 Seconds
 
 <a href='chatcmd:///start http://aoitems.com/item/252559'>http://aoitems.com/item/252559</a>
 
-<pagebreak><green>Nanobreed Secondary Genome<end>
+<pagebreak><green>Nanobreed Secondary Genome</green>
 
 1. Requirements:
 

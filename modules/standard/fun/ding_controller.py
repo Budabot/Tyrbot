@@ -34,29 +34,29 @@ class DingController:
                                 "Did you somehow start from level 0?",
                                 "Dinged from 1 to 1? Congratz"]
             elif current_level == 15:
-                text_options = ["You're <yellow>TL 2<end> already? Nice.",
+                text_options = ["You're <yellow>TL 2</yellow> already? Nice.",
                                 "Title level 2, Congratulations! Go spend your well earned IP!"]
             elif current_level == 25:
                 text_options = ["Congratulations! Make sure to finish up in subway before moving on!",
-                                f"<red>*Abmouth Supremus sweating profusely*<end> Congratz on your 25th, {character_name}!"]
+                                f"<red>*Abmouth Supremus sweating profusely*</red> Congratz on your 25th, {character_name}!"]
             elif current_level == 50:
-                text_options = [f"Yay, <yellow>TL 3<end> Congratulations, {character_name}!",
+                text_options = [f"Yay, <yellow>TL 3</yellow> Congratulations, {character_name}!",
                                 "Title level 3, Congratulations! Go spend your well earned IP!"]
             elif current_level == 60:
                 text_options = ["Congratulations! Make sure to finish up in ToTW before moving on!",
                                 f"Nice! Time to test out Aztur's immortality? Congratz on your 60th level, {character_name}!"]
             elif current_level == 100:
-                text_options = [f"Congratz! <red>Level 100<end> - {character_name} you rock!",
+                text_options = [f"Congratz! <red>Level 100</red> - {character_name} you rock!",
                                 "Congratulations! Time to twink up for T.I.M!",
                                 "Gratz, you're half way to 200. More missions, MORE!",
                                 "Woot! Congrats, don't forget to put on your 1k token board."]
             elif current_level == 150:
                 text_options = ["S10 time!!!",
                                 "Time to ungimp yourself! Horray!. Congrats =)",
-                                "What starts with A, and ends with Z? <green>ALIUMZ!<end>",
+                                "What starts with A, and ends with Z? <green>ALIUMZ!</green>",
                                 "Wow, is it that time already? TL 5 really? You sure are moving along! Gratz"]
             elif current_level == 180:
-                text_options = ["Congratz! Now go kill some <green>aliumz<end> at S13/28/35!!",
+                text_options = ["Congratz! Now go kill some <green>aliumz</green> at S13/28/35!!",
                                 "Only 20 more froob levels to go! HOORAH!",
                                 "Yay, only 10 more levels until TL 6! Way to go!"]
             elif current_level == 190:

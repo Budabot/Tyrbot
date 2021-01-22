@@ -79,4 +79,4 @@ class CommandListController:
         return blob
 
     def format_enabled(self, enabled):
-        return "<green>E<end>" if enabled else "<red>D<end>"
+        return "<green>E</green>" if enabled else "<red>D</red>"

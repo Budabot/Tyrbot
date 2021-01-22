@@ -62,12 +62,12 @@ class AuctionStrategy:
 
             bid_link = self.get_auction_list()
             bid_link = self.text.paginate_single(ChatBlob("Click to bid", bid_link.msg))
-            msg = "\n<yellow>----------------------------------------<end>\n"
-            msg += "<yellow>%s<end> has just started an auction " \
-                   "for <yellow>%s<end>.\n" % (sender.name, item)
+            msg = "\n<yellow>----------------------------------------</yellow>\n"
+            msg += "<yellow>%s</yellow> has just started an auction " \
+                   "for <yellow>%s</yellow>.\n" % (sender.name, item)
             msg += "Average winning bid: <highlight>%s</highlight>\n" % avg_win_bid
             msg += "%s\n" % bid_link
-            msg += "<yellow>----------------------------------------<end>"
+            msg += "<yellow>----------------------------------------</yellow>"
 
             self.spam_raid_message(msg)
 
@@ -177,7 +177,7 @@ class AuctionStrategy:
             if winning_bid:
                 blob += " | <highlight>%s</highlight> has the winning bid of <highlight>%d</highlight>\n\n" % (winning_bid.sender.name, winning_bid.current_amount)
             else:
-                blob += " | <green>No bidders<end>\n\n"
+                blob += " | <green>No bidders</green>\n\n"
 
         return ChatBlob("Auction list (%d)" % len(self.items), blob)
 

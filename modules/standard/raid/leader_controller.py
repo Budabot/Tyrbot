@@ -176,7 +176,7 @@ class LeaderController:
                 self.echo = self.setting_service.get("leader_auto_echo").get_value()
                 reply = "You have been set as raid leader."
                 if self.echo:
-                    reply += " Leader echo is <green>enabled<end>."
+                    reply += " Leader echo is <green>enabled</green>."
                 return reply
             elif self.leader.char_id == sender.char_id:
                 self.leader = None
@@ -188,11 +188,11 @@ class LeaderController:
                 self.echo = self.setting_service.get("leader_auto_echo").get_value()
                 reply = "<highlight>%s</highlight> has taken raid leader from you." % sender.name
                 if self.echo:
-                    reply += " Leader echo is <green>enabled<end>."
+                    reply += " Leader echo is <green>enabled</green>."
                 self.bot.send_private_message(old_leader.char_id, reply)
                 reply = "You have taken raid leader from <highlight>%s</highlight>." % old_leader.name
                 if self.echo:
-                    reply += " Leader echo is <green>enabled<end>."
+                    reply += " Leader echo is <green>enabled</green>."
                 return reply
             else:
                 return "You do not have a high enough access level to take raid leader from <highlight>%s</highlight>." % \
@@ -203,11 +203,11 @@ class LeaderController:
                 self.echo = self.setting_service.get("leader_auto_echo").get_value()
                 reply = "<highlight>%s</highlight> has set you as raid leader." % sender.name
                 if self.echo:
-                    reply += " Leader echo is <green>enabled<end>."
+                    reply += " Leader echo is <green>enabled</green>."
                 self.bot.send_private_message(set_to.char_id, reply)
                 reply = "<highlight>%s</highlight> has been set as raid leader by %s." % (set_to.name, sender.name)
                 if self.echo:
-                    reply += " Leader echo is <green>enabled<end>."
+                    reply += " Leader echo is <green>enabled</green>."
                 return reply
             else:
                 return "You do not have a high enough access level to take raid leader from <highlight>%s</highlight>." % \

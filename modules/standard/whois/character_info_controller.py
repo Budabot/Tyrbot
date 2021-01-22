@@ -45,11 +45,11 @@ class CharacterInfoController:
             if char_info:
                 blob = "Name: %s (%s)\n" % (self.get_full_name(char_info), self.text.make_chatcmd("History", "/tell <myname> history " + char_info.name + str(char_info.dimension)))
                 blob += "Profession: %s\n" % char_info.profession
-                blob += "Faction: <%s>%s<end>\n" % (char_info.faction.lower(), char_info.faction)
+                blob += "Faction: %s\n" % self.text.get_formatted_faction(char_info.faction)
                 blob += "Breed: %s\n" % char_info.breed
                 blob += "Gender: %s\n" % char_info.gender
                 blob += "Level: %d\n" % char_info.level
-                blob += "AI Level: <green>%d<end>\n" % char_info.ai_level
+                blob += "AI Level: <green>%d</green>\n" % char_info.ai_level
                 if char_info.org_id:
                     blob += "Org: <highlight>%s</highlight> (%d) (%s)\n" % (char_info.org_name, char_info.org_id, self.text.make_chatcmd("orglist", "/tell <myname> orglist " + char_info.name))
                     blob += "Org Rank: %s (%d)\n" % (char_info.org_rank_name, char_info.org_rank_id)
@@ -89,11 +89,11 @@ class CharacterInfoController:
             blob = "Name: %s (%s)\n" % (self.get_full_name(char_info), self.text.make_chatcmd("History", "/tell <myname> history " + char_info.name))
             blob += "Character Id: %d\n" % char_info.char_id
             blob += "Profession: %s\n" % char_info.profession
-            blob += "Faction: <%s>%s<end>\n" % (char_info.faction.lower(), char_info.faction)
+            blob += "Faction: %s\n" % self.text.get_formatted_faction(char_info.faction)
             blob += "Breed: %s\n" % char_info.breed
             blob += "Gender: %s\n" % char_info.gender
             blob += "Level: %d\n" % char_info.level
-            blob += "AI Level: <green>%d<end>\n" % char_info.ai_level
+            blob += "AI Level: <green>%d</green>\n" % char_info.ai_level
             if char_info.org_id:
                 blob += "Org: <highlight>%s</highlight> (%d) (%s)\n" % (char_info.org_name, char_info.org_id, self.text.make_chatcmd("orglist", "/tell <myname> orglist " + char_info.name))
                 blob += "Org Rank: %s (%d)\n" % (char_info.org_rank_name, char_info.org_rank_id)
@@ -105,7 +105,7 @@ class CharacterInfoController:
             #blob += "PVP Title: %s\n" % char_info.pvp_title
             blob += "Source: %s\n" % self.format_source(char_info, max_cache_age)
             blob += "Dimension: %s\n" % char_info.dimension
-            blob += "Status: %s\n" % ("<green>Active<end>" if char.char_id else "<red>Inactive<end>")
+            blob += "Status: %s\n" % ("<green>Active</green>" if char.char_id else "<red>Inactive</red>")
 
             blob += self.get_name_history(char.char_id)
 
@@ -121,7 +121,7 @@ class CharacterInfoController:
             blob += "Name: <highlight>%s</highlight>\n" % char.name
             blob += "Character ID: <highlight>%d</highlight>\n" % char.char_id
             if online_status is not None:
-                blob += "Online status: %s\n" % ("<green>Online<end>" if online_status else "<red>Offline<end>")
+                blob += "Online status: %s\n" % ("<green>Online</green>" if online_status else "<red>Offline</red>")
             blob += self.get_name_history(char.char_id)
             msg = ChatBlob("Basic Info for %s" % char.name, blob)
         else:

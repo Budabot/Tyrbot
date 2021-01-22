@@ -44,7 +44,7 @@ class AdminController:
 
             blob += row.name
             if self.buddy_service.is_online(row.char_id):
-                blob += " [<green>Online<end>]"
+                blob += " [<green>Online</green>]"
             blob += "\n"
 
         return ChatBlob("Admin List (%d)" % len(admins), blob)

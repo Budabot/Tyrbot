@@ -1,7 +1,7 @@
 <header> :::::: Breeds :::::: </header>
 
 <header2> ::: Solitus :::</header2> <a href='chatcmd:///tell <myname> info solitus'>Guide</a>
-<orange>Ability      Rubi-ka  / Shadowlands<end>
+<orange>Ability      Rubi-ka  / Shadowlands</orange>
 <font color='#0088CC'>Strength</font>        472 / 772
 <font color='#0088CC'>Agility</font>           480 / 780
 <font color='#0088CC'>Stamina</font>         480 / 780
@@ -13,7 +13,7 @@ Max % Add Nano Cost   -50%
 3 max nano per 1 point of nanopool
 
 <header2> ::: Nanomage :::</header2> <a href='chatcmd:///tell <myname> info nanomage'>Guide</a>
-<orange>Ability      Rubi-ka  / Shadowlands<end>
+<orange>Ability      Rubi-ka  / Shadowlands</orange>
 <font color='#075AFF'>Strength</font>        464 / 664
 <font color='#075AFF'>Agility</font>           464 / 664
 <font color='#0088CC'>Stamina</font>         448 / 748
@@ -25,7 +25,7 @@ Max % Add Nano Cost   -55%
 4 max nano per 1 point of nanopool
 
 <header2> ::: Opifex :::</header2> <a href='chatcmd:///tell <myname> info opifex'>Guide</a>
-<orange>Ability     Rubi-ka  / Shadowlands<end>
+<orange>Ability     Rubi-ka  / Shadowlands</orange>
 <font color='#0088CC'>Strength</font>       464 / 764
 <font color='#00CC88'>Agility</font>          544 / 944
 <font color='#075AFF'>Stamina</font>        480 / 680
@@ -37,7 +37,7 @@ Max % Add Nano Cost   -50%
 3 max nano per 1 point of nanopool
 
 <header2> ::: Atrox :::</header2> <a href='chatcmd:///tell <myname> info atrox'>Guide</a>
-<orange>Ability    Rubi-ka  / Shadowlands<end>
+<orange>Ability    Rubi-ka  / Shadowlands</orange>
 <font color='#00CC88'>Strength</font>      512 / 912
 <font color='#0088CC'>Agility</font>          480 / 780
 <font color='#00CC88'>Stamina</font>       512 / 912

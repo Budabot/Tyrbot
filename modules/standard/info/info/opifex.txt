@@ -30,7 +30,7 @@ Max % Add Nano Cost -50%
 
 <pagebreak><header2> ::: Opifex Shadowbreeds List ::: </header2>
 
-<green>Opifex (Clan) Shadowbreed<end>
+<green>Opifex (Clan) Shadowbreed</green>
 
 1: Cloudless
 Casts: Lightstep
@@ -60,7 +60,7 @@ Allows you to Absorb 25 Special Attacks
 AoE:
 Boosts Add all Def by 1k
 
-<pagebreak><green>Opifex (Omni) Shadowbreed<end>
+<pagebreak><green>Opifex (Omni) Shadowbreed</green>
 
 1: Shady
 Casts: Blackstep
@@ -87,7 +87,7 @@ Boosts your Concealment by 2k
 Boosts your Add all Off by 800
 Raises your Critical Chance by 15
 
-<pagebreak><green>Opifex (Neutral) Shadowbreed<end>
+<pagebreak><green>Opifex (Neutral) Shadowbreed</green>
 
 1: Doubtful
 Casts: Blackstep
@@ -116,7 +116,7 @@ Raises your Critical Chance by 12
 
 <pagebreak><header2> ::: Opifex Alien Invasion Perks ::: </header2>
 
-<green>Opifex Primary Genome<end>
+<green>Opifex Primary Genome</green>
 
 1. Requirements:
 
@@ -245,7 +245,7 @@ Recharge: 1 Minute, 50 Seconds
 
 <a href='chatcmd:///start http://aoitems.com/item/252526'>http://aoitems.com/item/252526</a>
 
-<pagebreak><green>Opifex Secondary Genome<end>
+<pagebreak><green>Opifex Secondary Genome</green>
 
 1. Requirements:
 

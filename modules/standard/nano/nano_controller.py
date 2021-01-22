@@ -82,7 +82,7 @@ class NanoController:
         for row in data:
             blob += "%s [%d] %s" % (self.text.make_item(row.lowid, row.lowid, row.lowql, row.name), row.lowql, row.location)
             if row.profession:
-                blob += " - <highight>%s<end>" % row.profession
+                blob += " - <highlight>%s</highlight>" % row.profession
             blob += "\n"
 
         return ChatBlob("Nanos for Location '%s' (%d)" % (location, cnt), blob)

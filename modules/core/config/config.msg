@@ -44,12 +44,12 @@
     "de_DE": "ausgeführt"
   },
   "enabled_high": {
-    "en_US": "<green>Enabled<end>",
-    "de_DE": "<green>Aktiviert<end>"
+    "en_US": "<green>Enabled</green>",
+    "de_DE": "<green>Aktiviert</green>"
   },
   "disabled_high": {
-    "en_US": "<red>Disabled<end>",
-    "de_DE": "<red>Deaktiviert<end>"
+    "en_US": "<red>Disabled</red>",
+    "de_DE": "<red>Deaktiviert</red>"
   },
   "enable": {
     "en_US": "Enable",

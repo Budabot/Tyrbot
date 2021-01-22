@@ -220,7 +220,7 @@ class PointsController:
         if preset:
             if self.db.exec("UPDATE points_presets SET points = ? WHERE preset_id = ?", [new_points, preset_id]) > 0:
                 return "Successfully updated the preset, <highlight>%s</highlight>, to dish out " \
-                       "<green>%d<end> points instead of <red>%d<end>." % (preset.name, new_points, preset.points)
+                       "<green>%d</green> points instead of <red>%d</red>." % (preset.name, new_points, preset.points)
 
             return "Failed to update preset with ID <highlight>%d</highlight>." % preset_id
 
@@ -280,7 +280,7 @@ class PointsController:
         blob = ""
         blob += "Holder of account: %s [%s]\n" % (main.name, alts_link)
         blob += "Points: %d\n" % points.points
-        blob += "Status: %s\n\n" % ("<green>Open<end>" if points.disabled == 0 else "<red>Disabled<end>")
+        blob += "Status: %s\n\n" % ("<green>Open</green>" if points.disabled == 0 else "<red>Disabled</red>")
 
         blob += "<header2>Account log</header2>\n"
         if points_log is None:
@@ -291,18 +291,18 @@ class PointsController:
 
                 if entry.audit == 0:
                     # If points is 0, then it's a general case log
-                    blob += "<grey>[%s]<end> <orange>\"%s\"<end>" % (
+                    blob += "<grey>[%s]</grey> <orange>\"%s\"</orange>" % (
                         self.util.format_datetime(entry.time), entry.reason)
                 elif entry.audit > 0:
-                    pts = "<green>%d<end>" % entry.audit
-                    blob += "<grey>[%s]<end> %s points were added to %s account " \
+                    pts = "<green>%d</green>" % entry.audit
+                    blob += "<grey>[%s]</grey> %s points were added to %s account " \
                             "by <highlight>%s</highlight> with reason <orange>%s</orange>" \
                             % (self.util.format_datetime(entry.time),
                                pts, name_reference,
                                self.character_service.resolve_char_to_name(entry.leader_id), entry.reason)
                 elif entry.audit < 0:
-                    pts = "<red>%d<end>" % (-1 * entry.audit)
-                    blob += "<grey>[%s]<end> %s points were taken from %s account " \
+                    pts = "<red>%d</red>" % (-1 * entry.audit)
+                    blob += "<grey>[%s]</grey> %s points were taken from %s account " \
                             "by <highlight>%s</highlight> with reason <orange>%s</orange>" \
                             % (self.util.format_datetime(entry.time),
                                pts, name_reference,

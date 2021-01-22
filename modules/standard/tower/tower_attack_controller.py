@@ -159,7 +159,7 @@ class TowerAttackController:
             raise Exception("Unknown victory event type: '%s'" % event_data.type)
 
     def format_attacker(self, row):
-        level = ("%d/<green>%d<end>" % (row.att_level, row.att_ai_level)) if row.att_ai_level > 0 else "%d" % row.att_level
+        level = ("%d/<green>%d</green>" % (row.att_level, row.att_ai_level)) if row.att_ai_level > 0 else "%d" % row.att_level
         org = row.att_org_name + " " if row.att_org_name else ""
         victor = " - <notice>Winner!</notice>" if row.is_victory else ""
         return "%s (%s %s) %s(%s)%s" % (row.att_char_name or "Unknown attacker", level, row.att_profession, org, row.att_faction, victor)

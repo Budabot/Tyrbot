@@ -273,7 +273,7 @@ class DiscordController:
         nameclr = self.setting_service.get("relay_color_name").get_font_color()
         mesgclr = self.setting_service.get("relay_color_message").get_font_color()
 
-        formatted_message = "<grey>[<end>%sDiscord<end><grey>]<end> %s%s<end><grey>:<end> %s%s<end>" % (chanclr, nameclr, name, mesgclr, message.content)
+        formatted_message = "<grey>[</grey>%sDiscord<end><grey>]</grey> %s%s<end><grey>:</grey> %s%s<end>" % (chanclr, nameclr, name, mesgclr, message.content)
 
         self.message_hub_service.send_message(self.MESSAGE_SOURCE, DictObject({"name": name}), message.content, formatted_message)
 

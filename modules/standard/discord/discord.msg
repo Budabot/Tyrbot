@@ -41,20 +41,20 @@
   },
 
   "connected": {
-    "en_US": "<green>Connected<end>",
-    "de_DE": "<green>Verbunden<end>"
+    "en_US": "<green>Connected</green>",
+    "de_DE": "<green>Verbunden</green>"
   },
   "disconnected": {
-    "en_US": "<red>Disconnected<end>",
-    "de_DE": "<red>Verbindung getrennt<end>"
+    "en_US": "<red>Disconnected</red>",
+    "de_DE": "<red>Verbindung getrennt</red>"
   },
   "connect": {
-    "en_US": "<green>Connect<end>",
-    "de_DE": "<green>Verbinden<end>"
+    "en_US": "<green>Connect</green>",
+    "de_DE": "<green>Verbinden</green>"
   },
   "disconnect": {
-    "en_US": "<red>Disconnect<end>",
-    "de_DE": "<red>Verbindung trennen<end>"
+    "en_US": "<red>Disconnect</red>",
+    "de_DE": "<red>Verbindung trennen</red>"
   },
   "server": {
     "en_US": [
@@ -101,12 +101,12 @@
     "de_DE": "Unzureichende Rechte"
   },
   "on": {
-    "en_US": "<green>On<end>",
-    "de_DE": "<green>An<end>"
+    "en_US": "<green>On</green>",
+    "de_DE": "<green>An</green>"
   },
   "off": {
-    "en_US": "<red>Off<end>",
-    "de_DE": "<red>Aus<end>"
+    "en_US": "<red>Off</red>",
+    "de_DE": "<red>Aus</red>"
   },
   "already_connected": {
     "en_US": "Discord is already connected.",

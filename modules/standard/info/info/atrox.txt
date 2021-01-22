@@ -34,7 +34,7 @@ Max % Add Nano Cost -45%
 
 <pagebreak><header2> ::: Atrox Shadowbreeds List ::: </header2>
 
-<green>Atrox (Clan) Shadowbreed<end>
+<green>Atrox (Clan) Shadowbreed</green>
 
 1: Luminous
 Casts: Screen of light
@@ -64,7 +64,7 @@ Will give Root and Snare resistance
 AoE:
 Allows affected players to absorb 15 hits
 
-<pagebreak><green>Atrox (Omni) Shadowbreed<end>
+<pagebreak><green>Atrox (Omni) Shadowbreed</green>
 
 1: Dusky
 Casts: Blackfist
@@ -94,7 +94,7 @@ Hostile AoE
 Casts a DoT (1.5k, 6 hits, 5 sec delay)
 Lowers Run Speed by 2k and fears all monsters for 30 seconds
 
-<pagebreak><green>Atrox (Neutral) Shadowbreed<end>
+<pagebreak><green>Atrox (Neutral) Shadowbreed</green>
 
 1: Unsettled
 Casts: Blackfist
@@ -122,7 +122,7 @@ Lowers Run Speed by 1k
 
 <pagebreak><header2> ::: Atrox Alien Invasion Perks ::: </header2>
 
-<green>Atrox Primary Genome<end>
+<green>Atrox Primary Genome</green>
 
 1. Requirements:
 
@@ -251,7 +251,7 @@ Recharge: 2 Minutes, 30 Seconds
 
 <a href='chatcmd:///start http://aoitems.com/item/252490'>http://aoitems.com/item/252490</a>
 
-<pagebreak><green>Atrox Secondary Genome<end>
+<pagebreak><green>Atrox Secondary Genome</green>
 
 1. Requirements:
 

@@ -30,7 +30,7 @@ Max % Add Nano Cost -50%
 
 <pagebreak><header2> ::: Solitus Shadowbreeds List ::: </header2>
 
-<green>Solitus (Clan) Shadowbreeds<end>
+<green>Solitus (Clan) Shadowbreeds</green>
 
 1: Vivid
 Casts: Path of Light
@@ -61,7 +61,7 @@ Boosts perception by 1k
 Gives a 200 Damage Shield
 Breaks Roots, Snares and Calms
 
-<pagebreak><green>Solitus (Omni) Shadowbreeds<end>
+<pagebreak><green>Solitus (Omni) Shadowbreeds</green>
 
 1: Murky
 Casts: Path of Darkness
@@ -97,7 +97,7 @@ Hostile AoE:
 Casts a DoT (1k, 10 hits, 3 sec delay)
 Roots your opponents
 
-<pagebreak><green>Solitus (Neutral) Shadowbreeds<end>
+<pagebreak><green>Solitus (Neutral) Shadowbreeds</green>
 
 1: Vague
 Casts: Path of Darkness
@@ -133,7 +133,7 @@ Roots your opponents
 
 <pagebreak><header2> ::: Solitus Alien Invasion Perks ::: </header2>
 
-<green>Solitus Alpha Genome<end>
+<green>Solitus Alpha Genome</green>
 
 1. Requirements:
 
@@ -272,7 +272,7 @@ Recharge = 1 Minute, 40 Seconds
 
 <a href='chatcmd:///start http://aoitems.com/item/253033/'>http//aoitems.com/item/253033/</a>
 
-<pagebreak><green>Solitus Beta Genome<end>
+<pagebreak><green>Solitus Beta Genome</green>
 
 1. Requirements:
 

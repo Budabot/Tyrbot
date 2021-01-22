@@ -44,7 +44,7 @@ class LeProcsController:
                 proc_type = row.proc_type
                 blob += "\n<highlight>%s</highlight>\n" % proc_type
 
-            blob += "<pagebreak>[%d] %s <orange>%s<end> %s <green>%s<end>\n" % (row.research_lvl, row.name, row.modifiers, row.duration, row.proc_trigger)
+            blob += "<pagebreak>[%d] %s <orange>%s</orange> %s <green>%s</green>\n" % (row.research_lvl, row.name, row.modifiers, row.duration, row.proc_trigger)
 
         blob += "\n\nNote: Offensive procs have a 5% chance of firing every time you attack; Defensive procs have a 10% chance of firing every time something attacks you."
         blob += "\n\nProc info provided by Wolfbiter (RK1), Gatester (RK2)"

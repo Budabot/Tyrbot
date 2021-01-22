@@ -98,7 +98,7 @@ class ConfigEventsController:
         return ChatBlob(self.getresp("module/config", "blob_events", {"amount": len(data)}), blob)
 
     def format_enabled(self, enabled):
-        return "<green>E<end>" if enabled else "<red>D<end>"
+        return "<green>E</green>" if enabled else "<red>D</red>"
 
     def format_event_type(self, row):
         if row.event_sub_type:

@@ -32,12 +32,12 @@
     "de_DE": "Ergebnisse ({count})"
   },
   "expected_online": {
-    "en_US": "<myname> is now <green>online<end>.",
-    "de_DE": "<myname> ist wieder <green>online<end>."
+    "en_US": "<myname> is now <green>online</green>.",
+    "de_DE": "<myname> ist wieder <green>online</green>."
   },
   "unexpected_online": {
-    "en_US": "<myname> is now <green>online<end> but may have shut down or restarted unexpectedly.",
-    "de_DE": "<myname> ist wieder <green>online<end>, wurde aber möglicherweise unerwartet heruntergefahren, oder neugestartet."
+    "en_US": "<myname> is now <green>online</green> but may have shut down or restarted unexpectedly.",
+    "de_DE": "<myname> ist wieder <green>online</green>, wurde aber möglicherweise unerwartet heruntergefahren, oder neugestartet."
   },
   "shutdown": {
     "en_US": "The bot is shutting down.",

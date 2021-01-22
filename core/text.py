@@ -64,7 +64,7 @@ class Text:
             msg = "<highlight>CharId(%d)</highlight>" % char_info.char_id
 
         if online_status is not None:
-            msg += " :: " + ("<green>Online<end>" if online_status else "<red>Offline<end>")
+            msg += " :: " + ("<green>Online</green>" if online_status else "<red>Offline</red>")
 
         return msg
 

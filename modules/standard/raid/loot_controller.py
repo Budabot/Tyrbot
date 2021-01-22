@@ -175,7 +175,7 @@ class LootController:
                             loot_item.count = loot_item.count - 1 if loot_item.count > 0 else 0
 
                     blob += "%d. %s\n" % (i, loot_item.get_item_str())
-                    blob += " | Winners: <red>%s<end>\n\n" % '<end>, <red>'.join(winners)
+                    blob += " | Winners: <red>%s</red>\n\n" % '</red>, <red>'.join(winners)
 
             return ChatBlob("Roll results", blob) if len(blob) > 0 else "No one was added to any loot"
         else:

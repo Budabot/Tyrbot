@@ -71,7 +71,7 @@ class RaidController:
         blob += "Name: <highlight>%s</highlight>\n" % self.raid.raid_name
         blob += "Started By: <highlight>%s</highlight>\n" % self.raid.started_by.name
         blob += "Started At: <highlight>%s</highlight> (%s ago)\n" % (self.util.format_datetime(self.raid.started_at), self.util.time_to_readable(t - self.raid.started_at))
-        blob += "Status: %s" % ("<green>Open<end>" if self.raid.is_open else "<red>Closed<end>")
+        blob += "Status: %s" % ("<green>Open</green>" if self.raid.is_open else "<red>Closed</red>")
         if self.raid.is_open:
             blob += " (%s)" % self.text.make_chatcmd("Join", "/tell <myname> raid join")
         blob += "\n\n"
