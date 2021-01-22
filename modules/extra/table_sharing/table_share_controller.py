@@ -1,3 +1,5 @@
+import os
+
 from core.db import DB
 from core.decorators import instance, timerevent
 from core.dict_object import DictObject
@@ -12,7 +14,7 @@ class TableShareController:
     def pre_start(self):
         database = DictObject({"type": "sqlite",
                                "file": "database.db",
-                               "path": "../path/to/master/tyrbot/data/"})
+                               "path": "/path/to/master/tyrbot/data/"})
 
         # database = DictObject({"type": "mysql",
         #                        "name": "my-database",
@@ -22,7 +24,11 @@ class TableShareController:
 
         self.db2 = DB()
         if database.type == "sqlite":
-            self.db2.connect_sqlite(database.path + database.file)
+            full_path = database.path + database.file
+            if os.path.isfile(full_path):
+                self.db2.connect_sqlite(full_path)
+            else:
+                raise Exception(f"File '{full_path}' does not exist")
         elif database.type == "mysql":
             self.db2.connect_mysql(database.host, database.username, database.password, database.name)
         else:
