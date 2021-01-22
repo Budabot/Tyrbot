@@ -12,7 +12,7 @@ class TableShareController:
     def pre_start(self):
         database = DictObject({"type": "sqlite",
                                "file": "database.db",
-                               "path": "../Tyrbot2/data/"})
+                               "path": "../path/to/master/tyrbot/data/"})
 
         # database = DictObject({"type": "mysql",
         #                        "name": "my-database",

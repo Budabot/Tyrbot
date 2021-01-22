@@ -253,7 +253,7 @@ class WebsocketRelayController:
                 self.org_member_logon_event, self.org_member_logoff_event, self.org_member_removed_event]
             for handler in event_handlers:
                 event_handler = self.util.get_handler_name(handler)
-                event_base_type, event_sub_type = self.event_service.get_event_type_parts(handler.event[0])
+                event_base_type, event_sub_type = self.event_service.get_event_type_parts(handler.event.event_type)
                 self.event_service.update_event_status(event_base_type, event_sub_type, event_handler, 1 if new_value else 0)
 
             if not new_value:

@@ -437,7 +437,7 @@ class DiscordController:
             event_handlers = [self.handle_connect_event, self.handle_discord_queue_event, self.handle_discord_invite_event]
             for handler in event_handlers:
                 event_handler = self.util.get_handler_name(handler)
-                event_base_type, event_sub_type = self.event_service.get_event_type_parts(handler.event[0])
+                event_base_type, event_sub_type = self.event_service.get_event_type_parts(handler.event.event_type)
                 self.event_service.update_event_status(event_base_type, event_sub_type, event_handler, 1 if new_value else 0)
 
             if not new_value:

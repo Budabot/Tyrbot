@@ -132,15 +132,12 @@ class ConfigController:
         setting = self.setting_service.get(setting_name)
 
         if setting:
-            try:
-                setting.set_value(new_value)
-                if op == "clear":
-                    return self.getresp("module/config", "set_clr", {"setting": setting_name})
-                else:
-                    return self.getresp("module/config", "set_new", {"setting": setting_name,
-                                                                     "value": setting.get_display_value()})
-            except Exception as e:
-                return "Error! %s" % str(e)
+            setting.set_value(new_value)
+            if op == "clear":
+                return self.getresp("module/config", "set_clr", {"setting": setting_name})
+            else:
+                return self.getresp("module/config", "set_new", {"setting": setting_name,
+                                                                 "value": setting.get_display_value()})
         else:
             return self.getresp("module/config", "setting_not_found", {"setting": setting_name})
 
