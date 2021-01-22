@@ -1,8 +1,134 @@
 import re
+from html.parser import HTMLParser
 
 from core.decorators import instance
+from core.logger import Logger
+from core.registry import Registry
 from core.setting_service import SettingService
 
+class TextFormatter(HTMLParser):
+    def __init__(self, bot, setting_service, public_channel_service):
+        super().__init__(convert_charrefs=False)
+        self.logger = Logger(__name__)
+        self.reset()
+        self.strict = False
+        self.fed = []
+        self.stack = []
+        self.single_tags = ["br", "symbol", "tab", "myorg", "myname", "pagebreak", "img"]
+
+        self.bot = bot
+        self.setting_service = setting_service
+        self.public_channel_service = public_channel_service
+
+    def reset(self):
+        super().reset()
+        self.fed = []
+        self.stack = []
+
+    def handle_entityref(self, name):
+        #print("entityref " + name)
+        self.handle_data("&" + name + ";")
+
+    def handle_charref(self, name):
+        #print("charref " + name)
+        pass
+
+    def handle_data(self, d):
+        self.fed.append(d)
+
+    def get_data(self):
+        return "".join(self.fed)
+
+    def handle_starttag(self, tag, attrs):
+        if tag == "header":
+            self.handle_data(self.setting_service.get("header_color").get_font_color())
+        elif tag == "header2":
+            self.handle_data(self.setting_service.get("header2_color").get_font_color())
+        elif tag == "highlight":
+            self.handle_data(self.setting_service.get("highlight_color").get_font_color())
+        elif tag == "notice":
+            self.handle_data(self.setting_service.get("notice_color").get_font_color())
+
+        elif tag == "green":
+            self.handle_data("<font color='#00DE42'>")
+        elif tag == "red":
+            self.handle_data("<font color='#FF0000'>")
+        elif tag == "black":
+            self.handle_data("<font color='#000000'>")
+        elif tag == "white":
+            self.handle_data("<font color='#FFFFFF'>")
+        elif tag == "yellow":
+            self.handle_data("<font color='#FFFF00'>")
+        elif tag == "blue":
+            self.handle_data("<font color='#8CB5FF'>")
+        elif tag == "orange":
+            self.handle_data("<font color='#FCA712'>")
+        elif tag == "grey":
+            self.handle_data("<font color='#C3C3C3'>")
+        elif tag == "cyan":
+            self.handle_data("<font color='#00FFFF'>")
+        elif tag == "violet":
+            self.handle_data("<font color='#8F00FF'>")
+
+        elif tag == "neutral":
+            self.handle_data(self.setting_service.get("neutral_color").get_font_color())
+        elif tag == "omni":
+            self.handle_data(self.setting_service.get("omni_color").get_font_color())
+        elif tag == "clan":
+            self.handle_data(self.setting_service.get("clan_color").get_font_color())
+        elif tag == "unknown":
+            self.handle_data(self.setting_service.get("unknown_color").get_font_color())
+
+        elif tag == "myname":
+            self.handle_data(self.bot.char_name)
+        elif tag == "myorg":
+            self.handle_data(self.public_channel_service.get_org_name() or "Unknown Org")
+        elif tag == "tab":
+            self.handle_data("    ")
+        elif tag == "end":
+            self.logger.warning("Using deprecated 'end' markup tag")
+            self.handle_data("</font>")
+        elif tag == "symbol":
+            self.handle_data(self.setting_service.get("symbol").get_value())
+        elif tag == "br":
+            self.handle_data("\n")
+        elif tag == "a":
+            for k, v in attrs:
+                if k == "href":
+                    text_formatter = TextFormatter(self.bot, self.setting_service, self.public_channel_service)
+                    href = text_formatter.format_message(v)
+                    if href.startswith("text://"):
+                        self.handle_data("<a href=\"")
+                        self.handle_data(href)
+                        self.handle_data("\">")
+                    else:
+                        self.handle_data("<a href='")
+                        self.handle_data(href)
+                        self.handle_data("'>")
+                    break
+        else:
+            self.handle_data(self.get_starttag_text())
+
+        if tag not in self.single_tags:
+            self.stack.append(tag)
+
+    def handle_endtag(self, tag):
+        if self.stack and tag == self.stack[-1]:
+            self.stack.pop()
+            if tag == "a":
+                self.handle_data("</a>")
+            else:
+                self.handle_data("</font>")
+        else:
+            self.logger.warning(f"Malformed markup for end tag '{tag}' at position '{self.getpos()}'")
+
+    def error(self, message):
+        self.logger.error(message)
+
+    def format_message(self, message):
+        self.reset()
+        self.feed(message)
+        return self.get_data()
 
 @instance()
 class Text:
@@ -15,6 +141,7 @@ class Text:
         self.setting_service: SettingService = registry.get_instance("setting_service")
         self.bot = registry.get_instance("bot")
         self.public_channel_service = registry.get_instance("public_channel_service")
+        self.text_formatter = TextFormatter(self.bot, self.setting_service, self.public_channel_service)
 
     def make_chatcmd(self, name, msg, style=""):
         msg = msg.strip()
@@ -68,16 +195,18 @@ class Text:
 
         return msg
 
-    def get_formatted_faction(self, faction):
+    def get_formatted_faction(self, faction, contents=None):
+        if not contents:
+            contents = faction.capitalize()
         faction = faction.lower()
         if faction == "omni":
-            return "<omni>Omni</omni>"
+            return f"<omni>{contents}</omni>"
         elif faction == "clan":
-            return "<clan>Clan</clan>"
+            return f"<clan>{contents}</clan>"
         elif faction == "neutral":
-            return "<neutral>Neutral</neutral>"
+            return f"<neutral>{contents}</neutral>"
         else:
-            return "<unknown>Unknown</unknown>"
+            return f"<unknown>{contents}</unknown>"
 
     def paginate_single(self, chatblob):
         return self.paginate(chatblob, 8000)[0]
@@ -178,6 +307,12 @@ class Text:
         return line, rest
 
     def format_message(self, msg):
+        return self.format_message_old(msg)
+
+    def format_message_new(self, msg):
+        return self.text_formatter.format_message(msg)
+
+    def format_message_old(self, msg):
         for t in ["</header>", "</header2>", "</highlight>", "</notice>", "</black>", "</white>", "</yellow>", "</blue>", "</green>", "</red>", "</orange>", "</grey>", "</cyan>",
                   "</violet>", "</neutral>", "</omni>", "</clan>", "</unknown>"]:
             msg = msg.replace(t, "</font>")

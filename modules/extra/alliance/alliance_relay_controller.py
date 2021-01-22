@@ -69,9 +69,7 @@ class AllianceRelayController:
             return
 
         message = message[6:]
-        formatted_message = "{color}{msg}</font>" \
-            .format(color=self.setting_service.get("arelay_color").get_font_color(),
-                    msg=message)
+        formatted_message = self.setting_service.get("arelay_color").format_text(message)
 
         # sender is not the bot that sent it, but rather the original char that sent the message
         # given the format of !agcr messages, it could be possible to parse the sender for the message

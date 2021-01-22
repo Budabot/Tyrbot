@@ -138,7 +138,7 @@ class ColorSettingType(SettingType):
         super().__init__()
 
     def get_display_value(self):
-        return self.get_font_color() + self.get_value() + "<end>"
+        return self.format_text(self.get_value())
 
     def set_value(self, value):
         if re.match("^#([0-9a-fA-F]{6})$", str(value)):
@@ -179,6 +179,9 @@ Or you can choose one of the following colors
 
     def get_int_value(self):
         return int(self.get_value().replace("#", ""), 16)
+
+    def format_text(self, msg):
+        return self.get_font_color() + msg + "</font>"
 
 
 class NumberSettingType(SettingType):

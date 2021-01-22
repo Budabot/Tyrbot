@@ -134,10 +134,10 @@ class WebsocketRelayController:
             channel = self.get_channel_name(obj.source)
 
             message = ""
-            message += "%s[%s]<end> " % (self.setting_service.get("websocket_relay_channel_color").get_font_color(), channel)
+            message += "[%s] " % self.setting_service.get("websocket_relay_channel_color").format_text(channel)
             if obj.user:
-                message += "%s%s<end>: " % (self.setting_service.get("websocket_relay_sender_color").get_font_color(), obj.user.name)
-            message += "%s%s<end>" % (self.setting_service.get("websocket_relay_message_color").get_font_color(), obj.message)
+                message += "%s: " % self.setting_service.get("websocket_relay_sender_color").format_text(obj.user.name)
+            message += self.setting_service.get("websocket_relay_message_color").format_text(obj.message)
 
             self.message_hub_service.send_message(self.MESSAGE_SOURCE, obj.get("user", None), obj.message, message)
         elif obj.type == "logon":
