@@ -11,7 +11,7 @@ class RunasController:
 
     @command(command="runas", params=[Character("character"), Any("command")], access_level="superadmin",
              description="Run a command as another character")
-    def shutdown_cmd(self, request, char, command_str):
+    def runas_cmd(self, request, char, command_str):
         if not char.char_id:
             return self.getresp("global", "char_not_found", {"char": char.name})
         elif not self.access_service.has_sufficient_access_level(request.sender.char_id, char.char_id):
