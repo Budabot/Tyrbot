@@ -74,7 +74,7 @@ class OrgActivityController:
         self.db.exec("INSERT INTO org_activity (actor_char_id, actee_char_id, action, created_at) VALUES (?, ?, ?, ?)", [actor_id, actee_id, action, t])
 
     def format_org_action(self, row):
-        if row.action == "left":
+        if row.action == "left" or row.action == "alignment changed":
             return "<highlight>%s</highlight> %s. %s" % (row.actor, row.action, self.util.format_datetime(row.created_at))
         else:
             return "<highlight>%s</highlight> %s <highlight>%s</highlight>. %s" % (row.actor, row.action, row.actee, self.util.format_datetime(row.created_at))
