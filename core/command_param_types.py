@@ -340,7 +340,7 @@ class Multiple(CommandParam):
         self.inner_type.process_matches(params)
 
         results = []
-        p = re.compile(self.inner_type.get_regex())
+        p = re.compile(self.inner_type.get_regex(), re.IGNORECASE | re.DOTALL)
 
         matches = p.search(v)
         while matches:

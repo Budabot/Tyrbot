@@ -10,8 +10,8 @@ from core.dict_object import DictObject
 
 @instance()
 class Util:
-    budatime_full_regex = re.compile("^([0-9]+[a-z]+)+$")
-    budatime_unit_regex = re.compile("([0-9]+)([a-z]+)")
+    budatime_full_regex = re.compile("^([0-9]+[a-z]+)+$", re.IGNORECASE)
+    budatime_unit_regex = re.compile("([0-9]+)([a-z]+)", re.IGNORECASE)
 
     def __init__(self):
         # needed for self.format_number() to work properly
@@ -69,7 +69,7 @@ class Util:
 
         for match in matches:
             for time_unit in self.time_units:
-                if match.group(2) in time_unit["units"]:
+                if match.group(2).lower() in time_unit["units"]:
                     unixtime += int(match.group(1)) * time_unit["conversion_factor"]
                     continue
 

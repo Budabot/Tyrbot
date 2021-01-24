@@ -21,7 +21,7 @@ class UtilTest(unittest.TestCase):
 
     def test_parse_time(self):
         util = Util()
-        self.assertEqual(10, util.parse_time("10s"))
+        self.assertEqual(10, util.parse_time("10S"))
         self.assertEqual("hola", util.parse_time("10s sdfsd", "hola"))
         self.assertEqual(70, util.parse_time("1m10s"))
         self.assertEqual(70, util.parse_time("10s1m"))

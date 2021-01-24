@@ -44,6 +44,7 @@ class CommandParamTypesTest(unittest.TestCase):
         # needed to resolve dependency to Util...not sure how this is working
         from core.util import Util
         self.assertEqual(600, self.param_test_helper(param, "10m"))
+        self.assertEqual(304, self.param_test_helper(param, "5M4S"))
         self.assertIsNone(self.param_test_helper(param, "test"))
 
     def test_item(self):
@@ -83,11 +84,12 @@ class CommandParamTypesTest(unittest.TestCase):
 
         param3 = Multiple(Time("time"))
         self.assertEqual([60], self.param_test_helper(param3, "1m"))
-        self.assertEqual([60, 62, 14521], self.param_test_helper(param3, "1m 1m2s 4h2m1s"))
+        self.assertEqual([304], self.param_test_helper(param3, "5M4S"))
+        self.assertEqual([60, 304, 14521], self.param_test_helper(param3, "1m 5M4S 4h2m1s"))
 
     def param_test_helper(self, param, param_input):
         regex = param.get_regex()
-        matches = re.search("^" + regex + "$", " " + param_input)
+        matches = re.search("^" + regex + "$", " " + param_input, re.IGNORECASE | re.DOTALL)
         if matches:
             return param.process_matches(list(matches.groups()))
         else:
