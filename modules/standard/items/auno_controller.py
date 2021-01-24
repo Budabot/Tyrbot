@@ -93,7 +93,7 @@ class AunoController:
         blob += "<header2>Comments</header2>\n"
 
         for comment in comments:
-            blob += comment.content + "\n"
+            blob += html.unescape(comment.content) + "\n"
             blob += "<highlight>%s</highlight> [<grey>%s</grey>]\n" % (comment.author, comment.date)
             blob += "\n<pagebreak>"
 
