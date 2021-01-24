@@ -61,7 +61,7 @@
   },
   "autoinvite_changed": {
     "en_US": "Your auto invite preference has been set to <highlight>{changedto}</highlight>.",
-    "de_DE": "Deine Autoinvite Einstellung ist nun <highlight>{changedto}</highlight>"
+    "de_DE": "Deine Autoinvite Einstellung ist nun <highlight>{changedto}</highlight>."
   },
   "not_an_member": {
     "en_US": "You must be a member of this bot to set your auto invite preference.",

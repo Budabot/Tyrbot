@@ -319,9 +319,6 @@ class DiscordController:
         else:
             self.logger.error("unable to process message for discord: " + content)
 
-    def generate_help(self, command_str, params):
-        return "!" + command_str + " " + " ".join(map(lambda x: x.get_name(), params))
-
     def format_message(self, msg):
         msg = re.sub(r"<header>(.*?)</header>\n?", r"```less\n\1\n```", msg)
         msg = re.sub(r"<header2>(.*?)</header2>\n?", r"```yaml\n\1\n```", msg)
