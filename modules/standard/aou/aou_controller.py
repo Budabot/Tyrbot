@@ -102,7 +102,7 @@ class AOUController:
         blob += "\n\nPowered by %s" % self.text.make_chatcmd("AO-Universe.com", "/start https://www.ao-universe.com")
 
         if count == 0:
-            return self.getresp("module/aou", "no_guide_id", {"search": search})
+            return self.getresp("module/aou", "no_guide_search", {"search": search})
         else:
             return ChatBlob(self.getresp("module/aou", "search_guide_title" + ("_all" if include_all_matches else ""),
                                          {"search": search, "count": count}), blob)
