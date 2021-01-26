@@ -211,7 +211,7 @@ class Item(CommandParam):
             raise Exception("One or more spaces found in command param '%s'." % name)
 
     def get_regex(self):
-        regex = r"""(\s+<a href=["']itemref:\/\/(\d+)\/(\d+)\/(\d+)["']>(.+)<\/a>)"""
+        regex = r"""(\s+<a href=["']itemref:\/\/(\d+)\/(\d+)\/(\d+)["']>(.+?)<\/a>)"""
         return regex + ("?" if self.is_optional else "")
 
     def get_name(self):
@@ -288,6 +288,7 @@ class NamedParameters(CommandParam):
             results = results[3:]
         return values
 
+
 # Note: NamedFlagParameters should always go at the end of the command parameter list
 class NamedFlagParameters(CommandParam):
     def __init__(self, names):
@@ -316,6 +317,7 @@ class NamedFlagParameters(CommandParam):
             values[name] = True if results[1] else False
             results = results[2:]
         return values
+
 
 # Note: cannot be used with Any due to eagerness!
 class Multiple(CommandParam):

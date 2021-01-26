@@ -49,7 +49,10 @@ class CommandParamTypesTest(unittest.TestCase):
 
     def test_item(self):
         param = Item("test")
-        self.assertEqual({'high_id': 2, 'low_id': 1, 'name': 'test', 'ql': 3}, self.param_test_helper(param, "<a href=\"itemref://1/2/3\">test</a>"))
+        self.assertEqual({'high_id': 2, 'low_id': 1, 'name': 'test', 'ql': 3},
+                         self.param_test_helper(param, "<a href=\"itemref://1/2/3\">test</a>"))
+        self.assertEqual({'high_id': 101, 'low_id': 100, 'name': 'It\'s working!', 'ql': 300},
+                         self.param_test_helper(param, "<a href=\"itemref://100/101/300\">It's working!</a>"))
         self.assertIsNone(self.param_test_helper(param, "test"))
 
     def test_character(self):
@@ -80,12 +83,30 @@ class CommandParamTypesTest(unittest.TestCase):
 
         param2 = Multiple(Const("something"))
         self.assertEqual(["something"], self.param_test_helper(param2, "something"))
-        self.assertEqual(["something", "something", "something"], self.param_test_helper(param2, "something something something"))
+        self.assertEqual(["something", "something", "something"],
+                         self.param_test_helper(param2, "something something something"))
 
         param3 = Multiple(Time("time"))
         self.assertEqual([60], self.param_test_helper(param3, "1m"))
         self.assertEqual([304], self.param_test_helper(param3, "5M4S"))
         self.assertEqual([60, 304, 14521], self.param_test_helper(param3, "1m 5M4S 4h2m1s"))
+
+        param4 = Multiple(Item("item"))
+        self.assertEqual([{'low_id': 246817, 'high_id': 246817, 'ql': 200, 'name': 'Novictum Seed'}],
+                         self.param_test_helper(param4, "<a href=\"itemref://246817/246817/200\">Novictum Seed</a>"))
+
+        self.assertEqual([{'low_id': 246817, 'high_id': 246817, 'ql': 200, 'name': 'Novictum Seed'},
+                          {'low_id': 100, 'high_id': 101, 'ql': 300, 'name': 'It\'s cool'}],
+                         self.param_test_helper(param4, "<a href=\"itemref://246817/246817/200\">Novictum Seed</a> "
+                                                        "<a href=\"itemref://100/101/300\">It's cool</a>"))
+
+        self.assertEqual([{'low_id': 246817, 'high_id': 246817, 'ql': 200, 'name': 'Novictum Seed'},
+                          {'low_id': 100, 'high_id': 101, 'ql': 300, 'name': 'It\'s cool'},
+                          {'low_id': 12345, 'high_id': 54321, 'ql': 123, 'name': 'It Works!'}],
+                         self.param_test_helper(param4,
+                                                "<a href=\"itemref://246817/246817/200\">Novictum Seed</a> "
+                                                "<a href=\"itemref://100/101/300\">It's cool</a> "
+                                                "<a href=\"itemref://12345/54321/123\">It Works!</a>"))
 
     def param_test_helper(self, param, param_input):
         regex = param.get_regex()
