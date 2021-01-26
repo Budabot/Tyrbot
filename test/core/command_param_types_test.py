@@ -1,7 +1,8 @@
 import re
 import unittest
 
-from core.command_param_types import Const, Int, Decimal, Any, Options, Time, Item, NamedParameters, NamedFlagParameters, Multiple
+from core.command_param_types import Const, Int, Decimal, Any, Options, Time, Item, NamedParameters, \
+    NamedFlagParameters, Multiple, Regex
 from core.registry import Registry # required
 from core.util import Util # required
 
@@ -107,6 +108,11 @@ class CommandParamTypesTest(unittest.TestCase):
                                                 "<a href=\"itemref://246817/246817/200\">Novictum Seed</a> "
                                                 "<a href=\"itemref://100/101/300\">It's cool</a> "
                                                 "<a href=\"itemref://12345/54321/123\">It Works!</a>"))
+
+        param5 = Multiple(Any("time"))
+        self.assertEqual(["test"], self.param_test_helper(param5, "test"))
+        self.assertEqual(["test1", "test2"], self.param_test_helper(param5, "test1 test2"))
+        self.assertEqual(["test1", "test2", "test3"], self.param_test_helper(param5, "test1 test2 test3"))
 
     def param_test_helper(self, param, param_input):
         regex = param.get_regex()

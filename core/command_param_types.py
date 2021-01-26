@@ -323,7 +323,14 @@ class NamedFlagParameters(CommandParam):
 class Multiple(CommandParam):
     def __init__(self, inner_type, min_num=1, max_num=None):
         if type(inner_type) is Any:
-            raise Exception("Multiple cannot be used with Any command param type")
+            # Any type ignores is_optional and allowed_chars params, and can only capture
+            # single words (no spaces) when used with Multiple
+            def get_regex():
+                regex = r"(\s+[^ ]+)"
+                return regex
+
+            inner_type.get_regex = get_regex
+
         self.inner_type = inner_type
         self.min = min_num or ""
         self.max = max_num or ""
