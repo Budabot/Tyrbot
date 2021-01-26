@@ -191,4 +191,4 @@ class PorkService:
         return self.db.query("SELECT DISTINCT org_name, org_id FROM player WHERE org_name <EXTENDED_LIKE=0> ?", [search], extended_like=True)
 
     def get_pork_url(self, dimension, char_name):
-            return "http://people.anarchy-online.com/character/bio/d/%d/name/%s/bio.xml?data_type=json" % (dimension, char_name)
+        return "http://people.anarchy-online.com/character/bio/d/%d/name/%s/bio.xml?data_type=json" % (dimension, char_name)

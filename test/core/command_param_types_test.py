@@ -2,9 +2,9 @@ import re
 import unittest
 
 from core.command_param_types import Const, Int, Decimal, Any, Options, Time, Item, NamedParameters, \
-    NamedFlagParameters, Multiple, Regex
-from core.registry import Registry # required
-from core.util import Util # required
+    NamedFlagParameters, Multiple
+
+from core.util import Util  # required to populate in Registry
 
 
 class CommandParamTypesTest(unittest.TestCase):
@@ -42,8 +42,6 @@ class CommandParamTypesTest(unittest.TestCase):
 
     def test_time(self):
         param = Time("test")
-        # needed to resolve dependency to Util...not sure how this is working
-        from core.util import Util
         self.assertEqual(600, self.param_test_helper(param, "10m"))
         self.assertEqual(304, self.param_test_helper(param, "5M4S"))
         self.assertIsNone(self.param_test_helper(param, "test"))
@@ -107,6 +105,15 @@ class CommandParamTypesTest(unittest.TestCase):
                          self.param_test_helper(param4,
                                                 "<a href=\"itemref://246817/246817/200\">Novictum Seed</a> "
                                                 "<a href=\"itemref://100/101/300\">It's cool</a> "
+                                                "<a href=\"itemref://12345/54321/123\">It Works!</a>"))
+
+        # no spaces
+        self.assertEqual([{'low_id': 246817, 'high_id': 246817, 'ql': 200, 'name': 'Novictum Seed'},
+                          {'low_id': 100, 'high_id': 101, 'ql': 300, 'name': 'It\'s cool'},
+                          {'low_id': 12345, 'high_id': 54321, 'ql': 123, 'name': 'It Works!'}],
+                         self.param_test_helper(param4,
+                                                "<a href=\"itemref://246817/246817/200\">Novictum Seed</a>"
+                                                "<a href=\"itemref://100/101/300\">It's cool</a>"
                                                 "<a href=\"itemref://12345/54321/123\">It Works!</a>"))
 
         param5 = Multiple(Any("time"))
