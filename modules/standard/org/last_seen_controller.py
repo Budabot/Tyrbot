@@ -15,7 +15,7 @@ class LastSeenController:
         self.character_service = registry.get_instance("character_service")
         self.public_channel_service = registry.get_instance("public_channel_service")
 
-    @command(command="lastseen", params=[Character("character")], access_level="admin",
+    @command(command="lastseen", params=[Character("character")], access_level="org_member",
              description="Show the last time an org member was online (on any alt)")
     def lastseen_cmd(self, request, char):
         if not self.public_channel_service.get_org_id:
