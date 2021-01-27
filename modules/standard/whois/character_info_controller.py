@@ -51,7 +51,7 @@ class CharacterInfoController:
                 blob += "Level: %d\n" % char_info.level
                 blob += "AI Level: <green>%d</green>\n" % char_info.ai_level
                 if char_info.org_id:
-                    blob += "Org: <highlight>%s</highlight> (%d) (%s)\n" % (char_info.org_name, char_info.org_id, self.text.make_chatcmd("orglist", "/tell <myname> orglist " + char_info.name))
+                    blob += "Org: <highlight>%s</highlight> (%d) (%s)\n" % (char_info.org_name, char_info.org_id, self.text.make_chatcmd("orglist", "/tell <myname> orglist " + char_info.org_id))
                     blob += "Org Rank: %s (%d)\n" % (char_info.org_rank_name, char_info.org_rank_id)
                 else:
                     blob += "Org: &lt;None&gt;\n"
