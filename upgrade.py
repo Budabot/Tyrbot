@@ -144,3 +144,16 @@ if version == 12:
         db.exec("INSERT INTO broadcast SELECT char_id, NULL, created_at FROM broadcast_old")
         db.exec("DROP TABLE broadcast_old")
     version = update_version(version)
+
+if version == 13:
+    if table_exists("org_member"):
+        db.exec("ALTER TABLE org_member RENAME TO org_member_old")
+
+        db.exec("CREATE TABLE org_member (char_id INT NOT NULL PRIMARY KEY, mode VARCHAR(20) NOT NULL)")
+        db.exec("INSERT INTO org_member SELECT char_id, mode FROM org_member_old")
+
+        db.exec("CREATE TABLE last_seen (char_id INT NOT NULL PRIMARY KEY, dt INT NOT NULL DEFAULT 0)")
+        db.exec("INSERT INTO last_seen SELECT char_id, last_seen FROM org_member_old")
+
+        db.exec("DROP TABLE org_member_old")
+    version = update_version(version)

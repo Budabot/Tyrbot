@@ -3,13 +3,12 @@ import hjson
 from core.aochat.server_packets import BuddyAdded
 from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Character
-from core.decorators import instance, event, timerevent, command, setting
+from core.decorators import instance, event, timerevent, command
 from core.dict_object import DictObject
 from core.logger import Logger
 import time
 
 from core.public_channel_service import PublicChannelService
-from core.setting_types import NumberSettingType, TextSettingType
 from core.translation_service import TranslationService
 
 
@@ -66,7 +65,7 @@ class OrgMemberController:
 
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS org_member (char_id INT NOT NULL PRIMARY KEY,"
-                     "mode VARCHAR(20) NOT NULL, last_seen INT NOT NULL DEFAULT 0)")
+                     "mode VARCHAR(20) NOT NULL)")
 
     @command(command="notify", params=[Const("off"), Character("character")], access_level="admin",
              description="Turn off online notification for a character")
@@ -116,15 +115,6 @@ class OrgMemberController:
     def handle_connect_event(self, event_type, event_data):
         for row in self.get_all_org_members():
             self.update_buddylist(row.char_id, row.mode)
-
-    @event(event_type=ORG_MEMBER_LOGON_EVENT, description="Record last seen info", is_hidden=True)
-    def handle_org_member_logon_event(self, event_type, event_data):
-        self.update_last_seen(event_data.char_id)
-
-    @event(event_type=ORG_MEMBER_LOGOFF_EVENT, description="Record last seen info", is_hidden=True)
-    def handle_org_member_logoff_event(self, event_type, event_data):
-        if self.bot.is_ready():
-            self.update_last_seen(event_data.char_id)
 
     @timerevent(budatime="24h", description="Download the org_members roster", is_hidden=True)
     def download_org_roster_event(self, event_type, event_data):
@@ -198,7 +188,7 @@ class OrgMemberController:
 
     def add_org_member(self, char_id, mode):
         self.update_buddylist(char_id, self.MODE_ADD_MANUAL)
-        return self.db.exec("INSERT INTO org_member (char_id, mode, last_seen) VALUES (?, ?, ?)", [char_id, mode, 0])
+        return self.db.exec("INSERT INTO org_member (char_id, mode) VALUES (?, ?, ?)", [char_id, mode, 0])
 
     def remove_org_member(self, char_id):
         self.update_buddylist(char_id, self.MODE_REM_MANUAL)
@@ -210,9 +200,6 @@ class OrgMemberController:
 
     def check_org_member(self, char_id):
         return self.get_org_member(char_id) is not None
-
-    def update_last_seen(self, char_id):
-        return self.db.exec("UPDATE org_member SET last_seen = ? WHERE char_id = ?", [int(time.time()), char_id])
 
     def update_buddylist(self, char_id, mode):
         if mode in [self.MODE_ADD_MANUAL, self.MODE_ADD_AUTO]:
