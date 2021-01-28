@@ -49,7 +49,7 @@ class PrivateChannelController:
     def handle_incoming_relay_message(self, ctx):
         self.bot.send_private_channel_message(ctx.formatted_message, fire_outgoing_event=False)
 
-    @command(command="join", params=[], access_level="all",
+    @command(command="join", params=[], access_level="member",
              description="Join the private channel")
     def join_cmd(self, request):
         self.private_channel_service.invite(request.sender.char_id)
