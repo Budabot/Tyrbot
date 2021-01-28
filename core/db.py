@@ -133,8 +133,9 @@ class DB:
         for match in self.enhanced_like_regex.finditer(sql):
             field = match.group(2)
             index = int(match.group(3))
-            vals = ["%" + p + "%" for p in original_params[index].split(" ")]
-            extra_sql = [field + " LIKE ?" for _ in vals]
+
+            extra_sql, vals = self._get_extended_params(field, original_params[index].split(" "))
+
             sql = self.enhanced_like_regex.sub(match.group(1) + "(" + " AND ".join(extra_sql) + ")" + match.group(4), sql, 1)
 
             # remove current param and add generated params in its place
@@ -142,6 +143,18 @@ class DB:
             params.insert(index, vals)
 
         return sql, [item for sublist in params for item in sublist]
+
+    def _get_extended_params(self, field, params):
+        extra_sql = []
+        vals = []
+        for p in params:
+            if p.startswith("-") and p != "-":
+                vals.append("%" + p[1:] + "%")
+                extra_sql.append(field + " NOT LIKE ?")
+            else:
+                vals.append("%" + p + "%")
+                extra_sql.append(field + " LIKE ?")
+        return extra_sql, vals
 
     def get_connection(self):
         return self.conn
