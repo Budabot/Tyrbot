@@ -68,7 +68,7 @@ class ItemsController:
             if offset + self.PAGE_SIZE < len(all_items):
                 blob += "   Page " + str(page)
                 blob += "   " + self.text.make_chatcmd("Page %d >>" % (page + 1), self.get_chat_command(ql, search, page + 1))
-            blob += "\n"
+            blob += "\n\n"
 
             blob += self.format_items(items, ql)
             blob += "\nItem DB rips created using the %s tool." % self.text.make_chatcmd("Budabot Items Extractor", "/start https://github.com/Budabot/ItemsExtractor")
