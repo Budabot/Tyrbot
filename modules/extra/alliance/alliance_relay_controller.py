@@ -26,17 +26,29 @@ class AllianceRelayController:
         self.message_hub_service.register_message_source(self.MESSAGE_SOURCE)
 
     def start(self):
-        self.setting_service.register("arelay_symbol", "#", "Symbol for external relay",
-                                      TextSettingType(["!", "#", "*", "@", "$", "+", "-"]), self.module_name)
-        self.setting_service.register("arelay_symbol_method", "with_symbol", "When to relay messages",
-                                      TextSettingType(["Always", "with_symbol", "unless_symbol"]), self.module_name)
-        self.setting_service.register("arelaybot", "", "Bot for alliance relay", TextSettingType(allow_empty=True), self.module_name)
-        self.setting_service.register("arelay_enabled", False, "Enable the alliance relay", BooleanSettingType(),
-                                      self.module_name)
-        self.setting_service.register("arelay_guild_abbreviation", "", "Abbreviation to use for org name",
-                                      TextSettingType(allow_empty=True), self.module_name)
-        self.setting_service.register("arelay_color", "#C3C3C3", "Color of messages from relay",
-                                      ColorSettingType(), self.module_name)
+        self.setting_service.register_new(self.module_name, "arelay_symbol", "#",
+                                          TextSettingType(["!", "#", "*", "@", "$", "+", "-"]),
+                                          "Symbol for external relay")
+
+        self.setting_service.register_new(self.module_name, "arelay_symbol_method", "with_symbol",
+                                          TextSettingType(["Always", "with_symbol", "unless_symbol"]),
+                                          "When to relay messages")
+
+        self.setting_service.register_new(self.module_name, "arelaybot", "",
+                                          TextSettingType(allow_empty=True),
+                                          "Bot for alliance relay")
+
+        self.setting_service.register_new(self.module_name, "arelay_enabled", False,
+                                          BooleanSettingType(),
+                                          "Enable the alliance relay")
+
+        self.setting_service.register_new(self.module_name, "arelay_guild_abbreviation", "",
+                                          TextSettingType(allow_empty=True),
+                                          "Abbreviation to use for org name")
+
+        self.setting_service.register_new(self.module_name, "arelay_color", "#C3C3C3",
+                                          ColorSettingType(),
+                                          "Color of messages from relay")
 
         self.message_hub_service.register_message_destination(self.MESSAGE_SOURCE,
                                                               self.handle_relay_hub_message,
