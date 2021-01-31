@@ -33,15 +33,17 @@ class AssistController:
             self.assist = []
             return "Assist targets have been cleared."
 
-    @command(command="assist", params=[Any("assist_targets")], access_level="all",
-             description="Set one or more assist targets", sub_command="modify", extended_description="Multiple assist targets should be space-delimited")
-    def assist_set_command(self, request, assist_targets):
+    @command(command="assist", params=[Const("add", is_optional=True), Any("assist_targets")], access_level="all",
+             description="Add one or more assist targets", sub_command="modify", extended_description="Multiple assist targets should be space-delimited")
+    def assist_set_command(self, request, _, assist_targets):
         targets = assist_targets.split(" ")
 
         if not self.leader_controller.can_use_command(request.sender.char_id):
             return LeaderController.NOT_LEADER_MSG
         else:
-            self.assist = targets
+            for target in targets:
+                if target not in self.assist:
+                    self.assist.append(target)
             return self.get_assist_output()
 
     def get_assist_output(self):
