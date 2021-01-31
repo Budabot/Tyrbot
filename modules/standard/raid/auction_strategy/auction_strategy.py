@@ -24,6 +24,7 @@ class AuctionStrategy:
         self.alts_service = Registry.get_instance("alts_service")
         self.points_controller = Registry.get_instance("points_controller")
         self.job_scheduler = Registry.get_instance("job_scheduler")
+        self.raid_controller = Registry.get_instance("raid_controller")
 
         self.auction_start_time = None
         self.auction_end_time = None
@@ -161,9 +162,7 @@ class AuctionStrategy:
         pass
 
     def spam_raid_message(self, message):
-        # TODO use message_hub_service
-        self.bot.send_private_channel_message(message, fire_outgoing_event=False)
-        self.bot.send_org_message(message, fire_outgoing_event=False)
+        self.raid_controller.send_message(message)
 
     def get_auction_list(self):
         # TODO handle formatting when auction has finished

@@ -11,6 +11,7 @@ from core.setting_service import SettingService
 from core.text import Text
 from core.tyrbot import Tyrbot
 from core.util import Util
+from .leader_controller import LeaderController
 from .points_controller import PointsController
 
 
@@ -44,6 +45,7 @@ class Raid:
 
 @instance()
 class RaidController:
+    MESSAGE_SOURCE = "raid"
     NO_RAID_RUNNING_RESPONSE = "No raid is running."
 
     def __init__(self):
@@ -58,6 +60,10 @@ class RaidController:
         self.character_service: CharacterService = registry.get_instance("character_service")
         self.points_controller: PointsController = registry.get_instance("points_controller")
         self.util: Util = registry.get_instance("util")
+        self.message_hub_service = registry.get_instance("message_hub_service")
+
+    def pre_start(self):
+        self.message_hub_service.register_message_source(self.MESSAGE_SOURCE)
 
     @command(command="raid", params=[], access_level="member",
              description="Show the current raid status")
@@ -89,7 +95,10 @@ class RaidController:
              description="Start new raid", access_level="moderator", sub_command="manage")
     def raid_start_cmd(self, request, _, raid_name: str):
         if self.raid:
-            return "The <highlight>%s</highlight> raid is already running." % self.raid.raid_name
+            return f"The raid <highlight>{self.raid.raid_name}</highlight> is already running."
+
+        if not self.leader_controller.can_use_command(request.sender.char_id):
+            return LeaderController.NOT_LEADER_MSG
 
         self.raid = Raid(raid_name, request.sender)
 
@@ -241,7 +250,31 @@ class RaidController:
 
         return ChatBlob("Active check", blob)
 
-    @command(command="raid", params=[Const("kick"), Character("char"), Any("reason")],
+    @command(command="raid", params=[Const("add"), Character("char")],
+             description="Add a character to the raid", access_level="moderator", sub_command="manage")
+    def raid_add_cmd(self, request, _, char):
+        if self.raid is None:
+            return self.NO_RAID_RUNNING_RESPONSE
+
+        alts = self.alts_service.get_alts(char.char_id)
+        in_raid = self.is_in_raid(alts[0].char_id)
+
+        if in_raid is None:
+            self.raid.raiders.append(Raider(alts, char.char_id))
+            self.bot.send_private_message(char.char_id, f"You have been added to the raid <highlight>{self.raid.raid_name}</highlight>.")
+            return "<highlight>%s</highlight> has been added to the raid." % char.name
+        else:
+            if not in_raid.is_active:
+                in_raid.is_active = True
+                in_raid.was_kicked = None
+                in_raid.was_kicked_reason = None
+                in_raid.left_raid = None
+                self.bot.send_private_message(char.char_id, f"You have been set as active in the raid <highlight>{self.raid.raid_name}</highlight>.")
+                return f"<highlight>{char.name}</highlight> is has been set as active."
+            else:
+                return f"<highlight>{char.name}</highlight> is already in the raid."
+
+    @command(command="raid", params=[Options(["kick", "remove", "rem"]), Character("char"), Any("reason")],
              description="Set raider as kicked with a reason", access_level="moderator", sub_command="manage")
     def raid_kick_cmd(self, _1, _2, char: SenderObj, reason: str):
         if self.raid is None:
@@ -250,12 +283,6 @@ class RaidController:
         main_id = self.alts_service.get_main(char.char_id).char_id
         in_raid = self.is_in_raid(main_id)
 
-        try:
-            int(char.name)
-            char.name = self.character_service.resolve_char_to_name(char.name)
-        except ValueError:
-            pass
-
         if in_raid is not None:
             if not in_raid.is_active:
                 return "<highlight>%s</highlight> is already set as inactive." % char.name
@@ -263,6 +290,8 @@ class RaidController:
             in_raid.is_active = False
             in_raid.was_kicked = int(time.time())
             in_raid.was_kicked_reason = reason
+            self.bot.send_private_message(char.char_id,
+                                          f"You have been kicked from raid <highlight>{self.raid.raid_name}</highlight> with reason <highlight>{reason}</highlight>.")
             return "<highlight>%s</highlight> has been kicked from the raid with reason \"%s\"." % (char.name, reason)
         else:
             return "<highlight>%s</highlight> is not participating." % char.name
@@ -399,6 +428,4 @@ class RaidController:
         return self.text.paginate_single(ChatBlob(link_txt, blob))
 
     def send_message(self, msg):
-        # TODO use message_hub_service
-        self.bot.send_private_channel_message(msg)
-        self.bot.send_org_message(msg)
+        self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)

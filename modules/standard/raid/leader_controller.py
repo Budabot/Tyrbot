@@ -30,6 +30,7 @@ class LeaderController:
         self.character_service: CharacterService = registry.get_instance("character_service")
         self.bot: Tyrbot = registry.get_instance("bot")
         self.setting_service: SettingService = registry.get_instance("setting_service")
+        self.raid_controller = registry.get_instance("raid_controller")
 
     def start(self):
         self.setting_service.register_new(self.module_name, "leader_echo_color", "#00FF00", ColorSettingType(), "Color with which the leader's messages will be echoed with")
@@ -92,9 +93,7 @@ class LeaderController:
                 self.last_activity = None
                 self.echo = False
 
-                self.bot.send_private_channel_message("Raid leader has been automatically "
-                                                      "cleared because of inactivity.")
-                self.bot.send_org_message("Raid leader has been automatically cleared because of inactivity.")
+                self.raid_controller.send_message("Raid leader has been automatically cleared because of inactivity.")
 
     @event(PrivateChannelService.LEFT_PRIVATE_CHANNEL_EVENT, "Remove raid leader if raid leader leaves private channel")
     def leader_remove_on_leave_private(self, _, event_data):
@@ -132,12 +131,12 @@ class LeaderController:
 
     def leader_echo(self, char_id, message, channel):
         sender = self.character_service.resolve_char_to_name(char_id)
-        color = self.setting_service.get("leader_echo_color").get_value()
+        color = self.setting_service.get("leader_echo_color")
 
         if channel == "org":
-            self.bot.send_org_message("%s: <font color=%s>%s" % (sender, color, message))
-        if channel == "priv":
-            self.bot.send_private_channel_message("%s: <font color=%s>%s" % (sender, color, message))
+            self.bot.send_org_message("%s: %s" % (sender, color.format_text(message)), fire_outgoing_event=False)
+        elif channel == "priv":
+            self.bot.send_private_channel_message("%s: %s" % (sender, color.format_text(message)), fire_outgoing_event=False)
 
         self.activity_done()
 

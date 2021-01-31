@@ -27,6 +27,7 @@ class LootController:
         self.leader_controller: LeaderController = registry.get_instance("leader_controller")
         self.setting_service: SettingService = registry.get_instance("setting_service")
         self.items_controller: ItemsController = registry.get_instance("items_controller")
+        self.raid_controller = registry.get_instance("raid_controller")
 
     @command(command="loot", params=[], description="Show the list of added items", access_level="all")
     def loot_cmd(self, request):
@@ -292,9 +293,7 @@ class LootController:
                 self.last_modify = None
                 self.loot_list = OrderedDict()
 
-                # TODO use message_hub_service
-                self.bot.send_org_message("Loot was last modified more than 1 hour ago, list has been cleared.")
-                self.bot.send_private_channel_message("Loot was last modified more than 1 hour ago, list has been cleared.")
+                self.raid_controller.send_message("Loot was last modified more than 1 hour ago, list has been cleared.")
 
     def is_already_added(self, name: str):
         for i, loot_item in self.loot_list.items():
