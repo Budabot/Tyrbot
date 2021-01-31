@@ -41,33 +41,7 @@ class CharacterInfoController:
         dimension = dimension or self.bot.dimension
 
         if dimension != self.bot.dimension:
-            char_info = self.pork_service.request_char_info(char.name, dimension)
-            if char_info:
-                blob = "Name: %s (%s)\n" % (self.get_full_name(char_info), self.text.make_chatcmd("History", "/tell <myname> history " + char_info.name + str(char_info.dimension)))
-                blob += "Profession: %s\n" % char_info.profession
-                blob += "Faction: %s\n" % self.text.get_formatted_faction(char_info.faction)
-                blob += "Breed: %s\n" % char_info.breed
-                blob += "Gender: %s\n" % char_info.gender
-                blob += "Level: %d\n" % char_info.level
-                blob += "AI Level: <green>%d</green>\n" % char_info.ai_level
-                if char_info.org_id:
-                    blob += "Org: <highlight>%s</highlight> (%d) (%s)\n" % (char_info.org_name, char_info.org_id, self.text.make_chatcmd("orglist", "/tell <myname> orglist " + char_info.org_id))
-                    blob += "Org Rank: %s (%d)\n" % (char_info.org_rank_name, char_info.org_rank_id)
-                else:
-                    blob += "Org: &lt;None&gt;\n"
-                    blob += "Org Rank: &lt;None&gt;\n"
-                blob += "Head Id: %d\n" % char_info.head_id
-                blob += "PVP Rating: %d\n" % char_info.pvp_rating
-                blob += "PVP Title: %s\n" % char_info.pvp_title
-                blob += "Character Id: %d\n" % char_info.char_id
-                blob += "Source: %s\n" % self.format_source(char_info, 0)
-                blob += "Dimension: %s\n" % char_info.dimension
-
-                more_info = self.text.paginate_single(ChatBlob("More Info", blob))
-
-                return self.text.format_char_info(char_info) + " " + more_info
-            else:
-                return "Could not find info for character <highlight>%s</highlight> on RK%d." % (char.name, dimension)
+            self.show_output(char, dimension, force_update, None, request.reply)
         elif char.char_id:
             online_status = self.buddy_service.is_online(char.char_id)
             if online_status is None:
@@ -81,12 +55,16 @@ class CharacterInfoController:
         else:
             self.show_output(char, dimension, force_update, None, request.reply)
 
-
     def show_output(self, char, dimension, force_update, online_status, reply):
         max_cache_age = 0 if force_update else 86400
-        char_info = self.pork_service.get_character_info(char.name, max_cache_age)
+
+        if dimension != self.bot.dimension:
+            char_info = self.pork_service.request_char_info(char.name, dimension)
+        else:
+            char_info = self.pork_service.get_character_info(char.name, max_cache_age)
+
         if char_info and char_info.source != "chat_server":
-            blob = "Name: %s (%s)\n" % (self.get_full_name(char_info), self.text.make_chatcmd("History", "/tell <myname> history " + char_info.name))
+            blob = "Name: %s (%s)\n" % (self.get_full_name(char_info), self.text.make_chatcmd("History", "/tell <myname> history %s %s" % (char_info.name, char_info.dimension)))
             blob += "Character Id: %d\n" % char_info.char_id
             blob += "Profession: %s\n" % char_info.profession
             blob += "Faction: %s\n" % self.text.get_formatted_faction(char_info.faction)
@@ -95,7 +73,7 @@ class CharacterInfoController:
             blob += "Level: %d\n" % char_info.level
             blob += "AI Level: <green>%d</green>\n" % char_info.ai_level
             if char_info.org_id:
-                blob += "Org: <highlight>%s</highlight> (%d) (%s)\n" % (char_info.org_name, char_info.org_id, self.text.make_chatcmd("orglist", "/tell <myname> orglist " + char_info.name))
+                blob += "Org: <highlight>%s</highlight> (%d)\n" % (char_info.org_name, char_info.org_id)
                 blob += "Org Rank: %s (%d)\n" % (char_info.org_rank_name, char_info.org_rank_id)
             else:
                 blob += "Org: &lt;None&gt;\n"
@@ -105,13 +83,15 @@ class CharacterInfoController:
             #blob += "PVP Title: %s\n" % char_info.pvp_title
             blob += "Source: %s\n" % self.format_source(char_info, max_cache_age)
             blob += "Dimension: %s\n" % char_info.dimension
-            blob += "Status: %s\n" % ("<green>Active</green>" if char.char_id else "<red>Inactive</red>")
 
-            blob += self.get_name_history(char.char_id)
+            if dimension == self.bot.dimension:
+                blob += "Status: %s\n" % ("<green>Active</green>" if char.char_id else "<red>Inactive</red>")
 
-            alts = self.alts_controller.alts_service.get_alts(char.char_id)
-            blob += "\n<header2>Alts (%d)</header2>\n" % len(alts)
-            blob += self.alts_controller.format_alt_list(alts)
+                blob += self.get_name_history(char.char_id)
+
+                alts = self.alts_controller.alts_service.get_alts(char.char_id)
+                blob += "\n<header2>Alts (%d)</header2>\n" % len(alts)
+                blob += self.alts_controller.format_alt_list(alts)
 
             more_info = self.text.paginate_single(ChatBlob("More Info", blob))
 
