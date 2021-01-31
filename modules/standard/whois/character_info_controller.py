@@ -113,7 +113,7 @@ class CharacterInfoController:
         blob = "\n<header2>Name History</header2>\n"
         data = self.db.query("SELECT name, created_at FROM name_history WHERE char_id = ? ORDER BY created_at DESC", [char_id])
         for row in data:
-            blob += "%s [%s]\n" % (row.name, self.util.format_date(row.created_at))
+            blob += "[%s] %s\n" % (self.util.format_date(row.created_at), row.name)
         return blob
 
     @event(event_type="packet:20", description="Capture name history", is_hidden=True)
