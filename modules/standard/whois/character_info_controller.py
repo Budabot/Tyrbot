@@ -1,7 +1,7 @@
 import time
 from functools import partial
 
-from core.aochat.server_packets import BuddyAdded
+from core.aochat.server_packets import BuddyAdded, CharacterName, CharacterLookup
 from core.decorators import instance, command, event, timerevent
 from core.db import DB
 from core.dict_object import DictObject
@@ -28,6 +28,9 @@ class CharacterInfoController:
         self.alts_service = registry.get_instance("alts_service")
         self.alts_controller = registry.get_instance("alts_controller")
         self.buddy_service = registry.get_instance("buddy_service")
+
+    def pre_start(self):
+        self.bot.add_packet_handler(CharacterName.id, self.character_name_update)
 
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS name_history (char_id INT NOT NULL, name VARCHAR(20) NOT NULL, created_at INT NOT NULL, PRIMARY KEY (char_id, name))")
@@ -115,24 +118,16 @@ class CharacterInfoController:
             blob += "[%s] %s\n" % (self.util.format_date(row.created_at), row.name)
         return blob
 
-    @event(event_type="packet:20", description="Capture name history", is_hidden=True)
-    def character_name_event(self, event_type, event_data):
-        self.name_history.append(event_data)
-
-    @event(event_type="packet:21", description="Capture name history", is_hidden=True)
-    def character_lookup_event(self, event_type, event_data):
-        self.name_history.append(event_data)
-
     @timerevent(budatime="1min", description="Save name history", is_hidden=True)
     def save_name_history_event(self, event_type, event_data):
-        with self.db.transaction():
-            for entry in self.name_history:
-                if self.db.type == DB.SQLITE:
-                    sql = "INSERT OR IGNORE INTO name_history (char_id, name, created_at) VALUES (?, ?, ?)"
-                else:
-                    sql = "INSERT IGNORE INTO name_history (char_id, name, created_at) VALUES (?, ?, ?)"
+        if not self.name_history:
+            return
 
-                self.db.exec(sql, [entry.char_id, entry.name, int(time.time())])
+        with self.db.transaction():
+            t = int(time.time())
+            for entry in self.name_history:
+                sql = "INSERT IGNORE INTO name_history (char_id, name, created_at) VALUES (?, ?, ?)"
+                self.db.exec(sql, [entry.char_id, entry.name, t])
 
             self.name_history = []
 
@@ -165,3 +160,6 @@ class CharacterInfoController:
                 self.bot.remove_packet_handler(BuddyAdded.id, self.handle_buddy_status)
 
             obj.callback(packet.online == 1)
+
+    def character_name_update(self, packet):
+        self.name_history.append(packet)
