@@ -75,7 +75,12 @@ class LeaderController:
     @command(command="leader", params=[Const("set")], access_level="all",
              description="Set (or unset) yourself as raid leader")
     def leader_set_self_command(self, request, _):
-        return self.set_raid_leader(request.sender, request.sender)
+        if self.leader and self.leader.char_id == request.sender.char_id:
+            set_to = None
+        else:
+            set_to = request.sender
+
+        return self.set_raid_leader(request.sender, set_to)
 
     @command(command="leader", params=[Const("set", is_optional=True), Character("character")], access_level="all",
              description="Set another character as raid leader")

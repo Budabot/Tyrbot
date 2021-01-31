@@ -61,6 +61,7 @@ class RaidController:
         self.points_controller: PointsController = registry.get_instance("points_controller")
         self.util: Util = registry.get_instance("util")
         self.message_hub_service = registry.get_instance("message_hub_service")
+        self.leader_controller = registry.get_instance("leader_controller")
 
     def pre_start(self):
         self.message_hub_service.register_message_source(self.MESSAGE_SOURCE)
@@ -97,8 +98,10 @@ class RaidController:
         if self.raid:
             return f"The raid <highlight>{self.raid.raid_name}</highlight> is already running."
 
-        if not self.leader_controller.can_use_command(request.sender.char_id):
-            return LeaderController.NOT_LEADER_MSG
+        msg = self.leader_controller.set_raid_leader(request.sender, request.sender)
+        request.reply(msg)
+        if self.leader_controller.leader.char_id != request.sender.char_id:
+            return None
 
         self.raid = Raid(raid_name, request.sender)
 
