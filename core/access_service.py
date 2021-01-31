@@ -1,3 +1,5 @@
+import inspect
+
 from core.decorators import instance
 from core.logger import Logger
 
@@ -15,6 +17,18 @@ class AccessService:
         self.alts_service = registry.get_instance("alts_service")
 
     def register_access_level(self, label, level, handler):
+        """
+        Call during pre_start
+
+        Args:
+            label: str
+            level: int
+            handler: (char_id: Int) -> bool
+        """
+
+        if len(inspect.signature(handler).parameters) != 1:
+            raise Exception("Incorrect number of arguments for handler '%s.%s()'" % (handler.__module__, handler.__name__))
+
         self.logger.debug("Registering access level %d with label '%s'" % (level, label))
         self.access_levels.append({"label": label.lower(), "level": level, "handler": handler})
         self.access_levels = sorted(self.access_levels, key=lambda k: k["level"])

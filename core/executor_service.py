@@ -19,6 +19,14 @@ class ExecutorService:
         self.executor = ThreadPoolExecutor(max_workers=100)
 
     def submit_job(self, start_timeout, job, *args, **kwargs):
+        """
+        Args:
+            start_timeout: int
+            job: (*args, *kwargs) -> void
+            *args
+            **kwargs
+        """
+
         if FeatureFlags.THREADING:
             fut = self.executor.submit(job, *args, **kwargs)
             self.jobs.append(DictObject({"future": fut,

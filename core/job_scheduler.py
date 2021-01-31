@@ -1,3 +1,5 @@
+import inspect
+
 from core.decorators import instance
 from core.logger import Logger
 import time
@@ -19,9 +21,28 @@ class JobScheduler:
                 self.logger.warning("Error processing scheduled job", e)
 
     def delayed_job(self, callback, delay, *args, **kwargs):
+        """
+        Args:
+            callback: (time: Int, *args, *kwargs) -> void)
+            delay: int
+            *args
+            **kwargs
+        """
+
         return self.scheduled_job(callback, int(time.time()) + delay, *args, **kwargs)
 
     def scheduled_job(self, callback, scheduled_time, *args, **kwargs):
+        """
+        Args:
+            callback: (time: Int, *args, *kwargs) -> void)
+            scheduled_time: int
+            *args
+            **kwargs
+        """
+
+        if len(inspect.signature(callback).parameters) < 1:
+            raise Exception("Incorrect number of arguments for handler '%s.%s()'" % (callback.__module__, callback.__name__))
+
         job_id = self._get_next_job_id()
         new_job = {
             "id": job_id,

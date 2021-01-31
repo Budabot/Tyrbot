@@ -1,3 +1,5 @@
+import inspect
+
 from core.decorators import instance
 from core.registry import Registry
 from core.logger import Logger
@@ -31,7 +33,13 @@ class EventService:
                     self.register(handler, attrs.event_type, attrs.description, inst.module_name, attrs.is_hidden, attrs.is_enabled)
 
     def register_event_type(self, event_type):
-        """Call during pre_start"""
+        """
+        Call during pre_start
+
+        Args:
+            event_type (str)
+        """
+
         event_type = event_type.lower()
 
         if event_type in self.event_types:
@@ -45,7 +53,21 @@ class EventService:
         return event_base_type in self.event_types
 
     def register(self, handler, event_type, description, module, is_hidden, is_enabled):
-        """Call during start"""
+        """
+        Call during pre_start
+
+        Args:
+            handler: (event_type, event_data) -> void
+            event_type: str
+            description: str
+            module: str
+            is_hidden: bool
+            is_enabled: bool
+        """
+
+        if len(inspect.signature(handler).parameters) != 2:
+            raise Exception("Incorrect number of arguments for handler '%s.%s()'" % (handler.__module__, handler.__name__))
+
         event_base_type, event_sub_type = self.get_event_type_parts(event_type)
         module = module.lower()
         handler_name = self.util.get_handler_name(handler)

@@ -80,7 +80,22 @@ class CommandService:
                     self.register(handler, cmd_name, params, access_level, description, inst.module_name, help_text, sub_command, extended_description)
 
     def register(self, handler, command, params, access_level, description, module, help_text=None, sub_command=None, extended_description=None, check_access=None):
-        """Call during start"""
+        """
+        Call during pre_start
+
+        Args:
+            handler: (request, param1, param2, ...) -> str|ChatBlob|None
+            command: str
+            params: [CommandParam...]
+            access_level: str
+            description: str
+            module: str
+            help_text: str
+            sub_command: str
+            extended_description: str
+            check_access: (char, access_level_label) -> bool
+        """
+
         if len(inspect.signature(handler).parameters) != len(params) + 1:
             raise Exception("Incorrect number of arguments for handler '%s.%s()'" % (handler.__module__, handler.__name__))
 

@@ -1,3 +1,5 @@
+import inspect
+
 from core.decorators import instance
 from core.dict_object import DictObject
 from core.logger import Logger
@@ -31,7 +33,19 @@ class MessageHubService:
             self.sources.append(source)
 
     def register_message_destination(self, destination, callback, default_sources, invalid_sources=[]):
-        """Call during start"""
+        """
+        Call during start
+
+        Args:
+            destination: str
+            callback: (ctx) -> void
+            default_sources: [str...]
+            invalid_sources: [str...]
+        """
+
+        if len(inspect.signature(callback).parameters) != 1:
+            raise Exception("Incorrect number of arguments for handler '%s.%s()'" % (callback.__module__, callback.__name__))
+
         if destination in self.hub:
             raise Exception("Message hub destination '%s' already subscribed" % destination)
 

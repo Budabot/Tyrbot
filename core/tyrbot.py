@@ -1,3 +1,5 @@
+import inspect
+
 from core.aochat.bot import Bot
 from core.dict_object import DictObject
 from core.lookup.character_service import CharacterService
@@ -90,14 +92,14 @@ class Tyrbot(Bot):
         self.setting_service.register_new("core.system", "symbol", "!", TextSettingType(["!", "#", "*", "@", "$", "+", "-"]), "Symbol for executing bot commands")
 
         self.setting_service.register_new("core.system", "org_channel_max_page_length", 7500,
-                                      NumberSettingType([4500, 6000, 7500, 9000, 10500, 12000]),
-                                      "Maximum size of blobs in org channel")
+                                          NumberSettingType([4500, 6000, 7500, 9000, 10500, 12000]),
+                                          "Maximum size of blobs in org channel")
         self.setting_service.register_new("core.system", "private_message_max_page_length", 7500,
-                                      NumberSettingType([4500, 6000, 7500, 9000, 10500, 12000]),
-                                      "Maximum size of blobs in private messages")
+                                          NumberSettingType([4500, 6000, 7500, 9000, 10500, 12000]),
+                                          "Maximum size of blobs in private messages")
         self.setting_service.register_new("core.system", "private_channel_max_page_length", 7500,
-                                      NumberSettingType([4500, 6000, 7500, 9000, 10500, 12000]),
-                                      "Maximum size of blobs in private channel")
+                                          NumberSettingType([4500, 6000, 7500, 9000, 10500, 12000]),
+                                          "Maximum size of blobs in private channel")
 
         self.setting_service.register_new("core.system", "org_id", "", NumberSettingType(allow_empty=True), "Override the default org id",
                                           "This setting is is for development/debug purposes and should not be changed unless you understand the implications")
@@ -168,8 +170,18 @@ class Tyrbot(Bot):
             self.event_service.check_for_timer_events(timestamp)
 
     def register_packet_handler(self, packet_id: int, handler, priority=50):
-        """Call during pre_start"""
-        # TODO verify that handler has correct params
+        """
+        Call during pre_start
+
+        Args:
+            packet_id: int
+            handler: (packet) -> void
+            priority: int
+        """
+
+        if len(inspect.signature(handler).parameters) != 1:
+            raise Exception("Incorrect number of arguments for handler '%s.%s()'" % (handler.__module__, handler.__name__))
+
         handlers = self.packet_handlers.get(packet_id, [])
         handlers.append(DictObject({"priority": priority, "handler": handler}))
         self.packet_handlers[packet_id] = sorted(handlers, key=lambda x: x.priority)

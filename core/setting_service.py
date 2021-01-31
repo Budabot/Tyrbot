@@ -1,3 +1,5 @@
+import inspect
+
 from core.decorators import instance
 from core.logger import Logger
 from .setting_types import SettingType
@@ -63,12 +65,22 @@ class SettingService:
 
         self.settings[name] = setting
 
-    def register_change_listener(self, setting_name, change_listener):
-        """Call during start"""
+    def register_change_listener(self, setting_name, handler):
+        """
+        Call during start
+
+        Args:
+            setting_name: str
+            handler: (name: string, old_value, new_value) -> void
+        """
+
+        if len(inspect.signature(handler).parameters) != 3:
+            raise Exception("Incorrect number of arguments for handler '%s.%s()'" % (handler.__module__, handler.__name__))
+
         if setting_name in self.settings:
-            if not setting_name in self.change_listeners:
+            if setting_name not in self.change_listeners:
                 self.change_listeners[setting_name] = []
-            self.change_listeners[setting_name].append(change_listener)
+            self.change_listeners[setting_name].append(handler)
         else:
             raise Exception("Could not register change_listener for setting '%s' since it does not exist" % setting_name)
 

@@ -1,3 +1,5 @@
+import inspect
+
 import hjson
 
 from core.decorators import instance
@@ -37,7 +39,17 @@ class TranslationService:
         self.setting_service.register_change_listener(self.LANGUAGE_SETTING, self.language_setting_changed)
 
     def register_translation(self, category, callback):
-        """Call during start"""
+        """
+        Call during start
+
+        Args:
+            category: str
+            callback: () -> {}
+        """
+
+        if len(inspect.signature(callback).parameters) != 0:
+            raise Exception("Incorrect number of arguments for handler '%s.%s()'" % (callback.__module__, callback.__name__))
+
         if self.translation_callbacks.get(category) is None:
             self.translation_callbacks[category] = []
         self.translation_callbacks[category].append(callback)
