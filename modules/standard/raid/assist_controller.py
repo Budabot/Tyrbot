@@ -10,6 +10,11 @@ class AssistController:
 
     def inject(self, registry):
         self.leader_controller = registry.get_instance("leader_controller")
+        self.command_alias_service = registry.get_instance("command_alias_service")
+
+    def start(self):
+        self.command_alias_service.add_alias("caller", "assist")
+        self.command_alias_service.add_alias("callers", "assist")
 
     @command(command="assist", params=[], access_level="all",
              description="Show current assist targets")
