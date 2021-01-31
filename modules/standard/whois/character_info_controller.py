@@ -40,9 +40,7 @@ class CharacterInfoController:
     def whois_cmd(self, request, char, dimension, force_update):
         dimension = dimension or self.bot.dimension
 
-        if dimension != self.bot.dimension:
-            self.show_output(char, dimension, force_update, None, request.reply)
-        elif char.char_id:
+        if dimension == self.bot.dimension and char.char_id:
             online_status = self.buddy_service.is_online(char.char_id)
             if online_status is None:
                 self.bot.add_packet_handler(BuddyAdded.id, self.handle_buddy_status)
@@ -90,8 +88,9 @@ class CharacterInfoController:
                 blob += self.get_name_history(char.char_id)
 
                 alts = self.alts_controller.alts_service.get_alts(char.char_id)
-                blob += "\n<header2>Alts (%d)</header2>\n" % len(alts)
-                blob += self.alts_controller.format_alt_list(alts)
+                if len(alts) > 1:
+                    blob += "\n<header2>Alts (%d)</header2>\n" % len(alts)
+                    blob += self.alts_controller.format_alt_list(alts)
 
             more_info = self.text.paginate_single(ChatBlob("More Info", blob))
 
