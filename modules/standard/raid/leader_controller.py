@@ -31,8 +31,11 @@ class LeaderController:
         self.bot: Tyrbot = registry.get_instance("bot")
         self.setting_service: SettingService = registry.get_instance("setting_service")
         self.raid_controller = registry.get_instance("raid_controller")
+        self.command_alias_service = registry.get_instance("command_alias_service")
 
     def start(self):
+        self.command_alias_service.add_alias("leaderecho", "leader echo")
+
         self.setting_service.register_new(self.module_name, "leader_echo_color", "#00FF00", ColorSettingType(), "Color with which the leader's messages will be echoed with")
         self.setting_service.register_new(self.module_name, "leader_auto_echo", False, BooleanSettingType(),
                                           "If turned on, when someone assume the leader role, leader echo will automatically be activated for said person")
@@ -63,7 +66,7 @@ class LeaderController:
     def leader_echo_status_command(self, _1, _2):
         if self.leader:
             on_off = "on" if self.echo else "off"
-            return "<highlight>%s</highlight> is set as leader, leader echo is <highlight>%s</highlight>" % \
+            return "<highlight>%s</highlight> is set as leader, leader echo is <highlight>%s</highlight>." % \
                    (self.leader.name, on_off)
         return "No current leader set."
 

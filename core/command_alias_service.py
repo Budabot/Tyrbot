@@ -21,6 +21,7 @@ class CommandAliasService:
         return self.db.query_single("SELECT alias, command, enabled FROM command_alias WHERE alias = ?", [alias])
 
     def add_alias(self, alias, command, force_enable=False):
+        """Call during start"""
         row = self.get_alias(alias)
         if row:
             if row.enabled:
