@@ -96,7 +96,7 @@ class AllianceRelayController:
 
         method = self.setting_service.get_value("arelay_symbol_method")
         symbol = self.setting_service.get_value("arelay_symbol")
-        plain_msg = ctx.message
+        plain_msg = ctx.message or ctx.formatted_message
 
         if method == "unless_symbol" and len(plain_msg) > len(symbol) and plain_msg[:len(symbol)] == symbol:
             return
