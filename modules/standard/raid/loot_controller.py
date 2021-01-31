@@ -266,6 +266,7 @@ class LootController:
     def loot_add_item_cmd(self, request, _, item, item_count: int):
         if not self.leader_controller.can_use_command(request.sender.char_id):
             return LeaderController.NOT_LEADER_MSG
+
         loot = ""
         if item_count is None:
             item_count = 1

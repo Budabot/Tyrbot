@@ -168,6 +168,8 @@ class Tyrbot(Bot):
             self.event_service.check_for_timer_events(timestamp)
 
     def add_packet_handler(self, packet_id: int, handler, priority=50):
+        """Call during pre_start"""
+        # TODO verify that handler has correct params
         handlers = self.packet_handlers.get(packet_id, [])
         handlers.append(DictObject({"priority": priority, "handler": handler}))
         self.packet_handlers[packet_id] = sorted(handlers, key=lambda x: x.priority)
