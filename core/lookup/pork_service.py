@@ -19,8 +19,8 @@ class PorkService:
         self.character_service = registry.get_instance("character_service")
 
     def pre_start(self):
-        self.bot.add_packet_handler(server_packets.CharacterLookup.id, self.update)
-        self.bot.add_packet_handler(server_packets.CharacterName.id, self.update)
+        self.bot.register_packet_handler(server_packets.CharacterLookup.id, self.update)
+        self.bot.register_packet_handler(server_packets.CharacterName.id, self.update)
 
     # forces a lookup from remote PoRK server
     # this should not be called directly unless you are requesting info for a char on a different server

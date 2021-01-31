@@ -24,7 +24,7 @@ class CloakController:
         self.message_hub_service = registry.get_instance("message_hub_service")
 
     def pre_start(self):
-        self.bot.add_packet_handler(PublicChannelMessage.id, self.handle_public_message)
+        self.bot.register_packet_handler(PublicChannelMessage.id, self.handle_public_message)
         self.event_service.register_event_type(self.CLOAK_EVENT)
         self.message_hub_service.register_message_source(self.MESSAGE_SOURCE)
 

@@ -44,7 +44,7 @@ class TowerController:
     def pre_start(self):
         self.event_service.register_event_type(self.TOWER_ATTACK_EVENT)
         self.event_service.register_event_type(self.TOWER_VICTORY_EVENT)
-        self.bot.add_packet_handler(server_packets.PublicChannelMessage.id, self.handle_public_channel_message)
+        self.bot.register_packet_handler(server_packets.PublicChannelMessage.id, self.handle_public_channel_message)
 
     @command(command="lc", params=[], access_level="all",
              description="See a list of playfields containing land control tower sites")

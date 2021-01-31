@@ -21,8 +21,8 @@ class CharacterService:
         self.db = registry.get_instance("db")
 
     def pre_start(self):
-        self.bot.add_packet_handler(server_packets.CharacterLookup.id, self.update)
-        self.bot.add_packet_handler(server_packets.CharacterName.id, self.update)
+        self.bot.register_packet_handler(server_packets.CharacterLookup.id, self.update)
+        self.bot.register_packet_handler(server_packets.CharacterName.id, self.update)
 
     def _wait_for_char_id(self, char_name):
         # char_name must be .capitalize()'ed

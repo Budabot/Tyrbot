@@ -17,8 +17,8 @@ class ExternalChannelController:
         self.ban_service = registry.get_instance("ban_service")
 
     def start(self):
-        self.bot.add_packet_handler(server_packets.PrivateChannelInvited.id, self.handle_private_channel_invite)
-        self.bot.add_packet_handler(server_packets.PrivateChannelMessage.id, self.handle_private_channel_message)
+        self.bot.register_packet_handler(server_packets.PrivateChannelInvited.id, self.handle_private_channel_invite)
+        self.bot.register_packet_handler(server_packets.PrivateChannelMessage.id, self.handle_private_channel_message)
 
     def handle_private_channel_invite(self, packet: server_packets.PrivateChannelInvited):
         channel_name = self.character_service.get_char_name(packet.private_channel_id)

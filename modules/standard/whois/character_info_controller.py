@@ -30,7 +30,7 @@ class CharacterInfoController:
         self.buddy_service = registry.get_instance("buddy_service")
 
     def pre_start(self):
-        self.bot.add_packet_handler(CharacterName.id, self.character_name_update)
+        self.bot.register_packet_handler(CharacterName.id, self.character_name_update)
 
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS name_history (char_id INT NOT NULL, name VARCHAR(20) NOT NULL, created_at INT NOT NULL, PRIMARY KEY (char_id, name))")
@@ -46,7 +46,7 @@ class CharacterInfoController:
         if dimension == self.bot.dimension and char.char_id:
             online_status = self.buddy_service.is_online(char.char_id)
             if online_status is None:
-                self.bot.add_packet_handler(BuddyAdded.id, self.handle_buddy_status)
+                self.bot.register_packet_handler(BuddyAdded.id, self.handle_buddy_status)
                 self.waiting_for_update[char.char_id] = DictObject({"char_id": char.char_id,
                                                                     "name": char.name,
                                                                     "callback": partial(self.show_output, char, dimension, force_update, reply=request.reply)})

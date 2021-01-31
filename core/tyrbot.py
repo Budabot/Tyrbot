@@ -119,7 +119,7 @@ class Tyrbot(Bot):
         self.setting_service.register_new("core.colors", "private_message_color", "#89D2E8", ColorSettingType(), "Default private message color")
         self.setting_service.register_new("core.colors", "blob_color", "#FFFFFF", ColorSettingType(), "Default blob content color")
 
-        self.add_packet_handler(server_packets.PrivateMessage.id, self.handle_private_message, priority=40)
+        self.register_packet_handler(server_packets.PrivateMessage.id, self.handle_private_message, priority=40)
 
     def check_superadmin(self, char_id):
         char_name = self.character_service.resolve_char_to_name(char_id)
@@ -167,7 +167,7 @@ class Tyrbot(Bot):
             self.job_scheduler.check_for_scheduled_jobs(timestamp)
             self.event_service.check_for_timer_events(timestamp)
 
-    def add_packet_handler(self, packet_id: int, handler, priority=50):
+    def register_packet_handler(self, packet_id: int, handler, priority=50):
         """Call during pre_start"""
         # TODO verify that handler has correct params
         handlers = self.packet_handlers.get(packet_id, [])

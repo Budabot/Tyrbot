@@ -34,7 +34,7 @@ class MemberController:
         self.access_service.register_access_level(self.MEMBER_ACCESS_LEVEL, 80, self.check_member)
         self.event_service.register_event_type(self.MEMBER_LOGON_EVENT)
         self.event_service.register_event_type(self.MEMBER_LOGOFF_EVENT)
-        self.bot.add_packet_handler(BuddyAdded.id, self.handle_member_logon)
+        self.bot.register_packet_handler(BuddyAdded.id, self.handle_member_logon)
 
     def start(self):
         self.db.exec(

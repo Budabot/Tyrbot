@@ -21,9 +21,9 @@ class BuddyService:
         self.event_service = registry.get_instance("event_service")
 
     def pre_start(self):
-        self.bot.add_packet_handler(server_packets.BuddyAdded.id, self.handle_add)
-        self.bot.add_packet_handler(server_packets.BuddyRemoved.id, self.handle_remove)
-        self.bot.add_packet_handler(server_packets.LoginOK.id, self.handle_login_ok)
+        self.bot.register_packet_handler(server_packets.BuddyAdded.id, self.handle_add)
+        self.bot.register_packet_handler(server_packets.BuddyRemoved.id, self.handle_remove)
+        self.bot.register_packet_handler(server_packets.LoginOK.id, self.handle_login_ok)
         self.event_service.register_event_type(self.BUDDY_LOGON_EVENT)
         self.event_service.register_event_type(self.BUDDY_LOGOFF_EVENT)
 

@@ -56,7 +56,7 @@ class OrgMemberController:
         self.event_service.register_event_type(self.ORG_MEMBER_REMOVED_EVENT)
 
         self.access_service.register_access_level(self.ORG_ACCESS_LEVEL, 60, self.check_org_member)
-        self.bot.add_packet_handler(BuddyAdded.id, self.handle_buddy_added)
+        self.bot.register_packet_handler(BuddyAdded.id, self.handle_buddy_added)
         self.ts.register_translation("module/org_members", self.load_org_members_msg)
 
     def load_org_members_msg(self):

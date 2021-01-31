@@ -53,9 +53,9 @@ class CommandService:
         self.getresp = registry.get_instance("translation_service").get_response
 
     def pre_start(self):
-        self.bot.add_packet_handler(server_packets.PrivateMessage.id, self.handle_private_message)
-        self.bot.add_packet_handler(server_packets.PrivateChannelMessage.id, self.handle_private_channel_message)
-        self.bot.add_packet_handler(server_packets.PublicChannelMessage.id, self.handle_public_channel_message)
+        self.bot.register_packet_handler(server_packets.PrivateMessage.id, self.handle_private_message)
+        self.bot.register_packet_handler(server_packets.PrivateChannelMessage.id, self.handle_private_channel_message)
+        self.bot.register_packet_handler(server_packets.PublicChannelMessage.id, self.handle_public_channel_message)
         self.register_command_channel("Private Message", self.PRIVATE_MESSAGE_CHANNEL)
         self.register_command_channel("Org Channel", self.ORG_CHANNEL)
         self.register_command_channel("Private Channel", self.PRIVATE_CHANNEL)

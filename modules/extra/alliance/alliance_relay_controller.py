@@ -55,8 +55,8 @@ class AllianceRelayController:
                                                               ["org_channel"],
                                                               [self.MESSAGE_SOURCE])
 
-        self.bot.add_packet_handler(server_packets.PrivateChannelInvited.id, self.handle_private_channel_invite, 100)
-        self.bot.add_packet_handler(server_packets.PrivateChannelMessage.id, self.handle_private_channel_message)
+        self.bot.register_packet_handler(server_packets.PrivateChannelInvited.id, self.handle_private_channel_invite, 100)
+        self.bot.register_packet_handler(server_packets.PrivateChannelMessage.id, self.handle_private_channel_message)
 
     def handle_private_channel_invite(self, packet: server_packets.PrivateChannelInvited):
         if not self.setting_service.get("arelay_enabled").get_value():
