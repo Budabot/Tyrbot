@@ -39,7 +39,7 @@ class NanoController:
         elif count == 1:
             row = data[0]
             return self.format_single_nano(row)
-        if count > page_size:
+        elif count > page_size:
             if page > 1 and len(paged_data) > 0:
                 blob += "   " + self.text.make_chatcmd("<< Page %d" % (page - 1), self.get_chat_command(search, page - 1))
             if offset + page_size < len(data):
