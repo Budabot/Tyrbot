@@ -34,7 +34,9 @@ class NanoController:
 
         blob = ""
 
-        if count == 1:
+        if count == 0:
+            return "No results found for <highlight>%s</highlight> " % search
+        elif count == 1:
             row = data[0]
             return self.format_single_nano(row)
         if count > page_size:
