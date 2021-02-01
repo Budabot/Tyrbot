@@ -60,7 +60,7 @@ class NanoController:
         return ChatBlob("Nano Search Results for '%s' (%d - %d of %d)" % (search, offset + 1, min(offset + page_size, count), count), blob)
         
     def format_single_nano(self, row):
-        msg =  " %s %s <highlight>%s</highlight> " % (self.text.make_item(row.lowid, row.lowid, row.lowql, row.name), row.location, row.nanoline_name)
+        msg =  " %s %s " % (self.text.make_item(row.lowid, row.lowid, row.lowql, row.name), row.location)
         
         return msg
 
