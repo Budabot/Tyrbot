@@ -319,20 +319,16 @@ class LootController:
         for i, loot_item in self.loot_list.items():
             bidders = loot_item.bidders
 
-            increase_link = self.text.make_chatcmd("+", "/tell <myname> loot increase %d" % i)
-            decrease_link = self.text.make_chatcmd("-", "/tell <myname> loot decrease %d" % i)
+            blob += "%d. %s x%d" % (i, loot_item.get_item_str(), loot_item.count)
 
-            blob += "%d. %s " % (i, loot_item.get_item_str())
-            blob += "x%s [%s|%s]\n" % (loot_item.count, increase_link, decrease_link)
+            add_to_loot = self.text.make_chatcmd("Join", "/tell <myname> loot add %d" % i)
+            remove_from_loot = self.text.make_chatcmd("Leave", "/tell <myname> loot rem")
+            blob += " [%s] [%s]\n" % (add_to_loot, remove_from_loot)
 
             if len(bidders) > 0:
                 blob += " | %s\n" % ', '.join(bidders)
             else:
                 blob += " | No bidders\n"
-
-            add_to_loot = self.text.make_chatcmd("Add to", "/tell <myname> loot add %d" % i)
-            remove_from_loot = self.text.make_chatcmd("Remove from", "/tell <myname> loot rem")
-            remove_item = self.text.make_chatcmd("Remove item", "/tell <myname> loot remitem %d" % i)
-            blob += " | [%s] [%s] [%s]\n\n" % (add_to_loot, remove_from_loot, remove_item)
+            blob += "\n"
 
         return ChatBlob("Loot (%d)" % len(self.loot_list), blob)
