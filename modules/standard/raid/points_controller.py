@@ -237,9 +237,8 @@ class PointsController:
 
             for preset in presets:
                 add_points_link = self.text.make_chatcmd("Add pts", "/tell <myname> raid addpts %s" % preset.name)
-                delete_link = self.text.make_chatcmd("Delete", "/tell <myname> presets rem %d" % preset.preset_id)
-                blob += "<highlight>%s</highlight> worth <green>%d</green> points [id: %d]\n | [%s] [%s]\n\n" \
-                        % (preset.name, preset.points, preset.preset_id, add_points_link, delete_link)
+                blob += "<highlight>%s</highlight> worth <green>%d</green> points %s [id: %d]\n\n" \
+                        % (preset.name, preset.points, add_points_link, preset.preset_id)
 
             return blob
 
