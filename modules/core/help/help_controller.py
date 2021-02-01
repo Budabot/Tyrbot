@@ -62,7 +62,7 @@ class HelpController:
 
             if row.command != current_command:
                 current_command = row.command
-                blob += " " + self.text.make_chatcmd(row.command, "/tell <myname> help " + row.command)
+                blob += " " + self.text.make_tellcmd(row.command, "help " + row.command)
 
         return ChatBlob("Help (main)", blob)
 

@@ -145,11 +145,24 @@ class CommandService:
         self.handlers[command_key].append({"regex": r, "callback": handler, "help": help_text, "description": description, "params": params, "check_access": check_access})
 
     def register_command_pre_processor(self, pre_processor):
-        """Call during start"""
+        """
+        Call during start
+
+        Args:
+            pre_processor: (context) -> bool
+        """
+
         self.pre_processors.append(pre_processor)
 
     def register_command_channel(self, label, value):
-        """Call during pre_start"""
+        """
+        Call during pre_start
+
+        Args:
+            label: str
+            value: str
+        """
+
         if value in self.channels:
             self.logger.error("Could not register command channel '%s': command channel already registered" % value)
             return

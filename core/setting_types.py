@@ -68,11 +68,11 @@ class TextSettingType(SettingType):
 
         clear_str = ""
         if self.allow_empty:
-            clear_str = "\n\nTo clear this setting:\n\n" + text.make_chatcmd("Clear this setting", "/tell <myname> config setting %s clear" % self.name)
+            clear_str = "\n\nTo clear this setting:\n\n" + text.make_tellcmd("Clear this setting", "config setting %s clear" % self.name)
 
         options_str = ""
         if self.options:
-            options_str = "\n\nOr choose an option below:\n\n" + "\n".join(map(lambda opt: text.make_chatcmd(str(opt), "/tell <myname> config setting %s set %s" % (self.name, opt)), self.options))
+            options_str = "\n\nOr choose an option below:\n\n" + "\n".join(map(lambda opt: text.make_tellcmd(str(opt), "config setting %s set %s" % (self.name, opt)), self.options))
 
         return """For this setting you can enter any text you want (max. 255 characters).
 
@@ -122,7 +122,7 @@ class HiddenSettingType(TextSettingType):
 
         clear_str = ""
         if self.allow_empty:
-            clear_str = "\n\nTo clear this setting:\n\n" + text.make_chatcmd("Clear this setting", "/tell <myname> config setting %s clear" % self.name)
+            clear_str = "\n\nTo clear this setting:\n\n" + text.make_tellcmd("Clear this setting", "config setting %s clear" % self.name)
 
         return """For this setting you can enter any text you want (max. 255 characters).
 
@@ -213,11 +213,11 @@ class NumberSettingType(SettingType):
 
         clear_str = ""
         if self.allow_empty:
-            clear_str = "\n\nTo clear this setting:\n\n" + text.make_chatcmd("Clear this setting", "/tell <myname> config setting %s clear" % self.name)
+            clear_str = "\n\nTo clear this setting:\n\n" + text.make_tellcmd("Clear this setting", "config setting %s clear" % self.name)
 
         options_str = ""
         if self.options:
-            options_str = "\n\nOr choose an option below:\n\n" + "\n".join(map(lambda opt: text.make_chatcmd(str(opt), "/tell <myname> config setting %s set %s" % (self.name, opt)), self.options))
+            options_str = "\n\nOr choose an option below:\n\n" + "\n".join(map(lambda opt: text.make_tellcmd(str(opt), "config setting %s set %s" % (self.name, opt)), self.options))
 
         return """For this setting you can set any positive integer.
 
@@ -248,7 +248,7 @@ class TimeSettingType(SettingType):
 
     def get_display(self):
         text = Registry.get_instance("text")
-        options_str = "\n".join(map(lambda opt: text.make_chatcmd(str(opt), "/tell <myname> config setting %s set %s" % (self.name, opt)), self.options))
+        options_str = "\n".join(map(lambda opt: text.make_tellcmd(str(opt), "config setting %s set %s" % (self.name, opt)), self.options))
 
         return """For this setting you must enter a time value. See <a href='chatcmd:///tell <myname> help budatime'>budatime</a> for info on the format of the 'time' parameter.
 

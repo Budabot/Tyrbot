@@ -3,8 +3,8 @@ from html.parser import HTMLParser
 
 from core.decorators import instance
 from core.logger import Logger
-from core.registry import Registry
 from core.setting_service import SettingService
+
 
 class TextFormatter(HTMLParser):
     def __init__(self, bot, setting_service, public_channel_service):
@@ -147,6 +147,9 @@ class Text:
         msg = msg.strip()
         msg = msg.replace("'", "&#39;")
         return "<a %s href='chatcmd://%s'>%s</a>" % (style, msg, name)
+
+    def make_tellcmd(self, name, msg, style="", char="<myname>"):
+        return self.make_chatcmd(name, f"/tell {char} {msg}")
 
     def make_charlink(self, char, style=""):
         return "<a %s href='user://%s'>%s</a>" % (style, char, char)
