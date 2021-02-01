@@ -11,7 +11,6 @@ from core.setting_service import SettingService
 from core.text import Text
 from core.tyrbot import Tyrbot
 from core.util import Util
-from .leader_controller import LeaderController
 from .points_controller import PointsController
 
 
@@ -236,13 +235,13 @@ class RaidController:
             if count == 10:
                 active_check_names = "/assist "
                 active_check_names += "\\n /assist ".join(raider_names)
-                blob += "[<a href='chatcmd://%s'>Active check</a>]\n\n" % active_check_names
+                blob += "\n[<a href='chatcmd://%s'>Active check</a>]\n\n" % active_check_names
                 count = 0
                 raider_names.clear()
 
             raider_name = self.character_service.resolve_char_to_name(raider.active_id)
-            akick_link = self.text.make_chatcmd("Active kick", "/tell <myname> raid kick %s inactive" % raider.main_id)
-            warn_link = self.text.make_chatcmd("Warn", "/tell <myname> cmd %s missed active check, please give notice." % raider_name)
+            akick_link = self.text.make_chatcmd("Active kick", "/tell <myname> raid kick %s inactive" % raider_name)
+            warn_link = self.text.make_chatcmd("Warn", "/tell %s You missed active check, please give notice." % raider_name)
             blob += "<highlight>%s</highlight> [%s] [%s]\n" % (raider_name, akick_link, warn_link)
             raider_names.append(raider_name)
             count += 1
@@ -251,7 +250,7 @@ class RaidController:
             active_check_names = "/assist "
             active_check_names += "\\n /assist ".join(raider_names)
 
-            blob += "[<a href='chatcmd://%s'>Active check</a>]\n\n" % active_check_names
+            blob += "\n[<a href='chatcmd://%s'>Active check</a>]\n\n" % active_check_names
             raider_names.clear()
 
         return ChatBlob("Active check", blob)
@@ -298,7 +297,7 @@ class RaidController:
             in_raid.was_kicked_reason = reason
             self.bot.send_private_message(char.char_id,
                                           f"You have been kicked from raid <highlight>{self.raid.raid_name}</highlight> with reason <highlight>{reason}</highlight>.")
-            return "<highlight>%s</highlight> has been kicked from the raid with reason \"%s\"." % (char.name, reason)
+            return "<highlight>%s</highlight> has been kicked from the raid with reason <highlight>%s</highlight>." % (char.name, reason)
         else:
             return "<highlight>%s</highlight> is not participating." % char.name
 
@@ -382,7 +381,7 @@ class RaidController:
                 blob += "Left raid: %s\n" % self.util.format_datetime(raider.left_raid)
 
             if raider.was_kicked:
-                blob += "Was kicked: Yes [%s]\n" % self.util.format_datetime(raider.was_kicked)
+                blob += "Was kicked: %s\n" % self.util.format_datetime(raider.was_kicked)
 
             if raider.was_kicked_reason:
                 blob += "Kick reason: %s\n" % raider.was_kicked_reason
