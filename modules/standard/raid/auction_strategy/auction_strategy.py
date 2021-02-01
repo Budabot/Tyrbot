@@ -152,8 +152,7 @@ class AuctionStrategy:
 
                 blob += "%d. %s, won by <highlight>%s</highlight> with <green>%d</green> points\n" % (i, item, winning_bid.sender.name, winning_bid.current_amount)
                 main_id = self.alts_service.get_main(winning_bid.sender.char_id).char_id
-                account = self.points_controller.get_account(main_id)
-                self.points_controller.alter_points(account.points, main_id, -winning_bid.current_amount, self.auctioneer.char_id, "Won auction for %s" % item)
+                self.points_controller.alter_points(main_id, -winning_bid.current_amount, self.auctioneer.char_id, "Won auction for %s" % item)
             else:
                 blob += "%d. %s, no bids made\n" % (i, item)
 

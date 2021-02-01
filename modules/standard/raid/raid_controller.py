@@ -65,6 +65,12 @@ class RaidController:
     def pre_start(self):
         self.message_hub_service.register_message_source(self.MESSAGE_SOURCE)
 
+    def start(self):
+        self.db.exec("CREATE TABLE IF NOT EXISTS raid_log (raid_id INT PRIMARY KEY AUTO_INCREMENT, raid_name VARCHAR(255) NOT NULL, "
+                     "started_by BIGINT NOT NULL, raid_start INT NOT NULL, raid_end INT NOT NULL)")
+        self.db.exec("CREATE TABLE IF NOT EXISTS raid_log_participants (raid_id INT NOT NULL, raider_id BIGINT NOT NULL, "
+                     "accumulated_points INT DEFAULT 0, left_raid INT, was_kicked INT, was_kicked_reason VARCHAR(500))")
+
     @command(command="raid", params=[], access_level="member",
              description="Show the current raid status")
     def raid_cmd(self, request):
@@ -202,7 +208,7 @@ class RaidController:
 
             if raider.is_active:
                 if current_points and current_points.disabled == 0:
-                    self.points_controller.alter_points(current_points.points, raider.main_id, preset.points, request.sender.char_id, preset.name)
+                    self.points_controller.alter_points(raider.main_id, preset.points, request.sender.char_id, preset.name)
                     raider.accumulated_points += preset.points
                 else:
                     self.points_controller.add_log_entry(raider.main_id, request.sender.char_id,
