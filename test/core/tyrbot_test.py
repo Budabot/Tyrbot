@@ -33,22 +33,36 @@ class TyrbotTest(unittest.TestCase):
     def test_register_packet_handler(self):
         packet_id = 1
         bot = Tyrbot()
-        bot.register_packet_handler(packet_id, "handler20", 20)
-        bot.register_packet_handler(packet_id, "handler")
-        bot.register_packet_handler(packet_id, "handler50", 50)
-        bot.register_packet_handler(packet_id, "handler10", 10)
+
+        def callback(packet):
+            pass
+
+        def callback2(packet):
+            pass
+
+        bot.register_packet_handler(packet_id, callback2, 20)
+        bot.register_packet_handler(packet_id, callback)
+        bot.register_packet_handler(packet_id, callback, 50)
+        bot.register_packet_handler(packet_id, callback, 10)
         self.assertEqual(
-            [{'priority': 10, 'handler': 'handler10'}, {'priority': 20, 'handler': 'handler20'}, {'priority': 50, 'handler': 'handler'}, {'priority': 50, 'handler': 'handler50'}],
+            [{'priority': 10, 'handler': callback}, {'priority': 20, 'handler': callback2}, {'priority': 50, 'handler': callback}, {'priority': 50, 'handler': callback}],
             bot.packet_handlers.get(packet_id))
 
     def test_remove_packet_handler(self):
         packet_id = 1
         bot = Tyrbot()
-        bot.register_packet_handler(packet_id, "handler20", 20)
-        bot.register_packet_handler(packet_id, "handler")
-        bot.register_packet_handler(packet_id, "handler50", 50)
-        bot.register_packet_handler(packet_id, "handler10", 10)
-        bot.remove_packet_handler(packet_id, "handler20")
+
+        def callback(packet):
+            pass
+
+        def callback2(packet):
+            pass
+
+        bot.register_packet_handler(packet_id, callback2, 20)
+        bot.register_packet_handler(packet_id, callback)
+        bot.register_packet_handler(packet_id, callback, 50)
+        bot.register_packet_handler(packet_id, callback, 10)
+        bot.remove_packet_handler(packet_id, callback2)
         self.assertEqual(
-            [{'priority': 10, 'handler': 'handler10'}, {'priority': 50, 'handler': 'handler'}, {'priority': 50, 'handler': 'handler50'}],
+            [{'priority': 10, 'handler': callback}, {'priority': 50, 'handler': callback}, {'priority': 50, 'handler': callback}],
             bot.packet_handlers.get(packet_id))
