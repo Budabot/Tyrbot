@@ -45,7 +45,7 @@ class PollController:
             else:
                 time_string = self.util.time_to_readable(t - poll.finished_at) + " ago"
 
-            blob += "%d. %s (%d) - %s\n" % (poll.id, self.text.make_chatcmd(poll.question, "/tell <myname> poll %d" % poll.id), poll.total_cnt, time_string)
+            blob += "%d. %s (%d) - %s\n" % (poll.id, self.text.make_tellcmd(poll.question, "poll %d" % poll.id), poll.total_cnt, time_string)
 
         return ChatBlob("Polls (%d)" % len(polls), blob)
 
@@ -158,7 +158,7 @@ class PollController:
         blob += "\n<header2>Choices</header2>\n"
         idx = 1
         for choice in self.get_choices(poll.id):
-            blob += "%d. %s (%d)\n" % (idx, self.text.make_chatcmd(choice.choice, "/tell <myname> poll %d vote %d" % (poll.id, choice.id)), choice.cnt)
+            blob += "%d. %s (%d)\n" % (idx, self.text.make_tellcmd(choice.choice, "poll %d vote %d" % (poll.id, choice.id)), choice.cnt)
             for vote in self.get_votes(choice.id):
                 blob += "<tab>%s\n" % self.text.format_char_info(vote)
             idx += 1

@@ -109,7 +109,7 @@ class AunoController:
 
         for i, item in enumerate(items):
             itemref = self.text.make_item(item.lowid, item.highid, item.highql, item.name)
-            comments_link = self.text.make_chatcmd("Comments", "/tell <myname> auno %s" % item.highid)
+            comments_link = self.text.make_tellcmd("Comments", "auno %s" % item.highid)
             auno_link_h = self.text.make_chatcmd("Auno", "/start %s" % self.get_auno_request_url(item.highid))
             blob += "%s. %s\n | [%s] [%s]" % (i+1, itemref, comments_link, auno_link_h)
             blob += "\n\n<pagebreak>"

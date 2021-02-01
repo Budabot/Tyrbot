@@ -19,7 +19,7 @@ class DynaController:
 
         blob = ""
         for row in data:
-            blob += "%s (%d - %d)\n" % (self.text.make_chatcmd(row.mob, "/tell <myname> dyna %s" % row.mob), row.minQl, row.maxQl)
+            blob += "%s (%d - %d)\n" % (self.text.make_tellcmd(row.mob, "dyna %s" % row.mob), row.minQl, row.maxQl)
 
         return ChatBlob("Dyna Mobs (%d)" % len(data), blob)
 

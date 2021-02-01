@@ -32,7 +32,7 @@ class WantsController:
 
             if alt_cnt:
                 for row in data:
-                    blob += "%s %s\n\n" % (row.want, self.text.make_chatcmd("Remove", "/tell <myname> wants remove %d" % row.id))
+                    blob += "%s %s\n\n" % (row.want, self.text.make_tellcmd("Remove", "wants remove %d" % row.id))
 
         return ChatBlob("Wants for %s (%d)" % (alts[0].name, cnt), blob)
 

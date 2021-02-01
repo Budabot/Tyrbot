@@ -37,7 +37,7 @@ class PocketbossController:
         else:
             blob = ""
             for row in data:
-                blob += self.text.make_chatcmd(row.name, "/tell <myname> pocketboss %s" % row.name) + "\n"
+                blob += self.text.make_tellcmd(row.name, "pocketboss %s" % row.name) + "\n"
 
             return ChatBlob("Pocketboss Search Results (%d)" % num, blob)
 

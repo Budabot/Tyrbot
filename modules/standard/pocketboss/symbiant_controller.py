@@ -26,7 +26,7 @@ class SymbiantController:
         blob = ""
         for row in data:
             blob += "%s (%d)\n" % (self.text.make_item(row.lowid, row.highid, row.highql, row.name), row.highql)
-            blob += "Found on %s\n\n" % self.text.make_chatcmd(row.pocketboss_name, "/tell <myname> pocketboss %s" % row.pocketboss_name)
+            blob += "Found on %s\n\n" % self.text.make_tellcmd(row.pocketboss_name, "pocketboss %s" % row.pocketboss_name)
 
         return ChatBlob("Symbiant Search Results (%d)" % len(data), blob)
 

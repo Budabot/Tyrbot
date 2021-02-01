@@ -18,7 +18,7 @@ class OfabArmorController:
 
         blob = ""
         for row in data:
-            blob += "<pagebreak>%s - Type %d\n" % (self.text.make_chatcmd(row.profession, "/tell <myname> ofabarmor %s" % row.profession), row.type)
+            blob += "<pagebreak>%s - Type %d\n" % (self.text.make_tellcmd(row.profession, "ofabarmor %s" % row.profession), row.type)
 
         return ChatBlob("Ofab Armor", blob)
 
@@ -39,13 +39,13 @@ class OfabArmorController:
         upgrade_type = self.db.query_single("SELECT type FROM ofab_armor_type WHERE profession = ?", [profession]).type
 
         type_ql = round(ql * 0.8)
-        type_link = self.text.make_chatcmd("Kyr'Ozch Bio-Material - Type %d" % upgrade_type, "/tell <myname> bioinfo %d %d" % (upgrade_type, type_ql))
+        type_link = self.text.make_tellcmd("Kyr'Ozch Bio-Material - Type %d" % upgrade_type, "bioinfo %d %d" % (upgrade_type, type_ql))
 
         blob = "Upgrade with %s (minimum QL %d)\n\n" % (type_link, type_ql)
 
         cost_data = self.db.query("SELECT DISTINCT ql FROM ofab_weapons_cost ORDER BY ql ASC")
         for row in cost_data:
-            blob += self.text.make_chatcmd(row.ql, "/tell <myname> ofabarmor %s %d" % (profession, row.ql)) + " "
+            blob += self.text.make_tellcmd(row.ql, "ofabarmor %s %d" % (profession, row.ql)) + " "
         blob += "\n\n"
 
         current_upgrade = ""

@@ -33,7 +33,7 @@ class NotesController:
             if alt_cnt:
                 blob += "\n<header2>%s</header2>\n" % alt.name
                 for row in data:
-                    blob += "%s %s\n\n" % (row.note, self.text.make_chatcmd("Remove", "/tell <myname> notes remove %d" % row.id))
+                    blob += "%s %s\n\n" % (row.note, self.text.make_tellcmd("Remove", "notes remove %d" % row.id))
 
         return ChatBlob("Notes for %s (%d)" % (alts[0].name, cnt), blob)
 

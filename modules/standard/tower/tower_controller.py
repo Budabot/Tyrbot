@@ -53,7 +53,7 @@ class TowerController:
 
         blob = ""
         for row in data:
-            blob += "%s <highlight>%s</highlight>\n" % (self.text.make_chatcmd(row.long_name, "/tell <myname> lc %s" % row.short_name), row.short_name)
+            blob += "%s <highlight>%s</highlight>\n" % (self.text.make_tellcmd(row.long_name, "lc %s" % row.short_name), row.short_name)
 
         return ChatBlob("Land Control Playfields", blob)
 

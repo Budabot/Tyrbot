@@ -21,7 +21,7 @@ class WhatBuffsController:
         data = self.db.query("SELECT name FROM skills ORDER BY name ASC")
         blob = ""
         for row in data:
-            blob += self.text.make_chatcmd(row.name, "/tell <myname> whatbuffs %s" % row.name) + "\n"
+            blob += self.text.make_tellcmd(row.name, "whatbuffs %s" % row.name) + "\n"
 
         blob += self.get_footer()
         return ChatBlob("Whatbuffs Skill List", blob)
@@ -57,16 +57,16 @@ class WhatBuffsController:
             blob = ""
             total_count = 0
             for row in data:
-                blob += "%s (%d)\n" % (self.text.make_chatcmd(row.item_type, "/tell <myname> whatbuffs %s %s" % (skill.name, row.item_type)), row.cnt)
+                blob += "%s (%d)\n" % (self.text.make_tellcmd(row.item_type, "whatbuffs %s %s" % (skill.name, row.item_type)), row.cnt)
                 total_count += row.cnt
-            blob += "\n%s (%d)\n" % (self.text.make_chatcmd("All", "/tell <myname> whatbuffs %s %s" % (skill.name, "All")), total_count)
+            blob += "\n%s (%d)\n" % (self.text.make_tellcmd("All", "whatbuffs %s %s" % (skill.name, "All")), total_count)
 
             blob += self.get_footer()
             return ChatBlob("Whatbuffs %s - Choose Type" % skill.name, blob)
         else:
             blob = "Choose a skill:\n\n"
             for skill in skills:
-                blob += self.text.make_chatcmd(skill.name, "/tell <myname> whatbuffs %s" % skill.name) + "\n"
+                blob += self.text.make_tellcmd(skill.name, "whatbuffs %s" % skill.name) + "\n"
 
             blob += self.get_footer()
             return ChatBlob("Whatbuffs - Choose Skill", blob)
@@ -94,7 +94,7 @@ class WhatBuffsController:
         else:
             blob = ""
             for skill in skills:
-                blob += self.text.make_chatcmd(skill.name, "/tell <myname> whatbuffs %s %s" % (skill.name, item_type)) + "\n"
+                blob += self.text.make_tellcmd(skill.name, "whatbuffs %s %s" % (skill.name, item_type)) + "\n"
 
             return ChatBlob("Whatbuffs - Choose Skill", blob)
 

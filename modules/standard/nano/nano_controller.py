@@ -49,7 +49,7 @@ class NanoController:
         for row in paged_data:
             if current_nanoline != row.nanoline_id:
                 if row.nanoline_name:
-                    blob += "\n<header2>%s</header2> - %s\n" % (row.profession, self.text.make_chatcmd(row.nanoline_name, "/tell <myname> nanolines %d" % row.nanoline_id))
+                    blob += "\n<header2>%s</header2> - %s\n" % (row.profession, self.text.make_tellcmd(row.nanoline_name, "nanolines %d" % row.nanoline_id))
                 else:
                     blob += "\n<header2>Unknown/General</header2>\n"
                 current_nanoline = row.nanoline_id
@@ -71,7 +71,7 @@ class NanoController:
 
         blob = ""
         for row in data:
-            blob += "%s (%d)\n" % (self.text.make_chatcmd(row.location, "/tell <myname> nanoloc %s" % row.location), row.cnt)
+            blob += "%s (%d)\n" % (self.text.make_tellcmd(row.location, "nanoloc %s" % row.location), row.cnt)
         blob += self.get_footer()
 
         return ChatBlob("Nano Locations", blob)
@@ -102,7 +102,7 @@ class NanoController:
 
         blob = ""
         for row in data:
-            blob += self.text.make_chatcmd(row.profession, "/tell <myname> nanolines %s" % row.profession) + "\n"
+            blob += self.text.make_tellcmd(row.profession, "nanolines %s" % row.profession) + "\n"
         blob += self.get_footer()
 
         return ChatBlob("Nanolines", blob)
@@ -138,7 +138,7 @@ class NanoController:
 
         blob = ""
         for row in data:
-            blob += self.text.make_chatcmd(row.name, "/tell <myname> nanolines %d" % row.id) + "\n"
+            blob += self.text.make_tellcmd(row.name, "nanolines %d" % row.id) + "\n"
         blob += self.get_footer()
 
         return ChatBlob("%s Nanolines" % profession, blob)

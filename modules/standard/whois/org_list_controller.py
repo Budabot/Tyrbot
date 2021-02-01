@@ -58,7 +58,7 @@ class OrgListController:
             else:
                 blob = ""
                 for org in orgs:
-                    blob += self.text.make_chatcmd("%s (%d)" % (org.org_name, org.org_id), "/tell <myname> orglist %d" % org.org_id) + "\n"
+                    blob += self.text.make_tellcmd("%s (%d)" % (org.org_name, org.org_id), "orglist %d" % org.org_id) + "\n"
                 return ChatBlob("Org List (%d)" % num_orgs, blob)
 
         self.start_orglist_lookup(request.reply, org_id)

@@ -321,8 +321,8 @@ class LootController:
 
             blob += "%d. %s x%d" % (i, loot_item.get_item_str(), loot_item.count)
 
-            add_to_loot = self.text.make_chatcmd("Join", "/tell <myname> loot add %d" % i)
-            remove_from_loot = self.text.make_chatcmd("Leave", "/tell <myname> loot rem")
+            add_to_loot = self.text.make_tellcmd("Join", "loot add %d" % i)
+            remove_from_loot = self.text.make_tellcmd("Leave", "loot rem")
             blob += " [%s] [%s]\n" % (add_to_loot, remove_from_loot)
 
             if len(bidders) > 0:

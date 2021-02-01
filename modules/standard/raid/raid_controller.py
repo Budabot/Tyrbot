@@ -79,7 +79,7 @@ class RaidController:
         blob += "Started At: <highlight>%s</highlight> (%s ago)\n" % (self.util.format_datetime(self.raid.started_at), self.util.time_to_readable(t - self.raid.started_at))
         blob += "Status: %s" % ("<green>Open</green>" if self.raid.is_open else "<red>Closed</red>")
         if self.raid.is_open:
-            blob += " (%s)" % self.text.make_chatcmd("Join", "/tell <myname> raid join")
+            blob += " (%s)" % self.text.make_tellcmd("Join", "raid join")
         blob += "\n\n"
 
         topic = self.topic_controller.get_topic()
@@ -240,7 +240,7 @@ class RaidController:
                 raider_names.clear()
 
             raider_name = self.character_service.resolve_char_to_name(raider.active_id)
-            akick_link = self.text.make_chatcmd("Active kick", "/tell <myname> raid kick %s inactive" % raider_name)
+            akick_link = self.text.make_tellcmd("Active kick", "raid kick %s inactive" % raider_name)
             warn_link = self.text.make_chatcmd("Warn", "/tell %s You missed active check, please give notice." % raider_name)
             blob += "<highlight>%s</highlight> [%s] [%s]\n" % (raider_name, akick_link, warn_link)
             raider_names.append(raider_name)
@@ -373,8 +373,8 @@ class RaidController:
                 alt_link_text = "Alt of %s" % main_info.name
             else:
                 alt_link_text = "Alts"
-            alt_link = self.text.make_chatcmd(alt_link_text, "/tell <myname> alts %s" % raider.raider_name)
-            account_link = self.text.make_chatcmd("Account", "/tell <myname> account %s" % raider.raider_name)
+            alt_link = self.text.make_tellcmd(alt_link_text, "alts %s" % raider.raider_name)
+            account_link = self.text.make_tellcmd("Account", "account %s" % raider.raider_name)
             blob += "%s - %d points earned [%s] [%s]\n" % (raider.raider_name, raider.accumulated_points, account_link, alt_link)
 
             if raider.left_raid:
@@ -398,7 +398,7 @@ class RaidController:
 
         blob = ""
         for raid in raids:
-            participant_link = self.text.make_chatcmd("Detail", "/tell <myname> raid history %d" % raid.raid_id)
+            participant_link = self.text.make_tellcmd("Detail", "raid history %d" % raid.raid_id)
             timestamp = self.util.format_datetime(raid.raid_start)
             leader_name = self.character_service.resolve_char_to_name(raid.started_by)
             blob += "[%d] [%s] <highlight>%s</highlight> started by <highlight>%s</highlight> [%s]\n" % (raid.raid_id, timestamp, raid.raid_name, leader_name, participant_link)

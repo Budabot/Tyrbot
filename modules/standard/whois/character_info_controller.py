@@ -65,7 +65,7 @@ class CharacterInfoController:
             char_info = self.pork_service.get_character_info(char.name, max_cache_age)
 
         if char_info and char_info.source != "chat_server":
-            blob = "Name: %s (%s)\n" % (self.get_full_name(char_info), self.text.make_chatcmd("History", "/tell <myname> history %s %s" % (char_info.name, char_info.dimension)))
+            blob = "Name: %s (%s)\n" % (self.get_full_name(char_info), self.text.make_tellcmd("History", "history %s %s" % (char_info.name, char_info.dimension)))
             blob += "Character Id: %d\n" % char_info.char_id
             blob += "Profession: %s\n" % char_info.profession
             blob += "Faction: %s\n" % self.text.get_formatted_faction(char_info.faction)

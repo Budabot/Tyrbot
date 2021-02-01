@@ -89,7 +89,7 @@ class RecipeController:
             blob += "\n\n"
 
         for row in paged_data:
-            blob += self.text.make_chatcmd(row.name, "/tell <myname> recipe %d" % row.id) + "\n"
+            blob += self.text.make_tellcmd(row.name, "recipe %d" % row.id) + "\n"
 
         return ChatBlob("Recipes Matching '%s' (%d - %d of %d)" % (search, offset + 1, min(offset + page_size, count), count), blob)
 

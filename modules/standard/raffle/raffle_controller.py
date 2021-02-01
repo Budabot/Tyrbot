@@ -104,8 +104,8 @@ class RaffleController:
         blob += "By: <highlight>%s</highlight>\n" % self.raffle.owner.name
         blob += "Time left: <highlight>%s</highlight>\n" % time_left_str
         blob += "Members (%d): <highlight>%s</highlight>\n\n" % (len(self.raffle.members), ", ".join(self.raffle.members))
-        blob += "Click %s to join the raffle!\n\n" % self.text.make_chatcmd("here", "/tell <myname> raffle join")
-        blob += "Click %s if you wish to leave the raffle." % self.text.make_chatcmd("here", "/tell <myname> raffle leave")
+        blob += "Click %s to join the raffle!\n\n" % self.text.make_tellcmd("here", "raffle join")
+        blob += "Click %s if you wish to leave the raffle." % self.text.make_tellcmd("here", "raffle leave")
 
         return ChatBlob("Raffle for %s! (ends in %s)" % (self.raffle.item, time_left_str), blob)
 

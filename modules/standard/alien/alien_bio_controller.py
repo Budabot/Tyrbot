@@ -89,7 +89,7 @@ class AlienBioController:
     def get_type_blob(self, bio_types):
         blob = ""
         for bio_type in bio_types:
-            blob += self.text.make_chatcmd(bio_type, "/tell <myname> bioinfo %s" % bio_type) + "\n"
+            blob += self.text.make_tellcmd(bio_type, "bioinfo %s" % bio_type) + "\n"
         return blob
 
     @command(command="bioinfo", params=[Any("bio_type"), Int("ql", is_optional=True)], access_level="all",
@@ -124,7 +124,7 @@ class AlienBioController:
         item = self.items_controller.find_by_name(name, ql)
         upgrades = ""
         for row in data:
-            upgrades += self.text.make_chatcmd(row.profession, "/tell <myname> ofabarmor %s" % row.profession) + "\n"
+            upgrades += self.text.make_tellcmd(row.profession, "ofabarmor %s" % row.profession) + "\n"
 
         return ChatBlob(self.getresp("module/alien", "bioinfo_unknown_type",
                                      {"type": bio_type, "ql": ql}),
@@ -139,7 +139,7 @@ class AlienBioController:
         blob = self.display_item(name, ql) + "\n\n"
         blob += "<highlight>Upgrades Ofab Weapons for:</highlight>\n"
         for row in data:
-            blob += self.text.make_chatcmd("Ofab %s Mk 1" % row.name, "/tell <myname> ofabweapons %s" % row.name) + "\n"
+            blob += self.text.make_tellcmd("Ofab %s Mk 1" % row.name, "ofabweapons %s" % row.name) + "\n"
 
         return ChatBlob("%s (QL %d)" % (name, ql), blob)
 

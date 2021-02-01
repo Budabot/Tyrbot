@@ -134,21 +134,21 @@ class PointsController:
             action_links = None
             if log_entry.audit == 0:
                 if "closed" in log_entry.reason:
-                    action_links = self.text.make_chatcmd("Open the account",
-                                                          "/tell <myname> account create %s" % char_name)
+                    action_links = self.text.make_tellcmd("Open the account",
+                                                          "account create %s" % char_name)
                 elif "re-enabled" in log_entry.reason:
-                    action_links = self.text.make_chatcmd("Close the account",
-                                                          "/tell <myname> account close %s" % char_name)
+                    action_links = self.text.make_tellcmd("Close the account",
+                                                          "account close %s" % char_name)
             else:
                 if log_entry.audit < 0:
                     reason = "Points from event (%d) has been retracted, %d points have been added." \
                              % (log_id, (-1*log_entry.audit))
-                    action_links = self.text.make_chatcmd("Retract", "/tell <myname> bank give %d %s %s"
+                    action_links = self.text.make_tellcmd("Retract", "bank give %d %s %s"
                                                           % ((-1*log_entry.audit), char_name, reason))
                 else:
                     reason = "Points from event (%d) has been retracted, %d points have been deducted." \
                              % (log_id, log_entry.audit)
-                    action_links = self.text.make_chatcmd("Retract", "/tell <myname> bank take %d %s %s"
+                    action_links = self.text.make_tellcmd("Retract", "bank take %d %s %s"
                                                           % (log_entry.audit, char_name, reason))
 
             blob += "Actions available: [%s]\n" % (action_links if action_links is not None else "No actions available")
@@ -236,7 +236,7 @@ class PointsController:
             blob = ""
 
             for preset in presets:
-                add_points_link = self.text.make_chatcmd("Add pts", "/tell <myname> raid addpts %s" % preset.name)
+                add_points_link = self.text.make_tellcmd("Add pts", "raid addpts %s" % preset.name)
                 blob += "<highlight>%s</highlight> worth <green>%d</green> points %s [id: %d]\n\n" \
                         % (preset.name, preset.points, add_points_link, preset.preset_id)
 
@@ -275,7 +275,7 @@ class PointsController:
         if not points:
             return "Could not find raid account for <highlight>%s</highlight>." % char.name
 
-        alts_link = self.text.make_chatcmd("Alts", "/tell <myname> alts %s" % main.name)
+        alts_link = self.text.make_tellcmd("Alts", "alts %s" % main.name)
         blob = ""
         blob += "Holder of account: %s [%s]\n" % (main.name, alts_link)
         blob += "Points: %d\n" % points.points
@@ -308,8 +308,8 @@ class PointsController:
                                self.character_service.resolve_char_to_name(entry.leader_id),
                                entry.reason)
 
-                log_entry_link = self.text.make_chatcmd("%d" % entry.log_id,
-                                                        "/tell <myname> account logentry %d" % entry.log_id)
+                log_entry_link = self.text.make_tellcmd("%d" % entry.log_id,
+                                                        "account logentry %d" % entry.log_id)
                 blob += " [%s]\n" % log_entry_link
 
         return ChatBlob("%s Account" % char.name, blob)

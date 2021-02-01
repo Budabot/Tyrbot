@@ -18,11 +18,11 @@ class PremadeImplantController:
     def premade_list_cmd(self, request):
         blob = "<header2>Professions</header2>\n"
         for row in self.db.query("SELECT Name FROM Profession WHERE ID IN (SELECT ProfessionID FROM premade_implant) ORDER BY Name ASC"):
-            blob += self.text.make_chatcmd(row.Name, "/tell <myname> premade %s" % row.Name) + "\n"
+            blob += self.text.make_tellcmd(row.Name, "premade %s" % row.Name) + "\n"
 
         blob += "\n<header2>Slots</header2>\n"
         for row in self.db.query("SELECT * FROM ImplantType ORDER BY ImplantTypeID ASC"):
-            blob += self.text.make_chatcmd(row.Name, "/tell <myname> premade %s" % row.ShortName) + "\n"
+            blob += self.text.make_tellcmd(row.Name, "premade %s" % row.ShortName) + "\n"
 
         blob += "\n<header2>Modifiers</header2>\n"
         sql = "SELECT LongName FROM Cluster WHERE ClusterID IN " \
@@ -30,7 +30,7 @@ class PremadeImplantController:
               "AND ClusterID != 0 " \
               "ORDER BY LongName ASC"
         for row in self.db.query(sql):
-            blob += self.text.make_chatcmd(row.LongName, "/tell <myname> premade %s" % row.LongName) + "\n"
+            blob += self.text.make_tellcmd(row.LongName, "premade %s" % row.LongName) + "\n"
 
         return ChatBlob("Premade Implant", blob)
 

@@ -39,7 +39,7 @@ class InfoController:
 
         blob = ""
         for topic in topics:
-            blob += self.text.make_chatcmd(topic, "/tell <myname> info " + topic) + "\n"
+            blob += self.text.make_tellcmd(topic, "info " + topic) + "\n"
 
         return ChatBlob("Info Topics (%d)" % len(topics), blob)
 

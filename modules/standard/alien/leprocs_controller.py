@@ -22,7 +22,7 @@ class LeProcsController:
 
         blob = ""
         for row in data:
-            blob += "<pagebreak>%s\n" % self.text.make_chatcmd(row.profession, "/tell <myname> leprocs %s" % row.profession)
+            blob += "<pagebreak>%s\n" % self.text.make_tellcmd(row.profession, "leprocs %s" % row.profession)
 
         blob += "\nProc info provided by Wolfbiter (RK1), Gatester (RK2), DrUrban"
 

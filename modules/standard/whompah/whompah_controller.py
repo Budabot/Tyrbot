@@ -21,7 +21,7 @@ class WhompahController:
 
         blob = ""
         for city in cities:
-            blob += "%s (%s)\n" % (self.text.get_formatted_faction(city.faction.lower(), city.city_name), self.text.make_chatcmd(city.short_name, "/tell <myname> whompah %s" % city.short_name))
+            blob += "%s (%s)\n" % (self.text.get_formatted_faction(city.faction.lower(), city.city_name), self.text.make_tellcmd(city.short_name, "whompah %s" % city.short_name))
 
         return ChatBlob("Whompah Cities", blob)
 

@@ -130,8 +130,8 @@ class DiscordController:
         servers = ""
         if self.client and self.client.guilds:
             for server in self.client.guilds:
-                invites = self.text.make_chatcmd(self.getresp("module/discord", "get_invite"),
-                                                 "/tell <myname> discord getinvite %s" % server.id)
+                invites = self.text.make_tellcmd(self.getresp("module/discord", "get_invite"),
+                                                 "discord getinvite %s" % server.id)
                 owner = server.owner.nick or re.sub(pattern=r"#\d+", repl="", string=str(server.owner))
                 servers += self.getresp("module/discord", "server", {"server_name": server.name,
                                                                      "invite": invites,
@@ -156,11 +156,11 @@ class DiscordController:
              description="Setup relaying of channels")
     def discord_relay_cmd(self, request, _):
         action = "disconnect" if self.is_connected() else "connect"
-        loglink = self.text.make_chatcmd(self.getresp("module/discord", action), "/tell <myname> discord %s" % action)
+        loglink = self.text.make_tellcmd(self.getresp("module/discord", action), "discord %s" % action)
         constatus = self.getresp("module/discord", "connected" if self.is_connected() else "disconnected")
         subs = ""
         for channel in self.get_text_channels():
-            select_link = self.text.make_chatcmd("select", "/tell <myname> config setting discord_channel_name set %s" % channel.name)
+            select_link = self.text.make_tellcmd("select", "config setting discord_channel_name set %s" % channel.name)
             selected = "(selected)" if self.setting_service.get("discord_channel_name").get_value() == channel.name else ""
             subs += self.getresp("module/discord", "relay", {"server_name": channel.guild.name,
                                                              "channel_name": channel.name,
@@ -385,7 +385,7 @@ class DiscordController:
         author = ctx.message.author
         discord_user = "%s#%s (%d)" % (author.name, author.discriminator, author.id)
         blob = self.getresp("module/discord", "confirm_instructions", {"discord_user": discord_user,
-                                                                       "confirm_link": self.text.make_chatcmd("Confirm", "/tell <myname> discord confirm %d" % author.id)})
+                                                                       "confirm_link": self.text.make_tellcmd("Confirm", "discord confirm %d" % author.id)})
         self.bot.send_private_message(char.char_id, ChatBlob("Discord Confirm Link", blob))
 
         reply(self.getresp("module/discord", "link_response", {"char": char.name}))

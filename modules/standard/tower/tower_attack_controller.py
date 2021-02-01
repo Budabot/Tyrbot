@@ -76,7 +76,7 @@ class TowerAttackController:
                 blob += "\n<pagebreak>"
                 current_battle_id = row.battle_id
                 blob += self.format_battle_info(row, t)
-                blob += self.text.make_chatcmd("More Info", "/tell <myname> attacks battle %d" % row.battle_id) + "\n"
+                blob += self.text.make_tellcmd("More Info", "attacks battle %d" % row.battle_id) + "\n"
                 blob += "<header2>Attackers:</header2>\n"
 
             blob += "<tab>" + self.format_attacker(row) + "\n"

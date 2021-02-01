@@ -136,9 +136,9 @@ class LootListsController:
         sql = "SELECT category FROM raid_loot WHERE raid = 'APF' GROUP BY category"
         raids = self.db.query(sql)
         for raid in raids:
-            add_loot = self.text.make_chatcmd("Add loot", "/tell <myname> loot addraid APF %s" % raid.category)
-            show_loot = self.text.make_chatcmd(
-                "Loot table", "/tell <myname> apf %s" % self.get_real_category_name(raid.category, True))
+            add_loot = self.text.make_tellcmd("Add loot", "loot addraid APF %s" % raid.category)
+            show_loot = self.text.make_tellcmd(
+                "Loot table", "apf %s" % self.get_real_category_name(raid.category, True))
 
             sql = "SELECT COUNT(*) AS count FROM raid_loot WHERE category = ?"
             count = self.db.query_single(sql, [raid.category]).count
@@ -158,8 +158,8 @@ class LootListsController:
         raids = self.db.query(sql)
 
         for raid in raids:
-            show_loot = self.text.make_chatcmd(
-                "Loot table", "/tell <myname> albtraum %s" % self.get_real_category_name(raid.category, True))
+            show_loot = self.text.make_tellcmd(
+                "Loot table", "albtraum %s" % self.get_real_category_name(raid.category, True))
 
             sql = "SELECT COUNT(*) AS count FROM raid_loot WHERE category = ?"
             count = self.db.query_single(sql, [raid.category]).count
@@ -205,8 +205,8 @@ class LootListsController:
         sql = "SELECT category FROM raid_loot WHERE raid = 'Pande' GROUP BY category"
         raids = self.db.query(sql)
         for raid in raids:
-            show_loot = self.text.make_chatcmd(
-                "Loot table", "/tell <myname> pande %s" % self.get_real_category_name(raid.category, True))
+            show_loot = self.text.make_tellcmd(
+                "Loot table", "pande %s" % self.get_real_category_name(raid.category, True))
 
             sql = "SELECT COUNT(*) AS count FROM raid_loot WHERE category = ?"
             count = self.db.query_single(sql, [raid.category]).count
@@ -235,7 +235,7 @@ class LootListsController:
         raids = self.db.query(sql)
 
         for raid in raids:
-            show_loot = self.text.make_chatcmd("Loot table", "/tell <myname> db %s"
+            show_loot = self.text.make_tellcmd("Loot table", "db %s"
                                                % self.get_real_category_name(raid.category, True))
 
             sql = "SELECT COUNT(*) AS count FROM raid_loot WHERE category = ?"
@@ -269,8 +269,8 @@ class LootListsController:
         raids = ["Mitaar", "Vortexx", "12Man"]
 
         for raid in raids:
-            show_loot = self.text.make_chatcmd(
-                "Loot table", "/tell <myname> xan %s" % self.get_real_category_name(raid, True))
+            show_loot = self.text.make_tellcmd(
+                "Loot table", "xan %s" % self.get_real_category_name(raid, True))
 
             sql = "SELECT COUNT(*) AS count FROM raid_loot WHERE raid = ?"
             count = self.db.query_single(sql, [raid]).count
@@ -299,8 +299,8 @@ class LootListsController:
         sql = "SELECT category FROM raid_loot WHERE raid = 'Pyramid of Home' GROUP BY category"
         raids = self.db.query(sql)
         for raid in raids:
-            show_loot = self.text.make_chatcmd(
-                "Loot table", "/tell <myname> poh %s" % self.get_real_category_name(raid.category, True))
+            show_loot = self.text.make_tellcmd(
+                "Loot table", "poh %s" % self.get_real_category_name(raid.category, True))
 
             sql = "SELECT COUNT(*) AS count FROM raid_loot WHERE category = ?"
             count = self.db.query_single(sql, [raid.category]).count
@@ -331,8 +331,8 @@ class LootListsController:
         sql = "SELECT category FROM raid_loot WHERE raid = 'Temple of Three Winds (HL)' GROUP BY category"
         raids = self.db.query(sql)
         for raid in raids:
-            show_loot = self.text.make_chatcmd(
-                "Loot table", "/tell <myname> totwh %s" % self.get_real_category_name(raid.category, True))
+            show_loot = self.text.make_tellcmd(
+                "Loot table", "totwh %s" % self.get_real_category_name(raid.category, True))
 
             sql = "SELECT COUNT(*) AS count FROM raid_loot WHERE category = ? and raid=?"
             count = self.db.query_single(sql, [raid.category, "Temple of Three Winds (HL)"]).count
@@ -361,8 +361,8 @@ class LootListsController:
         sql = "SELECT category FROM raid_loot WHERE raid = 'Condemned Subway (HL)' GROUP BY category"
         raids = self.db.query(sql)
         for raid in raids:
-            show_loot = self.text.make_chatcmd(
-                "Loot table", "/tell <myname> subh %s" % self.get_real_category_name(raid.category, True))
+            show_loot = self.text.make_tellcmd(
+                "Loot table", "subh %s" % self.get_real_category_name(raid.category, True))
 
             sql = "SELECT COUNT(*) AS count FROM raid_loot WHERE category = ? and raid=?"
             count = self.db.query_single(sql, [raid.category, "Condemned Subway (HL)"]).count
@@ -380,19 +380,19 @@ class LootListsController:
         blob = ""
 
         if add_all:
-            blob += "%s items to loot list\n\n" % self.text.make_chatcmd(
-                "Add all", "/tell <myname> loot addraid %s %s" % (raid, category))
+            blob += "%s items to loot list\n\n" % self.text.make_tellcmd(
+                "Add all", "loot addraid %s %s" % (raid, category))
 
         blob += "<header2>%s</header2>\n" % category if category is not None else ""
         for item in items:
 
             if item.multiloot > 1:
-                single_link = self.text.make_chatcmd("Add x1", "/tell <myname> loot addraiditem %s 1" % item.id)
-                multi_link = self.text.make_chatcmd(
-                    "Add x%d" % item.multiloot, "/tell <myname> loot addraiditem %s %d" % (item.id, item.multiloot))
+                single_link = self.text.make_tellcmd("Add x1", "loot addraiditem %s 1" % item.id)
+                multi_link = self.text.make_tellcmd(
+                    "Add x%d" % item.multiloot, "loot addraiditem %s %d" % (item.id, item.multiloot))
                 add_links = "[%s] [%s]" % (single_link, multi_link)
             else:
-                add_links = "[%s]" % self.text.make_chatcmd("Add x1", "/tell <myname> loot addraiditem %s 1" % item.id)
+                add_links = "[%s]" % self.text.make_tellcmd("Add x1", "loot addraiditem %s 1" % item.id)
 
             comment = " (%s)" % item.comment if item.comment != "" else ""
 

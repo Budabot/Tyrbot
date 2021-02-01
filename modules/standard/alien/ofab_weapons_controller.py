@@ -22,7 +22,7 @@ class OfabWeaponsController:
 
         blob = ""
         for row in data:
-            blob += "<pagebreak>%s - Type %d\n" % (self.text.make_chatcmd(row.name, "/tell <myname> ofabweapons %s" % row.name), row.type)
+            blob += "<pagebreak>%s - Type %d\n" % (self.text.make_tellcmd(row.name, "ofabweapons %s" % row.name), row.type)
 
         return ChatBlob("Ofab Weapons", blob)
 
@@ -38,13 +38,13 @@ class OfabWeaponsController:
             return "Could not find Ofab Weapon <highlight>%s</highlight> for QL <highlight>%d</highlight>." % (weapon_name, ql)
 
         type_ql = round(ql * 0.8)
-        type_link = self.text.make_chatcmd("Kyr'Ozch Bio-Material - Type %d" % weapon.type, "/tell <myname> bioinfo %d %d" % (weapon.type, type_ql))
+        type_link = self.text.make_tellcmd("Kyr'Ozch Bio-Material - Type %d" % weapon.type, "bioinfo %d %d" % (weapon.type, type_ql))
 
         blob = "Upgrade with %s (minimum QL %d)\n\n" % (type_link, type_ql)
 
         data = self.db.query("SELECT ql FROM ofab_weapons_cost ORDER BY ql ASC")
         for row in data:
-            blob += self.text.make_chatcmd(row.ql, "/tell <myname> ofabweapons %s %d" % (weapon_name, row.ql)) + " "
+            blob += self.text.make_tellcmd(row.ql, "ofabweapons %s %d" % (weapon_name, row.ql)) + " "
         blob += "\n\n"
 
         for i in range(1, 7):

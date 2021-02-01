@@ -98,7 +98,7 @@ class AOUController:
                         found = True
 
                     count += 1
-                    blob += "%s - %s\n" % (self.text.make_chatcmd(guide["name"], "/tell <myname> aou %s" % guide["id"]), guide["description"])
+                    blob += "%s - %s\n" % (self.text.make_tellcmd(guide["name"], "aou %s" % guide["id"]), guide["description"])
         blob += "\n\nPowered by %s" % self.text.make_chatcmd("AO-Universe.com", "/start https://www.ao-universe.com")
 
         if count == 0:
@@ -183,7 +183,7 @@ class AOUController:
         url = options.get("url") or value
         guide_id_match = self.guide_id_regex.search(url)
         if guide_id_match:
-            return self.text.make_chatcmd(value, "/tell <myname> aou " + guide_id_match.group(1))
+            return self.text.make_tellcmd(value, "aou " + guide_id_match.group(1))
         else:
             return self.text.make_chatcmd(value, "/start " + url)
 

@@ -185,7 +185,7 @@ class OnlineController:
             for row in online_list:
                 if current_main != row.main:
                     count += 1
-                    blob += "\n%s\n" % self.text.make_chatcmd(row.main, "/tell <myname> alts %s" % row.main)
+                    blob += "\n%s\n" % self.text.make_tellcmd(row.main, "alts %s" % row.main)
                     current_main = row.main
 
                 afk = ""

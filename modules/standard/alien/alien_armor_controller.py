@@ -30,18 +30,18 @@ class AlienArmorController:
              description="List the alien armor types")
     def aiarmor_list_command(self, request):
         blob = self.getresp("module/alien", "ai_armor", {
-            "strong": self.text.make_chatcmd("Strong Armor", "/tell <myname> aiarmor Strong"),
-            "supple": self.text.make_chatcmd("Supple Armor", "/tell <myname> aiarmor Supple"),
-            "enduring": self.text.make_chatcmd("Enduring Armor", "/tell <myname> aiarmor Enduring"),
-            "observant": self.text.make_chatcmd("Observant Armor", "/tell <myname> aiarmor Observant"),
-            "arithmetic": self.text.make_chatcmd("Arithmetic Armor", "/tell <myname> aiarmor Arithmetic"),
-            "spiritual": self.text.make_chatcmd("Spiritual Armor", "/tell <myname> aiarmor Spiritual"),
-            "cc": self.text.make_chatcmd("Combined Commando's Armor", "/tell <myname> aiarmor cc"),
-            "cm": self.text.make_chatcmd("Combined Mercenary's Armor", "/tell <myname> aiarmor cm"),
-            "co": self.text.make_chatcmd("Combined Officer's", "/tell <myname> aiarmor co"),
-            "cp": self.text.make_chatcmd("Combined Paramedic's Armor", "/tell <myname> aiarmor cp"),
-            "cs": self.text.make_chatcmd("Combined Scout's Armor", "/tell <myname> aiarmor cs"),
-            "css": self.text.make_chatcmd("Combined Sharpshooter's Armor", "/tell <myname> aiarmor css")
+            "strong": self.text.make_tellcmd("Strong Armor", "aiarmor Strong"),
+            "supple": self.text.make_tellcmd("Supple Armor", "aiarmor Supple"),
+            "enduring": self.text.make_tellcmd("Enduring Armor", "aiarmor Enduring"),
+            "observant": self.text.make_tellcmd("Observant Armor", "aiarmor Observant"),
+            "arithmetic": self.text.make_tellcmd("Arithmetic Armor", "aiarmor Arithmetic"),
+            "spiritual": self.text.make_tellcmd("Spiritual Armor", "aiarmor Spiritual"),
+            "cc": self.text.make_tellcmd("Combined Commando's Armor", "aiarmor cc"),
+            "cm": self.text.make_tellcmd("Combined Mercenary's Armor", "aiarmor cm"),
+            "co": self.text.make_tellcmd("Combined Officer's", "aiarmor co"),
+            "cp": self.text.make_tellcmd("Combined Paramedic's Armor", "aiarmor cp"),
+            "cs": self.text.make_tellcmd("Combined Scout's Armor", "aiarmor cs"),
+            "css": self.text.make_tellcmd("Combined Sharpshooter's Armor", "aiarmor css")
         })
 
         return ChatBlob(self.getresp("module/alien", "ai_armor_title"), blob)
@@ -168,11 +168,11 @@ class AlienArmorController:
             **self.text.generate_item(source, source_ql, "source"),
             "s_ql": source_ql,
             "t_ql": target_ql,
-            "ts_process_source": self.text.make_chatcmd(self.getresp("module/alien", "ai_armor_ts_process"),
-                                                        "/tell <myname> aiarmor %s %d" % (name_source, source_ql)),
+            "ts_process_source": self.text.make_tellcmd(self.getresp("module/alien", "ai_armor_ts_process"),
+                                                        "aiarmor %s %d" % (name_source, source_ql)),
             **self.text.generate_item(target, target_ql, "target"),
-            "ts_process_target": self.text.make_chatcmd(self.getresp("module/alien", "ai_armor_ts_process"),
-                                                        "/tell <myname> aiarmor %s %d" % (name_target, target_ql)),
+            "ts_process_target": self.text.make_tellcmd(self.getresp("module/alien", "ai_armor_ts_process"),
+                                                        "aiarmor %s %d" % (name_target, target_ql)),
             **self.text.generate_item(result, target_ql, "result")})
 
         return ChatBlob(
