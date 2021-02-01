@@ -34,6 +34,9 @@ class NanoController:
 
         blob = ""
 
+        if count == 1:
+            row = data[0]
+            return self.format_single_nano(row)
         if count > page_size:
             if page > 1 and len(paged_data) > 0:
                 blob += "   " + self.text.make_chatcmd("<< Page %d" % (page - 1), self.get_chat_command(search, page - 1))
@@ -55,6 +58,11 @@ class NanoController:
         blob += self.get_footer()
 
         return ChatBlob("Nano Search Results for '%s' (%d - %d of %d)" % (search, offset + 1, min(offset + page_size, count), count), blob)
+        
+    def format_single_nano(self, row):
+        msg =  " %s %s " % (self.text.make_item(row.lowid, row.lowid, row.lowql, row.name), row.location)
+        
+        return msg
 
     @command(command="nanoloc", params=[], access_level="all",
              description="Show all nano locations")
