@@ -90,6 +90,9 @@ class AuctionStrategy:
         del self.winning_bids[item_id]
 
     def add_bid(self, sender: SenderObj, bid_amount, item_index):
+        if len(self.items) > 1 and not item_index:
+            return "You must specify an item to bid on by it's item number in the auction list."
+
         item_index = item_index or 1
         item = self.items.get(item_index, None)
         if not item:
@@ -164,9 +167,7 @@ class AuctionStrategy:
     def spam_raid_message(self, message):
         self.raid_controller.send_message(message)
 
-    def get_auction_list(self):
-        # TODO handle formatting when auction has finished
-
+    def get_auction_list(self, include_instructions=False):
         blob = ""
 
         for i, item in self.items.items():
@@ -177,6 +178,15 @@ class AuctionStrategy:
                 blob += " | <highlight>%s</highlight> has the winning bid of <highlight>%d</highlight>\n\n" % (winning_bid.sender.name, winning_bid.current_amount)
             else:
                 blob += " | <green>No bidders</green>\n\n"
+
+        if include_instructions:
+            blob += "This bot uses a modified Vickrey system. It is a silent auction and winning bids are not announced until the end. " \
+                    "The highest bidder pays the amount of the second highest bidder plus 1. " \
+                    "If there is a tie for the highest bidder, the person who bid first wins and pays the full bid amount. If there is only one bidder " \
+                    "the winner pays 1. You should bid the maximum amount of points that you want to pay for an item. If you win, you will never pay more " \
+                    "than your maximum bid and oftentimes you will pay less. If you lose, you pay nothing.\n\n"
+            blob += "To bid, use: !auction bid <highlight>&gtamount&lt; &gtitem_number&lt;</highlight>\n\n"
+            blob += "You can bid all of your points with: !auction bid all <highlight>&gtitem_number&lt;</highlight>"
 
         return ChatBlob("Auction list (%d)" % len(self.items), blob)
 
@@ -200,14 +210,8 @@ class AuctionStrategy:
         else:
             item_index = list(self.items.keys())[0]
             item = self.items[item_index]
-            winning_bid = self.winning_bids.get(item_index, None)
 
-            if winning_bid:
-                winner = "<highlight>%s</highlight> now holds the leading bid with a bid of <highlight>%d</highlight>." % (winning_bid.sender.name, winning_bid.current_amount)
-            else:
-                winner = "No bids made."
-
-            msg = "Auction for %s running. %s <highlight>%d</highlight> seconds left of auction." % (item, winner, time_left)
+            msg = "Auction for %s running. <highlight>%d</highlight> seconds left of auction." % (item, time_left)
 
         self.spam_raid_message(msg)
         self.spam_raid_message(self.get_auction_list())

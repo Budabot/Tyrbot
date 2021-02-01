@@ -24,9 +24,35 @@ class AuctionController:
         if not self.is_auction_running():
             return "No auction running."
 
-        return self.auction.get_auction_list()
+        return self.auction.get_auction_list(include_instructions=True)
 
-    @command(command="auction", params=[Const("start"), Any("items")], description="Start an auction, with one or more items",
+    @command(command="auction", params=[Options(["cancel", "end"])], description="Cancel ongoing auction",
+             access_level="moderator", sub_command="modify")
+    def auction_cancel_cmd(self, request, _):
+        if not self.is_auction_running():
+            return "No auction running."
+
+        result = self.auction.cancel(request.sender)
+        self.auction = None
+        return result
+
+    @command(command="auction", params=[Const("bid"), Int("amount"), Int("item_index", is_optional=True)],
+             description="Bid on an item", access_level="member")
+    def auction_bid_cmd(self, request, _, amount, item_index):
+        if not self.is_auction_running():
+            return "No auction running."
+
+        return self.auction.add_bid(request.sender, amount, item_index)
+
+    @command(command="auction", params=[Const("bid"), Const("all"), Int("item_index", is_optional=True)],
+             description="Bid on an item", access_level="member")
+    def auction_bid_all_cmd(self, request, _1, _2, item_index):
+        if not self.is_auction_running():
+            return "No auction running."
+
+        return self.auction.add_bid(request.sender, "all", item_index)
+
+    @command(command="auction", params=[Const("start", is_optional=True), Any("items")], description="Start an auction, with one or more items",
              access_level="moderator", sub_command="modify")
     def auction_start_cmd(self, request, _, items):
         if self.is_auction_running():
@@ -42,27 +68,6 @@ class AuctionController:
         announce_interval = self.setting_service.get("auction_announce_interval").get_value()
 
         return self.auction.start(request.sender, auction_length, announce_interval)
-
-    @command(command="auction", params=[Options(["cancel", "end"])], description="Cancel ongoing auction",
-             access_level="moderator", sub_command="modify")
-    def auction_cancel_cmd(self, request, _):
-        if not self.is_auction_running():
-            return "No auction running."
-
-        result = self.auction.cancel(request.sender)
-        self.auction = None
-        return result
-
-    @command(command="auction", params=[Const("bid"),
-                                        Int("amount", is_optional=True),
-                                        Const("all", is_optional=True),
-                                        Int("item_index", is_optional=True)],
-             description="Bid on an item", access_level="member")
-    def auction_bid_cmd(self, request, _, amount, all_amount, item_index):
-        if not self.is_auction_running():
-            return "No auction running."
-
-        return self.auction.add_bid(request.sender, all_amount or amount, item_index)
 
     def is_auction_running(self):
         return self.auction and self.auction.is_running
