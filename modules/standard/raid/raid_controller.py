@@ -282,7 +282,7 @@ class RaidController:
 
     @command(command="raid", params=[Options(["kick", "remove", "rem"]), Character("char"), Any("reason")],
              description="Set raider as kicked with a reason", access_level="moderator", sub_command="manage")
-    def raid_kick_cmd(self, _1, _2, char: SenderObj, reason: str):
+    def raid_kick_cmd(self, request, _, char: SenderObj, reason: str):
         if self.raid is None:
             return self.NO_RAID_RUNNING_RESPONSE
 
@@ -346,16 +346,14 @@ class RaidController:
 
         return "Raid saved and ended."
 
-    @command(command="raid", params=[Const("logentry"), Int("raid_id"), Character("char", is_optional=True)],
-             description="Show log entry for raid, with possibility of narrowing down the log for character in raid",
+    @command(command="raid", params=[Const("history"), Int("raid_id")],
+             description="Show log entry for raid",
              access_level="moderator", sub_command="manage")
-    def raid_log_entry_cmd(self, _1, _2, raid_id: int, char: SenderObj):
-        log_entry_spec = None
-        if char:
-            sql = "SELECT * FROM raid_log r LEFT JOIN raid_log_participants p ON r.raid_id = p.raid_id WHERE r.raid_id = ? AND p.raider_id = ?"
-            log_entry_spec = self.db.query_single(sql, [raid_id, char.char_id])
-
-        sql = "SELECT * FROM raid_log r LEFT JOIN raid_log_participants p ON r.raid_id = p.raid_id WHERE r.raid_id = ? ORDER BY p.accumulated_points DESC"
+    def raid_history_detail_cmd(self, request, _, raid_id: int):
+        sql = "SELECT r.*, p.*, p2.name AS raider_name FROM raid_log r " \
+              "LEFT JOIN raid_log_participants p ON r.raid_id = p.raid_id " \
+              "LEFT JOIN player p2 ON p.raider_id = p2.char_id " \
+              "WHERE r.raid_id = ? ORDER BY p.accumulated_points DESC"
         log_entry = self.db.query(sql, [raid_id])
         pts_sum = self.db.query_single("SELECT SUM(p.accumulated_points) AS sum FROM raid_log_participants p WHERE p.raid_id = ?", [raid_id]).sum
 
@@ -369,53 +367,44 @@ class RaidController:
         blob += "Run time: <highlight>%s</highlight>\n" % self.util.time_to_readable(log_entry[0].raid_end - log_entry[0].raid_start)
         blob += "Total points: <highlight>%d</highlight>\n\n" % pts_sum
 
-        if char and log_entry_spec:
-            raider_name = self.character_service.resolve_char_to_name(log_entry_spec.raider_id)
-            main_info = self.alts_service.get_main(log_entry_spec.raider_id)
-            alt_link = "Alt of %s" % main_info.name if main_info.char_id != log_entry_spec.raider_id else "Alts"
-            alt_link = self.text.make_chatcmd(alt_link, "/tell <myname> alts %s" % main_info.name)
-            blob += "<header2>Log entry for %s</header2>\n" % raider_name
-            blob += "Raider: <highlight>%s</highlight> [%s]\n" % (raider_name, alt_link)
-            blob += "Left raid: %s\n" % ("n/a"
-                                         if log_entry_spec.left_raid is None
-                                         else self.util.format_datetime(log_entry_spec.left_raid))
-            blob += "Was kicked: %s\n" % ("No"
-                                          if log_entry_spec.was_kicked is None
-                                          else "Yes [%s]" % (self.util.format_datetime(log_entry_spec.was_kicked)))
-            blob += "Kick reason: %s\n\n" % ("n/a"
-                                             if log_entry_spec.was_kicked_reason is None
-                                             else log_entry_spec.was_kicked_reason)
-
         blob += "<header2>Participants</header2>\n"
         for raider in log_entry:
-            raider_name = self.character_service.resolve_char_to_name(raider.raider_id)
             main_info = self.alts_service.get_main(raider.raider_id)
-            alt_link = "Alt of %s" % main_info.name if main_info.char_id != raider.raider_id else "Alts"
-            alt_link = self.text.make_chatcmd(alt_link, "/tell <myname> alts %s" % main_info.name)
-            log_link = self.text.make_chatcmd("Log", "/tell <myname> raid logentry %d %s" % (raid_id, raider_name))
-            account_link = self.text.make_chatcmd("Account", "/tell <myname> account %s" % raider_name)
-            blob += "%s - %d points earned [%s] [%s] [%s]\n" % (raider_name, raider.accumulated_points, log_link, account_link, alt_link)
+            if main_info.char_id != raider.raider_id:
+                alt_link_text = "Alt of %s" % main_info.name
+            else:
+                alt_link_text = "Alts"
+            alt_link = self.text.make_chatcmd(alt_link_text, "/tell <myname> alts %s" % raider.raider_name)
+            account_link = self.text.make_chatcmd("Account", "/tell <myname> account %s" % raider.raider_name)
+            blob += "%s - %d points earned [%s] [%s]\n" % (raider.raider_name, raider.accumulated_points, account_link, alt_link)
 
-        log_entry_reference = "the raid %s" % log_entry[0].raid_name \
-            if char is None \
-            else "%s in raid %s" \
-                 % (self.character_service.resolve_char_to_name(char.char_id), log_entry[0].raid_name)
-        return ChatBlob("Log entry for %s" % log_entry_reference, blob)
+            if raider.left_raid:
+                blob += "Left raid: %s\n" % self.util.format_datetime(raider.left_raid)
+
+            if raider.was_kicked:
+                blob += "Was kicked: Yes [%s]\n" % self.util.format_datetime(raider.was_kicked)
+
+            if raider.was_kicked_reason:
+                blob += "Kick reason: %s\n" % raider.was_kicked_reason
+
+            blob += "\n"
+
+        return ChatBlob("Raid: %s" % log_entry[0].raid_name, blob)
 
     @command(command="raid", params=[Const("history")], description="Show a list of recent raids",
              access_level="member")
-    def raid_history_cmd(self, _1, _2):
+    def raid_history_cmd(self, request, _):
         sql = "SELECT * FROM raid_log ORDER BY raid_end DESC LIMIT 30"
         raids = self.db.query(sql)
 
         blob = ""
         for raid in raids:
-            participant_link = self.text.make_chatcmd("Log", "/tell <myname> raid logentry %d" % raid.raid_id)
+            participant_link = self.text.make_chatcmd("Detail", "/tell <myname> raid history %d" % raid.raid_id)
             timestamp = self.util.format_datetime(raid.raid_start)
             leader_name = self.character_service.resolve_char_to_name(raid.started_by)
             blob += "[%d] [%s] <highlight>%s</highlight> started by <highlight>%s</highlight> [%s]\n" % (raid.raid_id, timestamp, raid.raid_name, leader_name, participant_link)
 
-        return ChatBlob("Raid history", blob)
+        return ChatBlob("Raid History (%d)" % len(raids), blob)
 
     def is_in_raid(self, main_id: int):
         if self.raid is None:
