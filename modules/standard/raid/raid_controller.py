@@ -40,7 +40,6 @@ class Raid:
         self.started_by = started_by
         self.raiders = raiders or []
         self.is_open = True
-        self.raid_orders = None
 
 
 @instance()
@@ -62,6 +61,7 @@ class RaidController:
         self.util: Util = registry.get_instance("util")
         self.message_hub_service = registry.get_instance("message_hub_service")
         self.leader_controller = registry.get_instance("leader_controller")
+        self.topic_controller = registry.get_instance("topic_controller")
 
     def pre_start(self):
         self.message_hub_service.register_message_source(self.MESSAGE_SOURCE)
@@ -82,9 +82,13 @@ class RaidController:
         if self.raid.is_open:
             blob += " (%s)" % self.text.make_chatcmd("Join", "/tell <myname> raid join")
         blob += "\n\n"
-        if self.raid.raid_orders:
+
+        topic = self.topic_controller.get_topic()
+        if topic:
+            time_str = self.util.time_to_readable(int(time.time()) - topic["created_at"])
             blob += "<header2>Orders</header2>\n"
-            blob += self.raid.raid_orders + "\n\n"
+            blob += "%s\n- <highlight>%s</highlight> %s ago\n\n" % (topic["topic_message"], topic["created_by"]["name"], time_str)
+
         blob += "<header2>Raiders</header2>\n"
         for raider in self.raid.raiders:
             if raider.is_active:
@@ -117,16 +121,15 @@ class RaidController:
 
         self.send_message(msg)
 
-    @command(command="raid", params=[Options(["end", "cancel"])], description="End raid without saving/logging.",
+    @command(command="raid", params=[Const("cancel")], description="Cancel the raid without saving/logging",
              access_level="moderator", sub_command="manage")
     def raid_cancel_cmd(self, request, _):
         if self.raid is None:
             return self.NO_RAID_RUNNING_RESPONSE
 
-        raid_name = self.raid.raid_name
+        self.send_message("<highlight>%s</highlight> canceled the <highlight>%s</highlight> raid prematurely." % (request.sender.name, self.raid.raid_name))
         self.raid = None
-
-        self.send_message("<highlight>%s</highlight> canceled the <highlight>%s</highlight> raid prematurely." % (request.sender.name, raid_name))
+        self.topic_controller.clear_topic()
 
     @command(command="raid", params=[Const("join")], description="Join the ongoing raid", access_level="member")
     def raid_join_cmd(self, request, _):
@@ -299,44 +302,49 @@ class RaidController:
         else:
             return "<highlight>%s</highlight> is not participating." % char.name
 
-    @command(command="raid", params=[Options(["open", "close"])], description="Open/close raid for new participants",
+    @command(command="raid", params=[Const("open")], description="Open raid for new participants",
              access_level="moderator", sub_command="manage")
-    def raid_open_close_cmd(self, request, action):
+    def raid_open_cmd(self, request, action):
         if not self.raid:
             return self.NO_RAID_RUNNING_RESPONSE
 
-        if action == "open":
-            if self.raid.is_open:
-                return "Raid is already open."
+        if self.raid.is_open:
+            return "Raid is already open."
+        else:
             self.raid.is_open = True
             self.send_message("Raid has been opened by %s." % request.sender.name)
-            return
-        elif action == "close":
-            if self.raid.is_open:
-                self.raid.is_open = False
-                self.send_message("Raid has been closed by %s." % request.sender.name)
-                return
+
+    @command(command="raid", params=[Const("close")], description="Close raid for new participants",
+             access_level="moderator", sub_command="manage")
+    def raid_close_cmd(self, request, action):
+        if not self.raid:
+            return self.NO_RAID_RUNNING_RESPONSE
+
+        if self.raid.is_open:
+            self.raid.is_open = False
+            self.send_message("Raid has been closed by %s." % request.sender.name)
+        else:
             return "Raid is already closed."
 
-    @command(command="raid", params=[Const("save")], description="Save and log running raid", access_level="moderator", sub_command="manage")
-    def raid_save_cmd(self, _1, _2):
+    @command(command="raid", params=[Options(["end", "save"])], description="End raid, and log results",
+             access_level="moderator", sub_command="manage")
+    def raid_save_cmd(self, request, _):
         if not self.raid:
             return self.NO_RAID_RUNNING_RESPONSE
 
         sql = "INSERT INTO raid_log (raid_name, started_by, raid_start, raid_end) VALUES (?,?,?,?)"
-        num_rows = self.db.exec(sql, [self.raid.raid_name, self.raid.started_by.char_id, self.raid.started_at, int(time.time())])
-        if num_rows > 0:
-            raid_id = self.db.query_single("SELECT raid_id FROM raid_log ORDER BY raid_id DESC LIMIT 1").raid_id
+        self.db.exec(sql, [self.raid.raid_name, self.raid.started_by.char_id, self.raid.started_at, int(time.time())])
 
-            for raider in self.raid.raiders:
-                sql = "INSERT INTO raid_log_participants (raid_id, raider_id, accumulated_points, left_raid, was_kicked, was_kicked_reason) VALUES (?,?,?,?,?,?)"
-                self.db.exec(sql, [raid_id, raider.active_id, raider.accumulated_points, raider.left_raid, raider.was_kicked, raider.was_kicked_reason])
+        raid_id = self.db.query_single("SELECT raid_id FROM raid_log ORDER BY raid_id DESC LIMIT 1").raid_id
 
-            self.raid = None
+        for raider in self.raid.raiders:
+            sql = "INSERT INTO raid_log_participants (raid_id, raider_id, accumulated_points, left_raid, was_kicked, was_kicked_reason) VALUES (?,?,?,?,?,?)"
+            self.db.exec(sql, [raid_id, raider.active_id, raider.accumulated_points, raider.left_raid, raider.was_kicked, raider.was_kicked_reason])
 
-            return "Raid saved."
-        else:
-            return "Failed to log raid. Try again or cancel raid to end raid."
+        self.raid = None
+        self.topic_controller.clear_topic()
+
+        return "Raid saved and ended."
 
     @command(command="raid", params=[Const("logentry"), Int("raid_id"), Character("char", is_optional=True)],
              description="Show log entry for raid, with possibility of narrowing down the log for character in raid",
