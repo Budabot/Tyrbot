@@ -95,11 +95,11 @@ class ConfigCommandController:
 
                 # show status config
                 blob += "Status:"
-                enable_link = self.text.make_chatcmd(self.getresp("module/config", "enable"),
-                                                     "/tell <myname> config cmd %s enable %s"
+                enable_link = self.text.make_tellcmd(self.getresp("module/config", "enable"),
+                                                     "config cmd %s enable %s"
                                                      % (cmd_name, command_channel))
-                disable_link = self.text.make_chatcmd(self.getresp("module/config", "disable"),
-                                                      "/tell <myname> config cmd %s disable %s"
+                disable_link = self.text.make_tellcmd(self.getresp("module/config", "disable"),
+                                                      "config cmd %s disable %s"
                                                       % (cmd_name, command_channel))
 
                 blob += "  " + enable_link + "  " + disable_link
@@ -112,7 +112,7 @@ class ConfigCommandController:
                         continue
 
                     label = access_level["label"]
-                    link = self.text.make_chatcmd(label.capitalize(), "/tell <myname> config cmd %s access_level %s %s" % (cmd_name, command_channel, label))
+                    link = self.text.make_tellcmd(label.capitalize(), "config cmd %s access_level %s %s" % (cmd_name, command_channel, label))
                     blob += "  " + link
                 blob += "\n\n\n"
 

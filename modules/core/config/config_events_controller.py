@@ -88,8 +88,8 @@ class ConfigEventsController:
 
             event_type_key = self.format_event_type(row)
 
-            on_link = self.text.make_chatcmd("On", "/tell <myname> config event %s %s enable" % (event_type_key, row.handler))
-            off_link = self.text.make_chatcmd("Off", "/tell <myname> config event %s %s disable" % (event_type_key, row.handler))
+            on_link = self.text.make_tellcmd("On", "config event %s %s enable" % (event_type_key, row.handler))
+            off_link = self.text.make_tellcmd("Off", "config event %s %s disable" % (event_type_key, row.handler))
 
             if row.is_hidden == 1:
                 blob += "*"

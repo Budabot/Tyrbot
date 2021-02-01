@@ -23,7 +23,7 @@ class MessageHubController:
         blob = self.getresp("messagehub_info") + "\n"
         subscriptions = self.message_hub_service.hub
         for destination, obj in subscriptions.items():
-            edit_subs_link = self.text.make_chatcmd(destination, "/tell <myname> messagehub edit %s" % destination)
+            edit_subs_link = self.text.make_tellcmd(destination, "messagehub edit %s" % destination)
             blob += "\n%s\n" % edit_subs_link
             for source in obj.sources:
                 blob +=  " └ %s\n" % source
@@ -43,8 +43,8 @@ class MessageHubController:
             if source in obj.invalid_sources:
                 continue
 
-            sub_link = self.text.make_chatcmd("Subscribe", "/tell <myname> messagehub subscribe %s %s" % (destination, source))
-            unsub_link = self.text.make_chatcmd("Unsubscribe", "/tell <myname> messagehub unsubscribe %s %s" % (destination, source))
+            sub_link = self.text.make_tellcmd("Subscribe", "messagehub subscribe %s %s" % (destination, source))
+            unsub_link = self.text.make_tellcmd("Unsubscribe", "messagehub unsubscribe %s %s" % (destination, source))
             status = ""
             if source in obj.sources:
                 count += 1

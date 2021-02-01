@@ -46,7 +46,7 @@ class CommandListController:
                     blob += self.display_row_data(temp_rows)
                     temp_rows = []
                 count += 1
-                blob += "%s - " % (self.text.make_chatcmd(command_key, "/tell <myname> config cmd " + command_key))
+                blob += "%s - " % (self.text.make_tellcmd(command_key, "config cmd " + command_key))
                 current_command_key = command_key
 
             temp_rows.append(row)

@@ -57,7 +57,7 @@ class ConfigController:
                 current_group = group
                 blob += "\n<header2>" + current_group + "</header2>\n"
 
-            blob += self.text.make_chatcmd(module, "/tell <myname> config mod " + row.module) + " "
+            blob += self.text.make_tellcmd(module, "config mod " + row.module) + " "
             if row.count_enabled > 0 and row.count_disabled > 0:
                 blob +=self.getresp("module/config", "partial")
             else:
@@ -78,14 +78,14 @@ class ConfigController:
             blob += self.getresp("module/config", "settings")
             for row in data:
                 setting = self.setting_service.get(row.name)
-                blob += "%s: %s (%s)\n" % (setting.get_description(), setting.get_display_value(), self.text.make_chatcmd("change", "/tell <myname> config setting " + row.name))
+                blob += "%s: %s (%s)\n" % (setting.get_description(), setting.get_display_value(), self.text.make_tellcmd("change", "config setting " + row.name))
 
         data = self.db.query("SELECT DISTINCT command, sub_command FROM command_config WHERE module = ? ORDER BY command ASC", [module])
         if data:
             blob += self.getresp("module/config", "commands")
             for row in data:
                 command_key = self.command_service.get_command_key(row.command, row.sub_command)
-                blob += self.text.make_chatcmd(command_key, "/tell <myname> config cmd " + command_key) + "\n"
+                blob += self.text.make_tellcmd(command_key, "config cmd " + command_key) + "\n"
 
         blob += self.format_events(self.get_events(module, False), self.getresp("module/config", "events"))
 
@@ -94,7 +94,7 @@ class ConfigController:
 
         if blob:
             if not named_params.include_hidden_events:
-                blob += "\n" + self.text.make_chatcmd(self.getresp("module/config", "include_hidden_events"), f"/tell <myname> config mod {module} --include_hidden_events")
+                blob += "\n" + self.text.make_tellcmd(self.getresp("module/config", "include_hidden_events"), f"config mod {module} --include_hidden_events")
 
             return ChatBlob(self.getresp("module/config", "mod_title", {"mod": module}), blob)
         else:
@@ -116,7 +116,9 @@ class ConfigController:
                     blob += "\n<pagebreak><header2>%s</header2>\n" % row.module
 
                 setting = self.setting_service.get(row.name)
-                blob += "%s: %s (%s)\n" % (setting.get_description(), setting.get_display_value(), self.text.make_chatcmd("change", "/tell <myname> config setting " + row.name))
+                blob += "%s: %s (%s)\n" % (setting.get_description(),
+                                           setting.get_display_value(),
+                                           self.text.make_tellcmd("change", "config setting " + row.name))
 
         return ChatBlob(self.getresp("module/config", "settinglist_title", {"count": count}), blob)
 
@@ -174,9 +176,9 @@ class ConfigController:
                 event_type_key = self.event_service.get_event_type_key(row.event_type, row.event_sub_type)
                 enabled = self.getresp("module/config", "enabled_high" if row.enabled == 1 else "disabled_high")
                 blob += "%s - %s [%s]" % (self.config_events_controller.format_event_type(row), row.description, enabled)
-                blob += " " + self.text.make_chatcmd("On", "/tell <myname> config event %s %s enable" % (event_type_key, row.handler))
-                blob += " " + self.text.make_chatcmd("Off", "/tell <myname> config event %s %s disable" % (event_type_key, row.handler))
+                blob += " " + self.text.make_tellcmd("On", "config event %s %s enable" % (event_type_key, row.handler))
+                blob += " " + self.text.make_tellcmd("Off", "config event %s %s disable" % (event_type_key, row.handler))
                 if row.event_type == "timer":
-                    blob += " " + self.text.make_chatcmd("Run Now", "/tell <myname> config event %s %s run" % (event_type_key, row.handler))
+                    blob += " " + self.text.make_tellcmd("Run Now", "config event %s %s run" % (event_type_key, row.handler))
                 blob += "\n"
         return blob
