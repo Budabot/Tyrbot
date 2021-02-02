@@ -77,8 +77,10 @@ try:
 
     # set feature flags
     if "features" in config:
-        for key, value in config.features.items():
-            setattr(FeatureFlags, key.upper(), value)
+        for k, v in config.features.items():
+            k = k.upper()
+            logger.info("Feature %s: %s" % (k, v))
+            setattr(FeatureFlags, k, v)
 
     if platform.system() == "Windows":
         os.system("title %s.%d" % (config.character, config.server.dimension))
