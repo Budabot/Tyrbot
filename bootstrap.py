@@ -13,19 +13,24 @@ import sys
 
 
 def get_config_from_env():
-    config = DictObject()
+    config_obj = DictObject()
     for k, v in os.environ.items():
         if k.startswith("TYRBOT_"):
             keys = k[7:].lower().split("_")
-            temp_config = config
+            temp_config = config_obj
             for key in keys[:-1]:
+                key = key.replace("-", "_")
                 # create key if it doesn't already exist
                 if key not in temp_config:
                     temp_config[key] = DictObject()
                 temp_config = temp_config.get(key)
             logger.debug("overriding config value from env var '%s'" % k)
-            temp_config[keys[-1]] = v
-    return config
+            if v.lower() == "true":
+                v = True
+            elif v.lower() == "false":
+                v = False
+            temp_config[keys[-1].replace("-", "_")] = v
+    return config_obj
 
 
 try:
