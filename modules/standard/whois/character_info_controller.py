@@ -38,8 +38,8 @@ class CharacterInfoController:
         self.command_alias_service.add_alias("lookup", "whois")
         self.command_alias_service.add_alias("is", "whois")
 
-    @command(command="whois", params=[Character("character"), Int("dimension", is_optional=True), Const("forceupdate", is_optional=True)], access_level="member",
-             description="Get whois information for a character")
+    @command(command="whois", params=[Character("character"), Int("server_num", is_optional=True), Const("forceupdate", is_optional=True)], access_level="member",
+             description="Get whois information for a character", extended_description="Use server_num 6 for RK2019 and server_num 5 for live")
     def whois_cmd(self, request, char, dimension, force_update):
         dimension = dimension or self.bot.dimension
 

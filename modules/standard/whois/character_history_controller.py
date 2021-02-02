@@ -18,7 +18,7 @@ class CharacterHistoryController:
         self.command_alias_service.add_alias("h", "history")
 
     @command(command="history", params=[Character("character"), Int("server_num", is_optional=True)], access_level="all",
-             description="Get history of character")
+             description="Get history of character", extended_description="Use server_num 6 for RK2019 and server_num 5 for live")
     def handle_history_cmd1(self, request, char, server_num):
         server_num = server_num or self.bot.dimension
 
