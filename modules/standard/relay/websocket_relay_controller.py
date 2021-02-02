@@ -4,7 +4,7 @@ import base64
 import time
 
 from core.chat_xml_converter import ChatXmlConverter
-from core.decorators import instance, timerevent, setting, event
+from core.decorators import instance, timerevent, event
 from core.logger import Logger
 from core.dict_object import DictObject
 from core.setting_types import ColorSettingType, TextSettingType, HiddenSettingType, BooleanSettingType
@@ -233,7 +233,8 @@ class WebsocketRelayController:
             self.send_relay_message(obj)
 
             try:
-                self.chat_xml_converter.convert_to_xml([message])
+                # self.chat_xml_converter.convert_to_xml([message])
+                pass
             except Exception as e:
                 self.logger.error(f"error for message '{message}'", e)
 
