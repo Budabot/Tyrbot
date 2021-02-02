@@ -3,7 +3,6 @@ import threading
 import base64
 import time
 
-from core.chat_xml_converter import ChatXmlConverter
 from core.decorators import instance, timerevent, event
 from core.logger import Logger
 from core.dict_object import DictObject
@@ -41,7 +40,6 @@ class WebsocketRelayController:
         self.online_controller = registry.get_instance("online_controller")
         self.public_channel_service = registry.get_instance("public_channel_service")
         self.message_hub_service = registry.get_instance("message_hub_service")
-        self.chat_xml_converter = ChatXmlConverter()
 
     def pre_start(self):
         self.message_hub_service.register_message_source(self.MESSAGE_SOURCE)
@@ -231,12 +229,6 @@ class WebsocketRelayController:
                    "type": "message",
                    "source": self.create_source_obj(ctx.source)}
             self.send_relay_message(obj)
-
-            try:
-                # self.chat_xml_converter.convert_to_xml([message])
-                pass
-            except Exception as e:
-                self.logger.error(f"error for message '{message}'", e)
 
     def connect(self):
         self.disconnect()
