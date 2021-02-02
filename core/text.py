@@ -11,7 +11,6 @@ class TextFormatter(HTMLParser):
     def __init__(self, bot, setting_service, public_channel_service):
         super().__init__(convert_charrefs=False)
         self.logger = Logger(__name__)
-        self.reset()
         self.strict = False
         self.fed = []
         self.stack = []
@@ -27,11 +26,11 @@ class TextFormatter(HTMLParser):
         self.stack = []
 
     def handle_entityref(self, name):
-        #print("entityref " + name)
+        # print("entityref " + name)
         self.handle_data("&" + name + ";")
 
     def handle_charref(self, name):
-        #print("charref " + name)
+        # print("charref " + name)
         pass
 
     def handle_data(self, d):
@@ -127,9 +126,9 @@ class TextFormatter(HTMLParser):
         self.logger.error(message)
 
     def format_message(self, message):
-        self.reset()
         self.feed(message)
         return self.get_data()
+
 
 @instance()
 class Text:
@@ -142,7 +141,6 @@ class Text:
         self.setting_service: SettingService = registry.get_instance("setting_service")
         self.bot = registry.get_instance("bot")
         self.public_channel_service = registry.get_instance("public_channel_service")
-        self.text_formatter = TextFormatter(self.bot, self.setting_service, self.public_channel_service)
 
     def make_chatcmd(self, name, msg, style=""):
         msg = msg.strip()
@@ -150,7 +148,7 @@ class Text:
         return "<a %s href='chatcmd://%s'>%s</a>" % (style, msg, name)
 
     def make_tellcmd(self, name, msg, style="", char="<myname>"):
-        return self.make_chatcmd(name, f"/tell {char} {msg}")
+        return self.make_chatcmd(name, f"/tell {char} {msg}", style)
 
     def make_charlink(self, char, style=""):
         return "<a %s href='user://%s'>%s</a>" % (style, char, char)
@@ -317,7 +315,8 @@ class Text:
             return self.format_message_old(msg)
 
     def format_message_new(self, msg):
-        return self.text_formatter.format_message(msg)
+        text_formatter = TextFormatter(self.bot, self.setting_service, self.public_channel_service)
+        return text_formatter.format_message(msg)
 
     def format_message_old(self, msg):
         for t in ["</header>", "</header2>", "</highlight>", "</notice>", "</black>", "</white>", "</yellow>", "</blue>", "</green>", "</red>", "</orange>", "</grey>", "</cyan>",
