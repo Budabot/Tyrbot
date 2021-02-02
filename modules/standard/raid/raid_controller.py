@@ -109,7 +109,7 @@ class RaidController:
 
         msg = self.leader_controller.set_raid_leader(request.sender, request.sender)
         request.reply(msg)
-        if self.leader_controller.leader.char_id != request.sender.char_id:
+        if self.leader_controller.leader and self.leader_controller.leader.char_id != request.sender.char_id:
             return None
 
         self.raid = Raid(raid_name, request.sender)
@@ -285,7 +285,7 @@ class RaidController:
             else:
                 return f"<highlight>{char.name}</highlight> is already in the raid."
 
-    @command(command="raid", params=[Options(["kick", "remove", "rem"]), Character("char"), Any("reason")],
+    @command(command="raid", params=[Const("kick"), Character("char"), Any("reason")],
              description="Set raider as kicked with a reason", access_level="moderator", sub_command="manage")
     def raid_kick_cmd(self, request, _, char: SenderObj, reason: str):
         if self.raid is None:

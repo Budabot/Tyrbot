@@ -60,7 +60,7 @@ class TopicController:
 
     def set_topic(self, message, sender):
         topic = {"topic_message": message,
-                 "created_by": sender,
+                 "created_by": {"char_id": sender.char_id, "name": sender.name},
                  "created_at": int(time.time())}
 
         self.setting_service.get("topic").set_value(topic)

@@ -24,7 +24,7 @@ class AuctionController:
         if not self.is_auction_running():
             return "No auction running."
 
-        return self.auction.get_auction_list(include_instructions=True)
+        return self.auction.get_auction_list()
 
     @command(command="auction", params=[Options(["cancel", "end"])], description="Cancel ongoing auction",
              access_level="moderator", sub_command="modify")

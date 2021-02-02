@@ -166,7 +166,7 @@ class AuctionStrategy:
     def spam_raid_message(self, message):
         self.raid_controller.send_message(message)
 
-    def get_auction_list(self, include_instructions=False):
+    def get_auction_list(self):
         blob = ""
 
         for i, item in self.items.items():
@@ -178,14 +178,13 @@ class AuctionStrategy:
             else:
                 blob += " | <green>No bidders</green>\n\n"
 
-        if include_instructions:
-            blob += "This bot uses a modified Vickrey system. It is a silent auction and winning bids are not announced until the end. " \
-                    "The highest bidder pays the amount of the second highest bidder plus 1. " \
-                    "If there is a tie for the highest bidder, the person who bid first wins and pays the full bid amount. If there is only one bidder " \
-                    "the winner pays 1. You should bid the maximum amount of points that you want to pay for an item. If you win, you will never pay more " \
-                    "than your maximum bid and oftentimes you will pay less. If you lose, you pay nothing.\n\n"
-            blob += "To bid, use: !auction bid <highlight>&gtamount&lt; &gtitem_number&lt;</highlight>\n\n"
-            blob += "You can bid all of your points with: !auction bid all <highlight>&gtitem_number&lt;</highlight>"
+        blob += "This bot uses a modified Vickrey system. It is a silent auction and winning bids are not announced until the end. " \
+                "The highest bidder pays the amount of the second highest bidder plus 1. " \
+                "If there is a tie for the highest bidder, the person who bid first wins and pays the full bid amount. If there is only one bidder " \
+                "the winner pays 1. You should bid the maximum amount of points that you want to pay for an item. If you win, you will never pay more " \
+                "than your maximum bid and oftentimes you will pay less. If you lose, you pay nothing.\n\n"
+        blob += "To bid, use: !auction bid <highlight>&lt;amount&gt; &lt;item_number&gt;</highlight>\n\n"
+        blob += "You can bid all of your points with: !auction bid all <highlight>&lt;item_number&gt;</highlight>"
 
         return ChatBlob("Auction list (%d)" % len(self.items), blob)
 
