@@ -19,6 +19,11 @@
     port: 7105
   }
 
+  features: {
+    threading: false
+    text_formatting_v2: false
+  }
+
   module_paths: [
     "modules/core"
     "modules/standard"

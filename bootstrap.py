@@ -1,3 +1,4 @@
+from core.feature_flags import FeatureFlags
 from core.registry import Registry
 from core import config_creator
 from core.dict_object import DictObject
@@ -68,6 +69,11 @@ try:
     # ensure dimension is integer
     if isinstance(config.server.dimension, str):
         config.server.dimension = int(config.server.dimension)
+
+    # set feature flags
+    if "features" in config:
+        for key, value in config.features.items():
+            setattr(FeatureFlags, key.upper(), value)
 
     if platform.system() == "Windows":
         os.system("title %s.%d" % (config.character, config.server.dimension))
