@@ -2,6 +2,7 @@ import re
 from html.parser import HTMLParser
 
 from core.decorators import instance
+from core.feature_flags import FeatureFlags
 from core.logger import Logger
 from core.setting_service import SettingService
 
@@ -310,7 +311,10 @@ class Text:
         return line, rest
 
     def format_message(self, msg):
-        return self.format_message_old(msg)
+        if FeatureFlags.TEXT_FORMATTING_V2:
+            return self.format_message_new(msg)
+        else:
+            return self.format_message_old(msg)
 
     def format_message_new(self, msg):
         return self.text_formatter.format_message(msg)
