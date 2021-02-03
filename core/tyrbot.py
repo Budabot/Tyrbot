@@ -144,7 +144,7 @@ class Tyrbot:
                 while self.status == BotStatus.RUN:
                     packet = self.main.read_packet(1)
                     if packet:
-                        self.incoming_queue.put(packet)
+                        self.incoming_queue.put(("main", packet))
 
             except (EOFError, OSError) as e:
                 self.status = BotStatus.ERROR
@@ -162,6 +162,8 @@ class Tyrbot:
 
     # passthrough
     def disconnect(self):
+        # wait for all threads to stop reading packets, then disconnect them all
+        time.sleep(2)
         self.main.disconnect()
 
     def run(self):
@@ -230,7 +232,7 @@ class Tyrbot:
                 handlers.remove(h)
 
     def iterate(self, timeout=0.1):
-        packet = self.incoming_queue.get_or_default(block=True, timeout=timeout)
+        conn, packet = self.incoming_queue.get_or_default(block=True, timeout=timeout, default=(None, None))
         if packet:
             if isinstance(packet, server_packets.SystemMessage):
                 packet = self.system_message_ext_msg_handling(packet)
