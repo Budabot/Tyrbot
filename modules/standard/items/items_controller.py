@@ -53,7 +53,7 @@ class ItemsController:
                 return "No items found matching <highlight>%s</highlight>." % search
         elif cnt == 1:
             item = items[0]
-            return self.format_single_item(item, ql)
+            return self.format_single_item([item], ql)
         else:
             blob = ""
             # blob += "Version: <highlight>%s</highlight>\n" % "unknown"
@@ -68,7 +68,9 @@ class ItemsController:
             if offset + self.PAGE_SIZE < len(all_items):
                 blob += "   Page " + str(page)
                 blob += "   " + self.text.make_chatcmd("Page %d >>" % (page + 1), self.get_chat_command(ql, search, page + 1))
-            blob += "\n\n"
+            if self.PAGE_SIZE < len(all_items):
+                blob += "\n"
+            blob += "\n"
 
             blob += self.format_items(items, ql)
             blob += "\nItem DB rips created using the %s tool." % self.text.make_chatcmd("Budabot Items Extractor", "/start https://github.com/Budabot/ItemsExtractor")
@@ -77,27 +79,29 @@ class ItemsController:
 
     def format_items(self, items, ql=None):
         blob = ""
-        for item in items:
+        for item_group in ItemIter(items):
             blob += "<pagebreak>"
-            blob += self.text.make_image(item.icon) + "\n"
-            blob += self.format_single_item(item, ql)
+            blob += self.text.make_image(item_group[0].icon) + "\n"
+            blob += self.format_single_item(item_group, ql)
             blob += "\n\n"
 
         return blob
 
-    def format_single_item(self, item, ql):
+    def format_single_item(self, item_group, ql):
         msg = ""
-        msg += item.name
-        if ql:
-            if item.lowql != item.highql:
-                msg += " %s" % self.text.make_item(item.lowid, item.highid, ql, ql)
-                msg += " [%s - %s]" % (self.text.make_item(item.lowid, item.highid, item.lowql, item.lowql), self.text.make_item(item.lowid, item.highid, item.highql, item.highql))
+        msg += item_group[0].name
+
+        for item in reversed(item_group):
+            if ql:
+                if item.lowql != item.highql:
+                    msg += " %s" % self.text.make_item(item.lowid, item.highid, ql, ql)
+                    msg += " [%s - %s]" % (self.text.make_item(item.lowid, item.highid, item.lowql, item.lowql), self.text.make_item(item.lowid, item.highid, item.highql, item.highql))
+                elif item.lowql == item.highql:
+                    msg += " [%s]" % self.text.make_item(item.lowid, item.highid, item.highql, item.highql)
             elif item.lowql == item.highql:
                 msg += " [%s]" % self.text.make_item(item.lowid, item.highid, item.highql, item.highql)
-        elif item.lowql == item.highql:
-            msg += " [%s]" % self.text.make_item(item.lowid, item.highid, item.highql, item.highql)
-        else:
-            msg += " [%s - %s]" % (self.text.make_item(item.lowid, item.highid, item.lowql, item.lowql), self.text.make_item(item.lowid, item.highid, item.highql, item.highql))
+            else:
+                msg += " [%s - %s]" % (self.text.make_item(item.lowid, item.highid, item.lowql, item.lowql), self.text.make_item(item.lowid, item.highid, item.highql, item.highql))
 
         return msg
 
@@ -160,3 +164,36 @@ class ItemsController:
             return "/tell <myname> items %d %s --page=%d" % (ql, search, page)
         else:
             return "/tell <myname> items %s --page=%d" % (search, page)
+
+
+class ItemIter:
+
+    """Iterator that groups items with the same name and icon together."""
+
+    def __init__(self, items):
+        self.items = items
+        self.current_index = 0
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        num_items = len(self.items)
+        if self.current_index >= num_items:
+            raise StopIteration
+        else:
+            grouped = []
+
+            item = self.items[self.current_index]
+            self.current_index += 1
+            grouped.append(item)
+            current_item = item
+            while self.current_index < num_items:
+                item = self.items[self.current_index]
+                if item.name != current_item.name or item.icon != current_item.icon or item.highql == current_item.highql:
+                    break
+                current_item = item
+                grouped.append(item)
+                self.current_index += 1
+
+            return grouped
