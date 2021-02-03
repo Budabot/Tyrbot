@@ -6,6 +6,9 @@ class FifoQueue(Queue):
     def get_or_default(self, block=True, timeout=None, default=None):
         """Remove and return an item from the queue.
 
+        This differs from get() in that it will return `default` instead of
+        raising Empty exception.
+
         If optional args 'block' is true and 'timeout' is None (the default),
         block if necessary until an item is available. If 'timeout' is
         a non-negative number, it blocks at most 'timeout' seconds and raises

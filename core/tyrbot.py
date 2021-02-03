@@ -1,7 +1,7 @@
 import inspect
 import threading
 
-from core.Queue import FifoQueue
+from core.fifo_queue import FifoQueue
 from core.aochat.bot import Bot
 from core.dict_object import DictObject
 from core.logger import Logger
