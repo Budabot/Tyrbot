@@ -46,7 +46,7 @@ class BuddyService:
         self.buddy_list_size += 1000
 
     def add_buddy(self, char_id, _type):
-        if char_id and char_id != self.bot.char_id:
+        if char_id and char_id != self.bot.get_char_id():
             if char_id not in self.buddy_list:
                 self.bot.send_packet(client_packets.BuddyAdd(char_id, "\1"))
                 self.buddy_list[char_id] = {"online": None, "types": [_type]}
@@ -72,7 +72,7 @@ class BuddyService:
 
     def get_buddy(self, char_id):
         # if char is bot
-        if char_id == self.bot.char_id:
+        if char_id == self.bot.get_char_id():
             return {
                 "online": True,
                 "types": []

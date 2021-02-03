@@ -73,7 +73,7 @@ class AllianceRelayController:
             return
 
         # ignore packets from the bot's own private channel and from the bot itself
-        if packet.private_channel_id == self.bot.char_id or packet.char_id == self.bot.char_id:
+        if packet.private_channel_id == self.bot.get_char_id() or packet.char_id == self.bot.get_char_id():
             return
 
         message = packet.message.lstrip()
@@ -109,7 +109,7 @@ class AllianceRelayController:
 
         org = self.setting_service.get_value("arelay_guild_abbreviation") or \
               self.public_channel_service.get_org_name() or \
-              self.bot.char_name
+              self.bot.get_char_name()
         msg = "[{org}] {char}: {msg}".format(org=org, char=ctx.sender.name, msg=plain_msg)
 
         self.send_message_to_alliance(msg)

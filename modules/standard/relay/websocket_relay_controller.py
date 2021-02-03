@@ -299,7 +299,7 @@ class WebsocketRelayController:
             channel_type = "org"
 
         return {
-            "name": org_name or self.bot.char_name,
+            "name": org_name or self.bot.get_char_name(),
             "label": self.setting_service.get("relay_prefix").get_value() or "",
             "channel": channel,
             "type": channel_type,

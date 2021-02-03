@@ -29,7 +29,7 @@ class ExternalChannelController:
             self.logger.info("Joined private channel %s" % channel_name)
 
     def handle_private_channel_message(self, packet: server_packets.PrivateChannelMessage):
-        if packet.private_channel_id != self.bot.char_id:
+        if packet.private_channel_id != self.bot.get_char_id():
             channel_name = self.character_service.get_char_name(packet.private_channel_id)
             char_name = self.character_service.get_char_name(packet.char_id)
             self.logger.log_chat("Private Channel(%s)" % channel_name, char_name, packet.message)

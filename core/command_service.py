@@ -375,7 +375,7 @@ class CommandService:
         # ignore leading space
         message = packet.message.lstrip()
 
-        if message.startswith(self.setting_service.get("symbol").get_value()) and packet.private_channel_id == self.bot.char_id:
+        if message.startswith(self.setting_service.get("symbol").get_value()) and packet.private_channel_id == self.bot.get_char_id():
             self.process_command(
                 self.trim_command_symbol(message),
                 self.PRIVATE_CHANNEL,
