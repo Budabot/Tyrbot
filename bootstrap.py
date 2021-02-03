@@ -5,6 +5,7 @@ from core.dict_object import DictObject
 from core.logger import Logger
 from core.aochat.mmdb_parser import MMDBParser
 from core.functions import merge_dicts
+from upgrade import run_upgrades
 import hjson
 import time
 import os
@@ -104,7 +105,7 @@ try:
         raise Exception("Unknown database type '%s'" % config.database.type)
 
     # run db upgrade scripts
-    import upgrade
+    run_upgrades()
 
     # finish initializing bot and modules, and then connect
     bot = Registry.get_instance("bot")
