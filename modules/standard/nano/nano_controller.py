@@ -38,7 +38,7 @@ class NanoController:
             return "No nanos found matching <highlight>%s</highlight>." % search
         elif count == 1:
             row = data[0]
-            return self.format_single_nano(row)
+            return "%s <highlight>%s</highlight>" % (self.format_single_nano(row), row.nanoline_name)
         elif count > page_size:
             if page > 1 and len(paged_data) > 0:
                 blob += "   " + self.text.make_chatcmd("<< Page %d" % (page - 1), self.get_chat_command(search, page - 1))
@@ -56,13 +56,13 @@ class NanoController:
                     blob += "\n<header2>Unknown/General</header2>\n"
                 current_nanoline = row.nanoline_id
 
-            blob += "%s [%d] %s\n" % (self.text.make_item(row.lowid, row.lowid, row.lowql, row.name), row.lowql, row.location)
+            blob += self.format_single_nano(row) + "\n"
         blob += self.get_footer()
 
         return ChatBlob("Nano Search Results for '%s' (%d - %d of %d)" % (search, offset + 1, min(offset + page_size, count), count), blob)
         
     def format_single_nano(self, row):
-        msg =  " %s %s <highlight>%s</highlight> " % (self.text.make_item(row.lowid, row.lowid, row.lowql, row.name), row.location, row.nanoline_name)
+        msg =  " QL %d %s %s" % ( row.lowql, self.text.make_item(row.lowid, row.lowid, row.lowql, row.name), row.location)
         
         return msg
 
@@ -90,9 +90,9 @@ class NanoController:
 
         blob = ""
         for row in data:
-            blob += "%s [%d] %s" % (self.text.make_item(row.lowid, row.lowid, row.lowql, row.name), row.lowql, row.location)
+            blob += "QL %d %s" % (row.lowql, self.text.make_item(row.lowid, row.lowid, row.lowql, row.name))
             if row.profession:
-                blob += " - <highlight>%s</highlight>" % row.profession
+                blob += " - %s" % row.profession
             blob += "\n"
 
         return ChatBlob("Nanos for Location '%s' (%d)" % (location, cnt), blob)
@@ -124,7 +124,7 @@ class NanoController:
 
         blob = ""
         for row in data:
-            blob += "%s [%d] %s\n" % (self.text.make_item(row.lowid, row.lowid, row.lowql, row.name), row.lowql, row.location)
+            blob += self.format_single_nano(row) + "\n"
         blob += self.get_footer()
 
         return ChatBlob("%s %s Nanos" % (nanoline.profession, nanoline.name), blob)
