@@ -188,7 +188,7 @@ class OrgMemberController:
 
     def add_org_member(self, char_id, mode):
         self.update_buddylist(char_id, self.MODE_ADD_MANUAL)
-        return self.db.exec("INSERT INTO org_member (char_id, mode) VALUES (?, ?, ?)", [char_id, mode, 0])
+        return self.db.exec("INSERT INTO org_member (char_id, mode) VALUES (?, ?,)", [char_id, mode])
 
     def remove_org_member(self, char_id):
         self.update_buddylist(char_id, self.MODE_REM_MANUAL)
