@@ -80,7 +80,7 @@ class TextFormatter(HTMLParser):
             self.handle_data(self.setting_service.get("unknown_color").get_font_color())
 
         elif tag == "myname":
-            self.handle_data(self.bot.char_name)
+            self.handle_data(self.bot.get_char_name())
         elif tag == "myorg":
             self.handle_data(self.public_channel_service.get_org_name() or "Unknown Org")
         elif tag == "tab":
@@ -345,7 +345,7 @@ class Text:
             .replace("<clan>", self.setting_service.get("clan_color").get_font_color()) \
             .replace("<unknown>", self.setting_service.get("unknown_color").get_font_color()) \
             \
-            .replace("<myname>", self.bot.char_name) \
+            .replace("<myname>", self.bot.get_char_name()) \
             .replace("<myorg>", self.public_channel_service.get_org_name() or "Unknown Org") \
             .replace("<tab>", "    ") \
             .replace("<end>", "</font>") \

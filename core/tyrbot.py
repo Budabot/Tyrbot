@@ -1,7 +1,10 @@
 import inspect
+import threading
 
+from core.fifo_queue import FifoQueue
 from core.aochat.bot import Bot
 from core.dict_object import DictObject
+from core.logger import Logger
 from core.lookup.character_service import CharacterService
 from core.public_channel_service import PublicChannelService
 from core.setting_service import SettingService
@@ -20,7 +23,7 @@ import time
 
 
 @instance("bot")
-class Tyrbot(Bot):
+class Tyrbot:
     CONNECT_EVENT = "connect"
     PACKET_EVENT = "packet"
     PRIVATE_MSG_EVENT = "private_msg"
@@ -31,6 +34,7 @@ class Tyrbot(Bot):
 
     def __init__(self):
         super().__init__()
+        self.logger = Logger(__name__)
         self.ready = False
         self.packet_handlers = {}
         self.superadmin = None
@@ -40,6 +44,8 @@ class Tyrbot(Bot):
         self.last_timer_event = 0
         self.start_time = int(time.time())
         self.version = "0.5-beta"
+        self.incoming_queue = FifoQueue()
+        self.main = None
 
     def inject(self, registry):
         self.db = registry.get_instance("db")
@@ -127,6 +133,39 @@ class Tyrbot(Bot):
         char_name = self.character_service.resolve_char_to_name(char_id)
         return char_name == self.superadmin
 
+    def connect(self, config):
+        self.main = Bot()
+        self.main.connect(config.server.host, config.server.port)
+        if not self.main.login(config.username, config.password, config.character):
+            return False
+
+        def read_packets():
+            try:
+                while self.status == BotStatus.RUN:
+                    packet = self.main.read_packet(1)
+                    if packet:
+                        self.incoming_queue.put(("main", packet))
+
+            except (EOFError, OSError) as e:
+                self.status = BotStatus.ERROR
+                self.logger.error("", e)
+                raise e
+
+        dthread = threading.Thread(target=read_packets, daemon=True)
+        dthread.start()
+
+        return True
+
+    # passthrough
+    def send_packet(self, packet):
+        self.main.send_packet(packet)
+
+    # passthrough
+    def disconnect(self):
+        # wait for all threads to stop reading packets, then disconnect them all
+        time.sleep(2)
+        self.main.disconnect()
+
     def run(self):
         start = time.time()
 
@@ -193,7 +232,7 @@ class Tyrbot(Bot):
                 handlers.remove(h)
 
     def iterate(self, timeout=0.1):
-        packet = self.read_packet(timeout)
+        conn, packet = self.incoming_queue.get_or_default(block=True, timeout=timeout, default=(None, None))
         if packet:
             if isinstance(packet, server_packets.SystemMessage):
                 packet = self.system_message_ext_msg_handling(packet)
@@ -208,7 +247,7 @@ class Tyrbot(Bot):
 
             self.event_service.fire_event("packet:" + str(packet.id), packet)
         else:
-            if time.time() - self.packet_last_received_timestamp > 90:
+            if time.time() - self.main.packet_last_received_timestamp > 90:
                 self.restart()
         self.check_outgoing_message_queue()
 
@@ -291,7 +330,7 @@ class Tyrbot(Bot):
 
     def send_private_channel_message(self, msg, private_channel=None, add_color=True, fire_outgoing_event=True):
         if private_channel is None:
-            private_channel = self.char_id
+            private_channel = self.get_char_id()
 
         private_channel_id = self.character_service.resolve_char_to_id(private_channel)
         if private_channel_id is None:
@@ -303,7 +342,7 @@ class Tyrbot(Bot):
                 packet = client_packets.PrivateChannelMessage(private_channel_id, color + page, "\0")
                 self.send_packet(packet)
 
-            if fire_outgoing_event and private_channel_id == self.char_id:
+            if fire_outgoing_event and private_channel_id == self.get_char_id():
                 self.event_service.fire_event(self.OUTGOING_PRIVATE_CHANNEL_MESSAGE_EVENT, DictObject({"private_channel_id": private_channel_id,
                                                                                                        "message": msg}))
 
@@ -340,3 +379,9 @@ class Tyrbot(Bot):
         base_path = os.getcwd()
         for file in files:
             self.db.load_sql_file(file, base_path)
+
+    def get_char_name(self):
+        return self.main.char_name
+
+    def get_char_id(self):
+        return self.main.char_id

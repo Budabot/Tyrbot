@@ -110,9 +110,8 @@ try:
     # finish initializing bot and modules, and then connect
     bot = Registry.get_instance("bot")
     bot.init(config, Registry, paths, MMDBParser("text.mdb"))
-    bot.connect(config.server.host, config.server.port)
 
-    if not bot.login(config.username, config.password, config.character):
+    if not bot.connect(config):
         bot.disconnect()
         time.sleep(5)
         exit(3)

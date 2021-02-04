@@ -44,7 +44,7 @@ class OrgChannelController:
 
     @event(event_type=PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, description="Relay messages from the org channel to the relay hub", is_hidden=True)
     def handle_org_message_event(self, event_type, event_data):
-        if event_data.char_id == self.bot.char_id or self.ban_service.get_ban(event_data.char_id):
+        if event_data.char_id == self.bot.get_char_id() or self.ban_service.get_ban(event_data.char_id):
             return
 
         if event_data.extended_message:
