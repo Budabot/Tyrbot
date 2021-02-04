@@ -124,7 +124,7 @@ class NanoController:
 
         blob = ""
         for row in data:
-            blob += "%s [%d] %s\n" % (self.text.make_item(row.lowid, row.lowid, row.lowql, row.name), row.lowql, row.location)
+            blob += self.format_single_nano(row) + "\n"
         blob += self.get_footer()
 
         return ChatBlob("%s %s Nanos" % (nanoline.profession, nanoline.name), blob)
