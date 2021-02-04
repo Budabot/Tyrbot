@@ -98,7 +98,9 @@ class WebsocketRelayController:
             elif obj.type == "left":
                 for channel in self.channels.get(obj.client_id, []):
                     self.online_controller.deregister_online_channel(channel)
-                del self.channels[obj.client_id]
+
+                if obj.client_id in self.channels:
+                    del self.channels[obj.client_id]
 
     @timerevent(budatime="1m", description="Ensure the bot is connected to websocket relay", is_hidden=True, is_enabled=False, run_at_startup=True)
     def handle_connect_event(self, event_type, event_data):
