@@ -159,7 +159,7 @@ class OnlineController:
         if matches:
             char_name = self.character_service.resolve_char_to_name(char_id)
             self.set_afk(char_id, int(time.time()), message)
-            channel_reply("<highlight>%s</highlight> is now afk." % char_name)
+            # channel_reply("<highlight>%s</highlight> is now afk." % char_name)
         else:
             row = self.db.query_single("SELECT * FROM online WHERE char_id = ? AND afk_dt > 0", [char_id])
             if row:
