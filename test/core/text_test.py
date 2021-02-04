@@ -21,7 +21,7 @@ class TextTest(unittest.TestCase):
         setting_service.get = MagicMock(return_value=setting)
 
         bot = Mock()
-        bot.char_name = "char_name"
+        bot.get_char_name = MagicMock(return_value="char_name")
         bot.org_name = "org_name"
 
         public_channel_service = Mock()
@@ -77,7 +77,7 @@ class TextTest(unittest.TestCase):
         setting_service.get = MagicMock(return_value=setting)
 
         bot = Mock()
-        bot.char_name = "char_name"
+        bot.get_char_name = MagicMock(return_value="char_name")
         bot.org_name = "org_name"
 
         public_channel_service = Mock()
