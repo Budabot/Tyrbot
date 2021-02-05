@@ -6,7 +6,7 @@
     "guide": {
         "en_US": [
             "\n",
-            "ID: {id}\n",
+            "ID: {id} ({raw})\n",
             "Updated: <highlight>{updated}</highlight>\n",
             "Profession: <highlight>{profession}</highlight>\n",
             "Faction: <highlight>{faction}</highlight>\n",
@@ -17,7 +17,7 @@
         ],
         "de_DE": [
             "\n",
-            "ID: {id}\n",
+            "ID: {id} ({raw})\n",
             "Letztes Update: <highlight>{updated}</highlight>\n",
             "Profession: <highlight>{profession}</highlight>\n",
             "Faction: <highlight>{faction}</highlight>\n",

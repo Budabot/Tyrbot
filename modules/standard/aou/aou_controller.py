@@ -69,11 +69,18 @@ class AOUController:
         if not guide_info:
             return self.getresp("module/aou", "no_guide_id", {"id": guide_id})
 
-        guide_info["id"] = self.text.make_chatcmd(guide_info.id,
-                                                  "/start https://www.ao-universe.com/main.php?site=knowledge&id=%s" % guide_info.id)
-        guide_info["aou"] = self.text.make_chatcmd("AO-Universe.com", "/start https://www.ao-universe.com")
-        guide_info["text"] = self.format_bbcode_code(guide_info.text)
-        return ChatBlob(guide_info.name, self.getresp("module/aou", "guide", {**guide_info}))
+        obj = DictObject()
+        obj.id = self.text.make_chatcmd(guide_info.id, "/start https://www.ao-universe.com/main.php?site=knowledge&id=%s" % guide_info.id)
+        obj.raw = self.text.make_chatcmd("Raw", "/start %s" % (self.AOU_URL + "&mode=view&id=" + str(guide_info.id)))
+        obj.updated = guide_info.updated
+        obj.profession = guide_info.profession
+        obj.faction = guide_info.faction
+        obj.level = guide_info.level
+        obj.author = self.format_bbcode_code(guide_info.author)
+        obj.aou = self.text.make_chatcmd("AO-Universe.com", "/start https://www.ao-universe.com")
+        obj.text = self.format_bbcode_code(guide_info.text)
+
+        return ChatBlob(guide_info.name, self.getresp("module/aou", "guide", {**obj}))
 
     @command(command="aou", params=[Const("all", is_optional=True), Any("search")], access_level="all",
              description="Search for an AO-Universe guides")
