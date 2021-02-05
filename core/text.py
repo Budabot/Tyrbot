@@ -328,7 +328,6 @@ class Text:
         if fill_width > 0:
             num_spacers = round(fill_width / spacer_pixel_width)
         else:
-            print("too small for " + s)
             num_spacers = 0
         return s + (num_spacers * char)
 
@@ -338,6 +337,7 @@ class Text:
             pixel_width = self.pixel_mapping.get(c, None)
             if not pixel_width:
                 self.logger.warning(f"Unknown pixel width mapping for char '{c}'")
+                pixel_width = 8
             width += pixel_width or 8
         return width
 
