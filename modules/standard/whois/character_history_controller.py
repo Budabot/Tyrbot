@@ -10,6 +10,7 @@ class CharacterHistoryController:
 
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
+        self.text = registry.get_instance("text")
         self.util = registry.get_instance("util")
         self.character_history_service = registry.get_instance("character_history_service")
         self.command_alias_service = registry.get_instance("command_alias_service")
@@ -29,8 +30,19 @@ class CharacterHistoryController:
         return ChatBlob("History of %s (RK%d)" % (char.name, server_num), self.format_character_history(data))
 
     def format_character_history(self, history):
-        blob = "Date           Level    AI     Faction    Breed     CharId     Guild (rank)\n"
-        blob += "________________________________________________ \n"
+        spacing = [90, 30, 18, 50, 65, 95]
+        col_separator = " | "
+
+        headers = [self.text.pad("Date", spacing[0]),
+                   self.text.pad("Lvl", spacing[1]),
+                   self.text.pad("AI", spacing[2]),
+                   self.text.pad("Side", spacing[3]),
+                   self.text.pad("Breed", spacing[4]),
+                   self.text.pad("CharId", spacing[5]),
+                   "Guild (Rank)"]
+
+        blob = col_separator.join(headers) + "\n"
+        blob += "__________________________________________________________\n"
         for row in history:
             if row.guild_name:
                 org = "%s (%s)" % (row.guild_name, row.guild_rank_name)
@@ -39,9 +51,15 @@ class CharacterHistoryController:
 
             last_changed = self.util.format_date(int(float(row.last_changed)))
             if row.deleted == "1":  # This value is output as string
-                blob += "%s |  <red>DELETED</red>\n" % last_changed
+                blob += self.text.pad(last_changed, spacing[0]) + col_separator + "<red>DELETED</red>\n"
             else:
-                blob += "%s |  %s  | <green>%s</green> | %s | %s | %s | %s\n" % \
-                    (last_changed, row.level, row.defender_rank or 0, row.faction, row.breed, row.char_id or "           ", org)
+                cols = [self.text.pad(last_changed, spacing[0]),
+                        self.text.pad(row.level, spacing[1]),
+                        "<green>" + self.text.pad(row.defender_rank or 0, spacing[2]) + "</green>",
+                        self.text.pad(row.faction, spacing[3]),
+                        self.text.pad(row.breed, spacing[4]),
+                        self.text.pad(row.char_id, spacing[5]),
+                        org]
+                blob += col_separator.join(cols) + "\n"
         blob += "\nHistory provided by Auno.org, Chrisax, and Athen Paladins"
         return blob

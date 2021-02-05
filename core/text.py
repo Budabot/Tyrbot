@@ -134,7 +134,17 @@ class TextFormatter(HTMLParser):
 class Text:
     separators = [{"symbol": "<pagebreak>", "include": False}, {"symbol": "\n", "include": True}, {"symbol": " ", "include": True}]
 
+    # taken from IGN bot
+    pixel_mapping = {'i': 3, 'l': 3, 'K': 10, 'R': 10, "'": 3, 'e': 8, 'U': 10, 'j': 5, 'I': 5, '|': 6, 'N': 10, 'f': 5, '.': 5, ' ': 5,
+                     ',': 5, 'J': 6, 'r': 6, 't': 6, '!': 6, '(': 6, ')': 6, '[': 6, ']': 6, '/': 6, ':': 6, ';': 6, '"': 6, 'c': 7,
+                     '-': 7, 's': 8, 'v': 8, 'k': 8, 'a': 8, 'y': 8, 'z': 8, 'F': 8, 'L': 8, 'P': 8, 'n': 9, '3': 9, 'b': 9, 'd': 9,
+                     'g': 9, 'h': 9, 'Y': 9, 'S': 10, 'Q': 11, 'w': 11, '<': 11, '>': 11, '=': 11, 'q': 9, 'u': 9, 'x': 9, '0': 9,
+                     '1': 9, '2': 9, '4': 9, '5': 9, '6': 9, '7': 9, '8': 9, '9': 9, 'E': 9, 'T': 9, '$': 9, '*': 9, '{': 9, '}': 9,
+                     '_': 9, '`': 9, 'A': 10, 'B': 10, 'C': 10, 'H': 10, 'V': 10, 'X': 10, 'Z': 10, '&': 10, 'D': 11, 'G': 11, 'M': 11,
+                     'O': 11, '+': 11, '~': 11, '%': 15, 'p': 9, 'm': 13, 'o': 9, '@': 14, 'W': 15}
+
     def __init__(self):
+        self.logger = Logger(__name__)
         self.items_regex = re.compile(r"<a href=\"itemref://(\d+)/(\d+)/(\d+)\">(.+?)</a>")
 
     def inject(self, registry):
@@ -307,6 +317,29 @@ class Text:
             line += separator["symbol"]
 
         return line, rest
+
+    def pad(self, s, length, char=" "):
+        if s is None:
+            s = ""
+
+        s_pixel_width = self.get_pixel_width(s)
+        spacer_pixel_width = self.pixel_mapping[char]
+        fill_width = length - s_pixel_width
+        if fill_width > 0:
+            num_spacers = round(fill_width / spacer_pixel_width)
+        else:
+            print("too small for " + s)
+            num_spacers = 0
+        return s + (num_spacers * char)
+
+    def get_pixel_width(self, s):
+        width = 0
+        for c in s:
+            pixel_width = self.pixel_mapping.get(c, None)
+            if not pixel_width:
+                self.logger.warning(f"Unknown pixel width mapping for char '{c}'")
+            width += pixel_width or 8
+        return width
 
     def format_message(self, msg):
         if FeatureFlags.TEXT_FORMATTING_V2:

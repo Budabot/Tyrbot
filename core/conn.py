@@ -30,7 +30,7 @@ class Conn(Bot):
         return packet
 
     def send_packet(self, packet):
-        # sychronize sending packets
+        # synchronize sending packets
         with self.send_lock:
             super().send_packet(packet)
 
