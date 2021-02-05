@@ -60,11 +60,9 @@ class NanoController:
         blob += self.get_footer()
 
         return ChatBlob("Nano Search Results for '%s' (%d - %d of %d)" % (search, offset + 1, min(offset + page_size, count), count), blob)
-        
+
     def format_single_nano(self, row):
-        msg =  " QL %d %s %s" % ( row.lowql, self.text.make_item(row.lowid, row.lowid, row.lowql, row.name), row.location)
-        
-        return msg
+        return "QL %d %s %s" % (row.lowql, self.text.make_item(row.lowid, row.lowid, row.lowql, row.name), row.location)
 
     @command(command="nanoloc", params=[], access_level="all",
              description="Show all nano locations")
