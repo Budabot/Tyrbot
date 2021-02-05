@@ -1,8 +1,8 @@
 import inspect
 import threading
 
+from core.conn import Conn
 from core.fifo_queue import FifoQueue
-from core.aochat.bot import Bot
 from core.dict_object import DictObject
 from core.logger import Logger
 from core.lookup.character_service import CharacterService
@@ -15,7 +15,6 @@ from core.chat_blob import ChatBlob
 from core.setting_types import TextSettingType, ColorSettingType, NumberSettingType
 from core.aochat import server_packets, client_packets
 from core.aochat.extended_message import ExtendedMessage
-from core.aochat.delay_queue import DelayQueue
 from core.bot_status import BotStatus
 from core.functions import flatmap
 import os
@@ -40,12 +39,11 @@ class Tyrbot:
         self.superadmin = None
         self.status: BotStatus = BotStatus.SHUTDOWN
         self.dimension = None
-        self.packet_queue = DelayQueue(2, 3.5)
         self.last_timer_event = 0
         self.start_time = int(time.time())
         self.version = "0.5-beta"
         self.incoming_queue = FifoQueue()
-        self.main = None
+        self.conns = DictObject()
 
     def inject(self, registry):
         self.db = registry.get_instance("db")
@@ -134,17 +132,17 @@ class Tyrbot:
         return char_name == self.superadmin
 
     def connect(self, config):
-        self.main = Bot()
-        self.main.connect(config.server.host, config.server.port)
-        if not self.main.login(config.username, config.password, config.character):
+        conn = self.create_conn("main")
+        conn.connect(config.server.host, config.server.port)
+        if not conn.login(config.username, config.password, config.character):
             return False
 
         def read_packets():
             try:
                 while self.status == BotStatus.RUN:
-                    packet = self.main.read_packet(1)
+                    packet = conn.read_packet(1)
                     if packet:
-                        self.incoming_queue.put(("main", packet))
+                        self.incoming_queue.put((conn, packet))
 
             except (EOFError, OSError) as e:
                 self.status = BotStatus.ERROR
@@ -156,15 +154,23 @@ class Tyrbot:
 
         return True
 
-    # passthrough
-    def send_packet(self, packet):
-        self.main.send_packet(packet)
+    def create_conn(self, _id):
+        if _id in self.conns:
+            raise Exception(f"A connection with id {_id} already exists")
+
+        conn = Conn(_id, self.disconnect)
+        self.conns[_id] = conn
+        return conn
 
     # passthrough
+    def send_packet(self, packet):
+        self.conns["main"].send_packet(packet)
+
     def disconnect(self):
         # wait for all threads to stop reading packets, then disconnect them all
         time.sleep(2)
-        self.main.disconnect()
+        for _id, conn in self.conns.items():
+            conn.disconnect()
 
     def run(self):
         start = time.time()
@@ -185,7 +191,7 @@ class Tyrbot:
         self.ready = True
         timestamp = int(time.time())
 
-        while self.status == BotStatus.RUN or len(self.packet_queue) > 0:
+        while self.status == BotStatus.RUN:
             try:
                 timestamp = int(time.time())
                 self.check_for_timer_events(timestamp)
@@ -242,30 +248,14 @@ class Tyrbot:
                 if packet.char_id == 0:
                     return
 
+            packet.conn = conn
+
             for handler in self.packet_handlers.get(packet.id, []):
                 handler.handler(packet)
 
             self.event_service.fire_event("packet:" + str(packet.id), packet)
-        else:
-            if time.time() - self.main.packet_last_received_timestamp > 90:
-                self.restart()
-        self.check_outgoing_message_queue()
 
         return packet
-
-    def check_outgoing_message_queue(self):
-        # check packet queue for outgoing packets
-        outgoing_packet = self.packet_queue.dequeue()
-        while outgoing_packet:
-            self.send_packet(outgoing_packet)
-            outgoing_packet = self.packet_queue.dequeue()
-
-        num_messages = len(self.packet_queue)
-        if num_messages > 30:
-            self.logger.warning("automatically clearing outgoing message queue (%d messages)" % num_messages)
-            self.packet_queue.clear()
-        elif num_messages > 10:
-            self.logger.warning("%d messages in outgoing message queue" % num_messages)
 
     def public_channel_message_ext_msg_handling(self, packet: server_packets.PublicChannelMessage):
         msg = packet.message
@@ -295,7 +285,7 @@ class Tyrbot:
 
         return packet
 
-    def send_org_message(self, msg, add_color=True, fire_outgoing_event=True):
+    def send_org_message(self, msg, add_color=True, fire_outgoing_event=True, conn_id="main"):
         org_channel_id = self.public_channel_service.org_channel_id
         if org_channel_id is None:
             self.logger.debug("ignoring message to org channel since the org_channel_id is unknown")
@@ -304,14 +294,13 @@ class Tyrbot:
             pages = self.get_text_pages(msg, self.setting_service.get("org_channel_max_page_length").get_value())
             for page in pages:
                 packet = client_packets.PublicChannelMessage(org_channel_id, color + page, "")
-                self.packet_queue.enqueue(packet)
-                self.check_outgoing_message_queue()
+                self.conns[conn_id].add_packet_to_queue(packet)
 
             if fire_outgoing_event:
                 self.event_service.fire_event(self.OUTGOING_ORG_MESSAGE_EVENT, DictObject({"org_channel_id": org_channel_id,
                                                                                            "message": msg}))
 
-    def send_private_message(self, char, msg, add_color=True, fire_outgoing_event=True):
+    def send_private_message(self, char, msg, add_color=True, fire_outgoing_event=True, conn_id="main"):
         char_id = self.character_service.resolve_char_to_id(char)
         if char_id is None:
             self.logger.warning("Could not send message to %s, could not find char id" % char)
@@ -321,14 +310,13 @@ class Tyrbot:
             for page in pages:
                 self.logger.log_tell("To", self.character_service.get_char_name(char_id), page)
                 packet = client_packets.PrivateMessage(char_id, color + page, "\0")
-                self.packet_queue.enqueue(packet)
-                self.check_outgoing_message_queue()
+                self.conns[conn_id].add_packet_to_queue(packet)
 
             if fire_outgoing_event:
                 self.event_service.fire_event(self.OUTGOING_PRIVATE_MESSAGE_EVENT, DictObject({"char_id": char_id,
                                                                                                "message": msg}))
 
-    def send_private_channel_message(self, msg, private_channel=None, add_color=True, fire_outgoing_event=True):
+    def send_private_channel_message(self, msg, private_channel=None, add_color=True, fire_outgoing_event=True, conn_id="main"):
         if private_channel is None:
             private_channel = self.get_char_id()
 
@@ -340,7 +328,7 @@ class Tyrbot:
             pages = self.get_text_pages(msg, self.setting_service.get("private_channel_max_page_length").get_value())
             for page in pages:
                 packet = client_packets.PrivateChannelMessage(private_channel_id, color + page, "\0")
-                self.send_packet(packet)
+                self.conns[conn_id].send_packet(packet)
 
             if fire_outgoing_event and private_channel_id == self.get_char_id():
                 self.event_service.fire_event(self.OUTGOING_PRIVATE_CHANNEL_MESSAGE_EVENT, DictObject({"private_channel_id": private_channel_id,
@@ -381,7 +369,7 @@ class Tyrbot:
             self.db.load_sql_file(file, base_path)
 
     def get_char_name(self):
-        return self.main.char_name
+        return self.conns["main"].char_name
 
     def get_char_id(self):
-        return self.main.char_id
+        return self.conns["main"].char_id

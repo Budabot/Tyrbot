@@ -2,7 +2,7 @@ import socket
 import struct
 import select
 from core.aochat.server_packets import ServerPacket, LoginOK, LoginError, LoginCharacterList
-from core.aochat.client_packets import LoginRequest, LoginSelect, Ping
+from core.aochat.client_packets import LoginRequest, LoginSelect
 from core.logger import Logger
 from core.aochat.crypt import generate_login_key
 import time
@@ -14,7 +14,6 @@ class Bot:
         self.char_id = None
         self.char_name = None
         self.logger = Logger(__name__)
-        self.packet_last_received_timestamp = time.time()
 
     def connect(self, host, port):
         self.logger.info("Connecting to '%s:%d'" % (host, port))
@@ -75,9 +74,6 @@ class Bot:
 
         read, write, error = select.select([self.socket], [], [], max_delay_time)
         if not read:
-            if time.time() - self.packet_last_received_timestamp > 60:
-                self.send_packet(Ping("tyrbot_aochat"))
-
             return None
         else:
             # Read data from server
@@ -86,7 +82,6 @@ class Bot:
             data = self.read_bytes(packet_length)
 
             try:
-                self.packet_last_received_timestamp = time.time()
                 return ServerPacket.get_instance(packet_type, data)
             except Exception as e:
                 self.logger.error("Error parsing packet parameters for packet_type '%d' and payload: %s" % (packet_type, data), e)
