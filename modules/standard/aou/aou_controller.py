@@ -21,8 +21,6 @@ class AOUController:
     CACHE_MAX_AGE = 604800
 
     def __init__(self):
-        self.item_regex = re.compile(r"\[(item|itemname|itemicon)( nolink)?\](\d+)\[\/(item|itemname|itemicon)\]",
-                                     re.IGNORECASE)
         self.guide_id_regex = re.compile(r"pid=(\d+)", re.IGNORECASE)
 
         # initialize bbcode parser
@@ -177,7 +175,7 @@ class AOUController:
 
     # BBCode formatters
     def bbcode_render_image(self, tag_name, value, options, parent, context):
-        return "-image-"
+        return self.text.make_chatcmd("Image", "/start https://www.ao-universe.com/" + value)
 
     def bbcode_render_url(self, tag_name, value, options, parent, context):
         url = options.get("url") or value
