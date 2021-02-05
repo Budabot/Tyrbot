@@ -130,6 +130,25 @@ class TextFormatter(HTMLParser):
         return self.get_data()
 
 
+class MLStripper(HTMLParser):
+    def error(self, message):
+        pass
+
+    def __init__(self):
+        super().__init__()
+        self.reset()
+        self.strict = False
+        self.convert_charrefs = True
+        self.fed = []
+        self.chat_commands = []
+
+    def handle_data(self, d):
+        self.fed.append(d)
+
+    def get_data(self):
+        return "".join(self.fed)
+
+
 @instance()
 class Text:
     separators = [{"symbol": "<pagebreak>", "include": False}, {"symbol": "\n", "include": True}, {"symbol": " ", "include": True}]
@@ -318,7 +337,36 @@ class Text:
 
         return line, rest
 
-    def pad(self, s, length, char=" "):
+    def strip_html_tags(self, s):
+        if not s:
+            return None
+
+        stripper = MLStripper()
+        stripper.feed(s)
+        return stripper.get_data()
+
+    def pad_table(self, rows):
+        max_width = {}
+        for columns in rows:
+            for i, column in enumerate(columns[:-1]):
+                w = self.get_pixel_width(self.strip_html_tags(column))
+                if i not in max_width or max_width[i] < w:
+                    max_width[i] = w
+
+        for columns in rows:
+            adjustment = 0
+            num_cols = len(columns)
+            for i, column in enumerate(columns):
+                if i == num_cols - 1:
+                    continue
+
+                s, new_adjustment = self.pad_string(column, adjustment + max_width[i])
+                columns[i] = s
+                adjustment += new_adjustment
+
+        return rows
+
+    def pad_string(self, s, length, char=" "):
         if s is None:
             s = ""
 
@@ -327,11 +375,16 @@ class Text:
         fill_width = length - s_pixel_width
         if fill_width > 0:
             num_spacers = round(fill_width / spacer_pixel_width)
+            adjustment = fill_width - (spacer_pixel_width * num_spacers)
         else:
             num_spacers = 0
-        return s + (num_spacers * char)
+            adjustment = 0
+        return s + (num_spacers * char), adjustment
 
     def get_pixel_width(self, s):
+        if not s:
+            return 0
+
         width = 0
         for c in s:
             pixel_width = self.pixel_mapping.get(c, None)
