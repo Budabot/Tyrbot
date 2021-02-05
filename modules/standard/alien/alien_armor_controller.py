@@ -85,7 +85,7 @@ class AlienArmorController:
             **self.get_armor(armor_type, ql),
         })
 
-        return ChatBlob(self.getresp("module/alien", "ai_armor_ts_title", {"ql": ql, "name": armor_type}), blob)
+        return ChatBlob(self.getresp("module/alien", "ai_armor_ts_title", {"ql": ql, "type": armor_type}), blob)
 
     def get_armor(self, armor_type, ql):
         blob = None
@@ -176,7 +176,7 @@ class AlienArmorController:
             **self.text.generate_item(result, target_ql, "result")})
 
         return ChatBlob(
-            self.getresp("module/alien", "ai_armor_combined_title", {"ql": target_ql, "type": result.name}), blob)
+            self.getresp("module/alien", "ai_armor_ts_title", {"ql": target_ql, "type": result.name}), blob)
 
     def get_static_items(self):
         return self.static_items

@@ -36,8 +36,8 @@
     "de_DE": "Alien Rüstung"
   },
   "ai_armor_ts_title": {
-    "en_US": "Building process for {ql} {name}",
-    "de_DE": "Rezept für die {name} Rüstung - QL {ql}"
+    "en_US": "Building process for QL {ql} {type}",
+    "de_DE": "Rezept für die {type} - QL {ql}"
   },
   "ai_armor_ts": {
     "en_US": [
@@ -208,10 +208,6 @@
     ]
   },
 
-  "ai_armor_combined_title": {
-    "en_US": "Building process for QL{ql} {type}",
-    "de_DE": "Rezept für die {type} - QL {ql}"
-  },
   "ai_armor_combined": {
     "en_US": [
       "<header2>Tradeskill Process</header2>\n\n",
@@ -429,26 +425,5 @@
     "en_US": "Alien Generals",
     "de_DE": "Alien General"
 
-  },
-  "ai_gen_list": {
-    "en_US": [
-      "&nbsp;- <a href='chatcmd:///tell <myname> aigen Ankari'>Ankari</a>\n",
-      " - <a href='chatcmd:///tell <myname> aigen Ilari'>Ilari</a>\n",
-      " - <a href='chatcmd:///tell <myname> aigen Rimah'>Rimah</a>\n",
-      " - <a href='chatcmd:///tell <myname> aigen Jaax'>Jaax</a>\n",
-      " - <a href='chatcmd:///tell <myname> aigen Xoch'>Xoch</a>\n",
-      " - <a href='chatcmd:///tell <myname> aigen Cha'>Cha</a>\n"
-    ],
-    "de_DE": [
-      "&nbsp;- <a href='chatcmd:///tell <myname> aigen Ankari'>Ankari</a>\n",
-      " - <a href='chatcmd:///tell <myname> aigen Ilari'>Ilari</a>\n",
-      " - <a href='chatcmd:///tell <myname> aigen Rimah'>Rimah</a>\n",
-      " - <a href='chatcmd:///tell <myname> aigen Jaax'>Jaax</a>\n",
-      " - <a href='chatcmd:///tell <myname> aigen Xoch'>Xoch</a>\n",
-      " - <a href='chatcmd:///tell <myname> aigen Cha'>Cha</a>\n"
-    ]
-  },
-  "ai_gen_": {
-    "en_US": []
   }
 }

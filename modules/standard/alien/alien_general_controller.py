@@ -16,7 +16,15 @@ class AlienGeneralController:
     @command(command="aigen", params=[], access_level="all",
              description="List alien city ground generals")
     def aigen_list_command(self, request):
-        return ChatBlob(self.getresp("module/alien", "ai_gen_list_title"), self.getresp("module/alien", "ai_gen_list"))
+        blob = ""
+        blob += " - <a href='chatcmd:///tell <myname> aigen Ankari'>Ankari</a>\n"
+        blob += " - <a href='chatcmd:///tell <myname> aigen Ilari'>Ilari</a>\n"
+        blob += " - <a href='chatcmd:///tell <myname> aigen Rimah'>Rimah</a>\n"
+        blob += " - <a href='chatcmd:///tell <myname> aigen Jaax'>Jaax</a>\n"
+        blob += " - <a href='chatcmd:///tell <myname> aigen Xoch'>Xoch</a>\n"
+        blob += " - <a href='chatcmd:///tell <myname> aigen Cha'>Cha</a>\n"
+
+        return ChatBlob(self.getresp("module/alien", "ai_gen_list_title"), blob)
 
     @command(command="aigen", params=[Options(["ankari", "ilari", "rimah", "jaax", "xoch", "cha"])], access_level="all",
              description="Show info about an alien city ground general")

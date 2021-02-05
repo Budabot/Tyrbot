@@ -54,7 +54,7 @@ class ImplantController:
         implant = self.get_implant_by_ql(ql)
         blob = self.format_implant(implant)
 
-        return ChatBlob(f"Implant QL{implant.ql} ({implant.ability} Ability, {implant.treatment} Treatment)", blob)
+        return ChatBlob(f"Implant QL {implant.ql} ({implant.ability} Ability, {implant.treatment} Treatment)", blob)
 
     @command(command="implant", params=[Int("ability"), Int("treatment")], access_level="all",
              description="Shows highest QL implant for a given ability and treatment")
@@ -65,7 +65,7 @@ class ImplantController:
 
         blob = self.format_implant(implant)
 
-        return ChatBlob(f"Implant QL{implant.ql} ({implant.ability} Ability, {implant.treatment} Treatment)", blob)
+        return ChatBlob(f"Implant QL {implant.ql} ({implant.ability} Ability, {implant.treatment} Treatment)", blob)
 
     def get_implant_by_requirements(self, ability, treatment):
         row = self.db.query_single("SELECT ql FROM implant_requirement WHERE ability <= ? AND treatment <= ? ORDER BY ql DESC LIMIT 1",

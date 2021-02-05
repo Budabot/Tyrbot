@@ -39,7 +39,7 @@ class LevelController:
         if 1 <= level <= 250:
             levels = self.get_mission_levels(level)
 
-            return "QL%d missions can be rolled from these levels: %s" % (level, " ".join(levels))
+            return "QL %d missions can be rolled from these levels: %s" % (level, " ".join(levels))
         else:
             return "Mission level must be between <highlight>1</highlight> and <highlight>250</highlight>."
 
