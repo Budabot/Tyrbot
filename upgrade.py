@@ -164,3 +164,19 @@ def run_upgrades():
 
             db.exec("DROP TABLE org_member_old")
         version = update_version(version)
+
+    if version == 14:
+        if table_exists("auction_log"):
+            db.exec("ALTER TABLE auction_log RENAME TO auction_log_old")
+            db.exec("CREATE TABLE auction_log (auction_id INT PRIMARY KEY AUTO_INCREMENT, item_ref VARCHAR(255) NOT NULL, item_name VARCHAR(255) NOT NULL, "
+                    "winner_id BIGINT NOT NULL, auctioneer_id BIGINT NOT NULL, created_at INT NOT NULL, winning_bid INT NOT NULL)")
+            db.exec("INSERT INTO auction_log SELECT auction_id, item_ref, item_name, winner_id, auctioneer_id, time, winning_bid FROM auction_log_old")
+            db.exec("DROP TABLE auction_log_old")
+
+        if table_exists("points_log"):
+            db.exec("ALTER TABLE points_log RENAME TO points_log_old")
+            db.exec("CREATE TABLE points_log (log_id INT PRIMARY KEY, char_id BIGINT NOT NULL, audit INT NOT NULL, "
+                    "leader_id BIGINT NOT NULL, reason VARCHAR(255), created_at INT NOT NULL)")
+            db.exec("INSERT INTO points_log SELECT log_id, char_id, audit, leader_id, reason, time FROM points_log_old")
+            db.exec("DROP TABLE points_log_old")
+        version = update_version(version)

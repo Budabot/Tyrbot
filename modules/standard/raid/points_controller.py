@@ -30,7 +30,7 @@ class PointsController:
         self.db.exec("CREATE TABLE IF NOT EXISTS points (char_id BIGINT PRIMARY KEY, points INT DEFAULT 0, created_at INT NOT NULL, "
                      "disabled SMALLINT DEFAULT 0)")
         self.db.exec("CREATE TABLE IF NOT EXISTS points_log (log_id INT PRIMARY KEY, char_id BIGINT NOT NULL, audit INT NOT NULL, "
-                     "leader_id BIGINT NOT NULL, reason VARCHAR(255), time INT NOT NULL)")
+                     "leader_id BIGINT NOT NULL, reason VARCHAR(255), created_at INT NOT NULL)")
         self.db.exec("CREATE TABLE IF NOT EXISTS points_presets (preset_id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(50) NOT NULL, "
                      "points INT DEFAULT 1, UNIQUE(name))")
 
@@ -105,7 +105,7 @@ class PointsController:
     @command(command="account", params=[Const("logentry"), Int("log_id")], access_level="moderator",
              description="Look up specific log entry", sub_command="modify")
     def account_log_entry_cmd(self, request, _, log_id: int):
-        log_entry = self.db.query_single("SELECT log_id, char_id, audit, leader_id, reason, time FROM points_log WHERE log_id = ?", [log_id])
+        log_entry = self.db.query_single("SELECT log_id, char_id, audit, leader_id, reason, created_at FROM points_log WHERE log_id = ?", [log_id])
 
         if not log_entry:
             return "No log entry with given ID <highlight>%d</highlight>." % log_id
@@ -217,7 +217,7 @@ class PointsController:
         return "No presets available. To add new presets use <highlight><symbol>presets add preset_name preset_points</highlight>."
 
     def add_log_entry(self, char_id: int, leader_id: int, reason: str, amount=0):
-        sql = "INSERT INTO points_log (char_id, audit, leader_id, reason, time) VALUES (?,?,?,?,?)"
+        sql = "INSERT INTO points_log (char_id, audit, leader_id, reason, created_at) VALUES (?,?,?,?,?)"
         return self.db.exec(sql, [char_id, amount, leader_id, reason, int(time.time())])
 
     def alter_points(self, char_id: int, amount: int, leader_id: int, reason: str):
@@ -248,7 +248,7 @@ class PointsController:
         if not main:
             return "Could not find character <highlight>%s</highlight>." % char.name
 
-        points_log = self.db.query("SELECT * FROM points_log WHERE char_id = ? ORDER BY time DESC LIMIT 50",
+        points_log = self.db.query("SELECT * FROM points_log WHERE char_id = ? ORDER BY created_at DESC LIMIT 50",
                                    [main.char_id])
         points = self.db.query_single("SELECT points, disabled FROM points WHERE char_id = ?", [main.char_id])
         if not points:
@@ -270,18 +270,18 @@ class PointsController:
                 if entry.audit == 0:
                     # If points is 0, then it's a general case log
                     blob += "<grey>[%s]</grey> <orange>\"%s\"</orange>" % (
-                        self.util.format_datetime(entry.time), entry.reason)
+                        self.util.format_datetime(entry.created_at), entry.reason)
                 elif entry.audit > 0:
                     pts = "<green>%d</green>" % entry.audit
                     blob += "<grey>[%s]</grey> %s points were added to %s account " \
                             "by <highlight>%s</highlight> with reason <orange>%s</orange>" \
-                            % (self.util.format_datetime(entry.time), pts, name_reference,
+                            % (self.util.format_datetime(entry.created_at), pts, name_reference,
                                self.character_service.resolve_char_to_name(entry.leader_id), entry.reason)
                 elif entry.audit < 0:
                     pts = "<red>%d</red>" % (-1 * entry.audit)
                     blob += "<grey>[%s]</grey> %s points were taken from %s account " \
                             "by <highlight>%s</highlight> with reason <orange>%s</orange>" \
-                            % (self.util.format_datetime(entry.time), pts, name_reference,
+                            % (self.util.format_datetime(entry.created_at), pts, name_reference,
                                self.character_service.resolve_char_to_name(entry.leader_id),
                                entry.reason)
 

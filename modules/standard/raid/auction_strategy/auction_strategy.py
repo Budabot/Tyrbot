@@ -55,7 +55,7 @@ class AuctionStrategy:
         else:
             item_index = list(self.items.keys())[0]
             item = self.items[item_index]
-            sql = "SELECT winning_bid FROM auction_log WHERE item_name LIKE ? ORDER BY time DESC LIMIT 5"
+            sql = "SELECT winning_bid FROM auction_log WHERE item_name LIKE ? ORDER BY created_at DESC LIMIT 5"
             bids = self.db.query(sql, [item])
             if bids:
                 avg_win_bid = int(sum(map(lambda x: x.winning_bid, bids)) / len(bids))
@@ -130,7 +130,7 @@ class AuctionStrategy:
 
         blob = ""
         t = int(time.time())
-        sql = "INSERT INTO auction_log (item_ref, item_name, winner_id, auctioneer_id, time, winning_bid, second_highest_bid) VALUES (?,?,?,?,?,?,?)"
+        sql = "INSERT INTO auction_log (item_ref, item_name, winner_id, auctioneer_id, created_at, winning_bid) VALUES (?,?,?,?,?,?)"
         for i, item in self.items.items():
             bids = self.bids.get(i, None)
             if bids:
@@ -145,17 +145,18 @@ class AuctionStrategy:
                 if len(bids) == 1:
                     winning_amount = 1
                     winning_bid = bids[0]
-                elif bids[0].max_amount == bids[1].max_amount:
-                    winning_amount = bids[0].max_amount
-                    if bids[1].created_at < bids[0].created_at:
-                        winning_bid = bids[1]
-                    else:
-                        winning_bid = bids[0]
                 else:
-                    winning_amount = bids[0].max_amount + 1
                     winning_bid = bids[0]
+                    winning_amount = bids[1].max_amount + 1
+                    for bid in bids[1:]:
+                        if bid.max_amount == winning_bid.max_amount:
+                            if bid.created_at < winning_bid.created_at:
+                                winning_bid = bid
+                                winning_amount = winning_bid.max_amount
+                        else:
+                            break
 
-                self.db.exec(sql, [item, item, winning_bid.sender.char_id, self.auctioneer.char_id, t, winning_amount, 0])
+                self.db.exec(sql, [item, item, winning_bid.sender.char_id, self.auctioneer.char_id, t, winning_amount])
 
                 blob += "%d. %s, won by <highlight>%s</highlight> with <green>%d</green> points\n" % (i, item, winning_bid.sender.name, winning_amount)
                 self.points_controller.alter_points(winning_bid.account.char_id, -winning_amount, self.auctioneer.char_id, "Won auction for %s" % item)
