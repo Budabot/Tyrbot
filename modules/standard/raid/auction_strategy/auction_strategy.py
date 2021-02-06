@@ -16,6 +16,9 @@ class AuctionBid:
     def __str__(self):
         return self.__dict__.__str__()
 
+    def __repr__(self):
+        return self.__str__()
+
 
 class AuctionStrategy:
     def __init__(self):
@@ -132,40 +135,48 @@ class AuctionStrategy:
         t = int(time.time())
         sql = "INSERT INTO auction_log (item_ref, item_name, winner_id, auctioneer_id, created_at, winning_bid) VALUES (?,?,?,?,?,?)"
         for i, item in self.items.items():
-            bids = self.bids.get(i, None)
-            if bids:
-                # update max_amount values based on current account points
-                for bid in bids:
-                    account = self.points_controller.get_account(bid.account.char_id)
-                    if bid.max_amount > account.points:
-                        bid.max_amount = account.points
+            # update max_amount values based on current account points
+            bids = []
+            for bid in (self.bids.get(i, None) or []):
+                account = self.points_controller.get_account(bid.account.char_id)
+                if account.points == 0:
+                    continue
 
-                sorted(bids, key=lambda x: x.max_amount, reverse=True)
+                if bid.max_amount > account.points:
+                    bid.max_amount = account.points
 
-                if len(bids) == 1:
-                    winning_amount = 1
-                    winning_bid = bids[0]
-                else:
-                    winning_bid = bids[0]
-                    winning_amount = bids[1].max_amount + 1
-                    for bid in bids[1:]:
-                        if bid.max_amount == winning_bid.max_amount:
-                            if bid.created_at < winning_bid.created_at:
-                                winning_bid = bid
-                                winning_amount = winning_bid.max_amount
-                        else:
-                            break
+                bids.append(bid)
 
-                self.db.exec(sql, [item, item, winning_bid.sender.char_id, self.auctioneer.char_id, t, winning_amount])
+            bids = sorted(bids, key=lambda x: x.max_amount, reverse=True)
 
-                blob += "%d. %s, won by <highlight>%s</highlight> with <green>%d</green> points\n" % (i, item, winning_bid.sender.name, winning_amount)
-                self.points_controller.alter_points(winning_bid.account.char_id, -winning_amount, self.auctioneer.char_id, "Won auction for %s" % item)
-            else:
+            count = len(bids)
+            if count == 0:
                 blob += "%d. %s, no bids made\n" % (i, item)
+                continue
 
-        result_blob = ChatBlob("Auction results", blob)
+            if count == 1:
+                winning_amount = 1
+                winning_bid = bids[0]
+            else:
+                winning_bid = bids[0]
+                winning_amount = bids[1].max_amount + 1
+                for bid in bids[1:]:
+                    if bid.max_amount == winning_bid.max_amount:
+                        if bid.created_at < winning_bid.created_at:
+                            winning_bid = bid
+                    else:
+                        break
 
-        self.spam_raid_message(result_blob)
+                # if there is a tie
+                if winning_amount > winning_bid.max_amount:
+                    winning_amount = winning_bid.max_amount
+
+            self.db.exec(sql, [item, item, winning_bid.sender.char_id, self.auctioneer.char_id, t, winning_amount])
+
+            blob += "%d. %s, won by <highlight>%s</highlight> with <green>%d</green> points\n" % (i, item, winning_bid.sender.name, winning_amount)
+            self.points_controller.alter_points(winning_bid.account.char_id, -winning_amount, self.auctioneer.char_id, "Won auction for %s" % item)
+
+        self.spam_raid_message(ChatBlob("Auction results", blob))
 
     def remove_bid(self, char_id, item_index):
         if len(self.items) > 1 and not item_index:

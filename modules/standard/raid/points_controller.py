@@ -248,7 +248,7 @@ class PointsController:
         if not main:
             return "Could not find character <highlight>%s</highlight>." % char.name
 
-        points_log = self.db.query("SELECT * FROM points_log WHERE char_id = ? ORDER BY created_at DESC LIMIT 50",
+        points_log = self.db.query("SELECT * FROM points_log WHERE char_id = ? ORDER BY created_at DESC LIMIT 20",
                                    [main.char_id])
         points = self.db.query_single("SELECT points, disabled FROM points WHERE char_id = ?", [main.char_id])
         if not points:

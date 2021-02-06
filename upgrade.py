@@ -179,4 +179,11 @@ def run_upgrades():
                     "leader_id BIGINT NOT NULL, reason VARCHAR(255), created_at INT NOT NULL)")
             db.exec("INSERT INTO points_log SELECT log_id, char_id, audit, leader_id, reason, time FROM points_log_old")
             db.exec("DROP TABLE points_log_old")
+
+        if table_exists("points"):
+            db.exec("ALTER TABLE points RENAME TO points_old")
+            db.exec("CREATE TABLE points (char_id BIGINT PRIMARY KEY, points INT DEFAULT 0, created_at INT NOT NULL, "
+                    "disabled SMALLINT DEFAULT 0)")
+            db.exec("INSERT INTO points SELECT char_id, points, created, disabled FROM points_old")
+            db.exec("DROP TABLE points_old")
         version = update_version(version)
