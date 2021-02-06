@@ -44,7 +44,7 @@ class LootController:
         if self.loot_list:
             self.loot_list.clear()
             self.last_modify = None
-            return "Loot list cleared."
+            self.raid_controller.send_message("Loot list cleared.")
         else:
             return "Loot list is already empty."
 
@@ -57,14 +57,12 @@ class LootController:
         if not self.loot_list:
             return "Loot list is empty."
 
-        try:
-            if self.loot_list[item_index]:
-                self.last_modify = int(time.time())
-                return "Removed %s from loot list." % self.loot_list.pop(item_index).get_item_str()
-            else:
-                return "Item error."
-        except KeyError:
-            return "Wrong index given."
+        if item_index not in self.loot_list:
+            return "No item at index <highlight>%d</highlight> exists." % item_index
+
+        item = self.loot_list.pop(item_index)
+        self.last_modify = int(time.time())
+        self.raid_controller.send_message("Removed %s from loot list." % item.get_item_str())
 
     @command(command="loot", params=[Const("increase"), Int("item_index")], description="Increase item count",
              access_level="all", sub_command="modify")
@@ -75,17 +73,13 @@ class LootController:
         if not self.loot_list:
             return "Loot list is empty."
 
-        try:
-            loot_item = self.loot_list[item_index]
+        if item_index not in self.loot_list:
+            return "No item at index <highlight>%d</highlight> exists." % item_index
 
-            if loot_item:
-                loot_item.count += 1
-                self.last_modify = int(time.time())
-                return "Increased item count for %s to %d." % (loot_item.get_item_str(), loot_item.count)
-            else:
-                return "Item error."
-        except KeyError:
-            return "Wrong index given."
+        loot_item = self.loot_list[item_index]
+        loot_item.count += 1
+        self.last_modify = int(time.time())
+        return "Increased item count for %s to %d." % (loot_item.get_item_str(), loot_item.count)
 
     @command(command="loot", params=[Const("decrease"), Int("item_index")], description="Decrease item count",
              access_level="all", sub_command="modify")
@@ -96,91 +90,82 @@ class LootController:
         if not self.loot_list:
             return "Loot list is empty."
 
-        try:
-            loot_item = self.loot_list[item_index]
+        if item_index not in self.loot_list:
+            return "No item at index <highlight>%d</highlight> exists." % item_index
 
-            if loot_item:
-                loot_item.count = loot_item.count - 1 if loot_item.count > 1 else 1
-                self.last_modify = int(time.time())
-                return "Decreased item count for %s to %d." % (loot_item.get_item_str(), loot_item.count)
-            else:
-                return "Item error."
-        except KeyError:
-            return "Wrong index given."
+        loot_item = self.loot_list[item_index]
+        loot_item.count = loot_item.count - 1 if loot_item.count > 1 else 1
+        self.last_modify = int(time.time())
+        return "Decreased item count for %s to %d." % (loot_item.get_item_str(), loot_item.count)
 
-    @command(command="loot", params=[Const("add"), Int("item_index")], description="Add yourself to item",
+    @command(command="loot", params=[Const("add"), Int("item_index")], description="Add yourself to item roll",
              access_level="all")
     def loot_add_to_cmd(self, request, _, item_index: int):
-        try:
-            loot_item = self.loot_list[item_index]
-            old_item = self.is_already_added(request.sender.name)
+        if item_index not in self.loot_list:
+            return "No item at index <highlight>%d</highlight> exists." % item_index
 
-            if old_item:
-                if old_item.get_item_str() == loot_item.get_item_str():
-                    name = "You have" if request.channel == "msg" else request.sender.name
-                    return "%s already added to %s." % (name, loot_item.get_item_str())
+        loot_item = self.loot_list[item_index]
+        old_item = self.is_already_added(request.sender.name)
 
-                old_item.bidders.remove(request.sender.name)
+        if old_item:
+            if old_item.get_item_str() == loot_item.get_item_str():
+                return "You have already added to %s." % loot_item.get_item_str()
 
-            name = "You have" if request.channel == "msg" else request.sender.name
-            loot_item.bidders.append(request.sender.name)
+            old_item.bidders.remove(request.sender.name)
+
+        loot_item.bidders.append(request.sender.name)
+
+        self.last_modify = int(time.time())
+
+        if old_item is not None:
+            return "You have moved from %s to %s." % (old_item.get_item_str(), loot_item.get_item_str())
+        else:
+            return "You have added to %s." % loot_item.get_item_str()
+
+    @command(command="loot", params=[Const("rem")], description="Remove yourself from item roll", access_level="all")
+    def loot_rem_from_cmd(self, request, _):
+        loot_item = self.is_already_added(request.sender.name)
+
+        if loot_item is not None:
+            loot_item.bidders.remove(request.sender.name)
 
             self.last_modify = int(time.time())
 
-            if old_item is not None:
-                return "%s moved from %s to %s." % (name, old_item.get_item_str(), loot_item.get_item_str())
-            else:
-                return "%s added to %s." % (name, loot_item.get_item_str())
-
-        except KeyError:
-            return "Wrong index given."
-
-    @command(command="loot", params=[Const("rem")], description="Remove yourself from item", access_level="all")
-    def loot_rem_from_cmd(self, request, _):
-        try:
-            loot_item = self.is_already_added(request.sender.name)
-
-            if loot_item is not None:
-                name = "You were" if request.channel == "msg" else "%s was" % request.sender.name
-                loot_item.bidders.remove(request.sender.name)
-
-                self.last_modify = int(time.time())
-
-                return "%s removed from %s." % (name, loot_item.get_item_str())
-            else:
-                return "You are not added to any loot."
-        except KeyError:
-            return "Wrong index given."
+            return "You were removed from %s." % loot_item.get_item_str()
+        else:
+            return "You are not added to any loot."
 
     @command(command="loot", params=[Const("roll")], description="Roll all loot", access_level="all", sub_command="modify")
     def loot_roll_cmd(self, request, _):
         if not self.leader_controller.can_use_command(request.sender.char_id):
             return LeaderController.NOT_LEADER_MSG
 
-        if self.loot_list:
-            blob = ""
+        if not self.loot_list:
+            return "Loot list is empty."
 
-            for i, loot_item in self.loot_list.items():
-                winners = []
+        blob = ""
+        for i, loot_item in self.loot_list.items():
+            winners = []
 
-                if loot_item.bidders:
-                    if len(loot_item.bidders) <= loot_item.count:
-                        winners = loot_item.bidders.copy()
-                        loot_item.count = loot_item.count - len(loot_item.bidders)
-                        loot_item.bidders = []
-                    else:
-                        for j in range(0, loot_item.count):
-                            winner = secrets.choice(loot_item.bidders)
-                            winners.append(winner)
-                            loot_item.bidders.remove(winner)
-                            loot_item.count = loot_item.count - 1 if loot_item.count > 0 else 0
+            if loot_item.bidders:
+                if len(loot_item.bidders) <= loot_item.count:
+                    winners = loot_item.bidders.copy()
+                    loot_item.count = loot_item.count - len(loot_item.bidders)
+                    loot_item.bidders = []
+                else:
+                    for j in range(0, loot_item.count):
+                        winner = secrets.choice(loot_item.bidders)
+                        winners.append(winner)
+                        loot_item.bidders.remove(winner)
+                        loot_item.count = loot_item.count - 1 if loot_item.count > 0 else 0
 
-                    blob += "%d. %s\n" % (i, loot_item.get_item_str())
-                    blob += " | Winners: <red>%s</red>\n\n" % '</red>, <red>'.join(winners)
+                blob += "%d. %s\n" % (i, loot_item.get_item_str())
+                blob += " | Winners: <red>%s</red>\n\n" % '</red>, <red>'.join(winners)
 
-            return ChatBlob("Roll results", blob) if len(blob) > 0 else "No one was added to any loot"
+        if len(blob) > 0:
+            self.raid_controller.send_message("Roll results", blob)
         else:
-            return "No loot to roll."
+            return "No one was added to any loot."
 
     @command(command="loot", params=[Const("reroll")], description="Rebuild loot list", access_level="all", sub_command="modify")
     def loot_reroll_cmd(self, request, _):
@@ -200,7 +185,8 @@ class LootController:
 
             self.last_modify = int(time.time())
 
-            return "List has been rebuilt." if len(self.loot_list) > 0 else "No items left to roll."
+            self.raid_controller.send_message("Loot that was not won is being re-rolled.")
+            self.raid_controller.send_message(self.get_loot_list())
         else:
             return "Loot list is empty."
 
@@ -216,10 +202,9 @@ class LootController:
 
         if item:
             self.add_item_to_loot(item, item.comment, item_count)
-
-            return "Added %s to loot list." % item.name
+            self.raid_controller.send_message("Added <highlight>%s</highlight> to loot list." % item.name)
         else:
-            return "Failed to add item with ID %s." % raid_item_id
+            return "Could not find raid item with ID <highlight>%s</highlight>." % raid_item_id
 
     @command(command="loot", params=[Const("addraid"), Any("raid"), Any("category")],
              description="Add all loot from pre-defined raid", access_level="all", sub_command="modify")
@@ -241,9 +226,9 @@ class LootController:
             for item in items:
                 self.add_item_to_loot(item, item.comment, item.multiloot)
 
-            return "%s table was added to loot." % category
+            self.raid_controller.send_message("<highlight>%s</highlight> loot table was added to loot list." % category)
         else:
-            return "%s does not have any items registered in loot table." % category
+            return "<highlight>%s</highlight> does not have any items registered in loot table." % category
 
     @command(command="loot", params=[Const("additem", is_optional=True), Int("item"), Int("item_count", is_optional=True)],
              description="Add an item to loot list by item id", access_level="all", sub_command="modify")
@@ -259,8 +244,7 @@ class LootController:
             return "Could not find item with ID <highlight>%d</highlight>." % item_id
 
         self.add_item_to_loot(item, None, item_count)
-
-        return "%s was added to loot list." % item.name
+        self.raid_controller.send_message("%s was added to loot list." % item.name)
 
     @command(command="loot", params=[Const("additem", is_optional=True), Any("item"), Int("item_count", is_optional=True)],
              description="Add an item to loot list", access_level="all", sub_command="modify")
@@ -284,7 +268,7 @@ class LootController:
             loot += item
             self.add_item_to_loot(item, None, item_count)
 
-        return "<highlight>%s</highlight> was added to loot list." % loot
+        self.raid_controller.send_message("%s was added to loot list." % loot)
 
     @timerevent(budatime="1h", description="Periodically check when loot list was last modified, and clear it if last modification was done 1+ hours ago")
     def loot_clear_event(self, _1, _2):

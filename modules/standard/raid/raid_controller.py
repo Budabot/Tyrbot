@@ -225,7 +225,8 @@ class RaidController:
                                                          "Was inactive during raid, %s, when points for %s "
                                                          "was dished out - did not have an active account at "
                                                          "the given time." % (self.raid.raid_name, preset.name))
-        return "<highlight>%d</highlight> points added to all active raiders." % preset.points
+
+        self.send_message("<highlight>%d</highlight> points added to all active raiders for <highlight>%s</highlight>." % (preset.points, preset.name))
 
     @command(command="raid", params=[Const("active")], description="Get a list of raiders to do active check",
              access_level="moderator", sub_command="manage")
@@ -349,7 +350,7 @@ class RaidController:
         self.raid = None
         self.topic_controller.clear_topic()
 
-        return "Raid saved and ended."
+        self.send_message("Raid saved and ended.")
 
     @command(command="raid", params=[Const("history"), Int("raid_id")],
              description="Show log entry for raid",
