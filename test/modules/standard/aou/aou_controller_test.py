@@ -15,7 +15,8 @@ class AOUControllerTest(unittest.TestCase):
         self.assertEqual("<i><highlight>test</highlight></i>", aou_controller.format_bbcode_code("[center][i][b]test[/b][/i][/center]"))
         self.assertEqual("\n", aou_controller.format_bbcode_code("\n"))
         self.assertEqual("testtest", aou_controller.format_bbcode_code("[color=#FFCC77]test[/color][color=red]test[/color]"))
-        self.assertEqual("-image--image-", aou_controller.format_bbcode_code("[center][img]something1.png[/img][img]something2.png[/img][/center]"))
+        self.assertEqual("<a  href='chatcmd:///start https://www.ao-universe.com/something1.png'>Image</a><a  href='chatcmd:///start https://www.ao-universe.com/something2.png'>Image</a>",
+                         aou_controller.format_bbcode_code("[center][img]something1.png[/img][img]something2.png[/img][/center]"))
         self.assertEqual("<a  href='chatcmd:///start test.com'>testing</a>", aou_controller.format_bbcode_code("[url=test.com]testing[/url]"))
         self.assertEqual("<a  href='chatcmd:///tell <myname> aou 10'>testing</a>", aou_controller.format_bbcode_code("[url=index.php?pid=10]testing[/url]"))
         self.assertEqual("<a  href='chatcmd:///waypoint 456 254 100'>Cool spot (456x254)</a>", aou_controller.format_bbcode_code("[waypoint pf=100 y=254 x=456]Cool spot[/waypoint]"))
