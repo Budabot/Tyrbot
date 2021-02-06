@@ -1,3 +1,4 @@
+from core.conn import Conn
 from core.decorators import instance
 from core.aochat import server_packets
 from core.logger import Logger
@@ -47,7 +48,10 @@ class PublicChannelService:
     def get_channel_name(self, channel_id):
         return self.id_to_name.get(channel_id, None)
 
-    def add(self, packet: server_packets.PublicChannelJoined):
+    def add(self, conn: Conn, packet: server_packets.PublicChannelJoined):
+        if conn.id != "main":
+            return
+
         self.id_to_name[packet.channel_id] = packet.name
         self.name_to_id[packet.name] = packet.channel_id
         if not self.org_id and self.is_org_channel_id(packet.channel_id):
@@ -61,12 +65,18 @@ class PublicChannelService:
             self.logger.info("Org Id: %d" % self.org_id)
             self.logger.info("Org Name: %s" % self.org_name)
 
-    def remove(self, packet: server_packets.PublicChannelLeft):
+    def remove(self, conn: Conn, packet: server_packets.PublicChannelLeft):
+        if conn.id != "main":
+            return
+
         channel_name = self.get_channel_name(packet.channel_id)
         del self.id_to_name[packet.channel_id]
         del self.name_to_id[channel_name]
 
-    def public_channel_message(self, packet: server_packets.PublicChannelMessage):
+    def public_channel_message(self, conn: Conn, packet: server_packets.PublicChannelMessage):
+        if conn.id != "main":
+            return
+
         if self.is_org_channel_id(packet.channel_id):
             char_name = self.character_service.get_char_name(packet.char_id)
             if packet.extended_message:

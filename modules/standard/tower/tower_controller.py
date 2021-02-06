@@ -1,5 +1,6 @@
 from core.chat_blob import ChatBlob
 from core.command_param_types import Any, Int
+from core.conn import Conn
 from core.db import DB
 from core.decorators import instance, command, event
 from core.dict_object import DictObject
@@ -101,7 +102,10 @@ class TowerController:
 
         return blob
 
-    def handle_public_channel_message(self, packet: server_packets.PublicChannelMessage):
+    def handle_public_channel_message(self, conn: Conn, packet: server_packets.PublicChannelMessage):
+        if conn.id != "main":
+            return
+
         if packet.channel_id == self.TOWER_BATTLE_OUTCOME_ID:
             victory = self.get_victory_event(packet)
 

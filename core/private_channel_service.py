@@ -1,3 +1,4 @@
+from core.conn import Conn
 from core.logger import Logger
 from core.decorators import instance
 from core.aochat import server_packets, client_packets
@@ -31,19 +32,28 @@ class PrivateChannelService:
 
         self.access_service.register_access_level("guest", 90, self.in_private_channel)
 
-    def handle_private_channel_message(self, packet: server_packets.PrivateChannelMessage):
+    def handle_private_channel_message(self, conn: Conn, packet: server_packets.PrivateChannelMessage):
+        if conn.id != "main":
+            return
+
         if packet.private_channel_id == self.bot.get_char_id():
             char_name = self.character_service.get_char_name(packet.char_id)
             self.logger.log_chat("Private Channel", char_name, packet.message)
             self.event_service.fire_event(self.PRIVATE_CHANNEL_MESSAGE_EVENT, packet)
 
-    def handle_private_channel_client_joined(self, packet: server_packets.PrivateChannelClientJoined):
+    def handle_private_channel_client_joined(self, conn: Conn, packet: server_packets.PrivateChannelClientJoined):
+        if conn.id != "main":
+            return
+
         if packet.private_channel_id == self.bot.get_char_id():
             self.private_channel_chars[packet.char_id] = packet
             self.logger.log_chat("Private Channel", None, "%s joined the channel." % self.character_service.get_char_name(packet.char_id))
             self.event_service.fire_event(self.JOINED_PRIVATE_CHANNEL_EVENT, packet)
 
-    def handle_private_channel_client_left(self, packet: server_packets.PrivateChannelClientLeft):
+    def handle_private_channel_client_left(self, conn: Conn, packet: server_packets.PrivateChannelClientLeft):
+        if conn.id != "main":
+            return
+
         if packet.private_channel_id == self.bot.get_char_id():
             del self.private_channel_chars[packet.char_id]
             self.logger.log_chat("Private Channel", None, "%s left the channel." % self.character_service.get_char_name(packet.char_id))

@@ -73,7 +73,7 @@ class CharacterService:
     def get_char_name(self, char_id):
         return self.id_to_name.get(char_id, None)
 
-    def update(self, packet):
+    def update(self, conn, packet):
         self.waiting_for_response.discard(packet.name)
 
         if packet.char_id == 4294967295:

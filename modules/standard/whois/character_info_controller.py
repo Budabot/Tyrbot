@@ -151,7 +151,7 @@ class CharacterInfoController:
         elif char_info.cache_age > max_cache_age:
             return "%s (old cache; %s old)" % (char_info.source, self.util.time_to_readable(char_info.cache_age))
 
-    def handle_buddy_status(self, packet):
+    def handle_buddy_status(self, conn, packet):
         obj = self.waiting_for_update.get(packet.char_id)
         if obj:
             self.buddy_service.remove_buddy(packet.char_id, self.BUDDY_IS_ONLINE_TYPE)
@@ -161,5 +161,5 @@ class CharacterInfoController:
 
             obj.callback(packet.online == 1)
 
-    def character_name_update(self, packet):
+    def character_name_update(self, conn, packet):
         self.name_history.append(packet)

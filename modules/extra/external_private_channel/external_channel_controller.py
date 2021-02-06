@@ -1,3 +1,4 @@
+from core.conn import Conn
 from core.decorators import instance
 from core.logger import Logger
 from core.tyrbot import Tyrbot
@@ -20,7 +21,10 @@ class ExternalChannelController:
         self.bot.register_packet_handler(server_packets.PrivateChannelInvited.id, self.handle_private_channel_invite)
         self.bot.register_packet_handler(server_packets.PrivateChannelMessage.id, self.handle_private_channel_message)
 
-    def handle_private_channel_invite(self, packet: server_packets.PrivateChannelInvited):
+    def handle_private_channel_invite(self, conn: Conn, packet: server_packets.PrivateChannelInvited):
+        if conn.id != "main":
+            return
+
         channel_name = self.character_service.get_char_name(packet.private_channel_id)
         if self.ban_service.get_ban(packet.private_channel_id):
             self.logger.info("ignore private channel invite from banned char '%s'" % channel_name)
@@ -28,7 +32,10 @@ class ExternalChannelController:
             self.bot.send_packet(client_packets.PrivateChannelJoin(packet.private_channel_id))
             self.logger.info("Joined private channel %s" % channel_name)
 
-    def handle_private_channel_message(self, packet: server_packets.PrivateChannelMessage):
+    def handle_private_channel_message(self, conn: Conn, packet: server_packets.PrivateChannelMessage):
+        if conn.id != "main":
+            return
+
         if packet.private_channel_id != self.bot.get_char_id():
             channel_name = self.character_service.get_char_name(packet.private_channel_id)
             char_name = self.character_service.get_char_name(packet.char_id)

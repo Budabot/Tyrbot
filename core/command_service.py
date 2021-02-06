@@ -1,4 +1,5 @@
 from core.command_request import CommandRequest
+from core.conn import Conn
 from core.decorators import instance
 from core.access_service import AccessService
 from core.aochat import server_packets
@@ -349,7 +350,10 @@ class CommandService:
     def get_handlers(self, command_key):
         return self.handlers.get(command_key, None)
 
-    def handle_private_message(self, packet: server_packets.PrivateMessage):
+    def handle_private_message(self, conn: Conn, packet: server_packets.PrivateMessage):
+        if conn.id != "main":
+            return
+
         # since the command symbol is not required for private messages,
         # the command_str must have length of at least 1 in order to be valid,
         # otherwise it is ignored
@@ -365,7 +369,10 @@ class CommandService:
             packet.char_id,
             lambda msg: self.bot.send_private_message(packet.char_id, msg))
 
-    def handle_private_channel_message(self, packet: server_packets.PrivateChannelMessage):
+    def handle_private_channel_message(self, conn: Conn, packet: server_packets.PrivateChannelMessage):
+        if conn.id != "main":
+            return
+
         # since the command symbol is required in the private channel,
         # the command_str must have length of at least 2 in order to be valid,
         # otherwise it is ignored
@@ -382,7 +389,10 @@ class CommandService:
                 packet.char_id,
                 lambda msg: self.bot.send_private_channel_message(msg))
 
-    def handle_public_channel_message(self, packet: server_packets.PublicChannelMessage):
+    def handle_public_channel_message(self, conn: Conn, packet: server_packets.PublicChannelMessage):
+        if conn.id != "main":
+            return
+
         # since the command symbol is required in the org channel,
         # the command_str must have length of at least 2 in order to be valid,
         # otherwise it is ignored

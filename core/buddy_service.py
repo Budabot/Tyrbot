@@ -1,3 +1,4 @@
+from core.conn import Conn
 from core.decorators import instance
 from core.lookup.character_service import CharacterService
 from core.aochat import server_packets
@@ -12,7 +13,7 @@ class BuddyService:
 
     def __init__(self):
         self.buddy_list = {}
-        self.buddy_list_size = 1000
+        self.buddy_list_size = 0
         self.logger = Logger(__name__)
 
     def inject(self, registry):
@@ -27,22 +28,24 @@ class BuddyService:
         self.event_service.register_event_type(self.BUDDY_LOGON_EVENT)
         self.event_service.register_event_type(self.BUDDY_LOGOFF_EVENT)
 
-    def handle_add(self, packet):
+    def handle_add(self, conn: Conn, packet):
         buddy = self.buddy_list.get(packet.char_id, {"types": []})
         buddy["online"] = packet.online
         self.buddy_list[packet.char_id] = buddy
+
         if packet.online == 1:
             self.event_service.fire_event(self.BUDDY_LOGON_EVENT, packet)
         else:
             self.event_service.fire_event(self.BUDDY_LOGOFF_EVENT, packet)
 
-    def handle_remove(self, packet):
+    def handle_remove(self, conn: Conn, packet):
         if packet.char_id in self.buddy_list:
             if len(self.buddy_list[packet.char_id]["types"]) > 0:
                 self.logger.warning("Removing buddy %d that still has types %s" % (packet.char_id, self.buddy_list[packet.char_id]["types"]))
+
             del self.buddy_list[packet.char_id]
 
-    def handle_login_ok(self, packet):
+    def handle_login_ok(self, conn: Conn, packet):
         self.buddy_list_size += 1000
 
     def add_buddy(self, char_id, _type):
@@ -72,11 +75,12 @@ class BuddyService:
 
     def get_buddy(self, char_id):
         # if char is bot
-        if char_id == self.bot.get_char_id():
-            return {
-                "online": True,
-                "types": []
-            }
+        for conn in self.bot.conns:
+            if char_id == conn.char_id:
+                return {
+                    "online": True,
+                    "types": []
+                }
 
         return self.buddy_list.get(char_id, None)
 

@@ -34,10 +34,10 @@ class TyrbotTest(unittest.TestCase):
         packet_id = 1
         bot = Tyrbot()
 
-        def callback(packet):
+        def callback(conn, packet):
             pass
 
-        def callback2(packet):
+        def callback2(conn, packet):
             pass
 
         bot.register_packet_handler(packet_id, callback2, 20)
@@ -52,10 +52,10 @@ class TyrbotTest(unittest.TestCase):
         packet_id = 1
         bot = Tyrbot()
 
-        def callback(packet):
+        def callback(conn, packet):
             pass
 
-        def callback2(packet):
+        def callback2(conn, packet):
             pass
 
         bot.register_packet_handler(packet_id, callback2, 20)

@@ -134,9 +134,32 @@ class Tyrbot:
     def connect(self, config):
         conn = self.create_conn("main")
         conn.connect(config.server.host, config.server.port)
-        if not conn.login(config.username, config.password, config.character):
+        packet = conn.login(config.username, config.password, config.character)
+        if not packet:
+            self.status = BotStatus.ERROR
             return False
+        else:
+            self.incoming_queue.put((conn, packet))
 
+        self.create_conn_thread(conn)
+
+        if "slaves" in config:
+            for i, slave in enumerate(config.slaves):
+                conn = self.create_conn("slave" + str(i))
+                conn.connect(config.server.host, config.server.port)
+
+                packet = conn.login(slave.username, slave.password, slave.character)
+                if not packet:
+                    self.status = BotStatus.ERROR
+                    return False
+                else:
+                    self.incoming_queue.put((conn, packet))
+
+                self.create_conn_thread(conn)
+
+        return True
+
+    def create_conn_thread(self, conn):
         def read_packets():
             try:
                 while self.status == BotStatus.RUN:
@@ -151,8 +174,6 @@ class Tyrbot:
 
         dthread = threading.Thread(target=read_packets, daemon=True)
         dthread.start()
-
-        return True
 
     def create_conn(self, _id):
         if _id in self.conns:
@@ -220,11 +241,11 @@ class Tyrbot:
 
         Args:
             packet_id: int
-            handler: (packet) -> void
+            handler: (conn, packet) -> void
             priority: int
         """
 
-        if len(inspect.signature(handler).parameters) != 1:
+        if len(inspect.signature(handler).parameters) != 2:
             raise Exception("Incorrect number of arguments for handler '%s.%s()'" % (handler.__module__, handler.__name__))
 
         handlers = self.packet_handlers.get(packet_id, [])
@@ -248,10 +269,8 @@ class Tyrbot:
                 if packet.char_id == 0:
                     return
 
-            packet.conn = conn
-
             for handler in self.packet_handlers.get(packet.id, []):
-                handler.handler(packet)
+                handler.handler(conn, packet)
 
             self.event_service.fire_event("packet:" + str(packet.id), packet)
 
@@ -334,7 +353,10 @@ class Tyrbot:
                 self.event_service.fire_event(self.OUTGOING_PRIVATE_CHANNEL_MESSAGE_EVENT, DictObject({"private_channel_id": private_channel_id,
                                                                                                        "message": msg}))
 
-    def handle_private_message(self, packet: server_packets.PrivateMessage):
+    def handle_private_message(self, conn: Conn, packet: server_packets.PrivateMessage):
+        if conn.id != "main":
+            return
+
         self.logger.log_tell("From", self.character_service.get_char_name(packet.char_id), packet.message)
         self.event_service.fire_event(self.PRIVATE_MSG_EVENT, packet)
 

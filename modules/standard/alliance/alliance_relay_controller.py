@@ -1,4 +1,5 @@
 from core.aochat import server_packets, client_packets
+from core.conn import Conn
 from core.decorators import instance
 from core.logger import Logger
 from core.lookup.character_service import CharacterService
@@ -58,7 +59,10 @@ class AllianceRelayController:
         self.bot.register_packet_handler(server_packets.PrivateChannelInvited.id, self.handle_private_channel_invite, 100)
         self.bot.register_packet_handler(server_packets.PrivateChannelMessage.id, self.handle_private_channel_message)
 
-    def handle_private_channel_invite(self, packet: server_packets.PrivateChannelInvited):
+    def handle_private_channel_invite(self, conn: Conn, packet: server_packets.PrivateChannelInvited):
+        if conn.id != "main":
+            return
+
         if not self.setting_service.get("arelay_enabled").get_value():
             return
 
@@ -68,7 +72,10 @@ class AllianceRelayController:
             self.logger.info("Joined private channel {channel}".format(channel=channel_name))
             self.relay_channel_id = packet.private_channel_id
 
-    def handle_private_channel_message(self, packet: server_packets.PrivateChannelMessage):
+    def handle_private_channel_message(self, conn: Conn, packet: server_packets.PrivateChannelMessage):
+        if conn.id != "main":
+            return
+
         if not self.setting_service.get("arelay_enabled").get_value():
             return
 

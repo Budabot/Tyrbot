@@ -44,7 +44,7 @@ class Bot:
             self.logger.error("Error logging in: %s" % character_list_packet.message)
             return False
         if character not in character_list_packet.names:
-            self.logger.error("character '%s' does not exist on this account" % character)
+            self.logger.error("Character '%s' does not exist on this account" % character)
             return False
         index = character_list_packet.names.index(character)
 
@@ -53,7 +53,7 @@ class Bot:
         self.char_name = character_list_packet.names[index]
         if character_list_packet.online_statuses[index]:
             sleep_duration = 20
-            self.logger.warning("character '%s' is already logged on, waiting %ds before proceeding" % (self.char_name, sleep_duration))
+            self.logger.warning("Character '%s' is already logged on, waiting %ds before proceeding" % (self.char_name, sleep_duration))
             time.sleep(sleep_duration)
         login_select_packet = LoginSelect(self.char_id)
         self.send_packet(login_select_packet)
@@ -62,7 +62,7 @@ class Bot:
         packet = self.read_packet()
         if packet.id == LoginOK.id:
             self.logger.info("Connected!")
-            return True
+            return packet
         else:
             self.logger.error("Error logging in: %s" % packet.message)
             return False

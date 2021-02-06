@@ -3,6 +3,7 @@ from core.aochat.server_packets import BuddyAdded
 from core.ban_service import BanService
 from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Options, Character
+from core.conn import Conn
 from core.decorators import instance, command, event, setting
 from core.setting_service import SettingService
 from core.setting_types import TextSettingType
@@ -118,7 +119,7 @@ class MemberController:
     def ban_added_event(self, event_type, event_data):
         self.remove_member(event_data.char_id)
 
-    def handle_member_logon(self, packet: BuddyAdded):
+    def handle_member_logon(self, conn: Conn, packet: BuddyAdded):
         member = self.get_member(packet.char_id)
         if member:
             if packet.online:

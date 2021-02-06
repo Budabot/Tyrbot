@@ -51,3 +51,9 @@ class Conn(Bot):
             self.packet_queue.clear()
         elif num_messages > 10:
             self.logger.warning("%d messages in outgoing message queue" % num_messages)
+
+    def __str__(self):
+        return self.id
+
+    def __repr__(self):
+        return self.__str__()

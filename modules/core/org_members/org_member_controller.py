@@ -3,6 +3,7 @@ import hjson
 from core.aochat.server_packets import BuddyAdded
 from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Character
+from core.conn import Conn
 from core.decorators import instance, event, timerevent, command
 from core.dict_object import DictObject
 from core.logger import Logger
@@ -167,7 +168,7 @@ class OrgMemberController:
         old_mode = org_member.mode if org_member else None
         self.process_update(event_data.char_id, old_mode, self.MODE_ADD_AUTO)
 
-    def handle_buddy_added(self, packet: BuddyAdded):
+    def handle_buddy_added(self, conn: Conn, packet: BuddyAdded):
         org_member = self.get_org_member(packet.char_id)
         if org_member and (org_member.mode == self.MODE_ADD_AUTO or org_member.mode == self.MODE_ADD_MANUAL):
             if packet.online:

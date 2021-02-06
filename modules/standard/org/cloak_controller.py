@@ -2,6 +2,7 @@ import time
 
 from core.aochat.server_packets import PublicChannelMessage
 from core.chat_blob import ChatBlob
+from core.conn import Conn
 from core.decorators import instance, command, event, timerevent
 from core.dict_object import DictObject
 from core.sender_obj import SenderObj
@@ -98,7 +99,10 @@ class CloakController:
 
         return msg
 
-    def handle_public_message(self, packet: PublicChannelMessage):
+    def handle_public_message(self, conn: Conn, packet: PublicChannelMessage):
+        if conn.id != "main":
+            return
+
         extended_message = packet.extended_message
         if extended_message and extended_message.category_id == 1001 and extended_message.instance_id == 1:
             char_name = extended_message.params[0]
