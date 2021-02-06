@@ -18,6 +18,7 @@ class PointsController:
         pass
 
     def inject(self, registry):
+        self.bot = registry.get_instance("bot")
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
         self.character_service: CharacterService = registry.get_instance("character_service")
@@ -26,7 +27,7 @@ class PointsController:
         self.alts_service: AltsService = registry.get_instance("alts_service")
 
     def start(self):
-        self.db.exec("CREATE TABLE IF NOT EXISTS points (char_id BIGINT PRIMARY KEY, points INT DEFAULT 0, created INT NOT NULL, "
+        self.db.exec("CREATE TABLE IF NOT EXISTS points (char_id BIGINT PRIMARY KEY, points INT DEFAULT 0, created_at INT NOT NULL, "
                      "disabled SMALLINT DEFAULT 0)")
         self.db.exec("CREATE TABLE IF NOT EXISTS points_log (log_id INT PRIMARY KEY, char_id BIGINT NOT NULL, audit INT NOT NULL, "
                      "leader_id BIGINT NOT NULL, reason VARCHAR(255), time INT NOT NULL)")
@@ -77,12 +78,7 @@ class PointsController:
         main_info = alts_info[0]
         changed_to_main = main_info.char_id == char.char_id
 
-        initial_points = self.setting_service.get("initial_points_value").get_value()
-
-        sql = "INSERT INTO points (char_id, points, created) VALUES (?,?,?)"
-        self.db.exec(sql, [main_info.char_id, initial_points, int(time.time())])
-
-        self.add_log_entry(main_info.char_id, request.sender.char_id, "Account opened by %s" % request.sender.name)
+        self.create_account(main_info.char_id, request.sender)
 
         name_reference = "%s (%s)" % (char.name, main_info.name) if changed_to_main else char.name
         return "A new account has been created for <highlight>%s</highlight>." % name_reference
@@ -108,8 +104,8 @@ class PointsController:
 
     @command(command="account", params=[Const("logentry"), Int("log_id")], access_level="moderator",
              description="Look up specific log entry", sub_command="modify")
-    def account_log_entry_cmd(self, _1, _2, log_id: int):
-        log_entry = self.db.query_single("SELECT * FROM points_log WHERE log_id = ?", [log_id])
+    def account_log_entry_cmd(self, request, _, log_id: int):
+        log_entry = self.db.query_single("SELECT log_id, char_id, audit, leader_id, reason, time FROM points_log WHERE log_id = ?", [log_id])
 
         if not log_entry:
             return "No log entry with given ID <highlight>%d</highlight>." % log_id
@@ -117,11 +113,12 @@ class PointsController:
         char_name = self.character_service.resolve_char_to_name(log_entry.char_id)
         leader_name = self.character_service.resolve_char_to_name(log_entry.leader_id)
 
-        blob = "Log entry ID: <highlight>%d</highlight>\n" % log_id
-        blob += "Affecting account: <highlight>%s</highlight>\n" % char_name
-        blob += "Action by: <highlight>%s</highlight>\n" % leader_name
+        blob = f"Log entry ID: <highlight>{log_entry.log_id}</highlight>\n"
+        blob += f"Affecting account: <highlight>{char_name}</highlight>\n"
+        blob += f"Action by: <highlight>{leader_name}</highlight>\n"
         blob += "Type: <highlight>%s</highlight>\n" % ("Management" if log_entry.audit == 0 else "Altering of points")
-        blob += "Reason: <highlight>%s</highlight>\n" % log_entry.reason
+        blob += f"Reason: <highlight>{log_entry.reason}</highlight>\n"
+        blob += f"Audit: <highlight>{log_entry.audit}</highlight>\n"
         action_links = None
         if log_entry.audit == 0:
             if "closed" in log_entry.reason:
@@ -132,12 +129,12 @@ class PointsController:
             if log_entry.audit < 0:
                 reason = "Points from event (%d) has been retracted, %d points have been added." \
                          % (log_id, (-1 * log_entry.audit))
-                action_links = self.text.make_tellcmd("Retract", "bank give %d %s %s"
+                action_links = self.text.make_tellcmd("Retract", "account give %d %s %s"
                                                       % ((-1 * log_entry.audit), char_name, reason))
             else:
                 reason = "Points from event (%d) has been retracted, %d points have been deducted." \
                          % (log_id, log_entry.audit)
-                action_links = self.text.make_tellcmd("Retract", "bank take %d %s %s" % (log_entry.audit, char_name, reason))
+                action_links = self.text.make_tellcmd("Retract", "account take %d %s %s" % (log_entry.audit, char_name, reason))
 
         blob += "Actions available: [%s]\n" % (action_links if action_links is not None else "No actions available")
 
@@ -146,26 +143,18 @@ class PointsController:
     @command(command="account", params=[Options(["give", "take"]), Int("amount"), Character("char"), Any("reason")], access_level="moderator",
              description="Give or take points from character account", sub_command="modify")
     def account_give_take_cmd(self, request, action: str, amount: int, char: SenderObj, reason: str):
-        main_id = self.alts_service.get_main(char.char_id)
-
-        sql = "SELECT * FROM points WHERE char_id = ?"
-        row = self.db.query_single(sql, [main_id.char_id])
-
-        if not row:
-            return "<highlight>%s</highlight> does not have an account." % char.name
+        main = self.alts_service.get_main(char.char_id)
+        row = self.get_account(main.char_id)
 
         if row.disabled == 1:
             return "<highlight>%s</highlight>'s account is disabled, altering the account is not possible." % char.name
 
-        if row.points == 0 and action == "take":
-            return "<highlight>%s</highlight> has 0 points - can't have less than 0 points." % char.name
-
-        if amount > row.points and action == "take":
-            amount = row.points
+        if action == "take" and amount > row.points:
+            return "<highlight>%s</highlight> only has <highlight>%d</highlight> points." % (char.name, row.points)
 
         new_points = amount if action == "give" else 0 - amount
 
-        self.alter_points(main_id.char_id, new_points, request.sender.char_id, reason)
+        self.alter_points(main.char_id, new_points, request.sender.char_id, reason)
 
         action = "taken from" if action == "take" else "added to"
         return "<highlight>%s</highlight> has had <highlight>%d</highlight> points %s their account." % (char.name, amount, action)
@@ -239,7 +228,20 @@ class PointsController:
 
     def get_account(self, main_id):
         sql = "SELECT p.char_id, p.points, p.disabled FROM points p WHERE p.char_id = ?"
-        return self.db.query_single(sql, [main_id])
+        row = self.db.query_single(sql, [main_id])
+        if not row:
+            self.create_account(main_id, SenderObj(self.bot.get_char_id(), self.bot.get_char_name(), None))
+            row = self.db.query_single(sql, [main_id])
+
+        return row
+
+    def create_account(self, main_id, sender):
+        initial_points = self.setting_service.get("initial_points_value").get_value()
+
+        sql = "INSERT INTO points (char_id, points, created_at) VALUES (?,?,?)"
+        self.db.exec(sql, [main_id, initial_points, int(time.time())])
+
+        self.add_log_entry(main_id, sender.char_id, "Account opened by %s" % sender.name)
 
     def get_account_display(self, char: SenderObj):
         main = self.alts_service.get_main(char.char_id)

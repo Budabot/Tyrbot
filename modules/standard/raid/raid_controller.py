@@ -204,27 +204,18 @@ class RaidController:
             return ChatBlob("No such preset - see list of presets", self.points_controller.build_preset_list())
 
         for raider in self.raid.raiders:
-            current_points = self.db.query_single("SELECT points, disabled FROM points WHERE char_id = ?", [raider.main_id])
+            account = self.points_controller.get_account(raider.main_id)
 
             if raider.is_active:
-                if current_points and current_points.disabled == 0:
+                if account.disabled == 0:
                     self.points_controller.alter_points(raider.main_id, preset.points, request.sender.char_id, preset.name)
                     raider.accumulated_points += preset.points
                 else:
                     self.points_controller.add_log_entry(raider.main_id, request.sender.char_id,
-                                                         "Participated in raid without an open account, "
-                                                         "missed points from %s." % preset.name)
+                                                         "Participated in raid with a disabled account, missed points from %s." % preset.name)
             else:
-                if current_points:
-                    self.points_controller.add_log_entry(raider.main_id, request.sender.char_id,
-                                                         "Was inactive during raid, %s, when points "
-                                                         "for %s was dished out."
-                                                         % (self.raid.raid_name, preset.name))
-                else:
-                    self.points_controller.add_log_entry(raider.main_id, request.sender.char_id,
-                                                         "Was inactive during raid, %s, when points for %s "
-                                                         "was dished out - did not have an active account at "
-                                                         "the given time." % (self.raid.raid_name, preset.name))
+                self.points_controller.add_log_entry(raider.main_id, request.sender.char_id,
+                                                     "Was inactive during raid, %s, when points for %s were dished out." % (self.raid.raid_name, preset.name))
 
         self.send_message("<highlight>%d</highlight> points added to all active raiders for <highlight>%s</highlight>." % (preset.points, preset.name))
 

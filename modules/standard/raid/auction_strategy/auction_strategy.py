@@ -1,16 +1,17 @@
 import time
 
 from core.chat_blob import ChatBlob
+from core.dict_object import DictObject
 from core.registry import Registry
 from core.sender_obj import SenderObj
 
 
 class AuctionBid:
-    def __init__(self, sender: SenderObj, account, current_amount, max_amount):
+    def __init__(self, sender: SenderObj, account, max_amount, created_at):
         self.sender = sender
         self.account = account
-        self.current_amount = current_amount
         self.max_amount = max_amount
+        self.created_at = created_at
 
     def __str__(self):
         return self.__dict__.__str__()
@@ -31,7 +32,7 @@ class AuctionStrategy:
         self.announce_interval = None
         self.is_started = False
         self.items = dict()
-        self.winning_bids = dict()
+        self.bids = DictObject()  # self.bids[item_index] = [AuctionBid(), AuctionBid()]
         self.next_item_index = 1
         self.auctioneer: SenderObj = None
         self.job_id = None
@@ -87,56 +88,41 @@ class AuctionStrategy:
     def remove_item(self, item_id):
         # TODO will this fail if it doesn't exist
         del self.items[item_id]
-        del self.winning_bids[item_id]
+        del self.bids[item_id]
 
     def add_bid(self, sender: SenderObj, bid_amount, item_index):
         if len(self.items) > 1 and not item_index:
             return "You must specify an item to bid on by it's item number in the auction list."
 
-        item_index = item_index or 1
-        item = self.items.get(item_index, None)
-        if not item:
-            return "No item at given index."
-
-        main_id = self.alts_service.get_main(sender.char_id).char_id
-        account = self.points_controller.get_account(main_id)
-        if not account:
-            return "You do not have an active account with this bot."
-        elif account.disabled:
-            return "Your account has been frozen. Contact an admin."
-
-        points_used = self.get_points_used(main_id, item_index)
-        points_available = account.points - points_used
-
         if not bid_amount:
             return "You must specify an amount to bid."
 
+        item_index = item_index or 1
+        item = self.items.get(item_index, None)
+        if not item:
+            return f"No item at index <highlight>{item_index}</highlight>."
+
+        main_id = self.alts_service.get_main(sender.char_id).char_id
+        account = self.points_controller.get_account(main_id)
+        if account.disabled:
+            return "Your account has been disabled. Contact an admin."
+
         if isinstance(bid_amount, str) and bid_amount.lower() == "all":
-            bid_amount = points_available
+            bid_amount = account.points
 
-        # TODO handle when they are raising their own winning bid
-        if bid_amount > points_available:
-            return "You do not have enough points to make this bid. You have <highlight>%d</highlight> points available (<highlight>%d</highlight> points on account, <highlight>%d</highlight> points reserved for other bids)." \
-                   % (points_available, points_available, points_used)
+        if bid_amount > account.points:
+            return "You cannot bid more than your maximum available points (<highlight>%d</highlight>)." % account.points
 
-        current_amount = 0
-        winning_bid = self.winning_bids.get(item_index, None)
-        if winning_bid:
-            if bid_amount <= winning_bid.current_amount:
-                return "Your bid of <highlight>%d</highlight> points was not enough. <highlight>%s</highlight> is currently winning with a bid of <highlight>%d</highlight>." % (bid_amount, winning_bid.sender.name, winning_bid.current_amount)
-            elif bid_amount <= winning_bid.max_amount:
-                winning_bid.current_amount = bid_amount
-                return "Your bid of <highlight>%d</highlight> points was not enough. <highlight>%s</highlight> is currently winning with a bid of <highlight>%d</highlight>." % (bid_amount, winning_bid.sender.name, winning_bid.current_amount)
-            else:
-                current_amount = winning_bid.max_amount
-                self.bot.send_private_message(winning_bid.sender.char_id, "Your bid on %s has been overtaken by <highlight>%s</highlight>." % (item, sender.name))
+        if item_index not in self.bids:
+            self.bids[item_index] = []
 
-        # increment 1 past current max bid
-        current_amount += 1
-        self.winning_bids[item_index] = AuctionBid(sender, account, current_amount, bid_amount)
-        self.spam_raid_message("<highlight>%s</highlight> now holds the leading bid for %s with a bid of <highlight>%d</highlight>." % (sender.name, item, current_amount))
-        return "Your max bid of <highlight>%d</highlight> points for %s has put you in the lead. " \
-               "You have <highlight>%d</highlight> points left for bidding." % (bid_amount, item, points_available - bid_amount)
+        current_bid = self.get_current_bid(main_id, item_index)
+        if current_bid:
+            current_bid.max_amount = bid_amount
+            return f"Your bid amount has been changed to <highlight>{bid_amount}</highlight>."
+        else:
+            self.bids[item_index].append(AuctionBid(sender, account, bid_amount, time.time()))
+            return "Your bid has been recorded successfully."
 
     def end(self):
         self.cancel_job()
@@ -146,13 +132,33 @@ class AuctionStrategy:
         t = int(time.time())
         sql = "INSERT INTO auction_log (item_ref, item_name, winner_id, auctioneer_id, time, winning_bid, second_highest_bid) VALUES (?,?,?,?,?,?,?)"
         for i, item in self.items.items():
-            winning_bid = self.winning_bids.get(i, None)
-            if winning_bid:
-                self.db.exec(sql, [item, item, winning_bid.sender.char_id, self.auctioneer.char_id, t, winning_bid.current_amount, 0])
+            bids = self.bids.get(i, None)
+            if bids:
+                # update max_amount values based on current account points
+                for bid in bids:
+                    account = self.points_controller.get_account(bid.account.char_id)
+                    if bid.max_amount > account.points:
+                        bid.max_amount = account.points
 
-                blob += "%d. %s, won by <highlight>%s</highlight> with <green>%d</green> points\n" % (i, item, winning_bid.sender.name, winning_bid.current_amount)
-                main_id = self.alts_service.get_main(winning_bid.sender.char_id).char_id
-                self.points_controller.alter_points(main_id, -winning_bid.current_amount, self.auctioneer.char_id, "Won auction for %s" % item)
+                sorted(bids, key=lambda x: x.max_amount, reverse=True)
+
+                if len(bids) == 1:
+                    winning_amount = 1
+                    winning_bid = bids[0]
+                elif bids[0].max_amount == bids[1].max_amount:
+                    winning_amount = bids[0].max_amount
+                    if bids[1].created_at < bids[0].created_at:
+                        winning_bid = bids[1]
+                    else:
+                        winning_bid = bids[0]
+                else:
+                    winning_amount = bids[0].max_amount + 1
+                    winning_bid = bids[0]
+
+                self.db.exec(sql, [item, item, winning_bid.sender.char_id, self.auctioneer.char_id, t, winning_amount, 0])
+
+                blob += "%d. %s, won by <highlight>%s</highlight> with <green>%d</green> points\n" % (i, item, winning_bid.sender.name, winning_amount)
+                self.points_controller.alter_points(winning_bid.account.char_id, -winning_amount, self.auctioneer.char_id, "Won auction for %s" % item)
             else:
                 blob += "%d. %s, no bids made\n" % (i, item)
 
@@ -160,8 +166,29 @@ class AuctionStrategy:
 
         self.spam_raid_message(result_blob)
 
-    def remove_bid(self, char_id, item_id):
-        pass
+    def remove_bid(self, char_id, item_index):
+        if len(self.items) > 1 and not item_index:
+            return "You must specify an item to bid on by it's item number in the auction list."
+
+        item_index = item_index or 1
+        item = self.items.get(item_index, None)
+        if not item:
+            return f"No item at index <highlight>{item_index}</highlight>."
+
+        main_id = self.alts_service.get_main(char_id).char_id
+        account = self.points_controller.get_account(main_id)
+        if account.disabled:
+            return "Your account has been disabled. Contact an admin."
+
+        if item_index not in self.bids:
+            self.bids[item_index] = []
+
+        for bid in self.bids[item_index]:
+            if bid.account.char_id == main_id:
+                self.bids[item_index].remove(bid)
+                return "Your bid has been removed."
+
+        return "You do not have a bid for this item."
 
     def spam_raid_message(self, message):
         self.raid_controller.send_message(message)
@@ -172,13 +199,8 @@ class AuctionStrategy:
         for i, item in self.items.items():
             blob += "%d. %s\n" % (i, item)
 
-            winning_bid = self.winning_bids.get(i, None)
-            if winning_bid:
-                blob += " | <highlight>%s</highlight> has the winning bid of <highlight>%d</highlight>\n\n" % (winning_bid.sender.name, winning_bid.current_amount)
-            else:
-                blob += " | <green>No bidders</green>\n\n"
-
-        blob += "This bot uses a modified Vickrey system. It is a silent auction and winning bids are not announced until the end. " \
+        blob += "\n-----------------------\n" \
+                "This bot uses a modified Vickrey system. It is a silent auction and winning bids are not announced until the end. " \
                 "The highest bidder pays the amount of the second highest bidder plus 1. " \
                 "If there is a tie for the highest bidder, the person who bid first wins and pays the full bid amount. If there is only one bidder " \
                 "the winner pays 1. You should bid the maximum amount of points that you want to pay for an item. If you win, you will never pay more " \
@@ -188,13 +210,11 @@ class AuctionStrategy:
 
         return ChatBlob("Auction list (%d)" % len(self.items), blob)
 
-    def get_points_used(self, main_id, item_index):
-        points_used = 0
-        for index, bid in self.winning_bids.items():
-            if index != item_index and bid.account.char_id == main_id:
-                points_used += bid.max_amount
-
-        return points_used
+    def get_current_bid(self, main_id, item_index):
+        for bid in self.bids[item_index]:
+            if bid.account.char_id == main_id:
+                return bid
+        return None
 
     def auction_announce(self, t):
         time_left = self.time_left()
