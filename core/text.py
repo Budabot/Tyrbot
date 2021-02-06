@@ -349,7 +349,7 @@ class Text:
         max_width = {}
         for columns in rows:
             for i, column in enumerate(columns[:-1]):
-                w = self.get_pixel_width(self.strip_html_tags(column))
+                w = self.get_pixel_width(column)
                 if i not in max_width or max_width[i] < w:
                     max_width[i] = w
 
@@ -375,15 +375,16 @@ class Text:
         fill_width = length - s_pixel_width
         if fill_width > 0:
             num_spacers = round(fill_width / spacer_pixel_width)
-            adjustment = fill_width - (spacer_pixel_width * num_spacers)
         else:
             num_spacers = 0
-            adjustment = 0
+        adjustment = fill_width - (spacer_pixel_width * num_spacers)
         return s + (num_spacers * char), adjustment
 
     def get_pixel_width(self, s):
         if not s:
             return 0
+
+        s = self.strip_html_tags(s)
 
         width = 0
         for c in s:
