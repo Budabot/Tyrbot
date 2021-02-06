@@ -175,9 +175,9 @@ class PointsController:
     def account_other_cmd(self, request, char: SenderObj):
         return self.get_account_display(char)
 
-    @command(command="presets", params=[Const("add"), Any("name"), Int("points")], access_level="admin",
-             description="Add new points preset")
-    def presets_add_cmd(self, _1, _2, name: str, points: int):
+    @command(command="raid", params=[Const("presets"), Const("add"), Any("name"), Int("points")], access_level="admin",
+             description="Add new points preset", sub_command="manage_points")
+    def presets_add_cmd(self, request, _1, _2, name: str, points: int):
         count = self.db.query_single("SELECT COUNT(*) AS count FROM points_presets WHERE name = ?", [name]).count
 
         if count > 0:
@@ -187,17 +187,17 @@ class PointsController:
         self.db.exec(sql, [name, points])
         return "A preset with the name <highlight>%s</highlight> was added, worth <green>%d</green> points." % (name, points)
 
-    @command(command="presets", params=[Const("rem"), Int("preset_id")], access_level="admin",
-             description="Delete preset")
-    def presets_rem_cmd(self, _1, _2, preset_id: int):
+    @command(command="raid", params=[Const("presets"), Const("rem"), Int("preset_id")], access_level="admin",
+             description="Delete preset", sub_command="manage_points")
+    def presets_rem_cmd(self, request, _1, _2, preset_id: int):
         if self.db.exec("DELETE FROM points_presets WHERE preset_id = ?", [preset_id]) > 0:
             return "Successfully removed preset with ID <highlight>%d</highlight>." % preset_id
         else:
             return "No preset with given ID <highlight>%d</highlight>." % preset_id
 
-    @command(command="presets", params=[Const("alter"), Int("preset_id"), Int("new_points")], access_level="admin",
-             description="Alter the points dished out by given preset")
-    def presets_alter_cmd(self, _1, _2, preset_id: int, new_points: int):
+    @command(command="raid", params=[Const("presets"), Const("alter"), Int("preset_id"), Int("new_points")], access_level="admin",
+             description="Alter the points dished out by given preset", sub_command="manage_points")
+    def presets_alter_cmd(self, request, _1, _2, preset_id: int, new_points: int):
         preset = self.db.query_single("SELECT * FROM points_presets WHERE preset_id = ?", [preset_id])
 
         if not preset:
@@ -207,10 +207,10 @@ class PointsController:
         return "Successfully updated the preset, <highlight>%s</highlight>, to dish out " \
                "<green>%d</green> points instead of <red>%d</red>." % (preset.name, new_points, preset.points)
 
-    @command(command="presets", params=[], access_level="admin",
+    @command(command="raid", params=[Const("presets")], access_level="member",
              description="See list of points presets")
-    def presets_cmd(self, _):
-        return ChatBlob("Points presets", self.build_preset_list())
+    def presets_cmd(self, request, _):
+        return ChatBlob("Raid Points Presets", self.build_preset_list())
 
     def build_preset_list(self):
         presets = self.db.query("SELECT * FROM points_presets ORDER BY name ASC, points DESC")
