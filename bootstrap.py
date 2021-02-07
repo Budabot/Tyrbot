@@ -100,7 +100,10 @@ try:
     if config.database.type == "sqlite":
         db.connect_sqlite("./data/" + config.database.name)
     elif config.database.type == "mysql":
-        db.connect_mysql(config.database.host, config.database.username, config.database.password, config.database.name)
+        # TODO compatibility
+        if "port" not in config.database:
+            config.database.port = 3306
+        db.connect_mysql(config.database.host, config.database.port, config.database.username, config.database.password, config.database.name)
     else:
         raise Exception("Unknown database type '%s'" % config.database.type)
 

@@ -30,9 +30,9 @@ class DB:
             d[col[0]] = row[idx]
         return d
 
-    def connect_mysql(self, host, username, password, database_name):
+    def connect_mysql(self, host, port, username, password, database_name):
         self.type = self.MYSQL
-        self.conn = mysql.connector.connect(user=username, password=password, host=host, database=database_name, charset="utf8", autocommit=True)
+        self.conn = mysql.connector.connect(user=username, password=password, host=host, port=port, database=database_name, charset="utf8", autocommit=True)
         self.exec("SET collation_connection = 'utf8_general_ci'")
         self.exec("SET sql_mode = 'TRADITIONAL,ANSI'")
         self.create_db_version_table()

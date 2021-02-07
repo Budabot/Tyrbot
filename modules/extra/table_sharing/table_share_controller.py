@@ -20,7 +20,8 @@ class TableShareController:
         #                        "name": "my-database",
         #                        "username": "username",
         #                        "password": "password",
-        #                        "host": "localhost"})
+        #                        "host": "localhost"
+        #                        "port": 3306})
 
         self.db2 = DB()
         if database.type == "sqlite":
@@ -30,7 +31,7 @@ class TableShareController:
             else:
                 raise Exception(f"File '{full_path}' does not exist")
         elif database.type == "mysql":
-            self.db2.connect_mysql(database.host, database.username, database.password, database.name)
+            self.db2.connect_mysql(database.host, database.port, database.username, database.password, database.name)
         else:
             raise Exception("Unknown database type '%s'" % database.type)
 

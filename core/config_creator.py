@@ -13,6 +13,7 @@ def create_new_cfg(config_file, config_template_file):
                   "username": validate_input("Database username (leave default for SQLite)", ""),
                   "password": validate_input("Database password (leave default for SQLite)", ""),
                   "host": validate_input("Database host (leave default for SQLite)", "localhost"),
+                  "port": validate_input("Database port (leave default for SQLite)", 3306, formatter=int),
                   "name": validate_input("Database name (leave default for SQLite)", "database.db")
               },
               "server": {

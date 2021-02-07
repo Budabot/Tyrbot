@@ -9,6 +9,7 @@
     username: ""
     password: ""
     host: ""
+    port: 3306
     name: "database.db"
   }
 
