@@ -62,7 +62,7 @@ class SystemController:
         if self.expected_shutdown().get_value():
             msg = self.getresp("module/system", "expected_online")
         else:
-            self.logger.error("the bot has recovered from an unexpected shutdown or restart")
+            self.logger.warning("The bot has recovered from an unexpected shutdown or restart")
             msg = self.getresp("module/system", "unexpected_online")
         self.bot.send_private_message(self.bot.superadmin, msg)
         self.bot.send_org_message(msg, fire_outgoing_event=False)
