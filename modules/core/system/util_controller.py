@@ -72,12 +72,18 @@ class UtilController:
         return self.getresp("module/system", "show_output_self",
                             {"target": char.name,
                              "cmd": command_str})
+
     @command(command="system", params=[], access_level="admin",
              description="Show system information")
     def system_cmd(self, request):
         pub_channels = ""
         event_types = ""
         access_levels = ""
+        bots_connected = ""
+
+        for _id, conn in self.bot.conns.items():
+            bots_connected += f"{_id} - {conn.char_name} ({conn.char_id})\n"
+
         for channel_id, name in self.public_channel_service.get_all_public_channels().items():
             pub_channels += "%s - <highlight>%d</highlight>\n" % (name, channel_id)
 
@@ -100,6 +106,7 @@ class UtilController:
             "dim": self.bot.dimension,
             "org_id": self.public_channel_service.org_id,
             "org_name": self.public_channel_service.org_name,
+            "bots_connected": bots_connected,
             "pub_channels": pub_channels,
             "event_types": event_types,
             "access_levels": access_levels

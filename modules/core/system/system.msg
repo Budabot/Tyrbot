@@ -81,6 +81,9 @@
       "Org Id: <highlight>{org_id}</highlight>\n",
       "Org Name: <highlight>{org_name}</highlight>\n",
       "\n",
+      "<pagebreak><header2>Bots Connected</header2>\n",
+      "{bots_connected}",
+      "\n",
       "<pagebreak><header2>Public Channels</header2>\n",
       "{pub_channels}",
       "\n",
@@ -89,7 +92,6 @@
       "\n",
       "<pagebreak><header2>Access Levels</header2>\n",
       "{access_levels}",
-      "\n"
     ],
     "de_DE": [
       "Version: <highlight>Tyrbot {bot_ver}</highlight>\n",
@@ -107,6 +109,9 @@
       "\n",
       "Org ID: <highlight>{org_id}</highlight>\n",
       "Org Name: <highlight>{org_name}</highlight>\n",
+      "\n",
+      "<pagebreak><header2>Bots Connected</header2>\n",
+      "{bots_connected}",
       "\n",
       "<pagebreak><header2>Öffentliche Channel</header2>\n",
       "{pub_channels}",
