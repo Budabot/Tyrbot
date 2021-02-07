@@ -55,7 +55,7 @@ class BuddyService:
             return False
 
         # check if we are trying to add a conn as a buddy
-        if char_id in self.buddy_list:
+        if self.is_conn_char_id(char_id):
             return False
 
         buddy = self.get_buddy(char_id)
@@ -70,6 +70,14 @@ class BuddyService:
                 self.buddy_list[conn.id][char_id] = {"online": None, "types": [_type], "conn_id": conn.id}
 
         return True
+
+    def is_conn_char_id(self, char_id):
+        for _id, conn in self.bot.conns.items():
+            if conn.char_id == char_id:
+                return True
+
+        return False
+
 
     def remove_buddy(self, char_id, _type, force_remove=False):
         if char_id:
@@ -90,7 +98,7 @@ class BuddyService:
 
     def get_buddy(self, char_id):
         # if char is conn
-        if char_id in self.buddy_list:
+        if self.is_conn_char_id(char_id):
             return {
                 "online": True,
                 "types": []
