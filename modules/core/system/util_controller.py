@@ -94,7 +94,7 @@ class UtilController:
             "db_type": self.db.type,
             "mem_usage": self.util.format_number(psutil.Process(os.getpid()).memory_info().rss / 1024),
             "superadmin": self.bot.superadmin,
-            "bl_used": len(self.buddy_service.buddy_list),
+            "bl_used": self.buddy_service.get_buddy_list_size(),
             "bl_size": self.buddy_service.buddy_list_size,
             "uptime": self.util.time_to_readable(int(time.time()) - self.bot.start_time, max_levels=None),
             "dim": self.bot.dimension,

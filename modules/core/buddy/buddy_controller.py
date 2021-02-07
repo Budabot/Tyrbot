@@ -32,7 +32,7 @@ class BuddyController:
         buddy_list = []
         for char_id, buddy in self.buddy_service.get_all_buddies().items():
             char_name = self.character_service.resolve_char_to_name(char_id, "Unknown(%d)" % char_id)
-            buddy_list.append([char_name, buddy["online"], ",".join(buddy["types"])])
+            buddy_list.append([char_name, buddy])
 
         blob = self.format_buddies(buddy_list)
 
@@ -105,7 +105,7 @@ class BuddyController:
         buddy_list = sorted(buddy_list, key=lambda x: x[0])
 
         blob = ""
-        for name, online, types in buddy_list:
-            blob += "%s - %s\n" % (name, types)
+        for name, buddy in buddy_list:
+            blob += "%s(%s) - %s\n" % (name, buddy["conn_id"], ",".join(buddy["types"]))
 
         return blob

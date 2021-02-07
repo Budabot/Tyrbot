@@ -153,9 +153,10 @@ class OrgListController:
 
     def iterate_org_members(self):
         # add org_members that we don't have online status for as buddies
-        if len(self.orglist.waiting_org_members) >= 200:
-            return
         while self.orglist.org_members:
+            if not self.buddy_list_has_available_slots():
+                break
+
             org_member = self.orglist.org_members.pop()
             char_id = org_member.char_id
             self.orglist.waiting_org_members[char_id] = org_member
@@ -168,8 +169,6 @@ class OrgListController:
                     self.update_online_status(char_id, False)
             else:
                 self.update_online_status(char_id, is_online)
-            if not self.buddy_list_has_available_slots():
-                break
 
     def buddy_list_has_available_slots(self):
-        return self.buddy_service.buddy_list_size - len(self.buddy_service.buddy_list) > 5
+        return self.buddy_service.buddy_list_size - self.buddy_service.get_buddy_list_size() > 5
