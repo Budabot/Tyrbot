@@ -43,6 +43,7 @@ class Tyrbot:
         self.start_time = int(time.time())
         self.version = "0.5-beta"
         self.incoming_queue = FifoQueue()
+        self.mass_message_queue = None
         self.conns = DictObject()
 
     def inject(self, registry):
@@ -141,7 +142,8 @@ class Tyrbot:
         else:
             self.incoming_queue.put((conn, packet))
 
-        self.create_conn_thread(conn)
+        self.mass_message_queue = FifoQueue()
+        self.create_conn_thread(conn, self.mass_message_queue)
 
         if "slaves" in config:
             for i, slave in enumerate(config.slaves):
@@ -155,17 +157,22 @@ class Tyrbot:
                 else:
                     self.incoming_queue.put((conn, packet))
 
-                self.create_conn_thread(conn)
+                self.create_conn_thread(conn, self.mass_message_queue)
 
         return True
 
-    def create_conn_thread(self, conn):
+    def create_conn_thread(self, conn: Conn, mass_message_queue=None):
         def read_packets():
             try:
                 while self.status == BotStatus.RUN:
                     packet = conn.read_packet(1)
                     if packet:
                         self.incoming_queue.put((conn, packet))
+
+                    while mass_message_queue and not mass_message_queue.empty() and conn.packet_queue.is_empty():
+                        packet = mass_message_queue.get_or_default(block=False)
+                        if packet:
+                            conn.add_packet_to_queue(packet)
 
             except (EOFError, OSError) as e:
                 self.status = BotStatus.ERROR
@@ -337,9 +344,10 @@ class Tyrbot:
 
     def send_private_channel_message(self, msg, private_channel=None, add_color=True, fire_outgoing_event=True, conn_id="main"):
         if private_channel is None:
-            private_channel = self.get_char_id()
+            private_channel_id = self.get_char_id()
+        else:
+            private_channel_id = self.character_service.resolve_char_to_id(private_channel)
 
-        private_channel_id = self.character_service.resolve_char_to_id(private_channel)
         if private_channel_id is None:
             self.logger.warning("Could not send message to private channel %s, could not find private channel" % private_channel)
         else:
@@ -352,6 +360,21 @@ class Tyrbot:
             if fire_outgoing_event and private_channel_id == self.get_char_id():
                 self.event_service.fire_event(self.OUTGOING_PRIVATE_CHANNEL_MESSAGE_EVENT, DictObject({"private_channel_id": private_channel_id,
                                                                                                        "message": msg}))
+
+    def send_mass_message(self, char_id, msg, add_color=True):
+        if not char_id:
+            self.logger.warning("Could not send message to empty char_id")
+        else:
+            color = self.setting_service.get("private_message_color").get_font_color() if add_color else ""
+            pages = self.get_text_pages(msg, self.setting_service.get("private_message_max_page_length").get_value())
+            for page in pages:
+                # self.logger.log_tell("To", self.character_service.get_char_name(char_id), page)
+                if self.mass_message_queue:
+                    packet = client_packets.PrivateMessage(char_id, color + page, "\0")
+                    self.mass_message_queue.put(packet)
+                else:
+                    packet = client_packets.PrivateMessage(char_id, color + page, "spam")
+                    self.conns["main"].send_packet(packet)
 
     def handle_private_message(self, conn: Conn, packet: server_packets.PrivateMessage):
         if conn.id != "main":

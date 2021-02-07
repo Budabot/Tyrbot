@@ -29,3 +29,6 @@ class DelayQueue:
 
     def clear(self):
         self.items = []
+
+    def is_empty(self):
+        return len(self.items) == 0
