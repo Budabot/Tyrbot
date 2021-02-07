@@ -171,4 +171,4 @@ class OrgListController:
                 self.update_online_status(char_id, is_online)
 
     def buddy_list_has_available_slots(self):
-        return self.buddy_service.buddy_list_size - self.buddy_service.get_buddy_list_size() > 5
+        return self.buddy_service.buddy_list_size - self.buddy_service.get_buddy_list_size() > 0
