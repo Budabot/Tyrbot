@@ -1,6 +1,6 @@
 import hjson
 
-from core.decorators import instance, command
+from core.decorators import instance, command, event
 from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Options, Character
 from core.admin.admin_service import AdminService
@@ -92,3 +92,8 @@ class AdminController:
             return self.getresp("module/admin", "rem_success", {"char": char.name, "rank": AdminService.MODERATOR})
         else:
             return self.getresp("module/admin", "rem_fail", {"char": char.name, "rank": AdminService.MODERATOR})
+
+    @event(event_type="connect", description="Add admins as buddies")
+    def connect_event(self, event_type, event_data):
+        for row in self.admin_service.get_all():
+            self.buddy_service.add_buddy(row.char_id, "admin")
