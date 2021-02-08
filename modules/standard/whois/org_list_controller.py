@@ -71,12 +71,12 @@ class OrgListController:
         reply("Downloading org roster for org id %d..." % org_id)
 
         self.orglist = self.org_pork_service.get_org_info(org_id)
-        self.orglist.org_members = list(self.orglist.org_members.values())
 
         if not self.orglist:
             reply("Could not find org with ID <highlight>%d</highlight>." % org_id)
             return
 
+        self.orglist.org_members = list(self.orglist.org_members.values())
         self.orglist.reply = reply
         self.orglist.waiting_org_members = {}
         self.orglist.finished_org_members = {}
@@ -93,14 +93,12 @@ class OrgListController:
     def buddy_logon_event(self, event_type, event_data):
         if self.orglist and event_data.char_id in self.orglist.waiting_org_members:
             self.update_online_status(event_data.char_id, True)
-            self.buddy_service.remove_buddy(event_data.char_id, self.ORGLIST_BUDDY_TYPE)
             self.check_for_orglist_end()
 
     @event(event_type=BuddyService.BUDDY_LOGOFF_EVENT, description="Detect offline buddies for orglist command", is_hidden=True)
     def buddy_logoff_event(self, event_type, event_data):
         if self.orglist and event_data.char_id in self.orglist.waiting_org_members:
             self.update_online_status(event_data.char_id, False)
-            self.buddy_service.remove_buddy(event_data.char_id, self.ORGLIST_BUDDY_TYPE)
             self.check_for_orglist_end()
 
     def update_online_status(self, char_id, status):
@@ -124,8 +122,15 @@ class OrgListController:
                 "offline_members": []
             })
 
+        org_ranks["Inactive"] = DictObject({
+            "online_members": [],
+            "offline_members": []
+        })
+
         for char_id, org_member in self.orglist.finished_org_members.items():
-            if org_member.online:
+            if org_member.online == 2:
+                org_ranks["Inactive"].offline_members.append(org_member)
+            elif org_member.online == 1:
                 org_ranks[org_member.org_rank_name].online_members.append(org_member)
             else:
                 org_ranks[org_member.org_rank_name].offline_members.append(org_member)
@@ -139,11 +144,12 @@ class OrgListController:
             blob += "<header2>%s (%d / %d)</header2>\n" % (rank_name, rank_num_online, rank_num_total)
             num_online += rank_num_online
             num_total += rank_num_total
-            for org_member in rank_info.online_members:
+            for org_member in sorted(rank_info.online_members, key=lambda x: x.name):
                 level = org_member.level if org_member.ai_level == 0 else "%d/<green>%d</green>" % (org_member.level, org_member.ai_level)
                 blob += "%s (Level <highlight>%s</highlight>, %s %s <highlight>%s</highlight>)\n" % (org_member.name, level, org_member.gender, org_member.breed, org_member.profession)
+
             if rank_num_total < 200:
-                blob += "<font color='#555555'>" + ", ".join(map(lambda x: x.name, rank_info.offline_members)) + "</font>"
+                blob += "<font color='#555555'>" + ", ".join(map(lambda x: x.name, sorted(rank_info.offline_members, key=lambda x: x.name))) + "</font>"
                 blob += "\n"
             else:
                 blob += "<font color='#555555'>Offline members omitted for brevity</font>\n"
@@ -153,10 +159,7 @@ class OrgListController:
 
     def iterate_org_members(self):
         # add org_members that we don't have online status for as buddies
-        while self.orglist.org_members:
-            if not self.buddy_list_has_available_slots():
-                break
-
+        while self.orglist.org_members and self.buddy_list_has_available_slots():
             org_member = self.orglist.org_members.pop()
             char_id = org_member.char_id
             self.orglist.waiting_org_members[char_id] = org_member
@@ -164,9 +167,10 @@ class OrgListController:
             if is_online is None:
                 if self.character_service.resolve_char_to_id(org_member.name):
                     self.buddy_service.add_buddy(char_id, self.ORGLIST_BUDDY_TYPE)
+                    self.buddy_service.remove_buddy(char_id, self.ORGLIST_BUDDY_TYPE)
                 else:
                     # character is inactive, set as offline
-                    self.update_online_status(char_id, False)
+                    self.update_online_status(char_id, 2)
             else:
                 self.update_online_status(char_id, is_online)
 
