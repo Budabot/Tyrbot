@@ -142,10 +142,10 @@ class Tyrbot:
         else:
             self.incoming_queue.put((conn, packet))
 
-        self.mass_message_queue = FifoQueue()
-        self.create_conn_thread(conn, self.mass_message_queue)
+        self.create_conn_thread(conn, None)
 
         if "slaves" in config:
+            self.mass_message_queue = FifoQueue()
             for i, slave in enumerate(config.slaves):
                 conn = self.create_conn("slave" + str(i))
                 conn.connect(config.server.host, config.server.port)

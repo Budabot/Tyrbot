@@ -77,12 +77,9 @@ class BuddyService:
             buddy["types"].append(_type)
         else:
             conn = self.get_conn_for_new_buddy()
-            if not conn:
-                self.logger.warning(f"Could not add buddy '{char_id}' with type '{_type}' since buddy list is full")
-            else:
-                if conn.char_id != char_id:
-                    conn.send_packet(client_packets.BuddyAdd(char_id, "\1"))
-                    self.buddy_list[conn.id][char_id] = {"online": None, "types": [_type], "conn_id": conn.id}
+            if conn.char_id != char_id:
+                conn.send_packet(client_packets.BuddyAdd(char_id, "\1"))
+                self.buddy_list[conn.id][char_id] = {"online": None, "types": [_type], "conn_id": conn.id}
 
         return True
 
@@ -141,10 +138,10 @@ class BuddyService:
         return count
 
     def get_conn_for_new_buddy(self):
-        buddy_list_size = 1001
+        buddy_list_size = None
         _id = None
         for conn_id, conn_buddy_list in self.buddy_list.items():
-            if len(conn_buddy_list) < buddy_list_size:
+            if buddy_list_size is None or len(conn_buddy_list) < buddy_list_size:
                 buddy_list_size = len(conn_buddy_list)
                 _id = conn_id
 
