@@ -610,5 +610,4 @@ INSERT INTO `playfields` VALUES (8040, 'Foundry of Nightmares', NULL, 0);
 INSERT INTO `playfields` VALUES (8045, 'Foundry of Nightmares', NULL, 0);
 INSERT INTO `playfields` VALUES (8046, 'Foundry of Nightmares', NULL, 0);
 INSERT INTO `playfields` VALUES (8050, 'Foundry of Nightmares', NULL, 0);
-
 INSERT INTO `playfields` VALUES (8080, 'Santa Leet Event - Aliums', NULL, 0);

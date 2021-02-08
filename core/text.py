@@ -345,7 +345,7 @@ class Text:
         stripper.feed(s)
         return stripper.get_data()
 
-    def pad_table(self, rows):
+    def pad_table(self, rows, fill=" "):
         max_width = {}
         for columns in rows:
             for i, column in enumerate(columns[:-1]):
@@ -360,25 +360,25 @@ class Text:
                 if i == num_cols - 1:
                     continue
 
-                s, new_adjustment = self.pad_string(column, adjustment + max_width[i])
+                s, new_adjustment = self.pad_string(column, adjustment + max_width[i], fill)
                 columns[i] = s
                 adjustment += new_adjustment
 
         return rows
 
-    def pad_string(self, s, length, char=" "):
+    def pad_string(self, s, length, fill=" "):
         if s is None:
             s = ""
 
         s_pixel_width = self.get_pixel_width(s)
-        spacer_pixel_width = self.pixel_mapping[char]
+        spacer_pixel_width = self.get_pixel_width(fill)
         fill_width = length - s_pixel_width
         if fill_width > 0:
             num_spacers = round(fill_width / spacer_pixel_width)
         else:
             num_spacers = 0
         adjustment = fill_width - (spacer_pixel_width * num_spacers)
-        return s + (num_spacers * char), adjustment
+        return s + (num_spacers * fill), adjustment
 
     def get_pixel_width(self, s):
         if not s:

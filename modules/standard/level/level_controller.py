@@ -10,6 +10,7 @@ class LevelController:
     def inject(self, registry):
         self.db: DB = registry.get_instance("db")
         self.util = registry.get_instance("util")
+        self.text = registry.get_instance("text")
         self.command_alias_service = registry.get_instance("command_alias_service")
 
     def start(self):
@@ -75,9 +76,16 @@ class LevelController:
     def axp_single_cmd(self, request):
         data = self.db.query("SELECT * FROM alien_level ORDER BY alien_level ASC")
 
-        blob = ""
+        rows = []
         for row in data:
-            blob += "AI Level <green>%d</green> - %s - <highlight>%s</highlight> - Min Level: %d\n" % (row.alien_level, self.util.format_number(row.axp), row.defender_rank, row.min_level)
+            rows.append([f"<green>{row.alien_level}</green>", self.util.format_number(row.axp),
+                        f"<highlight>{row.defender_rank}</highlight>", f"Min Level: {row.min_level}"])
+
+        display_table = self.text.pad_table(rows, " ")
+
+        blob = ""
+        for cols in display_table:
+            blob += "  ".join(cols) + "\n"
 
         return ChatBlob("Alien Levels", blob)
 
