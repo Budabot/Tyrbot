@@ -110,7 +110,6 @@ class UtilController:
             "pub_channels": pub_channels,
             "event_types": event_types,
             "access_levels": access_levels
-
         })
 
         return ChatBlob(self.getresp("module/system", "status_title"), blob)

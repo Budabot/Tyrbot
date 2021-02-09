@@ -74,7 +74,7 @@ class PrivateChannelController:
         else:
             return self.getresp("global", "char_not_found", {"char": char.name})
 
-    @command(command="kick", params=[Character("character")], access_level="admin",
+    @command(command="kick", params=[Character("character")], access_level="moderator",
              description="Kick a character from the private channel")
     def kick_cmd(self, request, char):
         if char.char_id:
@@ -93,7 +93,7 @@ class PrivateChannelController:
         else:
             return self.getresp("global", "char_not_found", {"char": char.name})
 
-    @command(command="kickall", params=[], access_level="admin",
+    @command(command="kickall", params=[], access_level="moderator",
              description="Kick all characters from the private channel")
     def kickall_cmd(self, request):
         self.bot.send_private_channel_message(self.getresp("module/private_channel", "kick_all",
