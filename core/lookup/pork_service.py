@@ -22,6 +22,13 @@ class PorkService:
         self.bot.register_packet_handler(server_packets.CharacterLookup.id, self.update)
         self.bot.register_packet_handler(server_packets.CharacterName.id, self.update)
 
+    def start(self):
+        self.db.exec("CREATE TABLE IF NOT EXISTS player ( char_id BIGINT PRIMARY KEY, first_name VARCHAR(30) NOT NULL, name VARCHAR(20) NOT NULL, last_name VARCHAR(30) NOT NULL, "
+                     "level SMALLINT NOT NULL, breed VARCHAR(20) NOT NULL, gender VARCHAR(20) NOT NULL, faction VARCHAR(20) NOT NULL, profession VARCHAR(20) NOT NULL, "
+                     "profession_title VARCHAR(50) NOT NULL, ai_rank VARCHAR(20) NOT NULL, ai_level SMALLINT, org_id INT DEFAULT NULL, org_name VARCHAR(255) NOT NULL, "
+                     "org_rank_name VARCHAR(20) NOT NULL, org_rank_id SMALLINT NOT NULL, dimension SMALLINT NOT NULL, head_id INT NOT NULL, pvp_rating SMALLINT NOT NULL, "
+                     "pvp_title VARCHAR(20) NOT NULL, source VARCHAR(50) NOT NULL, last_updated INT NOT NULL )")
+
     # forces a lookup from remote PoRK server
     # this should not be called directly unless you are requesting info for a char on a different server
     # since cache will not be used and the result will also update the cache

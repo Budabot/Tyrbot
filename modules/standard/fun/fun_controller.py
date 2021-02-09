@@ -15,6 +15,15 @@ class FunController:
         self.command_alias_service = registry.get_instance("command_alias_service")
 
     def start(self):
+        self.db.load_sql_file(self.module_dir + "/" + "beer.sql")
+        self.db.load_sql_file(self.module_dir + "/" + "brain.sql")
+        self.db.load_sql_file(self.module_dir + "/" + "chuck.sql")
+        self.db.load_sql_file(self.module_dir + "/" + "cybor.sql")
+        self.db.load_sql_file(self.module_dir + "/" + "dwight.sql")
+        self.db.load_sql_file(self.module_dir + "/" + "fc.sql")
+        self.db.load_sql_file(self.module_dir + "/" + "homer.sql")
+        self.db.load_sql_file(self.module_dir + "/" + "pirates.sql")
+
         self.command_alias_service.add_alias("pinky", "brain")
         self.command_alias_service.add_alias("norris", "chuck")
         self.command_alias_service.add_alias("chucknorris", "chuck")

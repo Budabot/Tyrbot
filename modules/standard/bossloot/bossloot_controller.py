@@ -11,6 +11,10 @@ class BosslootController:
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
 
+    def start(self):
+        self.db.load_sql_file(self.module_dir + "/" + "boss.sql")
+        self.db.load_sql_file(self.module_dir + "/" + "boss_loot.sql")
+
     @command(command="boss", params=[Any("search")], access_level="all",
              description="Show loot for a boss")
     def boss_cmd(self, request, search):

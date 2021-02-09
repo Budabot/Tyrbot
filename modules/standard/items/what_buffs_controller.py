@@ -13,6 +13,10 @@ class WhatBuffsController:
         self.command_alias_service = registry.get_instance("command_alias_service")
 
     def start(self):
+        self.db.load_sql_file(self.module_dir + "/" + "item_buffs.sql")
+        self.db.load_sql_file(self.module_dir + "/" + "item_types.sql")
+        self.db.load_sql_file(self.module_dir + "/" + "skills.sql")
+
         self.command_alias_service.add_alias("buffs", "whatbuffs")
 
     @command(command="whatbuffs", params=[], access_level="all",

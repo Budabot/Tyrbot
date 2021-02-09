@@ -16,6 +16,9 @@ class AdminService:
         self.access_service.register_access_level(self.ADMIN, 20, self.check_admin)
         self.access_service.register_access_level(self.MODERATOR, 30, self.check_mod)
 
+    def start(self):
+        self.db.exec("CREATE TABLE IF NOT EXISTS admin (char_id INT NOT NULL PRIMARY KEY, access_level VARCHAR(50) NOT NULL)")
+
     def check_admin(self, char_id):
         access_level = self.get_access_level(char_id)
         return access_level == self.ADMIN

@@ -1,1 +1,0 @@
-CREATE TABLE IF NOT EXISTS name_history (char_id BIGINT NOT NULL, name VARCHAR(20) NOT NULL, created_at INT NOT NULL, PRIMARY KEY (char_id, name));

@@ -57,8 +57,8 @@ class Registry:
     def add_instance(cls, name, inst, override=False):
         name = cls.format_name(name)
 
-        module_name = Registry.get_module_name(inst)
-        inst.module_name = module_name
+        inst.module_name = Registry.get_module_name(inst)
+        inst.module_dir = Registry.get_module_dir(inst)
 
         if not override and name in cls._registry:
             raise Exception("Overriding '%s' with new instance" % name)
@@ -106,6 +106,11 @@ class Registry:
             return parts[1] + "." + parts[2]
         else:
             return ".".join(parts[:-1])
+
+    @classmethod
+    def get_module_dir(cls, inst):
+        parts = inst.__module__.split(".")
+        return "." + os.sep + os.sep.join(parts[:-1])
 
     @classmethod
     def clear(cls):

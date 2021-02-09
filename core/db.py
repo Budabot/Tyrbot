@@ -117,8 +117,6 @@ class DB:
         return self.lastrowid
 
     def format_sql(self, sql, params=None):
-        # TODO check for AUTOINCREMENT in sql and log warning
-
         if self.type == self.SQLITE:
             sql = sql.replace("AUTO_INCREMENT", "AUTOINCREMENT")
             sql = sql.replace(" INT ", " INTEGER ")
@@ -159,14 +157,14 @@ class DB:
     def get_connection(self):
         return self.conn
 
-    def load_sql_file(self, sqlfile, base_path):
-        filename = base_path + os.sep + sqlfile
+    def load_sql_file(self, sqlfile, force_update=False):
+        filename = sqlfile.replace("/", os.sep)
 
         db_version = self.get_db_version(filename)
         file_version = self.get_file_version(filename)
 
         if db_version:
-            if parse_version(file_version) > parse_version(db_version):
+            if parse_version(file_version) > parse_version(db_version) or force_update:
                 self.logger.debug("loading sql file '%s'" % sqlfile)
                 self._load_file(filename)
             self.exec("UPDATE db_version SET version = ?, verified = 1 WHERE file = ?", [int(file_version), filename])

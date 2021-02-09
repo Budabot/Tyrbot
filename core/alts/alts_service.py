@@ -18,6 +18,9 @@ class AltsService:
     def pre_start(self):
         self.event_service.register_event_type(self.MAIN_CHANGED_EVENT_TYPE)
 
+    def start(self):
+        self.db.exec("CREATE TABLE IF NOT EXISTS alts (char_id INT NOT NULL PRIMARY KEY, group_id INT NOT NULL, status SMALLINT NOT NULL)")
+
     def get_alts(self, char_id):
         sql = "SELECT p.*, a.group_id, a.status FROM player p " \
               "LEFT JOIN alts a ON p.char_id = a.char_id " \

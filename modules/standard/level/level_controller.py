@@ -14,6 +14,9 @@ class LevelController:
         self.command_alias_service = registry.get_instance("command_alias_service")
 
     def start(self):
+        self.db.load_sql_file(self.module_dir + "/" + "alien_level.sql")
+        self.db.load_sql_file(self.module_dir + "/" + "level.sql")
+
         self.command_alias_service.add_alias("lvl", "level")
         self.command_alias_service.add_alias("pvp", "level")
         self.command_alias_service.add_alias("team", "level")

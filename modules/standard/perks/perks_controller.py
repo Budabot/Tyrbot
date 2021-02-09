@@ -12,6 +12,9 @@ class PerksController:
         self.db = registry.get_instance("db")
         self.util = registry.get_instance("util")
 
+    def start(self):
+        self.db.load_sql_file(self.module_dir + "/" + "perks.sql")
+
     @command(command="perks", params=[Int("level"), Any("profession")], access_level="all",
              description="Show what perks are available for specified level and profession")
     def perks_cmd(self, request, level, profession):

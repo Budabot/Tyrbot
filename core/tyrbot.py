@@ -61,10 +61,18 @@ class Tyrbot:
         self.superadmin = config.superadmin.capitalize()
         self.dimension = config.server.dimension
 
+        self.db.exec("CREATE TABLE IF NOT EXISTS command_config (command VARCHAR(50) NOT NULL, sub_command VARCHAR(50) NOT NULL, access_level VARCHAR(50) NOT NULL, channel VARCHAR(50) NOT NULL, "
+                     "module VARCHAR(50) NOT NULL, enabled SMALLINT NOT NULL, verified SMALLINT NOT NULL)")
+        self.db.exec("CREATE TABLE IF NOT EXISTS event_config (event_type VARCHAR(50) NOT NULL, event_sub_type VARCHAR(50) NOT NULL, handler VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, "
+                     "module VARCHAR(50) NOT NULL, enabled SMALLINT NOT NULL, verified SMALLINT NOT NULL, is_hidden SMALLINT NOT NULL)")
+        self.db.exec("CREATE TABLE IF NOT EXISTS timer_event (event_type VARCHAR(50) NOT NULL, event_sub_type VARCHAR(50) NOT NULL, handler VARCHAR(255) NOT NULL, next_run INT NOT NULL)")
+        self.db.exec("CREATE TABLE IF NOT EXISTS setting (name VARCHAR(50) NOT NULL, value VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, module VARCHAR(50) NOT NULL, verified SMALLINT NOT NULL)")
+        self.db.exec("CREATE TABLE IF NOT EXISTS command_alias (alias VARCHAR(50) NOT NULL, command VARCHAR(1024) NOT NULL, enabled SMALLINT NOT NULL)")
+        self.db.exec("CREATE TABLE IF NOT EXISTS command_usage (command VARCHAR(255) NOT NULL, handler VARCHAR(255) NOT NULL, char_id INT NOT NULL, channel VARCHAR(20) NOT NULL, created_at INT NOT NULL)")
+        self.db.exec("CREATE TABLE IF NOT EXISTS ban_list (char_id INT NOT NULL, sender_char_id INT NOT NULL, created_at INT NOT NULL, finished_at INT NOT NULL, reason VARCHAR(255) NOT NULL, ended_early SMALLINT NOT NULL)")
+
         self.db.exec("UPDATE db_version SET verified = 0")
         self.db.exec("UPDATE db_version SET verified = 1 WHERE file = 'db_version'")
-
-        self.load_sql_files(paths)
 
         # prepare commands, events, and settings
         self.db.exec("UPDATE command_config SET verified = 0")
@@ -397,21 +405,6 @@ class Tyrbot:
 
     def restart(self):
         self.status = BotStatus.RESTART
-
-    def load_sql_files(self, paths):
-        dirs = flatmap(lambda x: os.walk(x), paths)
-        dirs = filter(lambda y: not y[0].endswith("__pycache__"), dirs)
-
-        def get_files(tup):
-            return map(lambda x: os.path.join(tup[0], x), tup[2])
-
-        # get files from subdirectories
-        files = flatmap(get_files, dirs)
-        files = filter(lambda z: z.endswith(".sql"), files)
-
-        base_path = os.getcwd()
-        for file in files:
-            self.db.load_sql_file(file, base_path)
 
     def get_char_name(self):
         return self.conns["main"].char_name

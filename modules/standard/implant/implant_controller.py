@@ -43,6 +43,22 @@ class ImplantController:
         self.command_alias_service = registry.get_instance("command_alias_service")
 
     def start(self):
+        self.db.load_sql_file(self.module_dir + "/sql/" + "Ability.sql")
+        self.db.load_sql_file(self.module_dir + "/sql/" + "Cluster.sql")
+        self.db.load_sql_file(self.module_dir + "/sql/" + "ClusterImplantMap.sql")
+        self.db.load_sql_file(self.module_dir + "/sql/" + "ClusterType.sql")
+        self.db.load_sql_file(self.module_dir + "/sql/" + "EffectTypeMatrix.sql")
+        self.db.load_sql_file(self.module_dir + "/sql/" + "EffectValue.sql")
+        self.db.load_sql_file(self.module_dir + "/sql/" + "ImplantMatrix.sql")
+        self.db.load_sql_file(self.module_dir + "/sql/" + "ImplantType.sql")
+        self.db.load_sql_file(self.module_dir + "/sql/" + "Profession.sql")
+        self.db.load_sql_file(self.module_dir + "/sql/" + "Symbiant.sql")
+        self.db.load_sql_file(self.module_dir + "/sql/" + "SymbiantAbilityMatrix.sql")
+        self.db.load_sql_file(self.module_dir + "/sql/" + "SymbiantClusterMatrix.sql")
+        self.db.load_sql_file(self.module_dir + "/sql/" + "SymbiantProfessionMatrix.sql")
+
+        self.db.load_sql_file(self.module_dir + "/sql/" + "implant_requirements.sql")
+
         self.command_alias_service.add_alias("implants", "implant")
 
     @command(command="implant", params=[Int("ql")], access_level="all",

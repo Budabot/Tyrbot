@@ -71,6 +71,8 @@ class RaidController:
         self.db.exec("CREATE TABLE IF NOT EXISTS raid_log_participants (raid_id INT NOT NULL, raider_id BIGINT NOT NULL, "
                      "accumulated_points INT DEFAULT 0, left_raid INT, was_kicked INT, was_kicked_reason VARCHAR(500))")
 
+        self.db.load_sql_file(self.module_dir + "/" + "raid_loot.sql")
+
     @command(command="raid", params=[], access_level="member",
              description="Show the current raid status")
     def raid_cmd(self, request):

@@ -25,6 +25,8 @@ class AlienBioController:
         self.getresp = self.ts.get_response
 
     def start(self):
+        self.db.load_sql_file(self.module_dir + "/" + "alien_weapons.sql")
+
         self.command_alias_service.add_alias("clump", "bio")
 
     @command(command="bio", params=[Item("bio_material")], access_level="all",

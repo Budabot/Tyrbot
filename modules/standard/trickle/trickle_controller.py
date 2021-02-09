@@ -54,6 +54,9 @@ class TrickleController:
         self.text: Text = registry.get_instance("text")
         self.util = registry.get_instance("util")
 
+    def start(self):
+        self.db.load_sql_file(self.module_dir + "/" + "trickle.sql")
+
     @command(command="trickle", params=[TrickleParam()], access_level="all",
              description="Show skill increases due to trickle")
     def trickle_ability_cmd(self, request, trickle_params):

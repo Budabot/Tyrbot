@@ -10,6 +10,9 @@ class LogController:
     def inject(self, registry):
         self.db: DB = registry.get_instance("db")
 
+    def start(self):
+        self.db.exec("CREATE TABLE IF NOT EXISTS log_messages (char_id INT NOT NULL UNIQUE, logon TEXT, logoff TEXT)")
+
     @command(command="logon", params=[], access_level="member", description="Check your current logon message")
     def check_current_logon(self, request):
         current_logon = self.get_logon(request.sender.char_id)

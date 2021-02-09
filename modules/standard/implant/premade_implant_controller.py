@@ -13,6 +13,9 @@ class PremadeImplantController:
         self.util = registry.get_instance("util")
         self.text = registry.get_instance("text")
 
+    def start(self):
+        self.db.load_sql_file(self.module_dir + "/sql/" + "premade_implant.sql")
+
     @command(command="premade", params=[], access_level="all",
              description="Search for implants in the premade implant booths")
     def premade_list_cmd(self, request):

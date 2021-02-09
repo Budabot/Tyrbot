@@ -12,6 +12,9 @@ class DynaController:
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
 
+    def start(self):
+        self.db.load_sql_file(self.module_dir + "/" + "dyna.sql")
+
     @command(command="dyna", params=[], access_level="all",
              description="Show a list of dyna mob types")
     def dyna_mob_types_command(self, request):

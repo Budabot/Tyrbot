@@ -12,6 +12,9 @@ class QuoteController:
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
 
+    def start(self):
+        self.db.exec("CREATE TABLE IF NOT EXISTS quote (id INT PRIMARY KEY AUTO_INCREMENT, char_id INT NOT NULL, created_at INT NOT NULL, content VARCHAR(4096) NOT NULL)")
+
     @command(command="quote", params=[], access_level="all",
              description="Show a random quote")
     def quote_command(self, request):

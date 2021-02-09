@@ -13,6 +13,8 @@ class OfabWeaponsController:
         self.command_alias_service = registry.get_instance("command_alias_service")
 
     def start(self):
+        self.db.load_sql_file(self.module_dir + "/" + "ofab_weapons.sql")
+
         self.command_alias_service.add_alias("ofabweapon", "ofabweapons")
 
     @command(command="ofabweapons", params=[], access_level="all",
