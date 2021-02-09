@@ -24,9 +24,10 @@ class AlienBioController:
         self.ts: TranslationService = registry.get_instance("translation_service")
         self.getresp = self.ts.get_response
 
-    def start(self):
+    def pre_start(self):
         self.db.load_sql_file(self.module_dir + "/" + "alien_weapons.sql")
 
+    def start(self):
         self.command_alias_service.add_alias("clump", "bio")
 
     @command(command="bio", params=[Item("bio_material")], access_level="all",

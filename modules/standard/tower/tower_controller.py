@@ -47,7 +47,6 @@ class TowerController:
         self.event_service.register_event_type(self.TOWER_VICTORY_EVENT)
         self.bot.register_packet_handler(server_packets.PublicChannelMessage.id, self.handle_public_channel_message)
 
-    def start(self):
         self.db.load_sql_file(self.module_dir + "/" + "tower_site.sql")
 
     @command(command="lc", params=[], access_level="all",

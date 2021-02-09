@@ -19,9 +19,10 @@ class SpecialsController:
         self.items_controller = registry.get_instance("items_controller")
         self.command_alias_service = registry.get_instance("command_alias_service")
 
-    def start(self):
+    def pre_start(self):
         self.db.load_sql_file(self.module_dir + "/" + "weapon_attributes.sql")
 
+    def start(self):
         self.command_alias_service.add_alias("aimshot", "aimedshot")
         self.command_alias_service.add_alias("as", "aimedshot")
         self.command_alias_service.add_alias("inits", "weapon")

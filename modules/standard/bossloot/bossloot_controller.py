@@ -11,7 +11,7 @@ class BosslootController:
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
 
-    def start(self):
+    def pre_start(self):
         self.db.load_sql_file(self.module_dir + "/" + "boss.sql")
         self.db.load_sql_file(self.module_dir + "/" + "boss_loot.sql")
 

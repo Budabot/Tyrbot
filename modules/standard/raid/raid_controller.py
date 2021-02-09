@@ -65,7 +65,6 @@ class RaidController:
     def pre_start(self):
         self.message_hub_service.register_message_source(self.MESSAGE_SOURCE)
 
-    def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS raid_log (raid_id INT PRIMARY KEY AUTO_INCREMENT, raid_name VARCHAR(255) NOT NULL, "
                      "started_by BIGINT NOT NULL, raid_start INT NOT NULL, raid_end INT NOT NULL)")
         self.db.exec("CREATE TABLE IF NOT EXISTS raid_log_participants (raid_id INT NOT NULL, raider_id BIGINT NOT NULL, "

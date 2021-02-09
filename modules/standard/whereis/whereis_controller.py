@@ -13,7 +13,7 @@ class WhereisController:
         self.db = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
 
-    def start(self):
+    def pre_start(self):
         self.db.load_sql_file(self.module_dir + "/" + "whereis.sql")
 
     @command(command="whereis", params=[Any("search")], access_level="all",

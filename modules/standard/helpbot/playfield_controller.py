@@ -12,9 +12,10 @@ class PlayfieldController:
         self.text: Text = registry.get_instance("text")
         self.command_alias_service = registry.get_instance("command_alias_service")
 
-    def start(self):
+    def pre_start(self):
         self.db.load_sql_file(self.module_dir + "/" + "playfields.sql")
 
+    def start(self):
         self.command_alias_service.add_alias("playfields", "playfield")
 
     @command(command="playfield", params=[Const("all", is_optional=True)], access_level="all",

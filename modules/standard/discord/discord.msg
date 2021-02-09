@@ -193,7 +193,7 @@
     "en_US": "You must run this command from your main character <highlight>{char}</highlight>."
   },
   "link_success": {
-    "en_US": "You have been linked with discord user <highlight>{discord_user}</highlight> successfully"
+    "en_US": "You have been linked with discord user <highlight>{discord_user}</highlight> successfully."
   }
   "confirm_instructions": {
     "en_US": [

@@ -42,7 +42,7 @@ class ImplantController:
         self.text = registry.get_instance("text")
         self.command_alias_service = registry.get_instance("command_alias_service")
 
-    def start(self):
+    def pre_start(self):
         self.db.load_sql_file(self.module_dir + "/sql/" + "Ability.sql")
         self.db.load_sql_file(self.module_dir + "/sql/" + "Cluster.sql")
         self.db.load_sql_file(self.module_dir + "/sql/" + "ClusterImplantMap.sql")
@@ -59,6 +59,7 @@ class ImplantController:
 
         self.db.load_sql_file(self.module_dir + "/sql/" + "implant_requirements.sql")
 
+    def start(self):
         self.command_alias_service.add_alias("implants", "implant")
 
     @command(command="implant", params=[Int("ql")], access_level="all",

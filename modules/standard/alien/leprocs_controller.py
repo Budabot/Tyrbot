@@ -12,9 +12,10 @@ class LeProcsController:
         self.util = registry.get_instance("util")
         self.command_alias_service = registry.get_instance("command_alias_service")
 
-    def start(self):
+    def pre_start(self):
         self.db.load_sql_file(self.module_dir + "/" + "leprocs.sql")
 
+    def start(self):
         self.command_alias_service.add_alias("leproc", "leprocs")
 
     @command(command="leprocs", params=[], access_level="all",

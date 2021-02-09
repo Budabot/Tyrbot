@@ -12,7 +12,7 @@ class ResearchController:
         self.text: Text = registry.get_instance("text")
         self.util = registry.get_instance("util")
 
-    def start(self):
+    def pre_start(self):
         self.db.load_sql_file(self.module_dir + "/" + "research.sql")
 
     @command(command="research", params=[Int("research_level")], access_level="all",
