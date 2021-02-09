@@ -187,3 +187,8 @@ def run_upgrades():
             db.exec("INSERT INTO points SELECT char_id, points, created, disabled FROM points_old")
             db.exec("DROP TABLE points_old")
         version = update_version(version)
+
+    if version == 15:
+        if table_exists("members"):
+            db.exec("ALTER TABLE members RENAME TO member")
+        version = update_version(version)
