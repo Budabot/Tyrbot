@@ -65,7 +65,7 @@ class TimerController:
             blob += "<pagebreak>Name: <highlight>%s</highlight>\n" % timer.name
             blob += "Time left: <highlight>%s</highlight>%s\n" % (self.util.time_to_readable(timer.created_at + timer.duration - t, max_levels=None), repeats)
             blob += "Owner: <highlight>%s</highlight>\n" % timer.char_name
-            blob += "%s" % self.text.make_tellcmd ("Remove", "timer remove %s") % timer.name + "\n\n"
+            blob += self.text.make_tellcmd ("Remove", "timer remove %s") % timer.name + "\n\n"
             
         return ChatBlob("Timers (%d)" % len(data), blob) 
 
