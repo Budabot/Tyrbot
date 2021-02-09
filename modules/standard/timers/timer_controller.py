@@ -40,6 +40,7 @@ class TimerController:
         self.job_scheduler = registry.get_instance("job_scheduler")
         self.command_alias_service = registry.get_instance("command_alias_service")
         self.access_service = registry.get_instance("access_service")
+        self.text = registry.get_instance("text")
 
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS timer (name VARCHAR(255) NOT NULL, char_id INT NOT NULL, channel VARCHAR(10) NOT NULL, "
@@ -63,9 +64,10 @@ class TimerController:
             repeats = (" (Repeats every %s)" % self.util.time_to_readable(timer.repeating_every)) if timer.repeating_every > 0 else ""
             blob += "<pagebreak>Name: <highlight>%s</highlight>\n" % timer.name
             blob += "Time left: <highlight>%s</highlight>%s\n" % (self.util.time_to_readable(timer.created_at + timer.duration - t, max_levels=None), repeats)
-            blob += "Owner: <highlight>%s</highlight>\n\n" % timer.char_name
-
-        return ChatBlob("Timers (%d)" % len(data), blob)
+            blob += "Owner: <highlight>%s</highlight>\n" % timer.char_name
+            blob += "%s" % self.text.make_tellcmd ("Remove", "timer remove %s") % timer.name + "\n\n"
+            
+        return ChatBlob("Timers (%d)" % len(data), blob) 
 
     @command(command="timer", params=[Const("add", is_optional=True), TimerTime("time"), Any("name", is_optional=True)], access_level="all",
              description="Add a timer")
