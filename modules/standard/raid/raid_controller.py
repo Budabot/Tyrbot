@@ -427,4 +427,7 @@ class RaidController:
         return self.text.paginate_single(ChatBlob(link_txt, blob))
 
     def send_message(self, msg):
-        self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)
+        # TODO remove once messagehub can handle ChatBlobs
+        pages = self.bot.get_text_pages(msg, self.setting_service.get("private_message_max_page_length").get_value())
+        for page in pages:
+            self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, page)

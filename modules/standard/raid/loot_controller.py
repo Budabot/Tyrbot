@@ -163,7 +163,7 @@ class LootController:
                 blob += " | Winners: <red>%s</red>\n\n" % '</red>, <red>'.join(winners)
 
         if len(blob) > 0:
-            self.raid_controller.send_message("Roll results", blob)
+            self.raid_controller.send_message(ChatBlob("Roll results", blob))
         else:
             return "No one was added to any loot."
 
