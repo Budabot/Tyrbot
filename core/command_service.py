@@ -387,7 +387,7 @@ class CommandService:
                 self.trim_command_symbol(message),
                 self.PRIVATE_CHANNEL,
                 packet.char_id,
-                lambda msg: self.bot.send_private_channel_message(msg, private_channel=conn.char_id, conn_id=conn.id))
+                lambda msg: self.bot.send_private_channel_message(msg, private_channel_id=conn.char_id, conn_id=conn.id))
 
     def handle_public_channel_message(self, conn: Conn, packet: server_packets.PublicChannelMessage):
         if conn.id != "main":

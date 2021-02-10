@@ -349,24 +349,19 @@ class Tyrbot:
                 self.event_service.fire_event(self.OUTGOING_PRIVATE_MESSAGE_EVENT, DictObject({"char_id": char_id,
                                                                                                "message": msg}))
 
-    def send_private_channel_message(self, msg, private_channel=None, add_color=True, fire_outgoing_event=True, conn_id="main"):
-        if private_channel is None:
-            private_channel_id = self.get_char_id()
-        else:
-            private_channel_id = self.character_service.resolve_char_to_id(private_channel)
-
+    def send_private_channel_message(self, msg, private_channel_id=None, add_color=True, fire_outgoing_event=True, conn_id="main"):
         if private_channel_id is None:
-            self.logger.warning("Could not send message to private channel %s, could not find private channel" % private_channel)
-        else:
-            color = self.setting_service.get("private_channel_color").get_font_color() if add_color else ""
-            pages = self.get_text_pages(msg, self.setting_service.get("private_channel_max_page_length").get_value())
-            for page in pages:
-                packet = client_packets.PrivateChannelMessage(private_channel_id, color + page, "\0")
-                self.conns[conn_id].send_packet(packet)
+            private_channel_id = self.get_char_id()
 
-            if fire_outgoing_event and private_channel_id == self.get_char_id():
-                self.event_service.fire_event(self.OUTGOING_PRIVATE_CHANNEL_MESSAGE_EVENT, DictObject({"private_channel_id": private_channel_id,
-                                                                                                       "message": msg}))
+        color = self.setting_service.get("private_channel_color").get_font_color() if add_color else ""
+        pages = self.get_text_pages(msg, self.setting_service.get("private_channel_max_page_length").get_value())
+        for page in pages:
+            packet = client_packets.PrivateChannelMessage(private_channel_id, color + page, "\0")
+            self.conns[conn_id].send_packet(packet)
+
+        if fire_outgoing_event and private_channel_id == self.get_char_id():
+            self.event_service.fire_event(self.OUTGOING_PRIVATE_CHANNEL_MESSAGE_EVENT, DictObject({"private_channel_id": private_channel_id,
+                                                                                                   "message": msg}))
 
     def send_mass_message(self, char_id, msg, add_color=True):
         if not char_id:
