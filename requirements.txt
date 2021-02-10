@@ -7,4 +7,4 @@ psutil==5.8.0
 bbcode==1.1.0
 beautifulsoup4==4.9.3
 websocket_client==0.57.0
-cryptography==3.3.1
+cryptography==3.3.2
