@@ -114,7 +114,7 @@ class PointsController:
         leader_name = self.character_service.resolve_char_to_name(log_entry.leader_id)
 
         blob = f"Log entry ID: <highlight>{log_entry.log_id}</highlight>\n"
-        blob += f"Affecting account: <highlight>{char_name}</highlight>\n"
+        blob += f"Account: <highlight>{char_name}</highlight>\n"
         blob += f"Action by: <highlight>{leader_name}</highlight>\n"
         blob += "Type: <highlight>%s</highlight>\n" % ("Management" if log_entry.audit == 0 else "Altering of points")
         blob += f"Reason: <highlight>{log_entry.reason}</highlight>\n"
@@ -255,20 +255,23 @@ class PointsController:
 
         self.add_log_entry(main_id, sender.char_id, "Account opened by %s" % sender.name)
 
-    def get_account_display(self, char: SenderObj):
+    def get_account_display(self, char: SenderObj, page=1):
         main = self.alts_service.get_main(char.char_id)
         if not main:
             return "Could not find character <highlight>%s</highlight>." % char.name
 
-        points_log = self.db.query("SELECT * FROM points_log WHERE char_id = ? ORDER BY created_at DESC LIMIT 20",
-                                   [main.char_id])
+        page_size = 20
+        offset = (page - 1) * page_size
+
+        points_log = self.db.query("SELECT * FROM points_log WHERE char_id = ? ORDER BY created_at DESC LIMIT ?, ?",
+                                   [main.char_id, offset, page_size])
         points = self.db.query_single("SELECT points, disabled FROM points WHERE char_id = ?", [main.char_id])
         if not points:
             return "Could not find raid account for <highlight>%s</highlight>." % char.name
 
         alts_link = self.text.make_tellcmd("Alts", "alts %s" % main.name)
         blob = ""
-        blob += "Holder of account: %s [%s]\n" % (main.name, alts_link)
+        blob += "Account: %s [%s]\n" % (main.name, alts_link)
         blob += "Points: %d\n" % points.points
         blob += "Status: %s\n\n" % ("<green>Open</green>" if points.disabled == 0 else "<red>Disabled</red>")
 
@@ -281,19 +284,17 @@ class PointsController:
 
                 if entry.audit == 0:
                     # If points is 0, then it's a general case log
-                    blob += "<grey>[%s]</grey> <orange>\"%s\"</orange>" % (
+                    blob += "<grey>[%s]</grey> <orange>%s</orange>" % (
                         self.util.format_datetime(entry.created_at), entry.reason)
                 elif entry.audit > 0:
                     pts = "<green>%d</green>" % entry.audit
-                    blob += "<grey>[%s]</grey> %s points were added to %s account " \
-                            "by <highlight>%s</highlight> with reason <orange>%s</orange>" \
-                            % (self.util.format_datetime(entry.created_at), pts, name_reference,
+                    blob += "<grey>[%s]</grey> %s points added by <highlight>%s</highlight>; <orange>%s</orange>" \
+                            % (self.util.format_datetime(entry.created_at), pts,
                                self.character_service.resolve_char_to_name(entry.leader_id), entry.reason)
                 elif entry.audit < 0:
                     pts = "<red>%d</red>" % (-1 * entry.audit)
-                    blob += "<grey>[%s]</grey> %s points were taken from %s account " \
-                            "by <highlight>%s</highlight> with reason <orange>%s</orange>" \
-                            % (self.util.format_datetime(entry.created_at), pts, name_reference,
+                    blob += "<grey>[%s]</grey> %s points removed by <highlight>%s</highlight>; <orange>%s</orange>" \
+                            % (self.util.format_datetime(entry.created_at), pts,
                                self.character_service.resolve_char_to_name(entry.leader_id),
                                entry.reason)
 
