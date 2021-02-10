@@ -60,6 +60,13 @@ try:
     # load config values from env vars
     env_config = get_config_from_env()
     if env_config:
+        # converts dicts to lists
+        if "slaves" in config:
+            config.slaves = config.slaves.values()
+
+        if "module_paths" in config:
+            config.module_paths = config.module_paths.values()
+
         config = merge_dicts(config, env_config)
         logger.info("Reading config from env vars")
     else:
