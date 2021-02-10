@@ -126,38 +126,50 @@ class PointsController:
             elif "re-enabled" in log_entry.reason:
                 action_links = self.text.make_tellcmd("Close the account", "account close %s" % char_name)
         else:
+            reason = f"Points from event ({log_id}) have been retracted"
             if log_entry.audit < 0:
-                reason = "Points from event (%d) has been retracted, %d points have been added." \
-                         % (log_id, (-1 * log_entry.audit))
-                action_links = self.text.make_tellcmd("Retract", "account give %d %s %s"
-                                                      % ((-1 * log_entry.audit), char_name, reason))
+                action_links = self.text.make_tellcmd("Retract", f"account add {char_name} {-log_entry.audit} {reason}")
             else:
-                reason = "Points from event (%d) has been retracted, %d points have been deducted." \
-                         % (log_id, log_entry.audit)
-                action_links = self.text.make_tellcmd("Retract", "account take %d %s %s" % (log_entry.audit, char_name, reason))
+                action_links = self.text.make_tellcmd("Retract", f"account rem {char_name} {log_entry.audit} {reason}")
 
         blob += "Actions available: [%s]\n" % (action_links if action_links is not None else "No actions available")
 
-        return ChatBlob("Log entry (%d)" % log_id, blob)
+        return ChatBlob(f"Log entry ({log_id})", blob)
 
-    @command(command="account", params=[Options(["give", "take"]), Int("amount"), Character("char"), Any("reason")], access_level="moderator",
-             description="Give or take points from character account", sub_command="modify")
-    def account_give_take_cmd(self, request, action: str, amount: int, char: SenderObj, reason: str):
+    @command(command="account", params=[Const("add"), Character("char"), Int("amount"), Any("reason")], access_level="moderator",
+             description="Add points to an account", sub_command="modify")
+    def account_add_cmd(self, request, _, char: SenderObj, amount: int, reason: str):
         main = self.alts_service.get_main(char.char_id)
         row = self.get_account(main.char_id)
 
+        if not row:
+            return f"<highlight>{char.name}</highlight> does not have an account."
+
         if row.disabled == 1:
-            return "<highlight>%s</highlight>'s account is disabled, altering the account is not possible." % char.name
+            return f"Account for <highlight>{char.name}</highlight> is disabled and cannot be altered."
 
-        if action == "take" and amount > row.points:
-            return "<highlight>%s</highlight> only has <highlight>%d</highlight> points." % (char.name, row.points)
+        self.alter_points(main.char_id, amount, request.sender.char_id, reason)
 
-        new_points = amount if action == "give" else 0 - amount
+        return f"<highlight>{char.name}</highlight> has had <highlight>{amount}</highlight> points added to their account."
 
-        self.alter_points(main.char_id, new_points, request.sender.char_id, reason)
+    @command(command="account", params=[Options(["rem", "remove"]), Character("char"), Int("amount"), Any("reason")], access_level="moderator",
+             description="Remove points from an account", sub_command="modify")
+    def account_remove_cmd(self, request, _, char: SenderObj, amount: int, reason: str):
+        main = self.alts_service.get_main(char.char_id)
+        row = self.get_account(main.char_id)
 
-        action = "taken from" if action == "take" else "added to"
-        return "<highlight>%s</highlight> has had <highlight>%d</highlight> points %s their account." % (char.name, amount, action)
+        if not row:
+            return f"<highlight>{char.name}</highlight> does not have an account."
+
+        if row.disabled == 1:
+            return f"Account for <highlight>{char.name}</highlight> is disabled and cannot be altered."
+
+        if amount > row.points:
+            return f"<highlight>{char.name}</highlight> only has <highlight>{row.points}</highlight> points."
+
+        self.alter_points(main.char_id, -amount, request.sender.char_id, reason)
+
+        return f"<highlight>{char.name}</highlight> has had <highlight>{amount}</highlight> points removed from their account."
 
     @command(command="account", params=[Character("char")], access_level="moderator",
              description="Look up account of another char", sub_command="modify")
