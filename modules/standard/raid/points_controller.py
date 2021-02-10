@@ -97,18 +97,18 @@ class PointsController:
         else:
             return "<highlight>%s</highlight> does not have an open account." % char.name
 
-    @command(command="account", params=[Const("logentry"), Int("log_id")], access_level="moderator",
-             description="Look up specific log entry", sub_command="modify")
-    def account_log_entry_cmd(self, request, _, log_id: int):
+    @command(command="account", params=[Const("history"), Int("log_id")], access_level="moderator",
+             description="Look up specific account history record", sub_command="modify")
+    def account_history_cmd(self, request, _, log_id: int):
         log_entry = self.db.query_single("SELECT log_id, char_id, audit, leader_id, reason, created_at FROM points_log WHERE log_id = ?", [log_id])
 
         if not log_entry:
-            return "No log entry with given ID <highlight>%d</highlight>." % log_id
+            return "No account history record with given ID <highlight>%d</highlight>." % log_id
 
         char_name = self.character_service.resolve_char_to_name(log_entry.char_id)
         leader_name = self.character_service.resolve_char_to_name(log_entry.leader_id)
 
-        blob = f"Log entry ID: <highlight>{log_entry.log_id}</highlight>\n"
+        blob = f"ID: <highlight>{log_entry.log_id}</highlight>\n"
         blob += f"Account: <highlight>{char_name}</highlight>\n"
         blob += f"Action by: <highlight>{leader_name}</highlight>\n"
         blob += "Type: <highlight>%s</highlight>\n" % ("Management" if log_entry.audit == 0 else "Altering of points")
@@ -129,7 +129,7 @@ class PointsController:
 
         blob += "Actions available: [%s]\n" % (action_links if action_links is not None else "No actions available")
 
-        return ChatBlob(f"Log entry ({log_id})", blob)
+        return ChatBlob(f"Account History Record ({log_id})", blob)
 
     @command(command="account", params=[Const("add"), Character("char"), Int("amount"), Any("reason")], access_level="moderator",
              description="Add points to an account", sub_command="modify")
@@ -281,25 +281,22 @@ class PointsController:
             blob += "No entries in log."
         else:
             for entry in points_log:
-                name_reference = "<highlight>%s</highlight>" % char.name
-
-                if entry.audit == 0:
-                    # If points is 0, then it's a general case log
-                    blob += "<grey>[%s]</grey> <orange>%s</orange>" % (
-                        self.util.format_datetime(entry.created_at), entry.reason)
-                elif entry.audit > 0:
-                    pts = "<green>%d</green>" % entry.audit
-                    blob += "<grey>[%s]</grey> %s points added by <highlight>%s</highlight>; <orange>%s</orange>" \
+                if entry.audit > 0:
+                    pts = "<green>+%d</green>" % entry.audit
+                    blob += "<grey>[%s]</grey> %s points by <highlight>%s</highlight>; <orange>%s</orange>" \
                             % (self.util.format_datetime(entry.created_at), pts,
                                self.character_service.resolve_char_to_name(entry.leader_id), entry.reason)
                 elif entry.audit < 0:
-                    pts = "<red>%d</red>" % (-1 * entry.audit)
-                    blob += "<grey>[%s]</grey> %s points removed by <highlight>%s</highlight>; <orange>%s</orange>" \
+                    pts = "<red>-%d</red>" % (-1 * entry.audit)
+                    blob += "<grey>[%s]</grey> %s points by <highlight>%s</highlight>; <orange>%s</orange>" \
                             % (self.util.format_datetime(entry.created_at), pts,
                                self.character_service.resolve_char_to_name(entry.leader_id),
                                entry.reason)
+                else:
+                    # If points is 0, then it's a general case log
+                    blob += "<grey>[%s]</grey> <orange>%s</orange>" % (self.util.format_datetime(entry.created_at), entry.reason)
 
-                log_entry_link = self.text.make_tellcmd("%d" % entry.log_id, "account logentry %d" % entry.log_id)
+                log_entry_link = self.text.make_tellcmd(entry.log_id, f"account history {entry.log_id}")
                 blob += " [%s]\n" % log_entry_link
 
         return ChatBlob("%s Account" % char.name, blob)
