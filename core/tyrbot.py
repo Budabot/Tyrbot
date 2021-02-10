@@ -334,10 +334,9 @@ class Tyrbot:
                 self.event_service.fire_event(self.OUTGOING_ORG_MESSAGE_EVENT, DictObject({"org_channel_id": org_channel_id,
                                                                                            "message": msg}))
 
-    def send_private_message(self, char, msg, add_color=True, fire_outgoing_event=True, conn_id="main"):
-        char_id = self.character_service.resolve_char_to_id(char)
+    def send_private_message(self, char_id, msg, add_color=True, fire_outgoing_event=True, conn_id="main"):
         if char_id is None:
-            self.logger.warning("Could not send message to %s, could not find char id" % char)
+            raise Exception("Cannot send message, char_id is empty")
         else:
             color = self.setting_service.get("private_message_color").get_font_color() if add_color else ""
             pages = self.get_text_pages(msg, self.setting_service.get("private_message_max_page_length").get_value())

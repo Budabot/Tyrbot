@@ -56,7 +56,8 @@ class RelayController:
             # if setting, then use setting, else if org, then use org name, else use botname
             prefix = self.get_org_channel_prefix()
 
-            self.bot.send_private_message(relay_bot, "grc [%s] %s" % (prefix, message), add_color=False)
+            char_id = self.character_service.resolve_char_to_id(relay_bot)
+            self.bot.send_private_message(char_id, "grc [%s] %s" % (prefix, message), add_color=False)
 
     def get_org_channel_prefix(self):
         return self.relay_prefix().get_value() or self.public_channel_service.get_org_name() or self.bot.get_char_name()

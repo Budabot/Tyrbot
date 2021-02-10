@@ -227,7 +227,7 @@ class DiscordController:
 
     @event(event_type="discord_invites", description="Handles invite requests", is_hidden=True)
     def handle_discord_invite_event(self, event_type, event_data):
-        sender = event_data[0]
+        char_name = event_data[0]
         invites = event_data[1]
 
         blob = ""
@@ -251,7 +251,8 @@ class DiscordController:
         else:
             blob += self.getresp("module/discord", "no_invites")
 
-        self.bot.send_private_message(sender, ChatBlob(self.getresp("module/discord", "invite_title"), blob))
+        char_id = self.character_service.resolve_char_to_id(char_name)
+        self.bot.send_private_message(char_id, ChatBlob(self.getresp("module/discord", "invite_title"), blob))
 
     def handle_discord_command_event(self, message):
         if not self.find_discord_command_handler(message):

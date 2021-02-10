@@ -22,6 +22,7 @@ class SystemController:
         self.bot = registry.get_instance("bot")
         self.setting_service: SettingService = registry.get_instance("setting_service")
         self.event_service = registry.get_instance("event_service")
+        self.character_service = registry.get_instance("character_service")
         self.ts: TranslationService = registry.get_instance("translation_service")
         self.message_hub_service = registry.get_instance("message_hub_service")
         self.getresp = self.ts.get_response
@@ -64,7 +65,9 @@ class SystemController:
         else:
             self.logger.warning("The bot has recovered from an unexpected shutdown or restart")
             msg = self.getresp("module/system", "unexpected_online")
-        self.bot.send_private_message(self.bot.superadmin, msg)
+
+        char_id = self.character_service.resolve_char_to_id(self.bot.superadmin)
+        self.bot.send_private_message(char_id, msg)
         self.bot.send_org_message(msg, fire_outgoing_event=False)
         self.bot.send_private_channel_message(msg, fire_outgoing_event=False)
 
