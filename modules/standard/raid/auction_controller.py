@@ -46,6 +46,9 @@ class AuctionController:
         if not self.is_auction_running():
             return "No auction running."
 
+        if not self.is_in_raid(request.sender.char_id):
+            return "You must be in the raid in order to bid on an item."
+
         return self.auction.add_bid(request.sender, amount, item_index)
 
     @command(command="auction", params=[Const("bid"), Const("all"), Int("item_index", is_optional=True)],
@@ -53,6 +56,9 @@ class AuctionController:
     def auction_bid_all_cmd(self, request, _1, _2, item_index):
         if not self.is_auction_running():
             return "No auction running."
+
+        if not self.is_in_raid(request.sender.char_id):
+            return "You must be in the raid in order to bid on an item."
 
         return self.auction.add_bid(request.sender, "all", item_index)
 
@@ -72,6 +78,10 @@ class AuctionController:
         announce_interval = self.setting_service.get("auction_announce_interval").get_value()
 
         return self.auction.start(request.sender, auction_length, announce_interval)
+
+    def is_in_raid(self, char_id):
+        main_id = self.alts_service.get_main(char_id).char_id
+        return self.raid_controller.is_in_raid(main_id)
 
     def is_auction_running(self):
         return self.auction and self.auction.is_running
