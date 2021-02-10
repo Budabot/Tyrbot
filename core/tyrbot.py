@@ -1,5 +1,6 @@
 import inspect
 import threading
+import time
 
 from core.conn import Conn
 from core.fifo_queue import FifoQueue
@@ -12,13 +13,10 @@ from core.access_service import AccessService
 from core.text import Text
 from core.decorators import instance
 from core.chat_blob import ChatBlob
-from core.setting_types import TextSettingType, ColorSettingType, NumberSettingType
+from core.setting_types import TextSettingType, ColorSettingType, NumberSettingType, BooleanSettingType
 from core.aochat import server_packets, client_packets
 from core.aochat.extended_message import ExtendedMessage
 from core.bot_status import BotStatus
-from core.functions import flatmap
-import os
-import time
 
 
 @instance("bot")
@@ -118,6 +116,9 @@ class Tyrbot:
                                           "This setting is is for development/debug purposes and should not be changed unless you understand the implications")
         self.setting_service.register_new("core.system", "org_name", "", TextSettingType(allow_empty=True), "The exact org name of the bot",
                                           "This setting is automatically set by the bot and should not be changed manually")
+
+        self.setting_service.register_new("core.system", "accept_commands_from_slave_bots", False, BooleanSettingType(),
+                                          "Accept and respond to commands sent to slave bots (only applies if you have added slave bots in the config)")
 
         self.setting_service.register_new("core.colors", "header_color", "#FFFF00", ColorSettingType(), "Color for headers")
         self.setting_service.register_new("core.colors", "header2_color", "#FCA712", ColorSettingType(), "Color for sub-headers")

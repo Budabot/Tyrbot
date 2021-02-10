@@ -351,7 +351,7 @@ class CommandService:
         return self.handlers.get(command_key, None)
 
     def handle_private_message(self, conn: Conn, packet: server_packets.PrivateMessage):
-        if conn.id != "main":
+        if not self.setting_service.get("accept_commands_from_slave_bots").get_value() and conn.id != "main":
             return
 
         # since the command symbol is not required for private messages,
@@ -370,7 +370,7 @@ class CommandService:
             lambda msg: self.bot.send_private_message(packet.char_id, msg, conn_id=conn.id))
 
     def handle_private_channel_message(self, conn: Conn, packet: server_packets.PrivateChannelMessage):
-        if conn.id != "main":
+        if not self.setting_service.get("accept_commands_from_slave_bots").get_value() and conn.id != "main":
             return
 
         # since the command symbol is required in the private channel,
@@ -390,7 +390,7 @@ class CommandService:
                 lambda msg: self.bot.send_private_channel_message(msg, private_channel_id=conn.char_id, conn_id=conn.id))
 
     def handle_public_channel_message(self, conn: Conn, packet: server_packets.PublicChannelMessage):
-        if conn.id != "main":
+        if not self.setting_service.get("accept_commands_from_slave_bots").get_value() and conn.id != "main":
             return
 
         # since the command symbol is required in the org channel,
