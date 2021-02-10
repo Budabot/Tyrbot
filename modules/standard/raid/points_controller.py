@@ -2,7 +2,7 @@ from core.sender_obj import SenderObj
 from core.db import DB
 from core.decorators import command, instance, setting
 from core.chat_blob import ChatBlob
-from core.command_param_types import Options, Any, Int, Const, Character
+from core.command_param_types import Options, Any, Int, Const, Character, NamedParameters
 from core.lookup.character_service import CharacterService
 from core.setting_types import NumberSettingType
 from core.setting_service import SettingService
@@ -97,11 +97,6 @@ class PointsController:
         else:
             return "<highlight>%s</highlight> does not have an open account." % char.name
 
-    @command(command="account", params=[], access_level="all",
-             description="Look up your account")
-    def account_self_cmd(self, request):
-        return self.get_account_display(request.sender)
-
     @command(command="account", params=[Const("logentry"), Int("log_id")], access_level="moderator",
              description="Look up specific log entry", sub_command="modify")
     def account_log_entry_cmd(self, request, _, log_id: int):
@@ -171,10 +166,15 @@ class PointsController:
 
         return f"<highlight>{char.name}</highlight> has had <highlight>{amount}</highlight> points removed from their account."
 
-    @command(command="account", params=[Character("char")], access_level="moderator",
+    @command(command="account", params=[NamedParameters(["page"])], access_level="all",
+             description="Look up your account")
+    def account_self_cmd(self, request, named_params):
+        return self.get_account_display(request.sender, named_params.page)
+
+    @command(command="account", params=[Character("char"), NamedParameters(["page"])], access_level="moderator",
              description="Look up account of another char", sub_command="modify")
-    def account_other_cmd(self, request, char: SenderObj):
-        return self.get_account_display(char)
+    def account_other_cmd(self, request, char: SenderObj, named_params):
+        return self.get_account_display(char, named_params.page)
 
     @command(command="raid", params=[Const("presets"), Const("add"), Any("name"), Int("points")], access_level="admin",
              description="Add new points preset", sub_command="manage_points")
@@ -255,11 +255,12 @@ class PointsController:
 
         self.add_log_entry(main_id, sender.char_id, "Account opened by %s" % sender.name)
 
-    def get_account_display(self, char: SenderObj, page=1):
+    def get_account_display(self, char: SenderObj, page):
         main = self.alts_service.get_main(char.char_id)
         if not main:
             return "Could not find character <highlight>%s</highlight>." % char.name
 
+        page = int(page) if page else 1
         page_size = 20
         offset = (page - 1) * page_size
 
