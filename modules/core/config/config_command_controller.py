@@ -114,11 +114,22 @@ class ConfigCommandController:
                     label = access_level["label"]
                     link = self.text.make_tellcmd(label.capitalize(), "config cmd %s access_level %s %s" % (cmd_name, command_channel, label))
                     blob += "  " + link
-                blob += "\n\n\n"
+                blob += "\n\n"
 
         if blob:
+            sub_commands = self.get_sub_commands(command_str, sub_command_str)
+            if sub_commands:
+                blob += "<header2>Subcommands</header2>\n"
+                for row in sub_commands:
+                    command_name = self.command_service.get_command_key(row.command, row.sub_command)
+                    blob += self.text.make_tellcmd(command_name, f"config cmd {command_name}") + "\n\n"
+
             # include help text
             blob += "\n\n".join(map(lambda handler: handler["help"], self.command_service.get_handlers(cmd_name)))
             return ChatBlob("Command (%s)" % cmd_name, blob)
         else:
-            return  self.getresp("module/config", "no_cmd", {"cmd": cmd_name})
+            return self.getresp("module/config", "no_cmd", {"cmd": cmd_name})
+
+    def get_sub_commands(self, command_str, sub_command_str):
+        return self.db.query("SELECT DISTINCT command, sub_command FROM command_config WHERE command = ? AND sub_command != ?",
+                             [command_str, sub_command_str])
