@@ -1,5 +1,6 @@
 import time
 
+from core.buddy_service import BuddyService
 from core.chat_blob import ChatBlob
 from core.command_param_types import Character
 from core.decorators import instance, command, event
@@ -50,14 +51,9 @@ class LastSeenController:
 
         return ChatBlob("Last Seen for %s (%d)" % (char.name, len(data)), blob)
 
-    @event(event_type=OrgMemberController.ORG_MEMBER_LOGON_EVENT, description="Record last seen info", is_hidden=True)
+    @event(event_type=BuddyService.BUDDY_LOGON_EVENT, description="Record last seen info")
     def handle_org_member_logon_event(self, event_type, event_data):
         self.update_last_seen(event_data.char_id)
-
-    @event(event_type=OrgMemberController.ORG_MEMBER_LOGOFF_EVENT, description="Record last seen info", is_hidden=True)
-    def handle_org_member_logoff_event(self, event_type, event_data):
-        if self.bot.is_ready():
-            self.update_last_seen(event_data.char_id)
 
     def update_last_seen(self, char_id):
         return self.db.exec("UPDATE last_seen SET dt = ? WHERE char_id = ?", [int(time.time()), char_id])

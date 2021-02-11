@@ -279,6 +279,7 @@ class Tyrbot:
         if packet:
             if isinstance(packet, server_packets.SystemMessage):
                 packet = self.system_message_ext_msg_handling(packet)
+                self.logger.log_chat("SystemMessage", None, packet.extended_message.get_message())
             elif isinstance(packet, server_packets.PublicChannelMessage):
                 packet = self.public_channel_message_ext_msg_handling(packet)
             if isinstance(packet, server_packets.BuddyAdded):
@@ -314,7 +315,6 @@ class Tyrbot:
             template = self.mmdb_parser.get_message_string(category_id, instance_id)
             params = self.mmdb_parser.parse_params(packet.message_args)
             packet.extended_message = ExtendedMessage(category_id, instance_id, template, params)
-            self.logger.log_chat("SystemMessage", None, packet.extended_message.get_message())
         except Exception as e:
             self.logger.error("Error handling extended message: " + str(packet), e)
 
