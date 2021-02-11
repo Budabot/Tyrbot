@@ -10,7 +10,7 @@ class Conn(Bot):
     def __init__(self, _id, failure_callback):
         super().__init__()
         self.id = _id
-        self.packet_queue = DelayQueue(2, 3.5)
+        self.packet_queue = DelayQueue(2, 2.5)
         self.packet_last_received_timestamp = time.time()
         self.failure_callback = failure_callback
         self.send_lock = threading.Lock()
