@@ -59,6 +59,8 @@ class OrgActivityController:
             self.save_activity(ext_msg.params[0], ext_msg.params[1], "removed")
         elif [ext_msg.category_id, ext_msg.instance_id] == OrgMemberController.KICKED_ALIGNMENT_CHANGED:
             self.save_activity(ext_msg.params[0], ext_msg.params[0], "alignment changed")
+        elif [ext_msg.category_id, ext_msg.instance_id] == OrgMemberController.JOINED_ORG:
+            self.save_activity(ext_msg.params[0], ext_msg.params[0], "joined")
 
     def save_activity(self, actor, actee, action):
         actor_id = self.character_service.resolve_char_to_id(actor)

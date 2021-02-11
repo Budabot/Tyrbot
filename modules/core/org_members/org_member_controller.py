@@ -32,6 +32,7 @@ class OrgMemberController:
     INVITED_TO_ORG = [508, 173558247]
     KICKED_INACTIVE_FROM_ORG = [508, 20908201]
     KICKED_ALIGNMENT_CHANGED = [501, 181448347]
+    JOINED_ORG = [508, 5146599]
 
     MAX_CACHE_AGE = 86400
 
@@ -100,6 +101,7 @@ class OrgMemberController:
         # fire org_member logon event
         if self.buddy_service.is_online(char.char_id):
             self.event_service.fire_event(self.ORG_MEMBER_LOGON_EVENT, self.get_org_member(char.char_id))
+
         return self.getresp("module/org_members", "notify_add_success", {"char": char.name})
 
     @command(command="orgmembers", params=[], access_level="admin",
@@ -155,12 +157,14 @@ class OrgMemberController:
             self.process_org_msg(ext_msg.params[0], self.MODE_REM_MANUAL)
         elif [ext_msg.category_id, ext_msg.instance_id] == self.KICKED_FROM_ORG:
             self.process_org_msg(ext_msg.params[1], self.MODE_REM_MANUAL)
-        elif [ext_msg.category_id, ext_msg.instance_id] == self.KICKED_ALIGNMENT_CHANGED:
-            self.process_org_msg(ext_msg.params[0], self.MODE_REM_MANUAL)
         elif [ext_msg.category_id, ext_msg.instance_id] == self.INVITED_TO_ORG:
             self.process_org_msg(ext_msg.params[1], self.MODE_ADD_MANUAL)
         elif [ext_msg.category_id, ext_msg.instance_id] == self.KICKED_INACTIVE_FROM_ORG:
             self.process_org_msg(ext_msg.params[1], self.MODE_REM_MANUAL)
+        elif [ext_msg.category_id, ext_msg.instance_id] == self.KICKED_ALIGNMENT_CHANGED:
+            self.process_org_msg(ext_msg.params[0], self.MODE_REM_MANUAL)
+        elif [ext_msg.category_id, ext_msg.instance_id] == self.JOINED_ORG:
+            self.process_org_msg(ext_msg.params[0], self.MODE_ADD_MANUAL)
 
     @event(event_type=PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, description="Automatically add chars that speak in the org channel to the org roster")
     def auto_add_org_members_event(self, event_type, event_data):
