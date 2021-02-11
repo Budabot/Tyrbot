@@ -1,72 +1,39 @@
-remove timer_event table and store next_run in meta_data column of event_config
-
-Time command param to include both seconds and time_str
-fix number grouping on linux
-off/on relay commands between org and private channels
 allow adjusting timer event times with !config
-expose poh loot with !loot command
 add a command to list all raid loot categories, cleanup !loot subcommands
-combine !is and !whois?
-decide whether commands should be singular or plural
-add bot name to database and fail on non-match
-automatically give leader when using loot:change commands
 trader drain command
-add self.module_name to controllers/components
 allow chatblobs in message_hub
-update websocket relay to remove buddies when bot disconnects
+messagehub: remove formatted_message, add formatted_prefix
+add !translations command
+add setting to control how long to wait for login finish
 
-done
-----
-ADMIN - done
+
 ALTS - done, show warning when adding alt that has higher access level than main
-BAN - done
-BUDDYLIST - done
-COLORS - done
-CONFIG - done
-HELP - done
 LIMITS - ignore for now, add restricted_guest as an access level, just above all, for whitelisting, and let limits dictate how "all" access level chars are handled
-PLAYER_LOOKUP - done
 PREFERENCES - ignore for now
 PROFILE - ignore
-SETUP - done
-SYSTEM - done
 USAGE - ignore for now, needs !usage command, needs to submit usage
 
-ALIEN - done
 BANK - ignore
-BASIC_CHAT - moved to raid
-BROADCAST - done
-CITY - done
-DEV - ignore
-FUN - done
-GIT - ignore
-GUIDE - done
-HELPBOT - done
 IMPLANT - needs !implantdesigner
-ITEMS - done
-LEVEL - done
-NANO - done
-NEWS - done
-NOTES - done
-ONLINE - done
-ORG - done
-ORGLIST - done
-PERKS - done
-PRIVATE_CHANNEL - done
-QUOTE - done
-RAFFLE - done
-RECIPE - done
-RELAY - done
 REPUTATION - ignore
 SHOPPING - ignore
-SKILLS - done
 SPIRITS - ignore
-TIMERS - done
-TOWER - done
 TRACKER - ignore for now
-TRICKLE - done
-VOTE - done, renamed to poll
-WEATHER - ignore
-WHEREIS - done
-WHOIS - done
-WHOMPAH - done
+
+
+discord
+```apache, ```nginx,
+```properties*
+```css,
+```less*
+```yaml*
+```arm
+```fix
+
+**test**
+*test*
+`test`
+__test__
+~~test~~
+
+https://www.writebots.com/discord-text-formatting/
