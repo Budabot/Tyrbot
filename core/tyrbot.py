@@ -364,14 +364,16 @@ class Tyrbot:
             self.event_service.fire_event(self.OUTGOING_PRIVATE_CHANNEL_MESSAGE_EVENT, DictObject({"private_channel_id": private_channel_id,
                                                                                                    "message": msg}))
 
-    def send_mass_message(self, char_id, msg, add_color=True):
+    def send_mass_message(self, char_id, msg, add_color=True, log_message=False):
         if not char_id:
             self.logger.warning("Could not send message to empty char_id")
         else:
             color = self.setting_service.get("private_message_color").get_font_color() if add_color else ""
             pages = self.get_text_pages(msg, self.setting_service.get("private_message_max_page_length").get_value())
             for page in pages:
-                # self.logger.log_tell("To", self.character_service.get_char_name(char_id), page)
+                if log_message:
+                    self.logger.log_tell("spam", "To", self.character_service.get_char_name(char_id), page)
+
                 if self.mass_message_queue:
                     packet = client_packets.PrivateMessage(char_id, color + page, "\0")
                     self.mass_message_queue.put(packet)
