@@ -195,7 +195,10 @@ class Tyrbot:
         if _id in self.conns:
             raise Exception(f"A connection with id {_id} already exists")
 
-        conn = Conn(_id, self.disconnect)
+        def failure_callback():
+            self.status = BotStatus.ERROR
+
+        conn = Conn(_id, failure_callback)
         self.conns[_id] = conn
         return conn
 
@@ -234,8 +237,6 @@ class Tyrbot:
                 self.check_for_timer_events(timestamp)
 
                 self.iterate()
-            except (EOFError, OSError) as e:
-                raise e
             except Exception as e:
                 self.logger.error("", e)
 
