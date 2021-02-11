@@ -157,16 +157,24 @@ class RaidController:
                     in_raid.was_kicked_reason = None
                     in_raid.left_raid = None
 
+                    self.points_controller.add_log_entry(main_id, request.sender.char_id, f"Joined raid {self.raid.raid_name}")
                     self.send_message("%s returned to actively participating in the raid." % request.sender.name)
 
             elif in_raid.is_active:
                 former_active_name = self.character_service.resolve_char_to_name(in_raid.active_id)
                 in_raid.active_id = request.sender.char_id
+                self.points_controller.add_log_entry(main_id, request.sender.char_id,
+                                                     f"Switched to alt {request.sender.name} ({request.sender.char_id} in raid {self.raid.raid_name}")
                 self.send_message("<highlight>%s</highlight> joined the raid with a different alt, <highlight>%s</highlight>." % (former_active_name, request.sender.name))
 
             elif not in_raid.is_active:
                 if not self.raid.is_open:
                     return "Raid is closed."
+
+                self.points_controller.add_log_entry(main_id, request.sender.char_id,
+                                                     f"Switched to alt {request.sender.name} in raid {self.raid.raid_name}")
+                self.points_controller.add_log_entry(main_id, request.sender.char_id, f"Joined raid {self.raid.raid_name}")
+
                 former_active_name = self.character_service.resolve_char_to_name(in_raid.active_id)
                 in_raid.active_id = request.sender.char_id
                 in_raid.was_kicked = None
@@ -177,19 +185,22 @@ class RaidController:
         elif self.raid.is_open:
             alts = self.alts_service.get_alts(request.sender.char_id)
             self.raid.raiders.append(Raider(alts, request.sender.char_id))
+            self.points_controller.add_log_entry(main_id, request.sender.char_id, f"Joined raid {self.raid.raid_name}")
             self.send_message("<highlight>%s</highlight> joined the raid." % request.sender.name)
         else:
             return "Raid is closed."
 
     @command(command="raid", params=[Const("leave")], description="Leave the ongoing raid", access_level="member")
     def raid_leave_cmd(self, request, _):
-        in_raid = self.is_in_raid(self.alts_service.get_main(request.sender.char_id).char_id)
+        main_id = self.alts_service.get_main(request.sender.char_id).char_id
+        in_raid = self.is_in_raid(main_id)
         if in_raid:
             if not in_raid.is_active:
                 return "You are not active in the raid."
 
             in_raid.is_active = False
             in_raid.left_raid = int(time.time())
+            self.points_controller.add_log_entry(main_id, request.sender.char_id, f"Left raid {self.raid.raid_name}")
             self.send_message("<highlight>%s</highlight> left the raid." % request.sender.name)
         else:
             return "You are not in the raid."
@@ -261,11 +272,13 @@ class RaidController:
             return self.NO_RAID_RUNNING_RESPONSE
 
         alts = self.alts_service.get_alts(char.char_id)
-        in_raid = self.is_in_raid(alts[0].char_id)
+        main_id = alts[0].char_id
+        in_raid = self.is_in_raid(main_id)
 
         if in_raid is None:
             self.raid.raiders.append(Raider(alts, char.char_id))
             self.bot.send_private_message(char.char_id, f"You have been added to the raid <highlight>{self.raid.raid_name}</highlight>.")
+            self.points_controller.add_log_entry(main_id, request.sender.char_id, f"Added to raid {self.raid.raid_name}")
             return "<highlight>%s</highlight> has been added to the raid." % char.name
         else:
             if not in_raid.is_active:
@@ -273,8 +286,9 @@ class RaidController:
                 in_raid.was_kicked = None
                 in_raid.was_kicked_reason = None
                 in_raid.left_raid = None
+                self.points_controller.add_log_entry(main_id, request.sender.char_id, f"Added to raid {self.raid.raid_name}")
                 self.bot.send_private_message(char.char_id, f"You have been set as active in the raid <highlight>{self.raid.raid_name}</highlight>.")
-                return f"<highlight>{char.name}</highlight> is has been set as active."
+                return f"<highlight>{char.name}</highlight> has been set as active."
             else:
                 return f"<highlight>{char.name}</highlight> is already in the raid."
 
@@ -294,6 +308,7 @@ class RaidController:
             in_raid.is_active = False
             in_raid.was_kicked = int(time.time())
             in_raid.was_kicked_reason = reason
+            self.points_controller.add_log_entry(main_id, request.sender.char_id, f"Kicked from raid {self.raid.raid_name} with reason: {reason}")
             self.bot.send_private_message(char.char_id,
                                           f"You have been kicked from raid <highlight>{self.raid.raid_name}</highlight> with reason <highlight>{reason}</highlight>.")
             return "<highlight>%s</highlight> has been kicked from the raid with reason <highlight>%s</highlight>." % (char.name, reason)
