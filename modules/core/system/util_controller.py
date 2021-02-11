@@ -24,13 +24,21 @@ class UtilController:
         self.public_channel_service = registry.get_instance("public_channel_service")
         self.getresp = registry.get_instance("translation_service").get_response
 
-    @command(command="checkaccess", params=[Character("character", is_optional=True)], access_level="all",
-             description="Check access level for a character")
-    def checkaccess_cmd(self, request, char):
-        char = char or request.sender
-
+    @command(command="checkaccess", params=[Character("character")], access_level="moderator",
+             description="Check access level for a character", sub_command="other")
+    def checkaccess_other_cmd(self, request, char):
         if not char.char_id:
             return self.getresp("global", "char_not_found", {"char": char.name})
+
+        return self.getresp("module/system", "check_access",
+                            {"char": char.name,
+                             "rank_main": char.access_level["label"],
+                             "rank_self": self.access_service.get_single_access_level(char.char_id)["label"]})
+
+    @command(command="checkaccess", params=[], access_level="all",
+             description="Check your access level")
+    def checkaccess_cmd(self, request):
+        char = request.sender
 
         return self.getresp("module/system", "check_access",
                             {"char": char.name,
