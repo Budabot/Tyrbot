@@ -279,7 +279,7 @@ class Tyrbot:
         if packet:
             if isinstance(packet, server_packets.SystemMessage):
                 packet = self.system_message_ext_msg_handling(packet)
-                self.logger.log_chat("SystemMessage", None, packet.extended_message.get_message())
+                self.logger.log_chat(conn.id, "SystemMessage", None, packet.extended_message.get_message())
             elif isinstance(packet, server_packets.PublicChannelMessage):
                 packet = self.public_channel_message_ext_msg_handling(packet)
             if isinstance(packet, server_packets.BuddyAdded):
@@ -342,7 +342,7 @@ class Tyrbot:
             color = self.setting_service.get("private_message_color").get_font_color() if add_color else ""
             pages = self.get_text_pages(msg, self.setting_service.get("private_message_max_page_length").get_value())
             for page in pages:
-                self.logger.log_tell("To", self.character_service.get_char_name(char_id), page)
+                self.logger.log_tell(conn_id, "To", self.character_service.get_char_name(char_id), page)
                 packet = client_packets.PrivateMessage(char_id, color + page, "\0")
                 self.conns[conn_id].add_packet_to_queue(packet)
 
@@ -383,7 +383,7 @@ class Tyrbot:
         if conn.id != "main":
             return
 
-        self.logger.log_tell("From", self.character_service.get_char_name(packet.char_id), packet.message)
+        self.logger.log_tell(conn.id, "From", self.character_service.get_char_name(packet.char_id), packet.message)
         self.event_service.fire_event(self.PRIVATE_MSG_EVENT, packet)
 
     def get_text_pages(self, msg, max_page_length):

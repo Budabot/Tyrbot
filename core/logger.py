@@ -20,14 +20,14 @@ class Logger:
     def debug(self, msg, obj: Exception=None):
         self.logger.debug(self.format_message(msg, obj))
 
-    def log_chat(self, channel, sender, msg):
+    def log_chat(self, conn_id, channel, sender, msg):
         if sender:
-            self.info("[%s] %s: %s" % (channel, sender, self.format_chat_message(msg)))
+            self.info("(%s)[%s] %s: %s" % (conn_id, channel, sender, self.format_chat_message(msg)))
         else:
-            self.info("[%s] %s" % (channel, self.format_chat_message(msg)))
+            self.info("(%s)[%s] %s" % (conn_id, channel, self.format_chat_message(msg)))
 
-    def log_tell(self, direction, sender, msg):
-        self.info("%s %s: %s" % (direction.capitalize(), sender, self.format_chat_message(msg)))
+    def log_tell(self, conn_id, direction, sender, msg):
+        self.info("(%s) %s %s: %s" % (conn_id, direction.capitalize(), sender, self.format_chat_message(msg)))
 
     def format_chat_message(self, msg):
         msg = re.sub("<a\s+href=\".+?[^\\\\]\">", "[link]", msg, 0, re.UNICODE | re.DOTALL)

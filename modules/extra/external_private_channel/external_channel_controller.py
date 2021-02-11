@@ -39,7 +39,7 @@ class ExternalChannelController:
         if packet.private_channel_id != self.bot.get_char_id():
             channel_name = self.character_service.get_char_name(packet.private_channel_id)
             char_name = self.character_service.get_char_name(packet.char_id)
-            self.logger.log_chat("Private Channel(%s)" % channel_name, char_name, packet.message)
+            self.logger.log_chat(conn.id, "Private Channel(%s)" % channel_name, char_name, packet.message)
 
             if len(packet.message) < 2:
                 return
