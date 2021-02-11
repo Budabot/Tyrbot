@@ -220,3 +220,6 @@ class Util:
             return None
 
         return round((max_val.val - min_val.val) / (max_val.ql - min_val.ql) * (interpolated_ql - min_val.ql) + min_val.val, precision)
+
+    def get_offset_limit(self, page_size, page_number):
+        return (page_number - 1) * page_size, page_size
