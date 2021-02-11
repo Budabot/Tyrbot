@@ -61,11 +61,11 @@ try:
     env_config = get_config_from_env()
     if env_config:
         # converts dicts to lists
-        if "slaves" in config and isinstance(config.slaves, dict):
-            config.slaves = list(config.slaves.values())
+        if "slaves" in env_config and isinstance(env_config.slaves, dict):
+            env_config.slaves = list(env_config.slaves.values())
 
-        if "module_paths" in config and isinstance(config.module_paths, dict):
-            config.module_paths = list(config.module_paths.values())
+        if "module_paths" in env_config and isinstance(env_config.module_paths, dict):
+            env_config.module_paths = list(env_config.module_paths.values())
 
         config = merge_dicts(config, env_config)
         logger.info("Reading config from env vars")
