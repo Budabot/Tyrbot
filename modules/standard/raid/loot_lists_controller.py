@@ -1,7 +1,7 @@
 from core.chat_blob import ChatBlob
 from core.command_param_types import Options
 from core.db import DB
-from core.decorators import instance, command, setting
+from core.decorators import instance, command
 from core.setting_service import SettingService
 from core.setting_types import BooleanSettingType
 from core.text import Text
@@ -73,7 +73,7 @@ class LootListsController:
             "eumen": "Eumenides",
             "qets": "Queen of the Slums",
             "psion": "The Psion",
-            "pbc": "Primal Bloodcreeper",
+            "primal": "Primal Bloodcreeper",
             "aneid": "Vergil Aeneid",
             "abmouth": "Abmouth Supremus",
 
@@ -121,7 +121,7 @@ class LootListsController:
              description="Get list of items from APF", access_level="all")
     def apf_loot_cmd(self, _, category):
         add_all = True if category != "s7" else False
-        category = self.get_real_category_name(category)
+        category = self.get_category_name(category)
 
         items = self.get_items("APF", category)
 
@@ -137,8 +137,7 @@ class LootListsController:
         raids = self.db.query(sql)
         for raid in raids:
             add_loot = self.text.make_tellcmd("Add loot", "loot addraid APF %s" % raid.category)
-            show_loot = self.text.make_tellcmd(
-                "Loot table", "apf %s" % self.get_real_category_name(raid.category, True))
+            show_loot = self.text.make_tellcmd("Loot table", "apf %s" % self.get_category_abbrev(raid.category))
 
             sql = "SELECT COUNT(*) AS count FROM raid_loot WHERE category = ?"
             count = self.db.query_single(sql, [raid.category]).count
@@ -158,21 +157,20 @@ class LootListsController:
         raids = self.db.query(sql)
 
         for raid in raids:
-            show_loot = self.text.make_tellcmd(
-                "Loot table", "albtraum %s" % self.get_real_category_name(raid.category, True))
+            show_loot = self.text.make_tellcmd("Loot table", "albtraum %s" % self.get_category_abbrev(raid.category))
 
             sql = "SELECT COUNT(*) AS count FROM raid_loot WHERE category = ?"
             count = self.db.query_single(sql, [raid.category]).count
 
             blob += "%s - %s items\n" % (raid.category, count)
-            blob += " | [%s]\n\n" % (show_loot)
+            blob += " | [%s]\n\n" % show_loot
 
         return ChatBlob("Albtraum loot tables", blob)
 
     @command(command="albtraum", params=[Options(["c&cm", "pbc", "r&pu", "ancients", "samples"])],
              description="Get list of items from Albtraum", access_level="all")
     def albtraum_tables_cmd(self, _, category):
-        category = self.get_real_category_name(category)
+        category = self.get_category_name(category)
 
         items = self.get_items("Albtraum", category)
 
@@ -190,7 +188,7 @@ class LootListsController:
                               "scorpio", "taurus", "sagittarius", "tnh", "gaunt", "sb"])],
              description="Get list of items from Pandemonium", access_level="all")
     def pande_loot_cmd(self, _, category_name):
-        category = self.get_real_category_name(category_name)
+        category = self.get_category_name(category_name)
 
         items = self.get_items("Pande", category)
 
@@ -205,8 +203,7 @@ class LootListsController:
         sql = "SELECT category FROM raid_loot WHERE raid = 'Pande' GROUP BY category"
         raids = self.db.query(sql)
         for raid in raids:
-            show_loot = self.text.make_tellcmd(
-                "Loot table", "pande %s" % self.get_real_category_name(raid.category, True))
+            show_loot = self.text.make_tellcmd("Loot table", "pande %s" % self.get_category_abbrev(raid.category))
 
             sql = "SELECT COUNT(*) AS count FROM raid_loot WHERE category = ?"
             count = self.db.query_single(sql, [raid.category]).count
@@ -221,7 +218,7 @@ class LootListsController:
     @command(command="db", params=[Options(["db1", "db2", "db3", "dbarmor", "util"])],
              description="Get list of items from DustBrigade", access_level="all")
     def db_loot_cmd(self, _, category):
-        category = self.get_real_category_name(category)
+        category = self.get_category_name(category)
         items = self.get_items("DustBrigade", category)
         if items:
             return ChatBlob("%s loot table" % category, self.build_list(items, "DustBrigade", category))
@@ -235,8 +232,7 @@ class LootListsController:
         raids = self.db.query(sql)
 
         for raid in raids:
-            show_loot = self.text.make_tellcmd("Loot table", "db %s"
-                                               % self.get_real_category_name(raid.category, True))
+            show_loot = self.text.make_tellcmd("Loot table", "db %s" % self.get_category_abbrev(raid.category))
 
             sql = "SELECT COUNT(*) AS count FROM raid_loot WHERE category = ?"
             count = self.db.query_single(sql, [raid.category]).count
@@ -252,7 +248,7 @@ class LootListsController:
     @command(command="xan", params=[Options(["mitaar", "12m", "vortexx"])],
              description="Get list of items from Xan", access_level="all")
     def xan_loot_cmd(self, _, category):
-        category = self.get_real_category_name(category)
+        category = self.get_category_name(category)
         blob = ""
         blob += self.build_list(self.get_items(category, "General"), category, "General")
         blob += self.build_list(self.get_items(category, "Symbiants"), category, "Symbiants")
@@ -269,8 +265,7 @@ class LootListsController:
         raids = ["Mitaar", "Vortexx", "12Man"]
 
         for raid in raids:
-            show_loot = self.text.make_tellcmd(
-                "Loot table", "xan %s" % self.get_real_category_name(raid, True))
+            show_loot = self.text.make_tellcmd("Loot table", "xan %s" % self.get_category_abbrev(raid))
 
             sql = "SELECT COUNT(*) AS count FROM raid_loot WHERE raid = ?"
             count = self.db.query_single(sql, [raid]).count
@@ -286,7 +281,7 @@ class LootListsController:
     @command(command="poh", params=[Options(["gen", "ncu"])],
              description="Get list of items from Pyramid of Home", access_level="all")
     def poh_loot_cmd(self, _, category_name):
-        category = self.get_real_category_name(category_name)
+        category = self.get_category_name(category_name)
         items = self.get_items("Pyramid of Home", category)
         if items:
             return ChatBlob("%s loot table" % category, self.build_list(items, "poh", category))
@@ -299,8 +294,7 @@ class LootListsController:
         sql = "SELECT category FROM raid_loot WHERE raid = 'Pyramid of Home' GROUP BY category"
         raids = self.db.query(sql)
         for raid in raids:
-            show_loot = self.text.make_tellcmd(
-                "Loot table", "poh %s" % self.get_real_category_name(raid.category, True))
+            show_loot = self.text.make_tellcmd("Loot table", "poh %s" % self.get_category_abbrev(raid.category))
 
             sql = "SELECT COUNT(*) AS count FROM raid_loot WHERE category = ?"
             count = self.db.query_single(sql, [raid.category]).count
@@ -318,7 +312,7 @@ class LootListsController:
          "uklesh", "gen", "armor"])],
              description="Get list of items from Temple of Three Winds", access_level="all")
     def totwh_loot_cmd(self, _, category_name):
-        category = self.get_real_category_name(category_name)
+        category = self.get_category_name(category_name)
         items = self.get_items("Temple of Three Winds (HL)", category)
         if items:
             return ChatBlob("%s loot table" % category, self.build_list(items, "totwh", category))
@@ -331,8 +325,7 @@ class LootListsController:
         sql = "SELECT category FROM raid_loot WHERE raid = 'Temple of Three Winds (HL)' GROUP BY category"
         raids = self.db.query(sql)
         for raid in raids:
-            show_loot = self.text.make_tellcmd(
-                "Loot table", "totwh %s" % self.get_real_category_name(raid.category, True))
+            show_loot = self.text.make_tellcmd("Loot table", "totwh %s" % self.get_category_abbrev(raid.category))
 
             sql = "SELECT COUNT(*) AS count FROM raid_loot WHERE category = ? and raid=?"
             count = self.db.query_single(sql, [raid.category, "Temple of Three Winds (HL)"]).count
@@ -345,10 +338,10 @@ class LootListsController:
     #   Condemned Subway (raid)   #
     ###############################
 
-    @command(command="subh", params=[Options(["shiro", "eumen", "qets", "psion", "pbc", "aneid", "abmouth", "gen"])],
+    @command(command="subh", params=[Options(["shiro", "eumen", "qets", "psion", "primal", "aneid", "abmouth", "gen"])],
              description="Get list of items from Condemned Subway (HL)", access_level="all")
     def subh_loot_cmd(self, _, category_name):
-        category = self.get_real_category_name(category_name)
+        category = self.get_category_name(category_name)
         items = self.get_items("Condemned Subway (HL)", category)
         if items:
             return ChatBlob("%s loot table" % category, self.build_list(items, "subh", category))
@@ -361,8 +354,7 @@ class LootListsController:
         sql = "SELECT category FROM raid_loot WHERE raid = 'Condemned Subway (HL)' GROUP BY category"
         raids = self.db.query(sql)
         for raid in raids:
-            show_loot = self.text.make_tellcmd(
-                "Loot table", "subh %s" % self.get_real_category_name(raid.category, True))
+            show_loot = self.text.make_tellcmd("Loot table", "subh %s" % self.get_category_abbrev(raid.category))
 
             sql = "SELECT COUNT(*) AS count FROM raid_loot WHERE category = ? and raid=?"
             count = self.db.query_single(sql, [raid.category, "Condemned Subway (HL)"]).count
@@ -416,9 +408,12 @@ class LootListsController:
             [raid, category]
         )
 
-    # TODO what is the function of the `reverse` param?
-    def get_real_category_name(self, category, reverse=False):
-        if reverse:
-            return next((name for name, real_name in self.categories.items() if real_name == category), None)
-        else:
-            return self.categories[category] if category in list(self.categories.keys()) else None
+    def get_category_abbrev(self, category_name):
+        for abbrev, name in self.categories.items():
+            if name == category_name:
+                return abbrev
+
+        return None
+
+    def get_category_name(self, category):
+        return self.categories.get(category, None)
