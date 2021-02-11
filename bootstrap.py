@@ -130,8 +130,10 @@ try:
         bot.disconnect()
         exit(status.value)
 except KeyboardInterrupt:
+    # TODO set bot.status = BotStatus.SHUTDOWN, then bot.disconnect()
     exit(0)
 except Exception as e:
     logger = Logger("bootstrap")
     logger.error("", e)
+    # TODO set bot.status = BotStatus.Error, then bot.disconnect()
     exit(4)

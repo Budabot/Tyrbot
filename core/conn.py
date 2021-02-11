@@ -31,8 +31,11 @@ class Conn(Bot):
 
     def send_packet(self, packet):
         # synchronize sending packets
-        with self.send_lock:
-            super().send_packet(packet)
+        try:
+            with self.send_lock:
+                super().send_packet(packet)
+        except Exception as e:
+            self.failure_callback()
 
     def add_packet_to_queue(self, packet):
         self.packet_queue.enqueue(packet)
