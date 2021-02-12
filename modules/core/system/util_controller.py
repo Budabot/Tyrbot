@@ -54,7 +54,8 @@ class UtilController:
                 self.command_service.trim_command_symbol(command_str),
                 request.channel,
                 request.sender.char_id,
-                request.reply)
+                request.reply,
+                request.conn)
 
     @command(command="echo", params=[Any("message")], access_level="all",
              description="Echo back a message")
@@ -75,7 +76,8 @@ class UtilController:
             self.command_service.trim_command_symbol(command_str),
             request.channel,
             request.sender.char_id,
-            lambda msg: self.bot.send_private_message(char.char_id, msg))
+            lambda msg: self.bot.send_private_message(char.char_id, msg),
+            request.conn)
 
         return self.getresp("module/system", "show_output_self",
                             {"target": char.name,
@@ -125,4 +127,4 @@ class UtilController:
     @command(command="htmldecode", params=[Any("command")], access_level="all",
              description="Decode html entities from a command before passing to the bot for execution")
     def htmldecode_cmd(self, request, command_str):
-        self.command_service.process_command(html.unescape(command_str), request.channel, request.sender.char_id, request.reply)
+        self.command_service.process_command(html.unescape(command_str), request.channel, request.sender.char_id, request.reply, request.conn)

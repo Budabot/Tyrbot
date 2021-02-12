@@ -174,7 +174,7 @@ class CommandService:
     def is_command_channel(self, channel):
         return channel in self.channels
 
-    def process_command(self, message: str, channel: str, char_id, reply):
+    def process_command(self, message: str, channel: str, char_id, reply, conn):
         try:
             context = DictObject({"message": message, "char_id": char_id, "channel": channel, "reply": reply})
             for pre_processor in self.pre_processors:
@@ -211,7 +211,7 @@ class CommandService:
                     if handler["check_access"](char_id, cmd_config.access_level):
                         def call_command_handler():
                             try:
-                                response = handler["callback"](CommandRequest(channel, sender, reply), *self.process_matches(matches, handler["params"]))
+                                response = handler["callback"](CommandRequest(conn, channel, sender, reply), *self.process_matches(matches, handler["params"]))
                                 if response is not None:
                                     reply(response)
                             except Exception as e:
@@ -367,7 +367,8 @@ class CommandService:
             self.trim_command_symbol(message),
             self.PRIVATE_MESSAGE_CHANNEL,
             packet.char_id,
-            lambda msg: self.bot.send_private_message(packet.char_id, msg, conn_id=conn.id))
+            lambda msg: self.bot.send_private_message(packet.char_id, msg, conn_id=conn.id),
+            conn)
 
     def handle_private_channel_message(self, conn: Conn, packet: server_packets.PrivateChannelMessage):
         if not self.setting_service.get("accept_commands_from_slave_bots").get_value() and conn.id != "main":
@@ -387,7 +388,8 @@ class CommandService:
                 self.trim_command_symbol(message),
                 self.PRIVATE_CHANNEL,
                 packet.char_id,
-                lambda msg: self.bot.send_private_channel_message(msg, private_channel_id=conn.char_id, conn_id=conn.id))
+                lambda msg: self.bot.send_private_channel_message(msg, private_channel_id=conn.char_id, conn_id=conn.id),
+                conn)
 
     def handle_public_channel_message(self, conn: Conn, packet: server_packets.PublicChannelMessage):
         if not self.setting_service.get("accept_commands_from_slave_bots").get_value() and conn.id != "main":
@@ -407,7 +409,8 @@ class CommandService:
                 self.trim_command_symbol(message),
                 self.ORG_CHANNEL,
                 packet.char_id,
-                lambda msg: self.bot.send_org_message(msg, conn_id=conn.id))
+                lambda msg: self.bot.send_org_message(msg, conn_id=conn.id),
+                conn)
 
     def trim_command_symbol(self, s):
         symbol = self.setting_service.get("symbol").get_value()

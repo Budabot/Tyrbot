@@ -18,4 +18,4 @@ class RunasController:
             return self.getresp("module/system", "runas_fail", {"char": char.name})
         else:
             command_str = self.command_service.trim_command_symbol(command_str)
-            self.command_service.process_command(command_str, request.channel, char.char_id, request.reply)
+            self.command_service.process_command(command_str, request.channel, char.char_id, request.reply, request.conn)
