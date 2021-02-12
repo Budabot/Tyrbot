@@ -54,7 +54,7 @@ class Tyrbot:
         self.event_service = registry.get_instance("event_service")
         self.job_scheduler = registry.get_instance("job_scheduler")
 
-    def init(self, config, registry, paths, mmdb_parser):
+    def init(self, config, registry, mmdb_parser):
         self.mmdb_parser = mmdb_parser
         self.superadmin = config.superadmin.capitalize()
         self.dimension = config.server.dimension
