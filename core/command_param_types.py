@@ -273,7 +273,7 @@ class NamedParameters(CommandParam):
         return regex
 
     def get_name(self):
-        return " ".join(map(lambda x: "<highlight>[--%s=]</highlight>" % x, self.names))
+        return " ".join(map(lambda x: f"[--{x}=<highlight>{x}</highlight>]", self.names))
 
     def process_matches(self, params):
         v = params.pop(0)
@@ -303,7 +303,7 @@ class NamedFlagParameters(CommandParam):
         return regex
 
     def get_name(self):
-        return " ".join(map(lambda x: "<highlight>[--%s]</highlight>" % x, self.names))
+        return " ".join(map(lambda x: "[--%s]" % x, self.names))
 
     def process_matches(self, params):
         v = params.pop(0)

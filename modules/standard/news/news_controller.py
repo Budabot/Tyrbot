@@ -104,7 +104,7 @@ class NewsController:
 
         return "Successfully marked <highlight>%d</highlight> news entries as read." % num_rows
 
-    @event(event_type=OrgMemberController.ORG_MEMBER_LOGON_EVENT, description="Send news list when org member logs on")
+    @event(event_type=OrgMemberController.ORG_MEMBER_LOGON_EVENT, description="Send news to org members logging on")
     def orgmember_logon_event(self, event_type, event_data):
         if not self.bot.is_ready():
             return
@@ -116,7 +116,7 @@ class NewsController:
             msg = self.format_unread_news(unread_news)
             self.bot.send_private_message(event_data.char_id, msg)
 
-    @event(event_type=PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, description="Send news list when someone joins private channel")
+    @event(event_type=PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, description="Send news to chars joining the private channel")
     def priv_logon_event(self, event_type, event_data):
         main = self.alts_service.get_main(event_data.char_id)
         unread_news = self.get_unread_news(main.char_id)
@@ -127,6 +127,7 @@ class NewsController:
 
     @event(event_type=AltsService.MAIN_CHANGED_EVENT_TYPE, description="Update news items marked as read when main is changed", is_hidden=True)
     def main_changed_event(self, event_type, event_data):
+        # TODO handle possible duplicates in db
         self.db.exec("UPDATE news_read SET char_id = ? WHERE char_id = ?", [event_data.new_main_id, event_data.old_main_id])
 
     def get_unread_news(self, char_id):
