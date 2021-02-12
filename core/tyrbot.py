@@ -383,9 +383,6 @@ class Tyrbot:
                     self.conns["main"].send_packet(packet)
 
     def handle_private_message(self, conn: Conn, packet: server_packets.PrivateMessage):
-        if conn.id != "main":
-            return
-
         self.logger.log_tell(conn.id, "From", self.character_service.get_char_name(packet.char_id), packet.message)
         self.event_service.fire_event(self.PRIVATE_MSG_EVENT, packet)
 
