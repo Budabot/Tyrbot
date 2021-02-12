@@ -13,10 +13,9 @@ class RandomController:
         self.character_service = registry.get_instance("character_service")
         self.command_alias_service = registry.get_instance("command_alias_service")
 
-    def pre_start(self):
-        self.db.load_sql_file(self.module_dir + "/" + "roll.sql")
-
     def start(self):
+        self.db.exec("CREATE TABLE IF NOT EXISTS roll (id INT PRIMARY KEY AUTO_INCREMENT, created_at INT NOT NULL, char_id INT NOT NULL, options VARCHAR(2048), result VARCHAR(255))")
+
         self.command_alias_service.add_alias("verify", "roll verify")
         self.command_alias_service.add_alias("lootorder", "random")
 

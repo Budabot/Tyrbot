@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS boss;
-CREATE TABLE boss (id INT PRIMARY KEY,name VARCHAR(50) NOT NULL);
+CREATE TABLE boss (id INT PRIMARY KEY, name VARCHAR(50) NOT NULL);
 INSERT INTO boss VALUES (1,'Afreet Ellis');
 INSERT INTO boss VALUES (2,'Akshki'); 
 INSERT INTO boss VALUES (3,'Alpha Skincrawler');

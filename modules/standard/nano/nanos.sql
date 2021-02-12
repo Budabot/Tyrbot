@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS nanos;
-CREATE TABLE nanos ( lowid INT DEFAULT NULL, lowql INT DEFAULT NULL, name varchar(255) DEFAULT NULL, profession varchar(20) DEFAULT NULL, location varchar(255) DEFAULT NULL);
+CREATE TABLE nanos ( lowid INT NOT NULL, lowql INT NOT NULL, name varchar(255) NOT NULL, profession varchar(20) NOT NULL, location varchar(255) NOT NULL);
 INSERT INTO nanos (lowid, lowql, name, profession, location) VALUES (28742, 1, 'Adventurer: Startup Crystal - Quick Heal', 'Adventurer', 'Arete Nano Container');
 INSERT INTO nanos (lowid, lowql, name, profession, location) VALUES (43383, 1, 'Agent: Startup Crystal - Minor Nano Augmentation', 'Agent', 'No longer drops');
 INSERT INTO nanos (lowid, lowql, name, profession, location) VALUES (29191, 1, 'Agent: Startup Crystal - Shadow Veil', 'Agent', 'Arete Nano Container');
