@@ -115,8 +115,7 @@ class EventService:
 
         data = self.get_handlers(event_base_type, event_sub_type)
         for row in data:
-            # FeatureFlags.THREADING
-            self.executor_service.submit_job(10, self.call_handler, row.handler, event_type, event_data)
+            self.call_handler(row.handler, event_type, event_data)
 
     def call_handler(self, handler_method, event_type, event_data):
         handler = self.handlers.get(handler_method, None)

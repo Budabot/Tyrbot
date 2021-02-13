@@ -27,14 +27,11 @@ class ExecutorService:
             **kwargs
         """
 
-        if FeatureFlags.THREADING:
-            fut = self.executor.submit(job, *args, **kwargs)
-            self.jobs.append(DictObject({"future": fut,
-                                         "expires": int(time.time()) + start_timeout}))
-            self.jobs.sort(key=lambda x: x.expires)
-            self.update_next_expiration()
-        else:
-            job(*args, **kwargs)
+        fut = self.executor.submit(job, *args, **kwargs)
+        self.jobs.append(DictObject({"future": fut,
+                                     "expires": int(time.time()) + start_timeout}))
+        self.jobs.sort(key=lambda x: x.expires)
+        self.update_next_expiration()
 
     def update_next_expiration(self):
         if self.jobs:

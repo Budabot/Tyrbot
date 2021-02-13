@@ -209,17 +209,9 @@ class CommandService:
                 cmd_config, matches, handler = self.get_matches(cmd_configs, command_args)
                 if matches:
                     if handler["check_access"](char_id, cmd_config.access_level):
-                        def call_command_handler():
-                            try:
-                                response = handler["callback"](CommandRequest(conn, channel, sender, reply), *self.process_matches(matches, handler["params"]))
-                                if response is not None:
-                                    reply(response)
-                            except Exception as e:
-                                self.logger.error("error processing command: %s" % message, e)
-                                reply(self.getresp("global", "error_proccessing"))
-
-                        # FeatureFlags.THREADING
-                        self.executor_service.submit_job(10, call_command_handler)
+                        response = handler["callback"](CommandRequest(conn, channel, sender, reply), *self.process_matches(matches, handler["params"]))
+                        if response is not None:
+                            reply(response)
 
                         # record command usage
                         self.usage_service.add_usage(command_str, handler["callback"].__qualname__, char_id, channel)

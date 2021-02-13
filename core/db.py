@@ -1,5 +1,3 @@
-import threading
-
 from core.decorators import instance
 from core.dict_object import DictObject
 from core.logger import Logger

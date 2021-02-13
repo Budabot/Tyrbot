@@ -21,7 +21,6 @@
   }
 
   features: {
-    threading: false
     text_formatting_v2: false
   }
 
