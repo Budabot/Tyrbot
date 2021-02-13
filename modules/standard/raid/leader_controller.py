@@ -36,9 +36,9 @@ class LeaderController:
     def start(self):
         self.command_alias_service.add_alias("leaderecho", "leader echo")
 
-        self.setting_service.register_new(self.module_name, "leader_echo_color", "#00FF00", ColorSettingType(), "Color with which the leader's messages will be echoed with")
-        self.setting_service.register_new(self.module_name, "leader_auto_echo", False, BooleanSettingType(),
-                                          "If turned on, when someone assume the leader role, leader echo will automatically be activated for said person")
+        self.setting_service.register(self.module_name, "leader_echo_color", "#00FF00", ColorSettingType(), "Color with which the leader's messages will be echoed with")
+        self.setting_service.register(self.module_name, "leader_auto_echo", False, BooleanSettingType(),
+                                      "If turned on, when someone assume the leader role, leader echo will automatically be activated for said person")
 
     @command(command="leader", params=[], access_level="all",
              description="Show the current raid leader")

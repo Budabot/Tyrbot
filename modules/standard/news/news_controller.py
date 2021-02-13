@@ -31,7 +31,7 @@ class NewsController:
         self.db.exec("CREATE TABLE IF NOT EXISTS news (id INT PRIMARY KEY AUTO_INCREMENT, char_id INT NOT NULL, news TEXT, sticky SMALLINT NOT NULL, created_at INT NOT NULL, deleted_at INT NOT NULL)")
         self.db.exec("CREATE TABLE IF NOT EXISTS news_read (char_id INTEGER NOT NULL, news_id INTEGER NOT NULL, UNIQUE (char_id, news_id))")
 
-        self.setting_service.register_new(self.module_name, "number_news_shown", 10, NumberSettingType(), "Maximum number of news items shown")
+        self.setting_service.register(self.module_name, "number_news_shown", 10, NumberSettingType(), "Maximum number of news items shown")
 
     @command(command="news", params=[], description="Show list of news", access_level="member")
     def news_cmd(self, request):

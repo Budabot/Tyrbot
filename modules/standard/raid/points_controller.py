@@ -44,7 +44,7 @@ class PointsController:
             for preset in presets:
                 self.db.exec(sql, [preset])
 
-        self.setting_service.register_new(self.module_name, "initial_points_value", 0, NumberSettingType(), "How many points new accounts start with")
+        self.setting_service.register(self.module_name, "initial_points_value", 0, NumberSettingType(), "How many points new accounts start with")
 
     @command(command="account", params=[Const("create"), Character("char")], access_level="moderator",
              description="Create a new account for given character name", sub_command="modify")

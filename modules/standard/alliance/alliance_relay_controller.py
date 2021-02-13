@@ -27,29 +27,29 @@ class AllianceRelayController:
         self.message_hub_service.register_message_source(self.MESSAGE_SOURCE)
 
     def start(self):
-        self.setting_service.register_new(self.module_name, "arelay_symbol", "#",
-                                          TextSettingType(["!", "#", "*", "@", "$", "+", "-"]),
-                                          "Symbol for external relay")
+        self.setting_service.register(self.module_name, "arelay_symbol", "#",
+                                      TextSettingType(["!", "#", "*", "@", "$", "+", "-"]),
+                                      "Symbol for external relay")
 
-        self.setting_service.register_new(self.module_name, "arelay_symbol_method", "with_symbol",
-                                          TextSettingType(["Always", "with_symbol", "unless_symbol"]),
-                                          "When to relay messages")
+        self.setting_service.register(self.module_name, "arelay_symbol_method", "with_symbol",
+                                      TextSettingType(["Always", "with_symbol", "unless_symbol"]),
+                                      "When to relay messages")
 
-        self.setting_service.register_new(self.module_name, "arelaybot", "",
-                                          TextSettingType(allow_empty=True),
-                                          "Bot for alliance relay")
+        self.setting_service.register(self.module_name, "arelaybot", "",
+                                      TextSettingType(allow_empty=True),
+                                      "Bot for alliance relay")
 
-        self.setting_service.register_new(self.module_name, "arelay_enabled", False,
-                                          BooleanSettingType(),
-                                          "Enable the alliance relay")
+        self.setting_service.register(self.module_name, "arelay_enabled", False,
+                                      BooleanSettingType(),
+                                      "Enable the alliance relay")
 
-        self.setting_service.register_new(self.module_name, "arelay_guild_abbreviation", "",
-                                          TextSettingType(allow_empty=True),
-                                          "Abbreviation to use for org name")
+        self.setting_service.register(self.module_name, "arelay_guild_abbreviation", "",
+                                      TextSettingType(allow_empty=True),
+                                      "Abbreviation to use for org name")
 
-        self.setting_service.register_new(self.module_name, "arelay_color", "#C3C3C3",
-                                          ColorSettingType(),
-                                          "Color of messages from relay")
+        self.setting_service.register(self.module_name, "arelay_color", "#C3C3C3",
+                                      ColorSettingType(),
+                                      "Color of messages from relay")
 
         self.message_hub_service.register_message_destination(self.MESSAGE_SOURCE,
                                                               self.handle_relay_hub_message,

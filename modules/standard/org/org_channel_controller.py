@@ -37,7 +37,7 @@ class OrgChannelController:
             ["private_channel", "discord", "websocket_relay", "tell_relay", "broadcast", "raffle", "cloak_reminder", "wave_counter", "shutdown_notice", "raid"],
             [self.MESSAGE_SOURCE])
 
-        self.setting_service.register_new(self.module_name, "prefix_org_priv", True, BooleanSettingType(), "Should the prefix [org] be displayed in relayed messages")
+        self.setting_service.register(self.module_name, "prefix_org_priv", True, BooleanSettingType(), "Should the prefix [org] be displayed in relayed messages")
 
     def handle_incoming_relay_message(self, ctx):
         # TODO add conn - send to all org channels

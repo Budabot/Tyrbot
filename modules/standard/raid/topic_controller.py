@@ -23,7 +23,7 @@ class TopicController:
         self.command_alias_service.add_alias("motd", "topic")
         self.command_alias_service.add_alias("orders", "topic")
 
-        self.setting_service.register_new(self.module_name, "topic", "", DictionarySettingType(), "The bot topic")
+        self.setting_service.register(self.module_name, "topic", "", DictionarySettingType(), "The bot topic")
 
     @command(command="topic", params=[], access_level="all",
              description="Show the current topic")

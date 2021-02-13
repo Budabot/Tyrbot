@@ -16,8 +16,8 @@ class AuctionController:
         self.setting_service = registry.get_instance("setting_service")
 
     def start(self):
-        self.setting_service.register_new(self.module_name, "auction_length", "90s", TimeSettingType(), "Regular auction duration")
-        self.setting_service.register_new(self.module_name, "auction_announce_interval", "15s", TimeSettingType(), "Auction announce interval")
+        self.setting_service.register(self.module_name, "auction_length", "90s", TimeSettingType(), "Regular auction duration")
+        self.setting_service.register(self.module_name, "auction_announce_interval", "15s", TimeSettingType(), "Auction announce interval")
 
         self.db.exec("CREATE TABLE IF NOT EXISTS auction_log (auction_id INT PRIMARY KEY AUTO_INCREMENT, item_ref VARCHAR(255) NOT NULL, item_name VARCHAR(255) NOT NULL, "
                      "winner_id BIGINT NOT NULL, auctioneer_id BIGINT NOT NULL, created_at INT NOT NULL, winning_bid INT NOT NULL)")

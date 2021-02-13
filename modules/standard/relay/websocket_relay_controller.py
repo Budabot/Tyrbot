@@ -50,16 +50,16 @@ class WebsocketRelayController:
                                                               ["private_channel", "org_channel", "discord", "tell_relay"],
                                                               [self.MESSAGE_SOURCE])
 
-        self.setting_service.register_new(self.module_name, "websocket_relay_enabled", False, BooleanSettingType(), "Enable the websocket relay")
-        self.setting_service.register_new(self.module_name, "websocket_relay_server_address", "ws://localhost/subscribe/relay",
-                                          TextSettingType(["ws://localhost/subscribe/relay", "wss://relay.jkbff.com/subscribe/relay"]),
-                                          "The address of the websocket relay server",
-                                          "All bots on the relay must connect to the same server and channel. If using the public relay server, use a unique channel name. "
-                                          "Example: ws://relay.jkbff.com/subscribe/unique123 (<highlight>relay.jkbff.com</highlight> is the server and <highlight>unique123</highlight> is the channel)")
-        self.setting_service.register_new(self.module_name, "websocket_relay_channel_color", "#FFFF00", ColorSettingType(), "Color of the channel in websocket relay messages")
-        self.setting_service.register_new(self.module_name, "websocket_relay_message_color", "#FCA712", ColorSettingType(), "Color of the message content in websocket relay messages")
-        self.setting_service.register_new(self.module_name, "websocket_relay_sender_color", "#00DE42", ColorSettingType(), "Color of the sender in websocket relay messages")
-        self.setting_service.register_new(self.module_name, "websocket_encryption_key", "", HiddenSettingType(allow_empty=True), "An encryption key used to encrypt messages over a public websocket relay")
+        self.setting_service.register(self.module_name, "websocket_relay_enabled", False, BooleanSettingType(), "Enable the websocket relay")
+        self.setting_service.register(self.module_name, "websocket_relay_server_address", "ws://localhost/subscribe/relay",
+                                      TextSettingType(["ws://localhost/subscribe/relay", "wss://relay.jkbff.com/subscribe/relay"]),
+                                      "The address of the websocket relay server",
+                                      "All bots on the relay must connect to the same server and channel. If using the public relay server, use a unique channel name. "
+                                      "Example: ws://relay.jkbff.com/subscribe/unique123 (<highlight>relay.jkbff.com</highlight> is the server and <highlight>unique123</highlight> is the channel)")
+        self.setting_service.register(self.module_name, "websocket_relay_channel_color", "#FFFF00", ColorSettingType(), "Color of the channel in websocket relay messages")
+        self.setting_service.register(self.module_name, "websocket_relay_message_color", "#FCA712", ColorSettingType(), "Color of the message content in websocket relay messages")
+        self.setting_service.register(self.module_name, "websocket_relay_sender_color", "#00DE42", ColorSettingType(), "Color of the sender in websocket relay messages")
+        self.setting_service.register(self.module_name, "websocket_encryption_key", "", HiddenSettingType(allow_empty=True), "An encryption key used to encrypt messages over a public websocket relay")
 
         self.initialize_encrypter(self.setting_service.get("websocket_encryption_key").get_value())
 

@@ -25,14 +25,9 @@ class SettingService:
             for name, method in get_attrs(inst).items():
                 if hasattr(method, "setting"):
                     setting_name, value, description, extended_description, obj = getattr(method, "setting")
-                    self.register(setting_name, value, description, obj, inst.module_name, extended_description)
+                    self.register(inst.module_name, setting_name, value, obj, description, extended_description)
 
-    def register(self, name, value, description, setting: SettingType, module, extended_description=None):
-        """Deprecated. Use register_new()"""
-        self.logger.warning(f"Using deprecated register method for setting '{name}' in module {module}")
-        self.register_new(module, name, value, setting, description, extended_description)
-
-    def register_new(self, module, name, value, setting: SettingType, description, extended_description=None):
+    def register(self, module, name, value, setting: SettingType, description, extended_description=None):
         """Call during start"""
         name = name.lower()
         module = module.lower()

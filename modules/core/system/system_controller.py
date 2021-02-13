@@ -34,8 +34,8 @@ class SystemController:
     def start(self):
         self.ts.register_translation("module/system", self.load_system_msg)
 
-        self.setting_service.register_new(self.module_name, "expected_shutdown", True, BooleanSettingType(),
-                                          "Helps bot to determine if last shutdown was expected or due to a problem")
+        self.setting_service.register(self.module_name, "expected_shutdown", True, BooleanSettingType(),
+                                      "Helps bot to determine if last shutdown was expected or due to a problem")
 
     def load_system_msg(self):
         with open("modules/core/system/system.msg", mode="r", encoding="utf-8") as f:

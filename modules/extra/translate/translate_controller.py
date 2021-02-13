@@ -22,11 +22,11 @@ class TranslateController:
         self.setting_service = registry.get_instance("setting_service")
 
     def start(self):
-        self.setting_service.register_new(self.module_name, "setting_azure_token", "", TextSettingType(allow_empty=True), "Enter your Azure Translation Token here")
-        self.setting_service.register_new(self.module_name, "setting_azure_region", "", TextSettingType(["westeurope"], allow_empty=True), "Enter your Azure Translation Region here")
-        self.setting_service.register_new(self.module_name, "setting_translate_language", "en", TextSettingType(["de", "en", "es", "fr"]),
-                                          "Enter your default output language",
-                                          "See a full list of supported languages here: https://docs.microsoft.com/en-us/azure/cognitive-services/translator/language-support")
+        self.setting_service.register(self.module_name, "setting_azure_token", "", TextSettingType(allow_empty=True), "Enter your Azure Translation Token here")
+        self.setting_service.register(self.module_name, "setting_azure_region", "", TextSettingType(["westeurope"], allow_empty=True), "Enter your Azure Translation Region here")
+        self.setting_service.register(self.module_name, "setting_translate_language", "en", TextSettingType(["de", "en", "es", "fr"]),
+                                      "Enter your default output language",
+                                      "See a full list of supported languages here: https://docs.microsoft.com/en-us/azure/cognitive-services/translator/language-support")
 
     def setting_azure_token(self):
         return self.setting_service.get("setting_azure_token")

@@ -32,7 +32,7 @@ class TranslationService:
         self.event_service.register_event_type("reload_translation")
 
     def start(self):
-        self.setting_service.register_new("core.system", self.LANGUAGE_SETTING, "en_US", TextSettingType(self.lang_codes), "Language of the Bot")
+        self.setting_service.register("core.system", self.LANGUAGE_SETTING, "en_US", TextSettingType(self.lang_codes), "Language of the Bot")
 
         self.language = self.setting_service.get_value(self.LANGUAGE_SETTING)
         self.register_translation("global", self.load_global_msg)

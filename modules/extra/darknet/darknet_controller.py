@@ -31,14 +31,14 @@ class DarkController:
         self.message_hub_service.register_message_source(self.MESSAGE_SOURCE)
 
     def start(self):
-        self.setting_service.register_new(self.module_name, "dark_relay", "false", BooleanSettingType(), "Is the Module Enabled?")
-        self.setting_service.register_new(self.module_name, "dark_wts", "true", BooleanSettingType(), "Is the WTS channel visible?")
-        self.setting_service.register_new(self.module_name, "dark_wtb", "true", BooleanSettingType(), "Is the WTB channel visible?")
-        self.setting_service.register_new(self.module_name, "dark_lr", "true", BooleanSettingType(), "Is the Lootrights channel visible?")
-        self.setting_service.register_new(self.module_name, "dark_gen", "true", BooleanSettingType(), "Is the General channel visible?")
-        self.setting_service.register_new(self.module_name, "dark_pvp", "true", BooleanSettingType(), "Is the PvP channel visible?")
-        self.setting_service.register_new(self.module_name, "dark_pvm", "true", BooleanSettingType(), "Is the PVM channel visible?")
-        self.setting_service.register_new(self.module_name, "dark_event", "true", BooleanSettingType(), "Is the Event channel visible?")
+        self.setting_service.register(self.module_name, "dark_relay", "false", BooleanSettingType(), "Is the Module Enabled?")
+        self.setting_service.register(self.module_name, "dark_wts", "true", BooleanSettingType(), "Is the WTS channel visible?")
+        self.setting_service.register(self.module_name, "dark_wtb", "true", BooleanSettingType(), "Is the WTB channel visible?")
+        self.setting_service.register(self.module_name, "dark_lr", "true", BooleanSettingType(), "Is the Lootrights channel visible?")
+        self.setting_service.register(self.module_name, "dark_gen", "true", BooleanSettingType(), "Is the General channel visible?")
+        self.setting_service.register(self.module_name, "dark_pvp", "true", BooleanSettingType(), "Is the PvP channel visible?")
+        self.setting_service.register(self.module_name, "dark_pvm", "true", BooleanSettingType(), "Is the PVM channel visible?")
+        self.setting_service.register(self.module_name, "dark_event", "true", BooleanSettingType(), "Is the Event channel visible?")
 
     def handle_private_channel_invite(self, conn: Conn, packet: server_packets.PrivateChannelInvited):
         if not conn.is_main:

@@ -109,13 +109,13 @@ class DiscordController:
 
         self.ts.register_translation("module/discord", self.load_discord_msg)
 
-        self.setting_service.register_new(self.module_name, "discord_enabled", False, BooleanSettingType(), "Enable the Discord relay")
-        self.setting_service.register_new(self.module_name, "discord_bot_token", "", HiddenSettingType(allow_empty=True), "Discord bot token")
-        self.setting_service.register_new(self.module_name, "discord_channel_name", "general", TextSettingType(["general"], allow_empty=True), "Discord channel name to relay with")
-        self.setting_service.register_new(self.module_name, "discord_embed_color", "#00FF00", ColorSettingType(), "Discord embedded message color")
-        self.setting_service.register_new(self.module_name, "relay_color_prefix", "#FCA712", ColorSettingType(), "Set the prefix color for messages coming from Discord")
-        self.setting_service.register_new(self.module_name, "relay_color_name", "#808080", ColorSettingType(), "Set the color of the name for messages coming from Discord")
-        self.setting_service.register_new(self.module_name, "relay_color_message", "#00DE42", ColorSettingType(), "Set the color of the content for messages coming from Discord")
+        self.setting_service.register(self.module_name, "discord_enabled", False, BooleanSettingType(), "Enable the Discord relay")
+        self.setting_service.register(self.module_name, "discord_bot_token", "", HiddenSettingType(allow_empty=True), "Discord bot token")
+        self.setting_service.register(self.module_name, "discord_channel_name", "general", TextSettingType(["general"], allow_empty=True), "Discord channel name to relay with")
+        self.setting_service.register(self.module_name, "discord_embed_color", "#00FF00", ColorSettingType(), "Discord embedded message color")
+        self.setting_service.register(self.module_name, "relay_color_prefix", "#FCA712", ColorSettingType(), "Set the prefix color for messages coming from Discord")
+        self.setting_service.register(self.module_name, "relay_color_name", "#808080", ColorSettingType(), "Set the color of the name for messages coming from Discord")
+        self.setting_service.register(self.module_name, "relay_color_message", "#00DE42", ColorSettingType(), "Set the color of the content for messages coming from Discord")
 
         self.setting_service.register_change_listener("discord_channel_name", self.update_discord_channel_name)
         self.setting_service.register_change_listener("discord_enabled", self.update_discord_state)
