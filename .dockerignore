@@ -2,7 +2,7 @@
 .git
 Dockerfile*
 conf/*
-!conf/config.template.py
+!conf/config_template.py
 !conf/logging.py
 data/*
 k8s
