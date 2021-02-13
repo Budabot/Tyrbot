@@ -1,8 +1,8 @@
 import time
 from functools import partial
 
-from core.aochat.server_packets import BuddyAdded, CharacterName, CharacterLookup
-from core.decorators import instance, command, event, timerevent
+from core.aochat.server_packets import BuddyAdded, CharacterName
+from core.decorators import instance, command, timerevent
 from core.db import DB
 from core.dict_object import DictObject
 from core.text import Text
@@ -65,8 +65,8 @@ class CharacterInfoController:
             char_info = self.pork_service.get_character_info(char.name, max_cache_age)
 
         if char_info and char_info.source != "chat_server":
-            blob = "Name: %s (%s)\n" % (self.get_full_name(char_info), self.text.make_tellcmd("History", "history %s %s" % (char_info.name, char_info.dimension)))
-            blob += "Character Id: %d\n" % char_info.char_id
+            blob = "Name: %s [%s]\n" % (self.get_full_name(char_info), self.text.make_tellcmd("History", "history %s %s" % (char_info.name, char_info.dimension)))
+            blob += "Char ID: %d\n" % char_info.char_id
             blob += "Profession: %s\n" % char_info.profession
             blob += "Faction: %s\n" % self.text.get_formatted_faction(char_info.faction)
             blob += "Breed: %s\n" % char_info.breed
@@ -79,9 +79,9 @@ class CharacterInfoController:
             else:
                 blob += "Org: &lt;None&gt;\n"
                 blob += "Org Rank: &lt;None&gt;\n"
-            #blob += "Head Id: %d\n" % char_info.head_id
-            #blob += "PVP Rating: %d\n" % char_info.pvp_rating
-            #blob += "PVP Title: %s\n" % char_info.pvp_title
+            # blob += "Head Id: %d\n" % char_info.head_id
+            # blob += "PVP Rating: %d\n" % char_info.pvp_rating
+            # blob += "PVP Title: %s\n" % char_info.pvp_title
             blob += "Source: %s\n" % self.format_source(char_info, max_cache_age)
             blob += "Dimension: %s\n" % char_info.dimension
 
