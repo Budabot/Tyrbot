@@ -204,7 +204,7 @@ class Tyrbot:
 
         # wait for flood of packets from login to stop sending
         time_waited = 0
-        while time_waited < 5:
+        while time_waited < 2:
             if not self.iterate(1):
                 time_waited += 1
 
@@ -214,6 +214,11 @@ class Tyrbot:
         self.event_service.fire_event("connect", None)
         self.event_service.run_timer_events_at_startup()
         self.logger.info("Connect events finished (%fs)" % (time.time() - start))
+
+        time_waited = 0
+        while time_waited < 2:
+            if not self.iterate(1):
+                time_waited += 1
 
         self.ready = True
         timestamp = int(time.time())
