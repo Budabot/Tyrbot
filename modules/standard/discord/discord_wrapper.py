@@ -6,13 +6,13 @@ import asyncio
 
 
 class DiscordWrapper(discord.Client):
-    def __init__(self, channel_name, dqueue, aoqueue):
+    def __init__(self, channel_id, dqueue, aoqueue):
         super().__init__(intents=discord.Intents(guilds=True, invites=True, guild_messages=True, dm_messages=True, members=True))
         asyncio.set_event_loop(asyncio.new_event_loop())
         self.logger = Logger(__name__)
         self.dqueue = dqueue
         self.aoqueue = aoqueue
-        self.channel_name = channel_name
+        self.channel_id = channel_id
         self.default_channel = None
 
     async def logout_with_message(self, msg):
@@ -21,7 +21,7 @@ class DiscordWrapper(discord.Client):
         await super().logout()
 
     async def on_ready(self):
-        self.set_channel_name(self.channel_name)
+        self.set_channel_id(self.channel_id)
         self.dqueue.append(("discord_ready", "ready"))
 
     async def on_message(self, message):
@@ -56,10 +56,10 @@ class DiscordWrapper(discord.Client):
 
             await asyncio.sleep(0.1)
 
-    def set_channel_name(self, channel_name):
-        self.channel_name = channel_name
+    def set_channel_id(self, channel_id):
+        self.channel_id = int(channel_id)
         for channel in self.get_text_channels():
-            if channel.name == channel_name:
+            if channel.id == self.channel_id:
                 self.default_channel = channel
                 return True
         return False

@@ -111,13 +111,15 @@ class DiscordController:
 
         self.setting_service.register(self.module_name, "discord_enabled", False, BooleanSettingType(), "Enable the Discord relay")
         self.setting_service.register(self.module_name, "discord_bot_token", "", HiddenSettingType(allow_empty=True), "Discord bot token")
-        self.setting_service.register(self.module_name, "discord_channel_name", "general", TextSettingType(["general"], allow_empty=True), "Discord channel name to relay with")
+        self.setting_service.register(self.module_name, "discord_channel_id", "", TextSettingType(allow_empty=True),
+                                      "Discord channel id for relaying messages to and from",
+                                      "You can get the Discord channel ID by right-clicking on a channel name in Discord and then clicking \"Copy ID\"")
         self.setting_service.register(self.module_name, "discord_embed_color", "#00FF00", ColorSettingType(), "Discord embedded message color")
         self.setting_service.register(self.module_name, "relay_color_prefix", "#FCA712", ColorSettingType(), "Set the prefix color for messages coming from Discord")
         self.setting_service.register(self.module_name, "relay_color_name", "#808080", ColorSettingType(), "Set the color of the name for messages coming from Discord")
         self.setting_service.register(self.module_name, "relay_color_message", "#00DE42", ColorSettingType(), "Set the color of the content for messages coming from Discord")
 
-        self.setting_service.register_change_listener("discord_channel_name", self.update_discord_channel_name)
+        self.setting_service.register_change_listener("discord_channel_id", self.update_discord_channel)
         self.setting_service.register_change_listener("discord_enabled", self.update_discord_state)
 
     def load_discord_msg(self):
@@ -155,21 +157,21 @@ class DiscordController:
     @command(command="discord", params=[Const("relay")], access_level="moderator", sub_command="manage",
              description="Setup relaying of channels")
     def discord_relay_cmd(self, request, _):
-        action = "disconnect" if self.is_connected() else "connect"
-        loglink = self.text.make_tellcmd(self.getresp("module/discord", action), "discord %s" % action)
+        connect_link = self.text.make_tellcmd(self.getresp("module/discord", "connect"), "config setting discord_enabled set true")
+        disconnect_link = self.text.make_tellcmd(self.getresp("module/discord", "disconnect"), "config setting discord_enabled set true")
         constatus = self.getresp("module/discord", "connected" if self.is_connected() else "disconnected")
         subs = ""
         for channel in self.get_text_channels():
-            select_link = self.text.make_tellcmd("select", "config setting discord_channel_name set %s" % channel.name)
-            selected = "(selected)" if self.setting_service.get("discord_channel_name").get_value() == channel.name else ""
+            select_link = self.text.make_tellcmd("select", "config setting discord_channel_id set %s" % channel.id)
+            selected = "(selected)" if self.setting_service.get("discord_channel_id").get_value() == channel.id else ""
             subs += self.getresp("module/discord", "relay", {"server_name": channel.guild.name,
                                                              "channel_name": channel.name,
                                                              "select": select_link,
-                                                             "selected": selected
-                                                             })
+                                                             "selected": selected})
 
         blob = self.getresp("module/discord", "blob_relay", {"connected": constatus,
-                                                             "switch_connection": loglink,
+                                                             "connect_link": connect_link,
+                                                             "disconnect_link": disconnect_link,
                                                              "count": len(self.get_text_channels()),
                                                              "subs": subs})
 
@@ -339,7 +341,7 @@ class DiscordController:
             self.disconnect_discord_client()
 
             self.client = DiscordWrapper(
-                self.setting_service.get("discord_channel_name").get_value(),
+                self.setting_service.get("discord_channel_id").get_value(),
                 self.dqueue,
                 self.aoqueue)
 
@@ -425,9 +427,9 @@ class DiscordController:
         else:
             return []
 
-    def update_discord_channel_name(self, setting_name, old_value, new_value):
+    def update_discord_channel(self, setting_name, old_value, new_value):
         if self.client:
-            if not self.client.set_channel_name(new_value):
+            if not self.client.set_channel_id(new_value):
                 self.logger.warning(f"Could not find discord channel '{new_value}'")
 
     def update_discord_state(self, setting_name, old_value, new_value):

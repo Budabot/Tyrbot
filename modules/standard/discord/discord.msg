@@ -24,7 +24,7 @@
   "blob_relay": {
     "en_US": [
       "<header2>Info</header2>\n",
-      "Status: {connected} [{switch_connection}]\n",
+      "Status: {connected} [{connect_link} {disconnect_link}]\n",
       "Channels available: <highlight>{count}</highlight>\n\n",
       "<header2>Subscription setup</header2>\n",
       "{subs}",
@@ -32,7 +32,7 @@
     ],
     "de_DE": [
       "<header2>Informationen</header2>\n",
-      "Status: {connected} [{switch_connection}]\n",
+      "Status: {connected} [{connect_link} {disconnect_link}]\n",
       "Verfügbare Channel: <highlight>{count}</highlight>\n\n",
       "<header2>Abonnierte Channel</header2>\n",
       "{subs}",
