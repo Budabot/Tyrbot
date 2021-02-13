@@ -49,7 +49,7 @@ class PublicChannelService:
         return self.id_to_name.get(channel_id, None)
 
     def add(self, conn: Conn, packet: server_packets.PublicChannelJoined):
-        if conn.id != "main":
+        if not conn.is_main:
             return
 
         self.id_to_name[packet.channel_id] = packet.name
@@ -66,7 +66,7 @@ class PublicChannelService:
             self.logger.info("Org Name: %s" % self.org_name)
 
     def remove(self, conn: Conn, packet: server_packets.PublicChannelLeft):
-        if conn.id != "main":
+        if not conn.is_main:
             return
 
         channel_name = self.get_channel_name(packet.channel_id)
@@ -74,7 +74,7 @@ class PublicChannelService:
         del self.name_to_id[channel_name]
 
     def public_channel_message(self, conn: Conn, packet: server_packets.PublicChannelMessage):
-        if conn.id != "main":
+        if not conn.is_main:
             return
 
         if self.is_org_channel_id(packet.channel_id):

@@ -144,7 +144,7 @@ class Tyrbot:
     def connect(self, config):
         conn = self.create_conn("main")
         conn.connect(config.server.host, config.server.port)
-        packet = conn.login(config.username, config.password, config.character)
+        packet = conn.login(config.username, config.password, config.character, is_main=True)
         if not packet:
             self.status = BotStatus.ERROR
             return False
@@ -159,7 +159,7 @@ class Tyrbot:
                 conn = self.create_conn("slave" + str(i))
                 conn.connect(config.server.host, config.server.port)
 
-                packet = conn.login(slave.username, slave.password, slave.character)
+                packet = conn.login(slave.username, slave.password, slave.character, is_main=False)
                 if not packet:
                     self.status = BotStatus.ERROR
                     return False
@@ -336,7 +336,7 @@ class Tyrbot:
                 self.event_service.fire_event(self.OUTGOING_ORG_MESSAGE_EVENT, DictObject({"org_channel_id": org_channel_id,
                                                                                            "message": msg}))
 
-    def send_private_message(self, char_id, msg, add_color=True, fire_outgoing_event=True, conn_id="main"):
+    def send_private_message(self, char_id, msg, add_color=True, fire_outgoing_event=True, conn=None):
         if char_id is None:
             raise Exception("Cannot send message, char_id is empty")
         else:

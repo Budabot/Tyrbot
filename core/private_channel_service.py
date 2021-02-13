@@ -33,7 +33,7 @@ class PrivateChannelService:
         self.access_service.register_access_level("guest", 90, self.in_private_channel)
 
     def handle_private_channel_message(self, conn: Conn, packet: server_packets.PrivateChannelMessage):
-        if conn.id != "main":
+        if not conn.is_main:
             return
 
         if packet.private_channel_id == self.bot.get_char_id():
@@ -42,7 +42,7 @@ class PrivateChannelService:
             self.event_service.fire_event(self.PRIVATE_CHANNEL_MESSAGE_EVENT, packet)
 
     def handle_private_channel_client_joined(self, conn: Conn, packet: server_packets.PrivateChannelClientJoined):
-        if conn.id != "main":
+        if not conn.is_main:
             return
 
         if packet.private_channel_id == self.bot.get_char_id():
@@ -51,7 +51,7 @@ class PrivateChannelService:
             self.event_service.fire_event(self.JOINED_PRIVATE_CHANNEL_EVENT, packet)
 
     def handle_private_channel_client_left(self, conn: Conn, packet: server_packets.PrivateChannelClientLeft):
-        if conn.id != "main":
+        if not conn.is_main:
             return
 
         if packet.private_channel_id == self.bot.get_char_id():

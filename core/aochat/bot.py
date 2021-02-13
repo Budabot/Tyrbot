@@ -13,6 +13,7 @@ class Bot:
         self.socket = None
         self.char_id = None
         self.char_name = None
+        self.is_main = None
         self.logger = Logger(__name__)
 
     def connect(self, host, port):
@@ -25,7 +26,9 @@ class Bot:
             self.socket.close()
             self.socket = None
 
-    def login(self, username, password, character):
+    def login(self, username, password, character, is_main):
+        self.is_main = is_main
+
         character = character.capitalize()
 
         # read seed packet
