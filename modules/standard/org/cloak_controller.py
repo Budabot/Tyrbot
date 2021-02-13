@@ -100,7 +100,7 @@ class CloakController:
         return msg
 
     def handle_public_message(self, conn: Conn, packet: PublicChannelMessage):
-        if conn.id != "main":
+        if not conn.is_main:
             return
 
         extended_message = packet.extended_message

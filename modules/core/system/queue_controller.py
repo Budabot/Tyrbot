@@ -15,6 +15,6 @@ class QueueController:
     @command(command="queue", params=[Const("clear")], access_level="moderator",
              description="Clear the outgoing message queue")
     def queue_clear_cmd(self, request, _):
-        num_messages = len(self.bot.conns["main"].packet_queue)
-        self.bot.conns["main"].packet_queue.clear()
+        num_messages = len(request.conn.packet_queue)
+        request.conn.packet_queue.clear()
         return self.getresp("module/system", "clear_queue", {"count": num_messages})

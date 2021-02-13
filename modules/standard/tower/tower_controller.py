@@ -105,7 +105,7 @@ class TowerController:
         return blob
 
     def handle_public_channel_message(self, conn: Conn, packet: server_packets.PublicChannelMessage):
-        if conn.id != "main":
+        if not conn.is_main:
             return
 
         if packet.channel_id == self.TOWER_BATTLE_OUTCOME_ID:

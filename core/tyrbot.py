@@ -202,10 +202,6 @@ class Tyrbot:
         self.conns[_id] = conn
         return conn
 
-    # passthrough
-    def send_packet(self, packet):
-        self.conns["main"].send_packet(packet)
-
     def disconnect(self):
         # wait for all threads to stop reading packets, then disconnect them all
         time.sleep(2)
@@ -389,7 +385,7 @@ class Tyrbot:
                     self.mass_message_queue.put(packet)
                 else:
                     packet = client_packets.PrivateMessage(char_id, color + page, "spam")
-                    self.conns["main"].send_packet(packet)
+                    self.get_primary_conn().send_packet(packet)
 
     def handle_private_message(self, conn: Conn, packet: server_packets.PrivateMessage):
         self.logger.log_tell(conn.id, "From", self.character_service.get_char_name(packet.char_id), packet.message)

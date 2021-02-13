@@ -22,18 +22,18 @@ class ExternalChannelController:
         self.bot.register_packet_handler(server_packets.PrivateChannelMessage.id, self.handle_private_channel_message)
 
     def handle_private_channel_invite(self, conn: Conn, packet: server_packets.PrivateChannelInvited):
-        if conn.id != "main":
+        if not conn.is_main:
             return
 
         channel_name = self.character_service.get_char_name(packet.private_channel_id)
         if self.ban_service.get_ban(packet.private_channel_id):
             self.logger.info("ignore private channel invite from banned char '%s'" % channel_name)
         else:
-            self.bot.send_packet(client_packets.PrivateChannelJoin(packet.private_channel_id))
+            conn.send_packet(client_packets.PrivateChannelJoin(packet.private_channel_id))
             self.logger.info("Joined private channel %s" % channel_name)
 
     def handle_private_channel_message(self, conn: Conn, packet: server_packets.PrivateChannelMessage):
-        if conn.id != "main":
+        if not conn.is_main:
             return
 
         if packet.private_channel_id != self.bot.get_char_id():

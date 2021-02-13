@@ -260,7 +260,7 @@ class DiscordController:
             row = self.db.query_single("SELECT char_id FROM discord_char_link WHERE discord_id = ?", [message.author.id])
             if row:
                 message_str = self.command_service.trim_command_symbol(message.content)
-                self.command_service.process_command(message_str, self.COMMAND_CHANNEL, row.char_id, reply, self.bot.conns["main"])
+                self.command_service.process_command(message_str, self.COMMAND_CHANNEL, row.char_id, reply, self.bot.get_primary_conn())
             else:
                 reply(self.getresp("module/discord", "discord_user_not_linked"))
 

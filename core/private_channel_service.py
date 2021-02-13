@@ -60,15 +60,18 @@ class PrivateChannelService:
             self.event_service.fire_event(self.LEFT_PRIVATE_CHANNEL_EVENT, packet)
 
     def invite(self, char_id):
+        # TODO require conn
         if char_id != self.bot.get_char_id():
-            self.bot.send_packet(client_packets.PrivateChannelInvite(char_id))
+            self.bot.get_primary_conn().send_packet(client_packets.PrivateChannelInvite(char_id))
 
     def kick(self, char_id):
+        # TODO require conn
         if char_id != self.bot.get_char_id():
-            self.bot.send_packet(client_packets.PrivateChannelKick(char_id))
+            self.bot.get_primary_conn().send_packet(client_packets.PrivateChannelKick(char_id))
 
     def kickall(self):
-        self.bot.send_packet(client_packets.PrivateChannelKickAll())
+        # TODO require conn
+        self.bot.get_primary_conn().send_packet(client_packets.PrivateChannelKickAll())
 
     def in_private_channel(self, char_id):
         return char_id in self.private_channel_chars

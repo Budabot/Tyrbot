@@ -99,4 +99,5 @@ class CharacterService:
         # char_name must be .capitalize()'ed
         if char_name not in self.name_to_id and char_name not in self.waiting_for_response:
             self.waiting_for_response.add(char_name)
-            self.bot.send_packet(CharacterLookup(char_name))
+            # TODO load balance over all conns?
+            self.bot.get_primary_conn().send_packet(CharacterLookup(char_name))

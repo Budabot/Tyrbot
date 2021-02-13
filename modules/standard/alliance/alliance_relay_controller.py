@@ -68,7 +68,7 @@ class AllianceRelayController:
 
         channel_name = self.character_service.get_char_name(packet.private_channel_id)
         if self.setting_service.get_value("arelaybot").lower() == channel_name.lower():
-            self.bot.send_packet(client_packets.PrivateChannelJoin(packet.private_channel_id))
+            conn.send_packet(client_packets.PrivateChannelJoin(packet.private_channel_id))
             self.logger.info("Joined private channel {channel}".format(channel=channel_name))
             self.relay_channel_id = packet.private_channel_id
 

@@ -41,22 +41,26 @@ class DarkController:
         self.setting_service.register_new(self.module_name, "dark_event", "true", BooleanSettingType(), "Is the Event channel visible?")
 
     def handle_private_channel_invite(self, conn: Conn, packet: server_packets.PrivateChannelInvited):
-        if conn != "main":
+        if not conn.is_main:
             pass
+
         if self.setting_service.get_value("dark_relay") == "0":
             return
+
         if "Darknet" == self.character_service.get_char_name(packet.private_channel_id):
             channel_name = self.character_service.get_char_name(packet.private_channel_id)
-            self.bot.send_packet(client_packets.PrivateChannelJoin(packet.private_channel_id))
+            conn.send_packet(client_packets.PrivateChannelJoin(packet.private_channel_id))
             self.logger.info("Joined private channel {channel}".format(channel=channel_name))
             self.relay_channel_id = packet.private_channel_id
             self.relay_name = channel_name
 
     def handle_private_channel_message(self, conn, packet: server_packets.PrivateChannelMessage):
-        if conn != "main":
+        if not conn.is_main:
             pass
+
         if self.setting_service.get_value("dark_relay") == "0":
             return
+
         if packet.private_channel_id == self.relay_channel_id:
             if self.bot.get_char_id() == packet.char_id:
                 return
