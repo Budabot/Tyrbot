@@ -1,5 +1,5 @@
 from core.command_param_types import Any
-from core.decorators import instance, command, setting
+from core.decorators import instance, command
 from core.setting_types import TextSettingType
 
 

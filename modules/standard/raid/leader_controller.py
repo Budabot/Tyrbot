@@ -1,6 +1,6 @@
 from core.command_param_types import Const, Character, Options
 from core.db import DB
-from core.decorators import instance, command, timerevent, event, setting
+from core.decorators import instance, command, timerevent, event
 from core.setting_types import ColorSettingType, BooleanSettingType
 from core.text import Text
 from core.tyrbot import Tyrbot

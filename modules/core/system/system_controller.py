@@ -1,7 +1,7 @@
 import hjson
 
 from core.command_param_types import Any
-from core.decorators import instance, command, event, setting
+from core.decorators import instance, command, event
 from core.command_service import CommandService
 from core.dict_object import DictObject
 from core.logger import Logger

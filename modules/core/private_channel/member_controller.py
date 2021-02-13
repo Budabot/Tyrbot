@@ -4,7 +4,7 @@ from core.ban_service import BanService
 from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Options, Character
 from core.conn import Conn
-from core.decorators import instance, command, event, setting
+from core.decorators import instance, command, event
 from core.setting_service import SettingService
 from core.setting_types import TextSettingType
 from core.translation_service import TranslationService

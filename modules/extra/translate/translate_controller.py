@@ -1,6 +1,6 @@
 from core.db import DB
 from core.logger import Logger
-from core.decorators import instance, command, setting
+from core.decorators import instance, command
 from core.command_param_types import Any, Options
 from core.setting_types import TextSettingType
 from core.text import Text

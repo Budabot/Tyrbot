@@ -1,5 +1,5 @@
 from core.chat_blob import ChatBlob
-from core.decorators import instance, event, setting
+from core.decorators import instance, event
 from core.dict_object import DictObject
 from core.logger import Logger
 from core.public_channel_service import PublicChannelService

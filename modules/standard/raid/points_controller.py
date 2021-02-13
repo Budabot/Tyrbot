@@ -1,6 +1,6 @@
 from core.sender_obj import SenderObj
 from core.db import DB
-from core.decorators import command, instance, setting
+from core.decorators import command, instance
 from core.chat_blob import ChatBlob
 from core.command_param_types import Options, Any, Int, Const, Character, NamedParameters
 from core.lookup.character_service import CharacterService

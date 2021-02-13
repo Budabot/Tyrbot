@@ -1,5 +1,5 @@
 from core.alts.alts_service import AltsService
-from core.decorators import instance, command, setting, event
+from core.decorators import instance, command, event
 from core.command_param_types import Const
 from core.setting_types import NumberSettingType
 from core.setting_service import SettingService
