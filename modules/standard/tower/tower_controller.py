@@ -105,7 +105,8 @@ class TowerController:
         return blob
 
     def handle_public_channel_message(self, conn: Conn, packet: server_packets.PublicChannelMessage):
-        if not conn.is_main:
+        # only listen to tower packets from first bot, to avoid logging twice
+        if conn.id != "bot1":
             return
 
         if packet.channel_id == self.TOWER_BATTLE_OUTCOME_ID:
