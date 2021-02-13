@@ -142,31 +142,22 @@ class Tyrbot:
         return char_name == self.superadmin
 
     def connect(self, config):
-        conn = self.create_conn("main")
-        conn.connect(config.server.host, config.server.port)
-        packet = conn.login(config.username, config.password, config.character, is_main=True)
-        if not packet:
-            self.status = BotStatus.ERROR
-            return False
-        else:
-            self.incoming_queue.put((conn, packet))
+        for i, bot in enumerate(config.bots):
+            conn = self.create_conn("bot" + str(i))
+            conn.connect(config.server.host, config.server.port)
 
-        self.create_conn_thread(conn, None)
+            # only create the mass_message_queue if there is at least 1 non-main bot
+            if not bot.is_main and not self.mass_message_queue:
+                self.mass_message_queue = FifoQueue()
 
-        if "slaves" in config:
-            self.mass_message_queue = FifoQueue()
-            for i, slave in enumerate(config.slaves):
-                conn = self.create_conn("slave" + str(i))
-                conn.connect(config.server.host, config.server.port)
+            packet = conn.login(bot.username, bot.password, bot.character, is_main=bot.is_main)
+            if not packet:
+                self.status = BotStatus.ERROR
+                return False
+            else:
+                self.incoming_queue.put((conn, packet))
 
-                packet = conn.login(slave.username, slave.password, slave.character, is_main=False)
-                if not packet:
-                    self.status = BotStatus.ERROR
-                    return False
-                else:
-                    self.incoming_queue.put((conn, packet))
-
-                self.create_conn_thread(conn, self.mass_message_queue)
+            self.create_conn_thread(conn, None if bot.is_main else self.mass_message_queue)
 
         return True
 
@@ -413,4 +404,4 @@ class Tyrbot:
         return self.get_primary_conn().char_id
 
     def get_primary_conn(self):
-        return self.conns["main"]
+        return self.conns["bot0"]

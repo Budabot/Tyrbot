@@ -6,7 +6,6 @@ from core.logger import Logger
 from core.aochat.mmdb_parser import MMDBParser
 from core.functions import merge_dicts
 from upgrade import run_upgrades
-import hjson
 import time
 import os
 import platform
@@ -42,8 +41,7 @@ try:
 
     logger = Logger("core.bootstrap")
     logger.info("Starting Tyrbot...")
-    template_config_file = "./conf/config.template.hjson"
-    config_file = "./conf/config.hjson"
+    config_file = "./conf/config.py"
 
     if sys.version_info < (3, 6):
         logger.error("Python 3.6 is required (3.5 will not work)")
@@ -54,30 +52,28 @@ try:
                        "or if you see SSL errors in the logs, consider downgrading to Python 3.6 or upgrading to Python 3.9")
 
     # load template config file as a base set of defaults
-    with open(template_config_file, "r") as cfg:
-        config = DictObject(hjson.load(cfg))
+    from conf.config_template import config as template_config
 
     # load config values from env vars
     env_config = get_config_from_env()
     if env_config:
         # converts dicts to lists
-        if "slaves" in env_config and isinstance(env_config.slaves, dict):
-            env_config.slaves = list(env_config.slaves.values())
+        if "bots" in env_config and isinstance(env_config.bots, dict):
+            env_config.bots = list(env_config.bots.values())
 
         if "module_paths" in env_config and isinstance(env_config.module_paths, dict):
             env_config.module_paths = list(env_config.module_paths.values())
 
-        config = merge_dicts(config, env_config)
+        config = merge_dicts(template_config, env_config)
         logger.info("Reading config from env vars")
     else:
         # start config wizard if config file does not exist
         if not os.path.exists(config_file):
-            config_creator.create_new_cfg(config_file, template_config_file)
+            config_creator.create_new_cfg(config_file, template_config)
 
         # load config
         logger.info("Reading config from file '%s'" % config_file)
-        with open(config_file, "r") as cfg:
-            config = DictObject(hjson.load(cfg))
+        from conf.config import config
 
     # ensure dimension is integer
     if isinstance(config.server.dimension, str):
@@ -91,7 +87,7 @@ try:
             setattr(FeatureFlags, k, v)
 
     if platform.system() == "Windows":
-        os.system("title %s.%d" % (config.character, config.server.dimension))
+        os.system("title %s.%d" % (config.bots[0].character, config.server.dimension))
 
     # paths to search for instances: core + module_paths
     paths = ["core"]

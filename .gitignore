@@ -3,6 +3,7 @@ __pycache__
 /.idea
 /conf/config.json
 /conf/config.hjson
+/conf/config.py
 /data/*
 /logs/
 /modules/custom
