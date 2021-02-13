@@ -22,7 +22,6 @@ from core.bot_status import BotStatus
 @instance("bot")
 class Tyrbot:
     CONNECT_EVENT = "connect"
-    PACKET_EVENT = "packet"
     PRIVATE_MSG_EVENT = "private_msg"
 
     OUTGOING_ORG_MESSAGE_EVENT = "outgoing_org_message"
@@ -93,7 +92,6 @@ class Tyrbot:
     def pre_start(self):
         self.access_service.register_access_level("superadmin", 10, self.check_superadmin)
         self.event_service.register_event_type(self.CONNECT_EVENT)
-        self.event_service.register_event_type(self.PACKET_EVENT)
         self.event_service.register_event_type(self.PRIVATE_MSG_EVENT)
         self.event_service.register_event_type(self.OUTGOING_ORG_MESSAGE_EVENT)
         self.event_service.register_event_type(self.OUTGOING_PRIVATE_MESSAGE_EVENT)
@@ -281,8 +279,6 @@ class Tyrbot:
 
             for handler in self.packet_handlers.get(packet.id, []):
                 handler.handler(conn, packet)
-
-            self.event_service.fire_event("packet:" + str(packet.id), packet)
 
         return packet
 
