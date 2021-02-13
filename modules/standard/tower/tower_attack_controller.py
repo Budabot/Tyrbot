@@ -33,10 +33,10 @@ class TowerAttackController:
     @command(command="attacks", params=[NamedParameters(["page"])], access_level="all",
              description="Show recent tower attacks and victories")
     def attacks_cmd(self, request, named_params):
-        page = int(named_params.page or "1")
+        page_number = int(named_params.page or "1")
 
-        page_size = 30
-        offset = (page - 1) * page_size
+        page_size = 20
+        offset = (page_number - 1) * page_size
 
         sql = """
             SELECT
@@ -55,20 +55,16 @@ class TowerAttackController:
             ORDER BY
                 b.last_updated DESC,
                 a.created_at DESC
-            LIMIT %d, %d
-        """ % (offset, page_size)
+            LIMIT ?, ?
+        """
 
-        data = self.db.query(sql)
+        data = self.db.query(sql, [offset, page_size])
         t = int(time.time())
 
         blob = self.check_for_all_towers_channel()
 
-        if page > 1:
-            blob += "   " + self.text.make_chatcmd("<< Page %d" % (page - 1), self.get_chat_command(page - 1))
-        if len(data) > 0:
-            blob += "   Page " + str(page)
-            blob += "   " + self.text.make_chatcmd("Page %d >>" % (page + 1), self.get_chat_command(page + 1))
-            blob += "\n"
+        blob += self.text.get_paging_links(f"attacks", page_number, page_size == len(data))
+        blob += "\n\n"
 
         current_battle_id = -1
         for row in data:

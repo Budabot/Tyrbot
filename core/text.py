@@ -380,6 +380,20 @@ class Text:
         adjustment = fill_width - (spacer_pixel_width * num_spacers)
         return s + (num_spacers * fill), adjustment
 
+    def get_paging_links(self, command_str, page_number, show_next, page_param="--page="):
+        blob = ""
+        if page_number > 1:
+            prev_page_number = page_number - 1
+            blob += "   " + self.make_tellcmd(f"<< Page {prev_page_number}", f"{command_str} {page_param}{prev_page_number}")
+
+        blob += "   Page %d" % page_number
+
+        if show_next:
+            next_page_number = page_number + 1
+            blob += "   " + self.make_tellcmd(f"Page {next_page_number} >>", f"{command_str} {page_param}{next_page_number}")
+
+        return blob
+
     def get_pixel_width(self, s):
         if not s:
             return 0

@@ -23,9 +23,9 @@ class NanoController:
     @command(command="nano", params=[Any("search"), NamedParameters(["page"])], access_level="all",
              description="Search for a nano")
     def nano_cmd(self, request, search, named_params):
-        page = int(named_params.page or "1")
+        page_number = int(named_params.page or "1")
         page_size = 30
-        offset = (page - 1) * page_size
+        offset = (page_number - 1) * page_size
 
         sql = "SELECT n1.lowid, n1.lowql, n1.name, n1.location, n1.profession, n3.id AS nanoline_id, n3.name AS nanoline_name " \
               "FROM nanos n1 " \
@@ -44,13 +44,9 @@ class NanoController:
         elif count == 1:
             row = data[0]
             return "%s <highlight>%s</highlight>" % (self.format_single_nano(row), row.nanoline_name)
-        elif count > page_size:
-            if page > 1 and len(paged_data) > 0:
-                blob += "   " + self.text.make_chatcmd("<< Page %d" % (page - 1), self.get_chat_command(search, page - 1))
-            if offset + page_size < len(data):
-                blob += "   Page " + str(page)
-                blob += "   " + self.text.make_chatcmd("Page %d >>" % (page + 1), self.get_chat_command(search, page + 1))
-            blob += "\n\n"
+
+        blob += self.text.get_paging_links(f"nano {search}", page_number, offset + page_size < len(data))
+        blob += "\n\n"
 
         current_nanoline = -1
         for row in paged_data:

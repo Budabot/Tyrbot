@@ -70,22 +70,17 @@ class RecipeController:
 
     @command(command="recipe", params=[Any("search"), NamedParameters(["page"])], access_level="all", description="Search for a recipe")
     def recipe_search_cmd(self, request, search, named_params):
-        page = int(named_params.page or "1")
+        page_number = int(named_params.page or "1")
         page_size = 30
-        offset = (page - 1) * page_size
+        offset = (page_number - 1) * page_size
 
         data = self.db.query("SELECT * FROM recipe WHERE recipe <EXTENDED_LIKE=0> ? ORDER BY name ASC", [search], extended_like=True)
         count = len(data)
         paged_data = data[offset:offset + page_size]
 
         blob = ""
-
-        if count > page_size:
-            if page > 1 and len(paged_data) > 0:
-                blob += "   " + self.text.make_chatcmd("<< Page %d" % (page - 1), self.get_chat_command(search, page - 1))
-            if offset + page_size < len(data):
-                blob += "   Page " + str(page)
-                blob += "   " + self.text.make_chatcmd("Page %d >>" % (page + 1), self.get_chat_command(search, page + 1))
+        if len(data) > 0:
+            blob += self.text.get_paging_links(f"aou {search}", page_number, offset + page_size < len(data))
             blob += "\n\n"
 
         for row in paged_data:
