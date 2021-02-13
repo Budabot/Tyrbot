@@ -136,6 +136,7 @@ class PollController:
                                  "ORDER BY finished_at ASC, id ASC", [event_data.char_id])
             if data:
                 row = data[0]
+                # TODO add conn
                 self.bot.send_private_message(event_data.char_id, self.show_poll_details_blob(row))
 
     def create_scheduled_jobs_for_polls(self):
@@ -203,5 +204,6 @@ class PollController:
         self.end_poll(self.get_poll(poll_id))
 
     def end_poll(self, poll):
+        # TODO add conn
         self.bot.send_private_message(poll.char_id, "Your poll <highlight>%d. %s</highlight> has finished." % (poll.id, poll.question))
         self.db.exec("UPDATE poll SET is_finished = 1 WHERE id = ?", [poll.id])

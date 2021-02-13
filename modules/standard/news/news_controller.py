@@ -114,6 +114,7 @@ class NewsController:
 
         if unread_news:
             msg = self.format_unread_news(unread_news)
+            # TODO add conn
             self.bot.send_private_message(event_data.char_id, msg)
 
     @event(event_type=PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, description="Send news to chars joining the private channel")
@@ -123,6 +124,7 @@ class NewsController:
 
         if unread_news:
             msg = self.format_unread_news(unread_news)
+            # TODO add conn
             self.bot.send_private_message(event_data.char_id, msg)
 
     @event(event_type=AltsService.MAIN_CHANGED_EVENT_TYPE, description="Update news items marked as read when main is changed", is_hidden=True)

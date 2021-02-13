@@ -277,7 +277,9 @@ class RaidController:
 
         if in_raid is None:
             self.raid.raiders.append(Raider(alts, char.char_id))
-            self.bot.send_private_message(char.char_id, f"You have been added to the raid <highlight>{self.raid.raid_name}</highlight>.")
+            self.bot.send_private_message(char.char_id,
+                                          f"You have been added to the raid <highlight>{self.raid.raid_name}</highlight>.",
+                                          conn=request.conn)
             self.points_controller.add_log_entry(main_id, request.sender.char_id, f"Added to raid {self.raid.raid_name}")
             return "<highlight>%s</highlight> has been added to the raid." % char.name
         else:
@@ -287,7 +289,9 @@ class RaidController:
                 in_raid.was_kicked_reason = None
                 in_raid.left_raid = None
                 self.points_controller.add_log_entry(main_id, request.sender.char_id, f"Added to raid {self.raid.raid_name}")
-                self.bot.send_private_message(char.char_id, f"You have been set as active in the raid <highlight>{self.raid.raid_name}</highlight>.")
+                self.bot.send_private_message(char.char_id,
+                                              f"You have been set as active in the raid <highlight>{self.raid.raid_name}</highlight>.",
+                                              conn=request.conn)
                 return f"<highlight>{char.name}</highlight> has been set as active."
             else:
                 return f"<highlight>{char.name}</highlight> is already in the raid."
@@ -310,7 +314,8 @@ class RaidController:
             in_raid.was_kicked_reason = reason
             self.points_controller.add_log_entry(main_id, request.sender.char_id, f"Kicked from raid {self.raid.raid_name} with reason: {reason}")
             self.bot.send_private_message(char.char_id,
-                                          f"You have been kicked from raid <highlight>{self.raid.raid_name}</highlight> with reason <highlight>{reason}</highlight>.")
+                                          f"You have been kicked from raid <highlight>{self.raid.raid_name}</highlight> with reason <highlight>{reason}</highlight>.",
+                                          conn=request.conn)
             return "<highlight>%s</highlight> has been kicked from the raid with reason <highlight>%s</highlight>." % (char.name, reason)
         else:
             return "<highlight>%s</highlight> is not participating." % char.name

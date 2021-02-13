@@ -68,15 +68,15 @@ class UtilController:
         if not char.char_id:
             return self.getresp("global", "char_not_found", {"char": char.name})
 
-        self.bot.send_private_message(char.char_id, self.getresp("module/system", "show_output_target",
-                                                                 {"sender": request.sender.name,
-                                                                  "cmd": command_str}))
+        self.bot.send_private_message(char.char_id,
+                                      self.getresp("module/system", "show_output_target", {"sender": request.sender.name, "cmd": command_str}),
+                                      conn=request.conn)
 
         self.command_service.process_command(
             self.command_service.trim_command_symbol(command_str),
             request.channel,
             request.sender.char_id,
-            lambda msg: self.bot.send_private_message(char.char_id, msg),
+            lambda msg: self.bot.send_private_message(char.char_id, msg, conn=request.conn),
             request.conn)
 
         return self.getresp("module/system", "show_output_self",

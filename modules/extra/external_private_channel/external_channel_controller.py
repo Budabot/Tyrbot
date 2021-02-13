@@ -52,5 +52,5 @@ class ExternalChannelController:
                     self.command_service.trim_command_symbol(message),
                     self.command_service.PRIVATE_CHANNEL,
                     packet.char_id,
-                    lambda msg: self.bot.send_private_channel_message(msg, private_channel_id=packet.private_channel_id),
+                    lambda msg: self.bot.send_private_channel_message(msg, private_channel_id=packet.private_channel_id, conn=conn),
                     conn)

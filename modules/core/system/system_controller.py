@@ -67,7 +67,9 @@ class SystemController:
             msg = self.getresp("module/system", "unexpected_online")
 
         char_id = self.character_service.resolve_char_to_id(self.bot.superadmin)
+        # TODO add conn
         self.bot.send_private_message(char_id, msg)
+        # TODO add conn - send to all orgs and private channels for main conns
         self.bot.send_org_message(msg, fire_outgoing_event=False)
         self.bot.send_private_channel_message(msg, fire_outgoing_event=False)
 

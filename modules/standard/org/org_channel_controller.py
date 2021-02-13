@@ -40,6 +40,7 @@ class OrgChannelController:
         self.setting_service.register_new(self.module_name, "prefix_org_priv", True, BooleanSettingType(), "Should the prefix [org] be displayed in relayed messages")
 
     def handle_incoming_relay_message(self, ctx):
+        # TODO add conn - send to all org channels
         self.bot.send_org_message(ctx.formatted_message, fire_outgoing_event=False)
 
     @event(event_type=PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, description="Relay messages from the org channel to the relay hub", is_hidden=True)
@@ -70,6 +71,7 @@ class OrgChannelController:
         if self.bot.is_ready():
             msg = "%s has logged on. %s" % (self.online_controller.get_char_info_display(event_data.char_id) if self.online_controller else self.character_service.resolve_char_to_name(event_data.char_id),
                                             self.log_controller.get_logon(event_data.char_id) if self.log_controller else "")
+            # TODO add conn - send to all org channels
             self.bot.send_org_message(msg, fire_outgoing_event=False)
             self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)
 
@@ -77,8 +79,8 @@ class OrgChannelController:
     def org_member_logoff_event(self, event_type, event_data):
         if self.bot.is_ready():
             char_name = self.character_service.resolve_char_to_name(event_data.char_id)
-            msg = "<highlight>%s</highlight> has logged off. %s" % (char_name,
-                                                             self.log_controller.get_logoff(event_data.char_id) if self.log_controller else "")
+            msg = "<highlight>%s</highlight> has logged off. %s" % (char_name, self.log_controller.get_logoff(event_data.char_id) if self.log_controller else "")
+            # TODO add conn - send to all org channels
             self.bot.send_org_message(msg, fire_outgoing_event=False)
             self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)
 

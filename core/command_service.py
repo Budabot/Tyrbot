@@ -367,7 +367,7 @@ class CommandService:
             self.trim_command_symbol(message),
             self.PRIVATE_MESSAGE_CHANNEL,
             packet.char_id,
-            lambda msg: self.bot.send_private_message(packet.char_id, msg, conn_id=conn.id),
+            lambda msg: self.bot.send_private_message(packet.char_id, msg, conn=conn),
             conn)
 
     def handle_private_channel_message(self, conn: Conn, packet: server_packets.PrivateChannelMessage):
@@ -388,7 +388,7 @@ class CommandService:
                 self.trim_command_symbol(message),
                 self.PRIVATE_CHANNEL,
                 packet.char_id,
-                lambda msg: self.bot.send_private_channel_message(msg, private_channel_id=conn.char_id, conn_id=conn.id),
+                lambda msg: self.bot.send_private_channel_message(msg, private_channel_id=conn.char_id, conn=conn),
                 conn)
 
     def handle_public_channel_message(self, conn: Conn, packet: server_packets.PublicChannelMessage):
@@ -409,7 +409,7 @@ class CommandService:
                 self.trim_command_symbol(message),
                 self.ORG_CHANNEL,
                 packet.char_id,
-                lambda msg: self.bot.send_org_message(msg, conn_id=conn.id),
+                lambda msg: self.bot.send_org_message(msg, conn=conn),
                 conn)
 
     def trim_command_symbol(self, s):

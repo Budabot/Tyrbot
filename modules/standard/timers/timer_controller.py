@@ -168,8 +168,11 @@ class TimerController:
                 self.add_timer(timer.name, timer.char_id, timer.channel, new_t, timer.repeating_every, timer.repeating_every)
 
         if timer.channel == "org":
+            # TODO add conn - send to all org channels?
             self.bot.send_org_message(msg)
         elif timer.channel == "priv":
+            # TODO add conn - send to all private channels?
             self.bot.send_private_channel_message(msg)
         else:
+            # TODO add conn
             self.bot.send_private_message(timer.char_id, msg)

@@ -52,8 +52,9 @@ class BanController:
         elif not self.ban_service.get_ban(char.char_id):
             return self.getresp("module/ban", "not_banned", {"char": char.name})
         else:
-            self.bot.send_private_message(char.char_id, self.getresp("module/ban", "unbanned_target",
-                                                                     {"char": request.sender.name}))
+            self.bot.send_private_message(char.char_id,
+                                          self.getresp("module/ban", "unbanned_target", {"char": request.sender.name}),
+                                          conn=request.conn)
             self.ban_service.remove_ban(char.char_id)
             return self.getresp("module/ban", "unbanned_self", {"char": char.name})
 
@@ -75,6 +76,6 @@ class BanController:
             else:
                 msg = self.getresp("module/ban", "banned_target_2", {"banner": request.sender.name,
                                                                      "duration": duration_str})
-            self.bot.send_private_message(char.char_id, msg)
+            self.bot.send_private_message(char.char_id, msg, conn=request.conn)
             self.ban_service.add_ban(char.char_id, request.sender.char_id, duration, reason)
             return self.getresp("module/ban", "banned_self", {"char":char.name})

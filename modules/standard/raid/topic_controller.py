@@ -69,6 +69,7 @@ class TopicController:
     def char_join_event(self, _, event_data):
         topic = self.get_topic()
         if topic:
+            # TODO add conn
             self.bot.send_private_message(event_data.char_id, self.format_topic_message(topic))
 
     @event(PrivateChannelService.LEFT_PRIVATE_CHANNEL_EVENT, "Clear topic when there are no characters in the private channel")

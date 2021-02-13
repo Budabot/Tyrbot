@@ -67,8 +67,9 @@ class AltsController:
 
             msg, result = self.alts_service.add_alt(request.sender.char_id, alt_char.char_id)
             if result:
-                self.bot.send_private_message(alt_char.char_id, self.getresp("module/alts", "add_success_target",
-                                                                             {"char": request.sender.name}))
+                self.bot.send_private_message(alt_char.char_id,
+                                              self.getresp("module/alts", "add_success_target", {"char": request.sender.name}),
+                                              conn=request.conn)
                 responses.append(self.getresp("module/alts", "add_success_self", {"char": alt_char.name}))
             elif msg == "another_main":
                 responses.append(self.getresp("module/alts", "add_fail_already", {"char": alt_char.name}))

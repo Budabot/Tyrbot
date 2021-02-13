@@ -321,7 +321,10 @@ class Tyrbot:
 
         return packet
 
-    def send_org_message(self, msg, add_color=True, fire_outgoing_event=True, conn_id="main"):
+    def send_org_message(self, msg, add_color=True, fire_outgoing_event=True, conn=None):
+        if not conn:
+            conn = self.get_primary_conn()
+
         org_channel_id = self.public_channel_service.org_channel_id
         if org_channel_id is None:
             self.logger.debug("ignoring message to org channel since the org_channel_id is unknown")
@@ -330,28 +333,34 @@ class Tyrbot:
             pages = self.get_text_pages(msg, self.setting_service.get("org_channel_max_page_length").get_value())
             for page in pages:
                 packet = client_packets.PublicChannelMessage(org_channel_id, color + page, "")
-                self.conns[conn_id].add_packet_to_queue(packet)
+                conn.add_packet_to_queue(packet)
 
             if fire_outgoing_event:
                 self.event_service.fire_event(self.OUTGOING_ORG_MESSAGE_EVENT, DictObject({"org_channel_id": org_channel_id,
                                                                                            "message": msg}))
 
     def send_private_message(self, char_id, msg, add_color=True, fire_outgoing_event=True, conn=None):
+        if not conn:
+            conn = self.get_primary_conn()
+
         if char_id is None:
             raise Exception("Cannot send message, char_id is empty")
         else:
             color = self.setting_service.get("private_message_color").get_font_color() if add_color else ""
             pages = self.get_text_pages(msg, self.setting_service.get("private_message_max_page_length").get_value())
             for page in pages:
-                self.logger.log_tell(conn_id, "To", self.character_service.get_char_name(char_id), page)
+                self.logger.log_tell(conn.id, "To", self.character_service.get_char_name(char_id), page)
                 packet = client_packets.PrivateMessage(char_id, color + page, "\0")
-                self.conns[conn_id].add_packet_to_queue(packet)
+                conn.add_packet_to_queue(packet)
 
             if fire_outgoing_event:
                 self.event_service.fire_event(self.OUTGOING_PRIVATE_MESSAGE_EVENT, DictObject({"char_id": char_id,
                                                                                                "message": msg}))
 
-    def send_private_channel_message(self, msg, private_channel_id=None, add_color=True, fire_outgoing_event=True, conn_id="main"):
+    def send_private_channel_message(self, msg, private_channel_id=None, add_color=True, fire_outgoing_event=True, conn=None):
+        if not conn:
+            conn = self.get_primary_conn()
+
         if private_channel_id is None:
             private_channel_id = self.get_char_id()
 
@@ -359,7 +368,7 @@ class Tyrbot:
         pages = self.get_text_pages(msg, self.setting_service.get("private_channel_max_page_length").get_value())
         for page in pages:
             packet = client_packets.PrivateChannelMessage(private_channel_id, color + page, "\0")
-            self.conns[conn_id].send_packet(packet)
+            conn.send_packet(packet)
 
         if fire_outgoing_event and private_channel_id == self.get_char_id():
             self.event_service.fire_event(self.OUTGOING_PRIVATE_CHANNEL_MESSAGE_EVENT, DictObject({"private_channel_id": private_channel_id,
@@ -402,7 +411,10 @@ class Tyrbot:
         self.status = BotStatus.RESTART
 
     def get_char_name(self):
-        return self.conns["main"].char_name
+        return self.get_primary_conn().char_name
 
     def get_char_id(self):
-        return self.conns["main"].char_id
+        return self.get_primary_conn().char_id
+
+    def get_primary_conn(self):
+        return self.conns["main"]
