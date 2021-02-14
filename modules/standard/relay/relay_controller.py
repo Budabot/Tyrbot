@@ -47,7 +47,6 @@ class RelayController:
 
     def handle_incoming_relay_message(self, ctx):
         message = ctx.formatted_message
-
         self.send_message_to_relay(message)
 
     def send_message_to_relay(self, message):
@@ -57,8 +56,8 @@ class RelayController:
             prefix = self.get_org_channel_prefix()
 
             char_id = self.character_service.resolve_char_to_id(relay_bot)
-            # TODO add conn
-            self.bot.send_private_message(char_id, "grc [%s] %s" % (prefix, message), add_color=False)
+            self.bot.send_private_message(char_id, "grc [%s] %s" % (prefix, message), add_color=False, conn=self.bot.get_primary_conn())
 
     def get_org_channel_prefix(self):
-        return self.relay_prefix().get_value() or self.public_channel_service.get_org_name() or self.bot.get_char_name()
+        channel_info = self.public_channel_service.get_channel_info(self.bot.get_primary_conn_id())
+        return self.relay_prefix().get_value() or channel_info.org_name or self.bot.get_char_name()

@@ -49,14 +49,14 @@ class CharacterInfoController:
                 self.bot.register_packet_handler(BuddyAdded.id, self.handle_buddy_status)
                 self.waiting_for_update[char.char_id] = DictObject({"char_id": char.char_id,
                                                                     "name": char.name,
-                                                                    "callback": partial(self.show_output, char, dimension, force_update, reply=request.reply)})
+                                                                    "callback": partial(self.show_output, char, dimension, force_update, reply=request.reply, conn=request.conn)})
                 self.buddy_service.add_buddy(char.char_id, self.BUDDY_IS_ONLINE_TYPE)
             else:
-                self.show_output(char, dimension, force_update, online_status, request.reply)
+                self.show_output(char, dimension, force_update, online_status, request.reply, request.conn)
         else:
-            self.show_output(char, dimension, force_update, None, request.reply)
+            self.show_output(char, dimension, force_update, None, request.reply, request.conn)
 
-    def show_output(self, char, dimension, force_update, online_status, reply):
+    def show_output(self, char, dimension, force_update, online_status, reply, conn):
         max_cache_age = 0 if force_update else 86400
 
         if dimension != self.bot.dimension:
@@ -95,7 +95,7 @@ class CharacterInfoController:
                     blob += "\n<header2>Alts (%d)</header2>\n" % len(alts)
                     blob += self.alts_controller.format_alt_list(alts)
 
-            more_info = self.text.paginate_single(ChatBlob("More Info", blob))
+            more_info = self.text.paginate_single(ChatBlob("More Info", blob), conn)
 
             msg = self.text.format_char_info(char_info, online_status) + " " + more_info
         elif char.char_id:

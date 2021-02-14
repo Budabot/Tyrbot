@@ -1,6 +1,7 @@
 import re
 from html.parser import HTMLParser
 
+from core.conn import Conn
 from core.decorators import instance
 from core.feature_flags import FeatureFlags
 from core.logger import Logger
@@ -8,7 +9,7 @@ from core.setting_service import SettingService
 
 
 class TextFormatter(HTMLParser):
-    def __init__(self, bot, setting_service, public_channel_service):
+    def __init__(self, bot, setting_service, public_channel_service, conn):
         super().__init__(convert_charrefs=False)
         self.logger = Logger(__name__)
         self.strict = False
@@ -19,6 +20,8 @@ class TextFormatter(HTMLParser):
         self.bot = bot
         self.setting_service = setting_service
         self.public_channel_service = public_channel_service
+        self.conn = conn
+        self.channel_info = self.public_channel_service.get_channel_info(conn.id)
 
     def reset(self):
         super().reset()
@@ -80,9 +83,9 @@ class TextFormatter(HTMLParser):
             self.handle_data(self.setting_service.get("unknown_color").get_font_color())
 
         elif tag == "myname":
-            self.handle_data(self.bot.get_char_name())
+            self.handle_data(self.conn.get_char_name())
         elif tag == "myorg":
-            self.handle_data(self.public_channel_service.get_org_name() or "Unknown Org")
+            self.handle_data(self.channel_info.get_org_name() or "Unknown Org")
         elif tag == "tab":
             self.handle_data("    ")
         elif tag == "end":
@@ -239,10 +242,10 @@ class Text:
         else:
             return f"<unknown>{contents}</unknown>"
 
-    def paginate_single(self, chatblob):
-        return self.paginate(chatblob, 8000)[0]
+    def paginate_single(self, chatblob, conn: Conn):
+        return self.paginate(chatblob, conn, 8000)[0]
 
-    def paginate(self, chatblob, max_page_length=None, max_num_pages=None, footer=None):
+    def paginate(self, chatblob, conn: Conn, max_page_length=None, max_num_pages=None, footer=None):
         label = chatblob.title
         msg = chatblob.msg
 
@@ -256,10 +259,10 @@ class Text:
 
         color = self.setting_service.get("blob_color").get_font_color()
         msg = ("<header>" + label + "</header>\n\n" + color + msg).replace("\"", "&quot;")
-        msg = self.format_message(msg)
+        msg = self.format_message(msg, conn)
 
         if footer:
-            footer = "\n\n" + self.format_message(footer.replace("\"", "&quot;").strip())
+            footer = "\n\n" + self.format_message(footer.replace("\"", "&quot;", conn).strip())
         else:
             footer = ""
 
@@ -274,9 +277,9 @@ class Text:
         def mapper(tup):
             page, index = tup
             if num_pages == 1:
-                label2 = self.format_message(label)
+                label2 = self.format_message(label, conn)
             else:
-                label2 = self.format_message(label) + " (Page " + str(index) + " / " + str(num_pages) + ")"
+                label2 = self.format_message(label, conn) + " (Page " + str(index) + " / " + str(num_pages) + ")"
             return chatblob.page_prefix + self.format_page(label2, page) + chatblob.page_postfix
 
         return list(map(mapper, zip(pages, range(1, num_pages + 1))))
@@ -409,17 +412,19 @@ class Text:
             width += pixel_width or 8
         return width
 
-    def format_message(self, msg):
+    def format_message(self, msg, conn: Conn):
         if FeatureFlags.TEXT_FORMATTING_V2:
-            return self.format_message_new(msg)
+            return self.format_message_new(msg, conn)
         else:
-            return self.format_message_old(msg)
+            return self.format_message_old(msg, conn)
 
-    def format_message_new(self, msg):
-        text_formatter = TextFormatter(self.bot, self.setting_service, self.public_channel_service)
+    def format_message_new(self, msg, conn: Conn):
+        text_formatter = TextFormatter(self.bot, self.setting_service, self.public_channel_service, conn)
         return text_formatter.format_message(msg)
 
-    def format_message_old(self, msg):
+    def format_message_old(self, msg, conn: Conn):
+        channel_info = self.public_channel_service.get_channel_info(conn.id)
+
         for t in ["</header>", "</header2>", "</highlight>", "</notice>", "</black>", "</white>", "</yellow>", "</blue>", "</green>", "</red>", "</orange>", "</grey>", "</cyan>",
                   "</violet>", "</neutral>", "</omni>", "</clan>", "</unknown>"]:
             msg = msg.replace(t, "</font>")
@@ -446,8 +451,8 @@ class Text:
             .replace("<clan>", self.setting_service.get("clan_color").get_font_color()) \
             .replace("<unknown>", self.setting_service.get("unknown_color").get_font_color()) \
             \
-            .replace("<myname>", self.bot.get_char_name()) \
-            .replace("<myorg>", self.public_channel_service.get_org_name() or "Unknown Org") \
+            .replace("<myname>", conn.get_char_name()) \
+            .replace("<myorg>", channel_info.org_name or "Unknown Org") \
             .replace("<tab>", "    ") \
             .replace("<end>", "</font>") \
             .replace("<symbol>", self.setting_service.get("symbol").get_value()) \

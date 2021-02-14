@@ -1,6 +1,7 @@
 import time
 
 from core.chat_blob import ChatBlob
+from core.conn import Conn
 from core.dict_object import DictObject
 from core.registry import Registry
 from core.sender_obj import SenderObj
@@ -21,7 +22,7 @@ class AuctionBid:
 
 
 class AuctionStrategy:
-    def __init__(self):
+    def __init__(self, conn: Conn):
         self.bot = Registry.get_instance("bot")
         self.db = Registry.get_instance("db")
         self.text = Registry.get_instance("text")
@@ -40,6 +41,7 @@ class AuctionStrategy:
         self.auctioneer: SenderObj = None
         self.job_id = None
         self.is_running = False
+        self.conn = None
 
     def start(self, sender: SenderObj, duration, announce_interval):
         if not self.items:
@@ -66,7 +68,7 @@ class AuctionStrategy:
                 avg_win_bid = 0
 
             bid_link = self.get_auction_list()
-            bid_link = self.text.paginate_single(ChatBlob("Click to bid", bid_link.msg))
+            bid_link = self.text.paginate_single(ChatBlob("Click to bid", bid_link.msg), self.conn)
             msg = "\n<yellow>----------------------------------------</yellow>\n"
             msg += "<yellow>%s</yellow> has just started an auction " \
                    "for <yellow>%s</yellow>.\n" % (sender.name, item)
@@ -89,7 +91,7 @@ class AuctionStrategy:
         return self.next_item_index
 
     def remove_item(self, item_id):
-        # TODO will this fail if it doesn't exist
+        # TODO will this fail if it doesn't exist?
         del self.items[item_id]
         del self.bids[item_id]
 
@@ -203,7 +205,7 @@ class AuctionStrategy:
         return "You do not have a bid for this item."
 
     def spam_raid_message(self, message):
-        self.raid_controller.send_message(message)
+        self.raid_controller.send_message(message, self.conn)
 
     def get_auction_list(self):
         blob = ""

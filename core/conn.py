@@ -55,6 +55,12 @@ class Conn(Bot):
         elif num_messages > 10:
             self.logger.warning("%d messages in outgoing message queue" % num_messages)
 
+    def get_char_name(self):
+        return self.char_name
+
+    def get_char_id(self):
+        return self.char_id
+
     def __str__(self):
         return self.id
 

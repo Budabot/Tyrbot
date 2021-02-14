@@ -40,8 +40,8 @@ class OrgChannelController:
         self.setting_service.register(self.module_name, "prefix_org_priv", True, BooleanSettingType(), "Should the prefix [org] be displayed in relayed messages")
 
     def handle_incoming_relay_message(self, ctx):
-        # TODO add conn - send to all org channels
-        self.bot.send_org_message(ctx.formatted_message, fire_outgoing_event=False)
+        for _id, conn in self.bot.get_conns().items():
+            self.bot.send_org_message(ctx.formatted_message, fire_outgoing_event=False, conn=conn)
 
     @event(event_type=PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, description="Relay messages from the org channel to the relay hub", is_hidden=True)
     def handle_org_message_event(self, event_type, event_data):
@@ -69,10 +69,16 @@ class OrgChannelController:
     @event(event_type=OrgMemberController.ORG_MEMBER_LOGON_EVENT, description="Notify when org member logs on")
     def org_member_logon_event(self, event_type, event_data):
         if self.bot.is_ready():
-            msg = "%s has logged on. %s" % (self.online_controller.get_char_info_display(event_data.char_id) if self.online_controller else self.character_service.resolve_char_to_name(event_data.char_id),
-                                            self.log_controller.get_logon(event_data.char_id) if self.log_controller else "")
-            # TODO add conn - send to all org channels
-            self.bot.send_org_message(msg, fire_outgoing_event=False)
+            if self.online_controller:
+                char_info = self.online_controller.get_char_info_display(event_data.char_id)
+            else:
+                char_info = self.character_service.resolve_char_to_name(event_data.char_id)
+
+            msg = "%s has logged on. %s" % (char_info, self.log_controller.get_logon(event_data.char_id) if self.log_controller else "")
+
+            for _id, conn in self.bot.get_conns().items():
+                if conn.is_main:
+                    self.bot.send_org_message(msg, fire_outgoing_event=False, conn=conn)
             self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)
 
     @event(event_type=OrgMemberController.ORG_MEMBER_LOGOFF_EVENT, description="Notify when org member logs off")
@@ -80,14 +86,18 @@ class OrgChannelController:
         if self.bot.is_ready():
             char_name = self.character_service.resolve_char_to_name(event_data.char_id)
             msg = "<highlight>%s</highlight> has logged off. %s" % (char_name, self.log_controller.get_logoff(event_data.char_id) if self.log_controller else "")
-            # TODO add conn - send to all org channels
-            self.bot.send_org_message(msg, fire_outgoing_event=False)
+
+            for _id, conn in self.bot.get_conns().items():
+                if conn.is_main:
+                    self.bot.send_org_message(msg, fire_outgoing_event=False, conn=conn)
             self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)
 
     @event(event_type=Tyrbot.OUTGOING_ORG_MESSAGE_EVENT, description="Relay commands from the org channel to the relay hub", is_hidden=True)
     def outgoing_org_message_event(self, event_type, event_data):
         if isinstance(event_data.message, ChatBlob):
-            pages = self.text.paginate(ChatBlob(event_data.message.title, event_data.message.msg), self.setting_service.get("org_channel_max_page_length").get_value())
+            pages = self.text.paginate(ChatBlob(event_data.message.title, event_data.message.msg),
+                                       self.bot.get_temp_conn(),
+                                       self.setting_service.get("org_channel_max_page_length").get_value())
             if len(pages) < 4:
                 for page in pages:
                     message = "{org} {message}".format(org=self.ORG_CHANNEL_PREFIX, message=page)
@@ -96,7 +106,7 @@ class OrgChannelController:
                                                           page,
                                                           message)
             else:
-                message ="{org} {message}".format(org=self.ORG_CHANNEL_PREFIX, message=event_data.message.title)
+                message = "{org} {message}".format(org=self.ORG_CHANNEL_PREFIX, message=event_data.message.title)
                 self.message_hub_service.send_message(self.MESSAGE_SOURCE,
                                                       None,
                                                       event_data.message.title,

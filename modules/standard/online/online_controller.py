@@ -1,4 +1,5 @@
 from core.command_param_types import Any
+from core.conn import Conn
 from core.db import DB
 from core.decorators import instance, command, event
 from core.alts.alts_service import AltsService
@@ -206,7 +207,7 @@ class OnlineController:
 
         return ChatBlob("Online (%d)" % count, blob)
 
-    def get_char_info_display(self, char_id):
+    def get_char_info_display(self, char_id, conn: Conn):
         char_info = self.pork_service.get_character_info(char_id)
         if char_info:
             name = self.text.format_char_info(char_info)
@@ -222,7 +223,7 @@ class OnlineController:
             else:
                 main = "Alts of %s (%d)" % (alts[0].name, cnt)
 
-            name += " - " + self.text.paginate_single(ChatBlob(main, self.alts_controller.format_alt_list(alts)))
+            name += " - " + self.text.paginate_single(ChatBlob(main, self.alts_controller.format_alt_list(alts)), conn)
 
         return name
 

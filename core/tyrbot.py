@@ -319,7 +319,7 @@ class Tyrbot:
         else:
             org_channel_id = channel_info.org_channel_id
             color = self.setting_service.get("org_channel_color").get_font_color() if add_color else ""
-            pages = self.get_text_pages(msg, self.setting_service.get("org_channel_max_page_length").get_value())
+            pages = self.get_text_pages(msg, conn, self.setting_service.get("org_channel_max_page_length").get_value())
             for page in pages:
                 packet = client_packets.PublicChannelMessage(org_channel_id, color + page, "")
                 conn.add_packet_to_queue(packet)
@@ -336,7 +336,7 @@ class Tyrbot:
             raise Exception("Cannot send message, char_id is empty")
         else:
             color = self.setting_service.get("private_message_color").get_font_color() if add_color else ""
-            pages = self.get_text_pages(msg, self.setting_service.get("private_message_max_page_length").get_value())
+            pages = self.get_text_pages(msg, conn, self.setting_service.get("private_message_max_page_length").get_value())
             for page in pages:
                 self.logger.log_tell(conn.id, "To", self.character_service.get_char_name(char_id), page)
                 packet = client_packets.PrivateMessage(char_id, color + page, "\0")
@@ -354,7 +354,7 @@ class Tyrbot:
             private_channel_id = self.get_char_id()
 
         color = self.setting_service.get("private_channel_color").get_font_color() if add_color else ""
-        pages = self.get_text_pages(msg, self.setting_service.get("private_channel_max_page_length").get_value())
+        pages = self.get_text_pages(msg, conn, self.setting_service.get("private_channel_max_page_length").get_value())
         for page in pages:
             packet = client_packets.PrivateChannelMessage(private_channel_id, color + page, "\0")
             conn.send_packet(packet)
@@ -363,12 +363,15 @@ class Tyrbot:
             self.event_service.fire_event(self.OUTGOING_PRIVATE_CHANNEL_MESSAGE_EVENT, DictObject({"private_channel_id": private_channel_id,
                                                                                                    "message": msg}))
 
-    def send_mass_message(self, char_id, msg, add_color=True, log_message=False):
+    def send_mass_message(self, char_id, msg, add_color=True, log_message=False, conn=None):
+        if not conn:
+            conn = self.get_primary_conn()
+
         if not char_id:
             self.logger.warning("Could not send message to empty char_id")
         else:
             color = self.setting_service.get("private_message_color").get_font_color() if add_color else ""
-            pages = self.get_text_pages(msg, self.setting_service.get("private_message_max_page_length").get_value())
+            pages = self.get_text_pages(msg, conn, self.setting_service.get("private_message_max_page_length").get_value())
             for page in pages:
                 if log_message:
                     self.logger.log_tell("spam", "To", self.character_service.get_char_name(char_id), page)
@@ -384,11 +387,11 @@ class Tyrbot:
         self.logger.log_tell(conn.id, "From", self.character_service.get_char_name(packet.char_id), packet.message)
         self.event_service.fire_event(self.PRIVATE_MSG_EVENT, packet)
 
-    def get_text_pages(self, msg, max_page_length):
+    def get_text_pages(self, msg, conn, max_page_length):
         if isinstance(msg, ChatBlob):
-            return self.text.paginate(msg, max_page_length=max_page_length)
+            return self.text.paginate(msg, conn, max_page_length=max_page_length)
         else:
-            return [self.text.format_message(msg)]
+            return [self.text.format_message(msg, conn)]
 
     def is_ready(self):
         return self.ready
@@ -405,5 +408,15 @@ class Tyrbot:
     def get_char_id(self):
         return self.get_primary_conn().char_id
 
+    def get_primary_conn_id(self):
+        return "bot0"
+
     def get_primary_conn(self):
-        return self.conns["bot0"]
+        return self.conns[self.get_primary_conn_id()]
+
+    # placeholder to keep track of things that need to be fixed/updated
+    def get_temp_conn(self):
+        return self.get_primary_conn()
+
+    def get_conns(self):
+        return self.conns

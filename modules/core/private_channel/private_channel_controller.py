@@ -47,30 +47,31 @@ class PrivateChannelController:
             return hjson.load(f)
 
     def handle_incoming_relay_message(self, ctx):
-        # TODO add conn - send to all private channels
-        self.bot.send_private_channel_message(ctx.formatted_message, fire_outgoing_event=False)
+        for _id, conn in self.bot.get_conns().items():
+            if conn.is_main:
+                self.bot.send_private_channel_message(ctx.formatted_message, fire_outgoing_event=False)
 
     @command(command="join", params=[], access_level="member",
              description="Join the private channel")
     def join_cmd(self, request):
-        self.private_channel_service.invite(request.sender.char_id)
+        self.private_channel_service.invite(request.sender.char_id, request.conn)
 
     @command(command="leave", params=[], access_level="all",
              description="Leave the private channel")
     def leave_cmd(self, request):
-        self.private_channel_service.kick(request.sender.char_id)
+        self.private_channel_service.kick(request.sender.char_id, request.conn)
 
     @command(command="invite", params=[Character("character")], access_level="all",
              description="Invite a character to the private channel")
     def invite_cmd(self, request, char):
         if char.char_id:
-            if self.private_channel_service.in_private_channel(char.char_id):
+            if self.private_channel_service.in_private_channel(char.char_id, request.conn.id):
                 return self.getresp("module/private_channel", "invite_fail", {"target": char.name})
             else:
                 self.bot.send_private_message(char.char_id,
                                               self.getresp("module/private_channel", "invite_success_target", {"inviter": request.sender.name}),
                                               conn=request.conn)
-                self.private_channel_service.invite(char.char_id)
+                self.private_channel_service.invite(char.char_id, request.conn)
                 return self.getresp("module/private_channel", "invite_success_self", {"target": char.name})
         else:
             return self.getresp("global", "char_not_found", {"char": char.name})
@@ -79,7 +80,7 @@ class PrivateChannelController:
              description="Kick a character from the private channel")
     def kick_cmd(self, request, char):
         if char.char_id:
-            if not self.private_channel_service.in_private_channel(char.char_id):
+            if not self.private_channel_service.in_private_channel(char.char_id, request.conn.id):
                 return self.getresp("module/private_channel", "kick_fail_not_in_priv", {"target": char.name})
             else:
                 # TODO use request.sender.access_level and char.access_level
@@ -87,7 +88,7 @@ class PrivateChannelController:
                     self.bot.send_private_message(char.char_id,
                                                   self.getresp("module/private_channel", "kick_success_target", {"kicker": request.sender.name}),
                                                   conn=request.conn)
-                    self.private_channel_service.kick(char.char_id)
+                    self.private_channel_service.kick(char.char_id, request.conn)
                     return self.getresp("module/private_channel", "kick_success_self", {"target": char.name})
                 else:
                     return self.getresp("module/private_channel", "kick_fail", {"target": char.name})
@@ -99,11 +100,11 @@ class PrivateChannelController:
     def kickall_cmd(self, request):
         self.bot.send_private_channel_message(self.getresp("module/private_channel", "kick_all", {"char": request.sender.name}),
                                               conn=request.conn)
-        self.job_scheduler.delayed_job(lambda t: self.private_channel_service.kickall(), 10)
+        self.job_scheduler.delayed_job(lambda t: self.private_channel_service.kickall(request.conn), 10)
 
     @event(event_type=BanService.BAN_ADDED_EVENT, description="Kick characters from the private channel who are banned", is_hidden=True)
     def ban_added_event(self, event_type, event_data):
-        self.private_channel_service.kick(event_data.char_id)
+        self.private_channel_service.kick(event_data.char_id, self.bot.get_temp_conn())
 
     @event(event_type=PrivateChannelService.PRIVATE_CHANNEL_MESSAGE_EVENT, description="Relay messages from the private channel to the relay hub", is_hidden=True)
     def handle_private_channel_message_event(self, event_type, event_data):
@@ -118,11 +119,16 @@ class PrivateChannelController:
 
     @event(event_type=PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, description="Notify when a character joins the private channel")
     def handle_private_channel_joined_event(self, event_type, event_data):
+        if self.online_controller:
+            char_info = self.online_controller.get_char_info_display(event_data.char_id, self.bot.get_temp_conn())
+        else:
+            char_info = self.character_service.resolve_char_to_name(event_data.char_id)
         msg = self.getresp("module/private_channel", "join",
-                           {"char": self.online_controller.get_char_info_display(event_data.char_id) if self.online_controller else self.character_service.resolve_char_to_name(event_data.char_id),
+                           {"char": char_info,
                             "logon": self.log_controller.get_logon(event_data.char_id) if self.log_controller else ""})
-        # TODO add conn - send to all conns
-        self.bot.send_private_channel_message(msg, fire_outgoing_event=False)
+        for _id, conn in self.bot.get_conns().items():
+            if conn.is_main:
+                self.bot.send_private_channel_message(msg, fire_outgoing_event=False, conn=conn)
         self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)
 
     @event(event_type=PrivateChannelService.LEFT_PRIVATE_CHANNEL_EVENT, description="Notify when a character leaves the private channel")
@@ -131,14 +137,17 @@ class PrivateChannelController:
         msg = self.getresp("module/private_channel", "leave",
                            {"char": char_name,
                             "logoff": self.log_controller.get_logoff(event_data.char_id) if self.log_controller else ""})
-        # TODO add conn - send to all conns
-        self.bot.send_private_channel_message(msg, fire_outgoing_event=False)
+        for _id, conn in self.bot.get_conns().items():
+            if conn.is_main:
+                self.bot.send_private_channel_message(msg, fire_outgoing_event=False)
         self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)
 
     @event(event_type=Tyrbot.OUTGOING_PRIVATE_CHANNEL_MESSAGE_EVENT, description="Relay commands from the private channel to the relay hub", is_hidden=True)
     def outgoing_private_channel_message_event(self, event_type, event_data):
         if isinstance(event_data.message, ChatBlob):
-            pages = self.text.paginate(ChatBlob(event_data.message.title, event_data.message.msg), self.setting_service.get("org_channel_max_page_length").get_value())
+            pages = self.text.paginate(ChatBlob(event_data.message.title, event_data.message.msg),
+                                       self.bot.get_temp_conn(),
+                                       self.setting_service.get("org_channel_max_page_length").get_value())
             if len(pages) < 4:
                 for page in pages:
                     message = "{priv} {message}".format(priv=self.PRIVATE_CHANNEL_PREFIX, message=page)

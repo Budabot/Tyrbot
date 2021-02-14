@@ -70,7 +70,7 @@ class AuctionController:
 
         items = re.findall(r"(([^<]+)?<a href=[\"\']itemref://(\d+)/(\d+)/(\d+)[\"\']>([^<]+)</a>([^<]+)?)", items)
         # TODO choose auction strategy impl
-        self.auction = AuctionStrategy()
+        self.auction = AuctionStrategy(request.conn)
         for item in items:
             self.auction.add_item(item[0])
 

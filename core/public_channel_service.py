@@ -96,13 +96,9 @@ class PublicChannelService:
     def is_org_channel_id(self, channel_id):
         return channel_id >> 32 == 3
 
-    def get_org_id(self):
-        # TODO remove
-        return self.get_channel_info(self.bot.get_primary_conn().id).org_id
-
     def get_org_name(self):
         # TODO remove
-        return self.get_channel_info(self.bot.get_primary_conn().id).org_name
+        return self.get_channel_info(self.bot.get_primary_conn_id()).org_name
 
     def get_channel_info(self, conn_id):
         return self.conns.get(conn_id, None)

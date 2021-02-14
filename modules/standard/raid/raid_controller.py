@@ -125,7 +125,7 @@ class RaidController:
         msg += "%s to join\n" % join_link
         msg += "<highlight>----------------------------------------</highlight>"
 
-        self.send_message(msg)
+        self.send_message(msg, request.conn)
 
     @command(command="raid", params=[Const("cancel")], description="Cancel the raid without saving/logging",
              access_level="moderator", sub_command="manage")
@@ -133,7 +133,7 @@ class RaidController:
         if self.raid is None:
             return self.NO_RAID_RUNNING_RESPONSE
 
-        self.send_message("<highlight>%s</highlight> canceled the <highlight>%s</highlight> raid prematurely." % (request.sender.name, self.raid.raid_name))
+        self.send_message("<highlight>%s</highlight> canceled the <highlight>%s</highlight> raid prematurely." % (request.sender.name, self.raid.raid_name), request.conn)
         self.raid = None
         self.topic_controller.clear_topic()
 
@@ -158,14 +158,15 @@ class RaidController:
                     in_raid.left_raid = None
 
                     self.points_controller.add_log_entry(main_id, request.sender.char_id, f"Joined raid {self.raid.raid_name}")
-                    self.send_message("%s returned to actively participating in the raid." % request.sender.name)
+                    self.send_message("%s returned to actively participating in the raid." % request.sender.name, request.conn)
 
             elif in_raid.is_active:
                 former_active_name = self.character_service.resolve_char_to_name(in_raid.active_id)
                 in_raid.active_id = request.sender.char_id
                 self.points_controller.add_log_entry(main_id, request.sender.char_id,
                                                      f"Switched to alt {request.sender.name} ({request.sender.char_id} in raid {self.raid.raid_name}")
-                self.send_message("<highlight>%s</highlight> joined the raid with a different alt, <highlight>%s</highlight>." % (former_active_name, request.sender.name))
+                self.send_message("<highlight>%s</highlight> joined the raid with a different alt, <highlight>%s</highlight>." % (former_active_name, request.sender.name),
+                                  request.conn)
 
             elif not in_raid.is_active:
                 if not self.raid.is_open:
@@ -180,13 +181,14 @@ class RaidController:
                 in_raid.was_kicked = None
                 in_raid.was_kicked_reason = None
                 in_raid.left_raid = None
-                self.send_message("%s returned to actively participate with a different alt, <highlight>%s</highlight>." % (former_active_name, request.sender.name))
+                self.send_message("%s returned to actively participate with a different alt, <highlight>%s</highlight>." % (former_active_name, request.sender.name),
+                                  request.conn)
 
         elif self.raid.is_open:
             alts = self.alts_service.get_alts(request.sender.char_id)
             self.raid.raiders.append(Raider(alts, request.sender.char_id))
             self.points_controller.add_log_entry(main_id, request.sender.char_id, f"Joined raid {self.raid.raid_name}")
-            self.send_message("<highlight>%s</highlight> joined the raid." % request.sender.name)
+            self.send_message("<highlight>%s</highlight> joined the raid." % request.sender.name, request.conn)
         else:
             return "Raid is closed."
 
@@ -201,7 +203,7 @@ class RaidController:
             in_raid.is_active = False
             in_raid.left_raid = int(time.time())
             self.points_controller.add_log_entry(main_id, request.sender.char_id, f"Left raid {self.raid.raid_name}")
-            self.send_message("<highlight>%s</highlight> left the raid." % request.sender.name)
+            self.send_message("<highlight>%s</highlight> left the raid." % request.sender.name, request.conn)
         else:
             return "You are not in the raid."
 
@@ -229,7 +231,7 @@ class RaidController:
                 self.points_controller.add_log_entry(raider.main_id, request.sender.char_id,
                                                      "Was inactive during raid, %s, when points for %s were dished out." % (self.raid.raid_name, preset.name))
 
-        self.send_message("<highlight>%d</highlight> points added to all active raiders for <highlight>%s</highlight>." % (preset.points, preset.name))
+        self.send_message("<highlight>%d</highlight> points added to all active raiders for <highlight>%s</highlight>." % (preset.points, preset.name), request.conn)
 
     @command(command="raid", params=[Const("active")], description="Get a list of raiders to do active check",
              access_level="moderator", sub_command="manage")
@@ -330,7 +332,7 @@ class RaidController:
             return "Raid is already open."
         else:
             self.raid.is_open = True
-            self.send_message("Raid has been opened by %s." % request.sender.name)
+            self.send_message("Raid has been opened by %s." % request.sender.name, request.conn)
 
     @command(command="raid", params=[Const("close")], description="Close raid for new participants",
              access_level="moderator", sub_command="manage")
@@ -340,7 +342,7 @@ class RaidController:
 
         if self.raid.is_open:
             self.raid.is_open = False
-            self.send_message("Raid has been closed by %s." % request.sender.name)
+            self.send_message("Raid has been closed by %s." % request.sender.name, request.conn)
         else:
             return "Raid is already closed."
 
@@ -362,7 +364,7 @@ class RaidController:
         self.raid = None
         self.topic_controller.clear_topic()
 
-        self.send_message("Raid saved and ended.")
+        self.send_message("Raid saved and ended.", request.conn)
 
     @command(command="raid", params=[Const("history"), Int("raid_id")],
              description="Show log entry for raid",
@@ -443,10 +445,10 @@ class RaidController:
                "lft\n\n<header2>4. Rally with yer mateys</header2>\nFinally, move towards the starting location of " \
                "the raid.\n<highlight>Ask for help</highlight> if you're in doubt of where to go." % self.raid.raid_name
 
-        return self.text.paginate_single(ChatBlob(link_txt, blob))
+        return self.text.paginate_single(ChatBlob(link_txt, blob), self.bot.get_temp_conn())
 
-    def send_message(self, msg):
+    def send_message(self, msg, conn):
         # TODO remove once messagehub can handle ChatBlobs
-        pages = self.bot.get_text_pages(msg, self.setting_service.get("private_message_max_page_length").get_value())
+        pages = self.bot.get_text_pages(msg, conn, self.setting_service.get("private_message_max_page_length").get_value())
         for page in pages:
             self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, page)

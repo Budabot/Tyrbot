@@ -91,7 +91,7 @@ class UtilController:
         bots_connected = ""
 
         for _id, conn in self.bot.conns.items():
-            bots_connected += f"{_id} - {conn.char_name} ({conn.char_id})\n"
+            bots_connected += f"<highlight>{_id}</highlight> - {conn.char_name} ({conn.char_id})\n"
             channel_info = self.public_channel_service.get_channel_info(_id)
             if channel_info:
                 bots_connected += f" └ Org: {channel_info.org_name} ({channel_info.org_id})\n"

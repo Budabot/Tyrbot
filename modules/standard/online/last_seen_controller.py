@@ -5,7 +5,6 @@ from core.chat_blob import ChatBlob
 from core.command_param_types import Character
 from core.decorators import instance, command, event
 from core.logger import Logger
-from modules.core.org_members.org_member_controller import OrgMemberController
 
 
 @instance()

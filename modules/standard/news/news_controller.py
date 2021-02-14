@@ -1,4 +1,5 @@
 from core.alts.alts_service import AltsService
+from core.conn import Conn
 from core.decorators import instance, command, event
 from core.command_param_types import Const
 from core.setting_types import NumberSettingType
@@ -113,9 +114,9 @@ class NewsController:
         unread_news = self.get_unread_news(main.char_id)
 
         if unread_news:
-            msg = self.format_unread_news(unread_news)
-            # TODO add conn
-            self.bot.send_private_message(event_data.char_id, msg)
+            conn = self.bot.get_temp_conn()
+            msg = self.format_unread_news(unread_news, conn)
+            self.bot.send_private_message(event_data.char_id, msg, conn=conn)
 
     @event(event_type=PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, description="Send news to chars joining the private channel")
     def priv_logon_event(self, event_type, event_data):
@@ -123,9 +124,9 @@ class NewsController:
         unread_news = self.get_unread_news(main.char_id)
 
         if unread_news:
-            msg = self.format_unread_news(unread_news)
-            # TODO add conn
-            self.bot.send_private_message(event_data.char_id, msg)
+            conn = self.bot.get_temp_conn()
+            msg = self.format_unread_news(unread_news, conn)
+            self.bot.send_private_message(event_data.char_id, msg, conn=conn)
 
     @event(event_type=AltsService.MAIN_CHANGED_EVENT_TYPE, description="Update news items marked as read when main is changed", is_hidden=True)
     def main_changed_event(self, event_type, event_data):
@@ -174,11 +175,11 @@ class NewsController:
 
         return blob
 
-    def format_unread_news(self, entries):
+    def format_unread_news(self, entries, conn: Conn):
         if len(entries) == 1:
             item = entries[0]
             read_link = self.text.make_tellcmd("Hide", "news markasread %s" % item.id)
-            read_link_blob = self.text.paginate_single(ChatBlob("Hide", "Click here to hide this news entry: " + read_link))
+            read_link_blob = self.text.paginate_single(ChatBlob("Hide", "Click here to hide this news entry: " + read_link), conn)
 
             timestamp = self.util.format_datetime(item.created_at)
 

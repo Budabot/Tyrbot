@@ -44,7 +44,7 @@ class LootController:
         if self.loot_list:
             self.loot_list.clear()
             self.last_modify = None
-            self.raid_controller.send_message("Loot list cleared.")
+            self.raid_controller.send_message("Loot list cleared.", request.conn)
         else:
             return "Loot list is already empty."
 
@@ -62,7 +62,7 @@ class LootController:
 
         item = self.loot_list.pop(item_index)
         self.last_modify = int(time.time())
-        self.raid_controller.send_message("Removed %s from loot list." % item.get_item_str())
+        self.raid_controller.send_message("Removed %s from loot list." % item.get_item_str(), request.conn)
 
     @command(command="loot", params=[Const("increase"), Int("item_index")], description="Increase item count",
              access_level="all", sub_command="modify")
@@ -163,7 +163,7 @@ class LootController:
                 blob += " | Winners: <red>%s</red>\n\n" % '</red>, <red>'.join(winners)
 
         if len(blob) > 0:
-            self.raid_controller.send_message(ChatBlob("Roll results", blob))
+            self.raid_controller.send_message(ChatBlob("Roll results", blob), request.conn)
         else:
             return "No one was added to any loot."
 
@@ -185,8 +185,8 @@ class LootController:
 
             self.last_modify = int(time.time())
 
-            self.raid_controller.send_message("Loot that was not won is being re-rolled.")
-            self.raid_controller.send_message(self.get_loot_list())
+            self.raid_controller.send_message("Loot that was not won is being re-rolled.", request.conn)
+            self.raid_controller.send_message(self.get_loot_list(), request.conn)
         else:
             return "Loot list is empty."
 
@@ -202,7 +202,7 @@ class LootController:
 
         if item:
             self.add_item_to_loot(item, item.comment, item_count)
-            self.raid_controller.send_message("Added <highlight>%s</highlight> to loot list." % item.name)
+            self.raid_controller.send_message("Added <highlight>%s</highlight> to loot list." % item.name, request.conn)
         else:
             return "Could not find raid item with ID <highlight>%s</highlight>." % raid_item_id
 
@@ -226,7 +226,7 @@ class LootController:
             for item in items:
                 self.add_item_to_loot(item, item.comment, item.multiloot)
 
-            self.raid_controller.send_message("<highlight>%s</highlight> loot table was added to loot list." % category)
+            self.raid_controller.send_message("<highlight>%s</highlight> loot table was added to loot list." % category, request.conn)
         else:
             return "<highlight>%s</highlight> does not have any items registered in loot table." % category
 
@@ -244,7 +244,7 @@ class LootController:
             return "Could not find item with ID <highlight>%d</highlight>." % item_id
 
         self.add_item_to_loot(item, None, item_count)
-        self.raid_controller.send_message("%s was added to loot list." % item.name)
+        self.raid_controller.send_message("%s was added to loot list." % item.name, request.conn)
 
     @command(command="loot", params=[Const("additem", is_optional=True), Any("item"), Int("item_count", is_optional=True)],
              description="Add an item to loot list", access_level="all", sub_command="modify")
@@ -268,7 +268,7 @@ class LootController:
             loot += item
             self.add_item_to_loot(item, None, item_count)
 
-        self.raid_controller.send_message("%s was added to loot list." % loot)
+        self.raid_controller.send_message("%s was added to loot list." % loot, request.conn)
 
     @timerevent(budatime="1h", description="Periodically check when loot list was last modified, and clear it if last modification was done 1+ hours ago")
     def loot_clear_event(self, _1, _2):
@@ -277,6 +277,7 @@ class LootController:
                 self.last_modify = None
                 self.loot_list = OrderedDict()
 
+                # TODO get conn
                 self.raid_controller.send_message("Loot was last modified more than 1 hour ago, list has been cleared.")
 
     def is_already_added(self, name: str):

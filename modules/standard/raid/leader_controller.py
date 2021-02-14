@@ -100,8 +100,8 @@ class LeaderController:
                 self.leader = None
                 self.last_activity = None
                 self.echo = False
-
-                self.raid_controller.send_message("Raid leader has been automatically cleared because of inactivity.")
+                self.raid_controller.send_message("Raid leader has been automatically cleared because of inactivity.",
+                                                  self.bot.get_temp_conn())
 
     @event(PrivateChannelService.LEFT_PRIVATE_CHANNEL_EVENT, "Remove raid leader if raid leader leaves private channel")
     def leader_remove_on_leave_private(self, _, event_data):
@@ -110,9 +110,9 @@ class LeaderController:
                 self.leader = None
                 self.last_activity = None
                 self.echo = False
-                # TODO add conn
-                self.bot.send_private_channel_message("%s left private channel, and has been cleared as raid leader." %
-                                                      self.character_service.resolve_char_to_name(event_data.char_id))
+                self.raid_controller.send_message("%s left private channel, and has been cleared as raid leader." %
+                                                  self.character_service.resolve_char_to_name(event_data.char_id),
+                                                  self.bot.get_temp_conn())
 
     @event(OrgMemberController.ORG_MEMBER_LOGOFF_EVENT, "Remove raid leader if raid leader logs off")
     def leader_remove_on_logoff(self, _, event_data):
@@ -121,34 +121,32 @@ class LeaderController:
                 self.leader = None
                 self.last_activity = None
                 self.echo = False
-                # TODO add conn
-                self.bot.send_org_message("%s has logged off, and has been cleared as raid leader." %
-                                          self.character_service.resolve_char_to_name(event_data.char_id))
+                self.raid_controller.send_message("%s has logged off, and has been cleared as raid leader." %
+                                                  self.character_service.resolve_char_to_name(event_data.char_id),
+                                                  self.bot.get_temp_conn())
 
     @event(PrivateChannelService.PRIVATE_CHANNEL_MESSAGE_EVENT, "Echo leader messages from private channel", is_hidden=True)
     def leader_echo_private_event(self, _, event_data):
         if self.leader and self.echo:
             if self.leader.char_id == event_data.char_id:
                 if not event_data.message.startswith(self.setting_service.get("symbol").get_value()):
-                    self.leader_echo(event_data.char_id, event_data.message, "priv")
+                    self.leader_echo(event_data.char_id, event_data.message, "priv", self.bot.get_temp_conn())
 
     @event(PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, "Echo leader messages from org channel", is_hidden=True)
     def leader_echo_org_event(self, _, event_data):
         if self.leader and self.echo:
             if self.leader.char_id == event_data.char_id:
                 if not event_data.message.startswith(self.setting_service.get("symbol").get_value()):
-                    self.leader_echo(event_data.char_id, event_data.message, "org")
+                    self.leader_echo(event_data.char_id, event_data.message, "org", self.bot.get_temp_conn())
 
-    def leader_echo(self, char_id, message, channel):
+    def leader_echo(self, char_id, message, channel, conn):
         sender = self.character_service.resolve_char_to_name(char_id)
         color = self.setting_service.get("leader_echo_color")
 
         if channel == "org":
-            # TODO add conn
-            self.bot.send_org_message("%s: %s" % (sender, color.format_text(message)), fire_outgoing_event=False)
+            self.bot.send_org_message("%s: %s" % (sender, color.format_text(message)), fire_outgoing_event=False, conn=conn)
         elif channel == "priv":
-            # TODO add conn
-            self.bot.send_private_channel_message("%s: %s" % (sender, color.format_text(message)), fire_outgoing_event=False)
+            self.bot.send_private_channel_message("%s: %s" % (sender, color.format_text(message)), fire_outgoing_event=False, conn=conn)
 
         self.activity_done()
 
@@ -174,10 +172,9 @@ class LeaderController:
                 old_leader = self.leader
                 self.leader = None
                 self.echo = False
-                # TODO add conn
                 self.bot.send_private_message(old_leader.char_id,
-                                              "You have been removed as raid leader by <highlight>%s</highlight>."
-                                              % sender.name)
+                                              "You have been removed as raid leader by <highlight>%s</highlight>." % sender.name,
+                                              conn=self.bot.get_temp_conn())
                 return "You have removed <highlight>%s</highlight> as raid leader." % old_leader.name
             else:
                 return "You do not have a high enough access level to remove raid leader from <highlight>%s</highlight>." % \
@@ -201,8 +198,7 @@ class LeaderController:
                 reply = "<highlight>%s</highlight> has taken raid leader from you." % sender.name
                 if self.echo:
                     reply += " Leader echo is <green>enabled</green>."
-                # TODO add conn
-                self.bot.send_private_message(old_leader.char_id, reply)
+                self.bot.send_private_message(old_leader.char_id, reply, conn=self.bot.get_temp_conn())
                 reply = "You have taken raid leader from <highlight>%s</highlight>." % old_leader.name
                 if self.echo:
                     reply += " Leader echo is <green>enabled</green>."
@@ -217,8 +213,7 @@ class LeaderController:
                 reply = "<highlight>%s</highlight> has set you as raid leader." % sender.name
                 if self.echo:
                     reply += " Leader echo is <green>enabled</green>."
-                # TODO add conn
-                self.bot.send_private_message(set_to.char_id, reply)
+                self.bot.send_private_message(set_to.char_id, reply, conn=self.bot.get_temp_conn())
                 reply = "<highlight>%s</highlight> has been set as raid leader by %s." % (set_to.name, sender.name)
                 if self.echo:
                     reply += " Leader echo is <green>enabled</green>."
