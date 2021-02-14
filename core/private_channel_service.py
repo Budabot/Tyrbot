@@ -43,7 +43,7 @@ class PrivateChannelService:
         if not conn.is_main:
             return
 
-        if packet.private_channel_id == self.bot.get_char_id():
+        if packet.private_channel_id == conn.get_char_id():
             char_name = self.character_service.get_char_name(packet.char_id)
             self.logger.log_chat(conn.id, "Private Channel", char_name, packet.message)
             self.event_service.fire_event(self.PRIVATE_CHANNEL_MESSAGE_EVENT, packet)
@@ -52,7 +52,7 @@ class PrivateChannelService:
         if not conn.is_main:
             return
 
-        if packet.private_channel_id == self.bot.get_char_id():
+        if packet.private_channel_id == conn.get_char_id():
             self.conns[conn.id][packet.char_id] = packet
             self.logger.log_chat(conn.id, "Private Channel", None, "%s joined the channel." % self.character_service.get_char_name(packet.char_id))
             self.event_service.fire_event(self.JOINED_PRIVATE_CHANNEL_EVENT, packet)
@@ -61,7 +61,7 @@ class PrivateChannelService:
         if not conn.is_main:
             return
 
-        if packet.private_channel_id == self.bot.get_char_id():
+        if packet.private_channel_id == conn.get_char_id():
             del self.conns[conn.id][packet.char_id]
             self.logger.log_chat(conn.id, "Private Channel", None, "%s left the channel." % self.character_service.get_char_name(packet.char_id))
             self.event_service.fire_event(self.LEFT_PRIVATE_CHANNEL_EVENT, packet)

@@ -62,7 +62,7 @@ class DarkController:
             return
 
         if packet.private_channel_id == self.relay_channel_id:
-            if self.bot.get_char_id() == packet.char_id:
+            if conn.get_char_id() == packet.char_id:
                 return
             if packet.char_id != self.relay_channel_id:
                 return

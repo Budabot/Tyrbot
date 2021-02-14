@@ -108,7 +108,7 @@ class AuctionStrategy:
             return f"No item at index <highlight>{item_index}</highlight>."
 
         main_id = self.alts_service.get_main(sender.char_id).char_id
-        account = self.points_controller.get_account(main_id)
+        account = self.points_controller.get_account(main_id, self.conn)
         if account.disabled:
             return "Your account has been disabled. Contact an admin."
 
@@ -140,7 +140,7 @@ class AuctionStrategy:
             # update max_amount values based on current account points
             bids = []
             for bid in (self.bids.get(i, None) or []):
-                account = self.points_controller.get_account(bid.account.char_id)
+                account = self.points_controller.get_account(bid.account.char_id, self.conn)
                 if account.points == 0:
                     continue
 
@@ -190,7 +190,7 @@ class AuctionStrategy:
             return f"No item at index <highlight>{item_index}</highlight>."
 
         main_id = self.alts_service.get_main(char_id).char_id
-        account = self.points_controller.get_account(main_id)
+        account = self.points_controller.get_account(main_id, self.conn)
         if account.disabled:
             return "Your account has been disabled. Contact an admin."
 

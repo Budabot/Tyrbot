@@ -210,7 +210,7 @@ class DiscordController:
                 else:
                     self.handle_discord_message_event(message)
             elif dtype == "discord_ready":
-                self.send_to_discord("msg", DiscordMessage("plain", "", "", f"{self.bot.get_char_name()} is now connected."))
+                self.send_to_discord("msg", DiscordMessage("plain", "", "", f"{self.bot.get_primary_conn().get_char_name()} is now connected."))
 
             self.event_service.fire_event(dtype, message)
 
@@ -314,7 +314,9 @@ class DiscordController:
             for page_num, page in enumerate(pages, start=1):
                 if num_pages > 1:
                     page_title = title + f" (Page {page_num} / {num_pages})"
-                self.send_to_discord("command_reply", DiscordMessage("embed", page_title, self.bot.get_char_name(), page, channel, msgcolor))
+                self.send_to_discord("command_reply", DiscordMessage("embed", page_title,
+                                                                     self.bot.get_primary_conn().get_char_name(),
+                                                                     page, channel, msgcolor))
             return
 
         if isinstance(content, DiscordMessage):
@@ -358,7 +360,8 @@ class DiscordController:
 
     def disconnect_discord_client(self):
         if self.client:
-            self.client.loop.create_task(self.client.logout_with_message(f"{self.bot.get_char_name()} is disconnecting..."))
+            self.client.loop.create_task(self.client.logout_with_message(
+                f"{self.bot.get_primary_conn().get_char_name()} is disconnecting..."))
             self.client = None
         if self.dthread:
             self.dthread.join()
@@ -370,9 +373,6 @@ class DiscordController:
         s = MLStripper()
         s.feed(html)
         return s.get_data()
-
-    def should_relay_message(self, char_id):
-        return self.is_connected() and char_id != self.bot.get_char_id() and not self.ban_service.get_ban(char_id)
 
     def discord_link_cmd(self, ctx, reply, args):
         char = args[1]

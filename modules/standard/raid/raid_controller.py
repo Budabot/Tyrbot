@@ -218,7 +218,7 @@ class RaidController:
             return ChatBlob("No such preset - see list of presets", self.points_controller.build_preset_list())
 
         for raider in self.raid.raiders:
-            account = self.points_controller.get_account(raider.main_id)
+            account = self.points_controller.get_account(raider.main_id, request.conn)
 
             if raider.is_active:
                 if account.disabled == 0:

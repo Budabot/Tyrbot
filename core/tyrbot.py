@@ -349,7 +349,7 @@ class Tyrbot:
             conn = self.get_primary_conn()
 
         if private_channel_id is None:
-            private_channel_id = self.get_char_id()
+            private_channel_id = conn.get_char_id()
 
         color = self.setting_service.get("private_channel_color").get_font_color() if add_color else ""
         pages = self.get_text_pages(msg, conn, self.setting_service.get("private_channel_max_page_length").get_value())
@@ -357,9 +357,10 @@ class Tyrbot:
             packet = client_packets.PrivateChannelMessage(private_channel_id, color + page, "\0")
             conn.send_packet(packet)
 
-        if fire_outgoing_event and private_channel_id == self.get_char_id():
+        if fire_outgoing_event and private_channel_id == conn.get_char_id():
             self.event_service.fire_event(self.OUTGOING_PRIVATE_CHANNEL_MESSAGE_EVENT, DictObject({"private_channel_id": private_channel_id,
-                                                                                                   "message": msg}))
+                                                                                                   "message": msg,
+                                                                                                   "conn": conn}))
 
     def send_mass_message(self, char_id, msg, add_color=True, log_message=False, conn=None):
         if not conn:
@@ -399,12 +400,6 @@ class Tyrbot:
 
     def restart(self):
         self.status = BotStatus.RESTART
-
-    def get_char_name(self):
-        return self.get_primary_conn().char_name
-
-    def get_char_id(self):
-        return self.get_primary_conn().char_id
 
     def get_primary_conn_id(self):
         return "bot0"

@@ -135,7 +135,7 @@ class PointsController:
              description="Add points to an account", sub_command="modify")
     def account_add_cmd(self, request, _, char: SenderObj, amount: int, reason: str):
         main = self.alts_service.get_main(char.char_id)
-        row = self.get_account(main.char_id)
+        row = self.get_account(main.char_id, request.conn)
 
         if not row:
             return f"<highlight>{char.name}</highlight> does not have an account."
@@ -151,7 +151,7 @@ class PointsController:
              description="Remove points from an account", sub_command="modify")
     def account_remove_cmd(self, request, _, char: SenderObj, amount: int, reason: str):
         main = self.alts_service.get_main(char.char_id)
-        row = self.get_account(main.char_id)
+        row = self.get_account(main.char_id, request.conn)
 
         if not row:
             return f"<highlight>{char.name}</highlight> does not have an account."
@@ -238,11 +238,13 @@ class PointsController:
 
         self.add_log_entry(char_id, leader_id, reason, amount)
 
-    def get_account(self, main_id):
+    def get_account(self, main_id, conn):
         sql = "SELECT p.char_id, p.points, p.disabled FROM points p WHERE p.char_id = ?"
         row = self.db.query_single(sql, [main_id])
         if not row:
-            self.create_account(main_id, SenderObj(self.bot.get_char_id(), self.bot.get_char_name(), None))
+            self.create_account(main_id, SenderObj(conn.get_char_id(),
+                                                   conn.get_char_name(),
+                                                   None))
             row = self.db.query_single(sql, [main_id])
 
         return row

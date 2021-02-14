@@ -80,7 +80,7 @@ class AllianceRelayController:
             return
 
         # ignore packets from the bot's own private channel and from the bot itself
-        if packet.private_channel_id == self.bot.get_char_id() or packet.char_id == self.bot.get_char_id():
+        if packet.private_channel_id == conn.get_char_id() or packet.char_id == conn.get_char_id():
             return
 
         message = packet.message.lstrip()
