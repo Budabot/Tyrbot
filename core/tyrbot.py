@@ -313,19 +313,17 @@ class Tyrbot:
         if not conn:
             conn = self.get_primary_conn()
 
-        channel_info = self.public_channel_service.get_channel_info(conn.id)
-        if not channel_info or not channel_info.org_channel_id:
+        if not conn.org_channel_id:
             self.logger.debug(f"Ignoring message to org channel for {conn.id} since the org_channel_id is unknown")
         else:
-            org_channel_id = channel_info.org_channel_id
             color = self.setting_service.get("org_channel_color").get_font_color() if add_color else ""
             pages = self.get_text_pages(msg, conn, self.setting_service.get("org_channel_max_page_length").get_value())
             for page in pages:
-                packet = client_packets.PublicChannelMessage(org_channel_id, color + page, "")
+                packet = client_packets.PublicChannelMessage(conn.org_channel_id, color + page, "")
                 conn.add_packet_to_queue(packet)
 
             if fire_outgoing_event:
-                self.event_service.fire_event(self.OUTGOING_ORG_MESSAGE_EVENT, DictObject({"org_channel_id": org_channel_id,
+                self.event_service.fire_event(self.OUTGOING_ORG_MESSAGE_EVENT, DictObject({"org_channel_id": conn.org_channel_id,
                                                                                            "message": msg}))
 
     def send_private_message(self, char_id, msg, add_color=True, fire_outgoing_event=True, conn=None):

@@ -4,14 +4,6 @@ from core.aochat import server_packets
 from core.logger import Logger
 
 
-class ConnPublicChannelInfo:
-    def __init__(self):
-        self.channels = {}
-        self.org_channel_id = None
-        self.org_id = None
-        self.org_name = None
-
-
 @instance()
 class PublicChannelService:
     ORG_CHANNEL_MESSAGE_EVENT = "org_channel_message"
@@ -21,8 +13,6 @@ class PublicChannelService:
 
     def __init__(self):
         self.logger = Logger(__name__)
-        self.conns = {}
-        self.id_to_name = {}
 
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
@@ -39,38 +29,33 @@ class PublicChannelService:
         self.event_service.register_event_type(self.ORG_CHANNEL_MESSAGE_EVENT)
         self.event_service.register_event_type(self.ORG_MSG_EVENT)
 
-    def handle_login_ok(self, conn: Conn, packet):
+    def handle_login_ok(self, conn: Conn, packet: server_packets.LoginOK):
         if not conn.is_main:
             return
 
-        self.conns[conn.id] = ConnPublicChannelInfo()
         # TODO load org name and org id from table
-
-    def get_channel_name(self, channel_id):
-        return self.id_to_name.get(channel_id, None)
 
     def add(self, conn: Conn, packet: server_packets.PublicChannelJoined):
         if not conn.is_main:
             return
 
-        conn_info = self.conns[conn.id]
-        conn_info.channels[packet.channel_id] = packet
-        if not conn_info.org_id and self.is_org_channel_id(packet.channel_id):
-            conn_info.org_channel_id = packet.channel_id
-            conn_info.org_id = 0x00ffffffff & packet.channel_id
+        conn.channels[packet.channel_id] = packet
+        if not conn.org_id and self.is_org_channel_id(packet.channel_id):
+            conn.org_channel_id = packet.channel_id
+            conn.org_id = 0x00ffffffff & packet.channel_id
 
             if packet.name != "Clan (name unknown)":
                 # TODO store in table
                 # self.setting_service.get("org_name").set_value(packet.name)
-                conn_info.org_name = packet.name
+                conn.org_name = packet.name
 
-            self.logger.info(f"Org info for '{conn.id}': {conn_info.org_name} ({conn_info.org_id})")
+            self.logger.info(f"Org info for '{conn.id}': {conn.org_name} ({conn.org_id})")
 
     def remove(self, conn: Conn, packet: server_packets.PublicChannelLeft):
         if not conn.is_main:
             return
 
-        del self.conns[conn.id].channels[packet.channel_id]
+        del conn.channels[packet.channel_id]
 
     def public_channel_message(self, conn: Conn, packet: server_packets.PublicChannelMessage):
         if not conn.is_main:
@@ -95,13 +80,3 @@ class PublicChannelService:
 
     def is_org_channel_id(self, channel_id):
         return channel_id >> 32 == 3
-
-    def get_org_name(self):
-        # TODO remove
-        return self.get_channel_info(self.bot.get_primary_conn_id()).org_name
-
-    def get_channel_info(self, conn_id):
-        return self.conns.get(conn_id, None)
-
-    def get_channel_infos(self):
-        return self.conns

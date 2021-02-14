@@ -21,7 +21,6 @@ class TextFormatter(HTMLParser):
         self.setting_service = setting_service
         self.public_channel_service = public_channel_service
         self.conn = conn
-        self.channel_info = self.public_channel_service.get_channel_info(conn.id)
 
     def reset(self):
         super().reset()
@@ -85,7 +84,7 @@ class TextFormatter(HTMLParser):
         elif tag == "myname":
             self.handle_data(self.conn.get_char_name())
         elif tag == "myorg":
-            self.handle_data(self.channel_info.get_org_name() or "Unknown Org")
+            self.handle_data(self.conn.get_org_name() or "Unknown Org")
         elif tag == "tab":
             self.handle_data("    ")
         elif tag == "end":
@@ -423,8 +422,6 @@ class Text:
         return text_formatter.format_message(msg)
 
     def format_message_old(self, msg, conn: Conn):
-        channel_info = self.public_channel_service.get_channel_info(conn.id)
-
         for t in ["</header>", "</header2>", "</highlight>", "</notice>", "</black>", "</white>", "</yellow>", "</blue>", "</green>", "</red>", "</orange>", "</grey>", "</cyan>",
                   "</violet>", "</neutral>", "</omni>", "</clan>", "</unknown>"]:
             msg = msg.replace(t, "</font>")
@@ -452,7 +449,7 @@ class Text:
             .replace("<unknown>", self.setting_service.get("unknown_color").get_font_color()) \
             \
             .replace("<myname>", conn.get_char_name()) \
-            .replace("<myorg>", channel_info.org_name or "Unknown Org") \
+            .replace("<myorg>", conn.get_org_name() or "Unknown Org") \
             .replace("<tab>", "    ") \
             .replace("<end>", "</font>") \
             .replace("<symbol>", self.setting_service.get("symbol").get_value()) \

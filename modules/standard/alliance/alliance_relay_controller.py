@@ -114,8 +114,8 @@ class AllianceRelayController:
                 # trim symbol from message
                 plain_msg = plain_msg[len(symbol):]
 
-        channel_info = self.public_channel_service.get_channel_info(self.bot.get_primary_conn().id)
-        org = self.setting_service.get_value("arelay_guild_abbreviation") or channel_info.org_name or self.bot.get_char_name()
+        conn = self.bot.get_primary_conn()
+        org = self.setting_service.get_value("arelay_guild_abbreviation") or conn.get_org_name() or conn.get_char_name()
         msg = "[{org}] {char}: {msg}".format(org=org, char=ctx.sender.name, msg=plain_msg)
 
         self.send_message_to_alliance(msg)

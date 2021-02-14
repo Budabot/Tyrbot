@@ -59,5 +59,5 @@ class RelayController:
             self.bot.send_private_message(char_id, "grc [%s] %s" % (prefix, message), add_color=False, conn=self.bot.get_primary_conn())
 
     def get_org_channel_prefix(self):
-        channel_info = self.public_channel_service.get_channel_info(self.bot.get_primary_conn_id())
-        return self.relay_prefix().get_value() or channel_info.org_name or self.bot.get_char_name()
+        conn = self.bot.get_primary_conn()
+        return self.relay_prefix().get_value() or conn.get_org_name() or conn.get_char_name()

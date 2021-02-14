@@ -286,8 +286,7 @@ class WebsocketRelayController:
             return None
 
     def create_source_obj(self, source):
-        # TODO multiple mains
-        org_name = self.public_channel_service.get_org_name()
+        org_name = self.bot.get_temp_conn().get_org_name()
 
         if source == "private_channel" or source == OnlineController.PRIVATE_CHANNEL:
             if org_name:

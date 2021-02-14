@@ -92,11 +92,10 @@ class UtilController:
 
         for _id, conn in self.bot.conns.items():
             bots_connected += f"<highlight>{_id}</highlight> - {conn.char_name} ({conn.char_id})\n"
-            channel_info = self.public_channel_service.get_channel_info(_id)
-            if channel_info:
-                bots_connected += f" └ Org: {channel_info.org_name} ({channel_info.org_id})\n"
+            if conn.is_main:
+                bots_connected += f" └ Org: {conn.get_org_name()} ({conn.get_org_id()})\n"
 
-                for channel_id, packet in channel_info.channels.items():
+                for channel_id, packet in conn.channels.items():
                     bots_connected += f" └ {packet.args}\n"
 
         for event_type in self.event_service.get_event_types():

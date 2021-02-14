@@ -14,6 +14,10 @@ class Conn(Bot):
         self.packet_last_received_timestamp = time.time()
         self.failure_callback = failure_callback
         self.send_lock = threading.Lock()
+        self.org_channel_id = None
+        self.org_id = None
+        self.org_name = None
+        self.channels = {}
 
     def read_packet(self, max_delay_time=1):
         self.check_outgoing_message_queue()
@@ -60,6 +64,12 @@ class Conn(Bot):
 
     def get_char_id(self):
         return self.char_id
+
+    def get_org_name(self):
+        return self.org_name
+
+    def get_org_id(self):
+        return self.org_id
 
     def __str__(self):
         return self.id

@@ -259,7 +259,7 @@ class TowerAttackController:
         return "/tell <myname> attacks --page=%d" % page
 
     def check_for_all_towers_channel(self):
-        if not self.public_channel_service.get_channel_name(TowerController.ALL_TOWERS_ID):
-            return "Notice: The bot must belong to an org and be promoted to a rank that is high enough to have the All Towers channel (e.g., Squad Commander) in order for the <symbol>attacks command to work correctly.\n\n"
+        if TowerController.ALL_TOWERS_ID not in self.bot.get_primary_conn().channels:
+            return "Notice: The primary bot must belong to an org and be promoted to a rank that is high enough to have the All Towers channel (e.g., Squad Commander) in order for the <symbol>attacks command to work correctly.\n\n"
         else:
             return ""

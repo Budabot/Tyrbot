@@ -121,8 +121,8 @@ class OrgMemberController:
 
     @timerevent(budatime="24h", description="Download the org_members roster", is_hidden=True)
     def download_org_roster_event(self, event_type, event_data):
-        channel_info = self.public_channel_service.get_channel_info(self.bot.get_temp_conn().id)
-        org_id = channel_info.org_id
+        conn = self.bot.get_temp_conn()
+        org_id = conn.get_org_id()
         if org_id:
             db_members = {}
             for row in self.get_all_org_members():
