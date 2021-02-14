@@ -27,9 +27,6 @@ class LastSeenController:
     @command(command="lastseen", params=[Character("character")], access_level="org_member",
              description="Show the last time an org member was online (on any alt)")
     def lastseen_cmd(self, request, char):
-        if not self.public_channel_service.get_org_id:
-            return "Error! Bot must be in an org in order to use this command."
-
         sql = "SELECT p.*, a.group_id, a.status, l.dt FROM player p " \
               "LEFT JOIN alts a ON p.char_id = a.char_id " \
               "LEFT JOIN last_seen l ON p.char_id = l.char_id " \
