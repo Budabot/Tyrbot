@@ -1,4 +1,5 @@
 from core.conn import Conn
+from core.dict_object import DictObject
 from core.logger import Logger
 from core.decorators import instance
 from core.aochat import server_packets, client_packets
@@ -46,7 +47,9 @@ class PrivateChannelService:
         if packet.private_channel_id == conn.get_char_id():
             char_name = self.character_service.get_char_name(packet.char_id)
             self.logger.log_chat(conn.id, "Private Channel", char_name, packet.message)
-            self.event_service.fire_event(self.PRIVATE_CHANNEL_MESSAGE_EVENT, packet)
+            self.event_service.fire_event(self.PRIVATE_CHANNEL_MESSAGE_EVENT, DictObject({"char_id": packet.char_id,
+                                                                                          "name": char_name,
+                                                                                          "conn": conn}))
 
     def handle_private_channel_client_joined(self, conn: Conn, packet: server_packets.PrivateChannelClientJoined):
         if not conn.is_main:
@@ -54,8 +57,11 @@ class PrivateChannelService:
 
         if packet.private_channel_id == conn.get_char_id():
             self.conns[conn.id][packet.char_id] = packet
-            self.logger.log_chat(conn.id, "Private Channel", None, "%s joined the channel." % self.character_service.get_char_name(packet.char_id))
-            self.event_service.fire_event(self.JOINED_PRIVATE_CHANNEL_EVENT, packet)
+            char_name = self.character_service.get_char_name(packet.char_id)
+            self.logger.log_chat(conn.id, "Private Channel", None, f"{char_name} joined the channel.")
+            self.event_service.fire_event(self.JOINED_PRIVATE_CHANNEL_EVENT, DictObject({"char_id": packet.char_id,
+                                                                                         "name": char_name,
+                                                                                         "conn": conn}))
 
     def handle_private_channel_client_left(self, conn: Conn, packet: server_packets.PrivateChannelClientLeft):
         if not conn.is_main:
@@ -63,8 +69,11 @@ class PrivateChannelService:
 
         if packet.private_channel_id == conn.get_char_id():
             del self.conns[conn.id][packet.char_id]
-            self.logger.log_chat(conn.id, "Private Channel", None, "%s left the channel." % self.character_service.get_char_name(packet.char_id))
-            self.event_service.fire_event(self.LEFT_PRIVATE_CHANNEL_EVENT, packet)
+            char_name = self.character_service.get_char_name(packet.char_id)
+            self.logger.log_chat(conn.id, "Private Channel", None, f"{char_name} left the channel.")
+            self.event_service.fire_event(self.LEFT_PRIVATE_CHANNEL_EVENT, DictObject({"char_id": packet.char_id,
+                                                                                       "name": char_name,
+                                                                                       "conn": conn}))
 
     def invite(self, char_id, conn: Conn):
         if char_id != conn.get_char_id():

@@ -110,9 +110,8 @@ class LeaderController:
                 self.leader = None
                 self.last_activity = None
                 self.echo = False
-                self.raid_controller.send_message("%s left private channel, and has been cleared as raid leader." %
-                                                  self.character_service.resolve_char_to_name(event_data.char_id),
-                                                  self.bot.get_temp_conn())
+                self.raid_controller.send_message(f"{event_data.name} left private channel, and has been cleared as raid leader.",
+                                                  event_data.conn)
 
     @event(OrgMemberController.ORG_MEMBER_LOGOFF_EVENT, "Remove raid leader if raid leader logs off")
     def leader_remove_on_logoff(self, _, event_data):
@@ -121,23 +120,22 @@ class LeaderController:
                 self.leader = None
                 self.last_activity = None
                 self.echo = False
-                self.raid_controller.send_message("%s has logged off, and has been cleared as raid leader." %
-                                                  self.character_service.resolve_char_to_name(event_data.char_id),
-                                                  self.bot.get_temp_conn())
+                self.raid_controller.send_message("%s has logged off, and has been cleared as raid leader." % event_data.name,
+                                                  event_data.conn)
 
     @event(PrivateChannelService.PRIVATE_CHANNEL_MESSAGE_EVENT, "Echo leader messages from private channel", is_hidden=True)
     def leader_echo_private_event(self, _, event_data):
         if self.leader and self.echo:
             if self.leader.char_id == event_data.char_id:
                 if not event_data.message.startswith(self.setting_service.get("symbol").get_value()):
-                    self.leader_echo(event_data.char_id, event_data.message, "priv", self.bot.get_temp_conn())
+                    self.leader_echo(event_data.char_id, event_data.message, "priv", conn=event_data.conn)
 
     @event(PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, "Echo leader messages from org channel", is_hidden=True)
     def leader_echo_org_event(self, _, event_data):
         if self.leader and self.echo:
             if self.leader.char_id == event_data.char_id:
                 if not event_data.message.startswith(self.setting_service.get("symbol").get_value()):
-                    self.leader_echo(event_data.char_id, event_data.message, "org", self.bot.get_temp_conn())
+                    self.leader_echo(event_data.char_id, event_data.message, "org", event_data.conn)
 
     def leader_echo(self, char_id, message, channel, conn):
         sender = self.character_service.resolve_char_to_name(char_id)

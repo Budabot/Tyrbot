@@ -79,9 +79,11 @@ class OrgMemberController:
         if not org_member or org_member.mode == self.MODE_REM_MANUAL:
             return self.getresp("module/org_members", "notify_rem_fail", {"char": char.name})
 
-        self.process_update(char.char_id, org_member.mode if org_member else None, self.MODE_REM_MANUAL)
+        self.process_update(char.char_id, org_member.mode if org_member else None, self.MODE_REM_MANUAL, request.conn)
 
         # fire org_member logoff event
+        org_member.name = self.character_service.get_char_name(char.name)
+        org_member.conn = request.conn
         self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, org_member)
 
         return self.getresp("module/org_members", "notify_rem_success", {"char": char.name})
@@ -96,11 +98,14 @@ class OrgMemberController:
         if org_member and (org_member.mode == self.MODE_ADD_AUTO or org_member.mode == self.MODE_ADD_MANUAL):
             return self.getresp("module/org_members", "notify_add_fail", {"char": char.name})
 
-        self.process_update(char.char_id, org_member.mode if org_member else None, self.MODE_ADD_MANUAL)
+        self.process_update(char.char_id, org_member.mode if org_member else None, self.MODE_ADD_MANUAL, request.conn)
 
         # fire org_member logon event
         if self.buddy_service.is_online(char.char_id):
-            self.event_service.fire_event(self.ORG_MEMBER_LOGON_EVENT, self.get_org_member(char.char_id))
+            org_member = self.get_org_member(char.char_id)
+            org_member.name = self.character_service.get_char_name(char.name)
+            org_member.conn = request.conn
+            self.event_service.fire_event(self.ORG_MEMBER_LOGON_EVENT, org_member)
 
         return self.getresp("module/org_members", "notify_add_success", {"char": char.name})
 
@@ -146,45 +151,47 @@ class OrgMemberController:
                 if db_member:
                     del db_members[char_id]
 
-                self.process_update(char_id, db_member, self.MODE_ADD_AUTO)
+                self.process_update(char_id, db_member, self.MODE_ADD_AUTO, conn)
 
             for char_id, mode in db_members.items():
-                self.process_update(char_id, mode, self.MODE_REM_AUTO)
+                self.process_update(char_id, mode, self.MODE_REM_AUTO, conn)
 
     @event(PublicChannelService.ORG_MSG_EVENT, "Update org roster when characters join or leave", is_hidden=True)
     def org_msg_event(self, event_type, event_data):
         ext_msg = event_data.extended_message
         if [ext_msg.category_id, ext_msg.instance_id] == self.LEFT_ORG:
-            self.process_org_msg(ext_msg.params[0], self.MODE_REM_MANUAL)
+            self.process_org_msg(ext_msg.params[0], self.MODE_REM_MANUAL, event_data.conn)
         elif [ext_msg.category_id, ext_msg.instance_id] == self.KICKED_FROM_ORG:
-            self.process_org_msg(ext_msg.params[1], self.MODE_REM_MANUAL)
+            self.process_org_msg(ext_msg.params[1], self.MODE_REM_MANUAL, event_data.conn)
         elif [ext_msg.category_id, ext_msg.instance_id] == self.INVITED_TO_ORG:
-            self.process_org_msg(ext_msg.params[1], self.MODE_ADD_MANUAL)
+            self.process_org_msg(ext_msg.params[1], self.MODE_ADD_MANUAL, event_data.conn)
         elif [ext_msg.category_id, ext_msg.instance_id] == self.KICKED_INACTIVE_FROM_ORG:
-            self.process_org_msg(ext_msg.params[1], self.MODE_REM_MANUAL)
+            self.process_org_msg(ext_msg.params[1], self.MODE_REM_MANUAL, event_data.conn)
         elif [ext_msg.category_id, ext_msg.instance_id] == self.KICKED_ALIGNMENT_CHANGED:
-            self.process_org_msg(ext_msg.params[0], self.MODE_REM_MANUAL)
+            self.process_org_msg(ext_msg.params[0], self.MODE_REM_MANUAL, event_data.conn)
         elif [ext_msg.category_id, ext_msg.instance_id] == self.JOINED_ORG:
-            self.process_org_msg(ext_msg.params[0], self.MODE_ADD_MANUAL)
+            self.process_org_msg(ext_msg.params[0], self.MODE_ADD_MANUAL, event_data.conn)
 
     @event(event_type=PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, description="Automatically add chars that speak in the org channel to the org roster")
     def auto_add_org_members_event(self, event_type, event_data):
         org_member = self.get_org_member(event_data.char_id)
         old_mode = org_member.mode if org_member else None
-        self.process_update(event_data.char_id, old_mode, self.MODE_ADD_AUTO)
+        self.process_update(event_data.char_id, old_mode, self.MODE_ADD_AUTO, event_data.conn)
 
     def handle_buddy_added(self, conn: Conn, packet: BuddyAdded):
         org_member = self.get_org_member(packet.char_id)
         if org_member and (org_member.mode == self.MODE_ADD_AUTO or org_member.mode == self.MODE_ADD_MANUAL):
+            org_member.name = self.character_service.get_char_name(packet.char_id)
+            org_member.conn = conn
             if packet.online:
                 self.event_service.fire_event(self.ORG_MEMBER_LOGON_EVENT, org_member)
             else:
                 self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, org_member)
 
-    def process_org_msg(self, char_name, new_mode):
+    def process_org_msg(self, char_name, new_mode, conn):
         char_id = self.character_service.resolve_char_to_id(char_name)
         org_member = self.get_org_member(char_id)
-        self.process_update(char_id, org_member.mode if org_member else None, new_mode)
+        self.process_update(char_id, org_member.mode if org_member else None, new_mode, conn)
 
     def get_org_member(self, char_id):
         return self.db.query_single("SELECT char_id, mode FROM org_member WHERE char_id = ?", [char_id])
@@ -213,23 +220,25 @@ class OrgMemberController:
         else:
             self.buddy_service.remove_buddy(char_id, self.ORG_BUDDY_TYPE)
 
-    def process_update(self, char_id, old_mode, new_mode):
+    def process_update(self, char_id, old_mode, new_mode, conn):
+        name = self.character_service.get_char_name(char_id)
+        event_data = DictObject({"char_id": char_id, "name": name, "conn": conn})
         if not old_mode:
             if new_mode == self.MODE_ADD_AUTO or new_mode == self.MODE_ADD_MANUAL:
                 self.add_org_member(char_id, new_mode)
         elif old_mode == self.MODE_ADD_AUTO:
             if new_mode == self.MODE_REM_MANUAL:
                 self.update_org_member(char_id, new_mode)
-                self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, DictObject({"char_id": char_id}))
+                self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, event_data)
             elif new_mode == self.MODE_REM_AUTO:
                 self.remove_org_member(char_id)
-                self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, DictObject({"char_id": char_id}))
+                self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, event_data)
         elif old_mode == self.MODE_ADD_MANUAL:
             if new_mode == self.MODE_ADD_AUTO:
                 self.update_org_member(char_id, new_mode)
             elif new_mode == self.MODE_REM_MANUAL:
                 self.remove_org_member(char_id)
-                self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, DictObject({"char_id": char_id}))
+                self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, event_data)
         elif old_mode == self.MODE_REM_MANUAL:
             if new_mode == self.MODE_ADD_MANUAL:
                 self.update_org_member(char_id, new_mode)

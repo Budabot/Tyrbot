@@ -111,7 +111,7 @@ class PrivateChannelController:
         if self.bot.get_conn_by_char_id(event_data.char_id) or self.ban_service.get_ban(event_data.char_id):
             return
 
-        char_name = self.character_service.resolve_char_to_name(event_data.char_id)
+        char_name = event_data.name
         sender = DictObject({"char_id": event_data.char_id, "name": char_name})
         char = self.text.make_charlink(char_name)
         formatted_message = "{priv} {char}: {message}".format(priv=self.PRIVATE_CHANNEL_PREFIX, char=char, message=event_data.message)
@@ -133,9 +133,8 @@ class PrivateChannelController:
 
     @event(event_type=PrivateChannelService.LEFT_PRIVATE_CHANNEL_EVENT, description="Notify when a character leaves the private channel")
     def handle_private_channel_left_event(self, event_type, event_data):
-        char_name = self.character_service.resolve_char_to_name(event_data.char_id)
         msg = self.getresp("module/private_channel", "leave",
-                           {"char": char_name,
+                           {"char": event_data.name,
                             "logoff": self.log_controller.get_logoff(event_data.char_id) if self.log_controller else ""})
         for _id, conn in self.bot.get_conns().items():
             if conn.is_main:

@@ -1,6 +1,7 @@
 from core.conn import Conn
 from core.decorators import instance
 from core.aochat import server_packets
+from core.dict_object import DictObject
 from core.logger import Logger
 
 
@@ -68,7 +69,11 @@ class PublicChannelService:
             else:
                 message = packet.message
             self.logger.log_chat(conn.id, "Org Channel", char_name, message)
-            self.event_service.fire_event(self.ORG_CHANNEL_MESSAGE_EVENT, packet)
+            self.event_service.fire_event(self.ORG_CHANNEL_MESSAGE_EVENT, DictObject({"char_id": packet.char_id,
+                                                                                      "name": char_name,
+                                                                                      "message": packet.message,
+                                                                                      "extended_message": packet.extended_message,
+                                                                                      "conn": conn}))
         elif packet.channel_id == self.ORG_MSG_CHANNEL_ID:
             char_name = self.character_service.get_char_name(packet.char_id)
             if packet.extended_message:
@@ -76,7 +81,11 @@ class PublicChannelService:
             else:
                 message = packet.message
             self.logger.log_chat(conn.id, "Org Msg", char_name, message)
-            self.event_service.fire_event(self.ORG_MSG_EVENT, packet)
+            self.event_service.fire_event(self.ORG_MSG_EVENT, DictObject({"char_id": packet.char_id,
+                                                                          "name": char_name,
+                                                                          "message": packet.message,
+                                                                          "extended_message": packet.extended_message,
+                                                                          "conn": conn}))
 
     def is_org_channel_id(self, channel_id):
         return channel_id >> 32 == 3

@@ -136,8 +136,7 @@ class PollController:
                                  "ORDER BY finished_at ASC, id ASC", [event_data.char_id])
             if data:
                 row = data[0]
-                # TODO add conn
-                self.bot.send_private_message(event_data.char_id, self.show_poll_details_blob(row))
+                self.bot.send_private_message(event_data.char_id, self.show_poll_details_blob(row), conn=event_data.conn)
 
     def create_scheduled_jobs_for_polls(self):
         data = self.db.query("SELECT * FROM poll WHERE is_finished != 1")

@@ -110,11 +110,6 @@ class Tyrbot:
                                       NumberSettingType([4500, 6000, 7500, 9000, 10500, 12000]),
                                       "Maximum size of blobs in private channel")
 
-        self.setting_service.register("core.system", "org_id", "", NumberSettingType(allow_empty=True), "Override the default org id",
-                                      "This setting is is for development/debug purposes and should not be changed unless you understand the implications")
-        self.setting_service.register("core.system", "org_name", "", TextSettingType(allow_empty=True), "The exact org name of the bot",
-                                      "This setting is automatically set by the bot and should not be changed manually")
-
         self.setting_service.register("core.system", "accept_commands_from_slave_bots", False, BooleanSettingType(),
                                       "Accept and respond to commands sent to slave bots (only applies if you have added slave bots in the config)")
 
@@ -383,8 +378,12 @@ class Tyrbot:
                     self.get_primary_conn().send_packet(packet)
 
     def handle_private_message(self, conn: Conn, packet: server_packets.PrivateMessage):
-        self.logger.log_tell(conn.id, "From", self.character_service.get_char_name(packet.char_id), packet.message)
-        self.event_service.fire_event(self.PRIVATE_MSG_EVENT, packet)
+        char_name = self.character_service.get_char_name(packet.char_id)
+        self.logger.log_tell(conn.id, "From", char_name, packet.message)
+        self.event_service.fire_event(self.PRIVATE_MSG_EVENT, DictObject({"char_id": packet.char_id,
+                                                                          "name": char_name,
+                                                                          "message": packet.message,
+                                                                          "conn": conn}))
 
     def get_text_pages(self, msg, conn, max_page_length):
         if isinstance(msg, ChatBlob):

@@ -139,25 +139,21 @@ class OnlineController:
     @event(PrivateChannelService.PRIVATE_CHANNEL_MESSAGE_EVENT, "Check for afk messages in private channel")
     def afk_check_private_channel_event(self, event_type, event_data):
         if not self.bot.get_conn_by_char_id(event_data.char_id):
-            # TODO add conn to lambda
-            self.afk_check(event_data.char_id, event_data.message, lambda msg: self.bot.send_private_channel_message(msg))
+            self.afk_check(event_data.char_id, event_data.message, lambda msg: self.bot.send_private_channel_message(msg, conn=event_data.conn))
 
     @event(PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, "Check for afk messages in org channel")
     def afk_check_org_channel_event(self, event_type, event_data):
         if not self.bot.get_conn_by_char_id(event_data.char_id):
-            # TODO add conn to lambda
-            self.afk_check(event_data.char_id, event_data.message, lambda msg: self.bot.send_org_message(msg))
+            self.afk_check(event_data.char_id, event_data.message, lambda msg: self.bot.send_org_message(msg, conn=event_data.conn))
 
     @event(OrgMemberController.ORG_MEMBER_LOGON_EVENT, "Send online list to org members logging in")
     def org_member_send_logon_event(self, event_type, event_data):
         if self.bot.is_ready():
-            # TODO add conn
-            self.bot.send_private_message(event_data.char_id, self.get_online_output())
+            self.bot.send_private_message(event_data.char_id, self.get_online_output(), conn=event_data.conn)
 
     @event(PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, "Send online list to characters joining the private channel")
     def private_channel_send_logon_event(self, event_type, event_data):
-        # TODO add conn
-        self.bot.send_private_message(event_data.char_id, self.get_online_output())
+        self.bot.send_private_message(event_data.char_id, self.get_online_output(), conn=event_data.conn)
 
     def afk_check(self, char_id, message, channel_reply):
         matches = self.afk_regex.search(message)
