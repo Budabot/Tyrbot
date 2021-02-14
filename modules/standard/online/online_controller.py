@@ -138,13 +138,13 @@ class OnlineController:
 
     @event(PrivateChannelService.PRIVATE_CHANNEL_MESSAGE_EVENT, "Check for afk messages in private channel")
     def afk_check_private_channel_event(self, event_type, event_data):
-        if event_data.char_id not in self.bot.conns:
+        if not self.bot.get_conn_by_char_id(event_data.char_id):
             # TODO add conn to lambda
             self.afk_check(event_data.char_id, event_data.message, lambda msg: self.bot.send_private_channel_message(msg))
 
     @event(PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, "Check for afk messages in org channel")
     def afk_check_org_channel_event(self, event_type, event_data):
-        if event_data.char_id not in self.bot.conns:
+        if not self.bot.get_conn_by_char_id(event_data.char_id):
             # TODO add conn to lambda
             self.afk_check(event_data.char_id, event_data.message, lambda msg: self.bot.send_org_message(msg))
 

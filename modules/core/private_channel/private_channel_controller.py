@@ -108,7 +108,7 @@ class PrivateChannelController:
 
     @event(event_type=PrivateChannelService.PRIVATE_CHANNEL_MESSAGE_EVENT, description="Relay messages from the private channel to the relay hub", is_hidden=True)
     def handle_private_channel_message_event(self, event_type, event_data):
-        if event_data.char_id in self.bot.conns or self.ban_service.get_ban(event_data.char_id):
+        if self.bot.get_conn_by_char_id(event_data.char_id) or self.ban_service.get_ban(event_data.char_id):
             return
 
         char_name = self.character_service.resolve_char_to_name(event_data.char_id)

@@ -407,6 +407,12 @@ class Tyrbot:
     def get_primary_conn(self):
         return self.conns[self.get_primary_conn_id()]
 
+    def get_conn_by_char_id(self, char_id):
+        for _id, conn in self.conns.items():
+            if char_id == conn.get_char_id():
+                return conn
+        return None
+
     # placeholder to keep track of things that need to be fixed/updated
     def get_temp_conn(self):
         return self.get_primary_conn()
