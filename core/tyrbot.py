@@ -313,10 +313,11 @@ class Tyrbot:
         if not conn:
             conn = self.get_primary_conn()
 
-        org_channel_id = self.public_channel_service.org_channel_id
-        if org_channel_id is None:
-            self.logger.debug("ignoring message to org channel since the org_channel_id is unknown")
+        channel_info = self.public_channel_service.get_channel_info(conn.id)
+        if not channel_info or not channel_info.org_channel_id:
+            self.logger.debug(f"Ignoring message to org channel for {conn.id} since the org_channel_id is unknown")
         else:
+            org_channel_id = channel_info.org_channel_id
             color = self.setting_service.get("org_channel_color").get_font_color() if add_color else ""
             pages = self.get_text_pages(msg, self.setting_service.get("org_channel_max_page_length").get_value())
             for page in pages:

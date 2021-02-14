@@ -161,9 +161,10 @@ class WebsocketRelayController:
     def get_online_list_obj(self):
         sources = []
         for channel in [OnlineController.ORG_CHANNEL, OnlineController.PRIVATE_CHANNEL]:
+            # TODO is this necessary?
             # if not an org bot, skip ORG_CHANNEL
-            if channel == OnlineController.ORG_CHANNEL and not self.public_channel_service.get_org_id():
-                continue
+            # if channel == OnlineController.ORG_CHANNEL and not self.public_channel_service.get_org_id():
+            #    continue
 
             sql = """
                 SELECT
@@ -285,6 +286,7 @@ class WebsocketRelayController:
             return None
 
     def create_source_obj(self, source):
+        # TODO multiple mains
         org_name = self.public_channel_service.get_org_name()
 
         if source == "private_channel" or source == OnlineController.PRIVATE_CHANNEL:

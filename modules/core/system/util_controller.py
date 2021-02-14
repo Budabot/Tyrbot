@@ -86,16 +86,18 @@ class UtilController:
     @command(command="system", params=[], access_level="admin",
              description="Show system information")
     def system_cmd(self, request):
-        pub_channels = ""
         event_types = ""
         access_levels = ""
         bots_connected = ""
 
         for _id, conn in self.bot.conns.items():
             bots_connected += f"{_id} - {conn.char_name} ({conn.char_id})\n"
+            channel_info = self.public_channel_service.get_channel_info(_id)
+            if channel_info:
+                bots_connected += f" └ Org: {channel_info.org_name} ({channel_info.org_id})\n"
 
-        for channel_id, name in self.public_channel_service.get_all_public_channels().items():
-            pub_channels += "%s - <highlight>%d</highlight>\n" % (name, channel_id)
+                for channel_id, packet in channel_info.channels.items():
+                    bots_connected += f" └ {packet.args}\n"
 
         for event_type in self.event_service.get_event_types():
             event_types += "%s\n" % event_type
@@ -114,10 +116,7 @@ class UtilController:
             "bl_size": self.buddy_service.buddy_list_size,
             "uptime": self.util.time_to_readable(int(time.time()) - self.bot.start_time, max_levels=None),
             "dim": self.bot.dimension,
-            "org_id": self.public_channel_service.org_id,
-            "org_name": self.public_channel_service.org_name,
             "bots_connected": bots_connected,
-            "pub_channels": pub_channels,
             "event_types": event_types,
             "access_levels": access_levels
         })

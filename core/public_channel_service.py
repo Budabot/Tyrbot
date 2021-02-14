@@ -4,6 +4,14 @@ from core.aochat import server_packets
 from core.logger import Logger
 
 
+class ConnPublicChannelInfo:
+    def __init__(self):
+        self.channels = {}
+        self.org_channel_id = None
+        self.org_id = None
+        self.org_name = None
+
+
 @instance()
 class PublicChannelService:
     ORG_CHANNEL_MESSAGE_EVENT = "org_channel_message"
@@ -13,11 +21,8 @@ class PublicChannelService:
 
     def __init__(self):
         self.logger = Logger(__name__)
-        self.name_to_id = {}
+        self.conns = {}
         self.id_to_name = {}
-        self.org_channel_id = None
-        self.org_id = None
-        self.org_name = None
 
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
@@ -26,6 +31,7 @@ class PublicChannelService:
         self.setting_service = registry.get_instance("setting_service")
 
     def pre_start(self):
+        self.bot.register_packet_handler(server_packets.LoginOK.id, self.handle_login_ok)
         self.bot.register_packet_handler(server_packets.PublicChannelJoined.id, self.add)
         self.bot.register_packet_handler(server_packets.PublicChannelLeft.id, self.remove)
         # priority must be above that of CommandService in order for relaying of commands to work correctly
@@ -33,17 +39,12 @@ class PublicChannelService:
         self.event_service.register_event_type(self.ORG_CHANNEL_MESSAGE_EVENT)
         self.event_service.register_event_type(self.ORG_MSG_EVENT)
 
-    def start(self):
-        org_id_setting = self.setting_service.get("org_id")
-        if org_id_setting and org_id_setting.get_value():
-            self.org_id = org_id_setting.get_value()
+    def handle_login_ok(self, conn: Conn, packet):
+        if not conn.is_main:
+            return
 
-        org_name_setting = self.setting_service.get("org_name")
-        if org_name_setting and org_name_setting.get_value():
-            self.org_name = org_name_setting.get_value()
-
-    def get_channel_id(self, channel_name):
-        return self.name_to_id.get(channel_name)
+        self.conns[conn.id] = ConnPublicChannelInfo()
+        # TODO load org name and org id from table
 
     def get_channel_name(self, channel_id):
         return self.id_to_name.get(channel_id, None)
@@ -52,26 +53,24 @@ class PublicChannelService:
         if not conn.is_main:
             return
 
-        self.id_to_name[packet.channel_id] = packet.name
-        self.name_to_id[packet.name] = packet.channel_id
-        if not self.org_id and self.is_org_channel_id(packet.channel_id):
-            self.org_channel_id = packet.channel_id
-            self.org_id = 0x00ffffffff & packet.channel_id
+        conn_info = self.conns[conn.id]
+        conn_info.channels[packet.channel_id] = packet
+        if not conn_info.org_id and self.is_org_channel_id(packet.channel_id):
+            conn_info.org_channel_id = packet.channel_id
+            conn_info.org_id = 0x00ffffffff & packet.channel_id
 
             if packet.name != "Clan (name unknown)":
-                self.setting_service.get("org_name").set_value(packet.name)
-                self.org_name = packet.name
+                # TODO store in table
+                # self.setting_service.get("org_name").set_value(packet.name)
+                conn_info.org_name = packet.name
 
-            self.logger.info("Org Id: %d" % self.org_id)
-            self.logger.info("Org Name: %s" % self.org_name)
+            self.logger.info(f"Org info for '{conn.id}': {conn_info.org_name} ({conn_info.org_id})")
 
     def remove(self, conn: Conn, packet: server_packets.PublicChannelLeft):
         if not conn.is_main:
             return
 
-        channel_name = self.get_channel_name(packet.channel_id)
-        del self.id_to_name[packet.channel_id]
-        del self.name_to_id[channel_name]
+        del self.conns[conn.id].channels[packet.channel_id]
 
     def public_channel_message(self, conn: Conn, packet: server_packets.PublicChannelMessage):
         if not conn.is_main:
@@ -98,10 +97,15 @@ class PublicChannelService:
         return channel_id >> 32 == 3
 
     def get_org_id(self):
-        return self.org_id
+        # TODO remove
+        return self.get_channel_info(self.bot.get_primary_conn().id).org_id
 
     def get_org_name(self):
-        return self.org_name
+        # TODO remove
+        return self.get_channel_info(self.bot.get_primary_conn().id).org_name
 
-    def get_all_public_channels(self):
-        return self.id_to_name
+    def get_channel_info(self, conn_id):
+        return self.conns.get(conn_id, None)
+
+    def get_channel_infos(self):
+        return self.conns

@@ -93,7 +93,8 @@ class TowerController:
 
     @event(event_type="connect", description="Check if All Towers channel is available", is_hidden=True)
     def handle_connect_event(self, event_type, event_data):
-        if self.public_channel_service.org_id and not self.public_channel_service.get_channel_id("All Towers"):
+        channel_info = self.public_channel_service.get_channel_info(self.bot.get_primary_conn().id)
+        if channel_info.org_id and not channel_info.channels.get(TowerController.ALL_TOWERS_ID, None):
             self.logger.warning("This bot is a member of an org but does not have access to 'All Towers' channel and therefore will not receive tower attack messages")
 
     def format_site_info(self, row):
@@ -105,8 +106,8 @@ class TowerController:
         return blob
 
     def handle_public_channel_message(self, conn: Conn, packet: server_packets.PublicChannelMessage):
-        # only listen to tower packets from first bot, to avoid logging twice
-        if conn.id != "bot1":
+        # only listen to tower packets from first bot, to avoid triggering multiple times
+        if conn != self.bot.get_primary_conn():
             return
 
         if packet.channel_id == self.TOWER_BATTLE_OUTCOME_ID:
