@@ -70,7 +70,7 @@ class OrgChannelController:
     def org_member_logon_event(self, event_type, event_data):
         if self.bot.is_ready():
             if self.online_controller:
-                char_info = self.online_controller.get_char_info_display(event_data.char_id, event_type.conn)
+                char_info = self.online_controller.get_char_info_display(event_data.char_id, event_data.conn)
             else:
                 char_info = self.character_service.resolve_char_to_name(event_data.char_id)
 
