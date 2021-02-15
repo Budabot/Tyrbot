@@ -65,7 +65,7 @@ class PrivateChannelController:
              description="Invite a character to the private channel")
     def invite_cmd(self, request, char):
         if char.char_id:
-            if self.private_channel_service.in_private_channel(char.char_id, request.conn.id):
+            if char.char_id in request.conn.private_channel:
                 return self.getresp("module/private_channel", "invite_fail", {"target": char.name})
             else:
                 self.bot.send_private_message(char.char_id,
@@ -80,7 +80,7 @@ class PrivateChannelController:
              description="Kick a character from the private channel")
     def kick_cmd(self, request, char):
         if char.char_id:
-            if not self.private_channel_service.in_private_channel(char.char_id, request.conn.id):
+            if char.char_id not in request.conn.private_channel:
                 return self.getresp("module/private_channel", "kick_fail_not_in_priv", {"target": char.name})
             else:
                 # TODO use request.sender.access_level and char.access_level

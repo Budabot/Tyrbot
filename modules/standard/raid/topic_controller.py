@@ -73,5 +73,5 @@ class TopicController:
 
     @event(PrivateChannelService.LEFT_PRIVATE_CHANNEL_EVENT, "Clear topic when there are no characters in the private channel")
     def char_leave_event(self, _, event_data):
-        if self.get_topic() and len(self.private_channel_service.get_all_in_private_channel(event_data.conn.id)) == 0:
+        if self.get_topic() and len(event_data.conn.private_channel) == 0:
             self.clear_topic()
