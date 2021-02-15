@@ -130,29 +130,26 @@ class NewsController:
 
     @event(event_type=AltsService.MAIN_CHANGED_EVENT_TYPE, description="Update news items marked as read when main is changed", is_hidden=True)
     def main_changed_event(self, event_type, event_data):
-        # TODO handle possible duplicates in db
-        self.db.exec("UPDATE news_read SET char_id = ? WHERE char_id = ?", [event_data.new_main_id, event_data.old_main_id])
+        self.db.exec("DELETE FROM news_read WHERE char_id = ?", [event_data.old_main_id])
 
-    def get_unread_news(self, char_id):
+    def get_unread_news(self, main_id):
         number_news_shown = self.setting_service.get("number_news_shown").get_value()
         sql = "SELECT n.*, p.name AS author " \
               "FROM news n " \
-              "LEFT JOIN alts a ON n.char_id = a.char_id " \
-              "LEFT JOIN alts a2 ON (a.group_id = a2.group_id AND a2.status = ?) " \
-              "LEFT JOIN player p ON p.char_id = COALESCE(a2.char_id, n.char_id) " \
-              "WHERE n.id NOT IN ( SELECT r.news_id FROM news_read r WHERE char_id = ? ) " \
-              "AND n.deleted_at = 0 ORDER BY n.created_at ASC LIMIT ?"
-        return self.db.query(sql, [AltsService.MAIN, char_id, number_news_shown])
+              "LEFT JOIN player p ON n.char_id = p.char_id " \
+              "LEFT JOIN news_read r ON (n.id = r.news_id AND r.char_id = ?) " \
+              "WHERE n.deleted_at = 0 AND r.news_id IS NULL " \
+              "ORDER BY n.created_at ASC LIMIT ?"
+        return self.db.query(sql, [main_id, number_news_shown])
 
     def get_news(self):
         number_news_shown = self.setting_service.get("number_news_shown").get_value()
         sql = "SELECT n.*, p.name AS author " \
               "FROM news n " \
-              "LEFT JOIN alts a ON n.char_id = a.char_id " \
-              "LEFT JOIN alts a2 ON (a.group_id = a2.group_id AND a2.status = ?) " \
-              "LEFT JOIN player p ON p.char_id = COALESCE(a2.char_id, n.char_id) " \
-              "WHERE n.deleted_at = 0 ORDER BY n.sticky DESC, n.created_at DESC LIMIT ?"
-        return self.db.query(sql, [AltsService.MAIN, number_news_shown])
+              "LEFT JOIN player p ON n.char_id = p.char_id " \
+              "WHERE n.deleted_at = 0 " \
+              "ORDER BY n.sticky DESC, n.created_at DESC LIMIT ?"
+        return self.db.query(sql, [number_news_shown])
 
     def format_news_entries(self, entries):
         blob = ""
