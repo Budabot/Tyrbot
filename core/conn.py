@@ -18,6 +18,8 @@ class Conn(Bot):
         self.org_id = None
         self.org_name = None
         self.channels = {}
+        # store module data that is conn specific here
+        self.data = {}
 
     def read_packet(self, max_delay_time=1):
         self.check_outgoing_message_queue()
