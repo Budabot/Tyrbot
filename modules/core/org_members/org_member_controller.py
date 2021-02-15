@@ -173,11 +173,14 @@ class OrgMemberController:
         elif [ext_msg.category_id, ext_msg.instance_id] == self.JOINED_ORG:
             self.process_org_msg(ext_msg.params[0], self.MODE_ADD_MANUAL, event_data.conn)
 
-    @event(event_type=PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, description="Automatically add chars that speak in the org channel to the org roster")
+    @event(event_type=PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, description="Automatically add chars that speak in the org channel to the org roster",
+           is_enabled=False)
     def auto_add_org_members_event(self, event_type, event_data):
         org_member = self.get_org_member(event_data.char_id)
-        old_mode = org_member.mode if org_member else None
-        self.process_update(event_data.char_id, old_mode, self.MODE_ADD_AUTO, event_data.conn)
+        if not org_member:
+            old_mode = None
+            # set as MODE_ADD_AUTO to prevent this from overriding !notify off settings
+            self.process_update(event_data.char_id, old_mode, self.MODE_ADD_AUTO, event_data.conn)
 
     def handle_buddy_added(self, conn: Conn, packet: BuddyAdded):
         org_member = self.get_org_member(packet.char_id)
