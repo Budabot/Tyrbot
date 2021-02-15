@@ -95,7 +95,7 @@ class OrgChannelController:
     def outgoing_org_message_event(self, event_type, event_data):
         if isinstance(event_data.message, ChatBlob):
             pages = self.text.paginate(ChatBlob(event_data.message.title, event_data.message.msg),
-                                       self.bot.get_temp_conn(),
+                                       event_data.conn,
                                        self.setting_service.get("org_channel_max_page_length").get_value())
             if len(pages) < 4:
                 for page in pages:

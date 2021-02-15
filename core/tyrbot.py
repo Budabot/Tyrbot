@@ -319,7 +319,8 @@ class Tyrbot:
 
             if fire_outgoing_event:
                 self.event_service.fire_event(self.OUTGOING_ORG_MESSAGE_EVENT, DictObject({"org_channel_id": conn.org_channel_id,
-                                                                                           "message": msg}))
+                                                                                           "message": msg,
+                                                                                           "conn": conn}))
 
     def send_private_message(self, char_id, msg, add_color=True, fire_outgoing_event=True, conn=None):
         if not conn:
@@ -337,7 +338,8 @@ class Tyrbot:
 
             if fire_outgoing_event:
                 self.event_service.fire_event(self.OUTGOING_PRIVATE_MESSAGE_EVENT, DictObject({"char_id": char_id,
-                                                                                               "message": msg}))
+                                                                                               "message": msg,
+                                                                                               "conn": conn}))
 
     def send_private_channel_message(self, msg, private_channel_id=None, add_color=True, fire_outgoing_event=True, conn=None):
         if not conn:
