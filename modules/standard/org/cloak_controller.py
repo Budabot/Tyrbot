@@ -30,7 +30,7 @@ class CloakController:
         self.message_hub_service.register_message_source(self.MESSAGE_SOURCE)
 
     def start(self):
-        self.db.exec("CREATE TABLE IF NOT EXISTS cloak_status (char_id INT NOT NULL, action VARCHAR(10) NOT NULL, created_at INT NOT NULL)")
+        self.db.exec("CREATE TABLE IF NOT EXISTS cloak_status (char_id INT NOT NULL, action VARCHAR(10) NOT NULL, created_at INT NOT NULL, org_id INT NOT NULL)")
         self.command_alias_service.add_alias("city", "cloak")
 
     @command(command="cloak", params=[], access_level="org_member",
@@ -54,30 +54,38 @@ class CloakController:
 
     @event(event_type=CLOAK_EVENT, description="Record when the city cloak is turned off and on", is_hidden=True)
     def city_cloak_event(self, event_type, event_data):
-        self.db.exec("INSERT INTO cloak_status (char_id, action, created_at) VALUES (?, ?, ?)", [event_data.char_id, event_data.action, int(time.time())])
+        self.db.exec("INSERT INTO cloak_status (char_id, action, created_at, org_id) VALUES (?, ?, ?, ?)",
+                     [event_data.char_id, event_data.action, int(time.time()), event_data.conn.org_id])
 
-    @timerevent(budatime="15m", description="Reminds the players to toggle the cloak")
+    @timerevent(budatime="15m", description="Reminds the players when cloak can be raised")
     def cloak_reminder_event(self, event_type, event_data):
-        data = self.db.query("SELECT c.*, p.name FROM cloak_status c LEFT JOIN player p ON c.char_id = p.char_id ORDER BY created_at DESC LIMIT 1")
+        messages = []
+        for _id, conn in self.bot.get_conns().items():
+            if not conn.is_main or not conn.org_id:
+                continue
 
-        for row in data:
+            row = self.db.query_row("SELECT c.*, p.name FROM cloak_status c LEFT JOIN player p ON c.char_id = p.char_id "
+                                    "WHERE c.org_id = ? ORDER BY created_at DESC LIMIT 1", [conn.org_id])
             one_hour = 3600
             t = int(time.time())
             time_until_change = row.created_at + one_hour - t
-            if row.action == "off":
-                if time_until_change <= 0:
-                    time_str = self.util.time_to_readable(t - row.created_at)
-                    msg = "The cloaking device is <orange>disabled</orange> but can be enabled. <highlight>%s</highlight> disabled it %s ago." % (row.name, time_str)
-                    self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)
+            if row.action == "off" and time_until_change <= 0:
+                time_str = self.util.time_to_readable(t - row.created_at)
+                org_name = conn.org_name or conn.org_id
+                messages.append(f"The cloaking device for org <highlight>{org_name}</highlight> is <orange>disabled</orange> but can be enabled. "
+                                f"<highlight>{row.name}</highlight> disabled it {time_str} ago.")
+
+        if messages:
+            self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, "\n".join(messages))
 
     @event(event_type=CLOAK_EVENT, description="Set a timer for when cloak can be raised and lowered")
     def city_cloak_timer_event(self, event_type, event_data):
         if event_data.action == "off":
-            timer_name = "Raise City Cloak"
+            timer_name = f"Raise City Cloak ({event_data.org_name or event_data.char_name})"
         elif event_data.action == "on":
-            timer_name = "Lower City Cloak"
+            timer_name = f"Lower City Cloak ({event_data.org_name or event_data.char_name})"
         else:
-            raise Exception("Unknown cloak action '%s'" % event_data.action)
+            raise Exception(f"Unknown cloak action '{event_data.action}'")
 
         self.timer_controller.add_timer(timer_name, event_data.sender.char_id, "org", int(time.time()), 3600)
 
@@ -85,17 +93,21 @@ class CloakController:
         one_hour = 3600
         time_until_change = row.created_at + one_hour - int(time.time())
         time_string = self.util.time_to_readable(time_until_change)
+        conn = self.bot.get_conn_by_org_id(row.org_id)
+        org_name = "Unknown"
+        if conn:
+            org_name = conn.org_name or conn.org_id
 
         if row.action == "off":
             if time_until_change <= 0:
-                msg = "The cloaking device is <orange>disabled</orange>. It is possible to enable it."
+                msg = f"The cloaking device for org <highlight>{org_name}</highlight> is <orange>disabled</orange>. It is possible to enable it."
             else:
-                msg = "The cloaking device is <orange>disabled</orange>. It is possible to enable it in %s." % time_string
+                msg = f"The cloaking device for org <highlight>{org_name}</highlight>  is <orange>disabled</orange>. It is possible to enable it in {time_string}."
         else:
             if time_until_change <= 0:
-                msg = "The cloaking device is <green>enabled</green>. It is possible to disable it."
+                msg = f"The cloaking device for org <highlight>{org_name}</highlight> is <green>enabled</green>. It is possible to disable it."
             else:
-                msg = "The cloaking device is <green>enabled</green>. It is possible to disable it in %s." % time_string
+                msg = f"The cloaking device for org <highlight>{org_name}</highlight> is <green>enabled</green>. It is possible to disable it in {time_string}."
 
         return msg
 

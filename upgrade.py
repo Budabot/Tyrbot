@@ -192,3 +192,11 @@ def run_upgrades():
         if table_exists("members"):
             db.exec("ALTER TABLE members RENAME TO member")
         version = update_version(version)
+
+    if version == 16:
+        if table_exists("cloak_status"):
+            db.exec("ALTER TABLE cloak_status RENAME TO cloak_status_old")
+            db.exec("CREATE TABLE IF NOT EXISTS cloak_status (char_id INT NOT NULL, action VARCHAR(10) NOT NULL, created_at INT NOT NULL, org_id INT NOT NULL)")
+            db.exec("INSERT INTO cloak_status SELECT char_id, action, created_at, 0 FROM cloak_status_old")
+            db.exec("DROP TABLE cloak_status_old")
+        version = update_version(version)

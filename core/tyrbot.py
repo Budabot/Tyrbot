@@ -414,6 +414,12 @@ class Tyrbot:
                 return conn
         return None
 
+    def get_conn_by_org_id(self, org_id):
+        for _id, conn in self.conns.items():
+            if conn.org_id == org_id:
+                return conn
+        return None
+
     # placeholder to keep track of things that need to be fixed/updated
     def get_temp_conn(self):
         return self.get_primary_conn()
