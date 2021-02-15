@@ -134,16 +134,16 @@ class OrgMemberController:
             for row in self.get_org_members_by_org_id(conn.org_id):
                 db_members[row.char_id] = row.mode
 
-            self.logger.info("Updating org_members roster for org_id %d" % org_id)
+            self.logger.info(f"Updating org_members roster for org_id '{org_id}'")
             org_info = self.org_pork_service.get_org_info(org_id)
 
             if not org_info:
-                self.logger.warning("could not get roster info for org id '%d'" % org_id)
+                self.logger.warning(f"Could not get roster info for org id '{org_id}'")
                 return
 
             t = int(time.time())
             if org_info.last_modified < (t - self.MAX_CACHE_AGE):
-                self.logger.warning("skipping roster update due to old cache")
+                self.logger.warning("Skipping roster update due to old cache")
                 return
 
             for char_id, roster_member in org_info.org_members.items():
