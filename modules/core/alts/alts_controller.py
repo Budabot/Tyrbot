@@ -1,8 +1,8 @@
 import hjson
 
-from core.alts.alts_service import AltsService
+from core.alts_service import AltsService
 from core.chat_blob import ChatBlob
-from core.command_param_types import Const, Options, Character, Multiple, Int
+from core.command_param_types import Const, Options, Character, Multiple
 from core.decorators import instance, command
 from core.translation_service import TranslationService
 

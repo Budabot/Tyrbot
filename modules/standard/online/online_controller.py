@@ -2,7 +2,7 @@ from core.command_param_types import Any
 from core.conn import Conn
 from core.db import DB
 from core.decorators import instance, command, event
-from core.alts.alts_service import AltsService
+from core.alts_service import AltsService
 from core.chat_blob import ChatBlob
 from core.private_channel_service import PrivateChannelService
 from core.public_channel_service import PublicChannelService

@@ -1,4 +1,4 @@
-from core.alts.alts_service import AltsService
+from core.alts_service import AltsService
 from core.db import DB
 
 

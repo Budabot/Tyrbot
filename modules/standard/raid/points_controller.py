@@ -7,7 +7,7 @@ from core.lookup.character_service import CharacterService
 from core.setting_types import NumberSettingType
 from core.setting_service import SettingService
 from core.text import Text
-from core.alts.alts_service import AltsService
+from core.alts_service import AltsService
 from core.util import Util
 import time
 

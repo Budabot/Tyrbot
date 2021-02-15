@@ -1,6 +1,6 @@
 import time
 
-from core.alts.alts_service import AltsService
+from core.alts_service import AltsService
 from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Int, Any, Options, Character
 from core.db import DB
