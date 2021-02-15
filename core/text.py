@@ -9,7 +9,7 @@ from core.setting_service import SettingService
 
 
 class TextFormatter(HTMLParser):
-    def __init__(self, bot, setting_service, public_channel_service, conn):
+    def __init__(self, conn, setting_service):
         super().__init__(convert_charrefs=False)
         self.logger = Logger(__name__)
         self.strict = False
@@ -17,9 +17,7 @@ class TextFormatter(HTMLParser):
         self.stack = []
         self.single_tags = ["br", "symbol", "tab", "myorg", "myname", "pagebreak", "img"]
 
-        self.bot = bot
         self.setting_service = setting_service
-        self.public_channel_service = public_channel_service
         self.conn = conn
 
     def reset(self):
@@ -97,7 +95,7 @@ class TextFormatter(HTMLParser):
         elif tag == "a":
             for k, v in attrs:
                 if k == "href":
-                    text_formatter = TextFormatter(self.bot, self.setting_service, self.public_channel_service)
+                    text_formatter = TextFormatter(self.conn, self.setting_service)
                     href = text_formatter.format_message(v)
                     if href.startswith("text://"):
                         self.handle_data("<a href=\"")
@@ -170,8 +168,6 @@ class Text:
 
     def inject(self, registry):
         self.setting_service: SettingService = registry.get_instance("setting_service")
-        self.bot = registry.get_instance("bot")
-        self.public_channel_service = registry.get_instance("public_channel_service")
 
     def make_chatcmd(self, name, msg, style=""):
         msg = msg.strip()
@@ -418,7 +414,7 @@ class Text:
             return self.format_message_old(msg, conn)
 
     def format_message_new(self, msg, conn: Conn):
-        text_formatter = TextFormatter(self.bot, self.setting_service, self.public_channel_service, conn)
+        text_formatter = TextFormatter(conn, self.setting_service)
         return text_formatter.format_message(msg)
 
     def format_message_old(self, msg, conn: Conn):
