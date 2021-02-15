@@ -65,7 +65,7 @@ class OrgMemberController:
 
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS org_member (char_id INT NOT NULL PRIMARY KEY,"
-                     "mode VARCHAR(20) NOT NULL)")
+                     "mode VARCHAR(20) NOT NULL, org_id INT NOT NULL)")
 
     @command(command="notify", params=[Const("off"), Character("character")], access_level="admin",
              description="Turn off online notification for a character")
@@ -124,11 +124,14 @@ class OrgMemberController:
 
     @timerevent(budatime="24h", description="Download the org_members roster", is_hidden=True)
     def download_org_roster_event(self, event_type, event_data):
-        conn = self.bot.get_temp_conn()
-        org_id = conn.get_org_id()
-        if org_id:
+        for _id, conn in self.bot.get_conns().items():
+            if not conn.is_main or not conn.org_id:
+                continue
+
+            org_id = conn.org_id
+
             db_members = {}
-            for row in self.get_all_org_members():
+            for row in self.get_org_members_by_org_id(conn.org_id):
                 db_members[row.char_id] = row.mode
 
             self.logger.info("Updating org_members roster for org_id %d" % org_id)
@@ -195,22 +198,25 @@ class OrgMemberController:
         self.process_update(char_id, org_member.mode if org_member else None, new_mode, conn)
 
     def get_org_member(self, char_id):
-        return self.db.query_single("SELECT char_id, mode FROM org_member WHERE char_id = ?", [char_id])
+        return self.db.query_single("SELECT char_id, mode, org_id FROM org_member WHERE char_id = ?", [char_id])
+
+    def get_org_members_by_org_id(self, org_id):
+        return self.db.query("SELECT char_id, mode, org_id FROM org_member WHERE org_id = ?", [org_id])
 
     def get_all_org_members(self):
-        return self.db.query("SELECT char_id, mode FROM org_member")
+        return self.db.query("SELECT char_id, mode, org_id FROM org_member")
 
-    def add_org_member(self, char_id, mode):
+    def add_org_member(self, char_id, mode, org_id):
         self.update_buddylist(char_id, self.MODE_ADD_MANUAL)
-        return self.db.exec("INSERT INTO org_member (char_id, mode) VALUES (?, ?)", [char_id, mode])
+        return self.db.exec("INSERT INTO org_member (char_id, mode, org_id) VALUES (?, ?, ?)", [char_id, mode, org_id])
 
     def remove_org_member(self, char_id):
         self.update_buddylist(char_id, self.MODE_REM_MANUAL)
         return self.db.exec("DELETE FROM org_member WHERE char_id = ?", [char_id])
 
-    def update_org_member(self, char_id, mode):
+    def update_org_member(self, char_id, mode, org_id):
         self.update_buddylist(char_id, mode)
-        return self.db.exec("UPDATE org_member SET mode = ? WHERE char_id = ?", [mode, char_id])
+        return self.db.exec("UPDATE org_member SET mode = ?, org_id = ? WHERE char_id = ?", [mode, org_id, char_id])
 
     def check_org_member(self, char_id):
         return self.get_org_member(char_id) is not None
@@ -226,22 +232,22 @@ class OrgMemberController:
         event_data = DictObject({"char_id": char_id, "name": name, "conn": conn})
         if not old_mode:
             if new_mode == self.MODE_ADD_AUTO or new_mode == self.MODE_ADD_MANUAL:
-                self.add_org_member(char_id, new_mode)
+                self.add_org_member(char_id, new_mode, conn.org_id)
         elif old_mode == self.MODE_ADD_AUTO:
             if new_mode == self.MODE_REM_MANUAL:
-                self.update_org_member(char_id, new_mode)
+                self.update_org_member(char_id, new_mode, conn.org_id)
                 self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, event_data)
             elif new_mode == self.MODE_REM_AUTO:
                 self.remove_org_member(char_id)
                 self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, event_data)
         elif old_mode == self.MODE_ADD_MANUAL:
             if new_mode == self.MODE_ADD_AUTO:
-                self.update_org_member(char_id, new_mode)
+                self.update_org_member(char_id, new_mode, conn.org_id)
             elif new_mode == self.MODE_REM_MANUAL:
                 self.remove_org_member(char_id)
                 self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, event_data)
         elif old_mode == self.MODE_REM_MANUAL:
             if new_mode == self.MODE_ADD_MANUAL:
-                self.update_org_member(char_id, new_mode)
+                self.update_org_member(char_id, new_mode, conn.org_id)
             elif new_mode == self.MODE_REM_AUTO:
                 self.remove_org_member(char_id)

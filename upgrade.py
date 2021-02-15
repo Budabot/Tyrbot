@@ -200,3 +200,8 @@ def run_upgrades():
             db.exec("INSERT INTO cloak_status SELECT char_id, action, created_at, 0 FROM cloak_status_old")
             db.exec("DROP TABLE cloak_status_old")
         version = update_version(version)
+
+    if version == 17:
+        if table_exists("org_member"):
+            db.exec("DROP TABLE org_member")
+        version = update_version(version)

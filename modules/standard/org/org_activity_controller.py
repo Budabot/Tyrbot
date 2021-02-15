@@ -6,6 +6,7 @@ from core.logger import Logger
 from core.public_channel_service import PublicChannelService
 from modules.core.org_members.org_member_controller import OrgMemberController
 
+
 @instance()
 class OrgActivityController:
     def __init__(self):
