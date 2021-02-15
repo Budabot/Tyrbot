@@ -123,10 +123,6 @@ class WebsocketRelayController:
     def org_member_logoff_event(self, event_type, event_data):
         self.send_relay_event(event_data.char_id, "logoff", "org_channel")
 
-    @event(OrgMemberController.ORG_MEMBER_REMOVED_EVENT, "Send to websocket relay when org member is removed", is_hidden=True, is_enabled=False)
-    def org_member_removed_event(self, event_type, event_data):
-        self.send_relay_event(event_data.char_id, "logoff", "org_channel")
-
     def process_relay_message(self, client_id, message):
         if self.encrypter:
             message = self.encrypter.decrypt(message.encode('utf-8'))

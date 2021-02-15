@@ -25,7 +25,6 @@ class OrgMemberController:
 
     ORG_MEMBER_LOGON_EVENT = "org_member_logon"
     ORG_MEMBER_LOGOFF_EVENT = "org_member_logoff"
-    ORG_MEMBER_REMOVED_EVENT = "org_member_removed"
 
     LEFT_ORG = [508, 45978487]
     KICKED_FROM_ORG = [508, 37093479]
@@ -55,7 +54,6 @@ class OrgMemberController:
     def pre_start(self):
         self.event_service.register_event_type(self.ORG_MEMBER_LOGON_EVENT)
         self.event_service.register_event_type(self.ORG_MEMBER_LOGOFF_EVENT)
-        self.event_service.register_event_type(self.ORG_MEMBER_REMOVED_EVENT)
 
         self.access_service.register_access_level(self.ORG_ACCESS_LEVEL, 60, self.check_org_member)
         self.bot.register_packet_handler(BuddyAdded.id, self.handle_buddy_added)
@@ -82,9 +80,9 @@ class OrgMemberController:
         self.process_update(char.char_id, org_member.mode if org_member else None, self.MODE_REM_MANUAL, request.conn)
 
         # fire org_member logoff event
-        org_member.name = self.character_service.get_char_name(char.name)
-        org_member.conn = request.conn
-        self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, org_member)
+        self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, DictObject({"char_id": org_member.char_id,
+                                                                                "name": char.name,
+                                                                                "conn": request.conn}))
 
         return self.getresp("module/org_members", "notify_rem_success", {"char": char.name})
 
@@ -103,9 +101,9 @@ class OrgMemberController:
         # fire org_member logon event
         if self.buddy_service.is_online(char.char_id):
             org_member = self.get_org_member(char.char_id)
-            org_member.name = self.character_service.get_char_name(char.name)
-            org_member.conn = request.conn
-            self.event_service.fire_event(self.ORG_MEMBER_LOGON_EVENT, org_member)
+            self.event_service.fire_event(self.ORG_MEMBER_LOGON_EVENT, DictObject({"char_id": org_member.char_id,
+                                                                                   "name": char.name,
+                                                                                   "conn": request.conn}))
 
         return self.getresp("module/org_members", "notify_add_success", {"char": char.name})
 
@@ -181,12 +179,15 @@ class OrgMemberController:
     def handle_buddy_added(self, conn: Conn, packet: BuddyAdded):
         org_member = self.get_org_member(packet.char_id)
         if org_member and (org_member.mode == self.MODE_ADD_AUTO or org_member.mode == self.MODE_ADD_MANUAL):
-            org_member.name = self.character_service.get_char_name(packet.char_id)
-            org_member.conn = conn
+            event_data = DictObject({
+                "char_id": org_member.char_id,
+                "name": self.character_service.get_char_name(packet.char_id),
+                "conn": conn
+            })
             if packet.online:
-                self.event_service.fire_event(self.ORG_MEMBER_LOGON_EVENT, org_member)
+                self.event_service.fire_event(self.ORG_MEMBER_LOGON_EVENT, event_data)
             else:
-                self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, org_member)
+                self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, event_data)
 
     def process_org_msg(self, char_name, new_mode, conn):
         char_id = self.character_service.resolve_char_to_id(char_name)
