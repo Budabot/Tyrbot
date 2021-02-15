@@ -49,6 +49,7 @@ class PrivateChannelService:
             self.logger.log_chat(conn.id, "Private Channel", char_name, packet.message)
             self.event_service.fire_event(self.PRIVATE_CHANNEL_MESSAGE_EVENT, DictObject({"char_id": packet.char_id,
                                                                                           "name": char_name,
+                                                                                          "message": packet.message,
                                                                                           "conn": conn}))
 
     def handle_private_channel_client_joined(self, conn: Conn, packet: server_packets.PrivateChannelClientJoined):
