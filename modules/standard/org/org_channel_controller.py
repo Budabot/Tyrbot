@@ -74,7 +74,9 @@ class OrgChannelController:
             else:
                 char_info = self.character_service.resolve_char_to_name(event_data.char_id)
 
-            msg = "%s has logged on. %s" % (char_info, self.log_controller.get_logon(event_data.char_id) if self.log_controller else "")
+            msg = f"{char_info} has logged on."
+            if self.log_controller:
+                msg += " " + self.log_controller.get_logon(event_data.char_id)
 
             for _id, conn in self.bot.get_conns().items():
                 if conn.is_main:
@@ -84,7 +86,9 @@ class OrgChannelController:
     @event(event_type=OrgMemberController.ORG_MEMBER_LOGOFF_EVENT, description="Notify when org member logs off")
     def org_member_logoff_event(self, event_type, event_data):
         if self.bot.is_ready():
-            msg = "<highlight>%s</highlight> has logged off. %s" % (event_data.name, self.log_controller.get_logoff(event_data.char_id) if self.log_controller else "")
+            msg = f"<highlight>{event_data.name}</highlight> has logged off."
+            if self.log_controller:
+                msg += " " + self.log_controller.get_logoff(event_data.char_id)
 
             for _id, conn in self.bot.get_conns().items():
                 if conn.is_main:
