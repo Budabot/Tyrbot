@@ -5,6 +5,7 @@ from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Options, Character
 from core.conn import Conn
 from core.decorators import instance, command, event
+from core.dict_object import DictObject
 from core.setting_service import SettingService
 from core.setting_types import TextSettingType
 from core.translation_service import TranslationService
@@ -110,9 +111,8 @@ class MemberController:
     @event(event_type=MEMBER_LOGON_EVENT, description="Auto invite members to the private channel when they logon", is_hidden=True)
     def handle_buddy_logon(self, event_type, event_data):
         if event_data.auto_invite == 1:
-            conn = self.bot.get_temp_conn()
-            self.bot.send_private_message(event_data.char_id, self.getresp("module/private_channel", "auto_invited"), conn=conn)
-            self.private_channel_service.invite(event_data.char_id, conn)
+            self.bot.send_private_message(event_data.char_id, self.getresp("module/private_channel", "auto_invited"), conn=event_data.conn)
+            self.private_channel_service.invite(event_data.char_id, event_data.conn)
 
     @event(event_type=BanService.BAN_ADDED_EVENT, description="Remove characters as members when they are banned",
            is_hidden=True)
@@ -122,10 +122,15 @@ class MemberController:
     def handle_member_logon(self, conn: Conn, packet: BuddyAdded):
         member = self.get_member(packet.char_id)
         if member:
+            event_data = DictObject({
+                "char_id": member.char_id,
+                "auto_invite": member.auto_invite,
+                "conn": conn
+            })
             if packet.online:
-                self.event_service.fire_event(self.MEMBER_LOGON_EVENT, member)
+                self.event_service.fire_event(self.MEMBER_LOGON_EVENT, event_data)
             else:
-                self.event_service.fire_event(self.MEMBER_LOGOFF_EVENT, member)
+                self.event_service.fire_event(self.MEMBER_LOGOFF_EVENT, event_data)
 
     def add_member(self, char_id, auto_invite=1):
         self.buddy_service.add_buddy(char_id, self.MEMBER_BUDDY_TYPE)
