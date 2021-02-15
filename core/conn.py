@@ -18,6 +18,7 @@ class Conn(Bot):
         self.org_id = None
         self.org_name = None
         self.channels = {}
+        self.buddy_list = {}
         # store module data that is conn specific here
         self.data = {}
 

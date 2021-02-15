@@ -12,7 +12,6 @@ class BuddyService:
     BUDDY_LOGOFF_EVENT = "buddy_logoff"
 
     def __init__(self):
-        self.buddy_list = {}
         self.buddy_list_size = 0
         self.logger = Logger(__name__)
 
@@ -29,18 +28,18 @@ class BuddyService:
         self.event_service.register_event_type(self.BUDDY_LOGOFF_EVENT)
 
     def handle_add(self, conn: Conn, packet):
-        buddy = self.buddy_list[conn.id].get(packet.char_id, {"types": [], "conn_id": conn.id})
+        buddy = conn.buddy_list.get(packet.char_id, {"types": [], "conn_id": conn.id})
         buddy["online"] = packet.online
-        self.buddy_list[conn.id][packet.char_id] = buddy
+        conn.buddy_list[packet.char_id] = buddy
 
         # verify that buddy does not exist on any other conn
-        for conn_id, conn_buddy_list in self.buddy_list.items():
+        for conn_id, other_conn in self.bot.get_conns().items():
             if conn.id != conn_id:
-                buddy = conn_buddy_list.get(packet.char_id, None)
+                buddy = other_conn.buddy_list.get(packet.char_id, None)
                 if buddy:
                     if buddy["online"] is None:
                         # remove from other conn list
-                        del conn_buddy_list[packet.char_id]
+                        del other_conn.buddy_list[packet.char_id]
                     else:
                         # remove from this conn
                         self.logger.warning("Removing char '%s' from conn '%s' since it already exists on another conn" % (packet.char_id, conn.id))
@@ -52,17 +51,15 @@ class BuddyService:
             self.event_service.fire_event(self.BUDDY_LOGOFF_EVENT, packet)
 
     def handle_remove(self, conn: Conn, packet):
-        conn_buddy_list = self.buddy_list[conn.id]
-        if packet.char_id in conn_buddy_list:
-            if len(conn_buddy_list[packet.char_id]["types"]) > 0:
-                self.logger.warning("Removing buddy %d that still has types %s" % (packet.char_id, conn_buddy_list[packet.char_id]["types"]))
+        if packet.char_id in conn.buddy_list:
+            if len(conn.buddy_list[packet.char_id]["types"]) > 0:
+                self.logger.warning("Removing buddy %d that still has types %s" % (packet.char_id, conn.buddy_list[packet.char_id]["types"]))
 
-            del conn_buddy_list[packet.char_id]
+            del conn.buddy_list[packet.char_id]
 
     def handle_login_ok(self, conn: Conn, packet):
         self.buddy_list_size += 1000
-        self.buddy_list[conn.id] = {}
-        self.buddy_list[conn.id][conn.char_id] = {"online": True, "types": [], "conn_id": conn.id}
+        conn.buddy_list[conn.char_id] = {"online": True, "types": [], "conn_id": conn.id}
 
     def add_buddy(self, char_id, _type):
         if not char_id:
@@ -79,7 +76,7 @@ class BuddyService:
             conn = self.get_conn_for_new_buddy()
             if conn.char_id != char_id:
                 conn.send_packet(client_packets.BuddyAdd(char_id, "\1"))
-                self.buddy_list[conn.id][char_id] = {"online": None, "types": [_type], "conn_id": conn.id}
+                conn.buddy_list[char_id] = {"online": None, "types": [_type], "conn_id": conn.id}
 
         return True
 
@@ -109,9 +106,9 @@ class BuddyService:
             return False
 
     def get_buddy(self, char_id):
-        for conn_id, conn_buddy_list in self.buddy_list.items():
-            if char_id in conn_buddy_list:
-                return conn_buddy_list[char_id]
+        for _id, conn in self.bot.get_conns().items():
+            if char_id in conn.buddy_list:
+                return conn.buddy_list[char_id]
         return None
 
     def is_online(self, char_id):
@@ -123,8 +120,8 @@ class BuddyService:
 
     def get_all_buddies(self):
         result = {}
-        for conn_id, conn_buddy_list in self.buddy_list.items():
-            for char_id, buddy in conn_buddy_list.items():
+        for _id, conn in self.bot.get_conns().items():
+            for char_id, buddy in conn.buddy_list.items():
                 # TODO what if buddies exist on multiple conns?
                 result[char_id] = buddy
 
@@ -132,17 +129,17 @@ class BuddyService:
 
     def get_buddy_list_size(self):
         count = 0
-        for conn_id, conn_buddy_list in self.buddy_list.items():
-            count += len(conn_buddy_list)
+        for _id, conn in self.bot.get_conns().items():
+            count += len(conn.buddy_list)
 
         return count
 
     def get_conn_for_new_buddy(self):
         buddy_list_size = None
-        _id = None
-        for conn_id, conn_buddy_list in self.buddy_list.items():
-            if buddy_list_size is None or len(conn_buddy_list) < buddy_list_size:
-                buddy_list_size = len(conn_buddy_list)
-                _id = conn_id
+        selected_conn = None
+        for _id, conn in self.bot.get_conns().items():
+            if buddy_list_size is None or len(conn.buddy_list) < buddy_list_size:
+                buddy_list_size = len(conn.buddy_list)
+                selected_conn = conn
 
-        return self.bot.conns.get(_id, None)
+        return selected_conn
