@@ -64,16 +64,17 @@ class CloakController:
             if not conn.is_main or not conn.org_id:
                 continue
 
-            row = self.db.query_row("SELECT c.*, p.name FROM cloak_status c LEFT JOIN player p ON c.char_id = p.char_id "
-                                    "WHERE c.org_id = ? ORDER BY created_at DESC LIMIT 1", [conn.org_id])
-            one_hour = 3600
-            t = int(time.time())
-            time_until_change = row.created_at + one_hour - t
-            if row.action == "off" and time_until_change <= 0:
-                time_str = self.util.time_to_readable(t - row.created_at)
-                org_name = conn.org_name or conn.org_id
-                messages.append(f"The cloaking device for org <highlight>{org_name}</highlight> is <orange>disabled</orange> but can be enabled. "
-                                f"<highlight>{row.name}</highlight> disabled it {time_str} ago.")
+            row = self.db.query_single("SELECT c.*, p.name FROM cloak_status c LEFT JOIN player p ON c.char_id = p.char_id "
+                                       "WHERE c.org_id = ? ORDER BY created_at DESC LIMIT 1", [conn.org_id])
+            if row:
+                one_hour = 3600
+                t = int(time.time())
+                time_until_change = row.created_at + one_hour - t
+                if row.action == "off" and time_until_change <= 0:
+                    time_str = self.util.time_to_readable(t - row.created_at)
+                    org_name = conn.org_name or conn.org_id
+                    messages.append(f"The cloaking device for org <highlight>{org_name}</highlight> is <orange>disabled</orange> but can be enabled. "
+                                    f"<highlight>{row.name}</highlight> disabled it {time_str} ago.")
 
         if messages:
             self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, "\n".join(messages))
