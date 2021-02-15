@@ -54,7 +54,7 @@ class CloakController:
 
     @event(event_type=CLOAK_EVENT, description="Record when the city cloak is turned off and on", is_hidden=True)
     def city_cloak_event(self, event_type, event_data):
-        self.db.exec("INSERT INTO cloak_status (char_id, action, created_at) VALUES (?, ?, ?)", [event_data.sender.char_id, event_data.action, int(time.time())])
+        self.db.exec("INSERT INTO cloak_status (char_id, action, created_at) VALUES (?, ?, ?)", [event_data.char_id, event_data.action, int(time.time())])
 
     @timerevent(budatime="15m", description="Reminds the players to toggle the cloak")
     def cloak_reminder_event(self, event_type, event_data):
@@ -108,5 +108,4 @@ class CloakController:
             char_name = extended_message.params[0]
             char_id = self.character_service.resolve_char_to_id(char_name)
             action = extended_message.params[1]
-            access_level = self.access_service.get_access_level(char_id)
-            self.event_service.fire_event(self.CLOAK_EVENT, DictObject({"sender": SenderObj(char_id, char_name, access_level), "action": action}))
+            self.event_service.fire_event(self.CLOAK_EVENT, DictObject({"char_id": char_id, "name": char_name, "action": action, "conn": conn}))
