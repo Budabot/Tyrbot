@@ -124,7 +124,7 @@ class NewsController:
         unread_news = self.get_unread_news(main.char_id)
 
         if unread_news:
-            conn = self.bot.get_temp_conn()
+            conn = event_data.conn
             msg = self.format_unread_news(unread_news, conn)
             self.bot.send_private_message(event_data.char_id, msg, conn=conn)
 

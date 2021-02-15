@@ -108,7 +108,7 @@ class RaidController:
         if self.raid:
             return f"The raid <highlight>{self.raid.raid_name}</highlight> is already running."
 
-        msg = self.leader_controller.set_raid_leader(request.sender, request.sender)
+        msg = self.leader_controller.set_raid_leader(request.sender, request.sender, request.conn)
         request.reply(msg)
         if self.leader_controller.leader and self.leader_controller.leader.char_id != request.sender.char_id:
             return None
@@ -118,7 +118,7 @@ class RaidController:
         leader_alts = self.alts_service.get_alts(request.sender.char_id)
         self.raid.raiders.append(Raider(leader_alts, request.sender.char_id))
 
-        join_link = self.get_raid_join_blob("Click here")
+        join_link = self.text.paginate_single(ChatBlob("Click here", self.get_raid_join_blob()), request.conn)
 
         msg = "\n<highlight>----------------------------------------</highlight>\n"
         msg += "<highlight>%s</highlight> has just started the <highlight>%s</highlight> raid.\n" % (request.sender.name, raid_name)
@@ -434,8 +434,8 @@ class RaidController:
             if raider.main_id == main_id:
                 return raider
 
-    def get_raid_join_blob(self, link_txt: str):
-        blob = "<header2>1. Join the raid</header2>\n" \
+    def get_raid_join_blob(self):
+        return "<header2>1. Join the raid</header2>\n" \
                "To join the current raid <highlight>%s</highlight>, send the following tell to <myname>\n" \
                "<tab><tab><a href='chatcmd:///tell <myname> <symbol>raid join'>/tell <myname> raid " \
                "join</a>\n\n<header2>2. Enable LFT</header2>\nWhen you have joined the raid, go lft " \
@@ -444,8 +444,6 @@ class RaidController:
                "LFT\n<tab><tab><a href='chatcmd:///group <myname> I am on lft'>Announce</a> that you have enabled " \
                "lft\n\n<header2>4. Rally with yer mateys</header2>\nFinally, move towards the starting location of " \
                "the raid.\n<highlight>Ask for help</highlight> if you're in doubt of where to go." % self.raid.raid_name
-
-        return self.text.paginate_single(ChatBlob(link_txt, blob), self.bot.get_temp_conn())
 
     def send_message(self, msg, conn):
         # TODO remove once messagehub can handle ChatBlobs

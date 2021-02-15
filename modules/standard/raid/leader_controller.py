@@ -1,4 +1,5 @@
 from core.command_param_types import Const, Character, Options
+from core.conn import Conn
 from core.db import DB
 from core.decorators import instance, command, timerevent, event
 from core.setting_types import ColorSettingType, BooleanSettingType
@@ -73,7 +74,7 @@ class LeaderController:
     @command(command="leader", params=[Const("clear")], access_level="all",
              description="Clear the current raid leader")
     def leader_clear_command(self, request, _):
-        return self.set_raid_leader(request.sender, None)
+        return self.set_raid_leader(request.sender, None, request.conn)
 
     @command(command="leader", params=[Const("set")], access_level="all",
              description="Set (or unset) yourself as raid leader")
@@ -83,7 +84,7 @@ class LeaderController:
         else:
             set_to = request.sender
 
-        return self.set_raid_leader(request.sender, set_to)
+        return self.set_raid_leader(request.sender, set_to, request.conn)
 
     @command(command="leader", params=[Const("set", is_optional=True), Character("character")], access_level="all",
              description="Set another character as raid leader")
@@ -91,10 +92,10 @@ class LeaderController:
         if not char.char_id:
             return "Could not find <highlight>%s</highlight>." % char.name
 
-        return self.set_raid_leader(request.sender, char)
+        return self.set_raid_leader(request.sender, char, request.conn)
 
     @timerevent(budatime="1h", description="Remove raid leader if raid leader hasn't been active for more than 1 hour")
-    def leader_auto_remove(self, _1, _2):
+    def leader_auto_remove(self, event_type, event_data):
         if self.last_activity:
             if self.last_activity - int(time.time()) > 3600:
                 self.leader = None
@@ -104,7 +105,7 @@ class LeaderController:
                                                   self.bot.get_temp_conn())
 
     @event(PrivateChannelService.LEFT_PRIVATE_CHANNEL_EVENT, "Remove raid leader if raid leader leaves private channel")
-    def leader_remove_on_leave_private(self, _, event_data):
+    def leader_remove_on_leave_private(self, event_type, event_data):
         if self.leader:
             if self.leader.char_id == event_data.char_id:
                 self.leader = None
@@ -114,7 +115,7 @@ class LeaderController:
                                                   event_data.conn)
 
     @event(OrgMemberController.ORG_MEMBER_LOGOFF_EVENT, "Remove raid leader if raid leader logs off")
-    def leader_remove_on_logoff(self, _, event_data):
+    def leader_remove_on_logoff(self, event_type, event_data):
         if self.leader:
             if self.leader.char_id == event_data.char_id:
                 self.leader = None
@@ -124,14 +125,14 @@ class LeaderController:
                                                   event_data.conn)
 
     @event(PrivateChannelService.PRIVATE_CHANNEL_MESSAGE_EVENT, "Echo leader messages from private channel", is_hidden=True)
-    def leader_echo_private_event(self, _, event_data):
+    def leader_echo_private_event(self, event_type, event_data):
         if self.leader and self.echo:
             if self.leader.char_id == event_data.char_id:
                 if not event_data.message.startswith(self.setting_service.get("symbol").get_value()):
                     self.leader_echo(event_data.char_id, event_data.message, "priv", conn=event_data.conn)
 
     @event(PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, "Echo leader messages from org channel", is_hidden=True)
-    def leader_echo_org_event(self, _, event_data):
+    def leader_echo_org_event(self, event_type, event_data):
         if self.leader and self.echo:
             if self.leader.char_id == event_data.char_id:
                 if not event_data.message.startswith(self.setting_service.get("symbol").get_value()):
@@ -158,7 +159,7 @@ class LeaderController:
 
         return False
 
-    def set_raid_leader(self, sender, set_to):
+    def set_raid_leader(self, sender, set_to, conn: Conn):
         if set_to is None:
             if not self.leader:
                 return "There is no current raid leader."
@@ -172,7 +173,7 @@ class LeaderController:
                 self.echo = False
                 self.bot.send_private_message(old_leader.char_id,
                                               "You have been removed as raid leader by <highlight>%s</highlight>." % sender.name,
-                                              conn=self.bot.get_temp_conn())
+                                              conn=conn)
                 return "You have removed <highlight>%s</highlight> as raid leader." % old_leader.name
             else:
                 return "You do not have a high enough access level to remove raid leader from <highlight>%s</highlight>." % \
@@ -196,7 +197,7 @@ class LeaderController:
                 reply = "<highlight>%s</highlight> has taken raid leader from you." % sender.name
                 if self.echo:
                     reply += " Leader echo is <green>enabled</green>."
-                self.bot.send_private_message(old_leader.char_id, reply, conn=self.bot.get_temp_conn())
+                self.bot.send_private_message(old_leader.char_id, reply, conn=conn)
                 reply = "You have taken raid leader from <highlight>%s</highlight>." % old_leader.name
                 if self.echo:
                     reply += " Leader echo is <green>enabled</green>."
@@ -211,7 +212,7 @@ class LeaderController:
                 reply = "<highlight>%s</highlight> has set you as raid leader." % sender.name
                 if self.echo:
                     reply += " Leader echo is <green>enabled</green>."
-                self.bot.send_private_message(set_to.char_id, reply, conn=self.bot.get_temp_conn())
+                self.bot.send_private_message(set_to.char_id, reply, conn=conn)
                 reply = "<highlight>%s</highlight> has been set as raid leader by %s." % (set_to.name, sender.name)
                 if self.echo:
                     reply += " Leader echo is <green>enabled</green>."

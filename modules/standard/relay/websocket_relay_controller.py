@@ -282,7 +282,8 @@ class WebsocketRelayController:
             return None
 
     def create_source_obj(self, source):
-        org_name = self.bot.get_temp_conn().get_org_name()
+        conn = self.bot.get_temp_conn()
+        org_name = conn.get_org_name()
 
         if source == "private_channel" or source == OnlineController.PRIVATE_CHANNEL:
             if org_name:
@@ -301,7 +302,7 @@ class WebsocketRelayController:
             channel_type = "org"
 
         return {
-            "name": org_name or self.bot.get_temp_conn().get_char_name(),
+            "name": org_name or conn.get_char_name(),
             "label": self.setting_service.get("relay_prefix").get_value() or "",
             "channel": channel,
             "type": channel_type,
