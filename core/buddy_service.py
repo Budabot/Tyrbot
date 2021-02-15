@@ -34,16 +34,18 @@ class BuddyService:
 
         # verify that buddy does not exist on any other conn
         for conn_id, other_conn in self.bot.get_conns().items():
-            if conn.id != conn_id:
-                buddy = other_conn.buddy_list.get(packet.char_id, None)
-                if buddy:
-                    if buddy["online"] is None:
-                        # remove from other conn list
-                        del other_conn.buddy_list[packet.char_id]
-                    else:
-                        # remove from this conn
-                        self.logger.warning("Removing char '%s' from conn '%s' since it already exists on another conn" % (packet.char_id, conn.id))
-                        conn.send_packet(client_packets.BuddyRemove(packet.char_id))
+            if conn.id == conn_id:
+                continue
+
+            buddy = other_conn.buddy_list.get(packet.char_id, None)
+            if buddy:
+                if buddy["online"] is None:
+                    # remove from other conn list
+                    del other_conn.buddy_list[packet.char_id]
+                else:
+                    # remove from this conn
+                    self.logger.warning("Removing char '%s' from conn '%s' since it already exists on another conn" % (packet.char_id, conn.id))
+                    conn.send_packet(client_packets.BuddyRemove(packet.char_id))
 
         if packet.online == 1:
             self.event_service.fire_event(self.BUDDY_LOGON_EVENT, packet)
@@ -89,17 +91,18 @@ class BuddyService:
 
     def remove_buddy(self, char_id, _type, force_remove=False):
         if char_id:
-            buddy = self.get_buddy(char_id)
-            if not buddy:
-                return False
+            for _id, conn in self.bot.conns.items():
+                if char_id == conn.char_id:
+                    continue
 
-            if _type in buddy["types"]:
-                buddy["types"].remove(_type)
+                buddy = conn.buddy_list.get(char_id, None)
+                if buddy:
+                    if _type in buddy["types"]:
+                        buddy["types"].remove(_type)
 
-            if len(buddy["types"]) == 0 or force_remove:
-                if not self.is_conn_char_id(char_id):
-                    conn = self.bot.conns[buddy["conn_id"]]
-                    conn.send_packet(client_packets.BuddyRemove(char_id))
+                    if len(buddy["types"]) == 0 or force_remove:
+                        conn = self.bot.conns[buddy["conn_id"]]
+                        conn.send_packet(client_packets.BuddyRemove(char_id))
 
             return True
         else:
