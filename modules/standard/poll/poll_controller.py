@@ -203,6 +203,7 @@ class PollController:
         self.end_poll(self.get_poll(poll_id))
 
     def end_poll(self, poll):
-        # TODO add conn
-        self.bot.send_private_message(poll.char_id, "Your poll <highlight>%d. %s</highlight> has finished." % (poll.id, poll.question))
+        self.bot.send_private_message(poll.char_id,
+                                      "Your poll <highlight>%d. %s</highlight> has finished." % (poll.id, poll.question),
+                                      conn=self.bot.get_primary_conn())
         self.db.exec("UPDATE poll SET is_finished = 1 WHERE id = ?", [poll.id])

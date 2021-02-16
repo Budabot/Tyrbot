@@ -122,8 +122,8 @@ class AllianceRelayController:
 
     def send_message_to_alliance(self, msg):
         if self.relay_channel_id:
-            # TODO add conn
             self.bot.send_private_channel_message("!agcr " + msg,
                                                   private_channel_id=self.relay_channel_id,
                                                   fire_outgoing_event=False,
-                                                  add_color=False)
+                                                  add_color=False,
+                                                  conn=self.bot.get_primary_conn())
