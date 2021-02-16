@@ -17,6 +17,7 @@ class PublicChannelService:
 
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
+        self.db = registry.get_instance("db")
         self.event_service = registry.get_instance("event_service")
         self.character_service = registry.get_instance("character_service")
         self.setting_service = registry.get_instance("setting_service")
@@ -30,11 +31,12 @@ class PublicChannelService:
         self.event_service.register_event_type(self.ORG_CHANNEL_MESSAGE_EVENT)
         self.event_service.register_event_type(self.ORG_MSG_EVENT)
 
+    def start(self):
+        self.db.exec("CREATE TABLE IF NOT EXISTS org_name_cache (org_id INT NOT NULL, name VARCHAR(255) NOT NULL)")
+
     def handle_login_ok(self, conn: Conn, packet: server_packets.LoginOK):
         if not conn.is_main:
             return
-
-        # TODO load org name and org id from table
 
     def add(self, conn: Conn, packet: server_packets.PublicChannelJoined):
         if not conn.is_main:
@@ -45,12 +47,22 @@ class PublicChannelService:
             conn.org_channel_id = packet.channel_id
             conn.org_id = 0x00ffffffff & packet.channel_id
 
-            if packet.name != "Clan (name unknown)":
-                # TODO store in table
-                # self.setting_service.get("org_name").set_value(packet.name)
-                conn.org_name = packet.name
+            row = self.db.query_single("SELECT name FROM org_name_cache WHERE org_id = ?", [conn.org_id])
 
-            self.logger.info(f"Org info for '{conn.id}': {conn.org_name} ({conn.org_id})")
+            if packet.name != "Clan (name unknown)":
+                source = "chat_server"
+                if not row:
+                    self.db.exec("INSERT INTO org_name_cache (org_id, name) VALUES (?, ?)", [conn.org_id, packet.name])
+                elif packet.name != row.name:
+                    self.db.exec("UPDATE org_name_cache SET name = ? WHERE org_id = ?", [packet.name, conn.org_id])
+                conn.org_name = packet.name
+            elif row:
+                source = "cache"
+                conn.org_name = row.name
+            else:
+                source = "none"
+
+            self.logger.info(f"Org info for '{conn.id}': {conn.org_name} ({conn.org_id}); source: '{source}'")
 
     def remove(self, conn: Conn, packet: server_packets.PublicChannelLeft):
         if not conn.is_main:
