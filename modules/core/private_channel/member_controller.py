@@ -21,16 +21,17 @@ class MemberController:
     MEMBER_LOGOFF_EVENT = "member_logoff_event"
 
     def inject(self, registry):
+        self.bot = registry.get_instance("bot")
         self.db = registry.get_instance("db")
         self.private_channel_service = registry.get_instance("private_channel_service")
         self.buddy_service = registry.get_instance("buddy_service")
-        self.bot = registry.get_instance("bot")
+        self.setting_service: SettingService = registry.get_instance("setting_service")
         self.access_service: AccessService = registry.get_instance("access_service")
         self.command_alias_service = registry.get_instance("command_alias_service")
         self.event_service = registry.get_instance("event_service")
+        self.private_channel_controller = registry.get_instance("private_channel_controller")
         self.ts: TranslationService = registry.get_instance("translation_service")
         self.getresp = self.ts.get_response
-        self.setting_service: SettingService = registry.get_instance("setting_service")
 
     def pre_start(self):
         self.access_service.register_access_level(self.MEMBER_ACCESS_LEVEL, 80, self.check_member)
@@ -111,7 +112,7 @@ class MemberController:
     @event(event_type=MEMBER_LOGON_EVENT, description="Auto invite members to the private channel when they logon", is_hidden=True)
     def handle_buddy_logon(self, event_type, event_data):
         if event_data.auto_invite == 1:
-            conn = self.get_conn()
+            conn = self.private_channel_controller.get_conn()
             self.bot.send_private_message(event_data.char_id, self.getresp("module/private_channel", "auto_invited"), conn=conn)
             self.private_channel_service.invite(event_data.char_id, conn)
 
@@ -126,7 +127,7 @@ class MemberController:
             event_data = DictObject({
                 "char_id": member.char_id,
                 "auto_invite": member.auto_invite,
-                "conn": self.get_conn()
+                "conn": self.private_channel_controller.get_conn()
             })
             if packet.online:
                 self.event_service.fire_event(self.MEMBER_LOGON_EVENT, event_data)
@@ -154,6 +155,3 @@ class MemberController:
 
     def check_member(self, char_id):
         return self.get_member(char_id) is not None
-
-    def get_conn(self):
-        return self.bot.get_primary_conn()
