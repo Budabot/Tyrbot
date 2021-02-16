@@ -77,6 +77,7 @@
       "Buddy List: <highlight>{bl_used}/{bl_size}</highlight>\n",
       "Uptime: <highlight>{uptime}</highlight>\n",
       "Dimension: <highlight>{dim}</highlight>\n",
+      "Mass Message Queue: <highlight>{mass_message_queue}</highlight>\n",
       "\n",
       "<pagebreak><header2>Bots Connected</header2>\n",
       "{bots_connected}",

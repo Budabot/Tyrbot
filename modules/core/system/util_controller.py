@@ -86,6 +86,7 @@ class UtilController:
     @command(command="system", params=[], access_level="admin",
              description="Show system information")
     def system_cmd(self, request):
+        mass_message_queue = "None"
         event_types = ""
         access_levels = ""
         bots_connected = ""
@@ -104,6 +105,9 @@ class UtilController:
         for access_level in self.access_service.get_access_levels():
             access_levels += "%s (%d)\n" % (access_level["label"], access_level["level"])
 
+        if self.bot.mass_message_queue:
+            mass_message_queue = str(self.bot.mass_message_queue.qsize())
+
         blob = self.getresp("module/system", "status_blob", {
             "bot_ver": self.bot.version,
             "os_ver": platform.system() + " " + platform.release(),
@@ -115,6 +119,7 @@ class UtilController:
             "bl_size": self.buddy_service.buddy_list_size,
             "uptime": self.util.time_to_readable(int(time.time()) - self.bot.start_time, max_levels=None),
             "dim": self.bot.dimension,
+            "mass_message_queue": mass_message_queue,
             "bots_connected": bots_connected,
             "event_types": event_types,
             "access_levels": access_levels
