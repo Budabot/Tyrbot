@@ -38,6 +38,7 @@ class Tyrbot:
         self.incoming_queue = FifoQueue()
         self.mass_message_queue = None
         self.conns = DictObject()
+        self.primary_conn_id = None
 
     def inject(self, registry):
         self.db = registry.get_instance("db")
@@ -129,7 +130,15 @@ class Tyrbot:
 
     def connect(self, config):
         for i, bot in enumerate(config.bots):
-            conn = self.create_conn("bot" + str(i))
+            if "id" in bot:
+                _id = bot.id
+            else:
+                _id = "bot" + str(i)
+
+            if i == 0:
+                self.primary_conn_id = _id
+
+            conn = self.create_conn(_id)
             conn.connect(config.server.host, config.server.port)
 
             # only create the mass_message_queue if there is at least 1 non-main bot
@@ -382,7 +391,7 @@ class Tyrbot:
         self.status = BotStatus.RESTART
 
     def get_primary_conn_id(self):
-        return "bot0"
+        return self.primary_conn_id
 
     def get_primary_conn(self):
         return self.conns[self.get_primary_conn_id()]
