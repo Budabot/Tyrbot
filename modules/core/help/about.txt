@@ -6,19 +6,27 @@ Development of Tyrbot started on 08-Feb-2018 when it received its initial commit
 
 I would like to give special thanks to these people who contributed significant effort and large amounts of their time to the Tyrbot project:
 -<highlight>eli(vlad)</highlight> for his large contributions to Tyrbot including the news, discord, and raid modules
--<highlight>Teeko</highlight> for all the time he spent testing new features, reporting bugs, and making suggestions
+-<highlight>Teeko</highlight> for all the time he spent testing new features, reporting bugs, making suggestions, and always pushing me to make Tyrbot better
 -<highlight>nepherius/wafflespower</highlight> who was critical during the early parts of development in testing and suggesting changes
--<highlight>minidodo</highlight> for his significant contributions and fixes to Tyrbot, and his willingness to assist other users in the Discord channel
+-<highlight>minidodo</highlight> for his significant contributions to Tyrbot, all the time he spent testing changes, all of his many ideas, and his willingness to assist other users in the Discord channel
 
 
 Thanks to these people who submitted PRs on GitHub to improve Tyrbot:
-<highlight>hughp135</highlight>
+<highlight>Hughp135</highlight>
 <highlight>jroovers</highlight>
-<highlight>dustify</highlight>
+<highlight>Dustify</highlight>
 <highlight>equinitry</highlight>
-<highlight>Ilon Sjögren</highlight>
+<highlight>ilons</highlight>
+<highlight>deathlef</highlight>
+<highlight>fatpower</highlight>
+<highlight>Klythe</highlight>
+<highlight>einarf</highlight>
 
 Thanks to <highlight>Bgmofo</highlight> and <highlight>Weyland Yutani</highlight> for testing Tyrbot in its initial stages and providing valuable feedback.
+
+Thanks to <highlight>Chrisax</highlight> and <highlight>Athen Paladins</highlight> for hosting the history API.
+
+Thanks to <highlight>Dreadloch Corp.</highlight> for their willingness to use developmental (and sometimes experimental) versions of Tyrbot in order to test features and find bugs.
 
 Lastly, to the AO community, I would like to give thanks for all the support you have given me and for allowing me to write bots for you.  It has been an experience like no other.  I wish each and every one of you the best in life.
 
