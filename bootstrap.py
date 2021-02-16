@@ -75,6 +75,12 @@ try:
         logger.info("Reading config from file '%s'" % config_file)
         from conf.config import config
 
+    if "bots" not in config:
+        raise Exception("No bots detected in config")
+
+    if not config.bots[0].is_main:
+        raise Exception("First bot must be configured as a main bot")
+
     # ensure dimension is integer
     if isinstance(config.server.dimension, str):
         config.server.dimension = int(config.server.dimension)
