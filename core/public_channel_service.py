@@ -74,7 +74,7 @@ class PublicChannelService:
         if not conn.is_main:
             return
 
-        if self.is_org_channel_id(packet.channel_id):
+        if conn.org_channel_id == packet.channel_id:
             char_name = self.character_service.get_char_name(packet.char_id)
             if packet.extended_message:
                 message = packet.extended_message.get_message()

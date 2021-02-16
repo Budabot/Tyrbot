@@ -64,8 +64,7 @@ class OrgChannelController:
                                                              char=self.text.make_charlink(char_name),
                                                              msg=message)
 
-        # TODO send to other org channels
-
+        self.bot.send_message_to_other_org_channels(formatted_message, from_conn=event_data.conn)
         self.message_hub_service.send_message(self.MESSAGE_SOURCE, sender, message, formatted_message)
 
     @event(event_type=OrgMemberController.ORG_MEMBER_LOGON_EVENT, description="Notify when org member logs on")
@@ -106,10 +105,13 @@ class OrgChannelController:
             if len(pages) < 4:
                 for page in pages:
                     message = "{org} {message}".format(org=self.ORG_CHANNEL_PREFIX, message=page)
+                    self.bot.send_message_to_other_org_channels(message, from_conn=event_data.conn)
                     self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, page, message)
             else:
                 message = "{org} {message}".format(org=self.ORG_CHANNEL_PREFIX, message=event_data.message.title)
+                self.bot.send_message_to_other_org_channels(message, from_conn=event_data.conn)
                 self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, event_data.message.title, message)
         else:
             message = "{org} {message}".format(org=self.ORG_CHANNEL_PREFIX, message=event_data.message)
+            self.bot.send_message_to_other_org_channels(message, from_conn=event_data.conn)
             self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, event_data.message, message)

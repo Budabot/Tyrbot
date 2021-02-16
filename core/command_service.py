@@ -421,7 +421,7 @@ class CommandService:
             })
             self.event_service.fire_event(self.ORG_CHANNEL_COMMAND_EVENT, event_data)
 
-        if message.startswith(self.setting_service.get("symbol").get_value()) and self.public_channel_service.is_org_channel_id(packet.channel_id):
+        if message.startswith(self.setting_service.get("symbol").get_value()) and conn.org_channel_id == packet.channel_id:
             self.process_command(
                 self.trim_command_symbol(message),
                 self.ORG_CHANNEL,
