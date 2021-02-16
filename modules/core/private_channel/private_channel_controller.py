@@ -54,12 +54,12 @@ class PrivateChannelController:
     @command(command="join", params=[], access_level="member",
              description="Join the private channel")
     def join_cmd(self, request):
-        self.private_channel_service.invite(request.sender.char_id, request.conn)
+        self.private_channel_service.invite(request.sender.char_id, self.get_conn(request.conn))
 
     @command(command="leave", params=[], access_level="all",
              description="Leave the private channel")
     def leave_cmd(self, request):
-        self.private_channel_service.kick(request.sender.char_id, request.conn)
+        self.private_channel_service.kick(request.sender.char_id, self.get_conn(request.conn))
 
     @command(command="invite", params=[Character("character")], access_level="all",
              description="Invite a character to the private channel")
@@ -71,7 +71,7 @@ class PrivateChannelController:
                 self.bot.send_private_message(char.char_id,
                                               self.getresp("module/private_channel", "invite_success_target", {"inviter": request.sender.name}),
                                               conn=request.conn)
-                self.private_channel_service.invite(char.char_id, request.conn)
+                self.private_channel_service.invite(char.char_id, self.get_conn(request.conn))
                 return self.getresp("module/private_channel", "invite_success_self", {"target": char.name})
         else:
             return self.getresp("global", "char_not_found", {"char": char.name})
@@ -88,7 +88,7 @@ class PrivateChannelController:
                     self.bot.send_private_message(char.char_id,
                                                   self.getresp("module/private_channel", "kick_success_target", {"kicker": request.sender.name}),
                                                   conn=request.conn)
-                    self.private_channel_service.kick(char.char_id, request.conn)
+                    self.private_channel_service.kick(char.char_id, self.get_conn(request.conn))
                     return self.getresp("module/private_channel", "kick_success_self", {"target": char.name})
                 else:
                     return self.getresp("module/private_channel", "kick_fail", {"target": char.name})
@@ -104,7 +104,7 @@ class PrivateChannelController:
 
     @event(event_type=BanService.BAN_ADDED_EVENT, description="Kick characters from the private channel who are banned", is_hidden=True)
     def ban_added_event(self, event_type, event_data):
-        self.private_channel_service.kick(event_data.char_id, self.bot.get_temp_conn())
+        self.private_channel_service.kick_from_all(event_data.char_id)
 
     @event(event_type=PrivateChannelService.PRIVATE_CHANNEL_MESSAGE_EVENT, description="Relay messages from the private channel to the relay hub", is_hidden=True)
     def handle_private_channel_message_event(self, event_type, event_data):
@@ -126,6 +126,7 @@ class PrivateChannelController:
         msg = self.getresp("module/private_channel", "join",
                            {"char": char_info,
                             "logon": self.log_controller.get_logon(event_data.char_id) if self.log_controller else ""})
+
         for _id, conn in self.bot.get_conns().items():
             if conn.is_main:
                 self.bot.send_private_channel_message(msg, fire_outgoing_event=False, conn=conn)
@@ -136,6 +137,7 @@ class PrivateChannelController:
         msg = self.getresp("module/private_channel", "leave",
                            {"char": event_data.name,
                             "logoff": self.log_controller.get_logoff(event_data.char_id) if self.log_controller else ""})
+
         for _id, conn in self.bot.get_conns().items():
             if conn.is_main:
                 self.bot.send_private_channel_message(msg, fire_outgoing_event=False)
@@ -166,3 +168,9 @@ class PrivateChannelController:
                                                   None,
                                                   event_data.message,
                                                   message)
+
+    def get_conn(self, conn):
+        if conn.is_main:
+            return conn
+        else:
+            return self.bot.get_primary_conn()

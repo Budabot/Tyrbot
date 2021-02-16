@@ -70,6 +70,11 @@ class PrivateChannelService:
         if char_id != conn.get_char_id():
             conn.send_packet(client_packets.PrivateChannelKick(char_id))
 
+    def kick_from_all(self, char_id):
+        for _id, conn in self.bot.get_conns().items():
+            if char_id in conn.private_channel:
+                conn.send_packet(client_packets.PrivateChannelKick(char_id))
+
     def kickall(self, conn: Conn):
         conn.send_packet(client_packets.PrivateChannelKickAll())
 
