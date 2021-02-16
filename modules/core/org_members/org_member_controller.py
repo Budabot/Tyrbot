@@ -198,7 +198,7 @@ class OrgMemberController:
             event_data = DictObject({
                 "char_id": org_member.char_id,
                 "name": self.character_service.get_char_name(packet.char_id),
-                "conn": conn
+                "conn": self.bot.get_conn_by_org_id(org_member.org_id)
             })
             if packet.online:
                 self.event_service.fire_event(self.ORG_MEMBER_LOGON_EVENT, event_data)
