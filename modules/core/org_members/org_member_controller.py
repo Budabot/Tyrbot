@@ -124,11 +124,17 @@ class OrgMemberController:
 
     @timerevent(budatime="24h", description="Download the org_members roster", is_hidden=True)
     def download_org_roster_event(self, event_type, event_data):
+        org_ids = set()
+        data = self.db.query("SELECT DISTINCT org_id FROM org_member")
+        for row in data:
+            org_ids.add(row.org_id)
+
         for _id, conn in self.bot.get_conns().items():
             if not conn.is_main or not conn.org_id:
                 continue
 
             org_id = conn.org_id
+            org_ids.remove(org_id)
 
             db_members = {}
             for row in self.get_org_members_by_org_id(conn.org_id):
@@ -156,6 +162,10 @@ class OrgMemberController:
 
             for char_id, mode in db_members.items():
                 self.process_update(char_id, mode, self.MODE_REM_AUTO, conn)
+
+        # remove org members who no longer have a corresponding conn
+        for org_id in org_ids:
+            self.db.exec("DELETE FROM org_member WHERE org_id = ?", [org_id])
 
     @event(PublicChannelService.ORG_MSG_EVENT, "Update org roster when characters join or leave", is_hidden=True)
     def org_msg_event(self, event_type, event_data):
