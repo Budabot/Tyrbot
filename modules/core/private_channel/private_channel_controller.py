@@ -47,9 +47,7 @@ class PrivateChannelController:
             return hjson.load(f)
 
     def handle_incoming_relay_message(self, ctx):
-        for _id, conn in self.bot.get_conns().items():
-            if conn.is_main:
-                self.bot.send_private_channel_message(ctx.formatted_message, fire_outgoing_event=False)
+        self.bot.send_private_channel_message(ctx.formatted_message, fire_outgoing_event=False, conn=self.get_conn())
 
     @command(command="join", params=[], access_level="member",
              description="Join the private channel")
