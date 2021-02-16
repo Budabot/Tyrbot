@@ -3,13 +3,13 @@ import hjson
 from core.ban_service import BanService
 from core.chat_blob import ChatBlob
 from core.command_param_types import Character
+from core.command_service import CommandService
 from core.decorators import instance, command, event
 from core.dict_object import DictObject
 from core.private_channel_service import PrivateChannelService
 from core.setting_service import SettingService
 from core.text import Text
 from core.translation_service import TranslationService
-from core.tyrbot import Tyrbot
 
 
 @instance()
@@ -47,7 +47,7 @@ class PrivateChannelController:
             return hjson.load(f)
 
     def handle_incoming_relay_message(self, ctx):
-        self.bot.send_private_channel_message(ctx.formatted_message, fire_outgoing_event=False, conn=self.get_conn())
+        self.bot.send_private_channel_message(ctx.formatted_message, conn=self.get_conn())
 
     @command(command="join", params=[], access_level="member",
              description="Join the private channel")
@@ -127,7 +127,7 @@ class PrivateChannelController:
                            {"char": char_info,
                             "logon": self.log_controller.get_logon(event_data.char_id) if self.log_controller else ""})
 
-        self.bot.send_private_channel_message(msg, fire_outgoing_event=False, conn=self.get_conn())
+        self.bot.send_private_channel_message(msg, conn=self.get_conn())
         self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)
 
     @event(event_type=PrivateChannelService.LEFT_PRIVATE_CHANNEL_EVENT, description="Notify when a character leaves the private channel")
@@ -136,10 +136,10 @@ class PrivateChannelController:
                            {"char": event_data.name,
                             "logoff": self.log_controller.get_logoff(event_data.char_id) if self.log_controller else ""})
 
-        self.bot.send_private_channel_message(msg, fire_outgoing_event=False, conn=self.get_conn())
+        self.bot.send_private_channel_message(msg, conn=self.get_conn())
         self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)
 
-    @event(event_type=Tyrbot.OUTGOING_PRIVATE_CHANNEL_MESSAGE_EVENT, description="Relay commands from the private channel to the relay hub", is_hidden=True)
+    @event(event_type=CommandService.PRIVATE_CHANNEL_COMMAND_EVENT, description="Relay commands from the private channel to the relay hub", is_hidden=True)
     def outgoing_private_channel_message_event(self, event_type, event_data):
         if isinstance(event_data.message, ChatBlob):
             pages = self.text.paginate(ChatBlob(event_data.message.title, event_data.message.msg),

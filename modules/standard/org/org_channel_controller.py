@@ -1,4 +1,5 @@
 from core.chat_blob import ChatBlob
+from core.command_service import CommandService
 from core.decorators import instance, event
 from core.dict_object import DictObject
 from core.logger import Logger
@@ -6,7 +7,6 @@ from core.public_channel_service import PublicChannelService
 from core.setting_service import SettingService
 from core.setting_types import BooleanSettingType
 from core.text import Text
-from core.tyrbot import Tyrbot
 from modules.core.org_members.org_member_controller import OrgMemberController
 
 
@@ -41,7 +41,7 @@ class OrgChannelController:
 
     def handle_incoming_relay_message(self, ctx):
         for _id, conn in self.bot.get_conns().items():
-            self.bot.send_org_message(ctx.formatted_message, fire_outgoing_event=False, conn=conn)
+            self.bot.send_org_message(ctx.formatted_message, conn=conn)
 
     @event(event_type=PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, description="Relay messages from the org channel to the relay hub", is_hidden=True)
     def handle_org_message_event(self, event_type, event_data):
@@ -64,6 +64,8 @@ class OrgChannelController:
                                                              char=self.text.make_charlink(char_name),
                                                              msg=message)
 
+        # TODO send to other org channels
+
         self.message_hub_service.send_message(self.MESSAGE_SOURCE, sender, message, formatted_message)
 
     @event(event_type=OrgMemberController.ORG_MEMBER_LOGON_EVENT, description="Notify when org member logs on")
@@ -80,7 +82,7 @@ class OrgChannelController:
 
             for _id, conn in self.bot.get_conns().items():
                 if conn.is_main:
-                    self.bot.send_org_message(msg, fire_outgoing_event=False, conn=conn)
+                    self.bot.send_org_message(msg, conn=conn)
             self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)
 
     @event(event_type=OrgMemberController.ORG_MEMBER_LOGOFF_EVENT, description="Notify when org member logs off")
@@ -92,10 +94,10 @@ class OrgChannelController:
 
             for _id, conn in self.bot.get_conns().items():
                 if conn.is_main:
-                    self.bot.send_org_message(msg, fire_outgoing_event=False, conn=conn)
+                    self.bot.send_org_message(msg, conn=conn)
             self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)
 
-    @event(event_type=Tyrbot.OUTGOING_ORG_MESSAGE_EVENT, description="Relay commands from the org channel to the relay hub", is_hidden=True)
+    @event(event_type=CommandService.ORG_CHANNEL_COMMAND_EVENT, description="Relay commands from the org channel to the relay hub", is_hidden=True)
     def outgoing_org_message_event(self, event_type, event_data):
         if isinstance(event_data.message, ChatBlob):
             pages = self.text.paginate(ChatBlob(event_data.message.title, event_data.message.msg),
@@ -104,19 +106,10 @@ class OrgChannelController:
             if len(pages) < 4:
                 for page in pages:
                     message = "{org} {message}".format(org=self.ORG_CHANNEL_PREFIX, message=page)
-                    self.message_hub_service.send_message(self.MESSAGE_SOURCE,
-                                                          None,
-                                                          page,
-                                                          message)
+                    self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, page, message)
             else:
                 message = "{org} {message}".format(org=self.ORG_CHANNEL_PREFIX, message=event_data.message.title)
-                self.message_hub_service.send_message(self.MESSAGE_SOURCE,
-                                                      None,
-                                                      event_data.message.title,
-                                                      message)
+                self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, event_data.message.title, message)
         else:
             message = "{org} {message}".format(org=self.ORG_CHANNEL_PREFIX, message=event_data.message)
-            self.message_hub_service.send_message(self.MESSAGE_SOURCE,
-                                                  None,
-                                                  event_data.message,
-                                                  message)
+            self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, event_data.message, message)

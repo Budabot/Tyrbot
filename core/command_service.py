@@ -22,6 +22,9 @@ class CommandService:
     ORG_CHANNEL = "org"
     PRIVATE_MESSAGE_CHANNEL = "msg"
 
+    ORG_CHANNEL_COMMAND_EVENT = "org_channel_command"
+    PRIVATE_CHANNEL_COMMAND_EVENT = "private_channel_command"
+
     def __init__(self):
         self.handlers = collections.defaultdict(list)
         self.logger = Logger(__name__)
@@ -45,6 +48,7 @@ class CommandService:
         self.access_service: AccessService = registry.get_instance("access_service")
         self.bot = registry.get_instance("bot")
         self.character_service: CharacterService = registry.get_instance("character_service")
+        self.event_service = registry.get_instance("event_service")
         self.setting_service: SettingService = registry.get_instance("setting_service")
         self.command_alias_service = registry.get_instance("command_alias_service")
         self.usage_service = registry.get_instance("usage_service")
@@ -60,6 +64,9 @@ class CommandService:
         self.register_command_channel("Private Message", self.PRIVATE_MESSAGE_CHANNEL)
         self.register_command_channel("Org Channel", self.ORG_CHANNEL)
         self.register_command_channel("Private Channel", self.PRIVATE_CHANNEL)
+
+        self.event_service.register_event_type(self.ORG_CHANNEL_COMMAND_EVENT)
+        self.event_service.register_event_type(self.PRIVATE_CHANNEL_COMMAND_EVENT)
 
     def start(self):
         access_levels = {}
@@ -375,12 +382,21 @@ class CommandService:
         # ignore leading space
         message = packet.message.lstrip()
 
+        def reply(msg):
+            self.bot.send_private_channel_message(msg, private_channel_id=conn.char_id, conn=conn)
+            event_data = DictObject({
+                "org_channel_id": packet.private_channel_id,
+                "message": msg,
+                "conn": conn
+            })
+            self.event_service.fire_event(self.PRIVATE_CHANNEL_COMMAND_EVENT, event_data)
+
         if message.startswith(self.setting_service.get("symbol").get_value()) and packet.private_channel_id == conn.get_char_id():
             self.process_command(
                 self.trim_command_symbol(message),
                 self.PRIVATE_CHANNEL,
                 packet.char_id,
-                lambda msg: self.bot.send_private_channel_message(msg, private_channel_id=conn.char_id, conn=conn),
+                reply,
                 conn)
 
     def handle_public_channel_message(self, conn: Conn, packet: server_packets.PublicChannelMessage):
@@ -396,12 +412,21 @@ class CommandService:
         # ignore leading space
         message = packet.message.lstrip()
 
+        def reply(msg):
+            self.bot.send_org_message(msg, conn=conn)
+            event_data = DictObject({
+                "org_channel_id": conn.org_channel_id,
+                "message": msg,
+                "conn": conn
+            })
+            self.event_service.fire_event(self.ORG_CHANNEL_COMMAND_EVENT, event_data)
+
         if message.startswith(self.setting_service.get("symbol").get_value()) and self.public_channel_service.is_org_channel_id(packet.channel_id):
             self.process_command(
                 self.trim_command_symbol(message),
                 self.ORG_CHANNEL,
                 packet.char_id,
-                lambda msg: self.bot.send_org_message(msg, conn=conn),
+                reply,
                 conn)
 
     def trim_command_symbol(self, s):

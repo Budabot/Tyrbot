@@ -124,6 +124,5 @@ class AllianceRelayController:
         if self.relay_channel_id:
             self.bot.send_private_channel_message("!agcr " + msg,
                                                   private_channel_id=self.relay_channel_id,
-                                                  fire_outgoing_event=False,
                                                   add_color=False,
                                                   conn=self.bot.get_primary_conn())

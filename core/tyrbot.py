@@ -24,10 +24,6 @@ class Tyrbot:
     CONNECT_EVENT = "connect"
     PRIVATE_MSG_EVENT = "private_msg"
 
-    OUTGOING_ORG_MESSAGE_EVENT = "outgoing_org_message"
-    OUTGOING_PRIVATE_MESSAGE_EVENT = "outgoing_private_message"
-    OUTGOING_PRIVATE_CHANNEL_MESSAGE_EVENT = "outgoing_private_channel_message"
-
     def __init__(self):
         super().__init__()
         self.logger = Logger(__name__)
@@ -93,9 +89,6 @@ class Tyrbot:
         self.access_service.register_access_level("superadmin", 10, self.check_superadmin)
         self.event_service.register_event_type(self.CONNECT_EVENT)
         self.event_service.register_event_type(self.PRIVATE_MSG_EVENT)
-        self.event_service.register_event_type(self.OUTGOING_ORG_MESSAGE_EVENT)
-        self.event_service.register_event_type(self.OUTGOING_PRIVATE_MESSAGE_EVENT)
-        self.event_service.register_event_type(self.OUTGOING_PRIVATE_CHANNEL_MESSAGE_EVENT)
 
     def start(self):
         self.setting_service.register("core.system", "symbol", "!", TextSettingType(["!", "#", "*", "@", "$", "+", "-"]), "Symbol for executing bot commands")
@@ -303,7 +296,7 @@ class Tyrbot:
 
         return packet
 
-    def send_org_message(self, msg, add_color=True, fire_outgoing_event=True, conn=None):
+    def send_org_message(self, msg, add_color=True, conn=None):
         if not conn:
             conn = self.get_primary_conn()
 
@@ -316,12 +309,7 @@ class Tyrbot:
                 packet = client_packets.PublicChannelMessage(conn.org_channel_id, color + page, "")
                 conn.add_packet_to_queue(packet)
 
-            if fire_outgoing_event:
-                self.event_service.fire_event(self.OUTGOING_ORG_MESSAGE_EVENT, DictObject({"org_channel_id": conn.org_channel_id,
-                                                                                           "message": msg,
-                                                                                           "conn": conn}))
-
-    def send_private_message(self, char_id, msg, add_color=True, fire_outgoing_event=True, conn=None):
+    def send_private_message(self, char_id, msg, add_color=True, conn=None):
         if not conn:
             conn = self.get_primary_conn()
 
@@ -335,12 +323,7 @@ class Tyrbot:
                 packet = client_packets.PrivateMessage(char_id, color + page, "\0")
                 conn.add_packet_to_queue(packet)
 
-            if fire_outgoing_event:
-                self.event_service.fire_event(self.OUTGOING_PRIVATE_MESSAGE_EVENT, DictObject({"char_id": char_id,
-                                                                                               "message": msg,
-                                                                                               "conn": conn}))
-
-    def send_private_channel_message(self, msg, private_channel_id=None, add_color=True, fire_outgoing_event=True, conn=None):
+    def send_private_channel_message(self, msg, private_channel_id=None, add_color=True, conn=None):
         if not conn:
             conn = self.get_primary_conn()
 
@@ -352,11 +335,6 @@ class Tyrbot:
         for page in pages:
             packet = client_packets.PrivateChannelMessage(private_channel_id, color + page, "\0")
             conn.send_packet(packet)
-
-        if fire_outgoing_event and private_channel_id == conn.get_char_id():
-            self.event_service.fire_event(self.OUTGOING_PRIVATE_CHANNEL_MESSAGE_EVENT, DictObject({"private_channel_id": private_channel_id,
-                                                                                                   "message": msg,
-                                                                                                   "conn": conn}))
 
     def send_mass_message(self, char_id, msg, add_color=True, conn=None):
         if not conn:
@@ -374,6 +352,11 @@ class Tyrbot:
                 else:
                     packet = client_packets.PrivateMessage(char_id, color + page, "spam")
                     self.get_primary_conn().send_packet(packet)
+
+    def send_message_to_other_org_channels(self, msg, from_conn: Conn):
+        for _id, conn in self.get_conns().items():
+            if conn.is_main and conn != from_conn:
+                self.send_org_message(msg, conn=conn)
 
     def handle_private_message(self, conn: Conn, packet: server_packets.PrivateMessage):
         char_name = self.character_service.get_char_name(packet.char_id)

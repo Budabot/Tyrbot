@@ -143,9 +143,9 @@ class LeaderController:
         color = self.setting_service.get("leader_echo_color")
 
         if channel == "org":
-            self.bot.send_org_message("%s: %s" % (sender, color.format_text(message)), fire_outgoing_event=False, conn=conn)
+            self.bot.send_org_message("%s: %s" % (sender, color.format_text(message)), conn=conn)
         elif channel == "priv":
-            self.bot.send_private_channel_message("%s: %s" % (sender, color.format_text(message)), fire_outgoing_event=False, conn=conn)
+            self.bot.send_private_channel_message("%s: %s" % (sender, color.format_text(message)), conn=conn)
 
         self.activity_done()
 
