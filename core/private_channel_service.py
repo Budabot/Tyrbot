@@ -34,7 +34,7 @@ class PrivateChannelService:
 
     def handle_private_channel_message(self, conn: Conn, packet: server_packets.PrivateChannelMessage):
         char_name = self.character_service.get_char_name(packet.char_id)
-        self.logger.log_chat(conn.id, "Private Channel", char_name, packet.message)
+        self.logger.log_chat(conn, "Private Channel", char_name, packet.message)
 
         if conn.is_main and packet.private_channel_id == conn.get_char_id():
             self.event_service.fire_event(self.PRIVATE_CHANNEL_MESSAGE_EVENT, DictObject({"char_id": packet.char_id,
@@ -44,7 +44,7 @@ class PrivateChannelService:
 
     def handle_private_channel_client_joined(self, conn: Conn, packet: server_packets.PrivateChannelClientJoined):
         char_name = self.character_service.get_char_name(packet.char_id)
-        self.logger.log_chat(conn.id, "Private Channel", None, f"{char_name} joined the channel.")
+        self.logger.log_chat(conn, "Private Channel", None, f"{char_name} joined the channel.")
 
         if conn.is_main and packet.private_channel_id == conn.get_char_id():
             conn.private_channel[packet.char_id] = packet
@@ -54,7 +54,7 @@ class PrivateChannelService:
 
     def handle_private_channel_client_left(self, conn: Conn, packet: server_packets.PrivateChannelClientLeft):
         char_name = self.character_service.get_char_name(packet.char_id)
-        self.logger.log_chat(conn.id, "Private Channel", None, f"{char_name} left the channel.")
+        self.logger.log_chat(conn, "Private Channel", None, f"{char_name} left the channel.")
 
         if conn.is_main and packet.private_channel_id == conn.get_char_id():
             del conn.private_channel[packet.char_id]

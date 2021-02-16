@@ -80,7 +80,7 @@ class PublicChannelService:
                 message = packet.extended_message.get_message()
             else:
                 message = packet.message
-            self.logger.log_chat(conn.id, "Org Channel", char_name, message)
+            self.logger.log_chat(conn, "Org Channel", char_name, message)
             self.event_service.fire_event(self.ORG_CHANNEL_MESSAGE_EVENT, DictObject({"char_id": packet.char_id,
                                                                                       "name": char_name,
                                                                                       "message": packet.message,
@@ -92,7 +92,7 @@ class PublicChannelService:
                 message = packet.extended_message.get_message()
             else:
                 message = packet.message
-            self.logger.log_chat(conn.id, "Org Msg", char_name, message)
+            self.logger.log_chat(conn, "Org Msg", char_name, message)
             self.event_service.fire_event(self.ORG_MSG_EVENT, DictObject({"char_id": packet.char_id,
                                                                           "name": char_name,
                                                                           "message": packet.message,

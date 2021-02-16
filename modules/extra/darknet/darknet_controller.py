@@ -68,7 +68,7 @@ class DarkController:
                 return
             channel_name = self.character_service.get_char_name(packet.private_channel_id)
             char_name = self.character_service.get_char_name(packet.char_id)
-            self.logger.log_chat(conn.id, "Private Channel(%s)" % channel_name, char_name, packet.message)
+            self.logger.log_chat(conn, "Private Channel(%s)" % channel_name, char_name, packet.message)
             message = packet.message.lstrip()
             self.processIncomingRelayMessage(message)
 
