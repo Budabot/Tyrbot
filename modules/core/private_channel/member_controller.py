@@ -111,8 +111,9 @@ class MemberController:
     @event(event_type=MEMBER_LOGON_EVENT, description="Auto invite members to the private channel when they logon", is_hidden=True)
     def handle_buddy_logon(self, event_type, event_data):
         if event_data.auto_invite == 1:
-            self.bot.send_private_message(event_data.char_id, self.getresp("module/private_channel", "auto_invited"), conn=event_data.conn)
-            self.private_channel_service.invite(event_data.char_id, event_data.conn)
+            conn = self.get_conn()
+            self.bot.send_private_message(event_data.char_id, self.getresp("module/private_channel", "auto_invited"), conn=conn)
+            self.private_channel_service.invite(event_data.char_id, conn)
 
     @event(event_type=BanService.BAN_ADDED_EVENT, description="Remove characters as members when they are banned",
            is_hidden=True)
@@ -125,7 +126,7 @@ class MemberController:
             event_data = DictObject({
                 "char_id": member.char_id,
                 "auto_invite": member.auto_invite,
-                "conn": conn
+                "conn": self.get_conn()
             })
             if packet.online:
                 self.event_service.fire_event(self.MEMBER_LOGON_EVENT, event_data)
@@ -153,3 +154,6 @@ class MemberController:
 
     def check_member(self, char_id):
         return self.get_member(char_id) is not None
+
+    def get_conn(self):
+        return self.bot.get_primary_conn()
