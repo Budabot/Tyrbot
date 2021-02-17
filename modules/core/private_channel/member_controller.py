@@ -91,15 +91,16 @@ class MemberController:
     def autoinvite_cmd(self, request, pref):
         pref = pref.lower()
         member = self.get_member(request.sender.char_id)
+        autoinvite_pref = 1 if pref == "on" else 0
+        pref_translated = self.getresp("module/private_channel", pref)
         if member:
-            self.update_auto_invite(request.sender.char_id, 1 if pref == "on" else 0)
-            pref = self.getresp("module/private_channel", "on" if pref == "on" else "off")
-            return self.getresp("module/private_channel", "autoinvite_changed", {"changedto": pref})
+            self.update_auto_invite(request.sender.char_id, autoinvite_pref)
+            return self.getresp("module/private_channel", "autoinvite_changed", {"changedto": pref_translated})
         else:
             if self.access_service.check_access(request.sender.char_id, self.setting_service.get_value("autoinvite_auto_al")):
-                self.add_member(request.sender.char_id, auto_invite=1)
+                self.add_member(request.sender.char_id, auto_invite=autoinvite_pref)
                 return self.getresp("module/private_channel", "autoinvite_changed",
-                                    {"changedto": self.getresp("module/private_channel", "on")})
+                                    {"changedto": pref_translated})
             else:
                 return self.getresp("module/private_channel", "not_an_member")
 
