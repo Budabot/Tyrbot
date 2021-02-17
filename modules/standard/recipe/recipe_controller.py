@@ -80,7 +80,7 @@ class RecipeController:
 
         blob = ""
         if len(data) > 0:
-            blob += self.text.get_paging_links(f"aou {search}", page_number, offset + page_size < len(data))
+            blob += self.text.get_paging_links(f"recipe {search}", page_number, offset + page_size < len(data))
             blob += "\n\n"
 
         for row in paged_data:

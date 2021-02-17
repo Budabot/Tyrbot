@@ -70,9 +70,9 @@ class DarkController:
             char_name = self.character_service.get_char_name(packet.char_id)
             self.logger.log_chat(conn, "Private Channel(%s)" % channel_name, char_name, packet.message)
             message = packet.message.lstrip()
-            self.processIncomingRelayMessage(message)
+            self.process_incoming_relay_message(message)
 
-    def processIncomingRelayMessage(self, message):
+    def process_incoming_relay_message(self, message):
         if re.search(self.message_regex, message):
             cont = re.findall(self.message_regex, message)
             cont = cont[0]

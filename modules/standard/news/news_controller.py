@@ -90,7 +90,8 @@ class NewsController:
             return "Could not find news entry with ID <highlight>%d</highlight>." % news_id
 
         sql = "INSERT INTO news_read (char_id, news_id) VALUES (?,?)"
-        self.db.exec(sql, [request.sender.char_id, news_id])
+        main = self.alts_service.get_main(request.sender.char_id)
+        self.db.exec(sql, [main.char_id, news_id])
 
         return "Successfully marked news entry with ID <highlight>%d</highlight> as read." % news_id
 
@@ -100,8 +101,7 @@ class NewsController:
               "SELECT r.news_id FROM news_read r WHERE char_id = ? ) AND n.deleted_at = 0 "
 
         main = self.alts_service.get_main(request.sender.char_id)
-
-        num_rows = self.db.exec(sql, [request.sender.char_id, main.char_id])
+        num_rows = self.db.exec(sql, [main.char_id, main.char_id])
 
         return "Successfully marked <highlight>%d</highlight> news entries as read." % num_rows
 
