@@ -2,6 +2,7 @@ import time
 
 from core.aochat.server_packets import PublicChannelMessage
 from core.chat_blob import ChatBlob
+from core.command_param_types import Const, Int
 from core.conn import Conn
 from core.decorators import instance, command, event, timerevent
 from core.dict_object import DictObject
@@ -17,6 +18,7 @@ class CloakController:
         self.bot = registry.get_instance("bot")
         self.db = registry.get_instance("db")
         self.util = registry.get_instance("util")
+        self.text = registry.get_instance("text")
         self.character_service = registry.get_instance("character_service")
         self.command_alias_service = registry.get_instance("command_alias_service")
         self.timer_controller = registry.get_instance("timer_controller", is_optional=True)
@@ -33,24 +35,44 @@ class CloakController:
         self.db.exec("CREATE TABLE IF NOT EXISTS cloak_status (char_id INT NOT NULL, action VARCHAR(10) NOT NULL, created_at INT NOT NULL, org_id INT NOT NULL)")
         self.command_alias_service.add_alias("city", "cloak")
 
+    @command(command="cloak", params=[Const("history"), Int("org_id")], access_level="org_member",
+             description="Shows the cloak history")
+    def cloak_history_command(self, request, _, org_id):
+        data = self.db.query("SELECT c.*, p.name FROM cloak_status c LEFT JOIN player p ON c.char_id = p.char_id "
+                             "WHERE c.org_id = ? ORDER BY created_at DESC LIMIT 20", [org_id])
+
+        blob = ""
+        for row in data:
+            action = "<green>on</green>" if row.action == "on" else "<orange>off</orange>"
+            blob += "%s turned the device %s at %s.\n" % (row.name, action, self.util.format_datetime(row.created_at))
+
+        conn = self.bot.get_conn_by_org_id(org_id)
+        org_name = conn.org_name or conn.org_id
+        return ChatBlob(f"Cloak History for {org_name}", blob)
+
     @command(command="cloak", params=[], access_level="org_member",
-             description="Show the current status of the city cloak and the cloak history")
-    def cloak_show_command(self, request):
-        data = self.db.query("SELECT c.*, p.name FROM cloak_status c LEFT JOIN player p ON c.char_id = p.char_id ORDER BY created_at DESC LIMIT 20")
+             description="Shows the cloak status")
+    def cloak_command(self, request):
+        t = int(time.time())
 
-        if len(data) == 0:
-            return "Unknown status on cloak."
-        else:
-            msg = self.get_cloak_status(data[0])
+        blob = ""
+        for _id, conn in self.bot.get_conns().items():
+            if not conn.is_main or not conn.org_id:
+                continue
 
-            request.reply(msg)
+            row = self.db.query_single("SELECT c.char_id, c.action, c.created_at, p.name FROM cloak_status c LEFT JOIN player p ON c.char_id = p.char_id "
+                                       "WHERE c.org_id = ? ORDER BY created_at DESC LIMIT 1", [conn.org_id])
 
-            blob = ""
-            for row in data:
+            org_name = conn.org_name or conn.org_id
+            if row:
                 action = "<green>on</green>" if row.action == "on" else "<orange>off</orange>"
-                blob += "%s turned the device %s at %s.\n" % (row.name, action, self.util.format_datetime(row.created_at))
+                time_str = self.util.time_to_readable(t - row.created_at)
+                history_link = self.text.make_tellcmd("History", f"cloak history {conn.org_id}")
+                blob += f"{org_name} - {action} [{time_str} ago] {history_link}\n"
+            else:
+                blob += f"{org_name} - Unknown status\n"
 
-            return ChatBlob("Cloak History", blob)
+        return ChatBlob(f"Cloak Status", blob)
 
     @event(event_type=CLOAK_EVENT, description="Record when the city cloak is turned off and on", is_hidden=True)
     def city_cloak_event(self, event_type, event_data):
