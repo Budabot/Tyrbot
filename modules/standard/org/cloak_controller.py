@@ -56,10 +56,7 @@ class CloakController:
         t = int(time.time())
 
         blob = ""
-        for _id, conn in self.bot.get_conns().items():
-            if not conn.is_main or not conn.org_id:
-                continue
-
+        for _id, conn in self.bot.get_conns(lambda x: x.is_main and x.org_id):
             row = self.db.query_single("SELECT c.char_id, c.action, c.created_at, p.name FROM cloak_status c LEFT JOIN player p ON c.char_id = p.char_id "
                                        "WHERE c.org_id = ? ORDER BY created_at DESC LIMIT 1", [conn.org_id])
 
@@ -82,10 +79,7 @@ class CloakController:
     @timerevent(budatime="15m", description="Reminds the players when cloak can be raised")
     def cloak_reminder_event(self, event_type, event_data):
         messages = []
-        for _id, conn in self.bot.get_conns().items():
-            if not conn.is_main or not conn.org_id:
-                continue
-
+        for _id, conn in self.bot.get_conns(lambda x: x.is_main and x.org_id):
             row = self.db.query_single("SELECT c.*, p.name FROM cloak_status c LEFT JOIN player p ON c.char_id = p.char_id "
                                        "WHERE c.org_id = ? ORDER BY created_at DESC LIMIT 1", [conn.org_id])
             if row:

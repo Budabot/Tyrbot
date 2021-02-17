@@ -33,7 +33,7 @@ class BuddyService:
         conn.buddy_list[packet.char_id] = buddy
 
         # verify that buddy does not exist on any other conn
-        for conn_id, other_conn in self.bot.get_conns().items():
+        for conn_id, other_conn in self.bot.get_conns():
             if conn.id == conn_id:
                 continue
 
@@ -83,7 +83,7 @@ class BuddyService:
         return True
 
     def is_conn_char_id(self, char_id):
-        for _id, conn in self.bot.conns.items():
+        for _id, conn in self.bot.get_conns():
             if conn.char_id == char_id:
                 return True
 
@@ -91,7 +91,7 @@ class BuddyService:
 
     def remove_buddy(self, char_id, _type, force_remove=False):
         if char_id:
-            for _id, conn in self.bot.conns.items():
+            for _id, conn in self.bot.get_conns:
                 if char_id == conn.char_id:
                     continue
 
@@ -109,7 +109,7 @@ class BuddyService:
             return False
 
     def get_buddy(self, char_id):
-        for _id, conn in self.bot.get_conns().items():
+        for _id, conn in self.bot.get_conns():
             if char_id in conn.buddy_list:
                 return conn.buddy_list[char_id]
         return None
@@ -123,7 +123,7 @@ class BuddyService:
 
     def get_all_buddies(self):
         result = {}
-        for _id, conn in self.bot.get_conns().items():
+        for _id, conn in self.bot.get_conns():
             for char_id, buddy in conn.buddy_list.items():
                 # TODO what if buddies exist on multiple conns?
                 result[char_id] = buddy
@@ -132,7 +132,7 @@ class BuddyService:
 
     def get_buddy_list_size(self):
         count = 0
-        for _id, conn in self.bot.get_conns().items():
+        for _id, conn in self.bot.get_conns():
             count += len(conn.buddy_list)
 
         return count
@@ -140,7 +140,7 @@ class BuddyService:
     def get_conn_for_new_buddy(self):
         buddy_list_size = None
         selected_conn = None
-        for _id, conn in self.bot.get_conns().items():
+        for _id, conn in self.bot.get_conns():
             if buddy_list_size is None or len(conn.buddy_list) < buddy_list_size:
                 buddy_list_size = len(conn.buddy_list)
                 selected_conn = conn

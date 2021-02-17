@@ -86,7 +86,7 @@ class PrivateChannelService:
             conn.send_packet(client_packets.PrivateChannelKick(char_id))
 
     def kick_from_all(self, char_id):
-        for _id, conn in self.bot.get_conns().items():
+        for _id, conn in self.bot.get_conns():
             if char_id in conn.private_channel:
                 conn.send_packet(client_packets.PrivateChannelKick(char_id))
 
@@ -94,7 +94,7 @@ class PrivateChannelService:
         conn.send_packet(client_packets.PrivateChannelKickAll())
 
     def in_any_private_channel(self, char_id):
-        for _id, conn in self.bot.get_conns().items():
+        for _id, conn in self.bot.get_conns():
             if char_id in conn.private_channel:
                 return True
         return False

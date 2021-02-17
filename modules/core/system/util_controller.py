@@ -91,7 +91,7 @@ class UtilController:
         access_levels = ""
         bots_connected = ""
 
-        for _id, conn in self.bot.conns.items():
+        for _id, conn in self.bot.get_conns():
             bots_connected += f"<highlight>{_id}</highlight> - {conn.char_name} ({conn.char_id})\n"
             if conn.is_main:
                 bots_connected += f" └ Org: {conn.get_org_name()} ({conn.get_org_id()})\n"

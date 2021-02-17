@@ -129,10 +129,7 @@ class OrgMemberController:
         for row in data:
             org_ids.add(row.org_id)
 
-        for _id, conn in self.bot.get_conns().items():
-            if not conn.is_main or not conn.org_id:
-                continue
-
+        for _id, conn in self.bot.get_conns(lambda x: x.is_main and x.org_id):
             org_id = conn.org_id
             org_ids.remove(org_id)
 

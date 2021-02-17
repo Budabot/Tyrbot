@@ -40,7 +40,7 @@ class OrgChannelController:
         self.setting_service.register(self.module_name, "prefix_org_priv", True, BooleanSettingType(), "Should the prefix [org] be displayed in relayed messages")
 
     def handle_incoming_relay_message(self, ctx):
-        for _id, conn in self.bot.get_conns().items():
+        for _id, conn in self.bot.get_conns(lambda x: x.is_main and x.org_id):
             self.bot.send_org_message(ctx.formatted_message, conn=conn)
 
     @event(event_type=PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, description="Relay messages from the org channel to the relay hub", is_hidden=True)
@@ -79,9 +79,8 @@ class OrgChannelController:
             if self.log_controller:
                 msg += " " + self.log_controller.get_logon(event_data.char_id)
 
-            for _id, conn in self.bot.get_conns().items():
-                if conn.is_main:
-                    self.bot.send_org_message(msg, conn=conn)
+            for _id, conn in self.bot.get_conns(lambda x: x.is_main and x.org_id):
+                self.bot.send_org_message(msg, conn=conn)
             self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)
 
     @event(event_type=OrgMemberController.ORG_MEMBER_LOGOFF_EVENT, description="Notify when org member logs off")
@@ -91,9 +90,8 @@ class OrgChannelController:
             if self.log_controller:
                 msg += " " + self.log_controller.get_logoff(event_data.char_id)
 
-            for _id, conn in self.bot.get_conns().items():
-                if conn.is_main:
-                    self.bot.send_org_message(msg, conn=conn)
+            for _id, conn in self.bot.get_conns(lambda x: x.is_main and x.org_id):
+                self.bot.send_org_message(msg, conn=conn)
             self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)
 
     @event(event_type=CommandService.ORG_CHANNEL_COMMAND_EVENT, description="Relay commands from the org channel to the relay hub", is_hidden=True)

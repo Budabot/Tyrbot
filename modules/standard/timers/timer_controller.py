@@ -169,9 +169,8 @@ class TimerController:
 
         if timer.channel == "org" or timer.channel == "priv":
             # TODO send to messagehub
-            for _id, conn in self.bot.get_conns().items():
-                if conn.is_main:
-                    self.bot.send_org_message(msg, conn=conn)
+            for _id, conn in self.bot.get_conns(lambda x: x.is_main):
+                self.bot.send_org_message(msg, conn=conn)
 
             self.bot.send_private_channel_message(msg, conn=self.bot.get_primary_conn())
         else:

@@ -191,7 +191,7 @@ class Tyrbot:
     def disconnect(self):
         # wait for all threads to stop reading packets, then disconnect them all
         time.sleep(2)
-        for _id, conn in self.conns.items():
+        for _id, conn in self.get_conns():
             conn.disconnect()
 
     def run(self):
@@ -363,9 +363,8 @@ class Tyrbot:
                     self.get_primary_conn().send_packet(packet)
 
     def send_message_to_other_org_channels(self, msg, from_conn: Conn):
-        for _id, conn in self.get_conns().items():
-            if conn.is_main and conn != from_conn:
-                self.send_org_message(msg, conn=conn)
+        for _id, conn in self.get_conns(lambda x: x.is_main and x != from_conn):
+            self.send_org_message(msg, conn=conn)
 
     def handle_private_message(self, conn: Conn, packet: server_packets.PrivateMessage):
         char_name = self.character_service.get_char_name(packet.char_id)
@@ -397,13 +396,13 @@ class Tyrbot:
         return self.conns[self.get_primary_conn_id()]
 
     def get_conn_by_char_id(self, char_id):
-        for _id, conn in self.conns.items():
+        for _id, conn in self.get_conns():
             if char_id == conn.get_char_id():
                 return conn
         return None
 
     def get_conn_by_org_id(self, org_id):
-        for _id, conn in self.conns.items():
+        for _id, conn in self.get_conns():
             if conn.org_id == org_id:
                 return conn
         return None
@@ -412,5 +411,8 @@ class Tyrbot:
     def get_temp_conn(self):
         return self.get_primary_conn()
 
-    def get_conns(self):
-        return self.conns
+    def get_conns(self, conn_filter=None):
+        if conn_filter:
+            return [(_id, conn) for _id, conn in self.conns.items() if conn_filter(conn)]
+        else:
+            return self.conns.items()
