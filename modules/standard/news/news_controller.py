@@ -47,12 +47,9 @@ class NewsController:
     @command(command="news", params=[Const("add"), Any("news")], description="Add news entry", access_level="moderator", sub_command="update")
     def news_add_cmd(self, request, _, news):
         sql = "INSERT INTO news (char_id, news, sticky, created_at, deleted_at) VALUES (?,?,?,?,?)"
-        success = self.db.exec(sql, [request.sender.char_id, news, 0, int(time.time()), 0])
+        self.db.exec(sql, [request.sender.char_id, news, 0, int(time.time()), 0])
 
-        if success > 0:
-            return "Successfully added news entry with ID <highlight>%d</highlight>." % self.db.last_insert_id()
-        else:
-            return "Failed to add news entry."
+        return "Successfully added news entry with ID <highlight>%d</highlight>." % self.db.last_insert_id()
 
     @command(command="news", params=[Const("rem"), Int("news_id")], description="Remove a news entry", access_level="moderator", sub_command="update")
     def news_rem_cmd(self, request, _, news_id):
@@ -60,9 +57,9 @@ class NewsController:
         success = self.db.exec(sql, [int(time.time()), news_id])
 
         if success > 0:
-            return "Successfully deleted news entry with ID <highlight>%d</highlight>." % news_id
+            return f"Successfully deleted news entry with ID <highlight>{news_id}</highlight>."
         else:
-            return "Could not find news entry with ID <highlight>%d</highlight>." % news_id
+            return f"Could not find news entry with ID <highlight>{news_id}</highlight>."
 
     @command(command="news", params=[Const("sticky"), Int("news_id")], description="Sticky a news entry", access_level="moderator", sub_command="update")
     def news_sticky_cmd(self, request, _, news_id):
@@ -70,9 +67,9 @@ class NewsController:
         success = self.db.exec(sql, [news_id])
 
         if success > 0:
-            return "Successfully updated news entry with ID <highlight>%d</highlight> to a sticky." % news_id
+            return f"Successfully updated news entry with ID <highlight>{news_id}</highlight> to a sticky."
         else:
-            return "Could not find news entry with ID <highlight>%d</highlight>." % news_id
+            return f"Could not find news entry with ID <highlight>{news_id}</highlight>."
 
     @command(command="news", params=[Const("unsticky"), Int("news_id")], description="Unsticky a news entry", access_level="moderator", sub_command="update")
     def news_unsticky_cmd(self, request, _, news_id):
@@ -80,20 +77,25 @@ class NewsController:
         success = self.db.exec(sql, [news_id])
 
         if success > 0:
-            return "Successfully removed news entry with ID <highlight>%d</highlight> as a sticky." % news_id
+            return f"Successfully removed news entry with ID <highlight>{news_id}</highlight> as a sticky."
         else:
-            return "Could not find news entry with ID <highlight>%d</highlight>." % news_id
+            return f"Could not find news entry with ID <highlight>{news_id}</highlight>."
 
     @command(command="news", params=[Const("markasread"), Int("news_id")], description="Mark a news entry as read", access_level="member")
     def news_markasread_cmd(self, request, _, news_id):
         if not self.get_news_entry(news_id):
-            return "Could not find news entry with ID <highlight>%d</highlight>." % news_id
+            return f"Could not find news entry with ID <highlight>{news_id}</highlight>."
+
+        main = self.alts_service.get_main(request.sender.char_id)
+
+        row = self.db.query_single("SELECT 1 FROM news_read WHERE char_id = ? AND news_id = ?", [main.char_id, news_id])
+        if row:
+            return f"You have already marked news entry with ID <highlight>{news_id}</highlight> as read."
 
         sql = "INSERT INTO news_read (char_id, news_id) VALUES (?,?)"
-        main = self.alts_service.get_main(request.sender.char_id)
         self.db.exec(sql, [main.char_id, news_id])
 
-        return "Successfully marked news entry with ID <highlight>%d</highlight> as read." % news_id
+        return f"Successfully marked news entry with ID <highlight>{news_id}</highlight> as read."
 
     @command(command="news", params=[Const("markasread"), Const("all")], description="Mark all news entries as read", access_level="member")
     def news_markasread_all_cmd(self, request, _1, _2):
@@ -103,7 +105,7 @@ class NewsController:
         main = self.alts_service.get_main(request.sender.char_id)
         num_rows = self.db.exec(sql, [main.char_id, main.char_id])
 
-        return "Successfully marked <highlight>%d</highlight> news entries as read." % num_rows
+        return f"Successfully marked <highlight>{num_rows}</highlight> news entries as read."
 
     @event(event_type=OrgMemberController.ORG_MEMBER_LOGON_EVENT, description="Send news to org members logging on")
     def orgmember_logon_event(self, event_type, event_data):
