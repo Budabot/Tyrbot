@@ -2,7 +2,7 @@ import time
 
 from core.chat_blob import ChatBlob
 from core.decorators import instance, command
-from core.command_param_types import Any, Int, NamedParameters
+from core.command_param_types import Any, Int, NamedParameters, Const, Item
 import os
 import re
 import json
@@ -68,9 +68,19 @@ class RecipeController:
 
         return self.format_recipe(recipe)
 
+    @command(command="recipe", params=[Item("item"), NamedParameters(["page"])], access_level="all", description="Search for a recipe")
+    def recipe_search_item_cmd(self, request, item, named_params):
+        page_number = int(named_params.page or "1")
+        
+        return self.get_search_results_blob(item.name, page_number)
+    
     @command(command="recipe", params=[Any("search"), NamedParameters(["page"])], access_level="all", description="Search for a recipe")
     def recipe_search_cmd(self, request, search, named_params):
         page_number = int(named_params.page or "1")
+        
+        return self.get_search_results_blob(search, page_number)
+
+    def get_search_results_blob(self, search, page_number):
         page_size = 30
         offset = (page_number - 1) * page_size
 
