@@ -4,6 +4,7 @@ import time
 from core.aochat.bot import Bot
 from core.aochat.client_packets import Ping
 from core.aochat.delay_queue import DelayQueue
+from core.dict_object import DictObject
 
 
 class Conn(Bot):
@@ -21,7 +22,9 @@ class Conn(Bot):
         self.buddy_list = {}
         self.private_channel = {}
         # store module data that is conn specific here
-        self.data = {}
+        self.data = DictObject({
+            "wave_counter_job_id": None
+        })
 
     def read_packet(self, max_delay_time=1):
         self.check_outgoing_message_queue()
