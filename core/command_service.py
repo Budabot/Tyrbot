@@ -19,10 +19,8 @@ import inspect
 @instance()
 class CommandService:
     PRIVATE_CHANNEL = "priv"
-    ORG_CHANNEL = "org"
     PRIVATE_MESSAGE_CHANNEL = "msg"
 
-    ORG_CHANNEL_COMMAND_EVENT = "org_channel_command"
     PRIVATE_CHANNEL_COMMAND_EVENT = "private_channel_command"
 
     def __init__(self):
@@ -60,12 +58,9 @@ class CommandService:
     def pre_start(self):
         self.bot.register_packet_handler(server_packets.PrivateMessage.id, self.handle_private_message)
         self.bot.register_packet_handler(server_packets.PrivateChannelMessage.id, self.handle_private_channel_message)
-        self.bot.register_packet_handler(server_packets.PublicChannelMessage.id, self.handle_public_channel_message)
         self.register_command_channel("Private Message", self.PRIVATE_MESSAGE_CHANNEL)
-        self.register_command_channel("Org Channel", self.ORG_CHANNEL)
         self.register_command_channel("Private Channel", self.PRIVATE_CHANNEL)
 
-        self.event_service.register_event_type(self.ORG_CHANNEL_COMMAND_EVENT)
         self.event_service.register_event_type(self.PRIVATE_CHANNEL_COMMAND_EVENT)
 
     def start(self):
@@ -395,36 +390,6 @@ class CommandService:
             self.process_command(
                 self.trim_command_symbol(message),
                 self.PRIVATE_CHANNEL,
-                packet.char_id,
-                reply,
-                conn)
-
-    def handle_public_channel_message(self, conn: Conn, packet: server_packets.PublicChannelMessage):
-        if not self.setting_service.get("accept_commands_from_slave_bots").get_value() and not conn.is_main:
-            return
-
-        # since the command symbol is required in the org channel,
-        # the command_str must have length of at least 2 in order to be valid,
-        # otherwise it is ignored
-        if len(packet.message) < 2:
-            return
-
-        # ignore leading space
-        message = packet.message.lstrip()
-
-        def reply(msg):
-            self.bot.send_org_message(msg, conn=conn)
-            event_data = DictObject({
-                "org_channel_id": conn.org_channel_id,
-                "message": msg,
-                "conn": conn
-            })
-            self.event_service.fire_event(self.ORG_CHANNEL_COMMAND_EVENT, event_data)
-
-        if message.startswith(self.setting_service.get("symbol").get_value()) and conn.org_channel_id == packet.channel_id:
-            self.process_command(
-                self.trim_command_symbol(message),
-                self.ORG_CHANNEL,
                 packet.char_id,
                 reply,
                 conn)

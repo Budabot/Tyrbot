@@ -94,7 +94,7 @@ class OrgChannelController:
                 self.bot.send_org_message(msg, conn=conn)
             self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)
 
-    @event(event_type=CommandService.ORG_CHANNEL_COMMAND_EVENT, description="Relay commands from the org channel to the relay hub", is_hidden=True)
+    @event(event_type=PublicChannelService.ORG_CHANNEL_COMMAND_EVENT, description="Relay commands from the org channel to the relay hub", is_hidden=True)
     def outgoing_org_message_event(self, event_type, event_data):
         if isinstance(event_data.message, ChatBlob):
             pages = self.text.paginate(ChatBlob(event_data.message.title, event_data.message.msg),

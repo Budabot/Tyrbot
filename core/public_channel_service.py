@@ -7,8 +7,10 @@ from core.logger import Logger
 
 @instance()
 class PublicChannelService:
+    ORG_CHANNEL_COMMAND_EVENT = "org_channel_command"
     ORG_CHANNEL_MESSAGE_EVENT = "org_channel_message"
     ORG_MSG_EVENT = "org_msg"
+    ORG_COMMAND_CHANNEL = "org"
 
     ORG_MSG_CHANNEL_ID = 42949672961
 
@@ -21,15 +23,19 @@ class PublicChannelService:
         self.event_service = registry.get_instance("event_service")
         self.character_service = registry.get_instance("character_service")
         self.setting_service = registry.get_instance("setting_service")
+        self.command_service = registry.get_instance("command_service")
 
     def pre_start(self):
         self.bot.register_packet_handler(server_packets.LoginOK.id, self.handle_login_ok)
         self.bot.register_packet_handler(server_packets.PublicChannelJoined.id, self.add)
         self.bot.register_packet_handler(server_packets.PublicChannelLeft.id, self.remove)
-        # priority must be above that of CommandService in order for relaying of commands to work correctly
-        self.bot.register_packet_handler(server_packets.PublicChannelMessage.id, self.public_channel_message, priority=30)
+        self.bot.register_packet_handler(server_packets.PublicChannelMessage.id, self.public_channel_message)
+
+        self.event_service.register_event_type(self.ORG_CHANNEL_COMMAND_EVENT)
         self.event_service.register_event_type(self.ORG_CHANNEL_MESSAGE_EVENT)
         self.event_service.register_event_type(self.ORG_MSG_EVENT)
+
+        self.command_service.register_command_channel("Org Channel", self.ORG_COMMAND_CHANNEL)
 
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS org_name_cache (org_id INT NOT NULL, name VARCHAR(255) NOT NULL)")
@@ -81,11 +87,16 @@ class PublicChannelService:
             else:
                 message = packet.message
             self.logger.log_chat(conn, "Org Channel", char_name, message)
-            self.event_service.fire_event(self.ORG_CHANNEL_MESSAGE_EVENT, DictObject({"char_id": packet.char_id,
-                                                                                      "name": char_name,
-                                                                                      "message": packet.message,
-                                                                                      "extended_message": packet.extended_message,
-                                                                                      "conn": conn}))
+
+            if conn.char_id == packet.char_id:
+                return
+
+            if not self.handle_public_channel_command(conn, packet):
+                self.event_service.fire_event(self.ORG_CHANNEL_MESSAGE_EVENT, DictObject({"char_id": packet.char_id,
+                                                                                          "name": char_name,
+                                                                                          "message": packet.message,
+                                                                                          "extended_message": packet.extended_message,
+                                                                                          "conn": conn}))
         elif packet.channel_id == self.ORG_MSG_CHANNEL_ID:
             char_name = self.character_service.get_char_name(packet.char_id)
             if packet.extended_message:
@@ -98,6 +109,37 @@ class PublicChannelService:
                                                                           "message": packet.message,
                                                                           "extended_message": packet.extended_message,
                                                                           "conn": conn}))
+
+    def handle_public_channel_command(self, conn: Conn, packet: server_packets.PublicChannelMessage):
+        if not self.setting_service.get("accept_commands_from_slave_bots").get_value() and not conn.is_main:
+            return False
+
+        # since the command symbol is required in the org channel,
+        # the command_str must have length of at least 2 in order to be valid,
+        # otherwise it is ignored
+        if len(packet.message) < 2:
+            return False
+
+        # ignore leading space
+        message = packet.message.lstrip()
+
+        self.event_service.fire_event(self.ORG_CHANNEL_COMMAND_EVENT,
+                                      DictObject({"org_channel_id": conn.org_channel_id, "message": message, "conn": conn}))
+
+        def reply(msg):
+            self.bot.send_org_message(msg, conn=conn)
+            self.event_service.fire_event(self.ORG_CHANNEL_COMMAND_EVENT,
+                                          DictObject({"org_channel_id": conn.org_channel_id, "message": msg, "conn": conn}))
+
+        if message.startswith(self.setting_service.get("symbol").get_value()) and conn.org_channel_id == packet.channel_id:
+            self.command_service.process_command(
+                self.command_service.trim_command_symbol(message),
+                self.ORG_COMMAND_CHANNEL,
+                packet.char_id,
+                reply,
+                conn)
+
+        return True
 
     def is_org_channel_id(self, channel_id):
         return channel_id >> 32 == 3
