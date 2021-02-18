@@ -91,7 +91,7 @@ class BuddyService:
 
     def remove_buddy(self, char_id, _type, force_remove=False):
         if char_id:
-            for _id, conn in self.bot.get_conns:
+            for _id, conn in self.bot.get_conns():
                 if char_id == conn.char_id:
                     continue
 
