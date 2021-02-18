@@ -70,7 +70,7 @@ class Conn(Bot):
         return self.char_id
 
     def get_org_name(self):
-        return self.org_name
+        return self.org_name or self.org_id
 
     def get_org_id(self):
         return self.org_id

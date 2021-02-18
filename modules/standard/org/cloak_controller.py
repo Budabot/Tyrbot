@@ -6,7 +6,6 @@ from core.command_param_types import Const, Int
 from core.conn import Conn
 from core.decorators import instance, command, event, timerevent
 from core.dict_object import DictObject
-from core.sender_obj import SenderObj
 
 
 @instance()
@@ -47,7 +46,7 @@ class CloakController:
             blob += "%s turned the device %s at %s.\n" % (row.name, action, self.util.format_datetime(row.created_at))
 
         conn = self.bot.get_conn_by_org_id(org_id)
-        org_name = conn.org_name or conn.org_id
+        org_name = conn.get_org_name()
         return ChatBlob(f"Cloak History for {org_name}", blob)
 
     @command(command="cloak", params=[], access_level="org_member",
@@ -60,7 +59,7 @@ class CloakController:
             row = self.db.query_single("SELECT c.char_id, c.action, c.created_at, p.name FROM cloak_status c LEFT JOIN player p ON c.char_id = p.char_id "
                                        "WHERE c.org_id = ? ORDER BY created_at DESC LIMIT 1", [conn.org_id])
 
-            org_name = conn.org_name or conn.org_id
+            org_name = conn.get_org_name()
             if row:
                 action = "<green>on</green>" if row.action == "on" else "<orange>off</orange>"
                 time_str = self.util.time_to_readable(t - row.created_at)
@@ -86,9 +85,9 @@ class CloakController:
                 one_hour = 3600
                 t = int(time.time())
                 time_until_change = row.created_at + one_hour - t
-                if row.action == "off" and time_until_change <= 0:
+                if row.action == "off" and 0 >= time_until_change > (one_hour * 6 * -1):
                     time_str = self.util.time_to_readable(t - row.created_at)
-                    org_name = conn.org_name or conn.org_id
+                    org_name = conn.get_org_name()
                     messages.append(f"The cloaking device for org <highlight>{org_name}</highlight> is <orange>disabled</orange> but can be enabled. "
                                     f"<highlight>{row.name}</highlight> disabled it {time_str} ago.")
 
@@ -98,13 +97,13 @@ class CloakController:
     @event(event_type=CLOAK_EVENT, description="Set a timer for when cloak can be raised and lowered")
     def city_cloak_timer_event(self, event_type, event_data):
         if event_data.action == "off":
-            timer_name = f"Raise City Cloak ({event_data.org_name or event_data.char_name})"
+            timer_name = f"Raise City Cloak ({event_data.conn.get_org_name()})"
         elif event_data.action == "on":
-            timer_name = f"Lower City Cloak ({event_data.org_name or event_data.char_name})"
+            timer_name = f"Lower City Cloak ({event_data.conn.get_org_name()})"
         else:
             raise Exception(f"Unknown cloak action '{event_data.action}'")
 
-        self.timer_controller.add_timer(timer_name, event_data.sender.char_id, "org", int(time.time()), 3600)
+        self.timer_controller.add_timer(timer_name, event_data.char_id, "org", int(time.time()), 3600)
 
     def get_cloak_status(self, row):
         one_hour = 3600
@@ -113,7 +112,7 @@ class CloakController:
         conn = self.bot.get_conn_by_org_id(row.org_id)
         org_name = "Unknown"
         if conn:
-            org_name = conn.org_name or conn.org_id
+            org_name = conn.get_org_name()
 
         if row.action == "off":
             if time_until_change <= 0:
