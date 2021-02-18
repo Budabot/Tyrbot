@@ -3,6 +3,8 @@ from core.decorators import instance, command
 from core.command_param_types import Any, Const, Time, Options
 import time
 
+from core.private_channel_service import PrivateChannelService
+from core.public_channel_service import PublicChannelService
 from core.registry import Registry
 
 
@@ -167,7 +169,7 @@ class TimerController:
                     new_t += timer.repeating_every
                 self.add_timer(timer.name, timer.char_id, timer.channel, new_t, timer.repeating_every, timer.repeating_every)
 
-        if timer.channel == "org" or timer.channel == "priv":
+        if timer.channel == PublicChannelService.ORG_CHANNEL_COMMAND or timer.channel == PrivateChannelService.PRIVATE_CHANNEL_COMMAND:
             # TODO send to messagehub
             for _id, conn in self.bot.get_conns(lambda x: x.is_main):
                 self.bot.send_org_message(msg, conn=conn)

@@ -129,22 +129,22 @@ class LeaderController:
         if self.leader and self.echo:
             if self.leader.char_id == event_data.char_id:
                 if not event_data.message.startswith(self.setting_service.get("symbol").get_value()):
-                    self.leader_echo(event_data.char_id, event_data.message, "priv", conn=event_data.conn)
+                    self.leader_echo(event_data.char_id, event_data.message, PrivateChannelService.PRIVATE_CHANNEL_COMMAND, conn=event_data.conn)
 
     @event(PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, "Echo leader messages from org channel", is_hidden=True)
     def leader_echo_org_event(self, event_type, event_data):
         if self.leader and self.echo:
             if self.leader.char_id == event_data.char_id:
                 if not event_data.message.startswith(self.setting_service.get("symbol").get_value()):
-                    self.leader_echo(event_data.char_id, event_data.message, "org", event_data.conn)
+                    self.leader_echo(event_data.char_id, event_data.message, PublicChannelService.ORG_CHANNEL_COMMAND, event_data.conn)
 
     def leader_echo(self, char_id, message, channel, conn):
         sender = self.character_service.resolve_char_to_name(char_id)
         color = self.setting_service.get("leader_echo_color")
 
-        if channel == "org":
+        if channel == PublicChannelService.ORG_CHANNEL_COMMAND:
             self.bot.send_org_message("%s: %s" % (sender, color.format_text(message)), conn=conn)
-        elif channel == "priv":
+        elif channel == PrivateChannelService.PRIVATE_CHANNEL_COMMAND:
             self.bot.send_private_channel_message("%s: %s" % (sender, color.format_text(message)), conn=conn)
 
         self.activity_done()

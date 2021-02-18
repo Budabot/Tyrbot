@@ -6,6 +6,7 @@ from core.command_param_types import Const, Int
 from core.conn import Conn
 from core.decorators import instance, command, event, timerevent
 from core.dict_object import DictObject
+from core.public_channel_service import PublicChannelService
 
 
 @instance()
@@ -103,7 +104,7 @@ class CloakController:
         else:
             raise Exception(f"Unknown cloak action '{event_data.action}'")
 
-        self.timer_controller.add_timer(timer_name, event_data.char_id, "org", int(time.time()), 3600)
+        self.timer_controller.add_timer(timer_name, event_data.char_id, PublicChannelService.ORG_CHANNEL_COMMAND, int(time.time()), 3600)
 
     def get_cloak_status(self, row):
         one_hour = 3600
