@@ -21,7 +21,7 @@ class Conn(Bot):
         self.channels = {}
         self.buddy_list = {}
         self.private_channel = {}
-        # store module data that is conn specific here
+        # store module data that is conn-specific here
         self.data = DictObject({
             "wave_counter_job_id": None
         })
@@ -73,7 +73,7 @@ class Conn(Bot):
         return self.char_id
 
     def get_org_name(self):
-        return self.org_name or self.org_id
+        return self.org_name or str(self.org_id)
 
     def get_org_id(self):
         return self.org_id
