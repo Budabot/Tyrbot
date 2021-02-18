@@ -94,7 +94,7 @@ class PublicChannelService:
             if not self.handle_public_channel_command(conn, packet):
                 self.event_service.fire_event(self.ORG_CHANNEL_MESSAGE_EVENT, DictObject({"char_id": packet.char_id,
                                                                                           "name": char_name,
-                                                                                          "message": packet.message,
+                                                                                          "message": message,
                                                                                           "extended_message": packet.extended_message,
                                                                                           "conn": conn}))
         elif packet.channel_id == self.ORG_MSG_CHANNEL_ID:
@@ -120,26 +120,28 @@ class PublicChannelService:
         if len(packet.message) < 2:
             return False
 
-        self.event_service.fire_event(self.ORG_CHANNEL_COMMAND_EVENT,
-                                      DictObject({"org_channel_id": conn.org_channel_id, "message": packet.message, "conn": conn}))
-
         # ignore leading space
         message = packet.message.lstrip()
 
         def reply(msg):
             self.bot.send_org_message(msg, conn=conn)
             self.event_service.fire_event(self.ORG_CHANNEL_COMMAND_EVENT,
-                                          DictObject({"org_channel_id": conn.org_channel_id, "message": msg, "conn": conn}))
+                                          DictObject({"char_id": None, "name": None, "message": msg, "conn": conn}))
 
         if message.startswith(self.setting_service.get("symbol").get_value()) and conn.org_channel_id == packet.channel_id:
+            char_name = self.character_service.get_char_name(packet.char_id)
+            self.event_service.fire_event(self.ORG_CHANNEL_COMMAND_EVENT,
+                                          DictObject({"char_id": packet.char_id, "name": char_name, "message": packet.message, "conn": conn}))
+
             self.command_service.process_command(
                 self.command_service.trim_command_symbol(message),
                 self.ORG_CHANNEL_COMMAND,
                 packet.char_id,
                 reply,
                 conn)
-
-        return True
+            return True
+        else:
+            return False
 
     def is_org_channel_id(self, channel_id):
         return channel_id >> 32 == 3

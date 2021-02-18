@@ -58,10 +58,9 @@ class OrgChannelController:
             formatted_message = "{org} {msg}".format(org=self.ORG_CHANNEL_PREFIX,
                                                      msg=message)
         else:
-            char_name = self.character_service.resolve_char_to_name(event_data.char_id)
-            sender = DictObject({"char_id": event_data.char_id, "name": char_name})
+            sender = DictObject({"char_id": event_data.char_id, "name": event_data.name})
             formatted_message = "{org} {char}: {msg}".format(org=self.ORG_CHANNEL_PREFIX,
-                                                             char=self.text.make_charlink(char_name),
+                                                             char=self.text.make_charlink(event_data.name),
                                                              msg=message)
 
         self.bot.send_message_to_other_org_channels(formatted_message, from_conn=event_data.conn)
@@ -96,20 +95,24 @@ class OrgChannelController:
 
     @event(event_type=PublicChannelService.ORG_CHANNEL_COMMAND_EVENT, description="Relay commands from the org channel to the relay hub", is_hidden=True)
     def outgoing_org_message_event(self, event_type, event_data):
+        msg = self.ORG_CHANNEL_PREFIX + " "
+        if event_data.name:
+            msg += self.text.make_charlink(event_data.name) + ": "
+
         if isinstance(event_data.message, ChatBlob):
             pages = self.text.paginate(ChatBlob(event_data.message.title, event_data.message.msg),
                                        event_data.conn,
                                        self.setting_service.get("org_channel_max_page_length").get_value())
             if len(pages) < 4:
                 for page in pages:
-                    message = "{org} {message}".format(org=self.ORG_CHANNEL_PREFIX, message=page)
+                    message = msg + page
                     self.bot.send_message_to_other_org_channels(message, from_conn=event_data.conn)
                     self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, page, message)
             else:
-                message = "{org} {message}".format(org=self.ORG_CHANNEL_PREFIX, message=event_data.message.title)
+                message = msg + event_data.message.title
                 self.bot.send_message_to_other_org_channels(message, from_conn=event_data.conn)
                 self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, event_data.message.title, message)
         else:
-            message = "{org} {message}".format(org=self.ORG_CHANNEL_PREFIX, message=event_data.message)
+            message = msg + event_data.message
             self.bot.send_message_to_other_org_channels(message, from_conn=event_data.conn)
             self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, event_data.message, message)
