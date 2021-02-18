@@ -2,9 +2,9 @@ import hjson
 
 from core.command_param_types import Any
 from core.decorators import instance, command, event
-from core.command_service import CommandService
 from core.dict_object import DictObject
 from core.logger import Logger
+from core.private_channel_service import PrivateChannelService
 from core.public_channel_service import PublicChannelService
 from core.setting_service import SettingService
 from core.setting_types import BooleanSettingType
@@ -48,14 +48,14 @@ class SystemController:
     @command(command="shutdown", params=[Any("reason", is_optional=True)], access_level="superadmin",
              description="Shutdown the bot")
     def shutdown_cmd(self, request, reason):
-        if request.channel not in [PublicChannelService.ORG_COMMAND_CHANNEL, CommandService.PRIVATE_CHANNEL]:
+        if request.channel not in [PublicChannelService.ORG_CHANNEL_COMMAND, PrivateChannelService.PRIVATE_CHANNEL_COMMAND]:
             request.reply(self._format_message(False, reason))
         self.shutdown(False, reason)
 
     @command(command="restart", params=[Any("reason", is_optional=True)], access_level="admin",
              description="Restart the bot")
     def restart_cmd(self, request, reason):
-        if request.channel not in [PublicChannelService.ORG_COMMAND_CHANNEL, CommandService.PRIVATE_CHANNEL]:
+        if request.channel not in [PublicChannelService.ORG_CHANNEL_COMMAND, PrivateChannelService.PRIVATE_CHANNEL_COMMAND]:
             request.reply(self._format_message(True, reason))
         self.shutdown(True, reason)
 

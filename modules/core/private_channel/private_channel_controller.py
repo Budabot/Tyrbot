@@ -3,7 +3,6 @@ import hjson
 from core.ban_service import BanService
 from core.chat_blob import ChatBlob
 from core.command_param_types import Character
-from core.command_service import CommandService
 from core.decorators import instance, command, event
 from core.dict_object import DictObject
 from core.private_channel_service import PrivateChannelService
@@ -139,7 +138,7 @@ class PrivateChannelController:
         self.bot.send_private_channel_message(msg, conn=self.get_conn())
         self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)
 
-    @event(event_type=CommandService.PRIVATE_CHANNEL_COMMAND_EVENT, description="Relay commands from the private channel to the relay hub", is_hidden=True)
+    @event(event_type=PrivateChannelService.PRIVATE_CHANNEL_COMMAND_EVENT, description="Relay commands from the private channel to the relay hub", is_hidden=True)
     def outgoing_private_channel_message_event(self, event_type, event_data):
         if isinstance(event_data.message, ChatBlob):
             pages = self.text.paginate(ChatBlob(event_data.message.title, event_data.message.msg),

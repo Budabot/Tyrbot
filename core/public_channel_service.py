@@ -10,7 +10,7 @@ class PublicChannelService:
     ORG_CHANNEL_COMMAND_EVENT = "org_channel_command"
     ORG_CHANNEL_MESSAGE_EVENT = "org_channel_message"
     ORG_MSG_EVENT = "org_msg"
-    ORG_COMMAND_CHANNEL = "org"
+    ORG_CHANNEL_COMMAND = "org"
 
     ORG_MSG_CHANNEL_ID = 42949672961
 
@@ -35,7 +35,7 @@ class PublicChannelService:
         self.event_service.register_event_type(self.ORG_CHANNEL_MESSAGE_EVENT)
         self.event_service.register_event_type(self.ORG_MSG_EVENT)
 
-        self.command_service.register_command_channel("Org Channel", self.ORG_COMMAND_CHANNEL)
+        self.command_service.register_command_channel("Org Channel", self.ORG_CHANNEL_COMMAND)
 
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS org_name_cache (org_id INT NOT NULL, name VARCHAR(255) NOT NULL)")
@@ -120,11 +120,11 @@ class PublicChannelService:
         if len(packet.message) < 2:
             return False
 
+        self.event_service.fire_event(self.ORG_CHANNEL_COMMAND_EVENT,
+                                      DictObject({"org_channel_id": conn.org_channel_id, "message": packet.message, "conn": conn}))
+
         # ignore leading space
         message = packet.message.lstrip()
-
-        self.event_service.fire_event(self.ORG_CHANNEL_COMMAND_EVENT,
-                                      DictObject({"org_channel_id": conn.org_channel_id, "message": message, "conn": conn}))
 
         def reply(msg):
             self.bot.send_org_message(msg, conn=conn)
@@ -134,7 +134,7 @@ class PublicChannelService:
         if message.startswith(self.setting_service.get("symbol").get_value()) and conn.org_channel_id == packet.channel_id:
             self.command_service.process_command(
                 self.command_service.trim_command_symbol(message),
-                self.ORG_COMMAND_CHANNEL,
+                self.ORG_CHANNEL_COMMAND,
                 packet.char_id,
                 reply,
                 conn)
