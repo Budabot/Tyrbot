@@ -190,17 +190,18 @@ class DB:
     def _load_file_sqlite(self, filename):
         with open(filename, mode="r", encoding="UTF-8") as f:
             with self.transaction():
-                with self.conn.cursor() as cur:
-                    line_num = 1
-                    for line in f.readlines():
-                        try:
-                            sql, _ = self.format_sql(line)
-                            sql = sql.strip()
-                            if sql and not sql.startswith("--"):
-                                cur.execute(sql)
-                        except Exception as e:
-                            raise Exception("sql error in file '%s' on line %d: %s" % (filename, line_num, str(e)))
-                        line_num += 1
+                cur = self.conn.cursor()
+                line_num = 1
+                for line in f.readlines():
+                    try:
+                        sql, _ = self.format_sql(line)
+                        sql = sql.strip()
+                        if sql and not sql.startswith("--"):
+                            cur.execute(sql)
+                    except Exception as e:
+                        raise Exception("sql error in file '%s' on line %d: %s" % (filename, line_num, str(e)))
+                    line_num += 1
+                cur.close()
 
     def _load_file_mysql(self, filename):
         max_batch_size = 50
