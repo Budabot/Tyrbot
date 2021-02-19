@@ -182,20 +182,47 @@ class DB:
             return None
 
     def _load_file(self, filename):
+        if self.type == self.MYSQL:
+            self._load_file_mysql(filename)
+        else:
+            self._load_file_sqlite(filename)
+
+    def _load_file_sqlite(self, filename):
         with open(filename, mode="r", encoding="UTF-8") as f:
             with self.transaction():
-                cur = self.conn.cursor()
-                line_num = 1
-                for line in f.readlines():
+                with self.conn.cursor() as cur:
+                    line_num = 1
+                    for line in f.readlines():
+                        try:
+                            sql, _ = self.format_sql(line)
+                            sql = sql.strip()
+                            if sql and not sql.startswith("--"):
+                                cur.execute(sql)
+                        except Exception as e:
+                            raise Exception("sql error in file '%s' on line %d: %s" % (filename, line_num, str(e)))
+                        line_num += 1
+
+    def _load_file_mysql(self, filename):
+        max_batch_size = 50
+        with open(filename, mode="r", encoding="UTF-8") as f:
+            with self.conn.cursor() as cur:
+                lines = f.readlines()
+                while lines:
+                    if len(lines) > max_batch_size:
+                        temp_lines = lines[:max_batch_size]
+                        lines = lines[max_batch_size:]
+                    else:
+                        temp_lines = lines
+                        lines = []
+
+                    contents = "".join(temp_lines)
                     try:
-                        sql, _ = self.format_sql(line)
-                        sql = sql.strip()
-                        if sql and not sql.startswith("--"):
-                            cur.execute(sql)
+                        # taken from: https://stackoverflow.com/a/32257894
+                        results = cur.execute(contents, multi=True)
+                        for _ in results:
+                            pass
                     except Exception as e:
-                        raise Exception("sql error in file '%s' on line %d: %s" % (filename, line_num, str(e)))
-                    line_num += 1
-                cur.close()
+                        raise Exception("sql error in file '%s': %s" % (filename, str(e)), e)
 
     def get_type(self):
         return self.type
