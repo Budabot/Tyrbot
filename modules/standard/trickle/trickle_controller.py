@@ -146,6 +146,7 @@ class TrickleController:
             FROM
                 trickle
             GROUP BY
+                id,
                 group_name,
                 name,
                 amount_agility,
