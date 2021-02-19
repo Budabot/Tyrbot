@@ -30,7 +30,7 @@ class WaveCounterController:
         self.send_message(f"Wave counter started for {conn.get_org_name()}.")
         conn.data.wave_counter_job_id = self.job_scheduler.delayed_job(self.timer_alert, self.ALERT_TIMES[0], conn, 0)
 
-    def timer_alert(self, conn, t, wave_number):
+    def timer_alert(self, t, conn, wave_number):
         wave_number += 1
 
         if wave_number == 9:
