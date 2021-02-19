@@ -35,7 +35,7 @@ class LastSeenController:
         data = self.db.query(sql, [char.char_id, char.char_id])
         blob = ""
         if len(data) == 0:
-            blob += "Note: <highlight>%s</highlight> must be in the same organization as the bot in order to track <highlight>lastseen</highlight> data." % char.name
+            blob += "Note: <highlight>%s</highlight> must be on the buddylist in order for <highlight>lastseen</highlight> data to be recorded." % char.name
         else:
             for row in data:
                 blob += f"<highlight>{row.name}</highlight>"
@@ -52,4 +52,6 @@ class LastSeenController:
         self.update_last_seen(event_data.char_id)
 
     def update_last_seen(self, char_id):
-        return self.db.exec("UPDATE last_seen SET dt = ? WHERE char_id = ?", [int(time.time()), char_id])
+        t = int(time.time())
+        if not self.db.exec("UPDATE last_seen SET dt = ? WHERE char_id = ?", [t, char_id]):
+            self.db.exec("INSERT INTO last_seen (char_id, dt) VALUES (?, ?)", [char_id, t])
