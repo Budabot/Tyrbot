@@ -96,8 +96,10 @@ class OrgChannelController:
     @event(event_type=PublicChannelService.ORG_CHANNEL_COMMAND_EVENT, description="Relay commands from the org channel to the relay hub", is_hidden=True)
     def outgoing_org_message_event(self, event_type, event_data):
         msg = self.ORG_CHANNEL_PREFIX + " "
+        sender = None
         if event_data.name:
             msg += self.text.make_charlink(event_data.name) + ": "
+            sender = DictObject({"char_id": event_data.char_id, "name": event_data.name})
 
         if isinstance(event_data.message, ChatBlob):
             pages = self.text.paginate(ChatBlob(event_data.message.title, event_data.message.msg),
@@ -107,12 +109,12 @@ class OrgChannelController:
                 for page in pages:
                     message = msg + page
                     self.bot.send_message_to_other_org_channels(message, from_conn=event_data.conn)
-                    self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, page, message)
+                    self.message_hub_service.send_message(self.MESSAGE_SOURCE, sender, page, message)
             else:
                 message = msg + event_data.message.title
                 self.bot.send_message_to_other_org_channels(message, from_conn=event_data.conn)
-                self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, event_data.message.title, message)
+                self.message_hub_service.send_message(self.MESSAGE_SOURCE, sender, event_data.message.title, message)
         else:
             message = msg + event_data.message
             self.bot.send_message_to_other_org_channels(message, from_conn=event_data.conn)
-            self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, event_data.message, message)
+            self.message_hub_service.send_message(self.MESSAGE_SOURCE, sender, event_data.message, message)
