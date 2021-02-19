@@ -44,8 +44,6 @@ class PointsController:
             for preset in presets:
                 self.db.exec(sql, [preset])
 
-        self.setting_service.register(self.module_name, "initial_points_value", 0, NumberSettingType(), "How many points new accounts start with")
-
     @command(command="account", params=[Const("create"), Character("char")], access_level="moderator",
              description="Create a new account for given character name", sub_command="modify")
     def bank_create_cmd(self, request, _, char: SenderObj):
@@ -250,10 +248,8 @@ class PointsController:
         return row
 
     def create_account(self, main_id, sender):
-        initial_points = self.setting_service.get("initial_points_value").get_value()
-
         sql = "INSERT INTO points (char_id, points, created_at) VALUES (?,?,?)"
-        self.db.exec(sql, [main_id, initial_points, int(time.time())])
+        self.db.exec(sql, [main_id, 0, int(time.time())])
 
         self.add_log_entry(main_id, sender.char_id, "Account opened by %s" % sender.name)
 
@@ -266,8 +262,6 @@ class PointsController:
         page_size = 20
         offset = (page - 1) * page_size
 
-        points_log = self.db.query("SELECT * FROM points_log WHERE char_id = ? ORDER BY created_at DESC LIMIT ?, ?",
-                                   [main.char_id, offset, page_size])
         points = self.db.query_single("SELECT points, disabled FROM points WHERE char_id = ?", [main.char_id])
         if not points:
             return "Could not find raid account for <highlight>%s</highlight>." % char.name
@@ -278,6 +272,8 @@ class PointsController:
         blob += "Points: %d\n" % points.points
         blob += "Status: %s\n\n" % ("<green>Open</green>" if points.disabled == 0 else "<red>Disabled</red>")
 
+        points_log = self.db.query("SELECT * FROM points_log WHERE char_id = ? ORDER BY created_at DESC LIMIT ?, ?",
+                                   [main.char_id, offset, page_size])
         blob += "<header2>Account log</header2>\n"
         if points_log is None:
             blob += "No entries in log."
