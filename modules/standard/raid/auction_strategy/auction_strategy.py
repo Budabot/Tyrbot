@@ -41,7 +41,7 @@ class AuctionStrategy:
         self.auctioneer: SenderObj = None
         self.job_id = None
         self.is_running = False
-        self.conn = None
+        self.conn = conn
 
     def start(self, sender: SenderObj, duration, announce_interval):
         if not self.items:
@@ -176,7 +176,7 @@ class AuctionStrategy:
             self.db.exec(sql, [item, item, winning_bid.sender.char_id, self.auctioneer.char_id, t, winning_amount])
 
             blob += "%d. %s, won by <highlight>%s</highlight> with <green>%d</green> points\n" % (i, item, winning_bid.sender.name, winning_amount)
-            self.points_controller.alter_points(winning_bid.account.char_id, -winning_amount, self.auctioneer.char_id, "Won auction for %s" % item)
+            self.points_controller.alter_points(winning_bid.account.char_id, self.auctioneer.char_id, "Won auction for %s" % item, -winning_amount)
 
         self.spam_raid_message(ChatBlob("Auction results", blob))
 

@@ -40,6 +40,7 @@ class Raid:
         self.raiders = raiders or []
         self.is_open = True
         self.added_points = False
+        self.raid_id = None
 
 
 @instance()
@@ -229,7 +230,7 @@ class RaidController:
 
             if raider.is_active:
                 if account.disabled == 0:
-                    self.points_controller.alter_points(raider.main_id, preset.points, request.sender.char_id, preset.name)
+                    self.points_controller.alter_points(raider.main_id, request.sender.char_id, preset.name, preset.points)
                     raider.accumulated_points += preset.points
                 else:
                     self.points_controller.add_log_entry(raider.main_id, request.sender.char_id,

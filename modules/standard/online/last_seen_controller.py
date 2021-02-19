@@ -35,7 +35,7 @@ class LastSeenController:
         data = self.db.query(sql, [char.char_id, char.char_id])
         blob = ""
         if len(data) == 0:
-            blob += "Note: <highlight>%s</highlight> must be on the buddylist in order for <highlight>lastseen</highlight> data to be recorded." % char.name
+            blob += f"Note: <highlight>{char.name}</highlight> must be on the buddylist in order for <highlight>lastseen</highlight> data to be recorded."
         else:
             for row in data:
                 blob += f"<highlight>{row.name}</highlight>"

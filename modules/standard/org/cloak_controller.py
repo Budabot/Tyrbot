@@ -132,9 +132,9 @@ class CloakController:
         if not conn.is_main:
             return
 
-        extended_message = packet.extended_message
-        if extended_message and extended_message.category_id == 1001 and extended_message.instance_id == 1:
-            char_name = extended_message.params[0]
+        ext_msg = packet.extended_message
+        if ext_msg and ext_msg.category_id == 1001 and ext_msg.instance_id == 1:
+            char_name = ext_msg.params[0]
             char_id = self.character_service.resolve_char_to_id(char_name)
-            action = extended_message.params[1]
+            action = ext_msg.params[1]
             self.event_service.fire_event(self.CLOAK_EVENT, DictObject({"char_id": char_id, "name": char_name, "action": action, "conn": conn}))

@@ -4,7 +4,6 @@ from core.decorators import command, instance
 from core.chat_blob import ChatBlob
 from core.command_param_types import Options, Any, Int, Const, Character, NamedParameters
 from core.lookup.character_service import CharacterService
-from core.setting_types import NumberSettingType
 from core.setting_service import SettingService
 from core.text import Text
 from core.alts_service import AltsService
@@ -141,7 +140,7 @@ class PointsController:
         if row.disabled == 1:
             return f"Account for <highlight>{char.name}</highlight> is disabled and cannot be altered."
 
-        self.alter_points(main.char_id, amount, request.sender.char_id, reason)
+        self.alter_points(main.char_id, request.sender.char_id, reason, amount)
 
         return f"<highlight>{char.name}</highlight> has had <highlight>{amount}</highlight> points added to their account."
 
@@ -160,7 +159,7 @@ class PointsController:
         if amount > row.points:
             return f"<highlight>{char.name}</highlight> only has <highlight>{row.points}</highlight> points."
 
-        self.alter_points(main.char_id, -amount, request.sender.char_id, reason)
+        self.alter_points(main.char_id, request.sender.char_id, reason, -amount)
 
         return f"<highlight>{char.name}</highlight> has had <highlight>{amount}</highlight> points removed from their account."
 
@@ -230,7 +229,7 @@ class PointsController:
         sql = "INSERT INTO points_log (char_id, audit, leader_id, reason, created_at) VALUES (?,?,?,?,?)"
         return self.db.exec(sql, [char_id, amount, leader_id, reason, int(time.time())])
 
-    def alter_points(self, char_id: int, amount: int, leader_id: int, reason: str):
+    def alter_points(self, char_id: int, leader_id: int, reason: str, amount: int):
         sql = "UPDATE points SET points = points + ? WHERE char_id = ?"
         self.db.exec(sql, [amount, char_id])
 
