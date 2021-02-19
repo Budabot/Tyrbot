@@ -2,7 +2,7 @@ import time
 
 from core.alts_service import AltsService
 from core.chat_blob import ChatBlob
-from core.command_param_types import Const, Int, Any, Options, Character
+from core.command_param_types import Const, Int, Any, Options, Character, NamedFlagParameters
 from core.db import DB
 from core.decorators import instance, command
 from core.lookup.character_service import CharacterService
@@ -39,6 +39,7 @@ class Raid:
         self.started_by = started_by
         self.raiders = raiders or []
         self.is_open = True
+        self.added_points = False
 
 
 @instance()
@@ -47,7 +48,7 @@ class RaidController:
     NO_RAID_RUNNING_RESPONSE = "No raid is running."
 
     def __init__(self):
-        self.raid = None
+        self.raid: Raid = None
 
     def inject(self, registry):
         self.bot: Tyrbot = registry.get_instance("bot")
@@ -213,9 +214,11 @@ class RaidController:
         if not self.raid:
             return self.NO_RAID_RUNNING_RESPONSE
 
-        preset = self.db.query_single("SELECT * FROM points_presets WHERE name = ?", [name])
+        preset = self.db.query_single("SELECT name, points FROM points_presets WHERE name = ?", [name])
         if not preset:
             return ChatBlob("No such preset - see list of presets", self.points_controller.build_preset_list())
+
+        self.raid.added_points = True
 
         for raider in self.raid.raiders:
             account = self.points_controller.get_account(raider.main_id, request.conn)
@@ -346,11 +349,16 @@ class RaidController:
         else:
             return "Raid is already closed."
 
-    @command(command="raid", params=[Options(["end", "save"])], description="End raid, and log results",
+    @command(command="raid", params=[Options(["end", "save"]), NamedFlagParameters(["force"])], description="End raid, and log results",
              access_level="moderator", sub_command="manage")
-    def raid_save_cmd(self, request, _):
+    def raid_save_cmd(self, request, _, flag_params):
         if not self.raid:
             return self.NO_RAID_RUNNING_RESPONSE
+
+        if not self.raid.added_points and not flag_params.force:
+            blob = "You have not added any points for this raid. Are you sure you want to end this raid now? "
+            blob += self.text.make_tellcmd("Yes", "raid end --force")
+            return ChatBlob("End Raid Confirmation", blob)
 
         sql = "INSERT INTO raid_log (raid_name, started_by, raid_start, raid_end) VALUES (?,?,?,?)"
         self.db.exec(sql, [self.raid.raid_name, self.raid.started_by.char_id, self.raid.started_at, int(time.time())])
