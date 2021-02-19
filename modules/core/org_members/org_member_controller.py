@@ -131,7 +131,8 @@ class OrgMemberController:
 
         for _id, conn in self.bot.get_conns(lambda x: x.is_main and x.org_id):
             org_id = conn.org_id
-            org_ids.remove(org_id)
+            if org_id in org_ids:
+                org_ids.remove(org_id)
 
             db_members = {}
             for row in self.get_org_members_by_org_id(conn.org_id):
