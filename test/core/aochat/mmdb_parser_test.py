@@ -35,3 +35,20 @@ class MMDBParserTest(unittest.TestCase):
         # multiple
         params = mmdb_parser.parse_params(b'R!!!8S!!!!#s\x09TestOrg1s\x09TestCharR!!!8S!!!!"s\x09TestOrg2s\x05Testi!!!Dui!!!Eu')
         self.assertEqual(['omni', 'TestOrg1', 'TestChar', 'clan', 'TestOrg2', 'Test', 3059, 3144], params)
+
+    def test_write_param(self):
+        mmdb_parser = MMDBParser("./text.mdb")
+
+        self.assertEqual(b's\x08Tyrence', mmdb_parser.write_param("s", "Tyrence"))
+
+    def test_base_85(self):
+        mmdb_parser = MMDBParser("./text.mdb")
+
+        n = 11
+        num_str = mmdb_parser.write_base_85(n)
+        self.assertEqual(b"!!!!,", num_str)
+
+        new_n = mmdb_parser.read_base_85(num_str)
+        self.assertEqual(n, new_n)
+
+        print(mmdb_parser.read_base_85(b"!!!!\""))

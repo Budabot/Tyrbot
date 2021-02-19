@@ -91,6 +91,13 @@ class MMDBParser:
             n = n * 85 + num_str[i] - 33
         return n
 
+    def write_base_85(self, n):
+        num_str = [None] * 5
+        for i in reversed(range(0, 5)):
+            num_str[i] = chr(n % 85 + 33)
+            n = n // 85
+        return "".join(num_str).encode("utf-8")
+
     def parse_params(self, param_arr):
         args = []
         while len(param_arr) > 0:
@@ -129,6 +136,30 @@ class MMDBParser:
             elif data_type == "~":
                 break
             else:
-                raise Exception("Unknown argument type '%s'" % data_type)
+                raise Exception("Unknown data type '%s'" % data_type)
 
         return args
+
+    def write_param(self, data_type, value):
+        result = bytes()
+        result += data_type.encode("utf-8")
+        if data_type == "s":
+            size = len(value) + 1
+            result += chr(size).encode("utf-8")
+            result += value.encode("utf-8")
+        else:
+            raise Exception("Unknown data type '%s'" % data_type)
+        return result
+
+    def write_ext_message(self, category_id, instance_id, params=[]):
+        ext_msg = bytes()
+        ext_msg += b"~&"
+        ext_msg += self.write_base_85(category_id)
+        ext_msg += self.write_base_85(instance_id)
+
+        for data_type, param in params:
+            ext_msg += self.write_param(data_type, param)
+
+        ext_msg += b"~"
+
+        return ext_msg
