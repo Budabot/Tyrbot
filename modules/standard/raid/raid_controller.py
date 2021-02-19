@@ -116,6 +116,10 @@ class RaidController:
 
         self.raid = Raid(raid_name, request.sender)
 
+        sql = "INSERT INTO raid_log (raid_name, started_by, raid_start, raid_end) VALUES (?,?,?,?)"
+        self.db.exec(sql, [self.raid.raid_name, self.raid.started_by.char_id, self.raid.started_at, 0])
+        self.raid.raid_id = self.db.last_insert_id()
+
         leader_alts = self.alts_service.get_alts(request.sender.char_id)
         self.raid.raiders.append(Raider(leader_alts, request.sender.char_id))
 
@@ -360,14 +364,12 @@ class RaidController:
             blob += self.text.make_tellcmd("Yes", "raid end --force")
             return ChatBlob("End Raid Confirmation", blob)
 
-        sql = "INSERT INTO raid_log (raid_name, started_by, raid_start, raid_end) VALUES (?,?,?,?)"
-        self.db.exec(sql, [self.raid.raid_name, self.raid.started_by.char_id, self.raid.started_at, int(time.time())])
-
-        raid_id = self.db.query_single("SELECT raid_id FROM raid_log ORDER BY raid_id DESC LIMIT 1").raid_id
+        sql = "UPDATE raid_log SET raid_end = ? WHERE raid_id = ?"
+        self.db.exec(sql, [int(time.time()), self.raid.raid_id])
 
         for raider in self.raid.raiders:
             sql = "INSERT INTO raid_log_participants (raid_id, raider_id, accumulated_points, left_raid, was_kicked, was_kicked_reason) VALUES (?,?,?,?,?,?)"
-            self.db.exec(sql, [raid_id, raider.active_id, raider.accumulated_points, raider.left_raid, raider.was_kicked, raider.was_kicked_reason])
+            self.db.exec(sql, [self.raid.raid_id, raider.active_id, raider.accumulated_points, raider.left_raid, raider.was_kicked, raider.was_kicked_reason])
 
         self.raid = None
         self.topic_controller.clear_topic()
