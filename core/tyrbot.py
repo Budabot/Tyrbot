@@ -208,6 +208,7 @@ class Tyrbot:
         start = time.time()
         self.event_service.fire_event("connect", None)
         self.event_service.run_timer_events_at_startup()
+        self.event_service.check_for_timer_events(int(start))
         self.logger.info("Connect events finished (%fs)" % (time.time() - start))
 
         time_waited = 0

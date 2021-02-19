@@ -91,7 +91,8 @@ class BuddyController:
 
     @timerevent(budatime="24h", description="Remove orphaned buddies", is_hidden=True)
     def remove_orphaned_buddies_event(self, event_type, event_data):
-        self.logger.debug("removing %d orphaned buddies" % self.remove_orphaned_buddies())
+        if self.bot.is_ready():
+            self.logger.debug("removing %d orphaned buddies" % self.remove_orphaned_buddies())
 
     def remove_orphaned_buddies(self):
         count = 0
