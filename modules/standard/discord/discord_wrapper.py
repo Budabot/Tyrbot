@@ -57,6 +57,9 @@ class DiscordWrapper(discord.Client):
             await asyncio.sleep(0.1)
 
     def set_channel_id(self, channel_id):
+        if not channel_id:
+            return False
+
         self.channel_id = int(channel_id)
         for channel in self.get_text_channels():
             if channel.id == self.channel_id:
