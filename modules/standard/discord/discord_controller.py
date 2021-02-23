@@ -18,7 +18,7 @@ from core.setting_types import HiddenSettingType, ColorSettingType, TextSettingT
 from core.text import Text
 from core.translation_service import TranslationService
 
-from .discord_message import DiscordMessage
+from .discord_message import DiscordEmbedMessage, DiscordTextMessage, DiscordMessage
 from .discord_wrapper import DiscordWrapper
 
 
@@ -210,7 +210,7 @@ class DiscordController:
                 else:
                     self.handle_discord_message_event(message)
             elif dtype == "discord_ready":
-                self.send_to_discord("msg", DiscordMessage("plain", "", "", f"{self.bot.get_primary_conn().get_char_name()} is now connected."))
+                self.send_to_discord("msg", DiscordTextMessage(f"{self.bot.get_primary_conn().get_char_name()} is now connected."))
 
             self.event_service.fire_event(dtype, message)
 
@@ -314,9 +314,7 @@ class DiscordController:
             for page_num, page in enumerate(pages, start=1):
                 if num_pages > 1:
                     page_title = title + f" (Page {page_num} / {num_pages})"
-                self.send_to_discord("command_reply", DiscordMessage("embed", page_title,
-                                                                     self.bot.get_primary_conn().get_char_name(),
-                                                                     page, channel, msgcolor))
+                self.send_to_discord("command_reply", DiscordEmbedMessage(page_title, page, msgcolor, channel))
             return
 
         if isinstance(content, DiscordMessage):
@@ -418,7 +416,7 @@ class DiscordController:
         if not self.is_connected():
             return
 
-        message = DiscordMessage("plain", "", "", self.strip_html_tags(ctx.formatted_message))
+        message = DiscordTextMessage(self.strip_html_tags(ctx.formatted_message))
         self.send_to_discord("msg", message)
 
     def get_text_channels(self):

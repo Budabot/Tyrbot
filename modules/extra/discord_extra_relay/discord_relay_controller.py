@@ -1,6 +1,6 @@
 from core.decorators import instance, event
 from core.setting_types import TextSettingType
-from modules.standard.discord.discord_message import DiscordMessage
+from modules.standard.discord.discord_message import DiscordTextMessage
 
 
 @instance()
@@ -27,7 +27,7 @@ class DiscordExtraRelayController:
     def handle_incoming_relay_message(self, ctx):
         channel = self.get_discord_channel(self.setting_service.get("discord_extra_relay_channel_id").get_value())
         if channel:
-            discord_message = DiscordMessage("plain", "", "", self.discord_controller.strip_html_tags(ctx.formatted_message), channel)
+            discord_message = DiscordTextMessage(self.discord_controller.strip_html_tags(ctx.formatted_message), channel)
             self.discord_controller.send_to_discord("msg", discord_message)
 
     def get_discord_channel(self, channel_id):
