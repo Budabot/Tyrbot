@@ -191,6 +191,8 @@ class Text:
             return None
 
         ql = ql or item["highql"]
+        if ql > item["highql"] or ql < item["lowql"]:
+            self.logger.warning(f"Formatting item {item} outside of QL range for QL {ql}")
 
         result = self.make_item(item["lowid"], item["highid"], ql, item["name"])
 

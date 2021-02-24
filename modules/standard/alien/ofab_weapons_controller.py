@@ -38,7 +38,7 @@ class OfabWeaponsController:
         weapon = self.db.query_single("SELECT type, vp FROM ofab_weapons w, ofab_weapons_cost c WHERE w.name LIKE ? AND c.ql = ?", [weapon_name, ql])
 
         if not weapon:
-            return "Could not find Ofab Weapon <highlight>%s</highlight> for QL <highlight>%d</highlight>." % (weapon_name, ql)
+            return "Ofab Weapon <highlight>%s</highlight> for QL <highlight>%d</highlight> does not exist." % (weapon_name, ql)
 
         type_ql = round(ql * 0.8)
         type_link = self.text.make_tellcmd("Kyr'Ozch Bio-Material - Type %d" % weapon.type, "bioinfo %d %d" % (weapon.type, type_ql))
@@ -51,8 +51,8 @@ class OfabWeaponsController:
         blob += "\n\n"
 
         for i in range(1, 7):
-            item = self.items_controller.find_by_name("Ofab %s Mk %d" % (weapon_name, i))
-            blob += "<pagebreak>" + self.text.format_item(item)
+            item = self.items_controller.find_by_name("Ofab %s Mk %d" % (weapon_name, i), ql=ql)
+            blob += "<pagebreak>" + self.text.format_item(item, ql=ql)
             if i == 1:
                 blob += "  (<highlight>%d</highlight> VP)" % weapon.vp
             blob += "\n"
