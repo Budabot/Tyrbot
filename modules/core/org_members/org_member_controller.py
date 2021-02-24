@@ -2,7 +2,7 @@ import hjson
 
 from core.aochat.server_packets import BuddyAdded
 from core.chat_blob import ChatBlob
-from core.command_param_types import Const, Character
+from core.command_param_types import Const, Character, Options
 from core.conn import Conn
 from core.decorators import instance, event, timerevent, command
 from core.dict_object import DictObject
@@ -44,6 +44,7 @@ class OrgMemberController:
         self.text = registry.get_instance("text")
         self.buddy_service = registry.get_instance("buddy_service")
         self.public_channel_service = registry.get_instance("public_channel_service")
+        self.command_alias_service = registry.get_instance("command_alias_service")
         self.access_service = registry.get_instance("access_service")
         self.org_pork_service = registry.get_instance("org_pork_service")
         self.event_service = registry.get_instance("event_service")
@@ -67,9 +68,12 @@ class OrgMemberController:
         self.db.exec("CREATE TABLE IF NOT EXISTS org_member (char_id INT NOT NULL PRIMARY KEY,"
                      "mode VARCHAR(20) NOT NULL, org_id INT NOT NULL)")
 
-    @command(command="notify", params=[Const("off"), Character("character")], access_level="admin",
-             description="Turn off online notification for a character")
-    def notify_off_cmd(self, request, _, char):
+        self.command_alias_service.add_alias("notify", "orgmember")
+        self.command_alias_service.add_alias("orgmembers", "orgmember")
+
+    @command(command="orgmember", params=[Options(["off", "rem", "remove"]), Character("character")], access_level="moderator",
+             description="Manually remove a char from the org roster")
+    def orgmember_remove_cmd(self, request, _, char):
         if not char.char_id:
             return self.getresp("global", "char_not_found", {"char": char.name})
 
@@ -86,9 +90,9 @@ class OrgMemberController:
 
         return self.getresp("module/org_members", "notify_rem_success", {"char": char.name})
 
-    @command(command="notify", params=[Const("on"), Character("character")], access_level="admin",
-             description="Turn on online notification for a character")
-    def notify_on_cmd(self, request, _, char):
+    @command(command="orgmember", params=[Options(["on", "add"]), Character("character")], access_level="moderator",
+             description="Manually add a char to the org roster")
+    def orgmember_add_cmd(self, request, _, char):
         if not char.char_id:
             return self.getresp("global", "char_not_found", {"char": char.name})
 
@@ -107,9 +111,9 @@ class OrgMemberController:
 
         return self.getresp("module/org_members", "notify_add_success", {"char": char.name})
 
-    @command(command="orgmembers", params=[], access_level="admin",
+    @command(command="orgmember", params=[], access_level="moderator",
              description="Show the list of org members")
-    def org_members_cmd(self, request):
+    def orgmember_list_cmd(self, request):
         data = self.db.query("SELECT p.*, o.char_id, o.mode FROM org_member o LEFT JOIN player p ON o.char_id = p.char_id")
         blob = ""
         for row in data:
