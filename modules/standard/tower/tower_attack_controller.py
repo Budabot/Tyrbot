@@ -2,12 +2,15 @@ from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Int, NamedParameters
 from core.decorators import instance, command, event
 from core.logger import Logger
+from core.setting_types import BooleanSettingType
 from modules.standard.tower.tower_controller import TowerController
 import time
 
 
 @instance()
 class TowerAttackController:
+    MESSAGE_SOURCE = "tower_attacks"
+
     def __init__(self):
         self.logger = Logger(__name__)
 
@@ -16,9 +19,14 @@ class TowerAttackController:
         self.db = registry.get_instance("db")
         self.text = registry.get_instance("text")
         self.util = registry.get_instance("util")
+        self.setting_service = registry.get_instance("setting_service")
         self.event_service = registry.get_instance("event_service")
         self.command_alias_service = registry.get_instance("command_alias_service")
         self.public_channel_service = registry.get_instance("public_channel_service")
+        self.message_hub_service = registry.get_instance("message_hub_service")
+
+    def pre_start(self):
+        self.message_hub_service.register_message_source(self.MESSAGE_SOURCE)
 
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS tower_attacker (id INT PRIMARY KEY AUTO_INCREMENT, att_org_name VARCHAR(50) NOT NULL, att_faction VARCHAR(10) NOT NULL, "
@@ -30,52 +38,40 @@ class TowerAttackController:
 
         self.command_alias_service.add_alias("victory", "attacks")
 
+        self.setting_service.register(self.module_name, "show_tower_attack_messages", True, BooleanSettingType(), "Show tower attack messages")
+
     @command(command="attacks", params=[NamedParameters(["page"])], access_level="all",
              description="Show recent tower attacks and victories")
     def attacks_cmd(self, request, named_params):
         page_number = int(named_params.page or "1")
 
-        page_size = 20
+        page_size = 10
         offset = (page_number - 1) * page_size
 
-        sql = """
-            SELECT
-                b.*,
-                a.*,
-                COALESCE(a.att_level, 0) AS att_level,
-                COALESCE(a.att_ai_level, 0) AS att_ai_level,
-                p.short_name,
-                b.id AS battle_id
-            FROM
-                tower_battle b
-                LEFT JOIN tower_attacker a ON
-                    a.tower_battle_id = b.id
-                LEFT JOIN playfields p ON
-                    p.id = b.playfield_id
-            ORDER BY
-                b.last_updated DESC,
-                a.created_at DESC
-            LIMIT ?, ?
-        """
-
+        sql = """SELECT b.*, p.long_name, p.short_name 
+            FROM tower_battle b LEFT JOIN playfields p ON b.playfield_id = p.id 
+            ORDER bY b.last_updated DESC LIMIT ?, ?"""
         data = self.db.query(sql, [offset, page_size])
+
         t = int(time.time())
 
         blob = self.check_for_all_towers_channel()
-
         blob += self.text.get_paging_links(f"attacks", page_number, page_size == len(data))
         blob += "\n\n"
-
-        current_battle_id = -1
         for row in data:
-            if current_battle_id != row.battle_id:
-                blob += "\n<pagebreak>"
-                current_battle_id = row.battle_id
-                blob += self.format_battle_info(row, t)
-                blob += self.text.make_tellcmd("More Info", "attacks battle %d" % row.battle_id) + "\n"
-                blob += "<header2>Attackers:</header2>\n"
-
-            blob += "<tab>" + self.format_attacker(row) + "\n"
+            blob += "\n<pagebreak>"
+            blob += self.format_battle_info(row, t)
+            blob += self.text.make_tellcmd("More Info", "attacks battle %d" % row.id) + "\n"
+            blob += "<header2>Attackers:</header2>\n"
+            sql2 = """SELECT a.*, COALESCE(a.att_level, 0) AS att_level, COALESCE(a.att_ai_level, 0) AS att_ai_level
+                FROM tower_attacker a
+                WHERE a.tower_battle_id = ?
+                ORDER BY created_at DESC"""
+            data2 = self.db.query(sql2, [row.id])
+            for row2 in data2:
+                blob += "<tab>" + self.format_attacker(row2) + "\n"
+            if not data2:
+                blob += "<tab>Unknown attacker\n"
 
         return ChatBlob("Tower Attacks", blob)
 
@@ -86,21 +82,7 @@ class TowerAttackController:
         if not battle:
             return "Could not find battle with ID <highlight>%d</highlight>." % battle_id
 
-        t = int(time.time())
-
-        attackers = self.db.query("SELECT * FROM tower_attacker WHERE tower_battle_id = ? ORDER BY created_at DESC", [battle_id])
-
-        first_activity = attackers[-1].created_at if len(attackers) > 0 else battle.last_updated
-
-        blob = self.check_for_all_towers_channel()
-        blob += self.format_battle_info(battle, t)
-        blob += "Duration: <highlight>%s</highlight>\n\n" % self.util.time_to_readable(battle.last_updated - first_activity)
-        blob += "<header2>Attackers:</header2>\n"
-
-        for row in attackers:
-            blob += "<tab>" + self.format_attacker(row)
-            blob += " " + self.format_timestamp(row.created_at, t)
-            blob += "\n"
+        blob = self.check_for_all_towers_channel() + self.get_battle_blob(battle)
 
         return ChatBlob("Battle Info %d" % battle_id, blob)
 
@@ -111,13 +93,20 @@ class TowerAttackController:
 
         attacker = event_data.attacker or {}
         defender = event_data.defender
+        location = event_data.location
 
         battle = self.find_or_create_battle(event_data.location.playfield.id, site_number, defender.org_name, defender.faction, "attack", t)
 
         self.db.exec("INSERT INTO tower_attacker (att_org_name, att_faction, att_char_id, att_char_name, att_level, att_ai_level, att_profession, "
                      "x_coord, y_coord, is_victory, tower_battle_id, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                      [attacker.get("org_name", ""), attacker.get("faction", ""), attacker.get("char_id", 0), attacker.get("name", ""), attacker.get("level", 0),
-                      attacker.get("ai_level", 0), attacker.get("profession", ""), event_data.location.x_coord, event_data.location.y_coord, 0, battle.id, t])
+                      attacker.get("ai_level", 0), attacker.get("profession", ""), location.x_coord, location.y_coord, 0, battle.id, t])
+
+        if self.setting_service.get("show_tower_attack_messages").get_value():
+            msg = "%s attacked <highlight>%s</highlight> (%s) %s %s %s" % (self.format_attacker(attacker), defender.org_name, defender.faction,
+                                                                           location.playfield.get("short_name", location.playfield.get("long_name")),
+                                                                           site_number or "?", self.get_battle_blob(battle))
+            self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)
 
     @event(event_type=TowerController.TOWER_VICTORY_EVENT, description="Record tower victories", is_hidden=True)
     def tower_victory_event(self, event_type, event_data):
@@ -263,3 +252,22 @@ class TowerAttackController:
             return "Notice: The primary bot must belong to an org and be promoted to a rank that is high enough to have the All Towers channel (e.g., Squad Commander) in order for the <symbol>attacks command to work correctly.\n\n"
         else:
             return ""
+
+    def get_battle_blob(self, battle):
+        t = int(time.time())
+
+        attackers = self.db.query("SELECT * FROM tower_attacker WHERE tower_battle_id = ? ORDER BY created_at DESC", [battle.id])
+
+        first_activity = attackers[-1].created_at if len(attackers) > 0 else battle.last_updated
+
+        blob = ""
+        blob += self.format_battle_info(battle, t)
+        blob += "Duration: <highlight>%s</highlight>\n\n" % self.util.time_to_readable(battle.last_updated - first_activity)
+        blob += "<header2>Attackers:</header2>\n"
+
+        for row in attackers:
+            blob += "<tab>" + self.format_attacker(row)
+            blob += " " + self.format_timestamp(row.created_at, t)
+            blob += "\n"
+
+        return blob
