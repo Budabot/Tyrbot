@@ -205,3 +205,11 @@ def run_upgrades():
         if table_exists("org_member"):
             db.exec("DROP TABLE org_member")
         version = update_version(version)
+
+    if version == 18:
+        if table_exists("org_activity"):
+            db.exec("ALTER TABLE org_activity RENAME TO org_activity_old")
+            db.exec("CREATE TABLE org_activity (id INT PRIMARY KEY AUTO_INCREMENT, actor_char_id INT NOT NULL, actee_char_id INT NOT NULL, action VARCHAR(20) NOT NULL, created_at INT NOT NULL, org_id INT NOT NULL)")
+            db.exec("INSERT INTO org_activity SELECT id, actor_char_id, actee_char_id, action, created_at, 0 FROM org_activity_old")
+            db.exec("DROP TABLE org_activity_old")
+        version = update_version(version)

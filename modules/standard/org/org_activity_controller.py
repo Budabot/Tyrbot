@@ -1,6 +1,7 @@
 import time
 
 from core.chat_blob import ChatBlob
+from core.conn import Conn
 from core.decorators import instance, command, event
 from core.logger import Logger
 from core.public_channel_service import PublicChannelService
@@ -13,6 +14,7 @@ class OrgActivityController:
         self.logger = Logger(__name__)
 
     def inject(self, registry):
+        self.bot = registry.get_instance("bot")
         self.db = registry.get_instance("db")
         self.util = registry.get_instance("util")
         self.character_service = registry.get_instance("character_service")
@@ -20,7 +22,7 @@ class OrgActivityController:
 
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS org_activity (id INT PRIMARY KEY AUTO_INCREMENT, actor_char_id INT NOT NULL, actee_char_id INT NOT NULL, "
-                     "action VARCHAR(20) NOT NULL, created_at INT NOT NULL)")
+                     "action VARCHAR(20) NOT NULL, created_at INT NOT NULL, org_id INT NOT NULL)")
 
         self.command_alias_service.add_alias("orghistory", "orgactivity")
 
@@ -31,7 +33,8 @@ class OrgActivityController:
             SELECT
                 p1.name AS actor,
                 p2.name AS actee, o.action,
-                o.created_at
+                o.created_at,
+                o.org_id
             FROM
                 org_activity o
                 LEFT JOIN player p1 ON o.actor_char_id = p1.char_id
@@ -77,7 +80,16 @@ class OrgActivityController:
         self.db.exec("INSERT INTO org_activity (actor_char_id, actee_char_id, action, created_at) VALUES (?, ?, ?, ?)", [actor_id, actee_id, action, t])
 
     def format_org_action(self, row):
-        if row.action == "left" or row.action == "alignment changed":
-            return "<highlight>%s</highlight> %s. %s" % (row.actor, row.action, self.util.format_datetime(row.created_at))
+        org_name = self.get_org_name(row.org_id)
+        created_at_str = self.util.format_datetime(row.created_at)
+        if row.action == "left" or row.action == "alignment changed" or row.action == "joined":
+            return f"<highlight>{row.actor}</highlight> {row.action}. [{org_name}] {created_at_str}"
         else:
-            return "<highlight>%s</highlight> %s <highlight>%s</highlight>. %s" % (row.actor, row.action, row.actee, self.util.format_datetime(row.created_at))
+            return f"<highlight>{row.actor}</highlight> {row.action} <highlight>{row.actee}</highlight>. [{org_name}] {created_at_str}"
+
+    def get_org_name(self, org_id):
+        conn: Conn = self.bot.get_conn_by_org_id(org_id)
+        if conn:
+            return conn.get_org_name()
+        else:
+            return f"UnknownOrg({org_id})"
