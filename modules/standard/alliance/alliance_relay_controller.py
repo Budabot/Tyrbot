@@ -105,10 +105,10 @@ class AllianceRelayController:
         symbol = self.setting_service.get_value("arelay_symbol")
         plain_msg = ctx.message or ctx.formatted_message
 
-        if method == "unless_symbol" and len(plain_msg) > len(symbol) and plain_msg[:len(symbol)] == symbol:
+        if method == "unless_symbol" and plain_msg.startswith(symbol):
             return
         elif method == "with_symbol":
-            if len(plain_msg) < len(symbol) or plain_msg[:len(symbol)] != symbol:
+            if not plain_msg.startswith(symbol):
                 return
             else:
                 # trim symbol from message

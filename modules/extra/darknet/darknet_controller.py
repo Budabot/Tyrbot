@@ -83,35 +83,35 @@ class DarkController:
             if ch == "wts":
                 if self.setting_service.get_value("dark_wts") == "0":
                     return
-                channel = "<red>WTS</red>"
+                channel = "<red>[WTS]</red>"
             elif ch == "wtb":
                 if self.setting_service.get_value("dark_wtb") == "0":
                     return
-                channel = "<green>WTB</green>"
+                channel = "<green>[WTB]</green>"
             elif ch == "lootrights":
                 if self.setting_service.get_value("dark_lr") == "0":
                     return
-                channel = "<violet>LR<(violet)>"
+                channel = "<violet>[LR]</violet>"
             elif ch == "general":
                 if self.setting_service.get_value("dark_gen") == "0":
                     return
-                channel = "<notice>Gen</notice>"
+                channel = "<notice>[Gen]</notice>"
             elif ch == "pvm":
                 if self.setting_service.get_value("dark_pvm") == "0":
                     return
-                channel = "<cyan>PvM</cyan>"
+                channel = "<cyan>[PvM]</cyan>"
             elif ch == "event":
                 if self.setting_service.get_value("dark_event") == "0":
                     return
-                channel = "<highlight>Event</highlight>"
+                channel = "<highlight>[Event]</highlight>"
             elif ch == "pvp":
                 if self.setting_service.get_value("dark_pvp") == "0":
                     return
-                channel = "<grey>PvP</grey>"
+                channel = "<grey>[PvP]</grey>"
             elif ch == "auction":
-                channel = "<yellow>AUCTION</yellow>"
+                channel = "<yellow>[AUCTION]</yellow>"
             else:
                 return
 
-            message = ("[%s] <orange>%s<end> [%s] [%s]" % (channel, msg, tell, report))
-            self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, message)
+            message = "<orange>%s<end> [%s] [%s]" % (msg, tell, report)
+            self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, channel, message)

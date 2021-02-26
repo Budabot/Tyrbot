@@ -66,11 +66,8 @@ class MessageHubService:
         if data:
             self.hub[destination].sources =  list(map(lambda x: x.source, data))
 
-    def send_message(self, source, sender, message, formatted_message):
-        ctx = DictObject({"source": source,
-                          "sender": sender,
-                          "message": message,
-                          "formatted_message": formatted_message})
+    def send_message(self, source, sender, channel_prefix, message):
+        ctx = MessageHubContext(source, sender, channel_prefix, message, self.get_formatted_message(channel_prefix, sender, message))
 
         for _, c in self.hub.items():
             if source in c.sources:
@@ -96,7 +93,7 @@ class MessageHubService:
                              "VALUES (?, ?)", [destination, source])
 
     def unsubscribe_from_source(self, destination, source):
-        #if source not in self.sources:
+        # if source not in self.sources:
         #    raise Exception("Message hub source '%s' does not exist" % source)
 
         obj = self.hub.get(destination, None)
@@ -110,3 +107,28 @@ class MessageHubService:
             for source in obj.sources:
                 self.db.exec("INSERT INTO message_hub_subscriptions (destination, source)"
                              "VALUES (?, ?)", [destination, source])
+
+    def get_formatted_message(self, channel_prefix, sender, message):
+        formatted_message = ""
+        if channel_prefix:
+            formatted_message += f"{channel_prefix} "
+        if sender:
+            char_name = self.text.make_charlink(sender.name)
+            formatted_message += f"{char_name}: "
+        formatted_message += message
+        return formatted_message
+
+
+class MessageHubContext:
+    def __init__(self, source, sender, channel_prefix, message, formatted_message):
+        self.source = source
+        self.sender = sender
+        self.channel_prefix = channel_prefix
+        self.message = message
+        self.formatted_message = formatted_message
+
+    def __str__(self):
+        return self.__dict__.__str__()
+
+    def __repr__(self):
+        return self.__str__()

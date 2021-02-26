@@ -110,11 +110,8 @@ class PrivateChannelController:
         if self.bot.get_conn_by_char_id(event_data.char_id) or self.ban_service.get_ban(event_data.char_id):
             return
 
-        char_name = event_data.name
-        sender = DictObject({"char_id": event_data.char_id, "name": char_name})
-        char = self.text.make_charlink(char_name)
-        formatted_message = "{priv} {char}: {message}".format(priv=self.PRIVATE_CHANNEL_PREFIX, char=char, message=event_data.message)
-        self.message_hub_service.send_message(self.MESSAGE_SOURCE, sender, event_data.message, formatted_message)
+        sender = DictObject({"char_id": event_data.char_id, "name": event_data.name})
+        self.message_hub_service.send_message(self.MESSAGE_SOURCE, sender, self.PRIVATE_CHANNEL_PREFIX, event_data.message)
 
     @event(event_type=PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, description="Notify when a character joins the private channel")
     def handle_private_channel_joined_event(self, event_type, event_data):
@@ -140,10 +137,8 @@ class PrivateChannelController:
 
     @event(event_type=PrivateChannelService.PRIVATE_CHANNEL_COMMAND_EVENT, description="Relay commands from the private channel to the relay hub", is_hidden=True)
     def outgoing_private_channel_message_event(self, event_type, event_data):
-        msg = self.PRIVATE_CHANNEL_PREFIX + " "
         sender = None
         if event_data.name:
-            msg += self.text.make_charlink(event_data.name) + ": "
             sender = DictObject({"char_id": event_data.char_id, "name": event_data.name})
 
         if isinstance(event_data.message, ChatBlob):
@@ -152,14 +147,11 @@ class PrivateChannelController:
                                        self.setting_service.get("org_channel_max_page_length").get_value())
             if len(pages) < 4:
                 for page in pages:
-                    message = msg + page
-                    self.message_hub_service.send_message(self.MESSAGE_SOURCE, sender, page, message)
+                    self.message_hub_service.send_message(self.MESSAGE_SOURCE, sender, self.PRIVATE_CHANNEL_PREFIX, page)
             else:
-                message = msg + event_data.message.title
-                self.message_hub_service.send_message(self.MESSAGE_SOURCE, sender, event_data.message.title, message)
+                self.message_hub_service.send_message(self.MESSAGE_SOURCE, sender, self.PRIVATE_CHANNEL_PREFIX, event_data.message.title)
         else:
-            message = msg + event_data.message
-            self.message_hub_service.send_message(self.MESSAGE_SOURCE, sender, event_data.message, message)
+            self.message_hub_service.send_message(self.MESSAGE_SOURCE, sender, self.PRIVATE_CHANNEL_PREFIX, event_data.message)
 
     def get_conn(self):
         # always invite to primary conn priv channel

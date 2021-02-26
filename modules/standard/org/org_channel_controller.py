@@ -34,7 +34,7 @@ class OrgChannelController:
     def start(self):
         self.message_hub_service.register_message_destination(
             self.MESSAGE_SOURCE, self.handle_incoming_relay_message,
-            ["private_channel", "discord", "websocket_relay", "tell_relay", "broadcast", "raffle", "cloak_reminder", "wave_counter", "shutdown_notice", "raid"],
+            ["private_channel", "discord", "websocket_relay", "tell_relay", "broadcast", "raffle", "cloak_reminder", "wave_counter", "shutdown_notice", "raid", "tower_attacks"],
             [self.MESSAGE_SOURCE])
 
         self.setting_service.register(self.module_name, "prefix_org_priv", True, BooleanSettingType(), "Should the prefix [org] be displayed in relayed messages")
@@ -64,7 +64,7 @@ class OrgChannelController:
                                                              msg=message)
 
         self.bot.send_message_to_other_org_channels(formatted_message, from_conn=event_data.conn)
-        self.message_hub_service.send_message(self.MESSAGE_SOURCE, sender, message, formatted_message)
+        self.message_hub_service.send_message(self.MESSAGE_SOURCE, sender, self.ORG_CHANNEL_PREFIX, message)
 
     @event(event_type=OrgMemberController.ORG_MEMBER_LOGON_EVENT, description="Notify when org member logs on")
     def org_member_logon_event(self, event_type, event_data):
@@ -80,7 +80,7 @@ class OrgChannelController:
 
             for _id, conn in self.bot.get_conns(lambda x: x.is_main and x.org_id):
                 self.bot.send_org_message(msg, conn=conn)
-            self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)
+            self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, self.ORG_CHANNEL_PREFIX, msg)
 
     @event(event_type=OrgMemberController.ORG_MEMBER_LOGOFF_EVENT, description="Notify when org member logs off")
     def org_member_logoff_event(self, event_type, event_data):
@@ -92,7 +92,7 @@ class OrgChannelController:
 
             for _id, conn in self.bot.get_conns(lambda x: x.is_main and x.org_id):
                 self.bot.send_org_message(msg, conn=conn)
-            self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)
+            self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, self.ORG_CHANNEL_PREFIX, msg)
 
     @event(event_type=PublicChannelService.ORG_CHANNEL_COMMAND_EVENT, description="Relay commands from the org channel to the relay hub", is_hidden=True)
     def outgoing_org_message_event(self, event_type, event_data):
@@ -110,12 +110,12 @@ class OrgChannelController:
                 for page in pages:
                     message = msg + page
                     self.bot.send_message_to_other_org_channels(message, from_conn=event_data.conn)
-                    self.message_hub_service.send_message(self.MESSAGE_SOURCE, sender, page, message)
+                    self.message_hub_service.send_message(self.MESSAGE_SOURCE, sender, self.ORG_CHANNEL_PREFIX, page)
             else:
                 message = msg + event_data.message.title
                 self.bot.send_message_to_other_org_channels(message, from_conn=event_data.conn)
-                self.message_hub_service.send_message(self.MESSAGE_SOURCE, sender, event_data.message.title, message)
+                self.message_hub_service.send_message(self.MESSAGE_SOURCE, sender, self.ORG_CHANNEL_PREFIX, event_data.message.title)
         else:
             message = msg + event_data.message
             self.bot.send_message_to_other_org_channels(message, from_conn=event_data.conn)
-            self.message_hub_service.send_message(self.MESSAGE_SOURCE, sender, event_data.message, message)
+            self.message_hub_service.send_message(self.MESSAGE_SOURCE, sender, self.ORG_CHANNEL_PREFIX, event_data.message)

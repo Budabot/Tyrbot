@@ -137,7 +137,7 @@ class WebsocketRelayController:
                 message += "%s: " % self.setting_service.get("websocket_relay_sender_color").format_text(obj.user.name)
             message += self.setting_service.get("websocket_relay_message_color").format_text(obj.message)
 
-            self.message_hub_service.send_message(self.MESSAGE_SOURCE, obj.get("user", None), obj.message, message)
+            self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, message)
         elif obj.type == "logon":
             self.add_online_char(obj.user.id, obj.user.name, obj.source, client_id)
         elif obj.type == "logoff":

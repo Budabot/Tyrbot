@@ -278,7 +278,7 @@ class DiscordController:
 
         formatted_message = "<grey>[</grey>%s<grey>]</grey> %s<grey>:</grey> %s" % (chanclr.format_text("Discord"), nameclr.format_text(name), mesgclr.format_text(message.content))
 
-        self.message_hub_service.send_message(self.MESSAGE_SOURCE, DictObject({"name": name}), message.content, formatted_message)
+        self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, formatted_message)
 
     def find_discord_command_handler(self, message):
         message_str = self.command_service.trim_command_symbol(message.content)
