@@ -364,7 +364,7 @@ class Tyrbot:
                     self.get_primary_conn().send_packet(packet)
 
     def send_message_to_other_org_channels(self, msg, from_conn: Conn):
-        for _id, conn in self.get_conns(lambda x: x.is_main and x != from_conn):
+        for _id, conn in self.get_conns(lambda x: x.is_main and x.org_id and x != from_conn):
             self.send_org_message(msg, conn=conn)
 
     def handle_private_message(self, conn: Conn, packet: server_packets.PrivateMessage):
