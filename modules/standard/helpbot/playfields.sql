@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS `playfields`;
-CREATE TABLE `playfields` (`id` smallint(6) NOT NULL PRIMARY KEY, `long_name` varchar(100) NOT NULL, `short_name` varchar(30) DEFAULT NULL, `dungeon` tinyint(255) NOT NULL DEFAULT 0, UNIQUE (`short_name`));
+CREATE TABLE `playfields` (`id` smallint(6) NOT NULL PRIMARY KEY, `long_name` varchar(100) NOT NULL, `short_name` varchar(30) DEFAULT NULL, `is_dungeon` tinyint(255) NOT NULL DEFAULT 0, UNIQUE (`short_name`));
 INSERT INTO `playfields` VALUES (100, 'Needed PF-stuff', NULL, 0);
 INSERT INTO `playfields` VALUES (101, 'Default Door Links', NULL, 0);
 INSERT INTO `playfields` VALUES (102, 'Monster and NPC dependencies', NULL, 0);

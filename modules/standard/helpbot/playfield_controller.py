@@ -68,7 +68,7 @@ class PlayfieldController:
             return ChatBlob(title, blob)
 
     def get_playfield_by_name(self, name):
-        return self.db.query_single("SELECT * FROM playfields WHERE long_name LIKE ? OR short_name LIKE ? LIMIT 1", [name, name])
+        return self.db.query_single("SELECT id, long_name, short_name FROM playfields WHERE long_name LIKE ? OR short_name LIKE ? LIMIT 1", [name, name])
 
     def get_playfield_by_id(self, playfield_id):
-        return self.db.query_single("SELECT * FROM playfields WHERE id = ?", [playfield_id])
+        return self.db.query_single("SELECT id, long_name, short_name FROM playfields WHERE id = ?", [playfield_id])
