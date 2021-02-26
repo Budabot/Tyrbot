@@ -4,6 +4,8 @@ from core.logger import Logger
 import discord
 import asyncio
 
+from modules.standard.discord.discord_message import DiscordEmbedMessage
+
 
 class DiscordWrapper(discord.Client):
     def __init__(self, channel_id, dqueue, aoqueue):
@@ -47,7 +49,7 @@ class DiscordWrapper(discord.Client):
                         channel = message.channel or self.default_channel
 
                         if channel:
-                            if message.get_type() == "embed":
+                            if isinstance(message, DiscordEmbedMessage):
                                 await channel.send(embed=content)
                             else:
                                 await channel.send(content)

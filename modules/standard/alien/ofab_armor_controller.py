@@ -37,7 +37,7 @@ class OfabArmorController:
         data = self.db.query("SELECT * FROM ofab_armor o1 LEFT JOIN ofab_armor_cost o2 ON o1.slot = o2.slot WHERE o1.profession = ? AND o2.ql = ? ORDER BY upgrade ASC, name ASC",
                              [profession, ql])
         if not data:
-            return "Could not find Ofab Armor for QL <highlight>%d</highlight>." % ql
+            return "Ofab Armor for QL <highlight>%d</highlight> does not exist." % ql
 
         upgrade_type = self.db.query_single("SELECT type FROM ofab_armor_type WHERE profession = ?", [profession]).type
 

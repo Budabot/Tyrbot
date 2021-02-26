@@ -58,7 +58,7 @@ class TowerController:
         for row in data:
             blob += "%s <highlight>%s</highlight>\n" % (self.text.make_tellcmd(row.long_name, "lc %s" % row.short_name), row.short_name)
 
-        return ChatBlob("Land Control Playfields", blob)
+        return ChatBlob("Land Control Playfields (%d)" % len(data), blob)
 
     @command(command="lc", params=[Any("playfield"), Int("site_number", is_optional=True)], access_level="all",
              description="See a list of land control tower sites in a particular playfield")
@@ -87,7 +87,7 @@ class TowerController:
         if site_number:
             title = "Tower Info: %s %d" % (playfield.long_name, site_number)
         else:
-            title = "Tower Info: %s" % playfield.long_name
+            title = "Tower Info: %s (%d)" % (playfield.long_name, len(data))
 
         return ChatBlob(title, blob)
 
