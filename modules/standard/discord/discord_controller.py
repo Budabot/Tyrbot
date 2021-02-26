@@ -397,7 +397,7 @@ class DiscordController:
         reply(self.getresp("module/discord", "unlink_success"))
 
     def is_connected(self):
-        #not self.client or not self.dthread.is_alive()
+        # not self.client or not self.dthread.is_alive()
         return self.client and self.client.is_ready() and self.dthread and self.dthread.is_alive()
 
     def get_char_info_display(self, char_id):

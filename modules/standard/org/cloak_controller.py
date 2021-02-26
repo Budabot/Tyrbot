@@ -106,28 +106,6 @@ class CloakController:
 
         self.timer_controller.add_timer(timer_name, event_data.char_id, PublicChannelService.ORG_CHANNEL_COMMAND, int(time.time()), 3600)
 
-    def get_cloak_status(self, row):
-        one_hour = 3600
-        time_until_change = row.created_at + one_hour - int(time.time())
-        time_string = self.util.time_to_readable(time_until_change)
-        conn = self.bot.get_conn_by_org_id(row.org_id)
-        org_name = "Unknown"
-        if conn:
-            org_name = conn.get_org_name()
-
-        if row.action == "off":
-            if time_until_change <= 0:
-                msg = f"The cloaking device for org <highlight>{org_name}</highlight> is <orange>disabled</orange>. It is possible to enable it."
-            else:
-                msg = f"The cloaking device for org <highlight>{org_name}</highlight>  is <orange>disabled</orange>. It is possible to enable it in {time_string}."
-        else:
-            if time_until_change <= 0:
-                msg = f"The cloaking device for org <highlight>{org_name}</highlight> is <green>enabled</green>. It is possible to disable it."
-            else:
-                msg = f"The cloaking device for org <highlight>{org_name}</highlight> is <green>enabled</green>. It is possible to disable it in {time_string}."
-
-        return msg
-
     def handle_public_message(self, conn: Conn, packet: PublicChannelMessage):
         if not conn.is_main:
             return
