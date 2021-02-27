@@ -28,11 +28,6 @@ class BroadcastController:
     def start(self):
         self.command_service.register_command_pre_processor(self.command_pre_process)
         self.db.exec("CREATE TABLE IF NOT EXISTS broadcast (char_id INT NOT NULL PRIMARY KEY, alias VARCHAR(50), created_at INT NOT NULL)")
-        self.ts.register_translation("module/broadcast", self.load_broadcast_msg)
-
-    def load_broadcast_msg(self):
-        with open("modules/standard/broadcast/broadcast.msg", mode="r", encoding="utf-8") as f:
-            return hjson.load(f)
 
     @command(command="broadcast", params=[], access_level="admin",
              description="Show characters/bots on the broadcast list")
@@ -46,7 +41,7 @@ class BroadcastController:
                 blob += " (" + row.alias + ")"
             blob += "\n"
 
-        return ChatBlob(self.getresp("module/broadcast", "broadcast_list", {"count": len(data)}), blob)
+        return ChatBlob("Broadcast List (%d)" % len(data), blob)
 
     @command(command="broadcast", params=[Const("add"), Character("char"), Any("alias", is_optional=True)], access_level="admin",
              description="Add a character/bot to the broadcast list")
@@ -54,14 +49,16 @@ class BroadcastController:
         if char.char_id is None:
             return self.getresp("global", "char_not_found", {"char": char.name})
 
+        if char.char_id == request.sender.char_id:
+            return "You cannot add yourself to the broadcast list."
+
         row = self.db.query_single("SELECT 1 FROM broadcast WHERE char_id = ?", [char.char_id])
 
         if row:
-            return self.getresp("module/broadcast", "add_fail", {"char": char.name})
+            return f"Error! <highlight>{char.name}</highlight> already exists on the broadcast list."
         else:
             self.db.exec("INSERT INTO broadcast (char_id, alias, created_at) VALUES (?, ?, ?)", [char.char_id, alias, int(time.time())])
-            return self.getresp("module/broadcast", "add_success", {"char": char.name})
-
+            return f"<highlight>{char.name}</highlight> has been added to the broadcast list."
 
     @command(command="broadcast", params=[Options(["rem", "remove"]), Character("char")], access_level="admin",
              description="Remove a character/bot from the broadcast list")
@@ -72,10 +69,10 @@ class BroadcastController:
         row = self.db.query_single("SELECT 1 FROM broadcast WHERE char_id = ?", [char.char_id])
 
         if not row:
-            return self.getresp("module/broadcast", "rem_fail", {"char": char.name})
+            return f"Error! <highlight>{char.name}</highlight> does not exist on the broadcast list."
         else:
             self.db.exec("DELETE FROM broadcast WHERE char_id = ?", [char.char_id])
-            return self.getresp("module/broadcast", "rem_success", {"char": char.name})
+            return f"<highlight>{char.name}</highlight> has been removed from the broadcast list."
 
     def command_pre_process(self, context):
         row = self.db.query_single("SELECT alias FROM broadcast WHERE char_id = ?", [context.char_id])
