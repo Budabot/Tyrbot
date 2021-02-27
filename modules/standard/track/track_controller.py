@@ -24,12 +24,10 @@ class TrackController:
     def track_cmd(self, request):
         data = self.get_all_tracked_chars()
         blob = ""
-        count = 0
         for row in data:
-            count += 1
-            blob += self.text.make_tellcmd(row.name, "track %s" % row.name) + " - " + ("<green>Online</green>" if self.buddy_service.is_online(row.char_id) == True else "<red>Offline</red>") + "\n"
+            blob += self.text.make_tellcmd(row.name, "track view %s" % row.name) + " - " + ("<green>Online</green>" if self.buddy_service.is_online(row.char_id) else "<red>Offline</red>") + "\n"
 
-        return ChatBlob("Track List (%s)" % count, blob)
+        return ChatBlob("Track List (%s)" % len(data), blob)
 
     @command(command="track", params=[Const("add"), Character("char")], access_level="member",
              description="Add a character to the track list")
@@ -64,8 +62,8 @@ class TrackController:
 
     @event(event_type=BuddyService.BUDDY_LOGON_EVENT, description="Record when a tracked char logs on", is_hidden=True)
     def buddy_logon_event(self, event_type, event_data):
-            if self.get_tracked_char(event_data.char_id):
-                self.add_track_info(event_data.char_id, "logon")
+        if self.get_tracked_char(event_data.char_id):
+            self.add_track_info(event_data.char_id, "logon")
 
     @event(event_type=BuddyService.BUDDY_LOGOFF_EVENT, description="Record when a tracked char logs off", is_hidden=True)
     def buddy_logoff_event(self, event_type, event_data):
@@ -82,13 +80,15 @@ class TrackController:
 
     def get_all_tracked_chars(self):
         return self.db.query("SELECT COALESCE(p1.name, t.char_id) AS name, COALESCE(p2.name, t.added_by_char_id) AS added_by_name, created_at, t.char_id "
-                                    "FROM track t "
-                                    "LEFT JOIN player p1 ON t.char_id = p1.char_id "
-                                    "LEFT JOIN player p2 ON t.added_by_char_id = p2.char_id ")
+                             "FROM track t "
+                             "LEFT JOIN player p1 ON t.char_id = p1.char_id "
+                             "LEFT JOIN player p2 ON t.added_by_char_id = p2.char_id "
+                             "ORDER BY name ASC")
 
     def get_track_log(self, char_id):
         return self.db.query("SELECT action, created_at FROM track_log "
-                             "WHERE char_id = ?", [char_id])
+                             "WHERE char_id = ? "
+                             "ORDER BY created_at DESC", [char_id])
 
     def add_tracked_char(self, char_id, added_by_char_id):
         self.buddy_service.add_buddy(char_id, "track")
