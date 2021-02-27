@@ -78,9 +78,9 @@ class PorkService:
         return char_info
 
     # standard method to get character pork data when character is on the same server
-    def get_character_info(self, char, max_cache_age=86400):
-        char_id = self.character_service.resolve_char_to_id(char)
-        char_name = self.character_service.resolve_char_to_name(char)
+    def get_character_info(self, char_name_or_id, max_cache_age=86400):
+        char_id = self.character_service.resolve_char_to_id(char_name_or_id)
+        char_name = self.character_service.resolve_char_to_name(char_name_or_id)
 
         t = int(time.time())
 

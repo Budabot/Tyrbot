@@ -90,7 +90,7 @@ class CommandService:
             help_text: str
             sub_command: str
             extended_description: str
-            check_access: (char, access_level_label) -> bool
+            check_access: (char_id, access_level_label) -> bool
         """
 
         if len(inspect.signature(handler).parameters) != len(params) + 1:
@@ -276,13 +276,13 @@ class CommandService:
             processed.append(param.process_matches(groups))
         return processed
 
-    def get_help_text(self, char, command_str, channel, show_regex=False):
+    def get_help_text(self, char_id, command_str, channel, show_regex=False):
         data = self.db.query("SELECT command, sub_command, access_level FROM command_config "
                              "WHERE command = ? AND channel = ? AND enabled = 1",
                              [command_str, channel])
 
         # filter out commands that character does not have access level for
-        data = filter(lambda row: self.access_service.check_access(char, row.access_level), data)
+        data = filter(lambda row: self.access_service.check_access(char_id, row.access_level), data)
 
         def get_regex(params):
             if show_regex:

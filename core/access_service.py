@@ -90,8 +90,7 @@ class AccessService:
 
         return a2["level"] - a1["level"] > 0
 
-    def get_single_access_level(self, char):
-        char_id = self.character_service.resolve_char_to_id(char)
+    def get_single_access_level(self, char_id):
         for access_level in self.access_levels:
             if access_level["handler"](char_id):
                 return access_level
@@ -109,12 +108,8 @@ class AccessService:
                 return access_level
         return None
 
-    def check_access(self, char, access_level_label):
-        char_id = self.character_service.resolve_char_to_id(char)
-        if not char_id:
-            return None
-
-        return self.get_access_level(char)["level"] <= self.get_access_level_by_label(access_level_label)["level"]
+    def check_access(self, char_id, access_level_label):
+        return self.get_access_level(char_id)["level"] <= self.get_access_level_by_label(access_level_label)["level"]
 
     def no_access(self, char_id):
         return False

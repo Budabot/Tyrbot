@@ -177,8 +177,8 @@ class Text:
     def make_tellcmd(self, name, msg, style="", char="<myname>"):
         return self.make_chatcmd(name, f"/tell {char} {msg}", style)
 
-    def make_charlink(self, char, style=""):
-        return "<a %s href='user://%s'>%s</a>" % (style, char, char)
+    def make_charlink(self, char_name, style=""):
+        return "<a %s href='user://%s'>%s</a>" % (style, char_name, char_name)
 
     def make_item(self, low_id, high_id, ql, name):
         return "<a href='itemref://%d/%d/%d'>%s</a>" % (low_id, high_id, ql, name)

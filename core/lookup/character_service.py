@@ -32,25 +32,25 @@ class CharacterService:
 
         return self.name_to_id.get(char_name, None)
 
-    def resolve_char_to_id(self, char):
-        if isinstance(char, int):
-            return char
-        elif char.isdigit():
-            return int(char)
+    def resolve_char_to_id(self, char_name_or_id):
+        if isinstance(char_name_or_id, int):
+            return char_name_or_id
+        elif char_name_or_id.isdigit():
+            return int(char_name_or_id)
         else:
-            char_name = char.capitalize()
+            char_name = char_name_or_id.capitalize()
             if char_name in self.name_to_id:
                 return self.name_to_id[char_name]
             else:
                 self._send_lookup_if_needed(char_name)
                 return self._wait_for_char_id(char_name)
 
-    def resolve_char_to_name(self, char, default=None):
-        if isinstance(char, int) or char.isdigit():
-            char_name = self.get_char_name(char)
+    def resolve_char_to_name(self, char_name_or_id, default=None):
+        if isinstance(char_name_or_id, int) or char_name_or_id.isdigit():
+            char_name = self.get_char_name(char_name_or_id)
             return char_name if char_name else default
         else:
-            return char
+            return char_name_or_id
 
     def get_char_name(self, char_id):
         return self.id_to_name.get(char_id, None)
