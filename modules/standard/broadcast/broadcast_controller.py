@@ -1,7 +1,6 @@
 import time
 
-import hjson
-
+from core.admin_service import AdminService
 from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Character, Options, Any
 from core.db import DB
@@ -51,6 +50,9 @@ class BroadcastController:
 
         if char.char_id == request.sender.char_id:
             return "You cannot add yourself to the broadcast list."
+
+        if self.access_service.check_access(char.char_id, AdminService.MODERATOR):
+            return "You cannot add a moderator or admin to the broadcast list."
 
         row = self.db.query_single("SELECT 1 FROM broadcast WHERE char_id = ?", [char.char_id])
 
