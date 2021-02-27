@@ -35,7 +35,7 @@ class TrackController:
              description="Add a character to the track list")
     def track_add_cmd(self, request, _, char):
         if self.get_tracked_char(char.char_id):
-            return "Character %s is already being tracked" % char.name
+            return "Character <highlight>%s</highlight> is already being tracked" % char.name
         
         self.add_tracked_char(char.char_id, request.sender.char_id)
         return "Character <highlight>%s</highlight> is now being tracked." % char.name
