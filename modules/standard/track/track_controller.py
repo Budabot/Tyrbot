@@ -24,41 +24,42 @@ class TrackController:
     def track_cmd(self, request):
         data = self.get_all_tracked_chars()
         blob = ""
+        count = 0
         for row in data:
+            count += 1
             blob += self.text.make_tellcmd(row.name, "track %s" % row.name) + " - " + ("<green>Online</green>" if self.buddy_service.is_online(row.char_id) == True else "<red>Offline</red>") + "\n"
 
-        return ChatBlob("Track List", blob)
+        return ChatBlob("Track List (%s)" % count, blob)
 
     @command(command="track", params=[Const("add"), Character("char")], access_level="member",
              description="Add a character to the track list")
     def track_add_cmd(self, request, _, char):
         if self.get_tracked_char(char.char_id):
-            return "already tracked message"
+            return "Character %s is already being tracked" % char.name
         
         self.add_tracked_char(char.char_id, request.sender.char_id)
-        return "%s is now being tracked." % char.name
+        return "Character <highlight>%s</highlight> is now being tracked." % char.name
 
     @command(command="track", params=[Options(["rem", "remove"]), Character("char")], access_level="member",
              description="Remove a character from the track list")
     def track_remove_cmd(self, request, _, char):
         if not self.get_tracked_char(char.char_id):
-            return "%s is already being tracked." % char.name
+            return "Character <highlight>%s</highlight> is already being tracked." % char.name
 
         self.remove_tracked_char(char.char_id)
-        return "%s has been removed from the track list." % char.name
+        return "Character <highlight>%s</highlight> has been removed from the track list." % char.name
 
     @command(command="track", params=[Const("view", is_optional=True), Character("char")], access_level="member",
              description="View tracking history for a char")
     def track_view_cmd(self, request, _, char):
         if not self.get_tracked_char(char.char_id):
-            return "%s is not on the track list." % char.name
+            return "Character <highlight>%s</highlight> is not on the track list." % char.name
         
         data = self.get_track_log(char.char_id)
         blob = ""
         for row in data:
             datetime_str = self.util.format_datetime(row.created_at)
-            blob += datetime_str + " - " + ("<green>Logon</green>" if row.action == "logon" else "<red>Logoff</red>") + "\n"
-#            blob += "%s" % ("<green>Logon</green>" if row.action == "logon" else "<red>Logoff</red>") + " - " + datetime_str + "\n"    
+            blob += datetime_str + " - " + ("<green>Logon</green>" if row.action == "logon" else "<red>Logoff</red>") + "\n" 
         return ChatBlob("Track history for %s" % char.name, blob)
 
     @event(event_type=BuddyService.BUDDY_LOGON_EVENT, description="Record when a tracked char logs on", is_hidden=True)
