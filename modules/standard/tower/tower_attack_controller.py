@@ -78,7 +78,7 @@ class TowerAttackController:
     @command(command="attacks", params=[Const("battle"), Int("battle_id")], access_level="all",
              description="Show battle info for a specific battle")
     def attacks_battle_cmd(self, request, _, battle_id):
-        battle = self.db.query_single("SELECT b.*, p.short_name FROM tower_battle b LEFT JOIN playfields p ON p.id = b.playfield_id WHERE b.id = ?", [battle_id])
+        battle = self.get_battle(battle_id)
         if not battle:
             return "Could not find battle with ID <highlight>%d</highlight>." % battle_id
 
@@ -101,11 +101,14 @@ class TowerAttackController:
                      "x_coord, y_coord, is_victory, tower_battle_id, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                      [attacker.get("org_name", ""), attacker.get("faction", ""), attacker.get("char_id", 0), attacker.get("name", ""), attacker.get("level", 0),
                       attacker.get("ai_level", 0), attacker.get("profession", ""), location.x_coord, location.y_coord, 0, battle.id, t])
+        attacker_id = self.db.last_insert_id()
 
         if self.setting_service.get("show_tower_attack_messages").get_value():
-            msg = "%s attacked <highlight>%s</highlight> (%s) %s %s %s" % (self.format_attacker(attacker), defender.org_name, defender.faction,
-                                                                           location.playfield.get("short_name", location.playfield.get("long_name")),
-                                                                           site_number or "?", self.get_battle_blob(battle))
+            attacker_row = self.db.query_single("SELECT * FROM tower_attacker WHERE id = ?", [attacker_id])
+            more_info = self.text.paginate_single(ChatBlob("More Info", self.text.make_tellcmd("More Info", f"attacks battle {battle.id}")), self.bot.get_primary_conn())
+            msg = "%s attacked <highlight>%s</highlight> (%s) %s at %s %s" % (self.format_attacker(attacker_row), defender.org_name, defender.faction,
+                                                                              location.playfield.get("short_name", location.playfield.get("long_name")),
+                                                                              site_number or "?", more_info)
             self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)
 
     @event(event_type=TowerController.TOWER_VICTORY_EVENT, description="Record tower victories", is_hidden=True)
@@ -185,7 +188,7 @@ class TowerAttackController:
 
         sql = """
             SELECT
-                *
+                id
             FROM
                 tower_battle
             WHERE
@@ -201,11 +204,13 @@ class TowerAttackController:
 
         if battle:
             self.db.exec("UPDATE tower_battle SET last_updated = ? WHERE id = ?", [t, battle.id])
-            return battle
+            battle_id = battle.id
         else:
             self.db.exec("INSERT INTO tower_battle (playfield_id, site_number, def_org_name, def_faction, is_finished, battle_type, last_updated) VALUES (?, ?, ?, ?, ?, ?, ?)",
                          [playfield_id, site_number, org_name, faction, is_finished, battle_type, t])
-            return self.db.query_single("SELECT * FROM tower_battle WHERE id = ?", [self.db.last_insert_id()])
+            battle_id = self.db.last_insert_id()
+
+        return self.get_battle(battle_id)
 
     def get_last_attack(self, att_faction, att_org_name, def_faction, def_org_name, playfield_id, t):
         last_updated = t - (8 * 3600)
@@ -233,11 +238,20 @@ class TowerAttackController:
 
         return self.db.query_single(sql, [att_faction, att_org_name, def_faction, def_org_name, playfield_id, is_finished, last_updated])
 
-    def format_battle_info(self, row, t):
+    def format_battle_info(self, row, t, verbose=False):
         blob = ""
         defeated = " - <notice>Defeated!</notice>" if row.is_finished else ""
         blob += "Site: <highlight>%s %s</highlight>\n" % (row.short_name, row.site_number or "?")
-        blob += "Defender: <highlight>%s</highlight> (%s)%s\n" % (row.def_org_name, row.def_faction, defeated)
+        if verbose:
+            if row.site_number:
+                blob += f"Long name: <highlight>{row.site_name}, {row.long_name}</highlight>\n"
+                blob += f"Level range: <highlight>{row.min_ql}-{row.max_ql}</highlight>\n"
+                blob += "Coordinates: %s\n" % self.text.make_chatcmd(f"{row.x_coord}x{row.y_coord}", f"/waypoint {row.x_coord} {row.y_coord} {row.playfield_id}")
+            else:
+                blob += f"Long name: Unknown\n"
+                blob += f"Level range: Unknown\n"
+                blob += "Coordinates: Unknown\n"
+        blob += f"Defender: <highlight>{row.def_org_name}</highlight> ({row.def_faction}){defeated}\n"
         blob += "Last Activity: %s\n" % self.format_timestamp(row.last_updated, t)
         return blob
 
@@ -261,7 +275,7 @@ class TowerAttackController:
         first_activity = attackers[-1].created_at if len(attackers) > 0 else battle.last_updated
 
         blob = ""
-        blob += self.format_battle_info(battle, t)
+        blob += self.format_battle_info(battle, t, verbose=True)
         blob += "Duration: <highlight>%s</highlight>\n\n" % self.util.time_to_readable(battle.last_updated - first_activity)
         blob += "<header2>Attackers:</header2>\n"
 
@@ -271,3 +285,10 @@ class TowerAttackController:
             blob += "\n"
 
         return blob
+
+    def get_battle(self, battle_id):
+        return self.db.query_single("SELECT b.*, p.short_name, p.long_name, t.site_name, t.x_coord, t.y_coord, t.min_ql, t.max_ql "
+                                    "FROM tower_battle b "
+                                    "LEFT JOIN playfields p ON p.id = b.playfield_id "
+                                    "LEFT JOIN tower_site t ON b.playfield_id = t.playfield_id AND b.site_number = t.site_number "
+                                    "WHERE b.id = ?", [battle_id])
