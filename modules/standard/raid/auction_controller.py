@@ -14,6 +14,8 @@ class AuctionController:
     def inject(self, registry):
         self.db = registry.get_instance("db")
         self.setting_service = registry.get_instance("setting_service")
+        self.alts_service = registry.get_instance("alts_service")
+        self.raid_controller = registry.get_instance("raid_controller")
 
     def start(self):
         self.setting_service.register(self.module_name, "auction_length", "90s", TimeSettingType(), "Regular auction duration")
@@ -81,7 +83,7 @@ class AuctionController:
 
     def is_in_raid(self, char_id):
         main_id = self.alts_service.get_main(char_id).char_id
-        return self.raid_controller.is_in_raid(main_id)
+        return self.raid_controller.raid is None or self.raid_controller.is_in_raid(main_id)
 
     def is_auction_running(self):
         return self.auction and self.auction.is_running

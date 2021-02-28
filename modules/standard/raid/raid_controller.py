@@ -386,7 +386,6 @@ class RaidController:
               "LEFT JOIN player p2 ON p.raider_id = p2.char_id " \
               "WHERE r.raid_id = ? ORDER BY p.accumulated_points DESC"
         log_entry = self.db.query(sql, [raid_id])
-        pts_sum = self.db.query_single("SELECT SUM(p.accumulated_points) AS sum FROM raid_log_participants p WHERE p.raid_id = ?", [raid_id]).sum
 
         if not log_entry:
             return "No such log entry."
@@ -396,6 +395,8 @@ class RaidController:
         blob += "Start time: <highlight>%s</highlight>\n" % self.util.format_datetime(log_entry[0].raid_start)
         blob += "End time: <highlight>%s</highlight>\n" % self.util.format_datetime(log_entry[0].raid_end)
         blob += "Run time: <highlight>%s</highlight>\n" % self.util.time_to_readable(log_entry[0].raid_end - log_entry[0].raid_start)
+
+        pts_sum = self.db.query_single("SELECT COALESCE(SUM(p.accumulated_points), 0) AS sum FROM raid_log_participants p WHERE p.raid_id = ?", [raid_id]).sum
         blob += "Total points: <highlight>%d</highlight>\n\n" % pts_sum
 
         blob += "<header2>Participants</header2>\n"
