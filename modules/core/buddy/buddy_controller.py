@@ -19,13 +19,6 @@ class BuddyController:
         self.ts: TranslationService = registry.get_instance("translation_service")
         self.getresp = self.ts.get_response
 
-    def start(self):
-        self.ts.register_translation("module/buddy", self.load_buddy_msg)
-
-    def load_buddy_msg(self):
-        with open("modules/core/buddy/buddy.msg", mode="r", encoding="UTF-8") as f:
-            return hjson.load(f)
-
     @command(command="buddylist", params=[], access_level="admin",
              description="Show characters on the buddy list")
     def buddylist_cmd(self, request):
@@ -36,7 +29,7 @@ class BuddyController:
 
         blob = self.format_buddies(buddy_list)
 
-        return ChatBlob(self.getresp("module/buddy", "blob_title", {"amount": len(buddy_list)}), blob)
+        return ChatBlob(f"Buddy list ({len(buddy_list)})", blob)
 
     @command(command="buddylist", params=[Const("add"), Character("character"), Any("type")], access_level="admin",
              description="Add a character to the buddy list")
@@ -45,35 +38,44 @@ class BuddyController:
 
         if char.char_id:
             self.buddy_service.add_buddy(char.char_id, buddy_type)
-            return self.getresp("module/buddy", "add_success", {"char": char.name, "type": buddy_type})
+            return f"Character <highlight>{char.name}</highlight> has been added to the buddy list for type <highlight>{buddy_type}</highlight>."
         else:
             return self.getresp("global", "char_not_found", {"char": char.name})
 
     @command(command="buddylist", params=[Options(["rem", "remove"]), Const("all")], access_level="admin",
              description="Remove all characters from the buddy list")
     def buddylist_remove_all_cmd(self, request, _1, _2):
-        count = 0
-        for char_id, buddy in self.buddy_service.get_all_buddies().items():
+        buddies = self.buddy_service.get_all_buddies().items()
+        for char_id, buddy in buddies:
             self.buddy_service.remove_buddy(char_id, None, True)
-            count += 1
 
-        return self.getresp("module/buddy", "rem_all", {"count": count})
+        return f"Removed all <highlight>{len(buddies)}</highlight> buddies from the buddy list."
 
     @command(command="buddylist", params=[Options(["rem", "remove"]), Character("character"), Any("type")], access_level="admin",
-             description="Remove a character from the buddy list")
+             description="Remove a character from the buddy list by type")
     def buddylist_remove_cmd(self, request, _, char, buddy_type):
         buddy_type = buddy_type.lower()
 
         if char.char_id:
             self.buddy_service.remove_buddy(char.char_id, buddy_type)
-            return self.getresp("module/buddy", "rem_single", {"char": char.name, "type": buddy_type})
+            return f"Character <highlight>{char.name}</highlight> has been removed from the buddy list for type <highlight>{buddy_type}</highlight>."
+        else:
+            return self.getresp("global", "char_not_found", {"char": char.name})
+
+    @command(command="buddylist", params=[Options(["rem", "remove"]), Character("character")], access_level="admin",
+             description="Remove a character from the buddy list forcefully")
+    def buddylist_remove_force_cmd(self, request, _, char):
+        if char.char_id:
+            self.buddy_service.remove_buddy(char.char_id, None, force_remove=True)
+            return f"Character <highlight>{char.name}</highlight> has been removed from the buddy list forcefully."
         else:
             return self.getresp("global", "char_not_found", {"char": char.name})
 
     @command(command="buddylist", params=[Const("clean")], access_level="admin",
              description="Remove all orphaned buddies from the buddy list")
     def buddylist_clean_cmd(self, request, _):
-        return self.getresp("module/buddy", "rem_orphaned", {"count":self.remove_orphaned_buddies()})
+        num_removed = self.remove_orphaned_buddies()
+        return f"Removed <highlight>{num_removed}</highlight> orphaned buddies from the buddy list."
 
     @command(command="buddylist", params=[Const("search"), Any("character")], access_level="admin",
              description="Search for characters on the buddy list")
@@ -87,12 +89,12 @@ class BuddyController:
                 buddy_list.append([char_name, buddy["online"], ",".join(buddy["types"])])
 
         blob = self.format_buddies(buddy_list)
-        return ChatBlob(self.getresp("module/buddy", "search_title", {"amount": len(buddy_list)}), blob)
+        return ChatBlob(f"Buddy List Search Results ({len(buddy_list)})", blob)
 
     @timerevent(budatime="24h", description="Remove orphaned buddies", is_hidden=True)
     def remove_orphaned_buddies_event(self, event_type, event_data):
         if self.bot.is_ready():
-            self.logger.debug("removing %d orphaned buddies" % self.remove_orphaned_buddies())
+            self.logger.debug("Removing %d orphaned buddies" % self.remove_orphaned_buddies())
 
     def remove_orphaned_buddies(self):
         count = 0
