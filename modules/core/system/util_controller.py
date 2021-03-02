@@ -94,7 +94,7 @@ class UtilController:
         for _id, conn in self.bot.get_conns():
             bots_connected += f"<highlight>{_id}</highlight> - {conn.char_name} ({conn.char_id})\n"
             if conn.is_main:
-                bots_connected += f" └ Org: {conn.get_org_name()} ({conn.get_org_id()})\n"
+                bots_connected += f" └ Org: {conn.get_org_name()} ({conn.org_id})\n"
 
                 for channel_id, packet in conn.channels.items():
                     bots_connected += f" └ {packet.args}\n"

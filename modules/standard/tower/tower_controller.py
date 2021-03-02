@@ -94,7 +94,7 @@ class TowerController:
     @event(event_type="connect", description="Check if All Towers channel is available", is_hidden=True)
     def handle_connect_event(self, event_type, event_data):
         conn = self.bot.get_primary_conn()
-        if conn.get_org_id() and TowerController.ALL_TOWERS_ID not in conn.channels:
+        if conn.org_id and TowerController.ALL_TOWERS_ID not in conn.channels:
             self.logger.warning("The primary bot is a member of an org but does not have access to 'All Towers' channel and therefore will not receive tower attack messages")
 
     def format_site_info(self, row):
