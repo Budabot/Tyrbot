@@ -53,20 +53,21 @@ class OrgActivityController:
     @event(PublicChannelService.ORG_MSG_EVENT, "Record org member activity", is_hidden=True)
     def org_msg_event(self, event_type, event_data):
         ext_msg = event_data.extended_message
+        org_id = event_data.conn.org_id
         if [ext_msg.category_id, ext_msg.instance_id] == OrgMemberController.LEFT_ORG:
-            self.save_activity(ext_msg.params[0], ext_msg.params[0], "left")
+            self.save_activity(ext_msg.params[0], ext_msg.params[0], "left", org_id)
         elif [ext_msg.category_id, ext_msg.instance_id] == OrgMemberController.KICKED_FROM_ORG:
-            self.save_activity(ext_msg.params[0], ext_msg.params[1], "kicked")
+            self.save_activity(ext_msg.params[0], ext_msg.params[1], "kicked", org_id)
         elif [ext_msg.category_id, ext_msg.instance_id] == OrgMemberController.INVITED_TO_ORG:
-            self.save_activity(ext_msg.params[0], ext_msg.params[1], "invited")
+            self.save_activity(ext_msg.params[0], ext_msg.params[1], "invited", org_id)
         elif [ext_msg.category_id, ext_msg.instance_id] == OrgMemberController.KICKED_INACTIVE_FROM_ORG:
-            self.save_activity(ext_msg.params[0], ext_msg.params[1], "removed")
+            self.save_activity(ext_msg.params[0], ext_msg.params[1], "removed", org_id)
         elif [ext_msg.category_id, ext_msg.instance_id] == OrgMemberController.KICKED_ALIGNMENT_CHANGED:
-            self.save_activity(ext_msg.params[0], ext_msg.params[0], "alignment changed")
+            self.save_activity(ext_msg.params[0], ext_msg.params[0], "alignment changed", org_id)
         elif [ext_msg.category_id, ext_msg.instance_id] == OrgMemberController.JOINED_ORG:
-            self.save_activity(ext_msg.params[0], ext_msg.params[0], "joined")
+            self.save_activity(ext_msg.params[0], ext_msg.params[0], "joined", org_id)
 
-    def save_activity(self, actor, actee, action):
+    def save_activity(self, actor, actee, action, org_id):
         actor_id = self.character_service.resolve_char_to_id(actor)
         actee_id = self.character_service.resolve_char_to_id(actee) if actee else 0
 
@@ -77,7 +78,8 @@ class OrgActivityController:
             self.logger.error("Could not get char_id for actee '%s'" % actee)
 
         t = int(time.time())
-        self.db.exec("INSERT INTO org_activity (actor_char_id, actee_char_id, action, created_at) VALUES (?, ?, ?, ?)", [actor_id, actee_id, action, t])
+        self.db.exec("INSERT INTO org_activity (actor_char_id, actee_char_id, action, created_at, org_id) VALUES (?, ?, ?, ?, ?)",
+                     [actor_id, actee_id, action, t, org_id])
 
     def format_org_action(self, row):
         org_name = self.get_org_name(row.org_id)
