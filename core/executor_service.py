@@ -3,7 +3,6 @@ from concurrent.futures import ThreadPoolExecutor
 
 from core.decorators import instance
 from core.dict_object import DictObject
-from core.feature_flags import FeatureFlags
 
 
 @instance()

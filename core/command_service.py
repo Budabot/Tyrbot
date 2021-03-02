@@ -49,7 +49,6 @@ class CommandService:
         self.usage_service = registry.get_instance("usage_service")
         self.public_channel_service = registry.get_instance("public_channel_service")
         self.ban_service = registry.get_instance("ban_service")
-        self.executor_service = registry.get_instance("executor_service")
         self.getresp = registry.get_instance("translation_service").get_response
 
     def pre_start(self):

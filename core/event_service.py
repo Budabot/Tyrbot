@@ -18,7 +18,6 @@ class EventService:
     def inject(self, registry):
         self.db = registry.get_instance("db")
         self.util = registry.get_instance("util")
-        self.executor_service = registry.get_instance("executor_service")
 
     def pre_start(self):
         self.register_event_type("timer")
