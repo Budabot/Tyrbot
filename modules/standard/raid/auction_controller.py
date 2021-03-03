@@ -63,6 +63,14 @@ class AuctionController:
 
         return self.auction.add_bid(request.sender, "all", item_index)
 
+    @command(command="auction", params=[Const("unbid"), Int("item_index", is_optional=True)],
+             description="Remove a bid from an item", access_level="member")
+    def auction_unbid_cmd(self, request, _, item_index):
+        if not self.is_auction_running():
+            return "No auction running."
+
+        return self.auction.remove_bid(request.sender, item_index)
+
     @command(command="auction", params=[Const("end")], description="End an auction, and display the winners",
              access_level="moderator", sub_command="modify")
     def auction_end_cmd(self, request, _):

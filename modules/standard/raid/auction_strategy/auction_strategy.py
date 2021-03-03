@@ -69,7 +69,7 @@ class AuctionStrategy:
 
     def add_bid(self, sender: SenderObj, bid_amount, item_index):
         if len(self.items) > 1 and not item_index:
-            return "You must specify an item to bid on by it's item number in the auction list."
+            return "You must specify an item to bid on by its item number in the auction list."
 
         if not bid_amount:
             return "You must specify an amount to bid."
@@ -100,6 +100,27 @@ class AuctionStrategy:
         else:
             self.bids[item_index].append(AuctionBid(sender, account, bid_amount, time.time()))
             return "Your bid has been recorded successfully."
+
+    def remove_bid(self, sender: SenderObj, item_index):
+        if len(self.items) > 1 and not item_index:
+            return "You must specify an item to remove your bid from by its item number in the auction list."
+
+        item_index = item_index or 1
+        item = self.items.get(item_index, None)
+        if not item:
+            return f"No item at index <highlight>{item_index}</highlight>."
+
+        main_id = self.alts_service.get_main(sender.char_id).char_id
+
+        if item_index not in self.bids:
+            self.bids[item_index] = []
+
+        for bid in self.bids[item_index]:
+            if bid.account.char_id == main_id:
+                self.bids[item_index].remove(bid)
+                return "Your bid has been removed."
+
+        return "You do not have a bid for this item."
 
     def end(self):
         if not self.is_running:
@@ -153,30 +174,6 @@ class AuctionStrategy:
             self.points_controller.alter_points(winning_bid.account.char_id, self.auctioneer.char_id, "Won auction for %s" % item, -winning_amount)
 
         self.spam_raid_message(ChatBlob("Auction results", blob))
-
-    def remove_bid(self, char_id, item_index):
-        if len(self.items) > 1 and not item_index:
-            return "You must specify an item to bid on by it's item number in the auction list."
-
-        item_index = item_index or 1
-        item = self.items.get(item_index, None)
-        if not item:
-            return f"No item at index <highlight>{item_index}</highlight>."
-
-        main_id = self.alts_service.get_main(char_id).char_id
-        account = self.points_controller.get_account(main_id, self.conn)
-        if account.disabled:
-            return "Your account has been disabled. Contact an admin."
-
-        if item_index not in self.bids:
-            self.bids[item_index] = []
-
-        for bid in self.bids[item_index]:
-            if bid.account.char_id == main_id:
-                self.bids[item_index].remove(bid)
-                return "Your bid has been removed."
-
-        return "You do not have a bid for this item."
 
     def spam_raid_message(self, message):
         self.raid_controller.send_message(message, self.conn)
