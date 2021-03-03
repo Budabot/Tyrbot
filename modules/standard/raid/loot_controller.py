@@ -4,7 +4,7 @@ import time
 from collections import OrderedDict
 
 from core.chat_blob import ChatBlob
-from core.command_param_types import Const, Int, Any
+from core.command_param_types import Const, Int, Any, Options
 from core.db import DB
 from core.decorators import instance, command, timerevent
 from core.setting_service import SettingService
@@ -48,7 +48,7 @@ class LootController:
         else:
             return "Loot list is already empty."
 
-    @command(command="loot", params=[Const("remitem"), Int("item_index")],
+    @command(command="loot", params=[Options(["rem", "remove"]), Int("item_index")],
              description="Remove an existing loot item", access_level="all", sub_command="modify")
     def loot_rem_item_cmd(self, request, _, item_index: int):
         if not self.leader_controller.can_use_command(request.sender.char_id):
@@ -98,7 +98,7 @@ class LootController:
         self.last_modify = int(time.time())
         return "Decreased item count for %s to %d." % (loot_item.get_item_str(), loot_item.count)
 
-    @command(command="loot", params=[Const("add"), Int("item_index")], description="Add yourself to item roll",
+    @command(command="loot", params=[Const("join"), Int("item_index")], description="Add yourself to item roll",
              access_level="all")
     def loot_add_to_cmd(self, request, _, item_index: int):
         if item_index not in self.loot_list:
@@ -109,7 +109,7 @@ class LootController:
 
         if old_item:
             if old_item.get_item_str() == loot_item.get_item_str():
-                return "You have already added to %s." % loot_item.get_item_str()
+                return "You have already joined the loot roll for %s." % loot_item.get_item_str()
 
             old_item.bidders.remove(request.sender.name)
 
@@ -118,11 +118,11 @@ class LootController:
         self.last_modify = int(time.time())
 
         if old_item is not None:
-            return "You have moved from %s to %s." % (old_item.get_item_str(), loot_item.get_item_str())
+            return "You have left the loot roll for %s and joined the loot roll for %s." % (old_item.get_item_str(), loot_item.get_item_str())
         else:
-            return "You have added to %s." % loot_item.get_item_str()
+            return "You have joined the loot roll for %s." % loot_item.get_item_str()
 
-    @command(command="loot", params=[Const("rem")], description="Remove yourself from item roll", access_level="all")
+    @command(command="loot", params=[Const("leave")], description="Remove yourself from item roll", access_level="all")
     def loot_rem_from_cmd(self, request, _):
         loot_item = self.is_already_added(request.sender.name)
 
@@ -131,9 +131,9 @@ class LootController:
 
             self.last_modify = int(time.time())
 
-            return "You were removed from %s." % loot_item.get_item_str()
+            return "You left the loot roll for %s." % loot_item.get_item_str()
         else:
-            return "You are not added to any loot."
+            return "You have not joined any loot roll."
 
     @command(command="loot", params=[Const("roll")], description="Roll all loot", access_level="all", sub_command="modify")
     def loot_roll_cmd(self, request, _):
@@ -230,7 +230,7 @@ class LootController:
         else:
             return "<highlight>%s</highlight> does not have any items registered in loot table." % category
 
-    @command(command="loot", params=[Const("additem", is_optional=True), Int("item"), Int("item_count", is_optional=True)],
+    @command(command="loot", params=[Const("add", is_optional=True), Int("item"), Int("item_count", is_optional=True)],
              description="Add an item to loot list by item id", access_level="all", sub_command="modify")
     def loot_add_item_id_cmd(self, request, _, item_id, item_count: int):
         if not self.leader_controller.can_use_command(request.sender.char_id):
@@ -246,7 +246,7 @@ class LootController:
         self.add_item_to_loot(item, None, item_count)
         self.raid_controller.send_message("%s was added to loot list." % item.name, request.conn)
 
-    @command(command="loot", params=[Const("additem", is_optional=True), Any("item"), Int("item_count", is_optional=True)],
+    @command(command="loot", params=[Const("add", is_optional=True), Any("item"), Int("item_count", is_optional=True)],
              description="Add an item to loot list", access_level="all", sub_command="modify")
     def loot_add_item_cmd(self, request, _, item, item_count: int):
         if not self.leader_controller.can_use_command(request.sender.char_id):
@@ -278,7 +278,7 @@ class LootController:
                 self.loot_list = OrderedDict()
 
                 # TODO get conn
-                self.raid_controller.send_message("Loot was last modified more than 1 hour ago, list has been cleared.")
+                self.raid_controller.send_message("Loot was last modified more than 1 hour ago, list has been cleared.", self.bot.get_temp_conn())
 
     def is_already_added(self, name: str):
         for i, loot_item in self.loot_list.items():
@@ -306,8 +306,8 @@ class LootController:
 
             blob += "%d. %s x%d" % (i, loot_item.get_item_str(), loot_item.count)
 
-            add_to_loot = self.text.make_tellcmd("Join", "loot add %d" % i)
-            remove_from_loot = self.text.make_tellcmd("Leave", "loot rem")
+            add_to_loot = self.text.make_tellcmd("Join", "loot join %d" % i)
+            remove_from_loot = self.text.make_tellcmd("Leave", "loot leave")
             blob += " [%s] [%s]\n" % (add_to_loot, remove_from_loot)
 
             if len(bidders) > 0:
