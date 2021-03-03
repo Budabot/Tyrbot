@@ -188,11 +188,12 @@ class AuctionStrategy:
             blob += "\n"
 
         blob += "\n-----------------------\n" \
-                "This bot uses a modified Vickrey system. It is a silent auction and winning bids are not announced until the end. " \
-                "The highest bidder pays the amount of the second highest bidder plus 1. " \
-                "If there is a tie for the highest bidder, the person who bid first wins and pays the full bid amount. If there is only one bidder " \
-                "the winner pays 1. You should bid the maximum amount of points that you want to pay for an item. If you win, you will never pay more " \
-                "than your maximum bid and oftentimes you will pay less. If you lose, you pay nothing.\n\n"
+                "This is a silent auction and bids are not announced until the end.\n" \
+                "The highest bidder pays the second highest bid amount + 1.\n" \
+                "In a tie, the first bidder wins.\n" \
+                "If there is only one bid, the winner pays 1.\n" \
+                "You should bid exactly what you want to pay, you will never pay more and often you will pay less.\n" \
+                "Losing bidders pay nothing.\n\n"
         blob += "If there are multiple items, you may bid up to your maximum points on all of them. If you win an item, " \
                 "any of your remaining bids that are higher than your remaining points will be adjusted to equal you remaining points. " \
                 "Because of this, Raidleaders should always order the items in an auction starting from most valuable to least valuable.\n\n"
