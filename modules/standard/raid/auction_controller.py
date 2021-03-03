@@ -41,9 +41,9 @@ class AuctionController:
         self.auction = None
         return result
 
-    @command(command="auction", params=[Const("bid"), Int("amount"), Int("item_index", is_optional=True)],
+    @command(command="auction", params=[Const("bid"), Int("item_index", is_optional=True), Int("amount")],
              description="Bid on an item", access_level="member")
-    def auction_bid_cmd(self, request, _, amount, item_index):
+    def auction_bid_cmd(self, request, _, item_index, amount):
         if not self.is_auction_running():
             return "No auction running."
 
@@ -52,9 +52,9 @@ class AuctionController:
 
         return self.auction.add_bid(request.sender, amount, item_index)
 
-    @command(command="auction", params=[Const("bid"), Const("all"), Int("item_index", is_optional=True)],
+    @command(command="auction", params=[Const("bid"), Int("item_index", is_optional=True), Const("all")],
              description="Bid on an item", access_level="member")
-    def auction_bid_all_cmd(self, request, _1, _2, item_index):
+    def auction_bid_all_cmd(self, request, _1, item_index, _2):
         if not self.is_auction_running():
             return "No auction running."
 

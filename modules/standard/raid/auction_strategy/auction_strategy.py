@@ -193,8 +193,10 @@ class AuctionStrategy:
                 "If there is a tie for the highest bidder, the person who bid first wins and pays the full bid amount. If there is only one bidder " \
                 "the winner pays 1. You should bid the maximum amount of points that you want to pay for an item. If you win, you will never pay more " \
                 "than your maximum bid and oftentimes you will pay less. If you lose, you pay nothing.\n\n"
-        blob += "To bid, use: !auction bid <highlight>&lt;amount&gt; &lt;item_number&gt;</highlight>\n\n"
-        blob += "You can bid all of your points with: !auction bid all <highlight>&lt;item_number&gt;</highlight>"
+        blob += "To bid, use: !auction bid <highlight>&lt;item_number&gt; &lt;amount&gt;</highlight>\n\n"
+        blob += "You can bid all of your points with: !auction bid <highlight>&lt;item_number&gt;</highlight> all\n\n"
+        blob += "You can remove your bid (before the auction ends) with: !auction unbid <highlight>&lt;item_number&gt;</highlight>\n\n"
+        blob += "The &lt;item_number&gt; param is optional if there is only one item in the auction."
 
         return ChatBlob("Auction list (%d)" % len(self.items), blob)
 
