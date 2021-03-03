@@ -205,7 +205,7 @@ class PointsController:
         return "Successfully updated the preset, <highlight>%s</highlight>, to dish out " \
                "<green>%d</green> points instead of <red>%d</red>." % (preset.name, new_points, preset.points)
 
-    @command(command="raid", params=[Const("presets")], access_level="member",
+    @command(command="raid", params=[Options(["presets", "addpts"])], access_level="member",
              description="See list of points presets")
     def presets_cmd(self, request, _):
         return ChatBlob("Raid Points Presets", self.build_preset_list())
