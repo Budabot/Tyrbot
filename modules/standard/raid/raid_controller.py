@@ -330,7 +330,7 @@ class RaidController:
         else:
             return "<highlight>%s</highlight> is not participating." % char.name
 
-    @command(command="raid", params=[Const("open")], description="Open raid for new participants",
+    @command(command="raid", params=[Options(["open", "unlock"])], description="Open raid for new participants",
              access_level="moderator", sub_command="manage")
     def raid_open_cmd(self, request, action):
         if not self.raid:
@@ -342,7 +342,7 @@ class RaidController:
             self.raid.is_open = True
             self.send_message("Raid has been opened by %s." % request.sender.name, request.conn)
 
-    @command(command="raid", params=[Const("close")], description="Close raid for new participants",
+    @command(command="raid", params=[Options(["close", "lock"])], description="Close raid for new participants",
              access_level="moderator", sub_command="manage")
     def raid_close_cmd(self, request, action):
         if not self.raid:
