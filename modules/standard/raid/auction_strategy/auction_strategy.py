@@ -193,6 +193,9 @@ class AuctionStrategy:
                 "If there is a tie for the highest bidder, the person who bid first wins and pays the full bid amount. If there is only one bidder " \
                 "the winner pays 1. You should bid the maximum amount of points that you want to pay for an item. If you win, you will never pay more " \
                 "than your maximum bid and oftentimes you will pay less. If you lose, you pay nothing.\n\n"
+        blob += "If there are multiple items, you may bid up to your maximum points on all of them. If you win an item, " \
+                "any of your remaining bids that are higher than your remaining points will be adjusted to equal you remaining points. " \
+                "Because of this, Raidleaders should always order the items in an auction starting from most valuable to least valuable.\n\n"
         blob += "To bid, use: !auction bid <highlight>&lt;item_number&gt; &lt;amount&gt;</highlight>\n\n"
         blob += "You can bid all of your points with: !auction bid <highlight>&lt;item_number&gt;</highlight> all\n\n"
         blob += "You can remove your bid (before the auction ends) with: !auction unbid <highlight>&lt;item_number&gt;</highlight>\n\n"
