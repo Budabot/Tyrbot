@@ -33,17 +33,15 @@ class AuctionStrategy:
 
         self.auction_start_time = None
         self.auction_end_time = None
-        self.announce_interval = None
         self.is_started = False
         self.items = dict()
         self.bids = DictObject()  # self.bids[item_index] = [AuctionBid(), AuctionBid()]
         self.next_item_index = 1
         self.auctioneer: SenderObj = None
-        self.job_id = None
         self.is_running = False
         self.conn = conn
 
-    def start(self, sender: SenderObj, duration, announce_interval):
+    def start(self, sender: SenderObj, duration):
         if not self.items:
             return "Could not find any items to start auction."
 
@@ -52,36 +50,10 @@ class AuctionStrategy:
         self.auctioneer = sender
         self.auction_end_time = self.auction_start_time + duration
         self.is_running = True
-        self.announce_interval = announce_interval
 
-        if len(self.items) > 1:
-            self.spam_raid_message("%s just started a mass auction for %d items." % (sender.name, len(self.items)))
-            self.spam_raid_message(self.get_auction_list())
-        else:
-            item_index = list(self.items.keys())[0]
-            item = self.items[item_index]
-            sql = "SELECT winning_bid FROM auction_log WHERE item_name LIKE ? ORDER BY created_at DESC LIMIT 5"
-            bids = self.db.query(sql, [item])
-            if bids:
-                avg_win_bid = int(sum(map(lambda x: x.winning_bid, bids)) / len(bids))
-            else:
-                avg_win_bid = 0
-
-            bid_link = self.get_auction_list()
-            bid_link = self.text.paginate_single(ChatBlob("Click to bid", bid_link.msg), self.conn)
-            msg = "\n<yellow>----------------------------------------</yellow>\n"
-            msg += "<yellow>%s</yellow> has just started an auction " \
-                   "for <yellow>%s</yellow>.\n" % (sender.name, item)
-            msg += "Average winning bid: <highlight>%s</highlight>\n" % avg_win_bid
-            msg += "%s\n" % bid_link
-            msg += "<yellow>----------------------------------------</yellow>"
-
-            self.spam_raid_message(msg)
-
-        self.create_next_announce_job()
+        self.announce()
 
     def cancel(self, sender: SenderObj):
-        self.cancel_job()
         self.is_running = False
         return "Auction cancelled."
 
@@ -130,7 +102,9 @@ class AuctionStrategy:
             return "Your bid has been recorded successfully."
 
     def end(self):
-        self.cancel_job()
+        if not self.is_running:
+            return
+
         self.is_running = False
 
         blob = ""
@@ -139,7 +113,7 @@ class AuctionStrategy:
         for i, item in self.items.items():
             # update max_amount values based on current account points
             bids = []
-            for bid in (self.bids.get(i, None) or []):
+            for bid in (self.bids.get(i, [])):
                 account = self.points_controller.get_account(bid.account.char_id, self.conn)
                 if account.points == 0:
                     continue
@@ -212,6 +186,9 @@ class AuctionStrategy:
 
         for i, item in self.items.items():
             blob += "%d. %s\n" % (i, item)
+            num_bids = len(self.bids.get(i, []))
+            blob += f" └ {num_bids} bid(s)\n"
+            blob += "\n"
 
         blob += "\n-----------------------\n" \
                 "This bot uses a modified Vickrey system. It is a silent auction and winning bids are not announced until the end. " \
@@ -230,44 +207,30 @@ class AuctionStrategy:
                 return bid
         return None
 
-    def auction_announce(self, t):
-        time_left = self.time_left()
-        if time_left <= 0:
-            self.end()
-            return
-
-        item_count = len(self.items)
-        if item_count > 1:
-            msg = "Auction for %d items running. %d seconds left of auction." % (item_count, time_left)
+    def announce(self):
+        if len(self.items) > 1:
+            bid_link = self.get_auction_list()
+            bid_link = self.text.paginate_single(ChatBlob("Click to bid", bid_link.msg), self.conn)
+            msg = "\n<yellow>----------------------------------------</yellow>\n"
+            msg += "<yellow>%s</yellow> has started an auction for <yellow>%d</yellow> items.\n" % (self.auctioneer.name, len(self.items))
+            msg += "%s\n" % bid_link
+            msg += "<yellow>----------------------------------------</yellow>"
         else:
             item_index = list(self.items.keys())[0]
             item = self.items[item_index]
+            sql = "SELECT winning_bid FROM auction_log WHERE item_name LIKE ? ORDER BY created_at DESC LIMIT 5"
+            bids = self.db.query(sql, [item])
+            if bids:
+                avg_win_bid = int(sum(map(lambda x: x.winning_bid, bids)) / len(bids))
+            else:
+                avg_win_bid = 0
 
-            msg = "Auction for %s running. <highlight>%d</highlight> seconds left of auction." % (item, time_left)
+            bid_link = self.get_auction_list()
+            bid_link = self.text.paginate_single(ChatBlob("Click to bid", bid_link.msg), self.conn)
+            msg = "\n<yellow>----------------------------------------</yellow>\n"
+            msg += "<yellow>%s</yellow> has started an auction for <yellow>%s</yellow>.\n" % (self.auctioneer.name, item)
+            msg += "Average winning bid: <highlight>%s</highlight>\n" % avg_win_bid
+            msg += "%s\n" % bid_link
+            msg += "<yellow>----------------------------------------</yellow>"
 
         self.spam_raid_message(msg)
-        self.spam_raid_message(self.get_auction_list())
-        self.create_next_announce_job()
-
-    def time_left(self):
-        t = int(time.time())
-        time_left = self.auction_end_time - t
-        if time_left < 0:
-            time_left = 0
-
-        return time_left
-
-    def create_next_announce_job(self):
-        t = int(time.time())
-        time_remaining = self.auction_end_time - t
-        mod = time_remaining % self.announce_interval
-        if mod == 0:
-            mod = self.announce_interval
-
-        next_job_t = t + mod
-        self.job_id = self.job_scheduler.scheduled_job(self.auction_announce, next_job_t)
-
-    def cancel_job(self):
-        if self.job_id:
-            self.job_scheduler.cancel_job(self.job_id)
-            self.job_id = None

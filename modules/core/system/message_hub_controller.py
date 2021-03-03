@@ -26,7 +26,7 @@ class MessageHubController:
             edit_subs_link = self.text.make_tellcmd(destination, "messagehub edit %s" % destination)
             blob += "\n%s\n" % edit_subs_link
             for source in obj.sources:
-                blob +=  " └ %s\n" % source
+                blob += " └ %s\n" % source
 
         return ChatBlob(self.getresp("messagehub_title", {"count": len(subscriptions)}), blob)
 

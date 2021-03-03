@@ -19,7 +19,6 @@ class AuctionController:
 
     def start(self):
         self.setting_service.register(self.module_name, "auction_length", "90s", TimeSettingType(), "Regular auction duration")
-        self.setting_service.register(self.module_name, "auction_announce_interval", "15s", TimeSettingType(), "Auction announce interval")
 
         self.db.exec("CREATE TABLE IF NOT EXISTS auction_log (auction_id INT PRIMARY KEY AUTO_INCREMENT, item_ref VARCHAR(255) NOT NULL, item_name VARCHAR(255) NOT NULL, "
                      "winner_id BIGINT NOT NULL, auctioneer_id BIGINT NOT NULL, created_at INT NOT NULL, winning_bid INT NOT NULL)")
@@ -32,7 +31,7 @@ class AuctionController:
 
         return self.auction.get_auction_list()
 
-    @command(command="auction", params=[Options(["cancel", "end"])], description="Cancel ongoing auction",
+    @command(command="auction", params=[Options(["cancel"])], description="Cancel ongoing auction",
              access_level="moderator", sub_command="modify")
     def auction_cancel_cmd(self, request, _):
         if not self.is_auction_running():
@@ -64,6 +63,22 @@ class AuctionController:
 
         return self.auction.add_bid(request.sender, "all", item_index)
 
+    @command(command="auction", params=[Const("end")], description="End an auction, and display the winners",
+             access_level="moderator", sub_command="modify")
+    def auction_end_cmd(self, request, _):
+        if not self.is_auction_running():
+            return "Auction is not running."
+
+        self.auction.end()
+
+    @command(command="auction", params=[Const("announce")], description="Announce the auction",
+             access_level="moderator", sub_command="modify")
+    def auction_announce_cmd(self, request, _):
+        if not self.is_auction_running():
+            return "Auction is not running."
+
+        self.auction.announce()
+
     @command(command="auction", params=[Const("start", is_optional=True), Any("items")], description="Start an auction, with one or more items",
              access_level="moderator", sub_command="modify")
     def auction_start_cmd(self, request, _, items):
@@ -71,15 +86,14 @@ class AuctionController:
             return "Auction already running."
 
         items = re.findall(r"(([^<]+)?<a href=[\"\']itemref://(\d+)/(\d+)/(\d+)[\"\']>([^<]+)</a>([^<]+)?)", items)
-        # TODO choose auction strategy impl
         self.auction = AuctionStrategy(request.conn)
         for item in items:
             self.auction.add_item(item[0])
 
         auction_length = self.setting_service.get("auction_length").get_value()
-        announce_interval = self.setting_service.get("auction_announce_interval").get_value()
 
-        return self.auction.start(request.sender, auction_length, announce_interval)
+        # TODO create timer
+        return self.auction.start(request.sender, auction_length)
 
     def is_in_raid(self, char_id):
         main_id = self.alts_service.get_main(char_id).char_id
