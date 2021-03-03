@@ -10,6 +10,9 @@ online lists
 topic/raid should be conn-specific
 flatroll history
 
+add data cores to apf loot lists
+add command to show all possible loot tables
+loot lists should also work for auctions
 
 ALTS - done, show warning when adding alt that has higher access level than main
 LIMITS - ignore for now, add restricted_guest as an access level, just above all, for whitelisting, and let limits dictate how "all" access level chars are handled
