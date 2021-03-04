@@ -14,9 +14,6 @@ class MessageHubController:
         self.message_hub_service = registry.get_instance("message_hub_service")
         self.getresp = partial(registry.get_instance("translation_service").get_response, "module/system")
 
-    def start(self):
-        pass
-
     @command(command="messagehub", params=[], access_level="admin",
              description="Show the current message hub subscriptions")
     def messagehub_cmd(self, request):
@@ -68,7 +65,6 @@ class MessageHubController:
 
         self.message_hub_service.subscribe_to_source(destination, source)
         return self.getresp("messagehub_subscribe_success", {"destination": destination, "source": source})
-
 
     @command(command="messagehub", params=[Const("unsubscribe"), Any("destination"), Any("source")], access_level="admin",
              description="Unsubscribe a destination to a source")

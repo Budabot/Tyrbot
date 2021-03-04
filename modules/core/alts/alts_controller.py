@@ -60,21 +60,19 @@ class AltsController:
         for alt_char in alt_chars:
             if not alt_char.char_id:
                 responses.append(self.getresp("global", "char_not_found", {"char": alt_char.name}))
-                continue
             elif alt_char.char_id == request.sender.char_id:
                 responses.append(self.getresp("module/alts", "add_fail_self"))
-                continue
-
-            msg, result = self.alts_service.add_alt(request.sender.char_id, alt_char.char_id)
-            if result:
-                self.bot.send_private_message(alt_char.char_id,
-                                              self.getresp("module/alts", "add_success_target", {"char": request.sender.name}),
-                                              conn=request.conn)
-                responses.append(self.getresp("module/alts", "add_success_self", {"char": alt_char.name}))
-            elif msg == "another_main":
-                responses.append(self.getresp("module/alts", "add_fail_already", {"char": alt_char.name}))
             else:
-                raise Exception("Unknown msg: " + msg)
+                msg, result = self.alts_service.add_alt(request.sender.char_id, alt_char.char_id)
+                if result:
+                    self.bot.send_private_message(alt_char.char_id,
+                                                  self.getresp("module/alts", "add_success_target", {"char": request.sender.name}),
+                                                  conn=request.conn)
+                    responses.append(self.getresp("module/alts", "add_success_self", {"char": alt_char.name}))
+                elif msg == "another_main":
+                    responses.append(self.getresp("module/alts", "add_fail_already", {"char": alt_char.name}))
+                else:
+                    raise Exception("Unknown msg: " + msg)
 
         return "\n".join(responses)
 
