@@ -13,11 +13,8 @@ class LastSeenController:
         self.logger = Logger(__name__)
 
     def inject(self, registry):
-        self.bot = registry.get_instance("bot")
         self.db = registry.get_instance("db")
         self.util = registry.get_instance("util")
-        self.character_service = registry.get_instance("character_service")
-        self.public_channel_service = registry.get_instance("public_channel_service")
 
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS last_seen (char_id INT NOT NULL PRIMARY KEY, "
@@ -48,7 +45,7 @@ class LastSeenController:
         return ChatBlob("Last Seen for %s (%d)" % (char.name, len(data)), blob)
 
     @event(event_type=BuddyService.BUDDY_LOGON_EVENT, description="Record last seen info")
-    def handle_org_member_logon_event(self, event_type, event_data):
+    def handle_buddy_logon_event(self, event_type, event_data):
         self.update_last_seen(event_data.char_id)
 
     def update_last_seen(self, char_id):
