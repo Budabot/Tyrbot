@@ -55,3 +55,6 @@ class LastSeenController:
         t = int(time.time())
         if self.db.exec("UPDATE last_seen SET dt = ? WHERE char_id = ?", [t, char_id]) == 0:
             self.db.exec("INSERT INTO last_seen (char_id, dt) VALUES (?, ?)", [char_id, t])
+
+    def get_last_seen(self, char_id):
+        return self.db.query_single("SELECT dt FROM last_seen WHERE char_id = ?", [char_id])
