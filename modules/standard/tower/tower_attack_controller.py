@@ -106,9 +106,8 @@ class TowerAttackController:
         if self.setting_service.get("show_tower_attack_messages").get_value():
             attacker_row = self.db.query_single("SELECT * FROM tower_attacker WHERE id = ?", [attacker_id])
             more_info = self.text.paginate_single(ChatBlob("More Info", self.text.make_tellcmd("More Info", f"attacks battle {battle.id}")), self.bot.get_primary_conn())
-            msg = "%s attacked <highlight>%s</highlight> (%s) %s at %s %s" % (self.format_attacker(attacker_row), defender.org_name, defender.faction,
-                                                                              location.playfield.get("short_name", location.playfield.get("long_name")),
-                                                                              site_number or "?", more_info)
+            msg = "%s attacked %s [%s] at %s %s %s" % (self.format_attacker(attacker_row), defender.org_name, self.text.get_formatted_faction(defender.faction),
+                                                       location.playfield.get("short_name", location.playfield.get("long_name")), site_number or "?", more_info)
             self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)
 
     @event(event_type=TowerController.TOWER_VICTORY_EVENT, description="Record tower victories", is_hidden=True)
@@ -150,7 +149,7 @@ class TowerAttackController:
         level = ("%d/<green>%d</green>" % (row.att_level, row.att_ai_level)) if row.att_ai_level > 0 else "%d" % row.att_level
         org = row.att_org_name + " " if row.att_org_name else ""
         victor = " - <notice>Winner!</notice>" if row.is_victory else ""
-        return "%s (%s %s) %s(%s)%s" % (row.att_char_name or "Unknown attacker", level, row.att_profession, org, row.att_faction, victor)
+        return "%s (%s %s) %s[%s]%s" % (row.att_char_name or "Unknown attacker", level, row.att_profession, org, self.text.get_formatted_faction(row.att_faction), victor)
 
     def find_closest_site_number(self, playfield_id, x_coord, y_coord):
         sql = """
@@ -251,7 +250,7 @@ class TowerAttackController:
                 blob += f"Long name: Unknown\n"
                 blob += f"Level range: Unknown\n"
                 blob += "Coordinates: Unknown\n"
-        blob += f"Defender: <highlight>{row.def_org_name}</highlight> ({row.def_faction}){defeated}\n"
+        blob += f"Defender: %s [%s]%s\n" % (row.def_org_name, self.text.get_formatted_faction(row.def_faction), defeated)
         blob += "Last Activity: %s\n" % self.format_timestamp(row.last_updated, t)
         return blob
 
