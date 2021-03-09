@@ -36,13 +36,15 @@ If you are already running Tyrbot and simply want to upgrade to the latest versi
 1. In a few rare cases, the bot may not start because the config file format changed between versions and you may need to compare your config.hjson to the template version and make changes accordingly
 1. You can now delete the old installation
 
+Note: If you are upgrading from Tyrbot 0.5 or earlier, the config file format has changed.  The `config.hjson` file has been replaced by `config.py` and you will have to go through the setup wizard again to configure the new config file.
+
 If you want to upgrade from Budabot, follow the instructions here: https://github.com/Budabot/Tyrbot/wiki/Migrating-From-Budabot
 
 ## Starting Tyrbot
 
 To start the bot, run either `start.bat` or `start.sh`.
 
-If it is your first time running the bot, or if the config.json file does not exist, it will take you through the configuration wizard to configure the bot. You will need to have a character name that you you want to run the bot as along with the username and password for the account that has that character. If you want to run this bot as an org bot, the character that the bot runs as will need to already be a member of that org.
+If it is your first time running the bot, or if the config.py file does not exist, it will take you through the configuration wizard to configure the bot. You will need to have a character name that you you want to run the bot as along with the username and password for the account that has that character. If you want to run this bot as an org bot, the character that the bot runs as will need to already be a member of that org.
 
 ## Support
 
