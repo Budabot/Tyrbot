@@ -1,31 +1,33 @@
-allow adjusting timer event times with !config
-add a command to list all raid loot categories, cleanup !loot subcommands
-trader drain command
+core changes:
 allow chatblobs in message_hub
 messagehub: remove formatted_message, add formatted_prefix
 add !translations command
 add setting to control how long to wait for login finish
 
-online lists
+module changes:
+online lists split by conn?
 topic/raid should be conn-specific
 flatroll history
-
+configure commands altogether by default
+trader drain command
 add data cores to apf loot lists
-add command to show all possible loot tables
+add a command to list all raid loot categories, cleanup !loot subcommandss
 loot lists should also work for auctions
+raid log needs (main_id(eg, account_id), char_id, by_char_id, type[joined, left, kicked, added, switched_alt, points], description)
+handle !raid kicking raid leader
+!raid announce - send to all members and org_members - Tyrence has just started the 12m raid.  [Click here] to join
+!raid start - should we get rid of points presets and have raid types instead?
 
 ALTS - done, show warning when adding alt that has higher access level than main
 LIMITS - ignore for now, add restricted_guest as an access level, just above all, for whitelisting, and let limits dictate how "all" access level chars are handled
 PREFERENCES - ignore for now
 PROFILE - ignore
 USAGE - ignore for now, needs !usage command, needs to submit usage
-
 BANK - ignore
 IMPLANT - needs !implantdesigner
 REPUTATION - ignore
 SHOPPING - ignore
 SPIRITS - ignore
-TRACKER - ignore for now
 
 
 discord
