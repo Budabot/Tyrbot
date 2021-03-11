@@ -59,6 +59,7 @@ class RaidController:
         self.alts_service: AltsService = registry.get_instance("alts_service")
         self.buddy_service = registry.get_instance("buddy_service")
         self.character_service: CharacterService = registry.get_instance("character_service")
+        self.private_channel_service = registry.get_instance("private_channel_service")
         self.points_controller: PointsController = registry.get_instance("points_controller")
         self.util: Util = registry.get_instance("util")
         self.message_hub_service = registry.get_instance("message_hub_service")
@@ -198,6 +199,8 @@ class RaidController:
             self.raid.raiders.append(Raider(alts, request.sender.char_id))
             self.points_controller.add_log_entry(main_id, request.sender.char_id, f"Joined raid {self.raid.raid_name}")
             self.send_message("<highlight>%s</highlight> joined the raid." % request.sender.name, request.conn)
+            if request.sender.char_id not in self.bot.get_primary_conn().private_channel:
+                self.private_channel_service.invite(request.sender.char_id, self.bot.get_primary_conn())
         else:
             return "Raid is closed."
 
@@ -294,6 +297,8 @@ class RaidController:
                                           f"You have been added to the raid <highlight>{self.raid.raid_name}</highlight>.",
                                           conn=request.conn)
             self.points_controller.add_log_entry(main_id, request.sender.char_id, f"Added to raid {self.raid.raid_name}")
+            if char.char_id not in self.bot.get_primary_conn().private_channel:
+                self.private_channel_service.invite(char.char_id)
             return "<highlight>%s</highlight> has been added to the raid." % char.name
         else:
             if not in_raid.is_active:

@@ -6,7 +6,7 @@ add setting to control how long to wait for login finish
 
 module changes:
 online lists split by conn?
-topic/raid should be conn-specific
+topic/raid should be conn-specific?
 flatroll history
 trader drain command
 add data cores to apf loot  - loot lists must be updated to use item ids instead of names first since all cores have the same name
