@@ -9,8 +9,8 @@ online lists split by conn?
 topic/raid should be conn-specific
 flatroll history
 trader drain command
-add data cores to apf loot lists
-add a command to list all raid loot categories, cleanup !loot subcommandss
+add data cores to apf loot  - loot lists must be updated to use item ids instead of names first since all cores have the same name
+add a command to list all raid loot categories, cleanup !loot subcommands
 loot lists should also work for auctions
 raid log needs (main_id(eg, account_id), char_id, by_char_id, type[joined, left, kicked, added, switched_alt, points], description)
 handle !raid kicking raid leader
