@@ -8,7 +8,6 @@ module changes:
 online lists split by conn?
 topic/raid should be conn-specific
 flatroll history
-configure commands altogether by default
 trader drain command
 add data cores to apf loot lists
 add a command to list all raid loot categories, cleanup !loot subcommandss
