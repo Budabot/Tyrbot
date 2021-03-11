@@ -151,8 +151,8 @@ class MemberController:
         return self.db.query_single("SELECT char_id, auto_invite FROM member WHERE char_id = ?", [char_id])
 
     def get_all_members(self):
-        return self.db.query(
-            "SELECT COALESCE(p.name, m.char_id) AS name, m.char_id, m.auto_invite FROM member m LEFT JOIN player p ON m.char_id = p.char_id ORDER BY p.name ASC")
+        return self.db.query("SELECT COALESCE(p.name, m.char_id) AS name, m.char_id, m.auto_invite "
+                             "FROM member m LEFT JOIN player p ON m.char_id = p.char_id ORDER BY p.name ASC")
 
     def check_member(self, char_id):
         return self.get_member(char_id) is not None

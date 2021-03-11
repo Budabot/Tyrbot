@@ -13,8 +13,6 @@ add data cores to apf loot  - loot lists must be updated to use item ids instead
 add a command to list all raid loot categories, cleanup !loot subcommands
 loot lists should also work for auctions
 raid log needs (main_id(eg, account_id), char_id, by_char_id, type[joined, left, kicked, added, switched_alt, points], description)
-handle !raid kicking raid leader
-!raid announce - send to all members and org_members - Tyrence has just started the 12m raid.  [Click here] to join
 !raid start - should we get rid of points presets and have raid types instead?
 
 ALTS - done, show warning when adding alt that has higher access level than main
