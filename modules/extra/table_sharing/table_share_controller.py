@@ -20,7 +20,7 @@ class TableShareController:
         #                        "name": "my-database",
         #                        "username": "username",
         #                        "password": "password",
-        #                        "host": "localhost"
+        #                        "host": "localhost",
         #                        "port": 3306})
 
         self.db2 = DB()
