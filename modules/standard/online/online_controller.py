@@ -247,11 +247,12 @@ class OnlineController:
         return ChatBlob("%s Alts of Online Characters (%d)" % (profession, count), blob)
 
     def get_online_alts(self, channel, profession):
-        sql = "SELECT " \
+        sql = "SELECT DISTINCT " \
                 "p2.*, " \
                 "(CASE WHEN o2.char_id IS NULL THEN 0 ELSE 1 END) AS online, " \
                 "COALESCE(p1.name, o.char_id) AS main, " \
-                "COALESCE(p2.name, o.char_id) AS name " \
+                "COALESCE(p2.name, o.char_id) AS name, " \
+                "o.channel " \
               "FROM online o " \
               "LEFT JOIN alts a1 ON o.char_id = a1.char_id " \
               "LEFT JOIN alts a2 ON a1.group_id = a2.group_id AND a2.status = ? " \
