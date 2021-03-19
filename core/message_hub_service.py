@@ -1,5 +1,6 @@
 import inspect
 
+from core.chat_blob import ChatBlob
 from core.decorators import instance
 from core.dict_object import DictObject
 from core.logger import Logger
@@ -115,6 +116,9 @@ class MessageHubService:
         if sender:
             char_name = self.text.make_charlink(sender.name)
             formatted_message += f"{char_name}: "
+        # TODO pagination should not happen until destination channel is known
+        if isinstance(message, ChatBlob):
+            message = self.text.paginate_single(message, self.bot.get_primary_conn())
         formatted_message += message
         return formatted_message
 
