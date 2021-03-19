@@ -158,7 +158,7 @@ class DiscordController:
              description="Setup relaying of channels")
     def discord_relay_cmd(self, request, _):
         connect_link = self.text.make_tellcmd(self.getresp("module/discord", "connect"), "config setting discord_enabled set true")
-        disconnect_link = self.text.make_tellcmd(self.getresp("module/discord", "disconnect"), "config setting discord_enabled set true")
+        disconnect_link = self.text.make_tellcmd(self.getresp("module/discord", "disconnect"), "config setting discord_enabled set false")
         constatus = self.getresp("module/discord", "connected" if self.is_connected() else "disconnected")
         subs = ""
         for channel in self.get_text_channels():
@@ -240,8 +240,10 @@ class DiscordController:
                 timeleft = "Permanent" if invite.max_age == 0 else str(datetime.timedelta(seconds=invite.max_age))
                 used = str(invite.uses) if invite.uses is not None else "N/A"
                 useleft = str(invite.max_uses) if invite.max_uses is not None else "N/A"
-                channel = self.getresp("module/discord", "inv_channel", {"channel": invite.channel.name})\
-                    if invite.channel is not None else None
+                if invite.channel is not None:
+                    channel = self.getresp("module/discord", "inv_channel", {"channel": invite.channel.name})
+                else:
+                    channel = None
                 server_invites += self.getresp("module/discord", "invite", {"server": invite.guild.name,
                                                                             "link": link,
                                                                             "time_left": timeleft,
@@ -251,7 +253,7 @@ class DiscordController:
             blob += self.getresp("module/discord", "blob_invites", {"invites": server_invites})
 
         else:
-            blob += self.getresp("module/discord", "no_invites")
+            blob += "No invites currently exist."
 
         char_id = self.character_service.resolve_char_to_id(char_name)
         self.bot.send_private_message(char_id, ChatBlob(self.getresp("module/discord", "invite_title"), blob))

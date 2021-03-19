@@ -166,10 +166,6 @@
       "{channel}\n\n"
     ]
   },
-  "no_invites": {
-    "en_US": "None available, maybe the bot user does not have sufficient permissions to see invites, or no invites exists.\\n\\n",
-    "de_DE": ""
-  },
   "join": {
     "en_US": "join",
     "de_DE": "Beitreten"
