@@ -6,7 +6,7 @@ from core.decorators import instance, command, timerevent
 from core.db import DB
 from core.dict_object import DictObject
 from core.text import Text
-from core.command_param_types import Character, Const, Int
+from core.command_param_types import Character, Const, Int, NamedFlagParameters
 from core.chat_blob import ChatBlob
 
 
@@ -38,10 +38,11 @@ class CharacterInfoController:
         self.command_alias_service.add_alias("lookup", "whois")
         self.command_alias_service.add_alias("is", "whois")
 
-    @command(command="whois", params=[Character("character"), Int("server_num", is_optional=True), Const("forceupdate", is_optional=True)], access_level="member",
+    @command(command="whois", params=[Character("character"), Int("server_num", is_optional=True), NamedFlagParameters(["force_update"])], access_level="member",
              description="Get whois information for a character", extended_description="Use server_num 6 for RK2019 and server_num 5 for live")
-    def whois_cmd(self, request, char, dimension, force_update):
+    def whois_cmd(self, request, char, dimension, flag_params):
         dimension = dimension or self.bot.dimension
+        force_update = flag_params.force_update
 
         if dimension == self.bot.dimension and char.char_id:
             online_status = self.buddy_service.is_online(char.char_id)
@@ -82,7 +83,8 @@ class CharacterInfoController:
             # blob += "Head Id: %d\n" % char_info.head_id
             # blob += "PVP Rating: %d\n" % char_info.pvp_rating
             # blob += "PVP Title: %s\n" % char_info.pvp_title
-            blob += "Source: %s\n" % self.format_source(char_info, max_cache_age)
+            blob += "Source: %s %s\n" % (self.format_source(char_info, max_cache_age),
+                                         self.text.make_tellcmd("Force Update", f"whois {char.name} {dimension} --force_update"))
             blob += "Dimension: %s\n" % char_info.dimension
 
             if dimension == self.bot.dimension:
