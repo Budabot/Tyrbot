@@ -72,15 +72,15 @@ class RecipeController:
     def recipe_search_item_cmd(self, request, item, named_params):
         page_number = int(named_params.page or "1")
 
-        return self.get_search_results_blob(item.name, page_number)
+        return self.get_search_results(item.name, page_number)
 
     @command(command="recipe", params=[Any("search"), NamedParameters(["page"])], access_level="all", description="Search for a recipe")
     def recipe_search_cmd(self, request, search, named_params):
         page_number = int(named_params.page or "1")
 
-        return self.get_search_results_blob(search, page_number)
+        return self.get_search_results(search, page_number)
 
-    def get_search_results_blob(self, search, page_number):
+    def get_search_results(self, search, page_number):
         page_size = 30
         offset = (page_number - 1) * page_size
 
@@ -89,14 +89,21 @@ class RecipeController:
         paged_data = data[offset:offset + page_size]
 
         blob = ""
-        if len(data) > 0:
+
+        if len(data) == 0:
+            return "No recipe matching <highlight>%s</highlight>." % search
+
+        elif len(data) == 1:
+            return self.format_recipe(data[0])
+
+        else:
             blob += self.text.get_paging_links(f"recipe {search}", page_number, offset + page_size < len(data))
             blob += "\n\n"
 
-        for row in paged_data:
-            blob += self.text.make_tellcmd(row.name, "recipe %d" % row.id) + "\n"
+            for row in paged_data:
+                blob += self.text.make_tellcmd(row.name, "recipe %d" % row.id) + "\n"
 
-        return ChatBlob("Recipes Matching '%s' (%d - %d of %d)" % (search, offset + 1, min(offset + page_size, count), count), blob)
+            return ChatBlob("Recipes Matching '%s' (%d - %d of %d)" % (search, offset + 1, min(offset + page_size, count), count), blob)
 
     def get_recipe(self, recipe_id):
         return self.db.query_single("SELECT * FROM recipe WHERE id = ?", [recipe_id])
