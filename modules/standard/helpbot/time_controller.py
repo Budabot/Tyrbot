@@ -1,6 +1,6 @@
 from core.decorators import instance, command
 from core.chat_blob import ChatBlob
-from core.command_param_types import Any
+from core.command_param_types import Any, NamedFlagParameters
 from datetime import datetime
 import pytz
 import time
@@ -11,27 +11,31 @@ class TimeController:
     def __init__(self):
         self.time_format = "%Y-%m-%d %H:%M:%S %Z%z"
 
-    @command(command="time", params=[], access_level="all",
-             description="Show the current time in every timezone")
-    def time_cmd(self, request):
-        blob = "Unixtime => %d\n\n" % int(time.time())
-        current_region = ""
+    @command(command="time", params=[NamedFlagParameters(["all_timezones"])], access_level="all",
+             description="Show the current time")
+    def time_cmd(self, request, flag_params):
         dt = datetime.now()
-        for tz in pytz.common_timezones:
-            result = tz.split("/", 2)
-            if len(result) == 2:
-                region, city = result
-            else:
-                region = result[0]
-                city = result[0]
 
-            if current_region != region:
-                blob += "\n<pagebreak><header2>%s</header2>\n" % region
-                current_region = region
+        if not flag_params.all_timezones:
+            return "The current time is <highlight>%s</highlight> [%d]." % (dt.astimezone(pytz.utc).strftime("%Y-%m-%d %H:%M:%S %Z"), int(time.time()))
+        else:
+            blob = "Unixtime => %d\n\n" % int(time.time())
+            current_region = ""
+            for tz in pytz.common_timezones:
+                result = tz.split("/", 2)
+                if len(result) == 2:
+                    region, city = result
+                else:
+                    region = result[0]
+                    city = result[0]
 
-            blob += "%s => %s\n" % (city, dt.astimezone(pytz.timezone(tz)).strftime(self.time_format))
+                if current_region != region:
+                    blob += "\n<pagebreak><header2>%s</header2>\n" % region
+                    current_region = region
 
-        return ChatBlob("Timezones", blob)
+                blob += "%s => %s\n" % (city, dt.astimezone(pytz.timezone(tz)).strftime(self.time_format))
+
+            return ChatBlob("Timezones", blob)
 
     @command(command="time", params=[Any("timezone")], access_level="all",
              description="Show time for the specified timezone")
