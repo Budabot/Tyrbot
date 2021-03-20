@@ -29,6 +29,9 @@ class ConfigCommandController:
         if cmd_channel != "all" and not self.command_service.is_command_channel(cmd_channel):
             return self.getresp("module/config", "cmd_unknown_channel", {"channel": cmd_channel})
 
+        if not self.has_sufficient_access_level(request.sender.char_id, command_str, sub_command_str, cmd_channel):
+            return "You do not have the required access level to change this command."
+
         sql = "UPDATE command_config SET enabled = ? WHERE command = ? AND sub_command = ?"
         params = [enabled, command_str, sub_command_str]
         if cmd_channel != "all":
@@ -59,6 +62,9 @@ class ConfigCommandController:
 
         if self.access_service.get_access_level_by_label(access_level) is None:
             return self.getresp("module/config", "unknown_accesslevel", {"al": access_level})
+
+        if not self.has_sufficient_access_level(request.sender.char_id, command_str, sub_command_str, cmd_channel):
+            return "You do not have the required access level to change this command."
 
         sql = "UPDATE command_config SET access_level = ? WHERE command = ? AND sub_command = ?"
         params = [access_level, command_str, sub_command_str]
@@ -186,3 +192,19 @@ class ConfigCommandController:
         blob += "\n\n"
 
         return blob
+
+    def has_sufficient_access_level(self, char_id, command_str, sub_command_str, channel):
+        access_level = self.access_service.get_access_level(char_id)
+
+        params = [command_str, sub_command_str]
+        sql = "SELECT access_level FROM command_config WHERE command = ? AND sub_command = ?"
+        if channel != "all":
+            sql += " AND channel = ?"
+            params.append(channel)
+
+        data = self.db.query(sql, params)
+        for row in data:
+            if self.access_service.compare_access_levels(row.access_level, access_level["label"]) > 0:
+                return False
+
+        return True
