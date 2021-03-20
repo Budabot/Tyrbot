@@ -124,17 +124,26 @@ class RaffleController:
             if len(self.raffle.members) == 0:
                 self.spam_raffle_channels("The raffle has ended and there is no winner because no one entered the raffle.")
             else:
-                self.spam_raffle_channels("Congratulations <highlight>%s</highlight>! You have won the raffle for <highlight>%s</highlight>." % (self.get_raffle_winner(), self.raffle.item))
+                winners = self.get_raffle_winners()
+                blob = "<highlight>%s</highlight> raffled <highlight>%s</highlight>. The winners are:\n\n" % (self.raffle.owner.name, self.raffle.item)
+                for i, winner in enumerate(winners, 1):
+                    blob += f"{i}. {winner}\n"
+                msg = ChatBlob("%s has won the raffle for %s." % (winners[0], self.raffle.item), blob)
+                self.spam_raffle_channels(msg)
             self.raffle = None
         else:
             self.spam_raffle_channels(self.get_raffle_display(t))
             self.raffle.scheduled_job_id = self.job_scheduler.scheduled_job(self.alert_raffle_status, self.get_next_alert_time(t, self.raffle.finished_at))
 
     def spam_raffle_channels(self, msg):
+        if isinstance(msg, ChatBlob):
+            msg = self.text.paginate_single(msg, self.bot.get_primary_conn())
         self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)
 
-    def get_raffle_winner(self):
-        return random.choice(self.raffle.members)
+    def get_raffle_winners(self):
+        members = self.raffle.members.copy()
+        random.shuffle(members)
+        return members
 
     def get_next_alert_time(self, current_time, finished_at):
         time_left = finished_at - current_time
