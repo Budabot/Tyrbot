@@ -1,8 +1,9 @@
 from core.decorators import instance, command
 from core.db import DB
+from core.dict_object import DictObject
 from core.text import Text
 from core.chat_blob import ChatBlob
-from core.command_param_types import Const, Any, Options
+from core.command_param_types import Const, Any, Options, NamedFlagParameters
 from core.translation_service import TranslationService
 
 
@@ -75,61 +76,113 @@ class ConfigCommandController:
                 return self.getresp("module/config", "set_accesslevel_fail",
                                     {"channel": cmd_channel, "cmd": cmd_name, "al": access_level})
 
-    @command(command="config", params=[Const("cmd"), Any("cmd_name")], access_level="admin",
+    @command(command="config", params=[Const("cmd"), Any("cmd_name"), NamedFlagParameters(["show_channels"])], access_level="admin",
              description="Show command configuration")
-    def config_cmd_show_cmd(self, request, _, cmd_name):
+    def config_cmd_show_cmd(self, request, _, cmd_name, flag_params):
         cmd_name = cmd_name.lower()
         command_str, sub_command_str = self.command_service.get_command_key_parts(cmd_name)
 
+        cmd_channel_configs = self.get_command_channel_config(command_str, sub_command_str)
+
+        if not cmd_channel_configs:
+            return self.getresp("module/config", "no_cmd", {"cmd": cmd_name})
+
         blob = ""
+        if flag_params.show_channels or not self.are_command_channel_configs_same(cmd_channel_configs):
+            blob += self.format_cmd_channel_configs_separate_channels(cmd_name, cmd_channel_configs)
+        else:
+            blob += self.format_cmd_channel_configs_consolidated(cmd_name, cmd_channel_configs)
+
+        sub_commands = self.get_sub_commands(command_str, sub_command_str)
+        if sub_commands:
+            blob += "<header2>Subcommands</header2>\n"
+            for row in sub_commands:
+                command_name = self.command_service.get_command_key(row.command, row.sub_command)
+                blob += self.text.make_tellcmd(command_name, f"config cmd {command_name}") + "\n\n"
+
+        # include help text
+        blob += "\n\n".join(map(lambda handler: handler["help"], self.command_service.get_handlers(cmd_name)))
+        return ChatBlob("Command (%s)" % cmd_name, blob)
+
+    def get_sub_commands(self, command_str, sub_command_str):
+        return self.db.query("SELECT DISTINCT command, sub_command FROM command_config WHERE command = ? AND sub_command != ?",
+                             [command_str, sub_command_str])
+
+    def get_command_channel_config(self, command_str, sub_command_str):
+        result = []
         for command_channel, channel_label in self.command_service.channels.items():
             cmd_configs = self.command_service.get_command_configs(command=command_str,
                                                                    sub_command=sub_command_str,
                                                                    channel=command_channel,
                                                                    enabled=None)
+
             if len(cmd_configs) > 0:
-                cmd_config = cmd_configs[0]
-                status = self.getresp("module/config", "enabled_high" if cmd_config.enabled == 1 else "disabled_high")
+                result.append(DictObject({"channel": command_channel,
+                                          "channel_label": channel_label,
+                                          "cmd_config": cmd_configs[0]}))
 
-                blob += "<header2>%s</header2> %s (%s: %s)\n" % (channel_label, status, self.getresp("module/config", "access_level"), cmd_config.access_level.capitalize())
+        return result
 
-                # show status config
-                blob += "Status:"
-                enable_link = self.text.make_tellcmd(self.getresp("module/config", "enable"),
-                                                     "config cmd %s enable %s"
-                                                     % (cmd_name, command_channel))
-                disable_link = self.text.make_tellcmd(self.getresp("module/config", "disable"),
-                                                      "config cmd %s disable %s"
-                                                      % (cmd_name, command_channel))
+    def are_command_channel_configs_same(self, cmd_channel_configs):
+        if len(cmd_channel_configs) < 2:
+            return True
 
-                blob += "  " + enable_link + "  " + disable_link
+        access_level = cmd_channel_configs[0].cmd_config.access_level
+        enabled = cmd_channel_configs[0].cmd_config.enabled
+        for cmd_channel_config in cmd_channel_configs[1:]:
+            if cmd_channel_config.cmd_config.access_level != access_level or cmd_channel_config.cmd_config.enabled != enabled:
+                return False
 
-                # show access level config
-                blob += "\n" + self.getresp("module/config", "access_level")
-                for access_level in self.access_service.access_levels:
-                    # skip "None" access level
-                    if access_level["level"] == 0:
-                        continue
+        return True
 
-                    label = access_level["label"]
-                    link = self.text.make_tellcmd(label.capitalize(), "config cmd %s access_level %s %s" % (cmd_name, command_channel, label))
-                    blob += "  " + link
-                blob += "\n\n"
+    def format_cmd_channel_configs_separate_channels(self, cmd_name, cmd_channel_configs):
+        blob = ""
+        for obj in cmd_channel_configs:
+            cmd_config = obj.cmd_config
 
-        if blob:
-            sub_commands = self.get_sub_commands(command_str, sub_command_str)
-            if sub_commands:
-                blob += "<header2>Subcommands</header2>\n"
-                for row in sub_commands:
-                    command_name = self.command_service.get_command_key(row.command, row.sub_command)
-                    blob += self.text.make_tellcmd(command_name, f"config cmd {command_name}") + "\n\n"
+            blob += "<header2>%s</header2> " % obj.channel_label
+            blob += self.format_cmd_config(cmd_name, cmd_config.enabled, cmd_config.access_level, obj.channel)
 
-            # include help text
-            blob += "\n\n".join(map(lambda handler: handler["help"], self.command_service.get_handlers(cmd_name)))
-            return ChatBlob("Command (%s)" % cmd_name, blob)
-        else:
-            return self.getresp("module/config", "no_cmd", {"cmd": cmd_name})
+        return blob
 
-    def get_sub_commands(self, command_str, sub_command_str):
-        return self.db.query("SELECT DISTINCT command, sub_command FROM command_config WHERE command = ? AND sub_command != ?",
-                             [command_str, sub_command_str])
+    def format_cmd_channel_configs_consolidated(self, cmd_name, cmd_channel_configs):
+        cmd_config = cmd_channel_configs[0].cmd_config
+        channel = "all"
+
+        blob = ""
+        blob += self.format_cmd_config(cmd_name, cmd_config.enabled, cmd_config.access_level, channel)
+        blob += self.text.make_tellcmd("Configure command channels individually", f"config cmd {cmd_name} --show_channels")
+        blob += "\n\n"
+
+        return blob
+
+    def format_cmd_config(self, cmd_name, enabled, access_level, channel):
+        blob = ""
+        status = self.getresp("module/config", "enabled_high" if enabled == 1 else "disabled_high")
+
+        blob += "%s (%s: %s)\n" % (status, self.getresp("module/config", "access_level"), access_level.capitalize())
+
+        # show status config
+        blob += "Status:"
+        enable_link = self.text.make_tellcmd(self.getresp("module/config", "enable"),
+                                             "config cmd %s enable %s"
+                                             % (cmd_name, channel))
+        disable_link = self.text.make_tellcmd(self.getresp("module/config", "disable"),
+                                              "config cmd %s disable %s"
+                                              % (cmd_name, channel))
+
+        blob += "  " + enable_link + "  " + disable_link
+
+        # show access level config
+        blob += "\n" + self.getresp("module/config", "access_level")
+        for access_level in self.access_service.access_levels:
+            # skip "None" access level
+            if access_level["level"] == 0:
+                continue
+
+            label = access_level["label"]
+            link = self.text.make_tellcmd(label.capitalize(), "config cmd %s access_level %s %s" % (cmd_name, channel, label))
+            blob += "  " + link
+        blob += "\n\n"
+
+        return blob

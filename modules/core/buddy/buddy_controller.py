@@ -86,7 +86,7 @@ class BuddyController:
         for char_id, buddy in self.buddy_service.get_all_buddies().items():
             char_name = self.character_service.resolve_char_to_name(char_id, "Unknown(%d)" % char_id)
             if search in char_name.lower():
-                buddy_list.append([char_name, buddy["online"], ",".join(buddy["types"])])
+                buddy_list.append([char_name, buddy])
 
         blob = self.format_buddies(buddy_list)
         return ChatBlob(f"Buddy List Search Results ({len(buddy_list)})", blob)

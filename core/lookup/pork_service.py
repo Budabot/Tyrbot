@@ -98,7 +98,7 @@ class PorkService:
 
         char_info = self.request_char_info(char_name, self.bot.dimension)
 
-        if char_info and char_info.char_id == char_id:
+        if char_info and (char_id is None or char_info.char_id == char_id):
             self.save_character_info(char_info)
 
             return char_info

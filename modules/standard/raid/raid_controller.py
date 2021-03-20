@@ -57,12 +57,15 @@ class RaidController:
         self.text: Text = registry.get_instance("text")
         self.setting_service: SettingService = registry.get_instance("setting_service")
         self.alts_service: AltsService = registry.get_instance("alts_service")
+        self.buddy_service = registry.get_instance("buddy_service")
         self.character_service: CharacterService = registry.get_instance("character_service")
+        self.private_channel_service = registry.get_instance("private_channel_service")
         self.points_controller: PointsController = registry.get_instance("points_controller")
         self.util: Util = registry.get_instance("util")
         self.message_hub_service = registry.get_instance("message_hub_service")
         self.leader_controller = registry.get_instance("leader_controller")
         self.topic_controller = registry.get_instance("topic_controller")
+        self.member_controller = registry.get_instance("member_controller")
 
     def pre_start(self):
         self.message_hub_service.register_message_source(self.MESSAGE_SOURCE)
@@ -110,6 +113,7 @@ class RaidController:
         if self.raid:
             return f"The raid <highlight>{self.raid.raid_name}</highlight> is already running."
 
+        # if a leader is already set, only start raid if sender can take leader from current leader
         msg = self.leader_controller.set_raid_leader(request.sender, request.sender, request.conn)
         request.reply(msg)
         if self.leader_controller.leader and self.leader_controller.leader.char_id != request.sender.char_id:
@@ -127,7 +131,7 @@ class RaidController:
         join_link = self.text.paginate_single(ChatBlob("Click here", self.get_raid_join_blob()), request.conn)
 
         msg = "\n<highlight>----------------------------------------</highlight>\n"
-        msg += "<highlight>%s</highlight> has just started the <highlight>%s</highlight> raid.\n" % (request.sender.name, raid_name)
+        msg += "<highlight>%s</highlight> has started the raid <highlight>%s</highlight>.\n" % (request.sender.name, raid_name)
         msg += "%s to join\n" % join_link
         msg += "<highlight>----------------------------------------</highlight>"
 
@@ -139,7 +143,7 @@ class RaidController:
         if self.raid is None:
             return self.NO_RAID_RUNNING_RESPONSE
 
-        self.send_message("<highlight>%s</highlight> canceled the <highlight>%s</highlight> raid prematurely." % (request.sender.name, self.raid.raid_name), request.conn)
+        self.send_message("<highlight>%s</highlight> canceled the raid <highlight>%s</highlight>." % (request.sender.name, self.raid.raid_name), request.conn)
         self.raid = None
         self.topic_controller.clear_topic()
 
@@ -195,6 +199,8 @@ class RaidController:
             self.raid.raiders.append(Raider(alts, request.sender.char_id))
             self.points_controller.add_log_entry(main_id, request.sender.char_id, f"Joined raid {self.raid.raid_name}")
             self.send_message("<highlight>%s</highlight> joined the raid." % request.sender.name, request.conn)
+            if request.sender.char_id not in self.bot.get_primary_conn().private_channel:
+                self.private_channel_service.invite(request.sender.char_id, self.bot.get_primary_conn())
         else:
             return "Raid is closed."
 
@@ -291,6 +297,8 @@ class RaidController:
                                           f"You have been added to the raid <highlight>{self.raid.raid_name}</highlight>.",
                                           conn=request.conn)
             self.points_controller.add_log_entry(main_id, request.sender.char_id, f"Added to raid {self.raid.raid_name}")
+            if char.char_id not in self.bot.get_primary_conn().private_channel:
+                self.private_channel_service.invite(char.char_id)
             return "<highlight>%s</highlight> has been added to the raid." % char.name
         else:
             if not in_raid.is_active:
@@ -437,6 +445,31 @@ class RaidController:
             blob += "[%d] [%s] <highlight>%s</highlight> started by <highlight>%s</highlight> [%s]\n" % (raid.raid_id, timestamp, raid.raid_name, leader_name, participant_link)
 
         return ChatBlob("Raid History (%d)" % len(raids), blob)
+
+    @command(command="raid", params=[Const("announce"), Any("message", is_optional=True)], access_level="moderator", sub_command="manage",
+             description="Announce the current raid to members")
+    def raid_announce_cmd(self, request, _, message):
+        if not self.raid:
+            return self.NO_RAID_RUNNING_RESPONSE
+
+        if not self.bot.mass_message_queue:
+            return "Could not announce raid since bot does not have mass messaging capabilities."
+
+        join_link = self.text.paginate_single(ChatBlob("Click here", self.get_raid_join_blob()), request.conn)
+
+        msg = "<highlight>%s</highlight> has started the raid <highlight>%s</highlight>. " % (self.raid.started_by.name, self.raid.raid_name)
+        msg += "%s to join." % join_link
+        if message:
+            msg += " " + message
+
+        count = 0
+        for member in self.member_controller.get_all_members():
+            main = self.alts_service.get_main(member.char_id)
+            if self.buddy_service.is_online(member.char_id) and not self.is_in_raid(main.char_id):
+                count += 1
+                self.bot.send_mass_message(member.char_id, msg, conn=request.conn)
+
+        return f"Raid announcement is sending to <highlight>{count}</highlight> online members."
 
     def is_in_raid(self, main_id: int):
         if self.raid is None:

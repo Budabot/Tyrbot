@@ -114,7 +114,7 @@ class OrgMemberController:
     @command(command="orgmember", params=[], access_level="moderator",
              description="Show the list of org members")
     def orgmember_list_cmd(self, request):
-        data = self.db.query("SELECT p.*, o.char_id, o.mode FROM org_member o LEFT JOIN player p ON o.char_id = p.char_id")
+        data = self.db.query("SELECT p.*, o.char_id, o.mode FROM org_member o LEFT JOIN player p ON o.char_id = p.char_id ORDER BY name")
         blob = ""
         for row in data:
             blob += self.text.format_char_info(row) + " " + row.mode + "\n"

@@ -227,7 +227,7 @@ class CommandService:
             reply(self.getresp("global", "error_proccessing"))
 
     def handle_unknown_command(self, command_str, command_args, channel, sender, reply):
-        reply(self.getresp("global", "unknown_command", {"cmd":command_str}))
+        reply(self.getresp("global", "unknown_command", {"cmd": command_str}))
 
     def access_denied_response(self, message, sender, cmd_config, reply):
         reply(self.getresp("global", "access_denied"))
