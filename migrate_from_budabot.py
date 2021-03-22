@@ -11,8 +11,10 @@ class BudabotDB(DB):
         sql = sql.replace("<myname>", self.bot_name)
         return super().format_sql(sql, params)
 
+
 # IMPORTANT: specify a bot name before running this script		
 bot_name = ""
+org_id = 0  # if you know the org_id, set it here
 
 old_db = BudabotDB(bot_name)
 # IMPORTANT: connect old_db (budabot) using sqlite or mysql (uncomment ONE)
@@ -23,7 +25,6 @@ new_db = DB()
 # IMPORTANT: connect new_db (tyrbot) using sqlite or mysql (uncomment ONE)
 #new_db.connect_sqlite("./data/database.db")
 #new_db.connect_mysql(host="localhost", username="", password="", database_name="")
-org_id = 0  # if you know the org_id, set it here
 
 if not old_db.bot_name:
     print("Error! Specify bot name")
@@ -36,8 +37,6 @@ if not old_db.get_type():
 if not new_db.get_type():
     print("Error! Specify connection method for new_db")
     exit(1)
-
-# TODO check python version
 
 # admin
 print("migrating data to admin table")
