@@ -76,7 +76,7 @@ with new_db.transaction():
 print("migrated %d records" % len(data))
 
 # members_<myname>
-print("migrating data to members table")
+print("migrating data to member table")
 data = old_db.query("SELECT p.charid AS char_id, m.autoinv AS auto_invite FROM members_<myname> m JOIN players p ON m.name = p.name WHERE p.charid > 0")
 with new_db.transaction():
     for row in data:
@@ -115,6 +115,7 @@ print("migrated %d records" % len(data))
 print("migrating data to cloak_status table")
 data = old_db.query("SELECT p.charid AS char_id, action, time AS created_at FROM org_city_<myname> o JOIN players p ON o.player = p.name WHERE p.charid > 0")
 with new_db.transaction():
+    new_db.exec("DELETE FROM cloak_status WHERE org_id = ?", [org_id])
     for row in data:
         new_db.exec("INSERT INTO cloak_status (char_id, action, created_at, org_id) VALUES (?, ?, ?, ?)", [row.char_id, row.action, row.created_at, org_id])
 print("migrated %d records" % len(data))
@@ -123,6 +124,7 @@ print("migrated %d records" % len(data))
 print("migrating data to org_activity table")
 data = old_db.query("SELECT p1.charid AS actor_char_id, p2.charid AS actee_char_id, action, time AS created_at FROM org_history o JOIN players p1 ON o.actor = p1.name JOIN players p2 ON o.actee = p2.name WHERE p1.charid > 0 AND p2.charid > 0")
 with new_db.transaction():
+    new_db.exec("DELETE FROM org_activity WHERE org_id = ?", [org_id])
     for row in data:
         new_db.exec("INSERT INTO org_activity (actor_char_id, actee_char_id, action, created_at, org_id) VALUES (?, ?, ?, ?, ?)", [row.actor_char_id, row.actee_char_id, row.action, row.created_at, org_id])
 print("migrated %d records" % len(data))
@@ -160,10 +162,11 @@ print("migrated %d records" % len(data))
 
 # quote
 print("migrating data to quote table")
-data = old_db.query("SELECT p.charid AS char_id, q.msg AS content, q.dt AS created_at FROM quote q JOIN players p ON q.poster = p.name WHERE p.charid > 0")
+data = old_db.query("SELECT id, p.charid AS char_id, q.msg AS content, q.dt AS created_at FROM quote q JOIN players p ON q.poster = p.name WHERE p.charid > 0")
 with new_db.transaction():
     for row in data:
-        new_db.exec("INSERT INTO quote (char_id, created_at, content) VALUES (?, ?, ?)", [row.char_id, row.created_at, row.content])
+        new_db.exec("DELETE FROM quote WHERE id = ?", [row.id])
+        new_db.exec("INSERT INTO quote (id, char_id, created_at, content) VALUES (?, ?, ?, ?)", [row.id, row.char_id, row.created_at, row.content])
 print("migrated %d records" % len(data))
 
 
