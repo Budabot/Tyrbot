@@ -23,6 +23,7 @@ new_db = DB()
 # IMPORTANT: connect new_db (tyrbot) using sqlite or mysql (uncomment ONE)
 #new_db.connect_sqlite("./data/database.db")
 #new_db.connect_mysql(host="localhost", username="", password="", database_name="")
+org_id = 0  # if you know the org_id, set it here
 
 if not old_db.bot_name:
     print("Error! Specify bot name")
@@ -79,8 +80,8 @@ print("migrating data to members table")
 data = old_db.query("SELECT p.charid AS char_id, m.autoinv AS auto_invite FROM members_<myname> m JOIN players p ON m.name = p.name WHERE p.charid > 0")
 with new_db.transaction():
     for row in data:
-        new_db.exec("DELETE FROM members WHERE char_id = ?", [row.char_id])
-        new_db.exec("INSERT INTO members (char_id, auto_invite) VALUES (?, ?)", [row.char_id, row.auto_invite])
+        new_db.exec("DELETE FROM member WHERE char_id = ?", [row.char_id])
+        new_db.exec("INSERT INTO member (char_id, auto_invite) VALUES (?, ?)", [row.char_id, row.auto_invite])
 print("migrated %d records" % len(data))
 
 # name_history
@@ -115,7 +116,7 @@ print("migrating data to cloak_status table")
 data = old_db.query("SELECT p.charid AS char_id, action, time AS created_at FROM org_city_<myname> o JOIN players p ON o.player = p.name WHERE p.charid > 0")
 with new_db.transaction():
     for row in data:
-        new_db.exec("INSERT INTO cloak_status (char_id, action, created_at) VALUES (?, ?, ?)", [row.char_id, row.action, row.created_at])
+        new_db.exec("INSERT INTO cloak_status (char_id, action, created_at, org_id) VALUES (?, ?, ?, ?)", [row.char_id, row.action, row.created_at, org_id])
 print("migrated %d records" % len(data))
 
 # org_history
@@ -123,16 +124,25 @@ print("migrating data to org_activity table")
 data = old_db.query("SELECT p1.charid AS actor_char_id, p2.charid AS actee_char_id, action, time AS created_at FROM org_history o JOIN players p1 ON o.actor = p1.name JOIN players p2 ON o.actee = p2.name WHERE p1.charid > 0 AND p2.charid > 0")
 with new_db.transaction():
     for row in data:
-        new_db.exec("INSERT INTO org_activity (actor_char_id, actee_char_id, action, created_at) VALUES (?, ?, ?, ?)", [row.actor_char_id, row.actee_char_id, row.action, row.created_at])
+        new_db.exec("INSERT INTO org_activity (actor_char_id, actee_char_id, action, created_at, org_id) VALUES (?, ?, ?, ?, ?)", [row.actor_char_id, row.actee_char_id, row.action, row.created_at, org_id])
 print("migrated %d records" % len(data))
 
 # org_members_<myname>
 print("migrating data to org_member table")
-data = old_db.query("SELECT p.charid AS char_id, CASE WHEN mode = 'org' THEN 'add_auto' WHEN mode = 'add' THEN 'add_manual' WHEN mode = 'del' THEN 'rem_manual' END AS mode, logged_off AS last_seen FROM org_members_<myname> o JOIN players p ON o.name = p.name WHERE p.charid > 0")
+data = old_db.query("SELECT p.charid AS char_id, CASE WHEN mode = 'org' THEN 'add_auto' WHEN mode = 'add' THEN 'add_manual' WHEN mode = 'del' THEN 'rem_manual' END AS mode FROM org_members_<myname> o JOIN players p ON o.name = p.name WHERE p.charid > 0")
 with new_db.transaction():
     for row in data:
         new_db.exec("DELETE FROM org_member WHERE char_id = ?", [row.char_id])
-        new_db.exec("INSERT INTO org_member (char_id, mode, last_seen) VALUES (?, ?, ?)", [row.char_id, row.mode, row.last_seen])
+        new_db.exec("INSERT INTO org_member (char_id, mode, org_id) VALUES (?, ?, ?)", [row.char_id, row.mode, org_id])
+print("migrated %d records" % len(data))
+
+# org_members_<myname>
+print("migrating data to last_seen table")
+data = old_db.query("SELECT p.charid AS char_id, logged_off AS last_seen FROM org_members_<myname> o JOIN players p ON o.name = p.name WHERE p.charid > 0")
+with new_db.transaction():
+    for row in data:
+        new_db.exec("DELETE FROM last_seen WHERE char_id = ?", [row.char_id])
+        new_db.exec("INSERT INTO last_seen (char_id, dt) VALUES (?, ?)", [row.char_id, row.last_seen])
 print("migrated %d records" % len(data))
 
 # players
