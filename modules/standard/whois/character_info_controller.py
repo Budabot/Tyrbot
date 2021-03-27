@@ -66,7 +66,10 @@ class CharacterInfoController:
             char_info = self.pork_service.get_character_info(char.name, max_cache_age)
 
         if char_info and char_info.source != "chat_server":
-            blob = "Name: %s [%s]\n" % (self.get_full_name(char_info), self.text.make_tellcmd("History", "history %s %s" % (char_info.name, char_info.dimension)))
+            alts = self.alts_controller.alts_service.get_alts(char.char_id)
+            blob = "Name: %s [%s] [%s]\n" % (self.get_full_name(char_info),
+                                             self.text.make_tellcmd("History", "history %s %s" % (char.name, char_info.dimension)),
+                                             self.text.make_tellcmd("Alts (%s)" % len(alts), f"alts {char.name}"))
             blob += "Char ID: %d\n" % char_info.char_id
             blob += "Profession: %s\n" % char_info.profession
             blob += "Faction: %s\n" % self.text.get_formatted_faction(char_info.faction)
@@ -91,11 +94,6 @@ class CharacterInfoController:
                 blob += "Status: %s\n" % ("<green>Active</green>" if char.char_id else "<red>Inactive</red>")
 
                 blob += self.get_name_history(char.char_id)
-
-                alts = self.alts_controller.alts_service.get_alts(char.char_id)
-                if len(alts) > 1:
-                    blob += "\n<header2>Alts (%d)</header2>\n" % len(alts)
-                    blob += self.alts_controller.format_alt_list(alts)
 
             more_info = self.text.paginate_single(ChatBlob("More Info", blob), conn)
 
