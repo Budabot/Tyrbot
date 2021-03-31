@@ -29,6 +29,7 @@ class BuddyService:
 
     def handle_add(self, conn: Conn, packet):
         if packet.char_id == 0:
+            self.logger.warning("Buddy added or updated with char_id '0'")
             return
 
         buddy = conn.buddy_list.get(packet.char_id, {"types": [], "conn_id": conn.id})
@@ -54,6 +55,9 @@ class BuddyService:
             self.event_service.fire_event(self.BUDDY_LOGOFF_EVENT, packet)
 
     def handle_remove(self, conn: Conn, packet):
+        if packet.char_id == 0:
+            self.logger.warning("Buddy removed with char_id '0'")
+
         if packet.char_id in conn.buddy_list:
             if len(conn.buddy_list[packet.char_id]["types"]) > 0:
                 self.logger.warning("Removing buddy %d that still has types %s" % (packet.char_id, conn.buddy_list[packet.char_id]["types"]))
@@ -62,7 +66,7 @@ class BuddyService:
 
     def handle_login_ok(self, conn: Conn, packet):
         self.buddy_list_size += 1000
-        conn.buddy_list[conn.char_id] = {"online": True, "types": [], "conn_id": conn.id}
+        conn.buddy_list[conn.char_id] = {"online": True, "types": ["conn"], "conn_id": conn.id}
 
     def add_buddy(self, char_id, _type):
         if not char_id:
