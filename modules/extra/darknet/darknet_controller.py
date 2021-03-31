@@ -9,7 +9,7 @@ from core.tyrbot import Tyrbot
 import re
 
 
-@instance("Darknet")
+@instance()
 class DarkController:
     relay_channel_id = None
     relay_name = None
