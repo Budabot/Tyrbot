@@ -178,7 +178,7 @@ class AOUController:
         return xml.findall("./%s" % child_tag)[0]
 
     def format_bbcode_code(self, bbcode_str):
-        return self.parser.format(bbcode_str)
+        return self.parser.format(bbcode_str or "")
 
     # BBCode formatters
     def bbcode_render_image(self, tag_name, value, options, parent, context):
