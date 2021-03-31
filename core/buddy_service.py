@@ -66,7 +66,7 @@ class BuddyService:
 
     def handle_login_ok(self, conn: Conn, packet):
         self.buddy_list_size += 1000
-        conn.buddy_list[conn.char_id] = {"online": True, "types": ["conn"], "conn_id": conn.id}
+        # conn.buddy_list[conn.char_id] = {"online": True, "types": ["conn"], "conn_id": conn.id}
 
     def add_buddy(self, char_id, _type):
         if not char_id:
@@ -114,7 +114,9 @@ class BuddyService:
 
     def get_buddy(self, char_id):
         for _id, conn in self.bot.get_conns():
-            if char_id in conn.buddy_list:
+            if conn.char_id == char_id:
+                return {"online": 1, "types": ["conn"], "conn_id": conn.id}
+            elif char_id in conn.buddy_list:
                 return conn.buddy_list[char_id]
         return None
 
