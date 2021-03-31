@@ -21,7 +21,7 @@ class QuoteController:
         quote = self.get_quote_info()
 
         if quote:
-            return quote
+            return "%d. %s" % (quote.id, quote.content)
         else:
             return "There are no quotes to display."
 
@@ -31,9 +31,9 @@ class QuoteController:
         quote = self.get_quote_info(quote_id)
 
         if quote:
-            return quote
+            return "%d. %s" % (quote.id, quote.content)
         else:
-            return "Could not find quote with ID <highlight>%d</highlight>." % quote_id
+            return "Quote with ID <highlight>%d</highlight> does not exist." % quote_id
 
     @command(command="quote", params=[Const("add"), Any("quote")], access_level="all",
              description="Show a specific quote")
@@ -46,14 +46,17 @@ class QuoteController:
         return "Your quote has been added successfully."
 
     def get_quote_info(self, quote_id=None):
-        stats = self.db.query_single("SELECT COUNT(1) AS count, MAX(id) AS max FROM quote")
+        stats = self.db.query_single("SELECT COUNT(1) AS count FROM quote")
 
         if stats.count == 0:
             return None
 
         if not quote_id:
-            row = self.db.query_single("SELECT q.*, p.name FROM quote q LEFT JOIN player p ON q.char_id = p.char_id LIMIT 1 OFFSET ?", [random.randint(0, stats.count - 1)])
-        else:
-            row = self.db.query_single("SELECT q.*, p.name FROM quote q LEFT JOIN player p ON q.char_id = p.char_id WHERE id = ?", [quote_id])
+            quote_id = random.randint(1, stats.count)
 
-        return "%d. %s" % (row.id, row.content)
+        row = self.db.query_single("SELECT q.*, p.name FROM quote q LEFT JOIN player p ON q.char_id = p.char_id LIMIT 1 OFFSET ?", [quote_id - 1])
+
+        if row:
+            row.id = quote_id
+
+        return row
