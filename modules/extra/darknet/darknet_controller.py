@@ -10,7 +10,7 @@ import re
 
 
 @instance()
-class DarkController:
+class DarknetController:
     relay_channel_id = None
     relay_name = None
     MESSAGE_SOURCE = "darknet"

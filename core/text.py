@@ -345,11 +345,11 @@ class Text:
         stripper.feed(s)
         return stripper.get_data()
 
-    def pad_table(self, rows, fill=" "):
+    def pad_table(self, rows, fill=" ", pad_right=True):
         max_width = {}
         for columns in rows:
             for i, column in enumerate(columns[:-1]):
-                w = self.get_pixel_width(column)
+                w = self.get_pixel_width(str(column))
                 if i not in max_width or max_width[i] < w:
                     max_width[i] = w
 
@@ -360,13 +360,13 @@ class Text:
                 if i == num_cols - 1:
                     continue
 
-                s, new_adjustment = self.pad_string(column, adjustment + max_width[i], fill)
+                s, new_adjustment = self.pad_string(str(column), adjustment + max_width[i], fill, pad_right)
                 columns[i] = s
                 adjustment += new_adjustment
 
         return rows
 
-    def pad_string(self, s, length, fill=" "):
+    def pad_string(self, s, length, fill=" ", pad_right=True):
         if s is None:
             s = ""
 
@@ -378,7 +378,10 @@ class Text:
         else:
             num_spacers = 0
         adjustment = fill_width - (spacer_pixel_width * num_spacers)
-        return s + (num_spacers * fill), adjustment
+        if pad_right:
+            return s + (num_spacers * fill), adjustment
+        else:
+            return (num_spacers * fill) + s, adjustment
 
     def get_paging_links(self, command_str, page_number, show_next, page_param="--page="):
         blob = ""
