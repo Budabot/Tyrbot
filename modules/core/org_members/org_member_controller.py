@@ -170,6 +170,7 @@ class OrgMemberController:
 
         # remove org members who no longer have a corresponding conn
         for org_id in org_ids:
+            # TODO remove from buddy list
             self.db.exec("DELETE FROM org_member WHERE org_id = ?", [org_id])
 
     @event(PublicChannelService.ORG_MSG_EVENT, "Update org roster when characters join or leave", is_hidden=True)
@@ -246,8 +247,17 @@ class OrgMemberController:
             self.buddy_service.remove_buddy(char_id, self.ORG_BUDDY_TYPE)
 
     def process_update(self, char_id, old_mode, new_mode, conn):
+        if not char_id:
+            raise Exception("char_id = 0; %s %s %s %s" % (char_id, old_mode, new_mode, conn))
         name = self.character_service.get_char_name(char_id)
         event_data = DictObject({"char_id": char_id, "name": name, "conn": conn})
+        # TODO instead of manual vs auto, use a priority
+        # highest priority is 1? or 100?
+        # org_roster is priority `low`, orgmsg is priority `medium`, manual is priority `high`
+        # lower priority cannot override higher priority, unless org_ids are different
+        #   (to handle case where char is manually removed from one org, then auto added to a different org)
+        # when mode matches, priority is set to new priority, even if lower
+        # edge case: when mode is remove and priority is not high, then just remove record
         if not old_mode:
             if new_mode == self.MODE_ADD_AUTO or new_mode == self.MODE_ADD_MANUAL:
                 self.add_org_member(char_id, new_mode, conn.org_id)
