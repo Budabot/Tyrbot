@@ -8,16 +8,16 @@ class Logger:
     def __init__(self, name):
         self.logger = logging.getLogger(name)
 
-    def warning(self, msg, obj: Exception=None):
+    def warning(self, msg, obj: Exception = None):
         self.logger.warning(self.format_message(msg, obj))
 
-    def info(self, msg, obj: Exception=None):
+    def info(self, msg, obj: Exception = None):
         self.logger.info(self.format_message(msg, obj))
 
-    def error(self, msg, obj: Exception=None):
+    def error(self, msg, obj: Exception = None):
         self.logger.error(self.format_message(msg, obj))
 
-    def debug(self, msg, obj: Exception=None):
+    def debug(self, msg, obj: Exception = None):
         self.logger.debug(self.format_message(msg, obj))
 
     def log_chat(self, conn, channel, sender, msg):

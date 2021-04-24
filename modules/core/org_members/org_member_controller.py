@@ -257,7 +257,8 @@ class OrgMemberController:
         # lower priority cannot override higher priority, unless org_ids are different
         #   (to handle case where char is manually removed from one org, then auto added to a different org)
         # when mode matches, priority is set to new priority, even if lower
-        # edge case: when mode is remove and priority is not high, then just remove record
+        # edge case: when mode is remove and priority is anything other than `high`, then just remove record
+        # edge case: manually remove member from org when member is already part of a different org, just disallow it?
         if not old_mode:
             if new_mode == self.MODE_ADD_AUTO or new_mode == self.MODE_ADD_MANUAL:
                 self.add_org_member(char_id, new_mode, conn.org_id)
