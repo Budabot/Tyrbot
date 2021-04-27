@@ -133,14 +133,14 @@ class OrgMemberController:
         for row in data:
             org_ids.add(row.org_id)
 
+        db_members = {}
+        for row in self.get_all_org_members():
+            db_members[row.char_id] = row
+
         for _id, conn in self.bot.get_conns(lambda x: x.is_main and x.org_id):
             org_id = conn.org_id
             if org_id in org_ids:
                 org_ids.remove(org_id)
-
-            db_members = {}
-            for row in self.get_org_members_by_org_id(conn.org_id):
-                db_members[row.char_id] = row.mode
 
             self.logger.info(f"Updating org_members roster for org_id '{org_id}'")
             org_info = self.org_pork_service.get_org_info(org_id)
@@ -157,16 +157,20 @@ class OrgMemberController:
             for char_id, roster_member in org_info.org_members.items():
                 db_member = db_members.get(char_id, None)
 
+                mode = None
                 if db_member:
+                    mode = db_member.mode
                     del db_members[char_id]
 
-                self.process_update(char_id, db_member, self.MODE_ADD_AUTO, conn)
+                self.process_update(char_id, mode, self.MODE_ADD_AUTO, conn)
 
-            for char_id, mode in db_members.items():
-                self.process_update(char_id, mode, self.MODE_REM_AUTO, conn)
+            for char_id, db_member in db_members.items():
+                if db_member.org_id == org_id:
+                    self.process_update(char_id, db_member.mode, self.MODE_REM_AUTO, conn)
 
         # remove org members who no longer have a corresponding conn
         for org_id in org_ids:
+            # TODO remove from buddy list
             self.db.exec("DELETE FROM org_member WHERE org_id = ?", [org_id])
 
     @event(PublicChannelService.ORG_MSG_EVENT, "Update org roster when characters join or leave", is_hidden=True)
@@ -243,8 +247,18 @@ class OrgMemberController:
             self.buddy_service.remove_buddy(char_id, self.ORG_BUDDY_TYPE)
 
     def process_update(self, char_id, old_mode, new_mode, conn):
+        if not char_id:
+            raise Exception("char_id = 0; %s %s %s %s" % (char_id, old_mode, new_mode, conn))
         name = self.character_service.get_char_name(char_id)
         event_data = DictObject({"char_id": char_id, "name": name, "conn": conn})
+        # TODO instead of manual vs auto, use a priority
+        # highest priority is 1? or 100?
+        # org_roster is priority `low`, orgmsg is priority `medium`, manual is priority `high`
+        # lower priority cannot override higher priority, unless org_ids are different
+        #   (to handle case where char is manually removed from one org, then auto added to a different org)
+        # when mode matches, priority is set to new priority, even if lower
+        # edge case: when mode is remove and priority is anything other than `high`, then just remove record
+        # edge case: manually remove member from org when member is already part of a different org, just disallow it?
         if not old_mode:
             if new_mode == self.MODE_ADD_AUTO or new_mode == self.MODE_ADD_MANUAL:
                 self.add_org_member(char_id, new_mode, conn.org_id)

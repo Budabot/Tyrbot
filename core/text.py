@@ -219,7 +219,7 @@ class Text:
         elif char_info.name:
             msg = "<highlight>%s</highlight>" % char_info.name
         else:
-            msg = "<highlight>CharId(%d)</highlight>" % char_info.char_id
+            msg = "<highlight>Unknown(%d)</highlight>" % char_info.char_id
 
         if online_status is not None:
             msg += " :: " + ("<green>Online</green>" if online_status else "<red>Offline</red>")

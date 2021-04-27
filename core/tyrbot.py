@@ -1,4 +1,5 @@
 import inspect
+import signal
 import threading
 import time
 
@@ -219,6 +220,9 @@ class Tyrbot:
         self.ready = True
         timestamp = int(time.time())
 
+        signal.signal(signal.SIGINT, self.handle_sigterm)
+        signal.signal(signal.SIGTERM, self.handle_sigterm)
+
         while self.status == BotStatus.RUN:
             try:
                 timestamp = int(time.time())
@@ -417,3 +421,7 @@ class Tyrbot:
             return [(_id, conn) for _id, conn in self.conns.items() if conn_filter(conn)]
         else:
             return self.conns.items()
+
+    def handle_sigterm(self, signal_number, stackframe):
+        self.logger.info(f"Shutting down due to signal '{signal_number}'")
+        self.shutdown()
