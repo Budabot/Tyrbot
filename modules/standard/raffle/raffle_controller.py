@@ -84,7 +84,7 @@ class RaffleController:
 
         self.raffle = DictObject({
             "owner": request.sender,
-            "item": self.get_item_name(item),
+            "item": item.strip(),
             "started_at": t,
             "duration": duration,
             "finished_at": finished_at,
@@ -107,14 +107,10 @@ class RaffleController:
         blob += "Click %s to join the raffle!\n\n" % self.text.make_tellcmd("here", "raffle join")
         blob += "Click %s if you wish to leave the raffle." % self.text.make_tellcmd("here", "raffle leave")
 
-        return ChatBlob("Raffle for %s! (ends in %s)" % (self.raffle.item, time_left_str), blob)
+        return ChatBlob("Raffle for %s! (ends in %s)" % (self.get_item_name(self.raffle.item), time_left_str), blob)
 
     def get_item_name(self, item):
-        m = re.match(r"<a href=\"itemref://\d+/\d+/\d+\">(.+)</a>", item)
-        if m:
-            return m.group(1)
-        else:
-            return item
+        return re.sub(r"<a href=\"itemref://\d+/\d+/\d+\">(.+)</a>", r"\1", item)
 
     def alert_raffle_status(self, t):
         if not self.raffle:

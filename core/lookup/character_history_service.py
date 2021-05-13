@@ -35,7 +35,7 @@ class CharacterHistoryService:
             url = self.get_pork_url(server_num, name)
 
             try:
-                r = requests.get(url, timeout=5)
+                r = requests.get(url, headers={"User-Agent": f"Tyrbot {self.bot.version}"}, timeout=5)
                 result = r.json()
             except ReadTimeout:
                 self.logger.warning("Timeout while requesting '%s'" % url)
