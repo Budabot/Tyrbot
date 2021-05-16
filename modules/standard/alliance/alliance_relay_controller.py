@@ -35,7 +35,7 @@ class AllianceRelayController:
                                       TextSettingType(["Always", "with_symbol", "unless_symbol"]),
                                       "When to relay messages")
 
-        self.setting_service.register(self.module_name, "arelaybot", "",
+        self.setting_service.register(self.module_name, "arelay_bot", "",
                                       TextSettingType(allow_empty=True),
                                       "Bot for alliance relay")
 
@@ -71,7 +71,7 @@ class AllianceRelayController:
             return
 
         channel_name = self.character_service.get_char_name(packet.private_channel_id)
-        if self.setting_service.get_value("arelaybot").lower() == channel_name.lower():
+        if self.setting_service.get_value("arelay_bot").lower() == channel_name.lower():
             conn.send_packet(client_packets.PrivateChannelJoin(packet.private_channel_id))
             self.logger.info("Joined private channel {channel}".format(channel=channel_name))
             self.relay_channel_id = packet.private_channel_id
