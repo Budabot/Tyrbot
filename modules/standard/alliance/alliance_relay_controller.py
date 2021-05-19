@@ -52,7 +52,7 @@ class AllianceRelayController:
                                       "Color of messages from relay")
 
         self.setting_service.register(self.module_name, "arelay_command_prefix", "!agcr",
-                                      TextSettingType(["!agcr", "gcr"]),
+                                      TextSettingType(["!agcr", "gcr", "grc"]),
                                       "Command prefix to use when sending and receiving messages")
 
         self.message_hub_service.register_message_destination(self.MESSAGE_SOURCE,
