@@ -123,10 +123,16 @@ class WebsocketRelayController:
     def org_member_logoff_event(self, event_type, event_data):
         self.send_relay_event(event_data.char_id, "logoff", "org_channel")
 
+    def decrypt_and_decode(self, message):
+        try:
+            if self.encrypter:
+                message = self.encrypter.decrypt(message.encode('utf-8'))
+            return DictObject(json.loads(message))
+        except Exception as e:
+            self.logger.error(f"Error processing incoming message from websocket relay: '{message}'", e)
+
     def process_relay_message(self, client_id, message):
-        if self.encrypter:
-            message = self.encrypter.decrypt(message.encode('utf-8'))
-        obj = DictObject(json.loads(message))
+        obj = self.decrypt_and_decode(message)
 
         if obj.type == "message":
             channel = self.get_channel_name(obj.source)
