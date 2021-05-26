@@ -14,7 +14,7 @@ class DarknetController:
     relay_channel_id = None
     relay_name = None
     MESSAGE_SOURCE = "darknet"
-    message_regex = re.compile(r"^(<font color='#\S+'>){2}\[([a-zA-Z]{2,})\]<\/font> <font color='#\S+'>(.+)<\/font> <font color='#\S+'>\[(.+)\]<\/font> \[(.+)\]$", re.DOTALL)
+    message_regex = re.compile(r"^(<font color='#\S+'>){2}\[([a-zA-Z]{2,})\]<\/font> (.+)$", re.DOTALL)
 
     def __init__(self):
         self.logger = Logger(__name__)
@@ -62,8 +62,6 @@ class DarknetController:
             return
 
         if packet.private_channel_id == self.relay_channel_id:
-            if conn.get_char_id() == packet.char_id:
-                return
             if packet.char_id != self.relay_channel_id:
                 return
             channel_name = self.character_service.get_char_name(packet.private_channel_id)
@@ -76,42 +74,29 @@ class DarknetController:
         if re.search(self.message_regex, message):
             cont = re.findall(self.message_regex, message)
             cont = cont[0]
-            ch = cont[1].lower()
-            msg = cont[2]
-            tell = cont[3]
-            report = cont[4]
-            if ch == "wts":
-                if self.setting_service.get_value("dark_wts") == "0":
-                    return
-                channel = "<red>[WTS]</red>"
-            elif ch == "wtb":
-                if self.setting_service.get_value("dark_wtb") == "0":
-                    return
-                channel = "<green>[WTB]</green>"
-            elif ch == "lootrights":
-                if self.setting_service.get_value("dark_lr") == "0":
-                    return
-                channel = "<violet>[LR]</violet>"
-            elif ch == "general":
-                if self.setting_service.get_value("dark_gen") == "0":
-                    return
-                channel = "<notice>[Gen]</notice>"
-            elif ch == "pvm":
-                if self.setting_service.get_value("dark_pvm") == "0":
-                    return
-                channel = "<cyan>[PvM]</cyan>"
-            elif ch == "event":
-                if self.setting_service.get_value("dark_event") == "0":
-                    return
-                channel = "<highlight>[Event]</highlight>"
-            elif ch == "pvp":
-                if self.setting_service.get_value("dark_pvp") == "0":
-                    return
-                channel = "<grey>[PvP]</grey>"
-            elif ch == "auction":
-                channel = "<yellow>[AUCTION]</yellow>"
-            else:
+            channel = cont[1]
+            ch = channel.lower()
+            rest_of_message = cont[2]
+            if ch == "wts" and self.setting_service.get_value("dark_wts") == "0":
+                return
+            elif ch == "wtb" and self.setting_service.get_value("dark_wtb") == "0":
+                return
+            elif ch == "lootrights" and self.setting_service.get_value("dark_lr") == "0":
+                return
+            elif ch == "general" and self.setting_service.get_value("dark_gen") == "0":
+                return
+            elif ch == "pvm" and self.setting_service.get_value("dark_pvm") == "0":
+                return
+            elif ch == "event" and self.setting_service.get_value("dark_event") == "0":
+                return
+            elif ch == "pvp" and self.setting_service.get_value("dark_pvp") == "0":
                 return
 
-            message = "<orange>%s<end> [%s] [%s]" % (msg, tell, report)
-            self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, channel, message)
+            if ch == "lootrights":
+                channel = "LR"
+            elif ch == "gen":
+                channel = "Gen"
+
+            channel_formatted = "[<highlight>%s</highlight>]" % channel
+
+            self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, channel_formatted, rest_of_message)
