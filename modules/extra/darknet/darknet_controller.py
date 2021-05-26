@@ -83,23 +83,23 @@ class DarknetController:
             if ch == "wts":
                 if self.setting_service.get_value("dark_wts") == "0":
                     return
-                channel = "<red>[WTS]</red>"
+                channel = "<highlight>[WTS]</highlight>"
             elif ch == "wtb":
                 if self.setting_service.get_value("dark_wtb") == "0":
                     return
-                channel = "<green>[WTB]</green>"
+                channel = "<highlight>[WTB]</highlight>"
             elif ch == "lootrights":
                 if self.setting_service.get_value("dark_lr") == "0":
                     return
-                channel = "<violet>[LR]</violet>"
+                channel = "<highlight>[LR]</highlight>"
             elif ch == "general":
                 if self.setting_service.get_value("dark_gen") == "0":
                     return
-                channel = "<notice>[Gen]</notice>"
+                channel = "<highlight>[Gen]</highlight>"
             elif ch == "pvm":
                 if self.setting_service.get_value("dark_pvm") == "0":
                     return
-                channel = "<cyan>[PvM]</cyan>"
+                channel = "<highlight>[PvM]</highlight>"
             elif ch == "event":
                 if self.setting_service.get_value("dark_event") == "0":
                     return
@@ -107,9 +107,9 @@ class DarknetController:
             elif ch == "pvp":
                 if self.setting_service.get_value("dark_pvp") == "0":
                     return
-                channel = "<grey>[PvP]</grey>"
+                channel = "<highlight>[PvP]</highlight>"
             elif ch == "auction":
-                channel = "<yellow>[AUCTION]</yellow>"
+                channel = "<highlight>[AUCTION]</highlight>"
             else:
                 return
 
