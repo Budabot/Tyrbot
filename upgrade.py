@@ -213,3 +213,8 @@ def run_upgrades():
             db.exec("INSERT INTO org_activity SELECT id, actor_char_id, actee_char_id, action, created_at, 0 FROM org_activity_old")
             db.exec("DROP TABLE org_activity_old")
         version = update_version(version)
+
+    if version == 19:
+        if table_exists("setting"):
+            db.exec("UPDATE setting SET name = 'arelay_bot' WHERE name = 'arelaybot'")
+        version = update_version(version)

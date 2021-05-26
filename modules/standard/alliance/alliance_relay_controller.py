@@ -27,7 +27,7 @@ class AllianceRelayController:
         self.message_hub_service.register_message_source(self.MESSAGE_SOURCE)
 
     def start(self):
-        self.setting_service.register(self.module_name, "arelay_symbol", "#",
+        self.setting_service.register(self.module_name, "arelay_symbol", "@",
                                       TextSettingType(["!", "#", "*", "@", "$", "+", "-"]),
                                       "Symbol for external relay")
 
@@ -35,7 +35,7 @@ class AllianceRelayController:
                                       TextSettingType(["Always", "with_symbol", "unless_symbol"]),
                                       "When to relay messages")
 
-        self.setting_service.register(self.module_name, "arelaybot", "",
+        self.setting_service.register(self.module_name, "arelay_bot", "",
                                       TextSettingType(allow_empty=True),
                                       "Bot for alliance relay")
 
@@ -50,6 +50,10 @@ class AllianceRelayController:
         self.setting_service.register(self.module_name, "arelay_color", "#C3C3C3",
                                       ColorSettingType(),
                                       "Color of messages from relay")
+
+        self.setting_service.register(self.module_name, "arelay_command_prefix", "!agcr",
+                                      TextSettingType(["!agcr", "gcr", "grc"]),
+                                      "Command prefix to use when sending and receiving messages")
 
         self.message_hub_service.register_message_destination(self.MESSAGE_SOURCE,
                                                               self.handle_relay_hub_message,
@@ -67,7 +71,7 @@ class AllianceRelayController:
             return
 
         channel_name = self.character_service.get_char_name(packet.private_channel_id)
-        if self.setting_service.get_value("arelaybot").lower() == channel_name.lower():
+        if self.setting_service.get_value("arelay_bot").lower() == channel_name.lower():
             conn.send_packet(client_packets.PrivateChannelJoin(packet.private_channel_id))
             self.logger.info("Joined private channel {channel}".format(channel=channel_name))
             self.relay_channel_id = packet.private_channel_id
@@ -84,10 +88,11 @@ class AllianceRelayController:
             return
 
         message = packet.message.lstrip()
-        if message[:6] != "!agcr ":
+        command_prefix = self.setting_service.get("arelay_command_prefix").get_value()
+        if not message.startswith(command_prefix + " "):
             return
 
-        message = message[6:]
+        message = message[len(command_prefix) + 1:]
         formatted_message = self.setting_service.get("arelay_color").format_text(message)
 
         # sender is not the bot that sent it, but rather the original char that sent the message
@@ -122,7 +127,8 @@ class AllianceRelayController:
 
     def send_message_to_alliance(self, msg):
         if self.relay_channel_id:
-            self.bot.send_private_channel_message("!agcr " + msg,
+            command_prefix = self.setting_service.get("arelay_command_prefix").get_value()
+            self.bot.send_private_channel_message(command_prefix + " " + msg,
                                                   private_channel_id=self.relay_channel_id,
                                                   add_color=False,
                                                   conn=self.bot.get_primary_conn())

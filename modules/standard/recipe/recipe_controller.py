@@ -15,7 +15,7 @@ class RecipeController:
     def __init__(self):
         self.logger = Logger(__name__)
 
-        self.recipe_name_regex = re.compile(r"(\d+)\.(txt|json)")
+        self.recipe_name_regex = re.compile(r"(\d+)\.json")
         self.recipe_item_regex = re.compile(r"#L \"([^\"]+)\" \"([\d+]+)\"")
         self.recipe_link_regex = re.compile(r"#L \"([^\"]+)\" \"([^\"]+)\"")
 
@@ -41,14 +41,7 @@ class RecipeController:
             m = self.recipe_name_regex.match(file)
             if m:
                 recipe_id = m.group(1)
-                file_type = m.group(2)
                 dt = int(os.path.getmtime(recipe_dir+file))
-
-                # convert txt format to json
-                if file_type == "txt":
-                    if self.convert_to_json(recipe_dir, recipe_id, file):
-                        file_type = "json"
-                        dt = int(time.time())
 
                 recipe = self.find_recipe(recipe_id, recipes)
                 if recipe:
@@ -56,7 +49,7 @@ class RecipeController:
                     if recipe.dt == dt:
                         continue
 
-                self.update_recipe(recipe_dir, recipe_id, file_type, dt)
+                self.update_recipe(recipe_dir, recipe_id, dt)
             else:
                 raise Exception("Unknown recipe format for '%s'" % file)
 
@@ -131,16 +124,13 @@ class RecipeController:
         else:
             return name
 
-    def get_chat_command(self, search, page):
-        return "/tell <myname> recipe %s --page=%d" % (search, page)
-
     def find_recipe(self,recipe_id,recipes):
         for row in recipes:
             if str(row.id) == recipe_id:
                 return row
         return None
 
-    def update_recipe(self, recipe_dir, recipe_id, file_type, dt):
+    def update_recipe(self, recipe_dir, recipe_id, dt):
         with open(recipe_dir + recipe_id + ".json", mode="r", encoding="UTF-8") as f:
             recipe = json.load(f)
 
@@ -259,38 +249,3 @@ class RecipeController:
                 content += "<font color=#FFFFFF>%s</font>\n" % detail["text"]
 
         return content
-
-    def convert_to_json(self, recipe_dir, recipe_id, file):
-        with open(recipe_dir + file, mode="r", encoding="UTF-8") as f:
-            lines = f.readlines()
-
-        recipe = {
-            "name": lines.pop(0).strip()[6:],
-            "author": lines.pop(0).strip()[8:],
-            "items": list(),
-            "steps": list(),
-            "details": list(),
-            "raw": None
-        }
-
-        content = "".join(lines)
-        items = {}
-
-        matches = self.recipe_item_regex.findall(content)
-        for item_name, item_id in matches:
-            item = self.items_controller.get_by_item_id(item_id)
-            if not item:
-                self.logger.warning("Could not find recipe item '%s - %s' for recipe id %s" % (item_id, item_name, recipe_id))
-            else:
-                items[item.highid] = {"alias": item.name, "item_id": item.highid}
-
-        recipe["items"].extend(items.values())
-        recipe["raw"] = content
-
-        with open(recipe_dir + recipe_id + ".json", mode="w", encoding="UTF-8") as f:
-            f.write(json.dumps(recipe, indent=4))
-
-        # delete file
-        os.remove(recipe_dir + file)
-
-        return True

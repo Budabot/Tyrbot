@@ -14,11 +14,11 @@ class BroadcastController:
 
     def inject(self, registry):
         self.db: DB = registry.get_instance("db")
-        self.bot = registry.get_instance("bot")
         self.character_service = registry.get_instance("character_service")
         self.command_service = registry.get_instance("command_service")
         self.message_hub_service = registry.get_instance("message_hub_service")
         self.ts: TranslationService = registry.get_instance("translation_service")
+        self.access_service = registry.get_instance("access_service")
         self.getresp = self.ts.get_response
 
     def pre_start(self):
