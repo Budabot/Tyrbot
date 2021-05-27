@@ -5,9 +5,6 @@ from .leader_controller import LeaderController
 
 @instance()
 class AssistController:
-    def __init__(self):
-        self.assist = []
-
     def inject(self, registry):
         self.leader_controller = registry.get_instance("leader_controller")
         self.command_alias_service = registry.get_instance("command_alias_service")
@@ -19,18 +16,18 @@ class AssistController:
     @command(command="assist", params=[], access_level="all",
              description="Show current assist targets")
     def assist_command(self, request):
-        return self.get_assist_output()
+        return self.get_assist_output(request.conn)
 
     @command(command="assist", params=[Const("clear")], access_level="all",
              description="Clear all assist targets", sub_command="modify")
     def assist_clear_command(self, request, _):
-        if not self.assist:
+        if not request.conn.data.get("assist"):
             return "No assist targets set."
 
         if not self.leader_controller.can_use_command(request.sender.char_id, request.conn):
             return LeaderController.NOT_LEADER_MSG
         else:
-            self.assist = []
+            request.conn.data.assist = None
             return "Assist targets have been cleared."
 
     @command(command="assist", params=[Const("add", is_optional=True), Any("assist_targets")], access_level="all",
@@ -41,13 +38,23 @@ class AssistController:
         if not self.leader_controller.can_use_command(request.sender.char_id, request.conn):
             return LeaderController.NOT_LEADER_MSG
         else:
+            assist = request.conn.data.get("assist", [])
             for target in targets:
-                if target not in self.assist:
-                    self.assist.append(target)
-            return self.get_assist_output()
+                target = target.capitalize()
+                if target not in assist:
+                    self.add_assist(target, request.conn)
+            return self.get_assist_output(request.conn)
 
-    def get_assist_output(self):
-        if not self.assist:
+    def add_assist(self, target, conn):
+        assist = conn.data.get("assist")
+        if assist:
+            assist.append(target)
+        else:
+            conn.data.assist = [target]
+
+    def get_assist_output(self, conn):
+        assist = conn.data.get("assist")
+        if not assist:
             return "No assist targets set."
 
-        return "/macro assist " + " \\n ".join(map(lambda x: "/assist " + x.capitalize(), reversed(self.assist)))
+        return "/macro assist " + " \\n ".join(map(lambda x: "/assist " + x, reversed(assist)))

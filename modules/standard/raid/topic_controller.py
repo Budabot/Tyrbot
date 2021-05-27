@@ -1,7 +1,6 @@
 from core.command_param_types import Const, Any, Options
 from core.db import DB
 from core.decorators import instance, command, event
-from core.dict_object import DictObject
 from core.private_channel_service import PrivateChannelService
 from core.setting_types import DictionarySettingType
 from core.text import Text
