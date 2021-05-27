@@ -27,7 +27,7 @@ class AssistController:
         if not self.assist:
             return "No assist targets set."
 
-        if not self.leader_controller.can_use_command(request.sender.char_id):
+        if not self.leader_controller.can_use_command(request.sender.char_id, request.conn):
             return LeaderController.NOT_LEADER_MSG
         else:
             self.assist = []
@@ -38,7 +38,7 @@ class AssistController:
     def assist_set_command(self, request, _, assist_targets):
         targets = assist_targets.split(" ")
 
-        if not self.leader_controller.can_use_command(request.sender.char_id):
+        if not self.leader_controller.can_use_command(request.sender.char_id, request.conn):
             return LeaderController.NOT_LEADER_MSG
         else:
             for target in targets:

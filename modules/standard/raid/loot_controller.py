@@ -38,7 +38,7 @@ class LootController:
 
     @command(command="loot", params=[Const("clear")], description="Clear all loot", access_level="all", sub_command="modify")
     def loot_clear_cmd(self, request, _):
-        if not self.leader_controller.can_use_command(request.sender.char_id):
+        if not self.leader_controller.can_use_command(request.sender.char_id, request.conn):
             return LeaderController.NOT_LEADER_MSG
 
         if self.loot_list:
@@ -51,7 +51,7 @@ class LootController:
     @command(command="loot", params=[Options(["rem", "remove"]), Int("item_index")],
              description="Remove an existing loot item", access_level="all", sub_command="modify")
     def loot_rem_item_cmd(self, request, _, item_index: int):
-        if not self.leader_controller.can_use_command(request.sender.char_id):
+        if not self.leader_controller.can_use_command(request.sender.char_id, request.conn):
             return LeaderController.NOT_LEADER_MSG
 
         if not self.loot_list:
@@ -67,7 +67,7 @@ class LootController:
     @command(command="loot", params=[Const("increase"), Int("item_index")], description="Increase item count",
              access_level="all", sub_command="modify")
     def loot_increase_item_cmd(self, request, _, item_index: int):
-        if not self.leader_controller.can_use_command(request.sender.char_id):
+        if not self.leader_controller.can_use_command(request.sender.char_id, request.conn):
             return LeaderController.NOT_LEADER_MSG
 
         if not self.loot_list:
@@ -84,7 +84,7 @@ class LootController:
     @command(command="loot", params=[Const("decrease"), Int("item_index")], description="Decrease item count",
              access_level="all", sub_command="modify")
     def loot_decrease_item_cmd(self, request, _, item_index: int):
-        if not self.leader_controller.can_use_command(request.sender.char_id):
+        if not self.leader_controller.can_use_command(request.sender.char_id, request.conn):
             return LeaderController.NOT_LEADER_MSG
 
         if not self.loot_list:
@@ -137,7 +137,7 @@ class LootController:
 
     @command(command="loot", params=[Const("roll")], description="Roll all loot", access_level="all", sub_command="modify")
     def loot_roll_cmd(self, request, _):
-        if not self.leader_controller.can_use_command(request.sender.char_id):
+        if not self.leader_controller.can_use_command(request.sender.char_id, request.conn):
             return LeaderController.NOT_LEADER_MSG
 
         if not self.loot_list:
@@ -169,7 +169,7 @@ class LootController:
 
     @command(command="loot", params=[Const("reroll")], description="Rebuild loot list", access_level="all", sub_command="modify")
     def loot_reroll_cmd(self, request, _):
-        if not self.leader_controller.can_use_command(request.sender.char_id):
+        if not self.leader_controller.can_use_command(request.sender.char_id, request.conn):
             return LeaderController.NOT_LEADER_MSG
 
         if self.loot_list:
@@ -193,7 +193,7 @@ class LootController:
     @command(command="loot", params=[Const("addraiditem"), Int("raid_item_id"), Int("item_count")],
              description="Add item from pre-defined raid to loot list", access_level="all", sub_command="modify")
     def loot_add_raid_item(self, request, _, raid_item_id: int, item_count: int):
-        if not self.leader_controller.can_use_command(request.sender.char_id):
+        if not self.leader_controller.can_use_command(request.sender.char_id, request.conn):
             return LeaderController.NOT_LEADER_MSG
 
         sql = "SELECT r.name, r.comment,  r.ql, a.lowid AS low_id, a.highid AS high_id FROM aodb a LEFT JOIN raid_loot r ON (a.name = r.name AND a.highql >= r.ql) " \
@@ -209,7 +209,7 @@ class LootController:
     @command(command="loot", params=[Const("addraid"), Any("raid"), Any("category")],
              description="Add all loot from pre-defined raid", access_level="all", sub_command="modify")
     def loot_add_raid_loot(self, request, _, raid: str, category: str):
-        if not self.leader_controller.can_use_command(request.sender.char_id):
+        if not self.leader_controller.can_use_command(request.sender.char_id, request.conn):
             return LeaderController.NOT_LEADER_MSG
 
         items = self.db.query(
@@ -233,7 +233,7 @@ class LootController:
     @command(command="loot", params=[Const("add", is_optional=True), Int("item"), Int("item_count", is_optional=True)],
              description="Add an item to loot list by item id", access_level="all", sub_command="modify")
     def loot_add_item_id_cmd(self, request, _, item_id, item_count: int):
-        if not self.leader_controller.can_use_command(request.sender.char_id):
+        if not self.leader_controller.can_use_command(request.sender.char_id, request.conn):
             return LeaderController.NOT_LEADER_MSG
 
         if item_count is None:
@@ -249,7 +249,7 @@ class LootController:
     @command(command="loot", params=[Const("add", is_optional=True), Any("item"), Int("item_count", is_optional=True)],
              description="Add an item to loot list", access_level="all", sub_command="modify")
     def loot_add_item_cmd(self, request, _, item, item_count: int):
-        if not self.leader_controller.can_use_command(request.sender.char_id):
+        if not self.leader_controller.can_use_command(request.sender.char_id, request.conn):
             return LeaderController.NOT_LEADER_MSG
 
         loot = ""

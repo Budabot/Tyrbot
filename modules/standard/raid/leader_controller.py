@@ -16,13 +16,8 @@ import time
 
 @instance()
 class LeaderController:
-    NOT_LEADER_MSG = "Error! You must be raid leader, or have higher access " \
-                     "level than the raid leader to use this command."
-
-    def __init__(self):
-        self.leader = None
-        self.last_activity = None
-        self.echo = False
+    NOT_LEADER_MSG = "Error! You must be raid leader, or have higher access level than the raid leader to use this command."
+    NO_CURRENT_LEADER_MSG = "There is no current raid leader. Use <highlight><symbol>leader set</highlight> to become the raid leader."
 
     def inject(self, registry):
         self.db: DB = registry.get_instance("db")
@@ -41,35 +36,30 @@ class LeaderController:
         self.setting_service.register(self.module_name, "leader_auto_echo", False, BooleanSettingType(),
                                       "If turned on, when someone assume the leader role, leader echo will automatically be activated for said person")
 
-    @command(command="leader", params=[], access_level="all",
+    @command(command="leader", params=[Const("echo", is_optional=True)], access_level="all",
              description="Show the current raid leader")
-    def leader_show_command(self, _):
-        if self.leader:
-            return "The current raid leader is <highlight>%s</highlight>." % self.leader.name
+    def leader_show_command(self, request, _):
+        leader = self.get_leader(request.conn)
+        if leader:
+            on_off = "on" if request.conn.data.leader_echo else "off"
+            return "<highlight>%s</highlight> is set as leader, leader echo is <highlight>%s</highlight>." % \
+                   (leader.name, on_off)
         else:
-            return "There is no current raid leader. Use <highlight><symbol>leader set</highlight> to become the raid leader."
+            return self.NO_CURRENT_LEADER_MSG
 
     @command(command="leader", params=[Const("echo"), Options(["on", "off"])], access_level="all",
              description="Echo whatever the current leader types in channel, in a distinctive color")
     def leader_echo_command(self, request, _2, switch_to):
-        if self.leader:
-            if self.can_use_command(request.sender.char_id):
-                self.echo = switch_to == "on"
+        leader = self.get_leader(request.conn)
+        if leader:
+            if self.can_use_command(request.sender.char_id, request.conn):
+                request.conn.data.leader_echo = (switch_to == "on")
                 return "Leader echo for <highlight>%s</highlight> has been turned <highlight>%s</highlight>." % \
-                       (self.leader.name, switch_to)
+                       (leader.name, switch_to)
             else:
-                return "Insufficient access level."
-        elif self.leader is None and switch_to == "on":
-            return "No current leader set, can't turn on leader echo."
-
-    @command(command="leader", params=[Const("echo")], access_level="all",
-             description="See the current status for leader echoing")
-    def leader_echo_status_command(self, _1, _2):
-        if self.leader:
-            on_off = "on" if self.echo else "off"
-            return "<highlight>%s</highlight> is set as leader, leader echo is <highlight>%s</highlight>." % \
-                   (self.leader.name, on_off)
-        return "No current leader set."
+                return self.NOT_LEADER_MSG
+        elif switch_to == "on":
+            return self.NO_CURRENT_LEADER_MSG
 
     @command(command="leader", params=[Const("clear")], access_level="all",
              description="Clear the current raid leader")
@@ -79,7 +69,8 @@ class LeaderController:
     @command(command="leader", params=[Const("set")], access_level="all",
              description="Set (or unset) yourself as raid leader")
     def leader_set_self_command(self, request, _):
-        if self.leader and self.leader.char_id == request.sender.char_id:
+        leader = self.get_leader(request.conn)
+        if leader and leader.char_id == request.sender.char_id:
             set_to = None
         else:
             set_to = request.sender
@@ -90,51 +81,54 @@ class LeaderController:
              description="Set another character as raid leader")
     def leader_set_other_command(self, request, _, char):
         if not char.char_id:
-            return "Could not find <highlight>%s</highlight>." % char.name
+            return "Could not find character <highlight>%s</highlight>." % char.name
 
         return self.set_raid_leader(request.sender, char, request.conn)
 
     @timerevent(budatime="1h", description="Remove raid leader if raid leader hasn't been active for more than 1 hour")
     def leader_auto_remove(self, event_type, event_data):
-        if self.last_activity:
-            if self.last_activity - int(time.time()) > 3600:
-                self.leader = None
-                self.last_activity = None
-                self.echo = False
-                self.raid_controller.send_message("Raid leader has been automatically cleared because of inactivity.",
-                                                  self.bot.get_temp_conn())
+        for _id, conn in self.bot.get_conns():
+            last_activity = conn.data.get("leader_last_activity")
+            if last_activity:
+                if last_activity - int(time.time()) > 3600:
+                    self.clear_leader(conn)
+                    self.raid_controller.send_message("Raid leader has been automatically cleared because of inactivity.", conn)
 
     @event(PrivateChannelService.LEFT_PRIVATE_CHANNEL_EVENT, "Remove raid leader if raid leader leaves private channel")
     def leader_remove_on_leave_private(self, event_type, event_data):
-        if self.leader:
-            if self.leader.char_id == event_data.char_id:
-                self.leader = None
-                self.last_activity = None
-                self.echo = False
-                self.raid_controller.send_message(f"{event_data.name} left private channel, and has been cleared as raid leader.",
+        leader = self.get_leader(event_data.conn)
+        if leader:
+            if leader.char_id == event_data.char_id:
+                self.clear_leader(event_data.conn)
+                self.raid_controller.send_message(f"{event_data.name} left private channel and has been automatically removed as raid leader.",
                                                   event_data.conn)
 
     @event(OrgMemberController.ORG_MEMBER_LOGOFF_EVENT, "Remove raid leader if raid leader logs off")
     def leader_remove_on_logoff(self, event_type, event_data):
-        if self.leader:
-            if self.leader.char_id == event_data.char_id:
-                self.leader = None
-                self.last_activity = None
-                self.echo = False
-                self.raid_controller.send_message("%s has logged off, and has been cleared as raid leader." % event_data.name,
+        # fix for when buddy logs off before conn knows what org it belongs to
+        if not event_data.conn:
+            return
+
+        leader = self.get_leader(event_data.conn)
+        if leader:
+            if leader.char_id == event_data.char_id:
+                self.clear_leader(event_data.conn)
+                self.raid_controller.send_message("%s has logged off and has been removed as raid leader." % event_data.name,
                                                   event_data.conn)
 
     @event(PrivateChannelService.PRIVATE_CHANNEL_MESSAGE_EVENT, "Echo leader messages from private channel", is_hidden=True)
     def leader_echo_private_event(self, event_type, event_data):
-        if self.leader and self.echo:
-            if self.leader.char_id == event_data.char_id:
+        leader = self.get_leader(event_data.conn)
+        if leader and event_data.conn.data.leader_echo:
+            if leader.char_id == event_data.char_id:
                 if not event_data.message.startswith(self.setting_service.get("symbol").get_value()):
                     self.leader_echo(event_data.char_id, event_data.message, PrivateChannelService.PRIVATE_CHANNEL_COMMAND, conn=event_data.conn)
 
     @event(PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, "Echo leader messages from org channel", is_hidden=True)
     def leader_echo_org_event(self, event_type, event_data):
-        if self.leader and self.echo:
-            if self.leader.char_id == event_data.char_id:
+        leader = self.get_leader(event_data.conn)
+        if leader and event_data.conn.data.leader_echo:
+            if leader.char_id == event_data.char_id:
                 if not event_data.message.startswith(self.setting_service.get("symbol").get_value()):
                     self.leader_echo(event_data.char_id, event_data.message, PublicChannelService.ORG_CHANNEL_COMMAND, event_data.conn)
 
@@ -147,76 +141,84 @@ class LeaderController:
         elif channel == PrivateChannelService.PRIVATE_CHANNEL_COMMAND:
             self.bot.send_private_channel_message("%s: %s" % (sender, color.format_text(message)), conn=conn)
 
-        self.activity_done()
+        self.activity_done(conn)
 
-    def activity_done(self):
-        self.last_activity = int(time.time())
+    def activity_done(self, conn):
+        conn.data.leader_last_activity = int(time.time())
 
-    def can_use_command(self, char_id):
-        if not self.leader or self.access_service.has_sufficient_access_level(char_id, self.leader.char_id):
-            self.activity_done()
+    def can_use_command(self, char_id, conn):
+        leader = self.get_leader(conn)
+        if not leader or self.access_service.has_sufficient_access_level(char_id, leader.char_id):
+            self.activity_done(conn)
             return True
 
         return False
 
+    def clear_leader(self, conn):
+        conn.data.leader = None
+        conn.data.leader_last_activity = None
+        conn.data.leader_echo = False
+
+    def get_leader(self, conn):
+        return conn.data.get("leader")
+
+    def set_leader(self, sender, conn):
+        conn.data.leader = sender
+        if conn.data.get("leader_echo") is None:
+            conn.data.leader_echo = self.setting_service.get("leader_auto_echo").get_value()
+
     def set_raid_leader(self, sender, set_to, conn: Conn):
+        leader = self.get_leader(conn)
+
         if set_to is None:
-            if not self.leader:
+            if not leader:
                 return "There is no current raid leader."
-            elif self.leader.char_id == sender.char_id:
-                self.leader = None
-                self.echo = False
+            elif leader.char_id == sender.char_id:
+                self.clear_leader(conn)
                 return "You have been removed as raid leader."
-            elif self.can_use_command(sender.char_id):
-                old_leader = self.leader
-                self.leader = None
-                self.echo = False
-                self.bot.send_private_message(old_leader.char_id,
+            elif self.can_use_command(sender.char_id, conn):
+                self.clear_leader(conn)
+                self.bot.send_private_message(leader.char_id,
                                               "You have been removed as raid leader by <highlight>%s</highlight>." % sender.name,
                                               conn=conn)
-                return "You have removed <highlight>%s</highlight> as raid leader." % old_leader.name
+                return "You have removed <highlight>%s</highlight> as raid leader." % leader.name
             else:
                 return "You do not have a high enough access level to remove raid leader from <highlight>%s</highlight>." % \
-                       self.leader.name
+                       leader.name
         elif sender.char_id == set_to.char_id:
-            if not self.leader:
-                self.leader = sender
-                self.echo = self.setting_service.get("leader_auto_echo").get_value()
+            if not leader:
+                self.set_leader(sender, conn)
                 reply = "You have been set as raid leader."
-                if self.echo:
+                if conn.data.leader_echo:
                     reply += " Leader echo is <green>enabled</green>."
                 return reply
-            elif self.leader.char_id == sender.char_id:
-                self.leader = None
-                self.echo = False
+            elif leader.char_id == sender.char_id:
+                self.clear_leader(conn)
                 return "You have been removed as raid leader."
-            elif self.can_use_command(sender.char_id):
-                old_leader = self.leader
-                self.leader = sender
-                self.echo = self.setting_service.get("leader_auto_echo").get_value()
+            elif self.can_use_command(sender.char_id, conn):
+                self.set_leader(sender, conn)
                 reply = "<highlight>%s</highlight> has taken raid leader from you." % sender.name
-                if self.echo:
+                if conn.data.leader_echo:
                     reply += " Leader echo is <green>enabled</green>."
-                self.bot.send_private_message(old_leader.char_id, reply, conn=conn)
-                reply = "You have taken raid leader from <highlight>%s</highlight>." % old_leader.name
-                if self.echo:
+                self.bot.send_private_message(leader.char_id, reply, conn=conn)
+                reply = "You have taken raid leader from <highlight>%s</highlight>." % leader.name
+                if conn.data.leader_echo:
                     reply += " Leader echo is <green>enabled</green>."
                 return reply
             else:
                 return "You do not have a high enough access level to take raid leader from <highlight>%s</highlight>." % \
-                       self.leader.name
+                       leader.name
         else:
-            if self.can_use_command(sender.char_id):
-                self.leader = set_to
-                self.echo = self.setting_service.get("leader_auto_echo").get_value()
+            if self.can_use_command(sender.char_id, conn):
+                self.set_leader(set_to, conn)
                 reply = "<highlight>%s</highlight> has set you as raid leader." % sender.name
-                if self.echo:
+                if conn.data.leader_echo:
                     reply += " Leader echo is <green>enabled</green>."
                 self.bot.send_private_message(set_to.char_id, reply, conn=conn)
                 reply = "<highlight>%s</highlight> has been set as raid leader by %s." % (set_to.name, sender.name)
-                if self.echo:
+                if conn.data.leader_echo:
                     reply += " Leader echo is <green>enabled</green>."
                 return reply
             else:
                 return "You do not have a high enough access level to take raid leader from <highlight>%s</highlight>." % \
-                       self.leader.name
+                       leader.name

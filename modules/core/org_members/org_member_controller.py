@@ -201,11 +201,15 @@ class OrgMemberController:
     def handle_buddy_added(self, conn: Conn, packet: BuddyAdded):
         org_member = self.get_org_member(packet.char_id)
         if org_member and (org_member.mode == self.MODE_ADD_AUTO or org_member.mode == self.MODE_ADD_MANUAL):
+            # TODO
+            # when bot starts, buddy packets may be sent before conn knows what org it belongs to
+            # resulting in a conn value of None here
             event_data = DictObject({
                 "char_id": org_member.char_id,
                 "name": self.character_service.get_char_name(packet.char_id),
                 "conn": self.bot.get_conn_by_org_id(org_member.org_id)
             })
+
             if packet.online:
                 self.event_service.fire_event(self.ORG_MEMBER_LOGON_EVENT, event_data)
             else:

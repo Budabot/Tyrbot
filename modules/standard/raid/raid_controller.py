@@ -116,7 +116,8 @@ class RaidController:
         # if a leader is already set, only start raid if sender can take leader from current leader
         msg = self.leader_controller.set_raid_leader(request.sender, request.sender, request.conn)
         request.reply(msg)
-        if self.leader_controller.leader and self.leader_controller.leader.char_id != request.sender.char_id:
+        leader = self.leader_controller.get_leader(request.conn)
+        if leader and leader.char_id != request.sender.char_id:
             return None
 
         self.raid = Raid(raid_name, request.sender)
