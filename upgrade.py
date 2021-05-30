@@ -218,3 +218,8 @@ def run_upgrades():
         if table_exists("setting"):
             db.exec("UPDATE setting SET name = 'arelay_bot' WHERE name = 'arelaybot'")
         version = update_version(version)
+
+    if version == 20:
+        if table_exists("recipe"):
+            db.exec("DROP TABLE recipe")
+        version = update_version(version)
