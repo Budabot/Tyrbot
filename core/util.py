@@ -223,3 +223,12 @@ class Util:
 
     def get_offset_limit(self, page_size, page_number):
         return (page_number - 1) * page_size, page_size
+
+    def group_by(self, iterable, keyfunc):
+        result = {}
+        for item in iterable:
+            k = keyfunc(item)
+            l = result.get(k, list())
+            result[k] = l
+            l.append(item)
+        return result

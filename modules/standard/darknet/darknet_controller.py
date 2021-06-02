@@ -1,3 +1,5 @@
+import re
+
 from core.aochat import server_packets, client_packets
 from core.conn import Conn
 from core.decorators import instance
@@ -6,7 +8,6 @@ from core.lookup.character_service import CharacterService
 from core.setting_service import SettingService
 from core.setting_types import BooleanSettingType
 from core.tyrbot import Tyrbot
-import re
 
 
 @instance()

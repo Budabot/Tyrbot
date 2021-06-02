@@ -256,7 +256,7 @@ class WebsocketRelayController:
     def websocket_relay_update(self, setting_name, old_value, new_value):
         if setting_name == "websocket_relay_enabled":
             event_handlers = [self.handle_connect_event, self.handle_queue_event, self.private_channel_joined_event, self.private_channel_left_event,
-                              self.org_member_logon_event, self.org_member_logoff_event, self.org_member_removed_event]
+                              self.org_member_logon_event, self.org_member_logoff_event]
             for handler in event_handlers:
                 event_handler = self.util.get_handler_name(handler)
                 event_base_type, event_sub_type = self.event_service.get_event_type_parts(handler.event.event_type)

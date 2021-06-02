@@ -78,3 +78,15 @@ class UtilTest(unittest.TestCase):
 
         # test out of order
         self.assertEqual(55, util.interpolate_value(200, {201: 55, 300: 73, 1: 5, 200: 55}))
+
+    def test_group_by(self):
+        util = Util()
+
+        data1 = [1, 2, 3, 4, 5, 6]
+        result1 = util.group_by(data1, lambda x: x % 2)
+        self.assertEqual({1: [1, 3, 5], 0: [2, 4, 6]}, result1)
+
+        data2 = [{"group": "one", "name": "1"}, {"group": "two", "name": "2"}, {"group": "one", "name": "3"}, {"group": "two", "name": "4"}]
+        result2 = util.group_by(data2, lambda x: x["group"])
+        self.assertEqual({'one': [{'group': 'one', 'name': '1'}, {'group': 'one', 'name': '3'}],
+                          'two': [{'group': 'two', 'name': '2'}, {'group': 'two', 'name': '4'}]}, result2)

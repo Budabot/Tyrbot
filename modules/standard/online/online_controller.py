@@ -35,7 +35,6 @@ class OnlineController:
     def start(self):
         self.db.exec("DROP TABLE IF EXISTS online")
         self.db.exec("CREATE TABLE online (char_id INT NOT NULL, afk_dt INT NOT NULL, afk_reason VARCHAR(255) DEFAULT '', channel CHAR(50) NOT NULL, dt INT NOT NULL, UNIQUE(char_id, channel))")
-        self.db.exec("DELETE FROM online")
 
         self.command_alias_service.add_alias("o", "online")
 
@@ -157,6 +156,7 @@ class OnlineController:
             self.set_afk(char_id, int(time.time()), message)
             # channel_reply("<highlight>%s</highlight> is now afk." % char_name)
         else:
+            # TODO handle multiple rows
             row = self.db.query_single("SELECT * FROM online WHERE char_id = ? AND afk_dt > 0", [char_id])
             if row:
                 self.set_afk(char_id, 0, "")
