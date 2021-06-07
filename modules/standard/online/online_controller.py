@@ -269,10 +269,13 @@ class OnlineController:
         channel, priority = item
         return str(priority) + channel
 
-    def register_online_channel(self, channel, sort_priority=2):
-        if channel not in self.channels:
-            self.channels.append((channel, sort_priority))
-            self.channels.sort(key=self.sort_channels)
+    def register_online_channel(self, channel_name, sort_priority=2):
+        for name, _ in self.channels:
+            if name == channel_name:
+                return
+
+        self.channels.append((channel_name, sort_priority))
+        self.channels.sort(key=self.sort_channels)
 
     def deregister_online_channel(self, channel):
         self.db.query("DELETE FROM online WHERE channel = ?", [channel])
