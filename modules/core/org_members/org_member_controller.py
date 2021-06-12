@@ -81,6 +81,9 @@ class OrgMemberController:
         if not org_member or org_member.mode == self.MODE_REM_MANUAL:
             return self.getresp("module/org_members", "notify_rem_fail", {"char": char.name})
 
+        if not request.conn.org_id:
+            return "This bot connection does not have an associated org."
+
         self.process_update(char.char_id, org_member.mode if org_member else None, self.MODE_REM_MANUAL, request.conn)
 
         # fire org_member logoff event
