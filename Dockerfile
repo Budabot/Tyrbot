@@ -25,4 +25,4 @@ USER 1000
 
 WORKDIR /app
 
-CMD ["/app/prod-start.sh"]
+CMD ["/app/container_start.sh"]
