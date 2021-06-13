@@ -33,7 +33,7 @@ try:
     from conf.config_template import config as template_config
 
     # load config values from env vars
-    env_config = get_config_from_env(os.environ)
+    env_config = get_config_from_env(os.environ, logger)
     if env_config:
         # converts dicts to lists
         if "bots" in env_config and isinstance(env_config.bots, dict):
