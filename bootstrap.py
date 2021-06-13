@@ -1,36 +1,14 @@
 from core.feature_flags import FeatureFlags
 from core.registry import Registry
 from core import config_creator
-from core.dict_object import DictObject
 from core.logger import Logger
 from core.aochat.mmdb_parser import MMDBParser
-from core.functions import merge_dicts
+from core.functions import merge_dicts, get_config_from_env
 from upgrade import run_upgrades
 import time
 import os
 import platform
 import sys
-
-
-def get_config_from_env():
-    config_obj = DictObject()
-    for k, v in os.environ.items():
-        if k.startswith("TYRBOT_"):
-            keys = k[7:].lower().split("_")
-            temp_config = config_obj
-            for key in keys[:-1]:
-                key = key.replace("-", "_")
-                # create key if it doesn't already exist
-                if key not in temp_config:
-                    temp_config[key] = DictObject()
-                temp_config = temp_config.get(key)
-            logger.debug("overriding config value from env var '%s'" % k)
-            if v.lower() == "true":
-                v = True
-            elif v.lower() == "false":
-                v = False
-            temp_config[keys[-1].replace("-", "_")] = v
-    return config_obj
 
 
 try:
@@ -55,7 +33,7 @@ try:
     from conf.config_template import config as template_config
 
     # load config values from env vars
-    env_config = get_config_from_env()
+    env_config = get_config_from_env(os.environ)
     if env_config:
         # converts dicts to lists
         if "bots" in env_config and isinstance(env_config.bots, dict):
