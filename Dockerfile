@@ -20,7 +20,7 @@ RUN useradd -u 1000 user
 COPY --chown=1000:1000 --from=0 /app /app
 RUN pip install --no-cache-dir virtualenv
 
-RUN chmod +x ./container_start.sh
+RUN chmod +x /app/container_start.sh
 
 # Security context in k8s requires uid as user
 USER 1000
