@@ -93,9 +93,9 @@ class RaidInstanceController:
 
         return f"All characters have been removed from raid instances."
 
-    @command(command="raidinstance", params=[Const("remove"), Character("char")], access_level="guest",
+    @command(command="raidinstance", params=[Const("unassign"), Character("char")], access_level="guest",
              description="Remove a character from all raid instances", sub_command="leader")
-    def raid_instance_remove_cmd(self, request, _, char):
+    def raid_instance_unassign_cmd(self, request, _, char):
         if not char.char_id:
             return self.getresp("global", "char_not_found", {"char": char.name})
 
@@ -104,7 +104,7 @@ class RaidInstanceController:
         row = self.db.query_single("SELECT r2.name FROM raid_instance_char r1 JOIN raid_instance r2 ON r1.raid_instance_id = r2.id WHERE r1.char_id = ?", [char.char_id])
         if row:
             self.update_char_raid_instance(char.char_id, "")
-            return f"Character <highlight>{char.name}</highlight> has removed from raid instance <highlight>{row.name}</highlight>."
+            return f"Character <highlight>{char.name}</highlight> has been removed from raid instance <highlight>{row.name}</highlight>."
         else:
             return f"Character <highlight>{char.name}</highlight> is not assigned to any raid instances."
 
@@ -157,7 +157,7 @@ class RaidInstanceController:
 
     @command(command="raidinstance", params=[Const("delete"), Any("raid_instance_name")], access_level="admin",
              description="Remove a raid instance", sub_command="manage")
-    def raid_instance_remove_cmd(self, request, _, raid_instance_name):
+    def raid_instance_delete_cmd(self, request, _, raid_instance_name):
         raid_instance = self.get_raid_instance(raid_instance_name)
         if not raid_instance:
             return f"Raid instance <highlight>{raid_instance_name}</highlight> does not exist."
