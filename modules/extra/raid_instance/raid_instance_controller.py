@@ -205,7 +205,7 @@ class RaidInstanceController:
 
     def get_assignment_links(self, raid_instances, char_name):
         l = list(map(lambda x: self.text.make_tellcmd(x.name, f"raidinstance assign {x.name} {char_name}"), raid_instances))
-        l.append(self.text.make_tellcmd("Remove", f"raidinstance remove {char_name}"))
+        l.append(self.text.make_tellcmd("Unassign", f"raidinstance unassign {char_name}"))
         return " ".join(l)
 
     def get_raid_instances(self):
