@@ -1,5 +1,5 @@
 from core.chat_blob import ChatBlob
-from core.command_param_types import Const, Character, Any, Options
+from core.command_param_types import Const, Character, Any
 from core.decorators import instance, command
 from core.logger import Logger
 from core.translation_service import TranslationService
@@ -204,9 +204,9 @@ class RaidInstanceController:
         return msg
 
     def get_assignment_links(self, raid_instances, char_name):
-        l = list(map(lambda x: self.text.make_tellcmd(x.name, f"raidinstance assign {x.name} {char_name}"), raid_instances))
-        l.append(self.text.make_tellcmd("Unassign", f"raidinstance unassign {char_name}"))
-        return " ".join(l)
+        links = list(map(lambda x: self.text.make_tellcmd(x.name, f"raidinstance assign {x.name} {char_name}"), raid_instances))
+        links.append(self.text.make_tellcmd("Unassign", f"raidinstance unassign {char_name}"))
+        return " ".join(links)
 
     def get_raid_instances(self):
         return self.db.query("SELECT id, name, conn_id FROM raid_instance ORDER BY name")

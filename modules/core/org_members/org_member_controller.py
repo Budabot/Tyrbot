@@ -103,6 +103,9 @@ class OrgMemberController:
         if org_member and (org_member.mode == self.MODE_ADD_AUTO or org_member.mode == self.MODE_ADD_MANUAL):
             return self.getresp("module/org_members", "notify_add_fail", {"char": char.name})
 
+        if not request.conn.org_id:
+            return "This bot connection does not have an associated org."
+
         self.process_update(char.char_id, org_member.mode if org_member else None, self.MODE_ADD_MANUAL, request.conn)
 
         # fire org_member logon event
