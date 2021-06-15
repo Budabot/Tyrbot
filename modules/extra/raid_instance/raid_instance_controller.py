@@ -7,6 +7,8 @@ from core.translation_service import TranslationService
 
 @instance()
 class RaidInstanceController:
+    UNASSIGNED_RAID_INSTANCE_ID = 0
+
     def __init__(self):
         self.logger = Logger(__name__)
 
@@ -53,7 +55,7 @@ class RaidInstanceController:
         blob += "Tip: You can use @ at the start of your message to send it to all bot channels.\n\n"
 
         blob += "<header2>Unassigned</header2>\n"
-        for char in chars_by_raid_instance.get(0, []):
+        for char in chars_by_raid_instance.get(self.UNASSIGNED_RAID_INSTANCE_ID, []):
             num_unassigned += 1
             blob += self.compact_char_display(char)
             blob += " " + self.get_assignment_links(raid_instances, char.name)
@@ -103,7 +105,7 @@ class RaidInstanceController:
 
         row = self.db.query_single("SELECT r2.name FROM raid_instance_char r1 JOIN raid_instance r2 ON r1.raid_instance_id = r2.id WHERE r1.char_id = ?", [char.char_id])
         if row:
-            self.update_char_raid_instance(char.char_id, "")
+            self.update_char_raid_instance(char.char_id, self.UNASSIGNED_RAID_INSTANCE_ID)
             return f"Character <highlight>{char.name}</highlight> has been removed from raid instance <highlight>{row.name}</highlight>."
         else:
             return f"Character <highlight>{char.name}</highlight> is not assigned to any raid instances."
@@ -174,7 +176,7 @@ class RaidInstanceController:
                              "FROM raid_instance_char r1 "
                              "LEFT JOIN raid_instance r2 ON r1.raid_instance_id = r2.id "
                              "LEFT JOIN player p ON r1.char_id = p.char_id "
-                             "ORDER BY r1.raid_instance_id != 0, p.profession, r2.name")
+                             "ORDER BY r1.raid_instance_id != ?, p.profession, r2.name", [self.UNASSIGNED_RAID_INSTANCE_ID])
         return data
 
     def refresh_raid_instance_chars(self):
@@ -185,10 +187,10 @@ class RaidInstanceController:
             current_private_channel.update(conn.private_channel.keys())
 
         for char_id in current_private_channel.difference(current_raid_instances):
-            self.db.exec("INSERT INTO raid_instance_char (char_id, raid_instance_id) VALUES (?, ?)", [char_id, 0])
+            self.db.exec("INSERT INTO raid_instance_char (char_id, raid_instance_id) VALUES (?, ?)", [char_id, self.UNASSIGNED_RAID_INSTANCE_ID])
 
         for char_id in current_raid_instances.difference(current_private_channel):
-            self.db.exec("DELETE FROM raid_instance_char WHERE char_id = ? AND raid_instance_id = 0", [char_id])
+            self.db.exec("DELETE FROM raid_instance_char WHERE char_id = ? AND raid_instance_id = ?", [char_id, self.UNASSIGNED_RAID_INSTANCE_ID])
 
     def update_char_raid_instance(self, char_id, raid_instance_id):
         return self.db.exec("UPDATE raid_instance_char SET raid_instance_id = ? WHERE char_id = ?", [raid_instance_id, char_id])
