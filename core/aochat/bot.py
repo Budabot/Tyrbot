@@ -26,7 +26,7 @@ class Bot:
             self.socket.close()
             self.socket = None
 
-    def login(self, username, password, character, is_main):
+    def login(self, username, password, character, is_main, wait_for_logged_in=True):
         self.is_main = is_main
 
         character = character.capitalize()
@@ -54,7 +54,7 @@ class Bot:
         # select character
         self.char_id = character_list_packet.char_ids[index]
         self.char_name = character_list_packet.names[index]
-        if character_list_packet.online_statuses[index]:
+        if character_list_packet.online_statuses[index] and wait_for_logged_in:
             sleep_duration = 20
             self.logger.warning("Character '%s' is already logged on, waiting %ds before proceeding" % (self.char_name, sleep_duration))
             time.sleep(sleep_duration)

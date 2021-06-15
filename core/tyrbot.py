@@ -138,6 +138,9 @@ class Tyrbot:
 
             if i == 0:
                 self.primary_conn_id = _id
+                wait_for_logged_in = True
+            else:
+                wait_for_logged_in = False
 
             conn = self.create_conn(_id)
             conn.connect(config.server.host, config.server.port)
@@ -146,7 +149,7 @@ class Tyrbot:
             if not bot.is_main and not self.mass_message_queue:
                 self.mass_message_queue = FifoQueue()
 
-            packet = conn.login(bot.username, bot.password, bot.character, is_main=bot.is_main)
+            packet = conn.login(bot.username, bot.password, bot.character, is_main=bot.is_main, wait_for_logged_in=wait_for_logged_in)
             if not packet:
                 self.status = BotStatus.ERROR
                 return False
