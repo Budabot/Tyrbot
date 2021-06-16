@@ -2,7 +2,7 @@ import hjson
 
 from core.aochat.server_packets import BuddyAdded
 from core.chat_blob import ChatBlob
-from core.command_param_types import Const, Character, Options
+from core.command_param_types import Character, Options
 from core.conn import Conn
 from core.decorators import instance, event, timerevent, command
 from core.dict_object import DictObject
