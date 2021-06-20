@@ -3,7 +3,8 @@ from core.registry import Registry
 from core import config_creator
 from core.logger import Logger
 from core.aochat.mmdb_parser import MMDBParser
-from core.functions import merge_dicts, get_config_from_env
+from core.functions import get_config_from_env
+from mergedeep import merge
 from upgrade import run_upgrades
 import time
 import os
@@ -42,7 +43,7 @@ try:
         if "module_paths" in env_config and isinstance(env_config.module_paths, dict):
             env_config.module_paths = list(env_config.module_paths.values())
 
-        config = merge_dicts(template_config, env_config)
+        config = merge({}, template_config, env_config)
         logger.info("Reading config from env vars")
     else:
         # start config wizard if config file does not exist

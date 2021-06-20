@@ -15,11 +15,6 @@ def get_attrs(obj):
     return attrs
 
 
-def merge_dicts(dict1, dict2):
-    res = DictObject({**dict1, **dict2})
-    return res
-
-
 def get_config_from_env(env_dict, logger):
     config_obj = DictObject()
     for k, v in env_dict.items():
