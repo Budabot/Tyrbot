@@ -129,13 +129,13 @@ with new_db.transaction():
 print("migrated %d records" % len(data))
 
 # org_members_<myname>
-print("migrating data to org_member table")
-data = old_db.query("SELECT p.charid AS char_id, CASE WHEN mode = 'org' THEN 'add_auto' WHEN mode = 'add' THEN 'add_manual' WHEN mode = 'del' THEN 'rem_manual' END AS mode FROM org_members_<myname> o JOIN players p ON o.name = p.name WHERE p.charid > 0")
-with new_db.transaction():
-    for row in data:
-        new_db.exec("DELETE FROM org_member WHERE char_id = ?", [row.char_id])
-        new_db.exec("INSERT INTO org_member (char_id, mode, org_id) VALUES (?, ?, ?)", [row.char_id, row.mode, org_id])
-print("migrated %d records" % len(data))
+#print("migrating data to org_member table")
+#data = old_db.query("SELECT p.charid AS char_id, CASE WHEN mode = 'org' THEN 'add_auto' WHEN mode = 'add' THEN 'add_manual' WHEN mode = 'del' THEN 'rem_manual' END AS mode FROM org_members_<myname> o JOIN players p ON o.name = p.name WHERE p.charid > 0")
+#with new_db.transaction():
+#    for row in data:
+#        new_db.exec("DELETE FROM org_member WHERE char_id = ?", [row.char_id])
+#        new_db.exec("INSERT INTO org_member (char_id, mode, org_id) VALUES (?, ?, ?)", [row.char_id, row.mode, org_id])
+#print("migrated %d records" % len(data))
 
 # org_members_<myname>
 print("migrating data to last_seen table")
