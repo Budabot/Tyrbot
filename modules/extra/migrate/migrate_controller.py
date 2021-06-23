@@ -105,9 +105,11 @@ class MigrateController:
     @command(command="budabot", params=[Const("migrate"), Const("log_messages")], access_level="superadmin",
              description="Migrate quotes from a Bebot database")
     def migrate_log_messages_cmd(self, request, _1, _2):
-        data = self.db2.query("SELECT p2.charid AS char_id, p1.sender, p1.name, p1.value FROM preferences_<myname> p1 LEFT JOIN players p2 ON p1.sender = p2.name "
+        data = self.db2.query(f"SELECT p2.charid AS char_id, p1.sender, p1.name, p1.value FROM preferences_{self.bot_name} p1 LEFT JOIN players p2 ON p1.sender = p2.name "
                               "WHERE p1.name = 'logon_msg' OR p1.name = 'logoff_msg'")
         count_inactive = 0
+        count_logon = 0
+        count_logoff = 0
 
         request.reply("Processing %s log messages records..." % len(data))
 
@@ -122,12 +124,15 @@ class MigrateController:
                 if not existing:
                     self.db.exec("INSERT INTO log_messages (char_id, logon, logoff) VALUES (?, NULL, NULL)", [char_id])
 
-                if row.value == 'logon_msg':
+                if row.name == 'logon_msg' and row.value:
                     self.db.exec("UPDATE log_messages SET logon = ? WHERE char_id = ?", [char_id, row.value])
-                elif row.value == 'logoff_msg':
+                    count_logon += 1
+                elif row.name == 'logoff_msg' and row.value:
                     self.db.exec("UPDATE log_messages SET logoff = ? WHERE char_id = ?", [char_id, row.value])
+                    count_logoff += 1
 
-        return f"<highlight>{len(data)}</highlight> logon and logoff messages successfully migrated. <highlight>{count_inactive}</highlight> messages were from inactive characters that could not be resolved to char ids."
+        return f"<highlight>{count_logon}</highlight> logon and <highlight>{count_logoff}</highlight> logoff messages successfully migrated. " \
+               f"<highlight>{count_inactive}</highlight> messages were from inactive characters that could not be resolved to char ids."
 
     def resolve_to_char_id(self, name, char_id):
         if char_id and char_id > 0:
