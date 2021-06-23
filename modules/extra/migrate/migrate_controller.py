@@ -102,6 +102,33 @@ class MigrateController:
 
         return f"Quotes successfully migrated. <highlight>{count_inactive}</highlight> posters were inactive and could not be resolved to char ids."
 
+    @command(command="budabot", params=[Const("migrate"), Const("log_messages")], access_level="superadmin",
+             description="Migrate quotes from a Bebot database")
+    def migrate_log_messages_cmd(self, request, _1, _2):
+        data = self.db2.query("SELECT p2.charid AS char_id, p1.sender, p1.name, p1.value FROM preferences_<myname> p1 LEFT JOIN players p2 ON p1.sender = p2.name "
+                              "WHERE p1.name = 'logon_msg' OR p1.name = 'logoff_msg'")
+        count_inactive = 0
+
+        request.reply("Processing %s log messages records..." % len(data))
+
+        for row in data:
+            char_id = self.resolve_to_char_id(row.sender, row.char_id)
+
+            if not char_id:
+                count_inactive += 1
+            else:
+                existing = self.db.query_single("SELECT 1 FROM log_messages WHERE char_id = ?", [char_id])
+
+                if not existing:
+                    self.db.exec("INSERT INTO log_messages (char_id, logon, logoff) VALUES (?, NULL, NULL)", [char_id])
+
+                if row.value == 'logon_msg':
+                    self.db.exec("UPDATE log_messages SET logon = ? WHERE char_id = ?", [char_id, row.value])
+                elif row.value == 'logoff_msg':
+                    self.db.exec("UPDATE log_messages SET logoff = ? WHERE char_id = ?", [char_id, row.value])
+
+        return f"<highlight>{len(data)}</highlight> logon and logoff messages successfully migrated. <highlight>{count_inactive}</highlight> messages were from inactive characters that could not be resolved to char ids."
+
     def resolve_to_char_id(self, name, char_id):
         if char_id and char_id > 0:
             return char_id

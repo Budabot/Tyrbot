@@ -61,10 +61,12 @@ class LogController:
         row = self.db.query_single("SELECT * FROM log_messages WHERE char_id = ?", [char_id])
         if row and row.logon:
             return "<grey>" + row.logon + "</grey>"
-        return ""
+        else:
+            return ""
 
     def get_logoff(self, char_id):
         row = self.db.query_single("SELECT * FROM log_messages WHERE char_id = ?", [char_id])
         if row and row.logoff:
             return "<grey>" + row.logoff + "</grey>"
-        return ""
+        else:
+            return ""
