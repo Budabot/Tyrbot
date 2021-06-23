@@ -125,10 +125,10 @@ class MigrateController:
                     self.db.exec("INSERT INTO log_messages (char_id, logon, logoff) VALUES (?, NULL, NULL)", [char_id])
 
                 if row.name == 'logon_msg' and row.value:
-                    self.db.exec("UPDATE log_messages SET logon = ? WHERE char_id = ?", [char_id, row.value])
+                    self.db.exec("UPDATE log_messages SET logon = ? WHERE char_id = ?", [row.value, char_id])
                     count_logon += 1
                 elif row.name == 'logoff_msg' and row.value:
-                    self.db.exec("UPDATE log_messages SET logoff = ? WHERE char_id = ?", [char_id, row.value])
+                    self.db.exec("UPDATE log_messages SET logoff = ? WHERE char_id = ?", [row.value, char_id])
                     count_logoff += 1
 
         return f"<highlight>{count_logon}</highlight> logon and <highlight>{count_logoff}</highlight> logoff messages successfully migrated. " \
