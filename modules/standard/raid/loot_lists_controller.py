@@ -111,8 +111,6 @@ class LootListsController:
 
         self.command_alias_service.add_alias("alba", "albtraum")
 
-        self.setting_service.register(self.module_name, "use_item_icons", True, BooleanSettingType(), "Use icons when building loot list")
-
     #                   #
     #       APF         #
     #                   #
@@ -388,12 +386,9 @@ class LootListsController:
 
             comment = " (%s)" % item.comment if item.comment != "" else ""
 
-            if self.setting_service.get("use_item_icons").get_value():
-                item_link = self.text.make_item(item.low_id, item.high_id, item.ql, self.text.make_image(item.icon))
-                blob += "%s\n%s%s\n | %s\n\n" % (item_link, item.name, comment, add_links)
-            else:
-                item_link = self.text.make_item(item.low_id, item.high_id, item.ql, item.name)
-                blob += "%s%s\n | %s\n\n" % (item_link, comment, add_links)
+            item_link = self.text.make_item(item.low_id, item.high_id, item.ql, self.text.make_image(item.icon))
+            blob += "%s\n%s%s\n | %s\n\n" % (item_link, item.name, comment, add_links)
+
         return blob
 
     def get_items(self, raid, category):

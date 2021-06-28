@@ -13,7 +13,7 @@ class LootItem:
         if isinstance(self.item, DictObject):
             item_name = "%s (%s)" % (self.item.name, self.comment) if self.comment else self.item.name
             text = Registry.get_instance("text")
-            return text.make_item(self.item.low_id, self.item.high_id, self.item.ql, item_name)
+            return text.make_item(self.item.low_id, self.item.high_id, self.item.ql, text.make_image(self.item.icon) + " " + item_name)
         else:
             item_name = "%s (%s)" % (self.item, self.comment) if self.comment else self.item
             return item_name

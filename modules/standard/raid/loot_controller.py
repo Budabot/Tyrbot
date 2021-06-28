@@ -196,7 +196,7 @@ class LootController:
         if not self.leader_controller.can_use_command(request.sender.char_id, request.conn):
             return LeaderController.NOT_LEADER_MSG
 
-        sql = "SELECT r.name, r.comment,  r.ql, a.lowid AS low_id, a.highid AS high_id FROM aodb a LEFT JOIN raid_loot r ON (a.name = r.name AND a.highql >= r.ql) " \
+        sql = "SELECT r.name, r.comment, r.ql, a.lowid AS low_id, a.highid AS high_id, a.icon FROM aodb a LEFT JOIN raid_loot r ON (a.name = r.name AND a.highql >= r.ql) " \
               "WHERE r.id = ? LIMIT 1"
         item = self.db.query_single(sql, [raid_item_id])
 
@@ -258,6 +258,7 @@ class LootController:
         items = re.findall(r"(([^<]+)?<a href=[\"\']itemref://(\d+)/(\d+)/(\d+)[\"\']>([^<]+)</a>([^<]+)?)", item)
         if items and item_count == 1:
             for item in items:
+                # TODO lookup icon
                 item = self.text.make_item(int(item[2]), int(item[3]), int(item[4]), item[5])
                 if loot != "":
                     loot += ", " + item
