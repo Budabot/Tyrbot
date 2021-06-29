@@ -53,7 +53,7 @@ INSERT INTO `playfields` VALUES (625, 'Milky Way', 'MW', 0);
 INSERT INTO `playfields` VALUES (630, 'Pleasant Meadows', 'PM', 0);
 INSERT INTO `playfields` VALUES (635, 'Stret East Bank', 'SEB', 0);
 INSERT INTO `playfields` VALUES (640, 'Tir', 'TIR', 0);
-INSERT INTO `playfields` VALUES (641, 'Tir Arena', NULL, 0);
+INSERT INTO `playfields` VALUES (641, 'Tir Arena', 'TA', 0);
 INSERT INTO `playfields` VALUES (646, 'Tir County', 'TC', 0);
 INSERT INTO `playfields` VALUES (647, 'Greater Tir County', 'GTC', 0);
 INSERT INTO `playfields` VALUES (650, 'Upper Stret East Bank', 'USEB', 0);
