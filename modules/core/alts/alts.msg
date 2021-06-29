@@ -45,11 +45,11 @@
     "de_DE": "Error! Du kannst deinen Main nicht entfernen."
   },
   "altadmin_add_same": {
-    "en_US": "Error! alt and main are identical.",
+    "en_US": "Error! Alt and main are identical.",
     "de_DE": "Error! Der Alt und Main Charakter sind identisch."
   },
   "altadmin_add_success": {
-    "en_US": "The Toon <highlight>{alt}</highlight> got added as an alt of <highlight>{main}</highlight> successfully.",
+    "en_US": "The character <highlight>{alt}</highlight> was added as an alt of <highlight>{main}</highlight> successfully.",
     "de_DE": "Der Charakter <highlight>{alt}</highlight> ist nun ein Alt von <highlight>{main}</highlight>."
 },
   "altadmin_rem_success": {
