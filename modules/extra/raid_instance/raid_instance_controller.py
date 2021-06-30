@@ -2,6 +2,7 @@ from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Character, Any
 from core.decorators import instance, command
 from core.logger import Logger
+from core.setting_types import TextSettingType
 from core.translation_service import TranslationService
 
 
@@ -16,6 +17,7 @@ class RaidInstanceController:
         self.bot = registry.get_instance("bot")
         self.db = registry.get_instance("db")
         self.text = registry.get_instance("text")
+        self.setting_service = registry.get_instance("setting_service")
         self.util = registry.get_instance("util")
         self.character_service = registry.get_instance("character_service")
         self.private_channel_service = registry.get_instance("private_channel_service")
@@ -27,6 +29,10 @@ class RaidInstanceController:
 
         self.db.exec("DROP TABLE IF EXISTS raid_instance_char")
         self.db.exec("CREATE TABLE raid_instance_char (raid_instance_id INT NOT NULL, char_id INT PRIMARY KEY)")
+
+        self.setting_service.register(self.module_name, "raid_instance_relay_symbol", "@",
+                                      TextSettingType(["!", "#", "*", "@", "$", "+", "-"]),
+                                      "Symbol for external relay")
 
     @command(command="raidinstance", params=[], access_level="guest",
              description="Show the current raid instances")
@@ -52,8 +58,6 @@ class RaidInstanceController:
                 blob += "\n"
             blob += "\n"
 
-        blob += "Tip: You can use @ at the start of your message to send it to all bot channels.\n\n"
-
         blob += "<header2>Unassigned</header2>\n"
         for char in chars_by_raid_instance.get(self.UNASSIGNED_RAID_INSTANCE_ID, []):
             num_unassigned += 1
@@ -62,6 +66,8 @@ class RaidInstanceController:
             blob += "\n"
 
         blob += "\n" + self.text.make_tellcmd("Clear All", "raidinstance clear")
+        symbol = self.setting_service.get("raid_instance_relay_symbol").get_value()
+        blob += f"\n\nTip: You can use '{symbol}' at the start of your message to send it to all bot channels.\n\n"
         blob += "\n\nInspired by the <highlight>RIS</highlight> module written for Bebot by <highlight>Bitnykk</highlight>"
 
         return ChatBlob("Raid Instance (%d / %d)" % (num_assigned, num_unassigned), blob)
