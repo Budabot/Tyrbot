@@ -15,7 +15,9 @@ class LootListsController:
             "s13": "Sector 13",
             "s28": "Sector 28",
             "s35": "Sector 35",
-            "s42": "Sector 42",
+            "west": "Sector 42 - West",
+            "north": "Sector 42 - North",
+            "east": "Sector 42 - East",
             "db": "DustBrigade",
             "aquarius": "Aquarius",
             "sagittarius": "Sagittarius",
@@ -115,7 +117,7 @@ class LootListsController:
     #       APF         #
     #                   #
     @command(command="apf",
-             params=[Options(["s7", "s13", "s28", "s35"])],
+             params=[Options(["s7", "s13", "s28", "s35", "west", "north", "east"])],
              description="Get list of items from APF", access_level="all")
     def apf_loot_cmd(self, _, category):
         add_all = True if category != "s7" else False
@@ -131,7 +133,7 @@ class LootListsController:
     @command(command="apf", params=[], description="Get list of items from APF", access_level="all")
     def apf_tables_cmd(self, _):
         blob = ""
-        sql = "SELECT category FROM raid_loot WHERE raid = 'APF' GROUP BY category"
+        sql = "SELECT category FROM raid_loot WHERE raid = 'APF' GROUP BY category ORDER BY category"
         raids = self.db.query(sql)
         for raid in raids:
             add_loot = self.text.make_tellcmd("Add loot", "loot addraid APF %s" % raid.category)
@@ -362,7 +364,7 @@ class LootListsController:
         return ChatBlob("Condemned Subway (HL) loot tables", blob)
 
     # Raids available in AO:
-    # s7, s10, s13, s28, s35, s42, aquarius, virgo, sagittarius, beastweapons, beastarmor,
+    # s7, s10, s13, s28, s35, aquarius, virgo, sagittarius, beastweapons, beastarmor,
     # beaststars, tnh, aries, leo, cancer, gemini, libra, pisces, taurus,
     # capricorn, scorpio, tara, vortexx, mitaar, 12m, db1, db2, db3, poh,
     # biodome, manex (collector), hollow islands, mercenaries
