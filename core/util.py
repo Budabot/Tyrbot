@@ -196,11 +196,11 @@ class Util:
 
     def format_date(self, timestamp):
         value = datetime.datetime.fromtimestamp(timestamp, tz=pytz.UTC)
-        return value.strftime('%Y-%m-%d')
+        return value.strftime("%Y-%m-%d")
 
     def format_datetime(self, timestamp):
         value = datetime.datetime.fromtimestamp(timestamp, tz=pytz.UTC)
-        return value.strftime('%Y-%m-%d %H:%M:%S %Z')
+        return value.strftime("%Y-%m-%d %H:%M:%S %Z")
 
     def interpolate_value(self, interpolated_ql, interpolation_ranges, precision=0):
         min_val = None

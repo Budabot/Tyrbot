@@ -1,10 +1,18 @@
+import pytz
+import re
+import requests
+import time
+from requests import ReadTimeout
+from datetime import datetime
+
 from core.chat_blob import ChatBlob
-from core.command_param_types import Any, Int
+from core.command_param_types import Any, Int, Const, Options, NamedParameters
 from core.conn import Conn
 from core.db import DB
 from core.decorators import instance, command, event
 from core.dict_object import DictObject
 from core.event_service import EventService
+from core.feature_flags import FeatureFlags
 from core.logger import Logger
 from core.aochat import server_packets
 from core.lookup.pork_service import PorkService
@@ -12,7 +20,6 @@ from core.public_channel_service import PublicChannelService
 from core.text import Text
 from core.tyrbot import Tyrbot
 from modules.standard.helpbot.playfield_controller import PlayfieldController
-import re
 
 
 @instance()
@@ -37,6 +44,7 @@ class TowerController:
         self.bot: Tyrbot = registry.get_instance("bot")
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
+        self.util = registry.get_instance("util")
         self.event_service: EventService = registry.get_instance("event_service")
         self.pork_service: PorkService = registry.get_instance("pork_service")
         self.playfield_controller: PlayfieldController = registry.get_instance("playfield_controller")
@@ -48,6 +56,7 @@ class TowerController:
         self.bot.register_packet_handler(server_packets.PublicChannelMessage.id, self.handle_public_channel_message)
 
         self.db.load_sql_file(self.module_dir + "/" + "tower_site.sql")
+        self.db.load_sql_file(self.module_dir + "/" + "tower_site_bounds.sql")
 
     @command(command="lc", params=[], access_level="all",
              description="See a list of playfields containing land control tower sites")
@@ -60,6 +69,66 @@ class TowerController:
 
         return ChatBlob("Land Control Playfields (%d)" % len(data), blob)
 
+    if FeatureFlags.USE_TOWER_API:
+        @command(command="lc", params=[Const("org"), Any("org_name")], access_level="all",
+                 description="See a list of land control tower sites by org")
+        def lc_org_cmd(self, request, _, org_name):
+            params = {"enabled": "true", "org_name": org_name}
+            data = self.lookup_tower_info(params)
+
+            if not data:
+                return "Could not find tower info for org <highlight>%s</highlight>." % org_name
+
+            blob = ""
+            current_day_time = int(time.time()) % 86400
+            for row in data:
+                blob += "<pagebreak>" + self.format_site_info(row, current_day_time) + "\n\n"
+
+            title = "Tower Info: %s (%d)" % (org_name, len(data))
+
+            return ChatBlob(title, blob)
+
+    if FeatureFlags.USE_TOWER_API:
+        @command(command="lc", params=[Options(["open", "closed", "all"]), NamedParameters(["min_ql", "max_ql", "faction"])], access_level="all",
+                 description="See a list of land control tower sites by QL")
+        def lc_search_cmd(self, request, site_status, named_params):
+            t = int(time.time())
+            current_day_time = t % 86400
+
+            params = {"enabled": "true"}
+            if named_params.min_ql:
+                params["min_ql"] = named_params.min_ql
+
+            if named_params.max_ql:
+                params["max_ql"] = named_params.max_ql
+
+            if named_params.faction:
+                params["faction"] = named_params.faction
+
+            if site_status.lower() == "open":
+                params["min_close_time"] = current_day_time
+                params["max_close_time"] = self.day_time(current_day_time + (3600 * 6))
+            elif site_status.lower() == "closed":
+                params["min_close_time"] = self.day_time(current_day_time + (3600 * 6))
+                params["max_close_time"] = current_day_time
+
+            data = self.lookup_tower_info(params)
+
+            if not data:
+                return "Could not find tower info for QL range <highlight>%d - %d</highlight>." % (named_params.min_ql, named_params.max_ql)
+
+            blob = ""
+            for row in data:
+                blob += "<pagebreak>" + self.format_site_info(row, current_day_time) + "\n\n"
+
+            title = "Tower Info: %s" % site_status.capitalize()
+            title += " QL %s - %s" % (named_params.min_ql or "1", named_params.max_ql or "300")
+            if named_params.faction:
+                title += " [%s]" % named_params.faction.capitalize()
+            title += " (%d)" % len(data)
+
+            return ChatBlob(title, blob)
+
     @command(command="lc", params=[Any("playfield"), Int("site_number", is_optional=True)], access_level="all",
              description="See a list of land control tower sites in a particular playfield")
     def lc_playfield_cmd(self, request, playfield_name, site_number):
@@ -67,12 +136,7 @@ class TowerController:
         if not playfield:
             return "Could not find playfield <highlight>%s</highlight>." % playfield_name
 
-        if site_number:
-            data = self.db.query("SELECT t.*, p.short_name, p.long_name FROM tower_site t JOIN playfields p ON t.playfield_id = p.id WHERE t.playfield_id = ? AND site_number = ?",
-                                 [playfield.id, site_number])
-        else:
-            data = self.db.query("SELECT t.*, p.short_name, p.long_name FROM tower_site t JOIN playfields p ON t.playfield_id = p.id WHERE t.playfield_id = ?",
-                                 [playfield.id])
+        data = self.get_tower_site_info(playfield.id, site_number)
 
         if not data:
             if site_number:
@@ -81,8 +145,9 @@ class TowerController:
                 return "Could not find tower info for <highlight>%s</highlight>." % playfield.long_name
 
         blob = ""
+        current_day_time = int(time.time()) % 86400
         for row in data:
-            blob += "<pagebreak>" + self.format_site_info(row) + "\n\n"
+            blob += "<pagebreak>" + self.format_site_info(row, current_day_time) + "\n\n"
 
         if site_number:
             title = "Tower Info: %s %d" % (playfield.long_name, site_number)
@@ -97,13 +162,53 @@ class TowerController:
         if conn.org_id and TowerController.ALL_TOWERS_ID not in conn.channels:
             self.logger.warning("The primary bot is a member of an org but does not have access to 'All Towers' channel and therefore will not receive tower attack messages")
 
-    def format_site_info(self, row):
-        blob = "Short name: <highlight>%s %d</highlight>\n" % (row.short_name, row.site_number)
-        blob += "Long name: <highlight>%s, %s</highlight>\n" % (row.site_name, row.long_name)
-        blob += "Level range: <highlight>%d-%d</highlight>\n" % (row.min_ql, row.max_ql)
-        blob += "Coordinates: %s\n" % self.text.make_chatcmd("%dx%d" % (row.x_coord, row.y_coord), "/waypoint %d %d %d" % (row.x_coord, row.y_coord, row.playfield_id))
+    def format_site_info(self, row, current_day_time):
+        blob = "<highlight>%s %d</highlight> (QL %d-%d)\n" % (row.playfield_short_name, row.site_number, row.min_ql, row.max_ql)
+
+        if row.get("org_name"):
+            t = int(time.time())
+            value = datetime.fromtimestamp(row.close_time, tz=pytz.UTC)
+            current_status_time = row.close_time - current_day_time
+            if current_status_time < 0:
+                current_status_time += 86400
+
+            if current_status_time <= 3600:
+                status = "<red>5%%</red> (closes in %s)" % self.util.time_to_readable(current_status_time)
+            elif current_status_time <= (3600 * 6):
+                status = "<orange>25%%</green> (closes in %s)" % self.util.time_to_readable(current_status_time)
+            else:
+                status = "<green>75%%</green> (opens in %s)" % self.util.time_to_readable(current_status_time - (3600 * 6))
+
+            blob += "%s [%s] QL %d <highlight>%s</highlight> %s\n" % (
+                row.org_name,
+                self.text.get_formatted_faction(row.faction),
+                row.ql,
+                self.util.time_to_readable(t - row.created_at),
+                self.text.make_chatcmd("%dx%d" % (row.x_coord, row.y_coord), "/waypoint %d %d %d" % (row.x_coord, row.y_coord, row.playfield_id)))
+            blob += "Close Time: <highlight>%s</highlight> %s\n" % (value.strftime("%H:%M:%S %Z"), status)
+        else:
+            blob += "%s\n" % self.text.make_chatcmd("%dx%d" % (row.x_coord, row.y_coord), "/waypoint %d %d %d" % (row.x_coord, row.y_coord, row.playfield_id))
+            if not row.enabled:
+                blob += "<red>Disabled</red>\n"
 
         return blob
+
+    def get_tower_site_info(self, playfield_id, site_number):
+        if FeatureFlags.USE_TOWER_API:
+            params = {"playfield_id": playfield_id}
+            if site_number:
+                params["site_number"] = site_number
+
+            result = self.lookup_tower_info(params)
+        else:
+            if site_number:
+                result = self.db.query("SELECT t.*, p.short_name, p.long_name FROM tower_site t JOIN playfields p ON t.playfield_id = p.id WHERE t.playfield_id = ? AND site_number = ?",
+                                       [playfield_id, site_number])
+            else:
+                result = self.db.query("SELECT t.*, p.short_name, p.long_name FROM tower_site t JOIN playfields p ON t.playfield_id = p.id WHERE t.playfield_id = ?",
+                                       [playfield_id])
+
+        return result
 
     def handle_public_channel_message(self, conn: Conn, packet: server_packets.PublicChannelMessage):
         # only listen to tower packets from first bot, to avoid triggering multiple times
@@ -239,3 +344,27 @@ class TowerController:
         # Unknown victory
         self.logger.warning("Unknown tower victory: " + str(packet))
         return None
+
+    def lookup_tower_info(self, params):
+        url = "https://tower-api.jkbff.com/api/towers"
+
+        try:
+            r = requests.get(url, params, headers={"User-Agent": f"Tyrbot {self.bot.version}"}, timeout=5)
+            result = r.json()
+            for key, obj in enumerate(result):
+                result[key] = DictObject(obj)
+        except ReadTimeout:
+            self.logger.warning("Timeout while requesting '%s'" % url)
+            result = None
+        except Exception as e:
+            self.logger.error("Error requesting history for url '%s'" % url, e)
+            result = None
+
+        return result
+
+    def day_time(self, day_t):
+        if day_t > 86400:
+            day_t -= 86400
+        elif day_t < 0:
+            day_t += 86400
+        return day_t
