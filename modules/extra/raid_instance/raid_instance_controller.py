@@ -29,7 +29,7 @@ class RaidInstanceController:
         self.db.exec("CREATE TABLE IF NOT EXISTS raid_instance (id INT PRIMARY KEY AUTOINCREMENT, name VARCHAR(255) NOT NULL, conn_id VARCHAR(50) NOT NULL)")
 
         self.db.exec("DROP TABLE IF EXISTS raid_instance_char")
-        self.db.exec("CREATE TABLE raid_instance_char (raid_instance_id INT NOT NULL, char_id INT PRIMARY KEY)")
+        self.db.exec("CREATE TABLE raid_instance_char (raid_instance_id INT NOT NULL, char_id INT PRIMARY KEY, is_leader TINYINT NOT NULL)")
 
         self.setting_service.register(self.module_name, "raid_instance_relay_symbol", "@",
                                       TextSettingType(["!", "#", "*", "@", "$", "+", "-"]),
@@ -44,22 +44,29 @@ class RaidInstanceController:
         blob += "\n\n"
         num_assigned = 0
         num_unassigned = 0
-        chars_by_raid_instance = self.util.group_by(self.get_chars_in_private_channel(), lambda x: x.raid_instance_id)
 
         raid_instances = self.get_raid_instances()
 
-        for raid_instance in raid_instances:
-            conn = self.bot.conns.get(raid_instance.conn_id)
-            bot_name = "(" + conn.char_name + ")" if conn else ""
-            blob += f"<header2>{raid_instance.name} {bot_name}</header2>\n"
-            for char in chars_by_raid_instance.get(raid_instance.id, []):
-                if raid_instance.id == self.UNASSIGNED_RAID_INSTANCE_ID:
-                    num_unassigned += 1
-                else:
-                    num_assigned += 1
-                blob += self.compact_char_display(char)
-                blob += " " + self.get_assignment_links(raid_instances, char.name)
-                blob += "\n"
+        data = self.get_raid_instance_chars()
+        current_raid_instance_id = None
+        for row in data:
+            if row.raid_instance_id != current_raid_instance_id:
+                conn = self.bot.conns.get(row.conn_id)
+                bot_name = "(" + conn.char_name + ")" if conn else ""
+                blob += f"\n<header2>{row.raid_instance_name} {bot_name}</header2>\n"
+                current_raid_instance_id = row.raid_instance_id
+
+            if not row.char_id:
+                continue
+
+            if row.raid_instance_id == self.UNASSIGNED_RAID_INSTANCE_ID:
+                num_unassigned += 1
+            else:
+                num_assigned += 1
+            blob += self.compact_char_display(row)
+            add_leader_link = (row.raid_instance_id != self.UNASSIGNED_RAID_INSTANCE_ID and not row.is_leader)
+            blob += " " + self.get_assignment_links(raid_instances, row.name, add_leader_link)
+            blob += "\n"
             blob += "\n"
 
         blob += "\n" + self.text.make_tellcmd("Clear All", "raidinstance clear")
@@ -112,6 +119,20 @@ class RaidInstanceController:
             return f"Character <highlight>{char.name}</highlight> has been removed from raid instance <highlight>{row.name}</highlight>."
         else:
             return f"Character <highlight>{char.name}</highlight> is not assigned to any raid instances."
+
+    @command(command="raidinstance", params=[Const("leader"), Character("char")], access_level="guest",
+             description="Set the leader for a raid instance", sub_command="leader")
+    def raid_instance_leader_cmd(self, request, _, char):
+        if not char.char_id:
+            return self.getresp("global", "char_not_found", {"char": char.name})
+
+        raid_instance = self.get_raid_instance_by_char(char.char_id)
+        if not raid_instance:
+            return f"Character <highlight>{char.name}</highlight> does not belong to a raid instance."
+
+        self.set_leader(char.char_id, raid_instance.id)
+
+        return f"Character <highlight>{char.name}</highlight> has been set as the leader for raid instance <highlight>{raid_instance.name}</highlight>."
 
     @command(command="raidinstance", params=[Const("apply")], access_level="guest",
              description="Apply the current raid instance configuration", sub_command="leader")
@@ -172,14 +193,24 @@ class RaidInstanceController:
 
         return f"Raid instance <highlight>{raid_instance_name}</highlight> has been deleted."
 
-    def get_chars_in_private_channel(self):
+    def get_raid_instance_chars(self):
         self.refresh_raid_instance_chars()
 
-        data = self.db.query("SELECT p.*, COALESCE(p.name, r1.char_id) AS name, r1.raid_instance_id "
-                             "FROM raid_instance_char r1 "
-                             "LEFT JOIN raid_instance r2 ON r1.raid_instance_id = r2.id "
+        data = self.db.query("SELECT * FROM ("
+                             "SELECT p.*, COALESCE(p.name, r1.char_id) AS name, r2.id AS raid_instance_id, "
+                             "r1.is_leader, r2.name AS raid_instance_name, r2.conn_id "
+                             "FROM raid_instance r2 "
+                             "LEFT JOIN raid_instance_char r1 ON r1.raid_instance_id = r2.id "
                              "LEFT JOIN player p ON r1.char_id = p.char_id "
-                             "ORDER BY r1.raid_instance_id != ?, p.profession, r2.name", [self.UNASSIGNED_RAID_INSTANCE_ID])
+                             "UNION "
+                             "SELECT p.*, COALESCE(p.name, r3.char_id) AS name, r3.raid_instance_id, "
+                             "r3.is_leader, 'Unassigned' AS raid_instance_name, '' AS conn_id "
+                             "FROM raid_instance_char r3 "
+                             "LEFT JOIN player p ON r3.char_id = p.char_id "
+                             "WHERE r3.raid_instance_id = ?) "
+                             "ORDER BY raid_instance_id != ? DESC, raid_instance_name, is_leader, profession",
+                             [self.UNASSIGNED_RAID_INSTANCE_ID, self.UNASSIGNED_RAID_INSTANCE_ID])
+
         return data
 
     def refresh_raid_instance_chars(self):
@@ -190,13 +221,17 @@ class RaidInstanceController:
             current_private_channel.update(conn.private_channel.keys())
 
         for char_id in current_private_channel.difference(current_raid_instances):
-            self.db.exec("INSERT INTO raid_instance_char (char_id, raid_instance_id) VALUES (?, ?)", [char_id, self.UNASSIGNED_RAID_INSTANCE_ID])
+            self.db.exec("INSERT INTO raid_instance_char (char_id, raid_instance_id, is_leader) VALUES (?, ?, 0)", [char_id, self.UNASSIGNED_RAID_INSTANCE_ID])
 
         for char_id in current_raid_instances.difference(current_private_channel):
             self.db.exec("DELETE FROM raid_instance_char WHERE char_id = ? AND raid_instance_id = ?", [char_id, self.UNASSIGNED_RAID_INSTANCE_ID])
 
     def update_char_raid_instance(self, char_id, raid_instance_id):
-        return self.db.exec("UPDATE raid_instance_char SET raid_instance_id = ? WHERE char_id = ?", [raid_instance_id, char_id])
+        return self.db.exec("UPDATE raid_instance_char SET raid_instance_id = ?, is_leader = 0 WHERE char_id = ?", [raid_instance_id, char_id])
+
+    def set_leader(self, char_id, raid_instance_id):
+        self.db.exec("UPDATE raid_instance_char SET is_leader = 0 WHERE raid_instance_id = ?", [raid_instance_id])
+        self.db.exec("UPDATE raid_instance_char SET is_leader = 1 WHERE raid_instance_id = ? AND char_id = ?", [raid_instance_id, char_id])
 
     def compact_char_display(self, char_info):
         if char_info.level:
@@ -206,11 +241,15 @@ class RaidInstanceController:
         else:
             msg = "<highlight>Unknown(%d)</highlight>" % char_info.char_id
 
+        if char_info.is_leader:
+            msg += " [Leader]"
+
         return msg
 
-    def get_assignment_links(self, raid_instances, char_name):
+    def get_assignment_links(self, raid_instances, char_name, add_leader_link):
         links = list(map(lambda x: self.text.make_tellcmd(x.name, f"raidinstance assign {x.name} {char_name}"), raid_instances))
-        links.append(self.text.make_tellcmd("Unassign", f"raidinstance unassign {char_name}"))
+        if add_leader_link:
+            links.insert(0, self.text.make_tellcmd("MakeLeader", f"raidinstance leader {char_name}"))
         return " ".join(links)
 
     def get_raid_instances(self):
@@ -220,6 +259,11 @@ class RaidInstanceController:
 
     def get_raid_instance(self, raid_instance_name):
         return self.db.query_single("SELECT id, name, conn_id FROM raid_instance WHERE name LIKE ?", [raid_instance_name])
+
+    def get_raid_instance_by_char(self, char_id):
+        return self.db.query_single("SELECT id, name, conn_id "
+                                    "FROM raid_instance r1 JOIN raid_instance_char r2 ON r1.id = r2.raid_instance_id "
+                                    "WHERE r2.char_id = ?", [char_id])
 
     def get_conn_by_id(self, conn_id):
         conn = self.bot.conns.get(conn_id)
