@@ -207,46 +207,22 @@ INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('AP
 INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 35', 1, 'Hacker ICE-Breaker Source', 'All ICE', 1);
 INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 35', 1, 'Kyr''Ozch Helmet', '2500 Token board', 1);
 
-INSERT INTO raid_loot (raid, category, ql, name, high_id, comment, multiloot) VALUES ('APF', 'Sector 42 - West', 250, 'Dynamic Sleeve of Aries', 244542, 'Melee', 1);
-INSERT INTO raid_loot (raid, category, ql, name, high_id, comment, multiloot) VALUES ('APF', 'Sector 42 - West', 250, 'Dynamic Sleeve of Aries', 244541, 'Range', 1);
-INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - West', 250, 'Aries'' Tiara of the Quick Witted', '', 1);
-INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - West', 250, 'Quick-Draw Holster of Aries', '', 1);
-INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - West', 250, 'Boon of Aries', '', 1);
-INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - West', 250, 'Enthusiastic Spirit Helper of the Leo', '', 1);
-INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - West', 250, 'Leo''s Faithful Boots of Ancient Gold', '', 1);
-INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - West', 250, 'Leo''s Grandiose Gold Armband of Plenty', '', 1);
-INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - West', 250, 'Leo''s Mellow Gold Pad of Auto-Support', '', 1);
-INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - West', 250, 'Virgo''s Arrow Guide', '', 1);
-INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - West', 250, 'Virgo''s Analytical Spirit Helper', '', 1);
-INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - West', 250, 'Virgo''s Practical Spirit Helper', '', 1);
-INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - West', 250, 'Virgo''s Modest Spirit of Faith', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - West', 250, 'Inertial Adjustment Processing Unit', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - West', 250, 'Notum Amplification Coil', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - West', 1, 'Hacker ICE-Breaker Source', 'All ICE', 1);
 
-INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - North', 250, 'Capricorn Bracer of Toxication', '', 1);
-INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - North', 250, 'Gloves of the Caring Capricorn', '', 1);
-INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - North', 250, 'Capricorn''s Reliable Memory', '', 1);
-INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - North', 250, 'Capricorn''s Guide to Alchemy', '', 1);
-INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - North', 250, 'Comfort of the Sagittarius', '', 1);
-INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - North', 250, 'First Creation of the Sagittarius', '', 1);
-INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - North', 250, 'Sagittarius''s Hearty Spirit Helper', '', 1);
-INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - North', 250, 'Strong Mittens of the Sagittarius', '', 1);
-INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - North', 250, 'Punters of the Scorpio', '', 1);
-INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - North', 250, 'Scorpio''s Shell of Change', '', 1);
-INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - North', 250, 'Scorpio''s Aim of Anger', '', 1);
-INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - North', 250, 'Sash of Scorpio Strength', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - North', 250, 'Action Probability Estimator', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - North', 250, 'Dynamic Gas Redistribution Valves', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - North', 1, 'Hacker ICE-Breaker Source', 'All ICE', 1);
 
-INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - East', 250, 'Aquarius'' Boots of Small Steps', '', 1);
-INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - East', 250, 'Mediative Gloves of the Aquarius', '', 1);
-INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - East', 250, 'Intuitive Memory of the Aquarius', '', 1);
-INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - East', 250, 'Aquarius''s Multitask Calculator', '', 1);
-INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - East', 250, 'Cancer''s Gloves of Automatic Knowledge', '', 1);
-INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - East', 250, 'Cancer''s Silver Boots of the Autodidact', '', 1);
-INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - East', 250, 'Cancer''s Ring of Circumspection', '', 1);
-INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - East', 250, 'Cancer''s Time-Saving Memory', '', 1);
-INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - East', 250, 'Collector Pants of Gemini', '', 1);
-INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - East', 250, 'Gemini''s Double Band of Linked Information', '', 1);
-INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - East', 250, 'Cross Dimensional Gyro of Gemini', '', 1);
-INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - East', 250, 'Gemini''s Green Scope of Variety', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - East', 250, 'Energy Redistribution Unit', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - East', 250, 'Visible Light Remodulation Device', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - East', 1, 'Hacker ICE-Breaker Source', 'All ICE', 1);
 
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - Artillery Commander', 1, 'Kyr''Ozch Invasion Plan', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - Artillery Commander', 1, 'Unlearning Device', '', 5);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - Artillery Commander', 215, 'Alien Matrix Alpha Box', '', 2);
+INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('APF', 'Sector 42 - Artillery Commander', 215, 'Alien Matrix Beta Box', '', 2);
 
 -- Albtraum
 INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Albtraum', 'Crystals & Crystalised Memories', 250, 'Inert Knowledge Crystal', '', 1);
@@ -379,7 +355,8 @@ INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Pa
 INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Pande', 'The Night Heart', 200, 'Notum Seed', '', 1);
 INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Pande', 'The Night Heart', 200, 'Novictum Seed', '', 1);
 
-INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Pande', 'Aries', 250, 'Dynamic Sleeve of Aries', '', 1);
+INSERT INTO raid_loot (raid, category, ql, name, high_id, comment, multiloot) VALUES ('Pande', 'Aries', 250, 'Dynamic Sleeve of Aries', 244542, 'Melee', 1);
+INSERT INTO raid_loot (raid, category, ql, name, high_id, comment, multiloot) VALUES ('Pande', 'Aries', 250, 'Dynamic Sleeve of Aries', 244541, 'Range', 1);
 INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Pande', 'Aries', 250, 'Aries'' Tiara of the Quick Witted', '', 1);
 INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Pande', 'Aries', 250, 'Quick-Draw Holster of Aries', '', 1);
 INSERT INTO raid_loot (raid, category, ql, name, comment, multiloot) VALUES ('Pande', 'Aries', 250, 'Boon of Aries', '', 1);

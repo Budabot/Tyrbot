@@ -15,9 +15,10 @@ class LootListsController:
             "s13": "Sector 13",
             "s28": "Sector 28",
             "s35": "Sector 35",
-            "west": "Sector 42 - West",
-            "north": "Sector 42 - North",
-            "east": "Sector 42 - East",
+            "s42west": "Sector 42 - West",
+            "s42north": "Sector 42 - North",
+            "s42east": "Sector 42 - East",
+            "s42ac": "Sector 42 - Artillery Commander",
             "db": "DustBrigade",
             "aquarius": "Aquarius",
             "sagittarius": "Sagittarius",
@@ -106,6 +107,10 @@ class LootListsController:
         self.command_alias_service.add_alias("s13", "apf s13")
         self.command_alias_service.add_alias("s28", "apf s28")
         self.command_alias_service.add_alias("s35", "apf s35")
+        self.command_alias_service.add_alias("s42east", "apf s42east")
+        self.command_alias_service.add_alias("s42west", "apf s42west")
+        self.command_alias_service.add_alias("s42north", "apf s42north")
+        self.command_alias_service.add_alias("s42ac", "apf s42ac")
 
         self.command_alias_service.add_alias("mitaar", "xan mitaar")
         self.command_alias_service.add_alias("12m", "xan 12m")
@@ -117,7 +122,7 @@ class LootListsController:
     #       APF         #
     #                   #
     @command(command="apf",
-             params=[Options(["s7", "s13", "s28", "s35", "west", "north", "east"])],
+             params=[Options(["s7", "s13", "s28", "s35", "s42west", "s42north", "s42east", "s42ac"])],
              description="Get list of items from APF", access_level="all")
     def apf_loot_cmd(self, _, category):
         add_all = True if category != "s7" else False
@@ -143,7 +148,7 @@ class LootListsController:
             count = self.db.query_single(sql, [raid.category]).count
 
             blob += "%s - %s items\n" % (raid.category, count)
-            blob += " | [%s] [%s]\n\n" % (show_loot, add_loot)
+            blob += "[%s] [%s]\n\n" % (show_loot, add_loot)
         return ChatBlob("APF loot tables", blob)
 
     #               #
@@ -163,7 +168,7 @@ class LootListsController:
             count = self.db.query_single(sql, [raid.category]).count
 
             blob += "%s - %s items\n" % (raid.category, count)
-            blob += " | [%s]\n\n" % show_loot
+            blob += "[%s]\n\n" % show_loot
 
         return ChatBlob("Albtraum loot tables", blob)
 
@@ -209,7 +214,7 @@ class LootListsController:
             count = self.db.query_single(sql, [raid.category]).count
 
             blob += "%s - %s items\n" % (raid.category, count)
-            blob += " | [%s]\n\n" % show_loot
+            blob += "[%s]\n\n" % show_loot
         return ChatBlob("Pandemonium loot tables", blob)
 
     #               #
@@ -238,7 +243,7 @@ class LootListsController:
             count = self.db.query_single(sql, [raid.category]).count
 
             blob += "%s - %s items\n" % (raid.category, count)
-            blob += " | [%s]\n\n" % show_loot
+            blob += "[%s]\n\n" % show_loot
 
         return ChatBlob("DustBrigade loot tables", blob)
 
@@ -271,7 +276,7 @@ class LootListsController:
             count = self.db.query_single(sql, [raid]).count
 
             blob += "%s - %s items\n" % (raid, count)
-            blob += " | [%s]\n\n" % show_loot
+            blob += "[%s]\n\n" % show_loot
 
         return ChatBlob("Xan loot tables", blob)
 
@@ -300,7 +305,7 @@ class LootListsController:
             count = self.db.query_single(sql, [raid.category]).count
 
             blob += "%s - %s items\n" % (raid.category, count)
-            blob += " | [%s]\n\n" % show_loot
+            blob += "[%s]\n\n" % show_loot
         return ChatBlob("Pyramid of Home loot tables", blob)
 
     #########################################
@@ -331,7 +336,7 @@ class LootListsController:
             count = self.db.query_single(sql, [raid.category, "Temple of Three Winds (HL)"]).count
 
             blob += "%s - %s items\n" % (raid.category, count)
-            blob += " | [%s]\n\n" % show_loot
+            blob += "[%s]\n\n" % show_loot
         return ChatBlob("Temple of Three Winds (HL) loot tables", blob)
 
     ###############################
@@ -360,14 +365,9 @@ class LootListsController:
             count = self.db.query_single(sql, [raid.category, "Condemned Subway (HL)"]).count
 
             blob += "%s - %s items\n" % (raid.category, count)
-            blob += " | [%s]\n\n" % show_loot
+            blob += "[%s]\n\n" % show_loot
         return ChatBlob("Condemned Subway (HL) loot tables", blob)
 
-    # Raids available in AO:
-    # s7, s10, s13, s28, s35, aquarius, virgo, sagittarius, beastweapons, beastarmor,
-    # beaststars, tnh, aries, leo, cancer, gemini, libra, pisces, taurus,
-    # capricorn, scorpio, tara, vortexx, mitaar, 12m, db1, db2, db3, poh,
-    # biodome, manex (collector), hollow islands, mercenaries
     def build_list(self, items, raid=None, category=None, add_all=False):
         blob = ""
 
@@ -389,7 +389,7 @@ class LootListsController:
             comment = " (%s)" % item.comment if item.comment != "" else ""
 
             item_link = self.text.make_item(item.low_id, item.high_id, item.ql, self.text.make_image(item.icon))
-            blob += "%s\n%s%s\n | %s\n\n" % (item_link, item.name, comment, add_links)
+            blob += "%s\n%s%s\n%s\n\n" % (item_link, item.name, comment, add_links)
 
         return blob
 
