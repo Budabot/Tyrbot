@@ -1,6 +1,7 @@
 from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Character, Any
 from core.decorators import instance, command
+from core.dict_object import DictObject
 from core.logger import Logger
 from core.setting_types import TextSettingType
 from core.translation_service import TranslationService
@@ -52,22 +53,18 @@ class RaidInstanceController:
             bot_name = "(" + conn.char_name + ")" if conn else ""
             blob += f"<header2>{raid_instance.name} {bot_name}</header2>\n"
             for char in chars_by_raid_instance.get(raid_instance.id, []):
-                num_assigned += 1
+                if raid_instance.id == self.UNASSIGNED_RAID_INSTANCE_ID:
+                    num_unassigned += 1
+                else:
+                    num_assigned += 1
                 blob += self.compact_char_display(char)
                 blob += " " + self.get_assignment_links(raid_instances, char.name)
                 blob += "\n"
             blob += "\n"
 
-        blob += "<header2>Unassigned</header2>\n"
-        for char in chars_by_raid_instance.get(self.UNASSIGNED_RAID_INSTANCE_ID, []):
-            num_unassigned += 1
-            blob += self.compact_char_display(char)
-            blob += " " + self.get_assignment_links(raid_instances, char.name)
-            blob += "\n"
-
         blob += "\n" + self.text.make_tellcmd("Clear All", "raidinstance clear")
         symbol = self.setting_service.get("raid_instance_relay_symbol").get_value()
-        blob += f"\n\nTip: You can use '{symbol}' at the start of your message to send it to all bot channels.\n\n"
+        blob += f"\n\nTip: You can use <highlight>{symbol}</highlight> at the start of your message to send it to all bot channels."
         blob += "\n\nInspired by the <highlight>RIS</highlight> module written for Bebot by <highlight>Bitnykk</highlight>"
 
         return ChatBlob("Raid Instance (%d / %d)" % (num_assigned, num_unassigned), blob)
@@ -217,7 +214,9 @@ class RaidInstanceController:
         return " ".join(links)
 
     def get_raid_instances(self):
-        return self.db.query("SELECT id, name, conn_id FROM raid_instance ORDER BY name")
+        data = self.db.query("SELECT id, name, conn_id FROM raid_instance ORDER BY name")
+        data.append(DictObject({"id": self.UNASSIGNED_RAID_INSTANCE_ID, "name": "Unassigned", "conn_id": None}))
+        return data
 
     def get_raid_instance(self, raid_instance_name):
         return self.db.query_single("SELECT id, name, conn_id FROM raid_instance WHERE name LIKE ?", [raid_instance_name])
