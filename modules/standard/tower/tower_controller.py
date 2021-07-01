@@ -89,21 +89,21 @@ class TowerController:
             return ChatBlob(title, blob)
 
     if FeatureFlags.USE_TOWER_API:
-        @command(command="lc", params=[Options(["open", "closed", "all"]), NamedParameters(["min_ql", "max_ql", "faction"])], access_level="all",
-                 description="See a list of land control tower sites by QL")
-        def lc_search_cmd(self, request, site_status, named_params):
+        @command(command="lc", params=[Options(["open", "closed", "all"]),
+                                       Options(["omni", "clan", "neutral", "all"], is_optional=True),
+                                       Int("min_ql", is_optional=True),
+                                       Int("max_ql", is_optional=True)],
+                 access_level="all", description="See a list of land control tower sites by QL and faction")
+        def lc_search_cmd(self, request, site_status, faction, min_ql, max_ql):
             t = int(time.time())
             current_day_time = t % 86400
+            min_ql = min_ql or 1
+            max_ql = max_ql or 300
 
-            params = {"enabled": "true"}
-            if named_params.min_ql:
-                params["min_ql"] = named_params.min_ql
+            params = {"enabled": "true", "min_ql": min_ql, "max_ql": max_ql}
 
-            if named_params.max_ql:
-                params["max_ql"] = named_params.max_ql
-
-            if named_params.faction:
-                params["faction"] = named_params.faction
+            if faction:
+                params["faction"] = faction
 
             if site_status.lower() == "open":
                 params["min_close_time"] = current_day_time
@@ -115,16 +115,16 @@ class TowerController:
             data = self.lookup_tower_info(params)
 
             if not data:
-                return "Could not find tower info for QL range <highlight>%d - %d</highlight>." % (named_params.min_ql, named_params.max_ql)
+                return "There are no tower sites matching your criteria."
 
             blob = ""
             for row in data:
                 blob += "<pagebreak>" + self.format_site_info(row, current_day_time) + "\n\n"
 
             title = "Tower Info: %s" % site_status.capitalize()
-            title += " QL %s - %s" % (named_params.min_ql or "1", named_params.max_ql or "300")
-            if named_params.faction:
-                title += " [%s]" % named_params.faction.capitalize()
+            title += " QL %d - %d" % (min_ql, max_ql)
+            if faction:
+                title += " [%s]" % faction.capitalize()
             title += " (%d)" % len(data)
 
             return ChatBlob(title, blob)
