@@ -97,7 +97,7 @@ class TowerController:
                                        Options(["omni", "clan", "neutral", "all"], is_optional=True),
                                        Int("min_ql", is_optional=True),
                                        Int("max_ql", is_optional=True)],
-                 access_level="all", description="See a list of land control tower sites by QL and faction")
+                 access_level="all", description="See a list of land control tower sites by QL, faction, and open status")
         def lc_search_cmd(self, request, site_status, faction, min_ql, max_ql):
             t = int(time.time())
             current_day_time = t % 86400
@@ -164,7 +164,7 @@ class TowerController:
     def handle_connect_event(self, event_type, event_data):
         conn = self.bot.get_primary_conn()
         if conn.org_id and TowerController.ALL_TOWERS_ID not in conn.channels:
-            self.logger.warning("The primary bot is a member of an org but does not have access to 'All Towers' channel and therefore will not receive tower attack messages")
+            self.logger.warning("The primary bot is a member of an org but does not have access to 'All Towers' channel and therefore will not be able to record tower attacks")
 
     def format_site_info(self, row, current_day_time):
         blob = "<highlight>%s %d</highlight> (QL %d-%d)\n" % (row.playfield_short_name, row.site_number, row.min_ql, row.max_ql)
