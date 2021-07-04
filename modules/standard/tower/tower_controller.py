@@ -70,21 +70,25 @@ class TowerController:
         return ChatBlob("Land Control Playfields (%d)" % len(data), blob)
 
     if FeatureFlags.USE_TOWER_API:
-        @command(command="lc", params=[Const("org"), Any("org_name")], access_level="all",
+        @command(command="lc", params=[Const("org"), Any("org")], access_level="all",
                  description="See a list of land control tower sites by org")
-        def lc_org_cmd(self, request, _, org_name):
-            params = {"enabled": "true", "org_name": org_name}
+        def lc_org_cmd(self, request, _, org):
+            params = {"enabled": "true"}
+            if org.isdigit():
+                params["org_id"] = org
+            else:
+                params["org_name"] = org
             data = self.lookup_tower_info(params)
 
             if not data:
-                return "Could not find tower info for org <highlight>%s</highlight>." % org_name
+                return "Could not find tower info for org <highlight>%s</highlight>." % org
 
             blob = ""
             current_day_time = int(time.time()) % 86400
             for row in data:
                 blob += "<pagebreak>" + self.format_site_info(row, current_day_time) + "\n\n"
 
-            title = "Tower Info: %s (%d)" % (org_name, len(data))
+            title = "Tower Info: %s (%d)" % (org, len(data))
 
             return ChatBlob(title, blob)
 
