@@ -36,9 +36,9 @@ class LeaderController:
         self.setting_service.register(self.module_name, "leader_auto_echo", False, BooleanSettingType(),
                                       "If turned on, when someone assume the leader role, leader echo will automatically be activated for said person")
 
-    @command(command="leader", params=[Const("echo", is_optional=True)], access_level="all",
+    @command(command="leader", params=[], access_level="all",
              description="Show the current raid leader")
-    def leader_show_command(self, request, _):
+    def leader_show_command(self, request):
         leader = self.get_leader(request.conn)
         if leader:
             on_off = "on" if request.conn.data.leader_echo else "off"
@@ -48,23 +48,27 @@ class LeaderController:
             return self.NO_CURRENT_LEADER_MSG
 
     @command(command="leader", params=[Const("echo"), Options(["on", "off"])], access_level="all",
-             description="Echo whatever the current leader types in channel, in a distinctive color")
-    def leader_echo_command(self, request, _2, switch_to):
+             description="Enable or disable leader echo")
+    def leader_echo_command(self, request, _, switch_to):
         leader = self.get_leader(request.conn)
         if leader:
+            switch_to = switch_to.lower()
             if self.can_use_command(request.sender.char_id, request.conn):
                 request.conn.data.leader_echo = (switch_to == "on")
                 return "Leader echo for <highlight>%s</highlight> has been turned <highlight>%s</highlight>." % \
                        (leader.name, switch_to)
             else:
                 return self.NOT_LEADER_MSG
-        elif switch_to == "on":
+        else:
             return self.NO_CURRENT_LEADER_MSG
 
     @command(command="leader", params=[Const("clear")], access_level="all",
              description="Clear the current raid leader")
     def leader_clear_command(self, request, _):
-        return self.set_raid_leader(request.sender, None, request.conn)
+        if not self.can_use_command(request.sender.char_id, request.conn):
+            return self.NOT_LEADER_MSG
+        else:
+            return self.set_raid_leader(request.sender, None, request.conn)
 
     @command(command="leader", params=[Const("set")], access_level="all",
              description="Set (or unset) yourself as raid leader")
