@@ -38,7 +38,7 @@ class CoLeaderController(LeaderController):
         if not self.can_use_command(request.sender.char_id, request.conn):
             return self.NOT_LEADER_MSG
         else:
-            request.conn.data["co_leaders"] = []
+            self.clear_co_leaders()
             return self.set_raid_leader(request.sender, None, request.conn)
 
     @command(command="leader", params=[Const("add"), Character("character")], access_level="all",
@@ -147,7 +147,7 @@ class CoLeaderController(LeaderController):
         return conn.data.get("co_leaders", {})
 
     def clear_co_leaders(self, conn):
-        conn.data.co_leaders = []
+        conn.data.co_leaders = {}
 
     def add_co_leader(self, sender, conn):
         co_leaders = conn.data.get("co_leaders", {})
