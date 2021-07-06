@@ -243,6 +243,10 @@ class LootController:
         if not item:
             return "Could not find item with ID <highlight>%d</highlight>." % item_id
 
+        item.low_id = item.lowid
+        item.high_id = item.highid
+        item.ql = item.highql
+
         self.add_item_to_loot(item, None, item_count)
         self.raid_controller.send_message("%s was added to loot list." % item.name, request.conn)
 
@@ -256,17 +260,24 @@ class LootController:
         if item_count is None:
             item_count = 1
         items = re.findall(r"(([^<]+)?<a href=[\"\']itemref://(\d+)/(\d+)/(\d+)[\"\']>([^<]+)</a>([^<]+)?)", item)
-        if items and item_count == 1:
-            for item in items:
-                # TODO lookup icon
-                item = self.text.make_item(int(item[2]), int(item[3]), int(item[4]), item[5])
+        if items:
+            for _1, _2, low_id, high_id, ql, name, _3 in items:
+                item_link = self.text.make_item(int(low_id), int(high_id), int(ql), name)
                 if loot != "":
-                    loot += ", " + item
+                    loot += ", " + item_link
                 else:
-                    loot += item
-                self.add_item_to_loot(item)
+                    loot += item_link
+
+                row = self.items_controller.get_by_item_id(high_id, ql)
+                if row:
+                    row.low_id = row.lowid
+                    row.high_id = row.highid
+                    row.ql = row.highql
+                    self.add_item_to_loot(row, None, item_count)
+                else:
+                    self.add_item_to_loot(item_link, None, item_count)
         else:
-            loot += item
+            loot = item
             self.add_item_to_loot(item, None, item_count)
 
         self.raid_controller.send_message("%s was added to loot list." % loot, request.conn)
@@ -305,6 +316,10 @@ class LootController:
         for i, loot_item in self.loot_list.items():
             bidders = loot_item.bidders
 
+            item_image = loot_item.get_item_image()
+            if item_image:
+                blob += item_image + "\n"
+
             blob += "%d. %s x%d" % (i, loot_item.get_item_str(), loot_item.count)
 
             add_to_loot = self.text.make_tellcmd("Join", "loot join %d" % i)
@@ -312,9 +327,9 @@ class LootController:
             blob += " [%s] [%s]\n" % (add_to_loot, remove_from_loot)
 
             if len(bidders) > 0:
-                blob += " | %s\n" % ', '.join(bidders)
+                blob += "Bidders: %s\n" % ', '.join(bidders)
             else:
-                blob += " | No bidders\n"
-            blob += "\n"
+                blob += "Bidders: -\n"
+            blob += "\n\n"
 
         return ChatBlob("Loot (%d)" % len(self.loot_list), blob)

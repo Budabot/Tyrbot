@@ -3,7 +3,6 @@ from core.command_param_types import Options
 from core.db import DB
 from core.decorators import instance, command
 from core.setting_service import SettingService
-from core.setting_types import BooleanSettingType
 from core.text import Text
 
 
