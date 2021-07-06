@@ -259,7 +259,7 @@ class Text:
         msg = self.format_message(msg, conn)
 
         if footer:
-            footer = "\n\n" + self.format_message(footer.replace("\"", "&quot;", conn).strip())
+            footer = "\n\n" + self.format_message(footer.replace("\"", "&quot;", conn).strip(), conn)
         else:
             footer = ""
 
