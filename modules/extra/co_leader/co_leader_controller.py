@@ -19,16 +19,18 @@ class CoLeaderController(LeaderController):
              description="Show the current raid leaders and co-leaders")
     def leader_show_command(self, request):
         leader = self.get_leader(request.conn)
+        msg = ""
         if leader:
             on_off = "on" if request.conn.data.leader_echo else "off"
-            msg = "<highlight>%s</highlight> is set as leader, " % leader.name
-            co_leaders = self.get_co_leaders(request.conn)
+            msg += "<highlight>%s</highlight> is set as leader, " % leader.name
             msg += "leader echo is <highlight>%s</highlight>." % on_off
-            if co_leaders:
-                msg += " Co-leaders: <highlight>%s</highlight>" % ", ".join(map((lambda x: x.name), co_leaders.values()))
-            return msg
         else:
-            return self.NO_CURRENT_LEADER_MSG
+            msg += self.NO_CURRENT_LEADER_MSG
+
+        co_leaders = self.get_co_leaders(request.conn)
+        if co_leaders:
+            msg += " Co-leaders: <highlight>%s</highlight>" % ", ".join(map((lambda x: x.name), co_leaders.values()))
+        return msg
 
     @command(command="leader", params=[Const("clear")], access_level="all",
              description="Clear the current raid leader and co-leaders")
