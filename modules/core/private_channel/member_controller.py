@@ -113,7 +113,7 @@ class MemberController:
     @event(event_type=MEMBER_LOGON_EVENT, description="Auto invite members to the private channel when they logon", is_hidden=True)
     def handle_buddy_logon(self, event_type, event_data):
         if event_data.auto_invite == 1:
-            conn = self.private_channel_controller.get_conn()
+            conn = self.private_channel_controller.get_conn(None)
             self.bot.send_private_message(event_data.char_id, self.getresp("module/private_channel", "auto_invited"), conn=conn)
             self.private_channel_service.invite(event_data.char_id, conn)
 
@@ -127,8 +127,7 @@ class MemberController:
         if member:
             event_data = DictObject({
                 "char_id": member.char_id,
-                "auto_invite": member.auto_invite,
-                "conn": self.private_channel_controller.get_conn()
+                "auto_invite": member.auto_invite
             })
             if packet.online:
                 self.event_service.fire_event(self.MEMBER_LOGON_EVENT, event_data)

@@ -46,23 +46,23 @@ class PrivateChannelController:
             return hjson.load(f)
 
     def handle_incoming_relay_message(self, ctx):
-        self.bot.send_private_channel_message(ctx.formatted_message, conn=self.get_conn())
+        self.bot.send_private_channel_message(ctx.formatted_message, conn=self.get_conn(None))
 
     @command(command="join", params=[], access_level="member",
              description="Join the private channel")
     def join_cmd(self, request):
-        self.private_channel_service.invite(request.sender.char_id, self.get_conn())
+        self.private_channel_service.invite(request.sender.char_id, self.get_conn(request.conn))
 
     @command(command="leave", params=[], access_level="all",
              description="Leave the private channel")
     def leave_cmd(self, request):
-        self.private_channel_service.kick(request.sender.char_id, self.get_conn())
+        self.private_channel_service.kick(request.sender.char_id, self.get_conn(request.conn))
 
     @command(command="invite", params=[Character("character")], access_level="all",
              description="Invite a character to the private channel")
     def invite_cmd(self, request, char):
         if char.char_id:
-            conn = self.get_conn()
+            conn = self.get_conn(request.conn)
             if char.char_id in conn.private_channel:
                 return self.getresp("module/private_channel", "invite_fail", {"target": char.name})
             else:
@@ -78,7 +78,7 @@ class PrivateChannelController:
              description="Kick a character from the private channel")
     def kick_cmd(self, request, char):
         if char.char_id:
-            conn = self.get_conn()
+            conn = self.get_conn(request.conn)
             if char.char_id not in conn.private_channel:
                 return self.getresp("module/private_channel", "kick_fail_not_in_priv", {"target": char.name})
             else:
@@ -97,7 +97,7 @@ class PrivateChannelController:
     @command(command="kickall", params=[], access_level="moderator",
              description="Kick all characters from the private channel")
     def kickall_cmd(self, request):
-        conn = self.get_conn()
+        conn = self.get_conn(request.conn)
         self.bot.send_private_channel_message(self.getresp("module/private_channel", "kick_all", {"char": request.sender.name}), conn=conn)
         self.job_scheduler.delayed_job(lambda t: self.private_channel_service.kickall(conn), 10)
 
@@ -153,6 +153,6 @@ class PrivateChannelController:
         else:
             self.message_hub_service.send_message(self.MESSAGE_SOURCE, sender, self.PRIVATE_CHANNEL_PREFIX, event_data.message)
 
-    def get_conn(self):
+    def get_conn(self, conn):
         # always invite to primary conn priv channel
         return self.bot.get_primary_conn()
