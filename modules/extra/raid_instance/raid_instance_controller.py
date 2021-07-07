@@ -74,7 +74,7 @@ class RaidInstanceController:
         blob += f"\n\nTip: You can use <highlight>{symbol}</highlight> at the start of your message to send it to all bot channels."
         blob += "\n\nInspired by the <highlight>RIS</highlight> module written for Bebot by <highlight>Bitnykk</highlight>"
 
-        return ChatBlob("Raid Instance (%d / %d)" % (num_assigned, num_unassigned), blob)
+        return ChatBlob("Raid Instance (%d, %d)" % (num_assigned, num_unassigned), blob)
 
     @command(command="raidinstance", params=[Const("assign"), Any("raid_instance"), Character("char")], access_level="guest",
              description="Add a character to a raid instance", sub_command="leader")
