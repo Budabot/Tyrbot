@@ -93,6 +93,27 @@ class TowerController:
             return ChatBlob(title, blob)
 
     if FeatureFlags.USE_TOWER_API:
+        @command(command="lc", params=[Const("unplanted")],
+                 access_level="all", description="See a list of land control tower sites that are not currently planted")
+        def lc_unplanted_cmd(self, request, _):
+            t = int(time.time())
+
+            params = {"enabled": "true", "planted": "false"}
+
+            data = self.lookup_tower_info(params)
+
+            if not data:
+                return "There are no tower sites matching your criteria."
+
+            blob = ""
+            for row in data:
+                blob += "<pagebreak>" + self.format_site_info(row, None) + "\n\n"
+
+            title = "Tower Info: Unplanted"
+            title += " (%d)" % len(data)
+
+            return ChatBlob(title, blob)
+
         @command(command="lc", params=[Options(["open", "closed", "all"]),
                                        Options(["omni", "clan", "neutral", "all"], is_optional=True),
                                        Int("min_ql", is_optional=True),
