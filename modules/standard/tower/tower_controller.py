@@ -45,6 +45,7 @@ class TowerController:
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
         self.util = registry.get_instance("util")
+        self.command_alias_service = registry.get_instance("command_alias_service")
         self.event_service: EventService = registry.get_instance("event_service")
         self.pork_service: PorkService = registry.get_instance("pork_service")
         self.playfield_controller: PlayfieldController = registry.get_instance("playfield_controller")
@@ -57,6 +58,9 @@ class TowerController:
 
         self.db.load_sql_file(self.module_dir + "/" + "tower_site.sql")
         self.db.load_sql_file(self.module_dir + "/" + "tower_site_bounds.sql")
+
+    def start(self):
+        self.command_alias_service.add_alias("hot", "lc open")
 
     @command(command="lc", params=[], access_level="all",
              description="See a list of playfields containing land control tower sites")
