@@ -14,6 +14,7 @@ class ConfigCommandController:
         self.text: Text = registry.get_instance("text")
         self.access_service = registry.get_instance("access_service")
         self.command_service = registry.get_instance("command_service")
+        self.command_alias_service = registry.get_instance("command_alias_service")
         self.ts: TranslationService = registry.get_instance("translation_service")
         self.getresp = self.ts.get_response
 
@@ -86,6 +87,11 @@ class ConfigCommandController:
              description="Show command configuration")
     def config_cmd_show_cmd(self, request, _, cmd_name, flag_params):
         cmd_name = cmd_name.lower()
+
+        alias = self.command_alias_service.check_for_alias(cmd_name)
+        if alias:
+            cmd_name = alias
+
         command_str, sub_command_str = self.command_service.get_command_key_parts(cmd_name)
 
         cmd_channel_configs = self.get_command_channel_config(command_str, sub_command_str)
