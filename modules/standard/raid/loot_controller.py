@@ -44,7 +44,7 @@ class LootController:
         if self.loot_list:
             self.loot_list.clear()
             self.last_modify = None
-            self.raid_controller.send_message("Loot list cleared.", request.conn)
+            self.raid_controller.send_message("Loot list has been cleared.", request.conn)
         else:
             return "Loot list is already empty."
 
@@ -144,7 +144,7 @@ class LootController:
             return "Loot list is empty."
 
         blob = ""
-        for i, loot_item in self.loot_list.items():
+        for i, loot_item in self.loot_list.copy().items():
             winners = []
 
             if loot_item.bidders:
@@ -157,10 +157,13 @@ class LootController:
                         winner = secrets.choice(loot_item.bidders)
                         winners.append(winner)
                         loot_item.bidders.remove(winner)
-                        loot_item.count = loot_item.count - 1 if loot_item.count > 0 else 0
+                        loot_item.count = loot_item.count - 1
 
                 blob += "%d. %s\n" % (i, loot_item.get_item_str())
-                blob += " | Winners: <red>%s</red>\n\n" % '</red>, <red>'.join(winners)
+                blob += "  Winners: <red>%s</red>\n\n" % '</red>, <red>'.join(winners)
+
+            if loot_item.count == 0:
+                self.loot_list.pop(i)
 
         if len(blob) > 0:
             self.raid_controller.send_message(ChatBlob("Roll results", blob), request.conn)
