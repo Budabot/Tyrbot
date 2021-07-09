@@ -21,7 +21,7 @@ class CoLeaderController(LeaderController):
         leader = self.get_leader(request.conn)
         msg = ""
         if leader:
-            on_off = "on" if request.conn.data.leader_echo else "off"
+            on_off = "on" if request.conn.data.get("leader_echo") else "off"
             msg += "<highlight>%s</highlight> is set as leader, " % leader.name
             msg += "leader echo is <highlight>%s</highlight>." % on_off
         else:
@@ -38,7 +38,7 @@ class CoLeaderController(LeaderController):
         if not self.can_use_command(request.sender.char_id, request.conn):
             return self.NOT_LEADER_MSG
         else:
-            self.clear_co_leaders()
+            self.clear_co_leaders(request.conn)
             return self.set_raid_leader(request.sender, None, request.conn)
 
     @command(command="leader", params=[Const("add"), Character("character")], access_level="all",
@@ -105,13 +105,13 @@ class CoLeaderController(LeaderController):
 
     @event(PrivateChannelService.PRIVATE_CHANNEL_MESSAGE_EVENT, "Echo co-leader messages from private channel", is_hidden=True)
     def co_leader_echo_private_event(self, event_type, event_data):
-        if event_data.conn.data.leader_echo and self.is_co_leader(event_data.char_id, event_data.conn):
+        if event_data.conn.data.get("leader_echo") and self.is_co_leader(event_data.char_id, event_data.conn):
             if not event_data.message.startswith(self.setting_service.get("symbol").get_value()):
                 self.co_leader_echo(event_data.char_id, event_data.message, PrivateChannelService.PRIVATE_CHANNEL_COMMAND, conn=event_data.conn)
 
     @event(PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, "Echo co-leader messages from org channel", is_hidden=True)
     def co_leader_echo_org_event(self, event_type, event_data):
-        if event_data.conn.data.leader_echo and self.is_co_leader(event_data.char_id, event_data.conn):
+        if event_data.conn.data.get("leader_echo") and self.is_co_leader(event_data.char_id, event_data.conn):
             if not event_data.message.startswith(self.setting_service.get("symbol").get_value()):
                 self.co_leader_echo(event_data.char_id, event_data.message, PublicChannelService.ORG_CHANNEL_COMMAND, event_data.conn)
 
@@ -158,4 +158,3 @@ class CoLeaderController(LeaderController):
         co_leaders = conn.data.get("co_leaders", {})
         del co_leaders[char_id]
         conn.data["co_leaders"] = co_leaders
-
