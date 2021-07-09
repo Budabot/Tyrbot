@@ -6,7 +6,7 @@ from requests import ReadTimeout
 from datetime import datetime
 
 from core.chat_blob import ChatBlob
-from core.command_param_types import Any, Int, Const, Options, NamedParameters
+from core.command_param_types import Any, Int, Const, Options
 from core.conn import Conn
 from core.db import DB
 from core.decorators import instance, command, event
@@ -67,6 +67,8 @@ class TowerController:
         for row in data:
             blob += "%s <highlight>%s</highlight>\n" % (self.text.make_tellcmd(row.long_name, "lc %s" % row.short_name), row.short_name)
 
+        blob += "\n" + self.get_lc_blob_footer()
+
         return ChatBlob("Land Control Playfields (%d)" % len(data), blob)
 
     if FeatureFlags.USE_TOWER_API:
@@ -88,11 +90,12 @@ class TowerController:
             for row in data:
                 blob += "<pagebreak>" + self.format_site_info(row, current_day_time) + "\n\n"
 
+            blob += self.get_lc_blob_footer()
+
             title = "Tower Info: %s (%d)" % (org, len(data))
 
             return ChatBlob(title, blob)
 
-    if FeatureFlags.USE_TOWER_API:
         @command(command="lc", params=[Const("unplanted")],
                  access_level="all", description="See a list of land control tower sites that are not currently planted")
         def lc_unplanted_cmd(self, request, _):
@@ -108,6 +111,8 @@ class TowerController:
             blob = ""
             for row in data:
                 blob += "<pagebreak>" + self.format_site_info(row, None) + "\n\n"
+
+            blob += self.get_lc_blob_footer()
 
             title = "Tower Info: Unplanted"
             title += " (%d)" % len(data)
@@ -146,6 +151,8 @@ class TowerController:
             for row in data:
                 blob += "<pagebreak>" + self.format_site_info(row, current_day_time) + "\n\n"
 
+            blob += self.get_lc_blob_footer()
+
             title = "Tower Info: %s" % site_status.capitalize()
             title += " QL %d - %d" % (min_ql, max_ql)
             if faction:
@@ -173,6 +180,8 @@ class TowerController:
         current_day_time = int(time.time()) % 86400
         for row in data:
             blob += "<pagebreak>" + self.format_site_info(row, current_day_time) + "\n\n"
+
+        blob += self.get_lc_blob_footer()
 
         if site_number:
             title = "Tower Info: %s %d" % (playfield.long_name, site_number)
@@ -395,3 +404,6 @@ class TowerController:
         elif day_t < 0:
             day_t += 86400
         return day_t
+
+    def get_lc_blob_footer(self):
+        return "Thanks to Draex, Unk, providing the tower information. And a special thanks to Trey."
