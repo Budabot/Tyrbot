@@ -72,7 +72,7 @@ class CoLeaderController(LeaderController):
         if not self.is_co_leader(char.char_id, request.conn):
             return "<highlight>%s</highlight> is not a co-leader." % char.name
 
-        self.remove_co_leader(char, request.conn)
+        self.remove_co_leader(char.char_id, request.conn)
         return "<highlight>%s</highlight> has been removed as a co-leader." % char.name
 
     @timerevent(budatime="1h", description="Remove raid leader and all co-leaders if raid leader hasn't been active for more than 1 hour")
