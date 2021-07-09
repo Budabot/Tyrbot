@@ -1,5 +1,6 @@
 import time
 
+from core.conn import Conn
 from core.decorators import instance, event
 from core.private_channel_service import PrivateChannelService
 from modules.standard.online.online_controller import OnlineController
@@ -20,5 +21,5 @@ class RaidInstanceOnlineController(OnlineController):
         self.db.exec("DELETE FROM online WHERE char_id = ? AND channel = ?",
                      [event_data.char_id, self.get_channel(event_data.conn)])
 
-    def get_channel(self, conn):
-        return conn.id
+    def get_channel(self, conn: Conn):
+        return conn.char_name
