@@ -76,10 +76,15 @@ class TowerController:
         return ChatBlob("Land Control Playfields (%d)" % len(data), blob)
 
     if FeatureFlags.USE_TOWER_API:
-        @command(command="lc", params=[Const("org"), Any("org")], access_level="all",
+        @command(command="lc", params=[Const("org"), Any("org", is_optional=True)], access_level="all",
                  description="See a list of land control tower sites by org")
         def lc_org_cmd(self, request, _, org):
             params = {"enabled": "true"}
+            if not org:
+                org = str(request.conn.org_id)
+                if not org:
+                    return "Bot does not belong to an org so an org name or org id must be specified."
+
             if org.isdigit():
                 params["org_id"] = org
             else:
@@ -103,8 +108,6 @@ class TowerController:
         @command(command="lc", params=[Const("unplanted")],
                  access_level="all", description="See a list of land control tower sites that are not currently planted")
         def lc_unplanted_cmd(self, request, _):
-            t = int(time.time())
-
             params = {"enabled": "true", "planted": "false"}
 
             data = self.lookup_tower_info(params)
