@@ -410,4 +410,4 @@ class TowerController:
         return day_t
 
     def get_lc_blob_footer(self):
-        return "Thanks to Draex, Unk, providing the tower information. And a special thanks to Trey."
+        return "Thanks to Draex and Unk for providing the tower information. And a special thanks to Trey."
