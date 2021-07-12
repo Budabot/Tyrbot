@@ -65,11 +65,11 @@ class TowerController:
     @command(command="lc", params=[], access_level="all",
              description="See a list of playfields containing land control tower sites")
     def lc_list_cmd(self, request):
-        data = self.db.query("SELECT * FROM playfields WHERE id IN (SELECT DISTINCT playfield_id FROM tower_site) ORDER BY short_name")
+        data = self.db.query("SELECT id, long_name, short_name FROM playfields WHERE id IN (SELECT DISTINCT playfield_id FROM tower_site) ORDER BY short_name")
 
         blob = ""
         for row in data:
-            blob += "%s <highlight>%s</highlight>\n" % (self.text.make_tellcmd(row.long_name, "lc %s" % row.short_name), row.short_name)
+            blob += "[%d] %s <highlight>%s</highlight>\n" % (row.id, self.text.make_tellcmd(row.long_name, "lc %s" % row.short_name), row.short_name)
 
         blob += "\n" + self.get_lc_blob_footer()
 
