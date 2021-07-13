@@ -5,6 +5,7 @@ from collections import OrderedDict
 
 from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Int, Any, Options
+from core.conn import Conn
 from core.db import DB
 from core.decorators import instance, command, timerevent
 from core.setting_service import SettingService
@@ -16,10 +17,6 @@ from .leader_controller import LeaderController
 
 @instance()
 class LootController:
-    def __init__(self):
-        self.clear_loot_list()
-        self.last_modify = None
-
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
         self.db: DB = registry.get_instance("db")
@@ -31,19 +28,18 @@ class LootController:
 
     @command(command="loot", params=[], description="Show the list of added items", access_level="all")
     def loot_cmd(self, request):
-        if not self.get_loot_list():
+        if not self.get_loot_list(request.conn):
             return "Loot list is empty."
 
-        return self.get_loot_list_display()
+        return self.get_loot_list_display(request.conn)
 
     @command(command="loot", params=[Const("clear")], description="Clear all loot", access_level="all", sub_command="modify")
     def loot_clear_cmd(self, request, _):
         if not self.leader_controller.can_use_command(request.sender.char_id, request.conn):
             return LeaderController.NOT_LEADER_MSG
 
-        if self.get_loot_list():
-            self.get_loot_list().clear()
-            self.last_modify = None
+        if self.get_loot_list(request.conn):
+            self.clear_loot_list(request.conn)
             self.raid_controller.send_message("Loot list has been cleared.", request.conn)
         else:
             return "Loot list is already empty."
@@ -54,14 +50,16 @@ class LootController:
         if not self.leader_controller.can_use_command(request.sender.char_id, request.conn):
             return LeaderController.NOT_LEADER_MSG
 
-        if not self.get_loot_list():
+        loot_list = self.get_loot_list(request.conn)
+
+        if not loot_list:
             return "Loot list is empty."
 
-        if item_index not in self.get_loot_list():
+        if item_index not in loot_list:
             return "No item at index <highlight>%d</highlight> exists." % item_index
 
-        item = self.get_loot_list().pop(item_index)
-        self.last_modify = int(time.time())
+        item = loot_list.pop(item_index)
+        self.update_last_modify(request.conn)
         self.raid_controller.send_message("Removed %s from loot list." % item.get_item_str(), request.conn)
 
     @command(command="loot", params=[Const("increase"), Int("item_index")], description="Increase item count",
@@ -70,15 +68,17 @@ class LootController:
         if not self.leader_controller.can_use_command(request.sender.char_id, request.conn):
             return LeaderController.NOT_LEADER_MSG
 
-        if not self.get_loot_list():
+        loot_list = self.get_loot_list(request.conn)
+
+        if not loot_list:
             return "Loot list is empty."
 
-        if item_index not in self.get_loot_list():
+        if item_index not in loot_list:
             return "No item at index <highlight>%d</highlight> exists." % item_index
 
-        loot_item = self.get_loot_list()[item_index]
+        loot_item = loot_list[item_index]
         loot_item.count += 1
-        self.last_modify = int(time.time())
+        self.update_last_modify(request.conn)
         return "Increased item count for %s to %d." % (loot_item.get_item_str(), loot_item.count)
 
     @command(command="loot", params=[Const("decrease"), Int("item_index")], description="Decrease item count",
@@ -87,25 +87,29 @@ class LootController:
         if not self.leader_controller.can_use_command(request.sender.char_id, request.conn):
             return LeaderController.NOT_LEADER_MSG
 
-        if not self.get_loot_list():
+        loot_list = self.get_loot_list(request.conn)
+
+        if not loot_list:
             return "Loot list is empty."
 
-        if item_index not in self.get_loot_list():
+        if item_index not in loot_list:
             return "No item at index <highlight>%d</highlight> exists." % item_index
 
-        loot_item = self.get_loot_list()[item_index]
+        loot_item = loot_list[item_index]
         loot_item.count = loot_item.count - 1 if loot_item.count > 1 else 1
-        self.last_modify = int(time.time())
+        self.update_last_modify(request.conn)
         return "Decreased item count for %s to %d." % (loot_item.get_item_str(), loot_item.count)
 
     @command(command="loot", params=[Const("join"), Int("item_index")], description="Add yourself to item roll",
              access_level="all")
     def loot_add_to_cmd(self, request, _, item_index: int):
-        if item_index not in self.get_loot_list():
+        loot_list = self.get_loot_list(request.conn)
+
+        if item_index not in loot_list:
             return "No item at index <highlight>%d</highlight> exists." % item_index
 
-        loot_item = self.get_loot_list()[item_index]
-        old_item = self.is_already_added(request.sender.name)
+        loot_item = loot_list[item_index]
+        old_item = self.is_already_added(request.sender.name, request.conn)
 
         if old_item:
             if old_item.get_item_str() == loot_item.get_item_str():
@@ -115,7 +119,7 @@ class LootController:
 
         loot_item.bidders.append(request.sender.name)
 
-        self.last_modify = int(time.time())
+        self.update_last_modify(request.conn)
 
         if old_item is not None:
             return "You have left the loot roll for %s and joined the loot roll for %s." % (old_item.get_item_str(), loot_item.get_item_str())
@@ -124,12 +128,12 @@ class LootController:
 
     @command(command="loot", params=[Const("leave")], description="Remove yourself from item roll", access_level="all")
     def loot_rem_from_cmd(self, request, _):
-        loot_item = self.is_already_added(request.sender.name)
+        loot_item = self.is_already_added(request.sender.name, request.conn)
 
         if loot_item is not None:
             loot_item.bidders.remove(request.sender.name)
 
-            self.last_modify = int(time.time())
+            self.update_last_modify(request.conn)
 
             return "You left the loot roll for %s." % loot_item.get_item_str()
         else:
@@ -140,11 +144,13 @@ class LootController:
         if not self.leader_controller.can_use_command(request.sender.char_id, request.conn):
             return LeaderController.NOT_LEADER_MSG
 
-        if not self.get_loot_list():
+        loot_list = self.get_loot_list(request.conn)
+
+        if not loot_list:
             return "Loot list is empty."
 
         blob = ""
-        for i, loot_item in self.get_loot_list().copy().items():
+        for i, loot_item in loot_list.copy().items():
             winners = []
 
             if loot_item.bidders:
@@ -163,35 +169,12 @@ class LootController:
                 blob += "  Winners: <red>%s</red>\n\n" % '</red>, <red>'.join(winners)
 
             if loot_item.count == 0:
-                self.get_loot_list().pop(i)
+                loot_list.pop(i)
 
         if len(blob) > 0:
             self.raid_controller.send_message(ChatBlob("Roll results", blob), request.conn)
         else:
             return "No one was added to any loot."
-
-    @command(command="loot", params=[Const("reroll")], description="Rebuild loot list", access_level="all", sub_command="modify")
-    def loot_reroll_cmd(self, request, _):
-        if not self.leader_controller.can_use_command(request.sender.char_id, request.conn):
-            return LeaderController.NOT_LEADER_MSG
-
-        if self.get_loot_list():
-            count = 1
-            for key in sorted(list(self.get_loot_list().keys())):
-                if self.get_loot_list()[key].count <= 0:
-                    del self.get_loot_list()[key]
-                else:
-                    loot_item = self.get_loot_list()[key]
-                    del self.get_loot_list()[key]
-                    self.get_loot_list()[count] = loot_item
-                    count += 1
-
-            self.last_modify = int(time.time())
-
-            self.raid_controller.send_message("Loot that was not won is being re-rolled.", request.conn)
-            self.raid_controller.send_message(self.get_loot_list_display(), request.conn)
-        else:
-            return "Loot list is empty."
 
     @command(command="loot", params=[Const("addraiditem"), Int("raid_item_id"), Int("item_count")],
              description="Add item from pre-defined raid to loot list", access_level="all", sub_command="modify")
@@ -204,7 +187,7 @@ class LootController:
         item = self.db.query_single(sql, [raid_item_id])
 
         if item:
-            self.add_item_to_loot(item, item.comment, item_count)
+            self.add_item_to_loot(item, item.comment, item_count, request.conn)
             self.raid_controller.send_message("Added <highlight>%s</highlight> to loot list." % item.name, request.conn)
         else:
             return "Could not find raid item with ID <highlight>%s</highlight>." % raid_item_id
@@ -227,7 +210,7 @@ class LootController:
 
         if items:
             for item in items:
-                self.add_item_to_loot(item, item.comment, item.multiloot)
+                self.add_item_to_loot(item, item.comment, item.multiloot, request.conn)
 
             self.raid_controller.send_message("<highlight>%s</highlight> loot table was added to loot list." % category, request.conn)
         else:
@@ -250,7 +233,7 @@ class LootController:
         item.high_id = item.highid
         item.ql = item.highql
 
-        self.add_item_to_loot(item, None, item_count)
+        self.add_item_to_loot(item, None, item_count, request.conn)
         self.raid_controller.send_message("%s was added to loot list." % item.name, request.conn)
 
     @command(command="loot", params=[Const("add", is_optional=True), Any("item"), Int("item_count", is_optional=True)],
@@ -276,47 +259,47 @@ class LootController:
                     row.low_id = row.lowid
                     row.high_id = row.highid
                     row.ql = row.highql
-                    self.add_item_to_loot(row, None, item_count)
+                    self.add_item_to_loot(row, None, item_count, request.conn)
                 else:
-                    self.add_item_to_loot(item_link, None, item_count)
+                    self.add_item_to_loot(item_link, None, item_count, request.conn)
         else:
             loot = item
-            self.add_item_to_loot(item, None, item_count)
+            self.add_item_to_loot(item, None, item_count, request.conn)
 
         self.raid_controller.send_message("%s was added to loot list." % loot, request.conn)
 
     @timerevent(budatime="1h", description="Periodically check when loot list was last modified, and clear it if last modification was done 1+ hours ago")
     def loot_clear_event(self, _1, _2):
-        if self.get_loot_list() and self.last_modify:
-            if int(time.time()) - self.last_modify > 3600 and self.get_loot_list():
-                self.last_modify = None
-                self.clear_loot_list()
+        t = int(time.time())
+        for _id, conn in self.bot.get_conns():
+            if self.get_loot_list(conn) and t - self.get_last_modify(conn) > 3600:
+                self.clear_loot_list(conn)
 
-                # TODO get conn
-                self.raid_controller.send_message("Loot was last modified more than 1 hour ago, list has been cleared.", self.bot.get_temp_conn())
+                self.raid_controller.send_message("Loot was last modified more than 1 hour ago, list has been cleared.", conn)
 
-    def is_already_added(self, name: str):
-        for i, loot_item in self.get_loot_list().items():
+    def is_already_added(self, name: str, conn: Conn):
+        for i, loot_item in self.get_loot_list(conn).items():
             if name in loot_item.bidders:
                 return loot_item
         return None
 
-    def add_item_to_loot(self, item, comment=None, item_count=1):
-        existing_item = next((loot_item for x, loot_item in self.get_loot_list().items() if loot_item.item == item), None)
+    def add_item_to_loot(self, item, comment, item_count, conn: Conn):
+        loot_list = self.get_loot_list(conn)
+        existing_item = next((loot_item for x, loot_item in loot_list.items() if loot_item.item == item), None)
         if existing_item:
             existing_item.count += 1
         else:
             # this prevents loot items from being re-numbered when items are removed
-            end_index = list(self.get_loot_list().keys())[-1] + 1 if len(self.get_loot_list()) > 0 else 1
+            end_index = list(loot_list.keys())[-1] + 1 if len(loot_list) > 0 else 1
 
-            self.get_loot_list()[end_index] = LootItem(item, comment, item_count)
+            loot_list[end_index] = LootItem(item, comment, item_count)
 
-        self.last_modify = int(time.time())
+        self.update_last_modify(conn)
 
-    def get_loot_list_display(self):
+    def get_loot_list_display(self, conn: Conn):
         blob = ""
 
-        for i, loot_item in self.get_loot_list().items():
+        for i, loot_item in self.get_loot_list(conn).items():
             bidders = loot_item.bidders
 
             item_image = loot_item.get_item_image()
@@ -335,10 +318,25 @@ class LootController:
                 blob += "Bidders: -\n"
             blob += "\n\n"
 
-        return ChatBlob("Loot (%d)" % len(self.get_loot_list()), blob)
+        return ChatBlob("Loot (%d)" % len(self.get_loot_list(conn)), blob)
 
-    def clear_loot_list(self):
+    def update_last_modify(self, conn: Conn):
+        self.last_modify = int(time.time())
+
+    def clear_last_modify(self, conn: Conn):
+        self.last_modify = 0
+
+    def get_last_modify(self, conn: Conn):
+        if not hasattr(self, "last_modify"):
+            self.clear_last_modify(conn)
+
+        return self.last_modify
+
+    def clear_loot_list(self, conn: Conn):
         self.loot_list = OrderedDict()
 
-    def get_loot_list(self):
+    def get_loot_list(self, conn: Conn):
+        if not hasattr(self, "loot_list"):
+            self.clear_loot_list(conn)
+
         return self.loot_list
