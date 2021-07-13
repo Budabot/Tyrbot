@@ -9,3 +9,7 @@ class RaidInstancePrivateChannelController(PrivateChannelController):
             return conn
         else:
             return self.bot.get_primary_conn()
+
+    def handle_incoming_relay_message(self, ctx):
+        for _id, conn in self.get_conns(lambda x: x.is_main):
+            self.bot.send_private_channel_message(ctx.formatted_message, conn=conn)
