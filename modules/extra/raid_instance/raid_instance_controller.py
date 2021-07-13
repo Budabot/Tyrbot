@@ -247,7 +247,13 @@ class RaidInstanceController:
         return msg
 
     def get_assignment_links(self, raid_instances, char_name, add_leader_link):
-        links = list(map(lambda x: self.text.make_tellcmd(x.name, f"raidinstance assign {x.name} {char_name}"), raid_instances))
+        def map_row(x):
+            if x.id == self.UNASSIGNED_RAID_INSTANCE_ID:
+                return self.text.make_tellcmd(x.name, f"raidinstance unassign {char_name}")
+            else:
+                return self.text.make_tellcmd(x.name, f"raidinstance assign {x.name} {char_name}")
+
+        links = list(map(map_row, raid_instances))
         if add_leader_link:
             links.insert(0, self.text.make_tellcmd("MakeLeader", f"raidinstance leader {char_name}"))
         return " ".join(links)
