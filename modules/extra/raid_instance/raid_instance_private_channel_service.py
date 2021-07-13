@@ -28,6 +28,6 @@ class RaidInstancePrivateChannelService(PrivateChannelService):
 
                 symbol = self.setting_service.get("raid_instance_relay_symbol").get_value()
                 if message.startswith(symbol) and len(message) > len(symbol):
-                    message = "[%s] %s: %s" % (conn.id, char_name, message[len(symbol):])
+                    message = "[%s] %s: %s" % (conn.char_name, char_name, message[len(symbol):])
                     for _id, conn in self.bot.get_conns(lambda x: x.is_main and x != conn):
                         self.bot.send_private_channel_message(message, conn=conn)
