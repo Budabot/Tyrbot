@@ -223,3 +223,10 @@ def run_upgrades():
         if table_exists("recipe"):
             db.exec("DROP TABLE recipe")
         version = update_version(version)
+
+    if version == 21:
+        if table_exists("message_hub_subscriptions"):
+            db.exec("DELETE FROM message_hub_subscriptions WHERE source = ?", ["timers"])
+            db.exec("INSERT INTO message_hub_subscriptions (source, destination) VALUES (?, ?)", ["timers", "org_channel"])
+            db.exec("INSERT INTO message_hub_subscriptions (source, destination) VALUES (?, ?)", ["timers", "private_channel"])
+        version = update_version(version)

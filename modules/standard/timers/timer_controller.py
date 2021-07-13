@@ -32,6 +32,8 @@ class TimerTime(Time):
 
 @instance()
 class TimerController:
+    MESSAGE_SOURCE = "timers"
+
     def __init__(self):
         self.alerts = [60 * 60, 60 * 15, 60 * 1]
 
@@ -43,6 +45,10 @@ class TimerController:
         self.command_alias_service = registry.get_instance("command_alias_service")
         self.access_service = registry.get_instance("access_service")
         self.text = registry.get_instance("text")
+        self.message_hub_service = registry.get_instance("message_hub_service")
+
+    def pre_start(self):
+        self.message_hub_service.register_message_source(self.MESSAGE_SOURCE)
 
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS timer (name VARCHAR(255) NOT NULL, char_id INT NOT NULL, channel VARCHAR(10) NOT NULL, "
@@ -170,10 +176,6 @@ class TimerController:
                 self.add_timer(timer.name, timer.char_id, timer.channel, new_t, timer.repeating_every, timer.repeating_every)
 
         if timer.channel == PublicChannelService.ORG_CHANNEL_COMMAND or timer.channel == PrivateChannelService.PRIVATE_CHANNEL_COMMAND:
-            # TODO send to messagehub
-            for _id, conn in self.bot.get_conns(lambda x: x.is_main):
-                self.bot.send_org_message(msg, conn=conn)
-
-            self.bot.send_private_channel_message(msg, conn=self.bot.get_primary_conn())
+            self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)
         else:
             self.bot.send_private_message(timer.char_id, msg, conn=self.bot.get_primary_conn())

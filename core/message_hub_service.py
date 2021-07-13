@@ -65,7 +65,7 @@ class MessageHubService:
     def reload_mapping(self, destination):
         data = self.db.query("SELECT source FROM message_hub_subscriptions WHERE destination = ?", [destination])
         if data:
-            self.hub[destination].sources =  list(map(lambda x: x.source, data))
+            self.hub[destination].sources = list(map(lambda x: x.source, data))
 
     def send_message(self, source, sender, channel_prefix, message):
         ctx = MessageHubContext(source, sender, channel_prefix, message, self.get_formatted_message(channel_prefix, sender, message))
