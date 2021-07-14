@@ -220,8 +220,9 @@ class TowerController:
             else:
                 status = "<green>75%%</green> (opens in %s)" % self.util.time_to_readable(current_status_time - (3600 * 6))
 
-            blob += "%s [%s] QL %d <highlight>%s</highlight> %s\n" % (
+            blob += "%s (%d) [%s] QL %d <highlight>%s</highlight> %s\n" % (
                 row.org_name,
+                row.org_id,
                 self.text.get_formatted_faction(row.faction),
                 row.ql,
                 self.util.time_to_readable(t - row.created_at),
