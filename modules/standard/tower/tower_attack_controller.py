@@ -115,13 +115,15 @@ class TowerAttackController:
         t = int(time.time())
 
         if event_data.type == "attack":
+            last_updated = t - (6 * 3600)
             row = self.get_last_attack(
                 event_data.winner.faction, event_data.winner.org_name, event_data.loser.faction, event_data.loser.org_name,
-                event_data.location.playfield.id, t)
+                event_data.location.playfield.id, last_updated)
 
             if not row:
                 site_number = 0
                 is_finished = 1
+                is_victory = 1
                 self.db.exec("INSERT INTO tower_battle (playfield_id, site_number, def_org_name, def_faction, is_finished, battle_type, last_updated) VALUES (?, ?, ?, ?, ?, ?, ?)",
                              [event_data.location.playfield.id, site_number, event_data.loser.org_name, event_data.loser.faction, is_finished, event_data.type, t])
                 battle_id = self.db.last_insert_id()
@@ -130,7 +132,7 @@ class TowerAttackController:
                 self.db.exec("INSERT INTO tower_attacker (att_org_name, att_faction, att_char_id, att_char_name, att_level, att_ai_level, att_profession, "
                              "x_coord, y_coord, is_victory, tower_battle_id, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                              [attacker.get("org_name", ""), attacker.get("faction", ""), attacker.get("char_id", 0), attacker.get("name", ""), attacker.get("level", 0),
-                              attacker.get("ai_level", 0), attacker.get("profession", ""), 0, 0, 0, battle_id, t])
+                              attacker.get("ai_level", 0), attacker.get("profession", ""), 0, 0, is_victory, battle_id, t])
             else:
                 is_victory = 1
                 self.db.exec("UPDATE tower_attacker SET is_victory = ? WHERE id = ?", [is_victory, row.attack_id])
@@ -217,8 +219,7 @@ class TowerAttackController:
 
         return self.get_battle(battle_id)
 
-    def get_last_attack(self, att_faction, att_org_name, def_faction, def_org_name, playfield_id, t):
-        last_updated = t - (8 * 3600)
+    def get_last_attack(self, att_faction, att_org_name, def_faction, def_org_name, playfield_id, last_updated):
         is_finished = 0
 
         sql = """
