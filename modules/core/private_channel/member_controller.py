@@ -40,7 +40,7 @@ class MemberController:
         self.bot.register_packet_handler(BuddyAdded.id, self.handle_member_logon)
 
     def start(self):
-        self.db.exec("CREATE TABLE IF NOT EXISTS member (char_id INT NOT NULL PRIMARY KEY, auto_invite INT DEFAULT 0)")
+        self.db.exec("CREATE TABLE IF NOT EXISTS `member` (char_id INT NOT NULL PRIMARY KEY, auto_invite INT DEFAULT 0)")
         self.command_alias_service.add_alias("adduser", "member add")
         self.command_alias_service.add_alias("remuser", "member rem")
         self.command_alias_service.add_alias("members", "member")
@@ -137,21 +137,21 @@ class MemberController:
     def add_member(self, char_id, auto_invite=1):
         self.buddy_service.add_buddy(char_id, self.MEMBER_BUDDY_TYPE)
         if not self.get_member(char_id):
-            self.db.exec("INSERT INTO member (char_id, auto_invite) VALUES (?, ?)", [char_id, auto_invite])
+            self.db.exec("INSERT INTO `member` (char_id, auto_invite) VALUES (?, ?)", [char_id, auto_invite])
 
     def remove_member(self, char_id):
         self.buddy_service.remove_buddy(char_id, self.MEMBER_BUDDY_TYPE)
-        self.db.exec("DELETE FROM member WHERE char_id = ?", [char_id])
+        self.db.exec("DELETE FROM `member` WHERE char_id = ?", [char_id])
 
     def update_auto_invite(self, char_id, auto_invite):
-        self.db.exec("UPDATE member SET auto_invite = ? WHERE char_id = ?", [auto_invite, char_id])
+        self.db.exec("UPDATE `member` SET auto_invite = ? WHERE char_id = ?", [auto_invite, char_id])
 
     def get_member(self, char_id):
-        return self.db.query_single("SELECT char_id, auto_invite FROM member WHERE char_id = ?", [char_id])
+        return self.db.query_single("SELECT char_id, auto_invite FROM `member` WHERE char_id = ?", [char_id])
 
     def get_all_members(self):
         return self.db.query("SELECT COALESCE(p.name, m.char_id) AS name, m.char_id, m.auto_invite "
-                             "FROM member m LEFT JOIN player p ON m.char_id = p.char_id ORDER BY p.name ASC")
+                             "FROM `member` m LEFT JOIN player p ON m.char_id = p.char_id ORDER BY p.name ASC")
 
     def check_member(self, char_id):
         return self.get_member(char_id) is not None
