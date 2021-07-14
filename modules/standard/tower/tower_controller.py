@@ -89,7 +89,7 @@ class TowerController:
                 params["org_id"] = org
             else:
                 params["org_name"] = "%" + org + "%"
-            data = self.lookup_tower_info(params)
+            data = self.lookup_tower_info(params).results
 
             if not data:
                 return "Could not find tower info for org <highlight>%s</highlight>." % org
@@ -110,7 +110,7 @@ class TowerController:
         def lc_unplanted_cmd(self, request, _):
             params = {"enabled": "true", "planted": "false"}
 
-            data = self.lookup_tower_info(params)
+            data = self.lookup_tower_info(params).results
 
             if not data:
                 return "There are no tower sites matching your criteria."
@@ -149,7 +149,7 @@ class TowerController:
                 params["min_close_time"] = self.day_time(current_day_time + (3600 * 6))
                 params["max_close_time"] = current_day_time
 
-            data = self.lookup_tower_info(params)
+            data = self.lookup_tower_info(params).results
 
             if not data:
                 return "There are no tower sites matching your criteria."
@@ -241,18 +241,18 @@ class TowerController:
             if site_number:
                 params["site_number"] = site_number
 
-            result = self.lookup_tower_info(params)
+            data = self.lookup_tower_info(params).results
         else:
             if site_number:
-                result = self.db.query("SELECT t.*, p.short_name AS playfield_short_name, p.long_name AS playfield_long_name "
-                                       "FROM tower_site t JOIN playfields p ON t.playfield_id = p.id WHERE t.playfield_id = ? AND site_number = ?",
-                                       [playfield_id, site_number])
+                data = self.db.query("SELECT t.*, p.short_name AS playfield_short_name, p.long_name AS playfield_long_name "
+                                     "FROM tower_site t JOIN playfields p ON t.playfield_id = p.id WHERE t.playfield_id = ? AND site_number = ?",
+                                     [playfield_id, site_number])
             else:
-                result = self.db.query("SELECT t.*, p.short_name AS playfield_short_name, p.long_name AS playfield_long_name "
-                                       "FROM tower_site t JOIN playfields p ON t.playfield_id = p.id WHERE t.playfield_id = ?",
-                                       [playfield_id])
+                data = self.db.query("SELECT t.*, p.short_name AS playfield_short_name, p.long_name AS playfield_long_name "
+                                     "FROM tower_site t JOIN playfields p ON t.playfield_id = p.id WHERE t.playfield_id = ?",
+                                     [playfield_id])
 
-        return result
+        return data
 
     def handle_public_channel_message(self, conn: Conn, packet: server_packets.PublicChannelMessage):
         # only listen to tower packets from first bot, to avoid triggering multiple times
@@ -394,9 +394,7 @@ class TowerController:
 
         try:
             r = requests.get(url, params, headers={"User-Agent": f"Tyrbot {self.bot.version}"}, timeout=5)
-            result = r.json()
-            for key, obj in enumerate(result):
-                result[key] = DictObject(obj)
+            result = DictObject(r.json())
         except ReadTimeout:
             self.logger.warning("Timeout while requesting '%s'" % url)
             result = None
