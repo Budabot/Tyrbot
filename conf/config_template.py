@@ -29,7 +29,8 @@ config = DictObject({
   },
 
   "features": {
-    "text_formatting_v2": False
+    "text_formatting_v2": False,
+    "use_tower_api": True
   },
 
   "module_paths": [
