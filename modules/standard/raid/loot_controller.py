@@ -341,5 +341,5 @@ class LootController:
 
         return self.loot_list
 
-    def send_raid_message(self, msg, conn):
+    def send_loot_message(self, msg, conn):
         self.raid_controller.send_message(msg, conn)
