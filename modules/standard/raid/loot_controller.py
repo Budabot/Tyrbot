@@ -40,7 +40,7 @@ class LootController:
 
         if self.get_loot_list(request.conn):
             self.clear_loot_list(request.conn)
-            self.raid_controller.send_message("Loot list has been cleared.", request.conn)
+            self.send_loot_message("Loot list has been cleared.", request.conn)
         else:
             return "Loot list is already empty."
 
@@ -60,7 +60,7 @@ class LootController:
 
         item = loot_list.pop(item_index)
         self.update_last_modify(request.conn)
-        self.raid_controller.send_message("Removed %s from loot list." % item.get_item_str(), request.conn)
+        self.send_loot_message("Removed %s from loot list." % item.get_item_str(), request.conn)
 
     @command(command="loot", params=[Const("increase"), Int("item_index")], description="Increase item count",
              access_level="all", sub_command="modify")
@@ -172,7 +172,7 @@ class LootController:
                 loot_list.pop(i)
 
         if len(blob) > 0:
-            self.raid_controller.send_message(ChatBlob("Roll results", blob), request.conn)
+            self.send_loot_message(ChatBlob("Roll results", blob), request.conn)
         else:
             return "No one was added to any loot."
 
@@ -188,7 +188,7 @@ class LootController:
 
         if item:
             self.add_item_to_loot(item, item.comment, item_count, request.conn)
-            self.raid_controller.send_message("Added <highlight>%s</highlight> to loot list." % item.name, request.conn)
+            self.send_loot_message("Added <highlight>%s</highlight> to loot list." % item.name, request.conn)
         else:
             return "Could not find raid item with ID <highlight>%s</highlight>." % raid_item_id
 
@@ -212,7 +212,7 @@ class LootController:
             for item in items:
                 self.add_item_to_loot(item, item.comment, item.multiloot, request.conn)
 
-            self.raid_controller.send_message("<highlight>%s</highlight> loot table was added to loot list." % category, request.conn)
+            self.send_loot_message("<highlight>%s</highlight> loot table was added to loot list." % category, request.conn)
         else:
             return "<highlight>%s</highlight> does not have any items registered in loot table." % category
 
@@ -234,7 +234,7 @@ class LootController:
         item.ql = item.highql
 
         self.add_item_to_loot(item, None, item_count, request.conn)
-        self.raid_controller.send_message("%s was added to loot list." % item.name, request.conn)
+        self.send_loot_message("%s was added to loot list." % item.name, request.conn)
 
     @command(command="loot", params=[Const("add", is_optional=True), Any("item"), Int("item_count", is_optional=True)],
              description="Add an item to loot list", access_level="all", sub_command="modify")
@@ -266,7 +266,7 @@ class LootController:
             loot = item
             self.add_item_to_loot(item, None, item_count, request.conn)
 
-        self.raid_controller.send_message("%s was added to loot list." % loot, request.conn)
+        self.send_loot_message("%s was added to loot list." % loot, request.conn)
 
     @timerevent(budatime="1h", description="Periodically check when loot list was last modified, and clear it if last modification was done 1+ hours ago")
     def loot_clear_event(self, _1, _2):
@@ -275,7 +275,7 @@ class LootController:
             if self.get_loot_list(conn) and t - self.get_last_modify(conn) > 3600:
                 self.clear_loot_list(conn)
 
-                self.raid_controller.send_message("Loot was last modified more than 1 hour ago, list has been cleared.", conn)
+                self.send_loot_message("Loot was last modified more than 1 hour ago, list has been cleared.", conn)
 
     def is_already_added(self, name: str, conn: Conn):
         for i, loot_item in self.get_loot_list(conn).items():
@@ -340,3 +340,6 @@ class LootController:
             self.clear_loot_list(conn)
 
         return self.loot_list
+
+    def send_raid_message(self, msg, conn):
+        self.raid_controller.send_message(msg, conn)
