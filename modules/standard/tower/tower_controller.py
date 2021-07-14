@@ -88,7 +88,7 @@ class TowerController:
             if org.isdigit():
                 params["org_id"] = org
             else:
-                params["org_name"] = org
+                params["org_name"] = "%" + org + "%"
             data = self.lookup_tower_info(params)
 
             if not data:
