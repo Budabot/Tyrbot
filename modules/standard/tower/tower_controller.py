@@ -58,6 +58,7 @@ class TowerController:
 
         self.db.load_sql_file(self.module_dir + "/" + "tower_site.sql")
         self.db.load_sql_file(self.module_dir + "/" + "tower_site_bounds.sql")
+        self.db.load_sql_file(self.module_dir + "/" + "scout_info.sql")
 
     def start(self):
         self.command_alias_service.add_alias("hot", "lc open")
