@@ -147,6 +147,12 @@ class TowerAttackController:
         else:
             raise Exception("Unknown victory event type: '%s'" % event_data.type)
 
+    @event(event_type=TowerController.TOWER_VICTORY_EVENT, description="Remove scout info for tower sites that are destroyed", is_hidden=True, is_enabled=False)
+    def tower_scout_info_cleanup_event(self, event_type, event_data):
+        # TODO use site_number when available
+        self.db.exec("DELETE FROM scout_info WHERE playfield_id = ? AND faction = ? AND org_name = ?",
+                     [event_data.location.playfield.id, event_data.loser.faction, event_data.loser.org_name])
+
     def format_attacker(self, row):
         level = ("%d/<green>%d</green>" % (row.att_level, row.att_ai_level)) if row.att_ai_level > 0 else "%d" % row.att_level
         org = row.att_org_name + " " if row.att_org_name else ""
