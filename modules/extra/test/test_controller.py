@@ -3,7 +3,7 @@ from core.command_param_types import Int, Const, Options, Character, Any
 from core.decorators import instance, command
 from core.public_channel_service import PublicChannelService
 from modules.core.org_members.org_member_controller import OrgMemberController
-from modules.standard.tower.tower_controller import TowerController
+from modules.standard.tower.tower_messages_controller import TowerMessagesController
 
 
 @instance()
@@ -36,12 +36,18 @@ class TestController:
         packet = server_packets.PublicChannelMessage(request.conn.org_channel_id, request.sender.char_id, ext_msg, "\0")
         self.bot.incoming_queue.put((request.conn, packet))
 
-    @command(command="test", params=[Const("attack"), Character("attack_char"), Any("defender_faction"), Any("defend_org_name")], access_level="superadmin",
-             description="Trigger tower attack")
+    @command(command="test", params=[Const("attack"), Character("attack_char", is_optional=True), Any("defend_faction", is_optional=True), Any("defend_org_name", is_optional=True)],
+             access_level="superadmin", description="Trigger tower attack")
     def test_towerattack_cmd(self, request, _, attacker, def_faction, def_org_name):
         playfield_name = "Perpetual Wastelands"
         x_coords = "123"
         y_coords = "456"
+        if not attacker:
+            attacker = request.sender
+        if not def_faction:
+            def_faction = "Neutral"
+        if not def_org_name:
+            def_org_name = "DefendOrg"
 
         char_info = self.pork_service.get_character_info(attacker.name)
         if not char_info:
@@ -53,8 +59,17 @@ class TestController:
             ext_msg = self.ext_message_as_string(506, 12753364, [("s", char_info.faction), ("s", char_info.org_name), ("s", char_info.name),
                                                                  ("s", def_faction), ("s", def_org_name),
                                                                  ("s", playfield_name), ("s", x_coords), ("s", y_coords)])
-            packet = server_packets.PublicChannelMessage(TowerController.ALL_TOWERS_ID, 0, ext_msg, "\0")
+            packet = server_packets.PublicChannelMessage(TowerMessagesController.ALL_TOWERS_ID, 0, ext_msg, "\0")
             self.bot.incoming_queue.put((request.conn, packet))
+
+    @command(command="test", params=[Const("victory"), Any("attack_faction"), Any("attack_org_name"), Any("defend_faction"), Any("defend_org_name"), Any("playfield")],
+             access_level="superadmin", description="Trigger tower victory")
+    def test_towervictory_cmd(self, request, _, attack_faction, attack_org_name, def_faction, def_org_name, playfield_name):
+        msg = "The %s organization %s attacked the %s %s at their base in %s. The attackers won!!" % (
+            attack_faction.capitalize(), attack_org_name, def_faction.capitalize(), def_org_name, playfield_name
+        )
+        packet = server_packets.PublicChannelMessage(TowerMessagesController.TOWER_BATTLE_OUTCOME_ID, 0, msg, "\0")
+        self.bot.incoming_queue.put((request.conn, packet))
 
     @command(command="test", params=[Const("org"), Const("leave"), Character("char")], access_level="superadmin",
              description="Trigger org left")

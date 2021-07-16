@@ -1,22 +1,17 @@
-import pytz
-import re
-import requests
 import time
-from requests import ReadTimeout
 from datetime import datetime
+
+import pytz
+import requests
+from requests import ReadTimeout
 
 from core.chat_blob import ChatBlob
 from core.command_param_types import Any, Int, Const, Options
-from core.conn import Conn
 from core.db import DB
-from core.decorators import instance, command, event
+from core.decorators import instance, command
 from core.dict_object import DictObject
-from core.event_service import EventService
 from core.feature_flags import FeatureFlags
 from core.logger import Logger
-from core.aochat import server_packets
-from core.lookup.pork_service import PorkService
-from core.public_channel_service import PublicChannelService
 from core.text import Text
 from core.tyrbot import Tyrbot
 from modules.standard.helpbot.playfield_controller import PlayfieldController
@@ -24,19 +19,6 @@ from modules.standard.helpbot.playfield_controller import PlayfieldController
 
 @instance()
 class TowerController:
-    TOWER_ATTACK_EVENT = "tower_attack"
-    TOWER_VICTORY_EVENT = "tower_victory"
-
-    TOWER_BATTLE_OUTCOME_ID = 42949672962
-    ALL_TOWERS_ID = 42949672960
-
-    ATTACK_1 = [506, 12753364]  # The %s organization %s just entered a state of war! %s attacked the %s organization %s's tower in %s at location (%d,%d).
-    ATTACK_2 = re.compile(r"^(.+) just attacked the (clan|neutral|omni) organization (.+)'s tower in (.+) at location \((\d+), (\d+)\).\n$")
-
-    VICTORY_1 = re.compile(r"^Notum Wars Update: Victory to the (Clan|Neutral|Omni)s!!!$")
-    VICTORY_2 = re.compile(r"^The (Clan|Neutral|Omni) organization (.+) attacked the (Clan|Neutral|Omni) (.+) at their base in (.+). The attackers won!!$")
-    VICTORY_3 = [506, 147506468]  # 'Notum Wars Update: The %s organization %s lost their base in %s.'
-
     def __init__(self):
         self.logger = Logger(__name__)
 
@@ -46,16 +28,9 @@ class TowerController:
         self.text: Text = registry.get_instance("text")
         self.util = registry.get_instance("util")
         self.command_alias_service = registry.get_instance("command_alias_service")
-        self.event_service: EventService = registry.get_instance("event_service")
-        self.pork_service: PorkService = registry.get_instance("pork_service")
         self.playfield_controller: PlayfieldController = registry.get_instance("playfield_controller")
-        self.public_channel_service: PublicChannelService = registry.get_instance("public_channel_service")
 
     def pre_start(self):
-        self.event_service.register_event_type(self.TOWER_ATTACK_EVENT)
-        self.event_service.register_event_type(self.TOWER_VICTORY_EVENT)
-        self.bot.register_packet_handler(server_packets.PublicChannelMessage.id, self.handle_public_channel_message)
-
         self.db.load_sql_file(self.module_dir + "/" + "tower_site.sql")
         self.db.load_sql_file(self.module_dir + "/" + "tower_site_bounds.sql")
         self.db.load_sql_file(self.module_dir + "/" + "scout_info.sql")
@@ -198,12 +173,6 @@ class TowerController:
 
         return ChatBlob(title, blob)
 
-    @event(event_type="connect", description="Check if All Towers channel is available", is_hidden=True)
-    def handle_connect_event(self, event_type, event_data):
-        conn = self.bot.get_primary_conn()
-        if conn.org_id and TowerController.ALL_TOWERS_ID not in conn.channels:
-            self.logger.warning("The primary bot is a member of an org but does not have access to 'All Towers' channel and therefore will not be able to record tower attacks")
-
     def format_site_info(self, row, current_day_time):
         blob = "<highlight>%s %d</highlight> (QL %d-%d)\n" % (row.playfield_short_name, row.site_number, row.min_ql, row.max_ql)
 
@@ -254,141 +223,6 @@ class TowerController:
                                      [playfield_id])
 
         return data
-
-    def handle_public_channel_message(self, conn: Conn, packet: server_packets.PublicChannelMessage):
-        # only listen to tower packets from first bot, to avoid triggering multiple times
-        if conn != self.bot.get_primary_conn():
-            return
-
-        if packet.channel_id == self.TOWER_BATTLE_OUTCOME_ID:
-            victory = self.get_victory_event(packet)
-
-            if victory:
-                # self.logger.debug("tower victory packet: %s" % str(packet))
-
-                # lookup playfield
-                playfield_name = victory.location.playfield.long_name
-                victory.location.playfield = self.playfield_controller.get_playfield_by_name(playfield_name) or DictObject()
-                victory.location.playfield.long_name = playfield_name
-
-                self.event_service.fire_event(self.TOWER_VICTORY_EVENT, victory)
-        elif packet.channel_id == self.ALL_TOWERS_ID:
-            attack = self.get_attack_event(packet)
-
-            if attack:
-                # self.logger.debug("tower attack packet: %s" % str(packet))
-
-                # lookup playfield
-                playfield_name = attack.location.playfield.long_name
-                attack.location.playfield = self.playfield_controller.get_playfield_by_name(playfield_name) or DictObject()
-                attack.location.playfield.long_name = playfield_name
-
-                # lookup attacker
-                name = attack.attacker.name
-                faction = attack.attacker.faction
-                org_name = attack.attacker.org_name
-                char_info = self.pork_service.get_character_info(name)
-                attack.attacker = char_info or DictObject()
-                attack.attacker.name = name
-                attack.attacker.faction = faction or attack.attacker.get("faction", "Unknown")
-                attack.attacker.org_name = org_name
-
-                self.event_service.fire_event(self.TOWER_ATTACK_EVENT, attack)
-
-    def get_attack_event(self, packet: server_packets.PublicChannelMessage):
-        if packet.extended_message and [packet.extended_message.category_id, packet.extended_message.instance_id] == self.ATTACK_1:
-            params = packet.extended_message.params
-            return DictObject({
-                "attacker": {
-                    "name": params[2],
-                    "faction": params[0].capitalize(),
-                    "org_name": params[1]
-                },
-                "defender": {
-                    "faction": params[3].capitalize(),
-                    "org_name": params[4]
-                },
-                "location": {
-                    "playfield": {
-                        "long_name": params[5]
-                    },
-                    "x_coord": params[6],
-                    "y_coord": params[7]
-                }
-            })
-        else:
-            match = self.ATTACK_2.match(packet.message)
-            if match:
-                return DictObject({
-                    "attacker": {
-                        "name": match.group(1),
-                        "faction": "",
-                        "org_name": ""
-                    },
-                    "defender": {
-                        "faction": match.group(2).capitalize(),
-                        "org_name": match.group(3)
-                    },
-                    "location": {
-                        "playfield": {
-                            "long_name": match.group(4)
-                        },
-                        "x_coord": match.group(5),
-                        "y_coord": match.group(6)
-                    }
-                })
-
-        # Unknown attack
-        self.logger.warning("Unknown tower attack: " + str(packet))
-        return None
-
-    def get_victory_event(self, packet: server_packets.PublicChannelMessage):
-        match = self.VICTORY_1.match(packet.message)
-        if match:
-            return None
-
-        match = self.VICTORY_2.match(packet.message)
-        if match:
-            return DictObject({
-                "type": "attack",
-                "winner": {
-                    "faction": match.group(1).capitalize(),
-                    "org_name": match.group(2)
-                },
-                "loser": {
-                    "faction": match.group(3).capitalize(),
-                    "org_name": match.group(4)
-                },
-                "location": {
-                    "playfield": {
-                        "long_name": match.group(5)
-                    }
-                }
-            })
-
-        if packet.extended_message and [packet.extended_message.category_id, packet.extended_message.instance_id] == self.VICTORY_3:
-            params = packet.extended_message.params
-            return DictObject({
-                # TODO might be terminated or un-orged player
-                "type": "terminated",
-                "winner": {
-                    "faction": params[0].capitalize(),
-                    "org_name": params[1]
-                },
-                "loser": {
-                    "faction": params[0].capitalize(),
-                    "org_name": params[1]
-                },
-                "location": {
-                    "playfield": {
-                        "long_name": params[2]
-                    }
-                }
-            })
-
-        # Unknown victory
-        self.logger.warning("Unknown tower victory: " + str(packet))
-        return None
 
     def lookup_tower_info(self, params):
         url = "https://tower-api.jkbff.com/api/towers"
