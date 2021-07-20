@@ -1,5 +1,4 @@
 from core.chat_blob import ChatBlob
-from core.command_service import CommandService
 from core.decorators import instance, event
 from core.dict_object import DictObject
 from core.logger import Logger
