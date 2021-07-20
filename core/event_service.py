@@ -1,5 +1,8 @@
 import inspect
 
+import mysql
+
+from core.bot_status import BotStatus
 from core.decorators import instance
 from core.registry import Registry
 from core.logger import Logger
@@ -16,6 +19,7 @@ class EventService:
         self.db_cache = {}
 
     def inject(self, registry):
+        self.bot = registry.get_instance("bot")
         self.db = registry.get_instance("db")
         self.util = registry.get_instance("util")
 
@@ -138,11 +142,15 @@ class EventService:
         return event_base_type + ":" + event_sub_type
 
     def check_for_timer_events(self, current_timestamp):
-        data = self.db.query("SELECT e.event_type, e.event_sub_type, e.handler, t.next_run FROM timer_event t "
-                             "JOIN event_config e ON t.event_type = e.event_type AND t.handler = e.handler "
-                             "WHERE t.next_run <= ? AND e.enabled = 1", [current_timestamp])
-        for row in data:
-            self.execute_timed_event(row, current_timestamp)
+        try:
+            data = self.db.query("SELECT e.event_type, e.event_sub_type, e.handler, t.next_run FROM timer_event t "
+                                 "JOIN event_config e ON t.event_type = e.event_type AND t.handler = e.handler "
+                                 "WHERE t.next_run <= ? AND e.enabled = 1", [current_timestamp])
+            for row in data:
+                self.execute_timed_event(row, current_timestamp)
+        except mysql.connector.errors.OperationalError as e:
+            self.logger.error("MySQL connection lost", e)
+            self.bot.status = BotStatus.ERROR
 
     def execute_timed_event(self, row, current_timestamp):
         event_type_key = self.get_event_type_key(row.event_type, row.event_sub_type)
