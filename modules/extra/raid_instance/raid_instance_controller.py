@@ -26,7 +26,7 @@ class RaidInstanceController:
         self.getresp = self.ts.get_response
 
     def start(self):
-        self.db.exec("CREATE TABLE IF NOT EXISTS raid_instance (id INT PRIMARY KEY AUTOINCREMENT, name VARCHAR(255) NOT NULL, conn_id VARCHAR(50) NOT NULL)")
+        self.db.exec("CREATE TABLE IF NOT EXISTS raid_instance (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255) NOT NULL, conn_id VARCHAR(50) NOT NULL)")
 
         self.db.exec("DROP TABLE IF EXISTS raid_instance_char")
         self.db.exec("CREATE TABLE raid_instance_char (raid_instance_id INT NOT NULL, char_id INT PRIMARY KEY, is_leader TINYINT NOT NULL)")
