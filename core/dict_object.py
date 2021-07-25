@@ -23,3 +23,6 @@ class DictObject(dict):
 
     def __setattr__(self, key, value):
         self[key] = value
+
+    def __copy__(self):
+        return DictObject(super().copy())
