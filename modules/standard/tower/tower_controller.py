@@ -12,6 +12,7 @@ from core.decorators import instance, command
 from core.dict_object import DictObject
 from core.feature_flags import FeatureFlags
 from core.logger import Logger
+from core.setting_types import TextSettingType, DictionarySettingType
 from core.text import Text
 from core.tyrbot import Tyrbot
 from modules.standard.helpbot.playfield_controller import PlayfieldController
@@ -28,6 +29,7 @@ class TowerController:
         self.text: Text = registry.get_instance("text")
         self.util = registry.get_instance("util")
         self.command_alias_service = registry.get_instance("command_alias_service")
+        self.setting_service = registry.get_instance("setting_service")
         self.playfield_controller: PlayfieldController = registry.get_instance("playfield_controller")
 
     def pre_start(self):
@@ -37,6 +39,13 @@ class TowerController:
 
     def start(self):
         self.command_alias_service.add_alias("hot", "lc open")
+
+        self.setting_service.register(self.module_name, "tower_api_address", "https://tower-api.jkbff.com/api/towers",
+                                      TextSettingType(["https://tower-api.jkbff.com/api/towers"]),
+                                      "The address of the Tower API")
+        self.setting_service.register(self.module_name, "tower_api_custom_headers", "",
+                                      DictionarySettingType(),
+                                      "Custom headers for the Tower API")
 
     @command(command="lc", params=[], access_level="all",
              description="See a list of playfields containing land control tower sites")
@@ -225,10 +234,12 @@ class TowerController:
         return data
 
     def lookup_tower_info(self, params):
-        url = "https://tower-api.jkbff.com/api/towers"
+        url = self.setting_service.get("tower_api_address").get_value()
 
         try:
-            r = requests.get(url, params, headers={"User-Agent": f"Tyrbot {self.bot.version}"}, timeout=5)
+            headers = self.setting_service.get("tower_api_custom_headers").get_value() or {}
+            headers.update({"User-Agent": f"Tyrbot {self.bot.version}"})
+            r = requests.get(url, params, headers=headers, timeout=5)
             result = DictObject(r.json())
         except ReadTimeout:
             self.logger.warning("Timeout while requesting '%s'" % url)
