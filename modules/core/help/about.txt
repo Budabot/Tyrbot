@@ -8,7 +8,6 @@ I would like to give special thanks to these people who contributed significant 
 -<highlight>eli(vlad)</highlight> for his large contributions to Tyrbot including the news, discord, and raid modules
 -<highlight>Teeko</highlight> for all the time he spent testing new features, reporting bugs, making suggestions, and always pushing me to make Tyrbot better
 -<highlight>nepherius/wafflespower</highlight> who was critical during the early parts of development in testing and suggesting changes
--<highlight>minidodo</highlight> for his significant contributions to Tyrbot, all the time he spent testing changes, all of his many ideas, and his willingness to assist other users in the Discord channel
 
 
 Thanks to these people who submitted PRs on GitHub to improve Tyrbot:
@@ -17,7 +16,6 @@ Thanks to these people who submitted PRs on GitHub to improve Tyrbot:
 <highlight>Dustify</highlight>
 <highlight>equinitry</highlight>
 <highlight>ilons</highlight>
-<highlight>deathlef</highlight>
 <highlight>fatpower</highlight>
 <highlight>Klythe</highlight>
 <highlight>einarf</highlight>
