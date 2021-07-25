@@ -1,0 +1,39 @@
+25% at 14:00 GMT - closed at 20:00 UTC (72000)
+760 - 4 Holes
+550 - Athen Shire
+605 - Belial Forest
+665 - Broken Shores
+670 - Clondyke
+620 - Eastern Foul Plains
+685 - Galway County
+687 - Galway Shire
+791 - Holes in the Wall
+696 - Mutant Domain
+565 - Newland Desert
+635 - Stret East Bank
+790 - Stret West Bank
+650 - Upper Stret East Bank
+590 - Central Artery Valley
+
+25% at 22:00 GMT - closed at 4:00 UTC (14400)
+585 - Aegean
+655 - Andromeda
+505 - Avalon
+717 - Greater Omni Forest
+657 - Greater Tir County
+560 - Mort
+567 - Newland
+570 - Perpetual Wastelands
+610 - Southern Artery Valley
+615 - Southern Foul Hills
+795 - The Longest Road
+646 - Tir County
+600 - Varmint Woods
+
+Legacy Tower Behavior
+695 - Lush Fields
+595 - Deep Artery Valley
+625 - Milky Way
+716 - Omni Forest
+630 - Pleasant Meadows
+551 - Wailing Wastes
