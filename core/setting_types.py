@@ -1,3 +1,5 @@
+from json.decoder import JSONDecodeError
+
 from core.dict_object import DictObject
 from core.registry import Registry
 import json
@@ -48,6 +50,9 @@ class SettingType:
     def get_extended_description(self):
         return self.extended_description
 
+    def __str__(self):
+        return "%s '%s': %s" % (self.__class__.__name__, self.name, self._get_raw_value())
+
 
 class TextSettingType(SettingType):
     def __init__(self, options=None, allow_empty=False):
@@ -90,6 +95,13 @@ class DictionarySettingType(SettingType):
             self._set_raw_value("")
         elif isinstance(value, dict):
             self._set_raw_value(json.dumps(value))
+        elif isinstance(value, str):
+            try:
+                # verify string value is legitimate JSON
+                json.loads(value)
+                self._set_raw_value(value)
+            except JSONDecodeError as e:
+                raise Exception("Invalid JSON for dictionary setting")
         else:
             raise Exception("Value must be a dictionary.")
 

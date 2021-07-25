@@ -131,6 +131,7 @@ class ConfigController:
             new_value = ""
         elif not new_value:
             return self.getresp("module/config", "no_new_value")
+
         setting = self.setting_service.get(setting_name)
 
         if setting:
