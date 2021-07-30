@@ -199,13 +199,13 @@ class TowerController:
             else:
                 status = "<green>75%%</green> (opens in %s)" % self.util.time_to_readable(current_status_time - (3600 * 6))
 
-            blob += "%s (%d) [%s] <highlight>QL %d</highlight> - %s %s\n" % (
+            blob += "%s (%d) [%s] <highlight>QL %d</highlight> %s %s\n" % (
                 row.org_name,
                 row.org_id,
                 self.text.get_formatted_faction(row.faction),
                 row.ql,
-                self.util.time_to_readable(t - row.created_at),
-                self.text.make_chatcmd("%dx%d" % (row.x_coord, row.y_coord), "/waypoint %d %d %d" % (row.x_coord, row.y_coord, row.playfield_id)))
+                self.text.make_chatcmd("%dx%d" % (row.x_coord, row.y_coord), "/waypoint %d %d %d" % (row.x_coord, row.y_coord, row.playfield_id)),
+                self.util.time_to_readable(t - row.created_at))
             blob += "Close Time: <highlight>%s</highlight> %s\n" % (value.strftime("%H:%M:%S %Z"), status)
         else:
             blob += "%s\n" % self.text.make_chatcmd("%dx%d" % (row.x_coord, row.y_coord), "/waypoint %d %d %d" % (row.x_coord, row.y_coord, row.playfield_id))
