@@ -19,3 +19,5 @@ INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_
 INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (560, 7, 2350, 360, 3100, 220);
 INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (560, 9, 2700, 670, 2900, 380);
 INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (560, 9, 2610, 630, 2900, 380);
+INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (655, 6, 3941, 1146, 4651, 628);
+INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (655, 8, 4093, 4659, 207, 628);
