@@ -11,6 +11,8 @@ class TestController:
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
         self.pork_service = registry.get_instance("pork_service")
+        self.playfield_controller = registry.get_instance("playfield_controller")
+        self.tower_messages_controller = registry.get_instance("tower_messages_controller")
 
     @command(command="test", params=[Const("massmsg"), Int("num_tells")], access_level="superadmin",
              description="Test sending tells via mass messaging")
@@ -145,6 +147,17 @@ class TestController:
         ext_msg = self.ext_message_as_string(category_id, instance_id, [("s", char.name)])
         packet = server_packets.PublicChannelMessage(PublicChannelService.ORG_MSG_CHANNEL_ID, 0, ext_msg, "\0")
         self.bot.incoming_queue.put((request.conn, packet))
+
+    @command(command="test", params=[Const("towersite"), Any("playfield"), Int("x_coord"), Int("y_coord")], access_level="superadmin",
+             description="Test tower site detection")
+    def test_tower_site_detection_cmd(self, request, _, playfield_name, x_coord, y_coord):
+        playfield = self.playfield_controller.get_playfield_by_name(playfield_name)
+
+        if not playfield:
+            return f"Unknown playfield <highlight>{playfield_name}</highlight>."
+
+        site_number = self.tower_messages_controller.find_closest_site_number(playfield.id, x_coord, y_coord)
+        return f"{playfield.short_name} {site_number}"
 
     def ext_message_as_string(self, category_id, instance_id, params):
         ext_msg = self.bot.mmdb_parser.write_ext_message(category_id, instance_id, params)
