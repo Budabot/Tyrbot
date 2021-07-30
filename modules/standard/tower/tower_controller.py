@@ -183,7 +183,7 @@ class TowerController:
         return ChatBlob(title, blob)
 
     def format_site_info(self, row, current_day_time):
-        blob = "<highlight>%s %d</highlight> (QL %d-%d)\n" % (row.playfield_short_name, row.site_number, row.min_ql, row.max_ql)
+        blob = "<highlight>%s %d</highlight> (QL %d-%d) %s\n" % (row.playfield_short_name, row.site_number, row.min_ql, row.max_ql, row.site_name)
 
         if row.get("org_name"):
             t = int(time.time())
