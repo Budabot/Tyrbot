@@ -238,7 +238,7 @@ class WebsocketRelayController:
     def connect(self):
         self.disconnect()
 
-        self.worker = WebsocketRelayWorker(self.queue, self.setting_service.get("websocket_relay_server_address").get_value())
+        self.worker = WebsocketRelayWorker(self.queue, self.setting_service.get("websocket_relay_server_address").get_value(), f"Tyrbot {self.bot.version}")
         self.dthread = threading.Thread(target=self.worker.run, daemon=True)
         self.dthread.start()
 

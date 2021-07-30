@@ -195,7 +195,7 @@ class TowerController:
             if current_status_time <= 3600:
                 status = "<red>5%%</red> (closes in %s)" % self.util.time_to_readable(current_status_time)
             elif current_status_time <= (3600 * 6):
-                status = "<orange>25%%</green> (closes in %s)" % self.util.time_to_readable(current_status_time)
+                status = "<orange>25%%</orange> (closes in %s)" % self.util.time_to_readable(current_status_time)
             else:
                 status = "<green>75%%</green> (opens in %s)" % self.util.time_to_readable(current_status_time - (3600 * 6))
 
