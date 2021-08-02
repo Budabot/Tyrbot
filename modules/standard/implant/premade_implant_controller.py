@@ -54,8 +54,13 @@ class PremadeImplantController:
             blob = "Search by modifier: <highlight>%s</highlight>\n\n" % search
             results = self.search_by_modifier(search)
 
+        current_slot = None
         for row in results:
-            blob += "<header2>%s</header2> %s <highlight>%s</highlight> %s, %s, %s\n" % (row.profession, row.slot, row.ability, row.shiny, row.bright, row.faded)
+            if row.slot != current_slot:
+                current_slot = row.slot
+                blob += f"\n<header>{row.slot}</header>\n"
+            blob += "<header2>%s</header2> <highlight>%s</highlight>\n" % (row.profession, row.ability)
+            blob += "%s, %s, %s\n\n" % (row.shiny, row.bright, row.faded)
 
         return ChatBlob("Premade Implant Search Results (%d)" % len(results), blob)
 
