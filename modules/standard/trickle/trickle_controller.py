@@ -172,7 +172,7 @@ class TrickleController:
                 blob += "\n<header2>%s</header2>\n" % row.group_name
                 group_name = row.group_name
 
-            blob += "%s <highlight>%g</highlight>\n" % (row.name, row.amount / 4)
+            blob += "<highlight>%.2f</highlight> %s\n" % (row.amount / 4, row.name)
 
         # create title
         title = "Trickle Results: " + ", ".join(map(lambda x: "%s <highlight>%d</highlight>" % (x[0], x[1]), filter(lambda x: x[1] > 0, abilities_map.items())))
