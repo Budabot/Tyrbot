@@ -44,27 +44,28 @@ class DB:
     def create_db_version_table(self):
         self.exec("CREATE TABLE IF NOT EXISTS db_version (file VARCHAR(255) NOT NULL, version VARCHAR(255) NOT NULL, verified SMALLINT NOT NULL)")
 
-    def _execute_wrapper(self, sql, params, callback):
+    def get_cursor(self):
         if self.type == self.MYSQL:
             # buffered=True - https://stackoverflow.com/a/33632767/280574
-            cur = self.conn.cursor(dictionary=True, buffered=True)
+            return self.conn.cursor(dictionary=True, buffered=True)
         else:
-            cur = self.conn.cursor()
+            return self.conn.cursor()
 
-        start_time = time.time()
-        try:
-            cur.execute(sql if self.type == self.SQLITE else sql.replace("?", "%s"), params)
-        except Exception as e:
-            raise SqlException("SQL Error: '%s' for '%s' [%s]" % (str(e), sql, ", ".join(map(lambda x: str(x), params)))) from e
+    def _execute_wrapper(self, sql, params, callback):
+        with self.get_cursor() as cur:
+            start_time = time.time()
+            try:
+                cur.execute(sql if self.type == self.SQLITE else sql.replace("?", "%s"), params)
+            except Exception as e:
+                raise SqlException("SQL Error: '%s' for '%s' [%s]" % (str(e), sql, ", ".join(map(lambda x: str(x), params)))) from e
 
-        elapsed = time.time() - start_time
+            elapsed = time.time() - start_time
 
-        if elapsed > 0.5:
-            self.logger.warning("slow query (%fs) '%s' for params: %s" % (elapsed, sql, str(params)))
+            if elapsed > 0.5:
+                self.logger.warning("slow query (%fs) '%s' for params: %s" % (elapsed, sql, str(params)))
 
-        result = callback(cur)
-        cur.close()
-        return result
+            result = callback(cur)
+            return result
 
     def query_single(self, sql, params=None, extended_like=False):
         if params is None:
