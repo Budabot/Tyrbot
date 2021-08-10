@@ -327,7 +327,8 @@ class TowerMessagesController:
 
     def find_closest_site_number(self, playfield_id, x_coord, y_coord):
         sql = "SELECT site_number FROM tower_site_bounds " \
-              "WHERE playfield_id = ? AND x_coord1 <= ? AND x_coord2 >= ? AND y_coord1 >= ? AND y_coord2 <= ?"
+              "WHERE playfield_id = ? AND x_coord1 <= ? AND x_coord2 >= ? AND y_coord1 >= ? AND y_coord2 <= ? " \
+              "LIMIT 1"
         row = self.db.query_single(sql, [playfield_id, x_coord, x_coord, y_coord, y_coord])
         if row:
             return row.site_number
