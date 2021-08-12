@@ -164,11 +164,11 @@ class DB:
 
         if db_version:
             if parse_version(file_version) > parse_version(db_version) or force_update:
-                self.logger.info(f"Updating sql file '{sqlfile}' to version '{file_version}'")
+                self.logger.info(f"Updating sql file '{filename}' to version '{file_version}'")
                 self._load_file(filename)
             self.exec("UPDATE db_version SET version = ?, verified = 1 WHERE file = ?", [int(file_version), filename])
         else:
-            self.logger.info(f"Adding sql file '{sqlfile}' with version '{file_version}'")
+            self.logger.info(f"Adding sql file '{filename}' with version '{file_version}'")
             self._load_file(filename)
             self.exec("INSERT INTO db_version (file, version, verified) VALUES (?, ?, 1)", [filename, int(file_version)])
 
