@@ -52,20 +52,21 @@ class DB:
             return self.conn.cursor()
 
     def _execute_wrapper(self, sql, params, callback):
-        with self.get_cursor() as cur:
-            start_time = time.time()
-            try:
-                cur.execute(sql if self.type == self.SQLITE else sql.replace("?", "%s"), params)
-            except Exception as e:
-                raise SqlException("SQL Error: '%s' for '%s' [%s]" % (str(e), sql, ", ".join(map(lambda x: str(x), params)))) from e
+        cur = self.get_cursor()
+        start_time = time.time()
+        try:
+            cur.execute(sql if self.type == self.SQLITE else sql.replace("?", "%s"), params)
+        except Exception as e:
+            raise SqlException("SQL Error: '%s' for '%s' [%s]" % (str(e), sql, ", ".join(map(lambda x: str(x), params)))) from e
 
-            elapsed = time.time() - start_time
+        elapsed = time.time() - start_time
 
-            if elapsed > 0.5:
-                self.logger.warning("slow query (%fs) '%s' for params: %s" % (elapsed, sql, str(params)))
+        if elapsed > 0.5:
+            self.logger.warning("slow query (%fs) '%s' for params: %s" % (elapsed, sql, str(params)))
 
-            result = callback(cur)
-            return result
+        result = callback(cur)
+        cur.close()
+        return result
 
     def query_single(self, sql, params=None, extended_like=False):
         if params is None:
