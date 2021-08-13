@@ -2,7 +2,7 @@ import hjson
 
 from core.aochat.server_packets import BuddyAdded
 from core.chat_blob import ChatBlob
-from core.command_param_types import Character, Options
+from core.command_param_types import Character, Options, Const
 from core.conn import Conn
 from core.decorators import instance, event, timerevent, command
 from core.dict_object import DictObject
@@ -70,6 +70,7 @@ class OrgMemberController:
 
         self.command_alias_service.add_alias("notify", "orgmember")
         self.command_alias_service.add_alias("orgmembers", "orgmember")
+        self.command_alias_service.add_alias("updateorg", "orgmember update")
 
     @command(command="orgmember", params=[Options(["off", "rem", "remove"]), Character("character")], access_level="moderator",
              description="Manually remove a char from the org roster")
@@ -127,6 +128,16 @@ class OrgMemberController:
 
         return ChatBlob(self.getresp("module/org_members", "blob_title_list", {"amount": len(data)}), blob)
 
+    @command(command="orgmember", params=[Const("update")], access_level="moderator",
+             description="Force an update of the org roster")
+    def orgmember_update_cmd(self, request, _):
+        if not self.bot.get_conns(lambda x: x.is_main and x.org_id):
+            return "This bot does not belong to an org."
+
+        request.reply("The org roster update is starting...")
+        self.download_org_roster_event(None, None)
+        return "The org roster update has finished."
+
     @event(event_type="connect", description="Add members as buddies of the bot on startup", is_hidden=True)
     def handle_connect_event(self, event_type, event_data):
         for row in self.get_all_org_members():
@@ -134,10 +145,10 @@ class OrgMemberController:
 
     @timerevent(budatime="24h", description="Download the org_members roster", is_hidden=True)
     def download_org_roster_event(self, event_type, event_data):
-        org_ids = set()
+        extra_org_ids = set()
         data = self.db.query("SELECT DISTINCT org_id FROM org_member")
         for row in data:
-            org_ids.add(row.org_id)
+            extra_org_ids.add(row.org_id)
 
         db_members = {}
         for row in self.get_all_org_members():
@@ -145,8 +156,8 @@ class OrgMemberController:
 
         for _id, conn in self.bot.get_conns(lambda x: x.is_main and x.org_id):
             org_id = conn.org_id
-            if org_id in org_ids:
-                org_ids.remove(org_id)
+            if org_id in extra_org_ids:
+                extra_org_ids.remove(org_id)
 
             self.logger.info(f"Updating org_members roster for org_id '{org_id}'")
             org_info = self.org_pork_service.get_org_info(org_id)
@@ -175,7 +186,7 @@ class OrgMemberController:
                     self.process_update(char_id, db_member.mode, self.MODE_REM_AUTO, conn)
 
         # remove org members who no longer have a corresponding conn
-        for org_id in org_ids:
+        for org_id in extra_org_ids:
             # TODO remove from buddy list
             self.db.exec("DELETE FROM org_member WHERE org_id = ?", [org_id])
 
