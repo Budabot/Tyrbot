@@ -20,8 +20,8 @@ class PlayfieldController:
 
     @command(command="playfield", params=[Const("all", is_optional=True)], access_level="all",
              description="Show a list of playfields")
-    def playfield_list_command(self, request, all):
-        if all:
+    def playfield_list_command(self, request, all_param):
+        if all_param:
             data = self.db.query("SELECT * FROM playfields ORDER BY long_name")
         else:
             data = self.db.query("SELECT * FROM playfields WHERE short_name != '' ORDER BY long_name")
@@ -31,6 +31,15 @@ class PlayfieldController:
             blob += "[<highlight>%d</highlight>] %s (%s)\n" % (row.id, row.long_name, row.short_name)
 
         return ChatBlob("Playfields", blob)
+
+    @command(command="playfield", params=[Any("playfield")], access_level="all",
+             description="Show a playfield by name")
+    def playfield_show_command(self, request, playfield_name):
+        playfield = self.get_playfield_by_name_or_id(playfield_name)
+        if not playfield:
+            return f"Could not find playfield <highlight>{playfield_name}</highlight>."
+
+        return "[<highlight>%d</highlight>] %s (%s)\n" % (playfield.id, playfield.long_name, playfield.short_name)
 
     @command(command="waypoint", params=[Regex("waypoint_data", r"\s+.*?Pos: ([0-9.]+), ([0-9.]+), ([0-9.]+), Area: ([a-zA-Z ]+).*", num_groups=4)], access_level="all",
              description="Create a waypoint link from F9 output", extended_description="Example: <symbol>waypoint Pos: 123.1, 456.1, 789.1, Area: Perpetual Wastelands")
