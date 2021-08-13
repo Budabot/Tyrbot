@@ -18,7 +18,6 @@ FROM python:${PYTHON_VERSION}-slim
 
 RUN useradd -u 1000 user
 COPY --chown=1000:1000 --from=0 /app /app
-RUN pip install --no-cache-dir --disable-pip-version-check virtualenv
 
 RUN chmod +x /app/container_start.sh
 
