@@ -151,7 +151,7 @@ class TestController:
     @command(command="test", params=[Const("towersite"), Any("playfield"), Int("x_coord"), Int("y_coord")], access_level="superadmin",
              description="Test tower site detection")
     def test_tower_site_detection_cmd(self, request, _, playfield_name, x_coord, y_coord):
-        playfield = self.playfield_controller.get_playfield_by_name(playfield_name)
+        playfield = self.playfield_controller.get_playfield_by_name_or_id(playfield_name)
 
         if not playfield:
             return f"Unknown playfield <highlight>{playfield_name}</highlight>."

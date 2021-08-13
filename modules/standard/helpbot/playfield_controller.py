@@ -54,7 +54,7 @@ class PlayfieldController:
     def create_waypoint_blob(self, x_coords, y_coords, playfield_arg):
         x_coords = int(float(x_coords))
         y_coords = int(float(y_coords))
-        playfield = self.get_playfield_by_name(playfield_arg) or self.get_playfield_by_id(playfield_arg)
+        playfield = self.get_playfield_by_name_or_id(playfield_arg)
 
         if not playfield:
             return "Could not find playfield <highlight>%s</highlight>." % playfield_arg
@@ -72,3 +72,7 @@ class PlayfieldController:
 
     def get_playfield_by_id(self, playfield_id):
         return self.db.query_single("SELECT id, long_name, short_name FROM playfields WHERE id = ?", [playfield_id])
+
+    def get_playfield_by_name_or_id(self, search):
+        return self.db.query_single("SELECT id, long_name, short_name FROM playfields WHERE long_name LIKE ? OR short_name LIKE ? OR id = ? LIMIT 1",
+                                    [search, search, search])

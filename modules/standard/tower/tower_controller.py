@@ -156,9 +156,9 @@ class TowerController:
     @command(command="lc", params=[Any("playfield"), Int("site_number", is_optional=True)], access_level="all",
              description="See a list of land control tower sites in a particular playfield")
     def lc_playfield_cmd(self, request, playfield_name, site_number):
-        playfield = self.playfield_controller.get_playfield_by_name(playfield_name)
+        playfield = self.playfield_controller.get_playfield_by_name_or_id(playfield_name)
         if not playfield:
-            return "Could not find playfield <highlight>%s</highlight>." % playfield_name
+            return f"Could not find playfield <highlight>{playfield_name}</highlight>."
 
         data = self.get_tower_site_info(playfield.id, site_number)
 

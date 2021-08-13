@@ -2,7 +2,7 @@ import re
 
 from core.aochat import server_packets
 from core.chat_blob import ChatBlob
-from core.command_param_types import Const, Int, NamedParameters
+from core.command_param_types import Const, Int, NamedParameters, Any
 from core.conn import Conn
 from core.decorators import instance, command, event
 from core.dict_object import DictObject
@@ -62,41 +62,6 @@ class TowerMessagesController:
 
         self.command_alias_service.add_alias("victory", "attacks")
 
-    @command(command="attacks", params=[NamedParameters(["page"])], access_level="all",
-             description="Show recent tower attacks and victories")
-    def attacks_cmd(self, request, named_params):
-        page_number = int(named_params.page or "1")
-
-        page_size = 10
-        offset = (page_number - 1) * page_size
-
-        sql = """SELECT b.*, p.long_name, p.short_name 
-            FROM tower_battle b LEFT JOIN playfields p ON b.playfield_id = p.id 
-            ORDER bY b.last_updated DESC LIMIT ?, ?"""
-        data = self.db.query(sql, [offset, page_size])
-
-        t = int(time.time())
-
-        blob = self.check_for_all_towers_channel()
-        blob += self.text.get_paging_links(f"attacks", page_number, page_size == len(data))
-        blob += "\n\n"
-        for row in data:
-            blob += "\n<pagebreak>"
-            blob += self.format_battle_info(row, t)
-            blob += self.text.make_tellcmd("More Info", "attacks battle %d" % row.id) + "\n"
-            blob += "<header2>Attackers:</header2>\n"
-            sql2 = """SELECT a.*, COALESCE(a.att_level, 0) AS att_level, COALESCE(a.att_ai_level, 0) AS att_ai_level
-                FROM tower_attacker a
-                WHERE a.tower_battle_id = ?
-                ORDER BY created_at DESC"""
-            data2 = self.db.query(sql2, [row.id])
-            for row2 in data2:
-                blob += "<tab>" + self.format_attacker(row2) + "\n"
-            if not data2:
-                blob += "<tab>Unknown attacker\n"
-
-        return ChatBlob("Tower Attacks", blob)
-
     @command(command="attacks", params=[Const("battle"), Int("battle_id")], access_level="all",
              description="Show battle info for a specific battle")
     def attacks_battle_cmd(self, request, _, battle_id):
@@ -107,6 +72,73 @@ class TowerMessagesController:
         blob = self.check_for_all_towers_channel() + self.get_battle_blob(battle)
 
         return ChatBlob("Battle Info %d" % battle_id, blob)
+
+    @command(command="attacks", params=[Any("playfield", is_optional=True, allowed_chars="[a-z0-9 ]"),
+                                        Int("site_number", is_optional=True),
+                                        NamedParameters(["page"])],
+             access_level="all", description="Show recent tower attacks and victories")
+    def attacks_cmd(self, request, playfield_name, site_number, named_params):
+        playfield = None
+        if playfield_name:
+            playfield = self.playfield_controller.get_playfield_by_name_or_id(playfield_name)
+            if not playfield:
+                return f"Could not find playfield <highlight>{playfield_name}</highlight>."
+
+        page_number = int(named_params.page or "1")
+
+        page_size = 10
+        offset = (page_number - 1) * page_size
+
+        sql = "SELECT b.*, p.long_name, p.short_name FROM tower_battle b LEFT JOIN playfields p ON b.playfield_id = p.id"
+        params = []
+
+        if playfield:
+            sql += " WHERE b.playfield_id = ?"
+            params.append(playfield.id)
+            if site_number:
+                sql += " AND b.site_number = ?"
+                params.append(site_number)
+
+        sql += " ORDER BY b.last_updated DESC LIMIT ?, ?"
+        params.append(offset)
+        params.append(page_size)
+
+        data = self.db.query(sql, params)
+
+        t = int(time.time())
+
+        command_str = "attacks"
+        if playfield_name:
+            command_str += " " + playfield_name
+            if site_number:
+                command_str += " " + str(site_number)
+
+        blob = self.check_for_all_towers_channel()
+        blob += self.text.get_paging_links(command_str, page_number, page_size == len(data))
+        blob += "\n\n"
+        for row in data:
+            blob += "\n<pagebreak>"
+            blob += self.format_battle_info(row, t)
+            blob += self.text.make_tellcmd("More Info", "attacks battle %d" % row.id) + "\n"
+            blob += "<header2>Attackers:</header2>\n"
+            sql2 = """SELECT a.*, COALESCE(a.att_level, 0) AS att_level, COALESCE(a.att_ai_level, 0) AS att_ai_level
+                    FROM tower_attacker a
+                    WHERE a.tower_battle_id = ?
+                    ORDER BY created_at DESC"""
+            data2 = self.db.query(sql2, [row.id])
+            for row2 in data2:
+                blob += "<tab>" + self.format_attacker(row2) + "\n"
+            if not data2:
+                blob += "<tab>Unknown attacker\n"
+
+        title = "Tower Attacks"
+        if playfield:
+            title += f" ({playfield.long_name}"
+            if site_number:
+                title += " " + str(site_number)
+            title += ")"
+
+        return ChatBlob(title, blob)
 
     @event(event_type="connect", description="Check if All Towers channel is available", is_hidden=True)
     def handle_connect_event(self, event_type, event_data):
