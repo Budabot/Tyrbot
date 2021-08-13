@@ -25,8 +25,11 @@ class OrgPorkService:
         self.pork_service = registry.get_instance("pork_service")
         self.cache_service = registry.get_instance("cache_service")
 
-    def get_org_info(self, org_id):
+    def get_org_info(self, org_id, max_cache_age=None):
         cache_key = "%d.%d.json" % (org_id, self.bot.dimension)
+
+        if max_cache_age is None:
+            max_cache_age = self.CACHE_MAX_AGE
 
         t = int(time.time())
 
@@ -34,7 +37,7 @@ class OrgPorkService:
         cache_result = self.cache_service.retrieve(self.CACHE_GROUP, cache_key)
 
         is_cache = False
-        if cache_result and cache_result.last_modified > (t - self.CACHE_MAX_AGE):
+        if cache_result and cache_result.last_modified > (t - max_cache_age):
             result = json.loads(cache_result.data)
             is_cache = True
         else:

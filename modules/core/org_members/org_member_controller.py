@@ -135,7 +135,7 @@ class OrgMemberController:
             return "This bot does not belong to an org."
 
         request.reply("The org roster update is starting...")
-        self.download_org_roster_event(None, None)
+        self.update_org_roster(max_cache_age=0)
         return "The org roster update has finished."
 
     @event(event_type="connect", description="Add members as buddies of the bot on startup", is_hidden=True)
@@ -145,6 +145,9 @@ class OrgMemberController:
 
     @timerevent(budatime="24h", description="Download the org_members roster", is_hidden=True)
     def download_org_roster_event(self, event_type, event_data):
+        self.update_org_roster()
+
+    def update_org_roster(self, max_cache_age=None):
         extra_org_ids = set()
         data = self.db.query("SELECT DISTINCT org_id FROM org_member")
         for row in data:
@@ -160,7 +163,7 @@ class OrgMemberController:
                 extra_org_ids.remove(org_id)
 
             self.logger.info(f"Updating org_members roster for org_id '{org_id}'")
-            org_info = self.org_pork_service.get_org_info(org_id)
+            org_info = self.org_pork_service.get_org_info(org_id, max_cache_age)
 
             if not org_info:
                 self.logger.warning(f"Could not get roster info for org id '{org_id}'")
