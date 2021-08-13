@@ -2,7 +2,7 @@ import time
 
 from core.aochat.server_packets import PublicChannelMessage
 from core.chat_blob import ChatBlob
-from core.command_param_types import Const, Int
+from core.command_param_types import Const, Int, Options
 from core.conn import Conn
 from core.decorators import instance, command, event, timerevent
 from core.dict_object import DictObject
@@ -13,6 +13,10 @@ from core.public_channel_service import PublicChannelService
 class CloakController:
     MESSAGE_SOURCE = "cloak_reminder"
     CLOAK_EVENT = "cloak"
+
+    CLOAK_STATUS_OFF = "off"
+    CLOAK_STATUS_ON = "on"
+    CLOAK_STATUS_MANUAL = "on*"
 
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
@@ -43,7 +47,7 @@ class CloakController:
 
         blob = ""
         for row in data:
-            action = "<green>on</green>" if row.action == "on" else "<orange>off</orange>"
+            action = self.get_cloak_status_display(row.action)
             blob += "%s turned the device %s at %s.\n" % (row.name, action, self.util.format_datetime(row.created_at))
 
         conn = self.bot.get_conn_by_org_id(org_id)
@@ -62,7 +66,7 @@ class CloakController:
 
             org_name = conn.get_org_name()
             if row:
-                action = "<green>on</green>" if row.action == "on" else "<orange>off</orange>"
+                action = self.get_cloak_status_display(row.action)
                 time_str = self.util.time_to_readable(t - row.created_at)
                 history_link = self.text.make_tellcmd("History", f"cloak history {conn.org_id}")
                 blob += f"{org_name} - {action} [{time_str} ago] {history_link}\n"
@@ -70,6 +74,20 @@ class CloakController:
                 blob += f"{org_name} - Unknown status\n"
 
         return ChatBlob(f"Cloak Status", blob)
+
+    @command(command="cloak", params=[Options(["raise", "on"])], access_level="org_member",
+             description="Manually raises the cloak status on the bot")
+    def cloak_raise_command(self, request, _):
+        if not request.conn.org_id:
+            return "This bot is not a member of an org."
+
+        row = self.db.query_single("SELECT c.action FROM cloak_status WHERE c.org_id = ?", request.conn.org_id)
+        if row and (row.action == self.CLOAK_STATUS_ON or row.action == self.CLOAK_STATUS_MANUAL):
+            return "The cloaking device is already <green>enabled</green>."
+
+        self.db.exec("INSERT INTO cloak_status (char_id, action, created_at, org_id) VALUES (?, ?, ?, ?)",
+                     [request.sender.char_id, self.CLOAK_STATUS_MANUAL, int(time.time()), request.conn.org_id])
+        return "The cloaking device has been manually enabled in the bot (you must still enable the cloak if it is disabled)."
 
     @event(event_type=CLOAK_EVENT, description="Record when the city cloak is turned off and on", is_hidden=True)
     def city_cloak_event(self, event_type, event_data):
@@ -86,7 +104,7 @@ class CloakController:
                 one_hour = 3600
                 t = int(time.time())
                 time_until_change = row.created_at + one_hour - t
-                if row.action == "off" and 0 >= time_until_change > (one_hour * 6 * -1):
+                if row.action == self.CLOAK_STATUS_OFF and 0 >= time_until_change > (one_hour * 6 * -1):
                     time_str = self.util.time_to_readable(t - row.created_at)
                     org_name = conn.get_org_name()
                     messages.append(f"The cloaking device for org <highlight>{org_name}</highlight> is <orange>disabled</orange> but can be enabled. "
@@ -97,9 +115,9 @@ class CloakController:
 
     @event(event_type=CLOAK_EVENT, description="Set a timer for when cloak can be raised and lowered")
     def city_cloak_timer_event(self, event_type, event_data):
-        if event_data.action == "off":
+        if event_data.action == self.CLOAK_STATUS_OFF:
             timer_name = f"Raise City Cloak ({event_data.conn.get_org_name()})"
-        elif event_data.action == "on":
+        elif event_data.action == self.CLOAK_STATUS_ON:
             timer_name = f"Lower City Cloak ({event_data.conn.get_org_name()})"
         else:
             raise Exception(f"Unknown cloak action '{event_data.action}'")
@@ -116,3 +134,13 @@ class CloakController:
             char_id = self.character_service.resolve_char_to_id(char_name)
             action = ext_msg.params[1]
             self.event_service.fire_event(self.CLOAK_EVENT, DictObject({"char_id": char_id, "name": char_name, "action": action, "conn": conn}))
+
+    def get_cloak_status_display(self, status):
+        if status == self.CLOAK_STATUS_ON:
+            return "<green>on</green>"
+        elif status == self.CLOAK_STATUS_MANUAL:
+            return "<green>on*</green>"
+        elif status == self.CLOAK_STATUS_OFF:
+            return "<orange>off</orange>"
+        else:
+            return "<highlight>Unknown</highlight>"
