@@ -6,9 +6,7 @@ RUN echo "Building with Python version $PYTHON_VERSION"
 
 WORKDIR /app
 
-ADD . /app
-ADD sql_files.tar /app
-#RUN [ -f sql_files.tar ] || tar -xvf sql_files.tar || true
+COPY . /app
 
 RUN pip install --no-cache-dir virtualenv && \
     virtualenv .venv && \
