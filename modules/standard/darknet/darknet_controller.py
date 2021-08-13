@@ -17,6 +17,8 @@ class DarknetController:
     MESSAGE_SOURCE = "darknet"
     message_regex = re.compile(r"^(<font color='#\S+'>){2}\[([a-zA-Z]{2,})\]<\/font> (.+)$", re.DOTALL)
 
+    DARKNET_NAME = "Darknet"
+
     def __init__(self):
         self.logger = Logger(__name__)
 
@@ -29,10 +31,12 @@ class DarknetController:
     def pre_start(self):
         self.bot.register_packet_handler(server_packets.PrivateChannelInvited.id, self.handle_private_channel_invite, 50)
         self.bot.register_packet_handler(server_packets.PrivateChannelMessage.id, self.handle_private_channel_message)
+        self.bot.register_packet_handler(server_packets.PrivateMessage.id, self.handle_private_message)
         self.message_hub_service.register_message_source(self.MESSAGE_SOURCE)
 
     def start(self):
-        self.setting_service.register(self.module_name, "dark_relay", "false", BooleanSettingType(), "Is the Module Enabled?")
+        self.setting_service.register(self.module_name, "dark_relay", "false", BooleanSettingType(), "Is the Module Enabled?",
+                                      extended_description="Use !messagehub to control where Darknet messages are relayed to")
         self.setting_service.register(self.module_name, "dark_wts", "true", BooleanSettingType(), "Is the WTS channel visible?")
         self.setting_service.register(self.module_name, "dark_wtb", "true", BooleanSettingType(), "Is the WTB channel visible?")
         self.setting_service.register(self.module_name, "dark_lr", "true", BooleanSettingType(), "Is the Lootrights channel visible?")
@@ -41,6 +45,8 @@ class DarknetController:
         self.setting_service.register(self.module_name, "dark_pvm", "true", BooleanSettingType(), "Is the PVM channel visible?")
         self.setting_service.register(self.module_name, "dark_event", "true", BooleanSettingType(), "Is the Event channel visible?")
 
+        self.setting_service.register_change_listener("dark_relay", self.update_darket_status)
+
     def handle_private_channel_invite(self, conn: Conn, packet: server_packets.PrivateChannelInvited):
         if not conn.is_main:
             pass
@@ -48,7 +54,7 @@ class DarknetController:
         if self.setting_service.get_value("dark_relay") == "0":
             return
 
-        if "Darknet" == self.character_service.get_char_name(packet.private_channel_id):
+        if self.DARKNET_NAME == self.character_service.get_char_name(packet.private_channel_id):
             channel_name = self.character_service.get_char_name(packet.private_channel_id)
             conn.send_packet(client_packets.PrivateChannelJoin(packet.private_channel_id))
             self.logger.info("Joined private channel {channel}".format(channel=channel_name))
@@ -70,6 +76,18 @@ class DarknetController:
             self.logger.log_chat(conn, "Private Channel(%s)" % channel_name, char_name, packet.message)
             message = packet.message.lstrip()
             self.process_incoming_relay_message(message)
+
+    def handle_private_message(self, conn, packet: server_packets.PrivateMessage):
+        if not conn.is_main:
+            pass
+
+        #if self.setting_service.get_value("dark_relay") == "0":
+        #    return
+
+        char_id = self.character_service.resolve_char_to_id(self.DARKNET_NAME)
+        if packet.char_id == char_id:
+            message = packet.message.lstrip()
+            self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, f"[<highlight>{self.DARKNET_NAME}</highlight>]", message)
 
     def process_incoming_relay_message(self, message):
         if re.search(self.message_regex, message):
@@ -101,3 +119,17 @@ class DarknetController:
             channel_formatted = "[<highlight>%s</highlight>]" % channel
 
             self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, channel_formatted, rest_of_message)
+
+    def update_darket_status(self, setting_name, old_value, new_value):
+        char_id = self.character_service.resolve_char_to_id(self.DARKNET_NAME)
+        if not char_id:
+            self.logger.warning(f"Could not resolve {self.DARKNET_NAME} to a char id.")
+        else:
+            if new_value:
+                self.bot.send_private_message(char_id, "register", add_color=False)
+                self.bot.send_private_message(char_id, "autoinvite on", add_color=False)
+                self.bot.send_private_message(char_id, "join", add_color=False)
+            else:
+                self.bot.send_private_message(char_id, "leave", add_color=False)
+                self.bot.send_private_message(char_id, "autoinvite off", add_color=False)
+                self.bot.send_private_message(char_id, "unregister", add_color=False)
