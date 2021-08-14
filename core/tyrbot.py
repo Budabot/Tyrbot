@@ -4,6 +4,7 @@ import threading
 import time
 
 from core.conn import Conn
+from core.feature_flags import FeatureFlags
 from core.fifo_queue import FifoQueue
 from core.dict_object import DictObject
 from core.logger import Logger
@@ -168,10 +169,17 @@ class Tyrbot:
                     if packet:
                         self.incoming_queue.put((conn, packet))
 
-                    while mass_message_queue and not mass_message_queue.empty() and conn.packet_queue.is_empty():
-                        packet = mass_message_queue.get_or_default(block=False)
-                        if packet:
-                            conn.add_packet_to_queue(packet)
+                    if mass_message_queue:
+                        if FeatureFlags.FORCE_LARGE_MESSAGES_FROM_SLAVES:
+                            if conn.packet_queue.is_empty():
+                                packet = mass_message_queue.get_or_default(block=False)
+                                if packet:
+                                    conn.add_packet_to_queue(packet)
+                        else:
+                            while conn.packet_queue.is_empty():
+                                packet = mass_message_queue.get_or_default(block=False)
+                                if packet:
+                                    conn.add_packet_to_queue(packet)
 
             except (EOFError, OSError) as e:
                 self.status = BotStatus.ERROR

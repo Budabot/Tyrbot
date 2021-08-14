@@ -4,6 +4,7 @@ from core.decorators import instance
 from core.access_service import AccessService
 from core.aochat import server_packets
 from core.dict_object import DictObject
+from core.feature_flags import FeatureFlags
 from core.lookup.character_service import CharacterService
 from core.sender_obj import SenderObj
 from core.setting_service import SettingService
@@ -350,11 +351,18 @@ class CommandService:
         # ignore leading space
         message = packet.message.lstrip()
 
+        def reply(msg):
+            if self.bot.mass_message_queue and FeatureFlags.FORCE_LARGE_MESSAGES_FROM_SLAVES and \
+                    isinstance(msg, ChatBlob) and len(msg.msg) > FeatureFlags.FORCE_LARGE_MESSAGES_FROM_SLAVES_THRESHOLD:
+                self.bot.send_mass_message(packet.char_id, msg, conn=conn)
+            else:
+                self.bot.send_private_message(packet.char_id, msg, conn=conn)
+
         self.process_command(
             self.trim_command_symbol(message),
             self.PRIVATE_MESSAGE_CHANNEL,
             packet.char_id,
-            lambda msg: self.bot.send_private_message(packet.char_id, msg, conn=conn),
+            reply,
             conn)
 
     def trim_command_symbol(self, s):

@@ -1,7 +1,9 @@
+from core.chat_blob import ChatBlob
 from core.conn import Conn
 from core.decorators import instance
 from core.aochat import server_packets
 from core.dict_object import DictObject
+from core.feature_flags import FeatureFlags
 from core.logger import Logger
 
 
@@ -124,9 +126,13 @@ class PublicChannelService:
         message = packet.message.lstrip()
 
         def reply(msg):
-            self.bot.send_org_message(msg, conn=conn)
-            self.event_service.fire_event(self.ORG_CHANNEL_COMMAND_EVENT,
-                                          DictObject({"char_id": None, "name": None, "message": msg, "conn": conn}))
+            if self.bot.mass_message_queue and FeatureFlags.FORCE_LARGE_MESSAGES_FROM_SLAVES and \
+                    isinstance(msg, ChatBlob) and len(msg.msg) > FeatureFlags.FORCE_LARGE_MESSAGES_FROM_SLAVES_THRESHOLD:
+                self.bot.send_mass_message(packet.char_id, msg, conn=conn)
+            else:
+                self.bot.send_org_message(msg, conn=conn)
+                self.event_service.fire_event(self.ORG_CHANNEL_COMMAND_EVENT,
+                                              DictObject({"char_id": None, "name": None, "message": msg, "conn": conn}))
 
         if message.startswith(self.setting_service.get("symbol").get_value()) and conn.org_channel_id == packet.channel_id:
             char_name = self.character_service.get_char_name(packet.char_id)
