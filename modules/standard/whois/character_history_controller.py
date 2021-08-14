@@ -32,8 +32,7 @@ class CharacterHistoryController:
     def format_character_history(self, history):
         col_separator = " | "
 
-        rows = []
-        rows.append(["Date", "Lvl", "AI", "Side", "Breed", "CharId", "Guild (Rank)"])
+        rows = [["Name", "Date", "Lvl", "AI", "Side", "Breed", "CharId", "Guild (Rank)"]]
         for row in history:
             if row.guild_name:
                 org = "%s (%s)" % (row.guild_name, row.guild_rank_name)
@@ -41,10 +40,14 @@ class CharacterHistoryController:
                 org = ""
 
             last_changed = self.util.format_date(int(float(row.last_changed)))
+            current_row = [row.nickname, last_changed]
+
             if row.deleted == "1":  # This value is output as string
-                rows.append([last_changed, "<red>DELETED</red>"])
+                current_row.append("<red>DELETED</red>")
             else:
-                rows.append([last_changed, row.level, "<green>%s</green>" % (row.defender_rank or "0"), row.faction, row.breed, row.char_id, org])
+                current_row.extend([row.level, "<green>%s</green>" % (row.defender_rank or "0"), row.faction, row.breed, row.char_id, org])
+
+            rows.append(current_row)
 
         rows = self.text.pad_table(rows)
         blob = col_separator.join(rows[0]) + "\n"
