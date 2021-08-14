@@ -1,4 +1,4 @@
-from core.command_param_types import Const
+from core.command_param_types import Const, Any
 from core.decorators import instance, command
 
 
@@ -7,6 +7,7 @@ class QueueController:
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
         self.command_alias_service = registry.get_instance("command_alias_service")
+        self.command_service = registry.get_instance("command_service")
         self.getresp = registry.get_instance("translation_service").get_response
 
     def start(self):
@@ -18,3 +19,11 @@ class QueueController:
         num_messages = len(request.conn.packet_queue)
         request.conn.packet_queue.clear()
         return self.getresp("module/system", "clear_queue", {"count": num_messages})
+
+    @command(command="massmsg", params=[Any("command")], access_level="moderator",
+             description="Force the reply of the specified command to be sent via non-main bots")
+    def massmsg_cmd(self, request, command_str):
+        def reply(msg):
+            self.bot.send_mass_message(request.sender.char_id, msg, conn=request.conn)
+
+        self.command_service.process_command(command_str, request.channel, request.sender.char_id, reply, request.conn)
