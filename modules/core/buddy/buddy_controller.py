@@ -109,6 +109,9 @@ class BuddyController:
 
         blob = ""
         for name, buddy in buddy_list:
-            blob += "%s(%s) - %s\n" % (name, buddy["conn_id"], ",".join(buddy["types"]))
+            pending = "*" if buddy["online"] is None else ""
+            blob += "%s%s [%s] - %s\n" % (name, pending, buddy["conn_id"], ",".join(buddy["types"]))
+
+        blob += "\nAsterisk (*) indicates the buddy is pending and may not be active."
 
         return blob
