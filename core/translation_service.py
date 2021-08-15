@@ -35,7 +35,6 @@ class TranslationService:
         self.setting_service.register("core.system", self.LANGUAGE_SETTING, "en_US", TextSettingType(self.lang_codes), "Language of the Bot")
 
         self.language = self.setting_service.get_value(self.LANGUAGE_SETTING)
-        self.register_translation("global", self.load_global_msg)
         self.setting_service.register_change_listener(self.LANGUAGE_SETTING, self.language_setting_changed)
 
     def register_translation(self, category, callback):
@@ -54,10 +53,6 @@ class TranslationService:
             self.translation_callbacks[category] = []
         self.translation_callbacks[category].append(callback)
         self.update_msg(category, callback)
-
-    def load_global_msg(self):
-        with open("core/global.msg", mode="r", encoding="UTF-8") as f:
-            return hjson.load(f)
 
     def language_setting_changed(self, name, old_value, new_value):
         if name == self.LANGUAGE_SETTING and new_value != old_value:

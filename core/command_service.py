@@ -50,7 +50,6 @@ class CommandService:
         self.usage_service = registry.get_instance("usage_service")
         self.public_channel_service = registry.get_instance("public_channel_service")
         self.ban_service = registry.get_instance("ban_service")
-        self.getresp = registry.get_instance("translation_service").get_response
 
     def pre_start(self):
         self.bot.register_packet_handler(server_packets.PrivateMessage.id, self.handle_private_message)
@@ -220,18 +219,18 @@ class CommandService:
                         reply(self.format_help_text(command_str, help_text))
                     else:
                         # the command is known, but no help is returned, therefore user does not have access to command
-                        reply(self.getresp("global", "access_denied"))
+                        reply("Access denied.")
             else:
                 self.handle_unknown_command(command_str, command_args, channel, sender, reply)
         except Exception as e:
             self.logger.error("error processing command: %s" % message, e)
-            reply(self.getresp("global", "error_proccessing"))
+            reply("There was an error processing your request.")
 
     def handle_unknown_command(self, command_str, command_args, channel, sender, reply):
-        reply(self.getresp("global", "unknown_command", {"cmd": command_str}))
+        reply("Error! Unknown command <highlight>{cmd}</highlight>.")
 
     def access_denied_response(self, message, sender, cmd_config, reply):
-        reply(self.getresp("global", "access_denied"))
+        reply("Access denied.")
 
     def get_command_parts(self, message):
         parts = message.split(" ", 1)

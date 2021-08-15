@@ -17,7 +17,7 @@ class MessageHubController:
     @command(command="messagehub", params=[], access_level="admin",
              description="Show the current message hub subscriptions")
     def messagehub_cmd(self, request):
-        blob = self.getresp("messagehub_info") + "\n"
+        blob = "Destinations are listed below, along with the sources they are subscribed to.\n"
         subscriptions = self.message_hub_service.hub
         for destination, obj in subscriptions.items():
             edit_subs_link = self.text.make_tellcmd(destination, "messagehub edit %s" % destination)
@@ -25,14 +25,14 @@ class MessageHubController:
             for source in obj.sources:
                 blob += " └ %s\n" % source
 
-        return ChatBlob(self.getresp("messagehub_title", {"count": len(subscriptions)}), blob)
+        return ChatBlob(f"Message Hub Subscriptions ({len(subscriptions)})", blob)
 
     @command(command="messagehub", params=[Const("edit"), Any("destination")], access_level="admin",
              description="Edit subscriptions for a destination")
     def messagehub_edit_cmd(self, request, _, destination):
         obj = self.message_hub_service.hub[destination]
         if not obj:
-            return self.getresp("destination_not_exist", {"destination": destination})
+            return f"Destination <highlight>{destination}</highlight> does not exist."
 
         blob = ""
         count = 0
@@ -45,36 +45,36 @@ class MessageHubController:
             status = ""
             if source in obj.sources:
                 count += 1
-                status = "<green>%s</green>" % self.getresp("subscribed")
+                status = "<green>Subscribed</green>"
             blob += "%s [%s] [%s] %s\n\n" % (source, sub_link, unsub_link, status)
 
-        return ChatBlob(self.getresp("messagehub_edit_title", {"destination": destination.capitalize(), "count": count}), blob)
+        return ChatBlob(f"{destination.capitalize()} Subscriptions ({count})", blob)
 
     @command(command="messagehub", params=[Const("subscribe"), Any("destination"), Any("source")], access_level="admin",
              description="Subscribe a destination to a source")
     def messagehub_subscribe_cmd(self, request, _, destination, source):
         obj = self.message_hub_service.hub[destination]
         if not obj:
-            return self.getresp("module/system", "destination_not_exist", {"destination": destination})
+            return f"Destination <highlight>{destination}</highlight> does not exist."
 
         if source in obj.sources:
-            return self.getresp("messagehub_already_subscribed", {"destination": destination, "source": source})
+            return f"Destination <highlight>{destination}</highlight> is already subscribed to source <highlight>{source}</highlight>."
 
         if source in obj.invalid_sources:
-            return self.getresp("messagehub_invalid_subscription", {"destination": destination, "source": source})
+            return f"Destination <highlight>{destination}</highlight> cannot be subscribed to source <highlight>{source}</highlight>."
 
         self.message_hub_service.subscribe_to_source(destination, source)
-        return self.getresp("messagehub_subscribe_success", {"destination": destination, "source": source})
+        return f"Destination <highlight>{destination}</highlight> has been subscribed to source <highlight>{source}</highlight> successfully."
 
     @command(command="messagehub", params=[Const("unsubscribe"), Any("destination"), Any("source")], access_level="admin",
              description="Unsubscribe a destination to a source")
     def messagehub_unsubscribe_cmd(self, request, _, destination, source):
         obj = self.message_hub_service.hub[destination]
         if not obj:
-            return self.getresp("module/system", "destination_not_exist", {"destination": destination})
+            return f"Destination <highlight>{destination}</highlight> does not exist."
 
         if source not in obj.sources:
-            return self.getresp("messagehub_not_subscribed", {"destination": destination, "source": source})
+            return f"Destination <highlight>{destination}</highlight> is not subscribed to source <highlight>{source}</highlight>."
 
         self.message_hub_service.unsubscribe_from_source(destination, source)
-        return self.getresp("messagehub_unsubscribe_success", {"destination": destination, "source": source})
+        return f"Destination <highlight>{destination}</highlight> has been unsubscribed from source <highlight>{source}</highlight> successfully."
