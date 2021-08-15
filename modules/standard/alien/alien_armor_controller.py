@@ -1,12 +1,9 @@
 import math
 
-import hjson
-
 from core.chat_blob import ChatBlob
 from core.command_param_types import Options, Int
 from core.decorators import instance, command
 from core.text import Text
-from core.translation_service import TranslationService
 from modules.standard.items.items_controller import ItemsController
 
 
@@ -15,36 +12,27 @@ class AlienArmorController:
     def inject(self, registry):
         self.text: Text = registry.get_instance("text")
         self.items_controller: ItemsController = registry.get_instance("items_controller")
-        self.ts: TranslationService = registry.get_instance("translation_service")
-        self.getresp = self.ts.get_response
-
-    def start(self):
-        self.init_static_items()
-        self.ts.register_translation("module/alien", self.load_alien_msg)
-
-    def load_alien_msg(self):
-        with open("modules/standard/alien/alien.msg", mode="r", encoding="utf-8") as f:
-            return hjson.load(f)
 
     @command(command="aiarmor", params=[], access_level="all",
              description="List the alien armor types")
     def aiarmor_list_command(self, request):
-        blob = self.getresp("module/alien", "ai_armor", {
-            "strong": self.text.make_tellcmd("Strong Armor", "aiarmor Strong"),
-            "supple": self.text.make_tellcmd("Supple Armor", "aiarmor Supple"),
-            "enduring": self.text.make_tellcmd("Enduring Armor", "aiarmor Enduring"),
-            "observant": self.text.make_tellcmd("Observant Armor", "aiarmor Observant"),
-            "arithmetic": self.text.make_tellcmd("Arithmetic Armor", "aiarmor Arithmetic"),
-            "spiritual": self.text.make_tellcmd("Spiritual Armor", "aiarmor Spiritual"),
-            "cc": self.text.make_tellcmd("Combined Commando's Armor", "aiarmor cc"),
-            "cm": self.text.make_tellcmd("Combined Mercenary's Armor", "aiarmor cm"),
-            "co": self.text.make_tellcmd("Combined Officer's", "aiarmor co"),
-            "cp": self.text.make_tellcmd("Combined Paramedic's Armor", "aiarmor cp"),
-            "cs": self.text.make_tellcmd("Combined Scout's Armor", "aiarmor cs"),
-            "css": self.text.make_tellcmd("Combined Sharpshooter's Armor", "aiarmor css")
-        })
+        blob = "<header2>Normal Armor:</header2>\n"
+        blob += self.text.make_tellcmd("Strong Armor", "aiarmor Strong") + "\n"
+        blob += self.text.make_tellcmd("Supple Armor", "aiarmor Supple") + "\n"
+        blob += self.text.make_tellcmd("Enduring Armor", "aiarmor Enduring") + "\n"
+        blob += self.text.make_tellcmd("Observant Armor", "aiarmor Observant") + "\n"
+        blob += self.text.make_tellcmd("Arithmetic Armor", "aiarmor Arithmetic") + "\n"
+        blob += self.text.make_tellcmd("Spiritual Armor", "aiarmor Spiritual") + "\n\n"
 
-        return ChatBlob(self.getresp("module/alien", "ai_armor_title"), blob)
+        blob += "<header2>Combined Armor:</header2>\n"
+        blob += self.text.make_tellcmd("Combined Commando's Armor", "aiarmor cc") + "\n"
+        blob += self.text.make_tellcmd("Combined Mercenary's Armor", "aiarmor cm") + "\n"
+        blob += self.text.make_tellcmd("Combined Officer's", "aiarmor co") + "\n"
+        blob += self.text.make_tellcmd("Combined Paramedic's Armor", "aiarmor cp") + "\n"
+        blob += self.text.make_tellcmd("Combined Scout's Armor", "aiarmor cs") + "\n"
+        blob += self.text.make_tellcmd("Combined Sharpshooter's Armor", "aiarmor css") + "\n"
+
+        return ChatBlob("Alien Armor", blob)
 
     @command(command="aiarmor",
              params=[Options(["strong", "supple", "enduring", "observant", "arithmetic", "spiritual"]),
@@ -55,37 +43,116 @@ class AlienArmorController:
         ql = ql or 300
         misc_ql = math.floor(ql * 0.8)
 
-        blob = self.getresp("module/alien", "ai_armor_ts", {
-            "armor_type": armor_type,
-            "ql": ql,
-            **self.get_static_items(),
-            **self.text.generate_item(self.items_controller.find_by_name("Kyr'Ozch Viralbots"), misc_ql, "viralbots"),
-            **self.text.generate_item(self.items_controller.find_by_name("Memory-Wiped Kyr'Ozch Viralbots"), misc_ql, "memory_wiped_viralbots"),
-            "step1_CL": math.ceil(misc_ql * 4.5),
-            "step1_NP": math.ceil(misc_ql * 4.5),
+        blob = "Note: All tradeskill processes are based on the lowest QL items usable.\n\n"
+        blob += "<header2>You need the following items to build %s Armor:<end>\n" % armor_type
+        blob += "- Kyr'Ozch Viralbots\n"
+        blob += "- Kyr'Ozch Atomic Re-Structulazing Tool\n"
+        blob += "- Solid Clump of Kyr'Ozch Biomaterial\n"
+        blob += "- Arithmetic/Strong/Enduring/Spiritual/Observant/Supple Viralbots\n\n"
 
-            **self.text.generate_item(self.items_controller.find_by_name("Formatted Kyr'Ozch Viralbots"), misc_ql, "formatted_viralbots"),
-            "step2_CL": math.ceil(misc_ql * 4.5),
-            "step2_NP": math.ceil(misc_ql * 6),
+        blob += "<header2>Step 1<end>\n"
+        blob += "<tab>%s (<highlight>Drops from Alien City Generals<end>)\n" % self.display_item_by_name("Kyr'Ozch Viralbots", misc_ql)
+        blob += "<tab><tab>+\n"
+        blob += "<tab>%s (<highlight>Drops from every Alien<end>)\n" % self.display_item_by_name("Kyr'Ozch Atomic Re-Structuralizing Tool", 100)
+        blob += "<tab><tab>=\n"
+        blob += "<tab>%s\n" % self.display_item_by_name("Memory-Wiped Kyr'Ozch Viralbots", misc_ql)
+        blob += "<highlight>Required Skills:<end>\n"
+        blob += "- %d Computer Literacy\n" % math.ceil(misc_ql * 4.5)
+        blob += "- %d Nano Programming\n\n" % math.ceil(misc_ql * 4.5)
 
-            **self.text.generate_item(self.items_controller.find_by_name("Solid Clump of Kyr'Ozch Bio-Material"), ql, "solid_clump"),
-            **self.text.generate_item(self.items_controller.find_by_name("Mutated Kyr'Ozch Bio-Material"), ql, "mutated_material"),
-            **self.text.generate_item(self.items_controller.find_by_name("Pristine Kyr'Ozch Bio-Material"), ql, "pristine_material"),
-            "step3_chem": math.ceil(ql * 4.5),
+        blob += "<header2>Step 2<end>\n"
+        blob += "<tab>%s (<highlight>Can be bought in General Shops<end>)\n" % self.display_item_by_name("Nano Programming Interface", 1)
+        blob += "<tab><tab>+\n"
+        blob += "<tab>%s\n" % self.display_item_by_name("Memory-Wiped Kyr'Ozch Viralbots", misc_ql)
+        blob += "<tab><tab>=\n"
+        blob += "<tab>%s\n" % self.display_item_by_name("Formatted Kyr'Ozch Viralbots", misc_ql)
+        blob += "<highlight>Required Skills:<end>\n"
+        blob += "- %d Computer Literacy\n" % math.ceil(misc_ql * 4.5)
+        blob += "- %d Nano Programming\n\n" % math.ceil(misc_ql * 6)
 
-            **self.text.generate_item(self.items_controller.find_by_name("Generic Kyr'Ozch DNA-Soup"), ql, "dna_soup"),
-            "chem_prist": math.ceil(ql * 4.5),
-            "chem_mutat": math.ceil(ql * 7),
+        blob += "<header2>Step 3<end>\n"
+        blob += "<tab>%s\n" % self.display_item_by_name("Kyr'Ozch Structural Analyzer", 100)
+        blob += "<tab><tab>+\n"
+        blob += "<tab>%s QL%d (<highlight>Drops from every Alien<end>)\n" % (self.display_item_by_name("Solid Clump of Kyr'Ozch Bio-Material", ql), ql)
+        blob += "<tab><tab>=\n"
+        blob += "<tab>%s QL%d" % (self.display_item_by_name("Mutated Kyr'Ozch Bio-Material", ql), ql)
+        blob += "\n\nor\n\n<tab>%s QL%d\n" % (self.display_item_by_name("Pristine Kyr'Ozch Bio-Material", ql), ql)
+        blob += "<highlight>Required Skills:<end>\n"
+        blob += "- %d Chemistry (Both require the same amount)\n\n" % math.ceil(ql * 4.5)
 
-            **self.text.generate_item(self.items_controller.find_by_name("DNA Cocktail"), ql, "dna_cocktail"), "pharma": math.ceil(ql * 6),
+        blob += "<header2>Step 4<end>\n"
+        blob += "<tab>%s QL%d" % (self.display_item_by_name("Mutated Kyr'Ozch Bio-Material", ql), ql)
+        blob += "\n\nor\n\n<tab>%s QL%d\n" % (self.display_item_by_name("Pristine Kyr'Ozch Bio-Material", ql), ql)
+        blob += "<tab><tab>+\n"
+        blob += "<tab>%s (<highlight>Can be bought in Bazzit Shop in MMD<end>)\n" % self.display_item_by_name("Uncle Bazzit's Generic Nano-Solvent", 100)
+        blob += "<tab><tab>=\n"
+        blob += "<tab>%s\n" % self.display_item_by_name("Generic Kyr'Ozch DNA-Soup", ql)
+        blob += "<highlight>Required Skills:<end>\n"
+        blob += "- %d Chemistry(for Pristine)\n" % math.ceil(ql * 4.5)
+        blob += "- %d Chemistry(for Mutated)\n\n" % math.ceil(ql * 7)
 
-            **self.text.generate_item(self.items_controller.find_by_name("Kyr'Ozch Formatted Viralbot Solution"), ql, "formatted_viralbot_solution"),
-            **self.text.generate_item(self.items_controller.find_by_name("Formatted Viralbot Vest"), ql, "formatted_viralbot_vest"),
-            "psycho": math.floor(ql * 6),
-            **self.get_armor(armor_type, ql),
-        })
+        blob += "<header2>Step 5<end>\n"
+        blob += "<tab>" + self.display_item_by_name("Generic Kyr'Ozch DNA-Soup", ql) + "\n"
+        blob += "<tab><tab>+\n"
+        blob += "<tab>" + self.display_item_by_name("Essential Human DNA", 100) + " (<highlight>Can be bought in Bazzit Shop in MMD<end>)\n"
+        blob += "<tab><tab>=\n"
+        blob += "<tab>" + self.display_item_by_name("DNA Cocktail", ql) + "\n"
+        blob += "<highlight>Required Skills:<end>\n"
+        blob += "- %d Pharma Tech\n\n" % math.ceil(ql * 6)
 
-        return ChatBlob(self.getresp("module/alien", "ai_armor_ts_title", {"ql": ql, "type": armor_type}), blob)
+        blob += "<header2>Step 6<end>\n"
+        blob += "<tab>" + self.display_item_by_name("Formatted Kyr'Ozch Viralbots", misc_ql) + "\n"
+        blob += "<tab><tab>+\n"
+        blob += "<tab>" + self.display_item_by_name("DNA Cocktail", ql) + "\n"
+        blob += "<tab><tab>=\n"
+        blob += "<tab>" + self.display_item_by_name("Kyr'Ozch Formatted Viralbot Solution", ql) + "\n"
+        blob += "<highlight>Required Skills:<end>\n"
+        blob += "- %d Pharma Tech\n\n" % math.ceil(ql * 6)
+
+        blob += "<header2>Step 7<end>\n"
+        blob += "<tab>" + self.display_item_by_name("Kyr'Ozch Formatted Viralbot Solution", ql) + "\n"
+        blob += "<tab><tab>+\n"
+        blob += "<tab>" + self.display_item_by_name("Basic Fashion Vest", 1) + " (<highlight>Can be obtained by the Basic Armor Quest<end>)\n"
+        blob += "<tab><tab>=\n"
+        blob += "<tab>" + self.display_item_by_name("Formatted Viralbot Vest", ql) + "\n\n"
+
+        blob += "<header2>Step 8<end>\n"
+
+        vb_ql = math.floor(ql * 0.8)
+        if armor_type == "Arithmetic":
+            blob += "<tab>%s QL%d (<highlight>Rare Drop off Alien City Generals<end>)\n" % (self.display_item_by_name("Arithmetic Lead Viralbots", vb_ql), vb_ql)
+        elif armor_type == "Supple":
+            blob += "<tab>%s QL%d (<highlight>Rare Drop off Alien City Generals<end>)\n" % (self.display_item_by_name("Supple Lead Viralbots", vb_ql), vb_ql)
+        elif armor_type == "Enduring":
+            blob += "<tab>%s QL%d (<highlight>Rare Drop off Alien City Generals<end>)\n" % (self.display_item_by_name("Enduring Lead Viralbots", vb_ql), vb_ql)
+        elif armor_type == "Observant":
+            blob += "<tab>%s QL%d (<highlight>Rare Drop off Alien City Generals<end>)\n" % (self.display_item_by_name("Observant Lead Viralbots", vb_ql), vb_ql)
+        elif armor_type == "Strong":
+            blob += "<tab>%s QL%d (<highlight>Rare Drop off Alien City Generals<end>)\n" % (self.display_item_by_name("Strong Lead Viralbots", vb_ql), vb_ql)
+        elif armor_type == "Spiritual":
+            blob += "<tab>%s QL%d (<highlight>Rare Drop off Alien City Generals<end>)\n" % (self.display_item_by_name("Spiritual Lead Viralbots", vb_ql), vb_ql)
+
+        blob += "<tab><tab>+\n"
+        blob += "<tab>" + self.display_item_by_name("Formatted Viralbot Vest", ql) + "\n"
+        blob += "<tab><tab>=\n"
+
+        if armor_type == "Arithmetic":
+            blob += "<tab>%s QL%d\n" % (self.display_item_by_name("Arithmetic Body Armor", ql), ql)
+        elif armor_type == "Supple":
+            blob += "<tab>%s QL%d\n" % (self.display_item_by_name("Supple Body Armor", ql), ql)
+        elif armor_type == "Enduring":
+            blob += "<tab>%s QL%d\n" % (self.display_item_by_name("Enduring Body Armor", ql), ql)
+        elif armor_type == "Observant":
+            blob += "<tab>%s QL%d\n" % (self.display_item_by_name("Observant Body Armor", ql), ql)
+        elif armor_type == "Strong":
+            blob += "<tab>%s QL%d\n" % (self.display_item_by_name("Strong Body Armor", ql), ql)
+        elif armor_type == "Spiritual":
+            blob += "<tab>%s QL%d\n" % (self.display_item_by_name("Spiritual Body Armor", ql), ql)
+
+        blob += "<highlight>Required Skills:<end>\n"
+        blob += "- %d Psychology\n\n" % math.floor(ql * 6)
+
+        return ChatBlob(f"Building process for QL {ql} {armor_type}", blob)
 
     def get_armor(self, armor_type, ql):
         blob = None
@@ -158,39 +225,31 @@ class AlienArmorController:
             target_armor_id = 246622  # Supple Body Armor
             name_target = "supple"
         else:
-            return self.getresp("module/alien", "ai_armor_combined_unknown", {"type": armor_type})
+            return f"Unknown armor type <highlight>{armor_type}</highlight>"
 
         source = self.items_controller.get_by_item_id(source_armor_id)
         target = self.items_controller.get_by_item_id(target_armor_id)
         result = self.items_controller.get_by_item_id(result_armor_id)
 
-        blob = self.getresp("module/alien", "ai_armor_combined", {
-            **self.text.generate_item(source, source_ql, "source"),
-            "s_ql": source_ql,
-            "t_ql": target_ql,
-            "ts_process_source": self.text.make_tellcmd(self.getresp("module/alien", "ai_armor_ts_process"),
-                                                        "aiarmor %s %d" % (name_source, source_ql)),
-            **self.text.generate_item(target, target_ql, "target"),
-            "ts_process_target": self.text.make_tellcmd(self.getresp("module/alien", "ai_armor_ts_process"),
-                                                        "aiarmor %s %d" % (name_target, target_ql)),
-            **self.text.generate_item(result, target_ql, "result")})
+        source_icon = self.text.make_image(source.icon)
+        target_icon = self.text.make_image(target.icon)
+        result_icon = self.text.make_image(result.icon)
 
-        return ChatBlob(
-            self.getresp("module/alien", "ai_armor_ts_title", {"ql": target_ql, "type": result.name}), blob)
+        source_display = self.text.make_item(source.lowid, source.highid, source_ql, source.name)
+        target_display = self.text.make_item(target.lowid, target.highid, target_ql, target.name)
+        result_display = self.text.make_item(result.lowid, result.highid, target_ql, result.name)
 
-    def get_static_items(self):
-        return self.static_items
+        ts_process_source = self.text.make_tellcmd("Tradeskill process for this item", "aiarmor %s %d" % (name_source, source_ql))
+        ts_process_target = self.text.make_tellcmd("Tradeskill process for this item", "aiarmor %s %d" % (name_target, target_ql))
 
-    def init_static_items(self):
-        self.static_items = {
-            **self.text.generate_item(
-                self.items_controller.find_by_name("Kyr'Ozch Atomic Re-Structuralizing Tool", 100), 100, "step1_tool"),
-            **self.text.generate_item(self.items_controller.find_by_name("Nano Programming Interface", 1), 1, "NPI"),
-            **self.text.generate_item(self.items_controller.find_by_name("Kyr'Ozch Structural Analyzer", 100), 100,
-                                      "structural_analyser"),
-            **self.text.generate_item(self.items_controller.find_by_name("Uncle Bazzit's Generic Nano-Solvent", 100),
-                                      100, "bazzit_generic_nano_solvent"),
-            **self.text.generate_item(self.items_controller.find_by_name("Essential Human DNA", 100), 100, "human_dna"),
-            **self.text.generate_item(self.items_controller.find_by_name("Basic Fashion Vest", 1), 1,
-                                      "basic_fashion_vest"),
-        }
+        blob = "<header2>Tradeskill Process</header2>\n\n"
+        blob += f"<tab>{source_icon}<tab>+<tab>{target_icon}<tab>=<tab>{result_icon}\n"
+        blob += f"<tab>(QL{source_ql})<tab> <tab>(QL{target_ql})<tab> <tab>(QL{target_ql})\n\n"
+        blob += f"<tab><tab>{source_display} (QL{source_ql}) - ({ts_process_source})\n"
+        blob += f" + <tab>{target_display} (QL{target_ql}) - ({ts_process_target})\n"
+        blob += f" = <tab>{result_display} (QL{target_ql})\n"
+
+        return ChatBlob(f"Building process for QL {target_ql} {result.name}", blob)
+
+    def display_item_by_name(self, name, ql):
+        return self.text.format_item(self.items_controller.find_by_name(name, ql), ql)

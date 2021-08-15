@@ -4,7 +4,6 @@ from core.chat_blob import ChatBlob
 from core.command_param_types import Any, Item, Int
 from core.decorators import instance, command
 from core.text import Text
-from core.translation_service import TranslationService
 
 
 @instance()
@@ -21,8 +20,6 @@ class AlienBioController:
         self.util = registry.get_instance("util")
         self.items_controller = registry.get_instance("items_controller")
         self.command_alias_service = registry.get_instance("command_alias_service")
-        self.ts: TranslationService = registry.get_instance("translation_service")
-        self.getresp = self.ts.get_response
 
     def pre_start(self):
         self.db.load_sql_file(self.module_dir + "/" + "alien_weapons.sql")
@@ -80,14 +77,18 @@ class AlienBioController:
     @command(command="bioinfo", params=[], access_level="all",
              description="Show list of Kyr'Ozch Bio-Material types")
     def bioinfo_list_command(self, request):
-        return ChatBlob(self.getresp("module/alien", "bioinfo_list_title"),
-                        self.getresp("module/alien", "bioinfo_list", {
-                            "ofab_armor": self.get_type_blob(self.ofab_armor_types),
-                            "ofab_weap": self.get_type_blob(self.ofab_weapon_types),
-                            "ai_armor": self.get_type_blob(self.alien_armor_types),
-                            "ai_weap": self.get_type_blob(self.alien_weapon_types),
-                            "serum": self.get_type_blob(["serum"]),
-                        }))
+        blob = "\n<header2>OFAB Armor Types</header2>\n"
+        blob += self.get_type_blob(self.ofab_armor_types)
+        blob += "\n<header2>OFAB Weapon Types</header2>\n"
+        blob += self.get_type_blob(self.ofab_weapon_types)
+        blob += "\n<header2>AI Armor Types</header2>\n"
+        blob += self.get_type_blob(self.alien_armor_types)
+        blob += "\n<header2>AI Weapon Typen</header2>\n"
+        blob += self.get_type_blob(self.alien_weapon_types)
+        blob += "\n<header2>Serum Typen</header2>\n"
+        blob += self.get_type_blob(["serum"])
+
+        return ChatBlob("Bio-Material Types", blob)
 
     def get_type_blob(self, bio_types):
         blob = ""
@@ -104,7 +105,7 @@ class AlienBioController:
         if bio_info:
             return bio_info
         else:
-            return self.getresp("module/alien", "bioinfo_unknown_type", {"type": bio_type})
+            return f"Unknown bio-material type <highlight>{bio_type}</highlight>."
 
     def get_bio_info(self, bio_type, ql):
         if bio_type in self.ofab_armor_types:
@@ -123,28 +124,26 @@ class AlienBioController:
     def ofab_armor_bio(self, bio_type, ql):
         name = "Kyr'Ozch Bio-Material - Type %s" % bio_type
 
-        data = self.db.query("SELECT * FROM ofab_armor_type WHERE type = ?", [bio_type])
-        item = self.items_controller.find_by_name(name, ql)
-        upgrades = ""
-        for row in data:
-            upgrades += self.text.make_tellcmd(row.profession, "ofabarmor %s" % row.profession) + "\n"
+        blob = self.display_item(name, ql) +  "\n\n"
+        blob += "<highlight>Upgrades Ofab Armor for:</highlight>\n"
 
-        return ChatBlob(self.getresp("module/alien", "bioinfo_unknown_type",
-                                     {"type": bio_type, "ql": ql}),
-                        self.getresp("module/alien", "ofab_armor_bio",
-                                     {"type": bio_type, **self.text.generate_item(item, ql), "upgrades": upgrades}))
+        data = self.db.query("SELECT * FROM ofab_armor_type WHERE type = ?", [bio_type])
+        for row in data:
+            blob += self.text.make_tellcmd(row.profession, "ofabarmor %s" % row.profession) + "\n"
+
+        return ChatBlob(f"{name} (QL {ql})", blob)
 
     def ofab_weapon_bio(self, bio_type, ql):
         name = "Kyr'Ozch Bio-Material - Type %s" % bio_type
 
-        data = self.db.query("SELECT * FROM ofab_weapons WHERE type = ?", [bio_type])
-
         blob = self.display_item(name, ql) + "\n\n"
         blob += "<highlight>Upgrades Ofab Weapons for:</highlight>\n"
+
+        data = self.db.query("SELECT * FROM ofab_weapons WHERE type = ?", [bio_type])
         for row in data:
             blob += self.text.make_tellcmd("Ofab %s Mk 1" % row.name, "ofabweapons %s" % row.name) + "\n"
 
-        return ChatBlob("%s (QL %d)" % (name, ql), blob)
+        return ChatBlob(f"{name} (QL {ql})", blob)
 
     def alien_armor_bio(self, bio_type, ql):
         min_ql = math.floor(ql * 0.8)
@@ -163,62 +162,94 @@ class AlienBioController:
             name = "Mutated Kyr'Ozch Bio-Material"
             chem = math.floor(ql * 7)
             chem_msg = "7 * QL"
-            extra_info = self.getresp("module/alien", "alien_armor_bio_extra_info_mutated")
+            extra_info = "more tradeskill requirements then pristine"
         elif bio_type == "pristine":
             name = "Pristine Kyr'Ozch Bio-Material"
             chem = math.floor(ql * 4.5)
             chem_msg = "4.5 * QL"
-            extra_info = self.getresp("module/alien", "alien_armor_bio_extra_info_pristine")
+            extra_info = "less tradeskill requirements then mutated"
         else:
             return None
-        return ChatBlob("%s (QL %d)" % (name, ql),
-                        self.getresp("module/alien", "alien_armor_bio",
-                                     {"item": self.display_item(name, ql),
-                                      "ee_cl_req": ts_bio, "ql": ql, "cl_req": cl, "chem_req": chem,
-                                      "chem_info": chem_msg, "chem_extra_info": extra_info, "nano_prog_req": nano_prog,
-                                      "pt_req": pharma, "psyco_req": psyco, "min_ql": min_ql, "max_ql": max_ql,
-                                      "max_psyco": max_psyco}))
+
+        blob = self.display_item(name, ql) + "\n\n"
+        blob += "It will take <highlight>%d EE & CL<end> (<highlight>4.5 * QL<end>) to analyze the Bio-Material.\n\n" % ts_bio
+
+        blob += "Used to build Alien Armor\n\n"
+        blob += "The following tradeskill amounts are required to make <highlight>QL %d<end>\n" % ql
+        blob += "strong/arithmetic/enduring/spiritual/supple/observant armor:\n\n"
+        blob += "Computer Literacy - <highlight>%d<end> (<highlight>4.5 * QL<end>)\n" % cl
+        blob += "Chemistry - <highlight>%d<end> (<highlight>%s<end>) %s\n" % (chem, chem_msg, extra_info)
+        blob += "Nano Programming - <highlight>%d<end> (<highlight>6 * QL<end>)\n" % nano_prog
+        blob += "Pharma Tech - <highlight>%d<end> (<highlight>6 * QL<end>)\n" % pharma
+        blob += "Psychology - <highlight>%d<end> (<highlight>6 * QL<end>)\n\n" % psyco
+        blob += "Note: Tradeskill requirements are based off the lowest QL items needed throughout the entire process."
+
+        blob += "\n\nFor Supple, Arithmetic, or Enduring:\n\n"
+        blob += "When completed, the armor piece can have as low as <highlight>QL %d<end> combined into it, depending on available tradeskill options.\n\n" % min_ql
+        blob += "Does not change QL's, therefore takes <highlight>%d Psychology<end> for available combinations.<end>\n\n" % psyco
+        blob += "For Spiritual, Strong, or Observant:\n\n"
+        blob += "When completed, the armor piece can combine up to <highlight>QL %d<end>, depending on available tradeskill options.\n\n" % max_ql
+        blob += "Changes QL depending on targets QL. "
+        blob += "The max combination is: (<highlight>QL %d<end>) (<highlight>%d Psychology<end> required for this combination)" % (max_ql, max_psyco)
+
+        blob += "\n\n<yellow>Tradeskilling info added by Mdkdoc420 (RK2)<end>"
+
+        return ChatBlob("%s (QL %d)" % (name, ql), blob)
 
     def alien_weapon_bio(self, bio_type, ql):
         name = "Kyr'Ozch Bio-Material - Type %s" % bio_type
+
+        blob = self.display_item(name, ql) + "\n\n"
+
+        ee_cl_req = math.floor(ql * 4.5)
+        blob += f"It will take <highlight>{ee_cl_req}</highlight> EE & CL (<highlight>4.5 * QL</highlight>) to analyze the Bio-Material.\n\n"
+
+        specials = self.db.query_single("SELECT specials FROM alien_weapon_specials WHERE type = ?", [bio_type]).specials
+        blob += f"<highlight>Adds {specials} to:</highlight>\n"
 
         # Ensures that the maximum AI weapon that combines into doesn't go over QL 300 when the user presents a QL 271+ bio-material
         max_ai_type = math.floor(ql / 0.9)
         if max_ai_type > 300 or max_ai_type < 1:
             max_ai_type = 300
 
-        specials = self.db.query_single("SELECT specials FROM alien_weapon_specials WHERE type = ?", [bio_type]).specials
         data = self.db.query("SELECT * FROM alien_weapons WHERE type = ?", [bio_type])
-        display_blob = ""
         for row in data:
-            display_blob += self.display_item(row.name, max_ai_type) + "\n"
+            blob += self.display_item(row.name, max_ai_type) + "\n"
 
-        return ChatBlob("%s (QL %d)" % (name, ql),
-                        self.getresp("module/alien", "alien_weapon_bio",
-                                     {"item_display": self.display_item(name, ql),
-                                      "ee_cl_req": math.floor(ql * 4.5),
-                                      "specials": specials,
-                                      "display_blob": display_blob,
-                                      "weapon_info": self.get_weapon_info(max_ai_type)
-                                      }))
+        blob += self.get_weapon_info(max_ai_type)
+        blob += "\n\n<yellow>Tradeskilling info added by Mdkdoc420</yellow>"
+
+        return ChatBlob("%s (QL %d)" % (name, ql), blob)
 
     def serum_bio(self, ql):
         name = "Kyr'Ozch Viral Serum"
 
-        return ChatBlob("%s (QL %d)" % (name, ql),
-                        self.getresp("module/alien", "serum_bio",
-                                     {"item_display": self.display_item(name, ql),
-                                      "ee_cl_req": math.floor(ql * 4.5),
-                                      "pt_req": (math.floor(ql * 3.5) if math.floor(ql * 3.5) > 400 else 400),
-                                      "chem_me_req": (math.floor(ql * 4) if math.floor(ql * 4) > 400 else 400),
-                                      "cl_req": math.floor(ql * 5)
-                                      }))
+        ee_cl_req = math.floor(ql * 4.5),
+        pt_req = (math.floor(ql * 3.5) if math.floor(ql * 3.5) > 400 else 400)
+        chem_me_req = (math.floor(ql * 4) if math.floor(ql * 4) > 400 else 400)
+        cl_req = math.floor(ql * 5)
+
+        blob = self.display_item(name, ql) + "\n\n"
+        blob += f"It will take <highlight>{ee_cl_req} EE & CL</highlight> (<highlight>4.5 * QL</highlight>) to analyze the Bio-Material.\n\n"
+        blob += "Used to build city buildings\n\n"
+        blob += "The following are the required skills throughout the process of making a building:\n\n"
+        blob += "Quantum FT - <highlight>400</highlight> (<highlight>Static</highlight>)\n"
+        blob += f"Pharma Tech - <highlight>{pt_req}</highlight> (<highlight>3.5 * QL</highlight>) 400 is minimum requirement\n"
+        blob += f"Chemistry - <highlight>{chem_me_req}</highlight> (<highlight>4 * QL</highlight>) 400 is minimum requirement\n"
+        blob += f"Mechanical Engineering - <highlight>{chem_me_req}</highlight> (<highlight>4 * QL</highlight>)\n"
+        blob += f"Electrical Engineering - <highlight>{ee_cl_req}</highlight> (<highlight>4.5 * QL</highlight>)\n"
+        blob += f"Comp Liter - <highlight>{cl_req}</highlight> (<highlight>5 * QL</highlight>)"
+        blob += "\n\n<yellow>Tradeskilling info added by Mdkdoc420 (RK2)</yellow>"
+
+        return ChatBlob("%s (QL %d)" % (name, ql), blob)
 
     def get_weapon_info(self, ql):
-        return self.getresp("module/alien", "weapon_info",
-                            {"ql": ql,
-                            "bump": ("" if ql == 300 else self.getresp("module/alien", "weapon_bump")),
-                             "me_ws_req": math.floor(ql * 6)})
+        msg = f"\n\n<highlight>QL {ql}</highlight> is the highest weapon this type will combine into."
+        if ql != 300:
+            msg += "\nNote: <highlight>The weapon can bump several QL's.</highlight>"
+        msg += f"\n\nIt will take <highlight>{math.floor(ql * 6)}</highlight> ME & WS (<highlight>6 * QL</highlight>) to combine with a <highlight>QL {ql}</highlight> Kyr'ozch Weapon."
+
+        return msg
 
     def display_item(self, name, ql):
         return self.text.format_item(self.items_controller.find_by_name(name, ql), ql)

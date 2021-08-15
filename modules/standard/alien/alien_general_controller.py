@@ -2,7 +2,6 @@ from core.chat_blob import ChatBlob
 from core.command_param_types import Options
 from core.decorators import instance, command
 from core.text import Text
-from core.translation_service import TranslationService
 
 
 @instance()
@@ -10,21 +9,19 @@ class AlienGeneralController:
     def inject(self, registry):
         self.text: Text = registry.get_instance("text")
         self.items_controller = registry.get_instance("items_controller")
-        self.ts: TranslationService = registry.get_instance("translation_service")
-        self.getresp = self.ts.get_response
 
     @command(command="aigen", params=[], access_level="all",
              description="List alien city ground generals")
     def aigen_list_command(self, request):
         blob = ""
-        blob += " - <a href='chatcmd:///tell <myname> aigen Ankari'>Ankari</a>\n"
-        blob += " - <a href='chatcmd:///tell <myname> aigen Ilari'>Ilari</a>\n"
-        blob += " - <a href='chatcmd:///tell <myname> aigen Rimah'>Rimah</a>\n"
-        blob += " - <a href='chatcmd:///tell <myname> aigen Jaax'>Jaax</a>\n"
-        blob += " - <a href='chatcmd:///tell <myname> aigen Xoch'>Xoch</a>\n"
-        blob += " - <a href='chatcmd:///tell <myname> aigen Cha'>Cha</a>\n"
+        blob += "<a href='chatcmd:///tell <myname> aigen Ankari'>Ankari</a>\n"
+        blob += "<a href='chatcmd:///tell <myname> aigen Ilari'>Ilari</a>\n"
+        blob += "<a href='chatcmd:///tell <myname> aigen Rimah'>Rimah</a>\n"
+        blob += "<a href='chatcmd:///tell <myname> aigen Jaax'>Jaax</a>\n"
+        blob += "<a href='chatcmd:///tell <myname> aigen Xoch'>Xoch</a>\n"
+        blob += "<a href='chatcmd:///tell <myname> aigen Cha'>Cha</a>\n"
 
-        return ChatBlob(self.getresp("module/alien", "ai_gen_list_title"), blob)
+        return ChatBlob("Alien Generals", blob)
 
     @command(command="aigen", params=[Options(["ankari", "ilari", "rimah", "jaax", "xoch", "cha"])], access_level="all",
              description="Show info about an alien city ground general")

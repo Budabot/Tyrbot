@@ -201,14 +201,6 @@ class Text:
 
         return result
 
-    def generate_item(self, item, ql, synonym=None):
-        if synonym:
-            return {"icon_%s" % synonym: self.make_item(item.lowid, item.highid, ql, self.make_image(item.icon)),
-                    "text_%s" % synonym: self.make_item(item.lowid, item.highid, ql, item.name)}
-        else:
-            return {"icon": self.make_item(item.lowid, item.highid, ql, self.make_image(item.icon)),
-                    "text": self.make_item(item.lowid, item.highid, ql, item.name)}
-
     def format_char_info(self, char_info, online_status=None):
         if char_info.org_name and char_info.org_rank_name:
             msg = "<highlight>%s</highlight> (%d/<green>%d</green>) %s %s, %s of <highlight>%s</highlight>" % \
