@@ -5,6 +5,7 @@ from core.command_param_types import Any, Const, Options, Time, Character
 from core.chat_blob import ChatBlob
 import time
 
+from core.standard_message import StandardMessage
 from core.translation_service import TranslationService
 
 
@@ -48,7 +49,7 @@ class BanController:
              description="Remove a character from the ban list")
     def ban_remove_cmd(self, request, _, char):
         if not char.char_id:
-            return self.getresp("global", "char_not_found", {"char": char.name})
+            return StandardMessage.char_not_found(char.name)
         elif not self.ban_service.get_ban(char.char_id):
             return self.getresp("module/ban", "not_banned", {"char": char.name})
         else:
@@ -64,7 +65,7 @@ class BanController:
              description="Add a character to the ban list")
     def ban_add_cmd(self, request, _, char, duration, reason):
         if not char.char_id:
-            return self.getresp("global", "char_not_found", {"char": char.name})
+            return StandardMessage.char_not_found(char.name)
         elif self.ban_service.get_ban(char.char_id):
             return self.getresp("module/ban", "already_banned", {"char":char.name})
         else:

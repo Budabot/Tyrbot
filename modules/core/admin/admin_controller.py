@@ -4,6 +4,7 @@ from core.decorators import instance, command, event
 from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Options, Character
 from core.admin_service import AdminService
+from core.standard_message import StandardMessage
 from core.translation_service import TranslationService
 
 
@@ -53,7 +54,7 @@ class AdminController:
              description="Add an admin", sub_command="modify")
     def admin_add_cmd(self, request, _, char):
         if not char.char_id:
-            return self.getresp("global", "char_not_found", {"char": char.name})
+            return StandardMessage.char_not_found(char.name)
 
         if self.admin_service.add(char.char_id, AdminService.ADMIN):
             return self.getresp("module/admin", "add_success", {"char": char.name, "rank": AdminService.ADMIN})
@@ -64,7 +65,7 @@ class AdminController:
              description="Remove an admin", sub_command="modify")
     def admin_remove_cmd(self, request, _, char):
         if not char.char_id:
-            return self.getresp("global", "char_not_found", {"char": char.name})
+            return StandardMessage.char_not_found(char.name)
 
         if self.admin_service.remove(char.char_id):
             return self.getresp("module/admin", "rem_success", {"char": char.name, "rank": AdminService.ADMIN})
@@ -75,7 +76,7 @@ class AdminController:
              description="Add a moderator", sub_command="modify")
     def moderator_add_cmd(self, request, _, char):
         if not char.char_id:
-            return self.getresp("global", "char_not_found", {"char": char.name})
+            return StandardMessage.char_not_found(char.name)
 
         if self.admin_service.add(char.char_id, AdminService.MODERATOR):
             return self.getresp("module/admin", "add_success", {"char": char.name, "rank": AdminService.MODERATOR})
@@ -86,7 +87,7 @@ class AdminController:
              description="Remove a moderator", sub_command="modify")
     def moderator_remove_cmd(self, request, _, char):
         if not char.char_id:
-            return self.getresp("global", "char_not_found", {"char": char.name})
+            return StandardMessage.char_not_found(char.name)
 
         if self.admin_service.remove(char.char_id):
             return self.getresp("module/admin", "rem_success", {"char": char.name, "rank": AdminService.MODERATOR})

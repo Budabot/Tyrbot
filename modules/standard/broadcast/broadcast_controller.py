@@ -5,7 +5,7 @@ from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Character, Options, Any
 from core.db import DB
 from core.decorators import instance, command
-from core.translation_service import TranslationService
+from core.standard_message import StandardMessage
 
 
 @instance()
@@ -17,9 +17,7 @@ class BroadcastController:
         self.character_service = registry.get_instance("character_service")
         self.command_service = registry.get_instance("command_service")
         self.message_hub_service = registry.get_instance("message_hub_service")
-        self.ts: TranslationService = registry.get_instance("translation_service")
         self.access_service = registry.get_instance("access_service")
-        self.getresp = self.ts.get_response
 
     def pre_start(self):
         self.message_hub_service.register_message_source(self.MESSAGE_SOURCE)
@@ -46,7 +44,7 @@ class BroadcastController:
              description="Add a character/bot to the broadcast list")
     def broadcast_add_cmd(self, request, _, char, alias):
         if char.char_id is None:
-            return self.getresp("global", "char_not_found", {"char": char.name})
+            return StandardMessage.char_not_found(char.name)
 
         if char.char_id == request.sender.char_id:
             return "You cannot add yourself to the broadcast list."
@@ -66,7 +64,7 @@ class BroadcastController:
              description="Remove a character/bot from the broadcast list")
     def broadcast_remove_cmd(self, request, _, char):
         if char.char_id is None:
-            return self.getresp("global", "char_not_found", {"char": char.name})
+            return StandardMessage.char_not_found(char.name)
 
         row = self.db.query_single("SELECT 1 FROM broadcast WHERE char_id = ?", [char.char_id])
 

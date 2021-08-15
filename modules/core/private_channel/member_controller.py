@@ -8,6 +8,7 @@ from core.decorators import instance, command, event
 from core.dict_object import DictObject
 from core.setting_service import SettingService
 from core.setting_types import TextSettingType
+from core.standard_message import StandardMessage
 from core.translation_service import TranslationService
 from modules.core.org_members.org_member_controller import OrgMemberController
 
@@ -60,7 +61,7 @@ class MemberController:
                 self.add_member(char.char_id)
                 return self.getresp("module/private_channel", "mem_add_success", {"char": char.name})
         else:
-            return self.getresp("global", "char_not_found", {"char": char.name})
+            return StandardMessage.char_not_found(char.name)
 
     @command(command="member", params=[Options(["rem", "remove"]), Character("character")],
              access_level=OrgMemberController.ORG_ACCESS_LEVEL,
@@ -73,7 +74,7 @@ class MemberController:
             else:
                 return self.getresp("module/private_channel", "mem_rem_fail", {"char": char.name})
         else:
-            return self.getresp("global", "char_not_found", {"char": char.name})
+            return StandardMessage.char_not_found(char.name)
 
     @command(command="member", params=[Const("list", is_optional=True)],
              access_level=OrgMemberController.ORG_ACCESS_LEVEL,

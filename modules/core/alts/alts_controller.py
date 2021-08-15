@@ -4,6 +4,7 @@ from core.alts_service import AltsService
 from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Options, Character, Multiple
 from core.decorators import instance, command
+from core.standard_message import StandardMessage
 from core.translation_service import TranslationService
 
 
@@ -59,7 +60,7 @@ class AltsController:
         responses = []
         for alt_char in alt_chars:
             if not alt_char.char_id:
-                responses.append(self.getresp("global", "char_not_found", {"char": alt_char.name}))
+                responses.append(StandardMessage.char_not_found(alt_char.name))
             elif alt_char.char_id == request.sender.char_id:
                 responses.append(self.getresp("module/alts", "add_fail_self"))
             else:
@@ -80,7 +81,7 @@ class AltsController:
              description="Remove an alt")
     def alts_remove_cmd(self, request, _, alt_char):
         if not alt_char.char_id:
-            return self.getresp("global", "char_not_found", {"char": alt_char.name})
+            return StandardMessage.char_not_found(alt_char.name)
 
         msg, result = self.alts_service.remove_alt(request.sender.char_id, alt_char.char_id)
         if result:
@@ -96,7 +97,7 @@ class AltsController:
              description="Show alts of another character", sub_command="show")
     def alts_list_other_cmd(self, request, char):
         if not char.char_id:
-            return self.getresp("global", "char_not_found", {"char": char.name})
+            return StandardMessage.char_not_found(char.name)
 
         alts = self.alts_service.get_alts(char.char_id)
         blob = self.format_alt_list(alts)
@@ -108,9 +109,9 @@ class AltsController:
              description="Add alts to Main")
     def altadmin_add_cmd(self, request, _, main, alt):
         if not main.char_id:
-            return self.getresp("global", "char_not_found", {"char": main.name})
+            return StandardMessage.char_not_found(main.name)
         if not alt.char_id:
-            return self.getresp("global", "char_not_found", {"char": alt.name})
+            return StandardMessage.char_not_found(alt.name)
 
         elif main.char_id == alt.char_id:
             return self.getresp("module/alts", "altadmin_add_same")
@@ -130,9 +131,9 @@ class AltsController:
              description="Remove alts of main")
     def altadmin_remove_cmd(self, request, _, main, alt):
         if not main.char_id:
-            return self.getresp("global", "char_not_found", {"char": main.name})
+            return StandardMessage.char_not_found(main.name)
         if not alt.char_id:
-            return self.getresp("global", "char_not_found", {"char": alt.name})
+            return StandardMessage.char_not_found(alt.name)
 
         msg, result = self.alts_service.remove_alt(main.char_id, alt.char_id)
 

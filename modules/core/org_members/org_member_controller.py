@@ -10,6 +10,7 @@ from core.logger import Logger
 import time
 
 from core.public_channel_service import PublicChannelService
+from core.standard_message import StandardMessage
 from core.translation_service import TranslationService
 
 
@@ -76,7 +77,7 @@ class OrgMemberController:
              description="Manually remove a char from the org roster")
     def orgmember_remove_cmd(self, request, _, char):
         if not char.char_id:
-            return self.getresp("global", "char_not_found", {"char": char.name})
+            return StandardMessage.char_not_found(char.name)
 
         org_member = self.get_org_member(char.char_id)
         if not org_member or org_member.mode == self.MODE_REM_MANUAL:
@@ -98,7 +99,7 @@ class OrgMemberController:
              description="Manually add a char to the org roster")
     def orgmember_add_cmd(self, request, _, char):
         if not char.char_id:
-            return self.getresp("global", "char_not_found", {"char": char.name})
+            return StandardMessage.char_not_found(char.name)
 
         org_member = self.get_org_member(char.char_id)
         if org_member and (org_member.mode == self.MODE_ADD_AUTO or org_member.mode == self.MODE_ADD_MANUAL):

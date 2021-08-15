@@ -1,5 +1,6 @@
 from core.decorators import instance, command
 from core.command_param_types import Any, Character, Const
+from core.standard_message import StandardMessage
 
 
 @instance()
@@ -16,7 +17,7 @@ class SendMessageController:
             self.bot.send_private_message(char.char_id, message, add_color=False, conn=request.conn)
             return self.getresp("module/system", "msg_sent")
         else:
-            return self.getresp("global", "char_not_found", {"char": char.name})
+            return StandardMessage.char_not_found(char.name)
 
     @command(command="send", params=[Const("org"), Any("message")], access_level="superadmin",
              description="Send a message to the org channel from the bot")

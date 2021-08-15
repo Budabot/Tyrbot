@@ -4,7 +4,7 @@ from core.decorators import instance, command
 from core.dict_object import DictObject
 from core.logger import Logger
 from core.setting_types import TextSettingType
-from core.translation_service import TranslationService
+from core.standard_message import StandardMessage
 
 
 @instance()
@@ -22,8 +22,6 @@ class RaidInstanceController:
         self.util = registry.get_instance("util")
         self.character_service = registry.get_instance("character_service")
         self.private_channel_service = registry.get_instance("private_channel_service")
-        self.ts: TranslationService = registry.get_instance("translation_service")
-        self.getresp = self.ts.get_response
 
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS raid_instance (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255) NOT NULL, conn_id VARCHAR(50) NOT NULL)")
@@ -80,7 +78,7 @@ class RaidInstanceController:
              description="Add a character to a raid instance", sub_command="leader")
     def raid_instance_assign_cmd(self, request, _, raid_instance_name, char):
         if not char.char_id:
-            return self.getresp("global", "char_not_found", {"char": char.name})
+            return StandardMessage.char_not_found(char.name)
 
         raid_instance = self.get_raid_instance(raid_instance_name)
         if not raid_instance:
@@ -109,7 +107,7 @@ class RaidInstanceController:
              description="Remove a character from all raid instances", sub_command="leader")
     def raid_instance_unassign_cmd(self, request, _, char):
         if not char.char_id:
-            return self.getresp("global", "char_not_found", {"char": char.name})
+            return StandardMessage.char_not_found(char.name)
 
         self.refresh_raid_instance_chars()
 
@@ -124,7 +122,7 @@ class RaidInstanceController:
              description="Set the leader for a raid instance", sub_command="leader")
     def raid_instance_leader_cmd(self, request, _, char):
         if not char.char_id:
-            return self.getresp("global", "char_not_found", {"char": char.name})
+            return StandardMessage.char_not_found(char.name)
 
         raid_instance = self.get_raid_instance_by_char(char.char_id)
         if not raid_instance:

@@ -1,5 +1,6 @@
 from core.decorators import instance, command
 from core.command_param_types import Any, Character
+from core.standard_message import StandardMessage
 
 
 @instance()
@@ -13,7 +14,7 @@ class RunasController:
              description="Run a command as another character")
     def runas_cmd(self, request, char, command_str):
         if not char.char_id:
-            return self.getresp("global", "char_not_found", {"char": char.name})
+            return StandardMessage.char_not_found(char.name)
         elif not self.access_service.has_sufficient_access_level(request.sender.char_id, char.char_id):
             return self.getresp("module/system", "runas_fail", {"char": char.name})
         else:

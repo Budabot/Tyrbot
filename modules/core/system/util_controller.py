@@ -9,6 +9,7 @@ import psutil
 from core.chat_blob import ChatBlob
 from core.command_param_types import Any, Character
 from core.decorators import instance, command
+from core.standard_message import StandardMessage
 
 
 @instance()
@@ -28,7 +29,7 @@ class UtilController:
              description="Check access level for a character", sub_command="other")
     def checkaccess_other_cmd(self, request, char):
         if not char.char_id:
-            return self.getresp("global", "char_not_found", {"char": char.name})
+            return StandardMessage.char_not_found(char.name)
 
         return self.getresp("module/system", "check_access",
                             {"char": char.name,
@@ -66,7 +67,7 @@ class UtilController:
              description="Show command output to another character")
     def showcommand_cmd(self, request, char, command_str):
         if not char.char_id:
-            return self.getresp("global", "char_not_found", {"char": char.name})
+            return StandardMessage.char_not_found(char.name)
 
         self.bot.send_private_message(char.char_id,
                                       self.getresp("module/system", "show_output_target", {"sender": request.sender.name, "cmd": command_str}),

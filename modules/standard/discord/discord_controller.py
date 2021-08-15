@@ -4,7 +4,6 @@ import threading
 from functools import partial
 from html.parser import HTMLParser
 
-import hjson
 from discord import Member, ChannelType
 
 from core.alts_service import AltsService
@@ -15,8 +14,8 @@ from core.dict_object import DictObject
 from core.logger import Logger
 from core.lookup.character_service import CharacterService
 from core.setting_types import HiddenSettingType, ColorSettingType, TextSettingType, BooleanSettingType
+from core.standard_message import StandardMessage
 from core.text import Text
-from core.translation_service import TranslationService
 
 from .discord_message import DiscordEmbedMessage, DiscordTextMessage, DiscordMessage
 from .discord_wrapper import DiscordWrapper
@@ -82,8 +81,6 @@ class DiscordController:
         self.message_hub_service = registry.get_instance("message_hub_service")
         self.pork_service = registry.get_instance("pork_service")
         self.alts_service = registry.get_instance("alts_service")
-        self.ts: TranslationService = registry.get_instance("translation_service")
-        self.getresp = self.ts.get_response
 
     def pre_start(self):
         self.event_service.register_event_type("discord_ready")
@@ -107,8 +104,6 @@ class DiscordController:
         self.register_discord_command_handler(self.discord_link_cmd, "discord", [Const("link"), Character("ao_character")])
         self.register_discord_command_handler(self.discord_unlink_cmd, "discord", [Const("unlink")])
 
-        self.ts.register_translation("module/discord", self.load_discord_msg)
-
         self.setting_service.register(self.module_name, "discord_enabled", False, BooleanSettingType(), "Enable the Discord relay")
         self.setting_service.register(self.module_name, "discord_bot_token", "", HiddenSettingType(allow_empty=True), "Discord bot token")
         self.setting_service.register(self.module_name, "discord_channel_id", "", TextSettingType(allow_empty=True),
@@ -122,72 +117,65 @@ class DiscordController:
         self.setting_service.register_change_listener("discord_channel_id", self.update_discord_channel)
         self.setting_service.register_change_listener("discord_enabled", self.update_discord_state)
 
-    def load_discord_msg(self):
-        with open("modules/standard/discord/discord.msg", mode="r", encoding="utf-8") as f:
-            return hjson.load(f)
-
     @command(command="discord", params=[], access_level="member",
              description="See Discord info")
     def discord_cmd(self, request):
-        servers = ""
+        status = "<green>Connected</green>" if self.is_connected() else "<red>Disconnected</red>"
+
+        blob = "<header2>Info</header2>\n"
+        blob += f"Status: {status}\n"
+        blob += f"Channels available: <highlight>{len(self.get_text_channels())}</highlight>\n\n"
+        blob += "<header2>Servers</header2>\n"
+
         if self.client and self.client.guilds:
             for server in self.client.guilds:
-                invites = self.text.make_tellcmd(self.getresp("module/discord", "get_invite"),
-                                                 "discord getinvite %s" % server.id)
+                invites = self.text.make_tellcmd("Get invite", "discord getinvite %s" % server.id)
                 owner = server.owner.nick or re.sub(pattern=r"#\d+", repl="", string=str(server.owner))
-                servers += self.getresp("module/discord", "server", {"server_name": server.name,
-                                                                     "invite": invites,
-                                                                     "m_count": str(len(server.members)),
-                                                                     "owner": owner})
+                blob += f"{server.name} [{invites}]\n"
+                blob += f" └ member count: {len(server.members)}\n"
+                blob += f" └ owner: {owner}\n\n"
         else:
-            servers += self.getresp("module/discord", "no_server")
+            blob += "None\n\n"
 
-        subs = ""
+        blob += "<header2>Channels</header2>\n"
         for channel in self.get_text_channels():
-            subs += self.getresp("module/discord", "sub", {"server_name": channel.guild.name,
-                                                           "channel_name": channel.name})
-        status = self.getresp("module/discord", "connected" if self.is_connected() else "disconnected")
-        blob = self.getresp("module/discord", "blob", {"connected": status,
-                                                       "count": len(self.get_text_channels()),
-                                                       "servers": servers,
-                                                       "subs": subs})
+            blob += f"<highlight>{channel.guild.name}</highlight> :: <highlight>{channel.name}</highlight>\n"
 
-        return ChatBlob(self.getresp("module/discord", "title"), blob)
+        blob += "\n\nDiscord Module written by <highlight>Vladimirovna</highlight>\n"
+
+        return ChatBlob("Discord Info", blob)
 
     @command(command="discord", params=[Const("relay")], access_level="moderator", sub_command="manage",
              description="Setup relaying of channels")
     def discord_relay_cmd(self, request, _):
-        connect_link = self.text.make_tellcmd(self.getresp("module/discord", "connect"), "config setting discord_enabled set true")
-        disconnect_link = self.text.make_tellcmd(self.getresp("module/discord", "disconnect"), "config setting discord_enabled set false")
-        constatus = self.getresp("module/discord", "connected" if self.is_connected() else "disconnected")
-        subs = ""
+        connect_link = self.text.make_tellcmd("<green>Connect</green>", "config setting discord_enabled set true")
+        disconnect_link = self.text.make_tellcmd("<red>Disconnect</red>", "config setting discord_enabled set false")
+        constatus = "<green>Connected</green>" if self.is_connected() else "<red>Disconnected</red>"
+
+        blob = "<header2>Info</header2>\n"
+        blob += f"Status: {constatus} [{connect_link} {disconnect_link}]\n"
+        blob += f"Channels available: <highlight>{len(self.get_text_channels())}</highlight>\n\n"
+        blob += "<header2>Subscription setup</header2>\n"
         for channel in self.get_text_channels():
             select_link = self.text.make_tellcmd("select", "config setting discord_channel_id set %s" % channel.id)
             selected = "(selected)" if self.setting_service.get("discord_channel_id").get_value() == channel.id else ""
-            subs += self.getresp("module/discord", "relay", {"server_name": channel.guild.name,
-                                                             "channel_name": channel.name,
-                                                             "select": select_link,
-                                                             "selected": selected})
+            blob += f"<highlight>{channel.guild.name}</highlight> :: <highlight>{channel.name}</highlight> [{select_link}] {selected}\n"
 
-        blob = self.getresp("module/discord", "blob_relay", {"connected": constatus,
-                                                             "connect_link": connect_link,
-                                                             "disconnect_link": disconnect_link,
-                                                             "count": len(self.get_text_channels()),
-                                                             "subs": subs})
+        blob += "\n\nDiscord Module written by <highlight>Vladimirovna</highlight>\n"
 
-        return ChatBlob(self.getresp("module/discord", "relay_title"), blob)
+        return ChatBlob("Discord Relay", blob)
 
     @command(command="discord", params=[Const("confirm"), Int("discord_id")], access_level="member",
              description="Confirm link of a Discord user")
     def discord_confirm_cmd(self, request, _, discord_id):
         main = self.alts_service.get_main(request.sender.char_id)
         if main.char_id != request.sender.char_id:
-            return self.getresp("module/discord", "must_run_from_main", {"char": main.name})
+            return "You must run this command from your main character."
 
         self.db.exec("DELETE FROM discord_char_link WHERE discord_id = ? OR char_id = ?", [discord_id, main.char_id])
         self.db.exec("INSERT INTO discord_char_link (discord_id, char_id) VALUES (?, ?)", [discord_id, main.char_id])
 
-        return self.getresp("module/discord", "link_success", {"discord_user": discord_id})
+        return f"You have been linked with discord user <highlight>{discord_id}</highlight> successfully."
 
     @command(command="discord", params=[Const("getinvite"), Int("server_id")], access_level="member",
              description="Get an invite for specified server", sub_command="getinvite")
@@ -197,7 +185,7 @@ class DiscordController:
                 if server.id == server_id:
                     self.send_to_discord("get_invite", (request.sender.name, server))
                     return
-        return self.getresp("module/discord", "no_dc", {"id": server_id})
+        return f"Could not find Discord server with ID <highlight>{server_id}</highlight>."
 
     @timerevent(budatime="1s", description="Discord relay queue handler", is_hidden=True)
     def handle_discord_queue_event(self, event_type, event_data):
@@ -232,31 +220,29 @@ class DiscordController:
         char_name = event_data[0]
         invites = event_data[1]
 
-        blob = ""
-        server_invites = ""
+        blob = f"<header2>Available invites</header2>\n"
         if len(invites) > 0:
             for invite in invites:
-                link = self.text.make_chatcmd(self.getresp("module/discord", "join"), "/start %s" % invite.url)
+                link = self.text.make_chatcmd("Join", "/start %s" % invite.url)
                 timeleft = "Permanent" if invite.max_age == 0 else str(datetime.timedelta(seconds=invite.max_age))
                 used = str(invite.uses) if invite.uses is not None else "N/A"
                 useleft = str(invite.max_uses) if invite.max_uses is not None else "N/A"
                 if invite.channel is not None:
-                    channel = self.getresp("module/discord", "inv_channel", {"channel": invite.channel.name})
+                    channel = f" └ for channel: {invite.channel.name}"
                 else:
                     channel = None
-                server_invites += self.getresp("module/discord", "invite", {"server": invite.guild.name,
-                                                                            "link": link,
-                                                                            "time_left": timeleft,
-                                                                            "count_used": used,
-                                                                            "count_left": useleft,
-                                                                            "channel": channel})
-            blob += self.getresp("module/discord", "blob_invites", {"invites": server_invites})
+
+                blob += f"{invite.guild.name} [{link}]\n"
+                blob += f" └ life time: {timeleft}\n"
+                blob += f" └ used: {used}\n"
+                blob += f" └ uses left: {useleft}\n"
+                blob += f"{channel}\n\n"
 
         else:
             blob += "No invites currently exist."
 
         char_id = self.character_service.resolve_char_to_id(char_name)
-        self.bot.send_private_message(char_id, ChatBlob(self.getresp("module/discord", "invite_title"), blob))
+        self.bot.send_private_message(char_id, ChatBlob("Discord invites", blob))
 
     def handle_discord_command_event(self, message):
         if not self.find_discord_command_handler(message):
@@ -266,7 +252,7 @@ class DiscordController:
                 message_str = self.command_service.trim_command_symbol(message.content)
                 self.command_service.process_command(message_str, self.COMMAND_CHANNEL, row.char_id, reply, self.bot.get_primary_conn())
             else:
-                reply(self.getresp("module/discord", "discord_user_not_linked"))
+                reply("You must use `!discord link &lt;your_ao_character&gt;` to link your Discord user to an AO character in order to access the full range of commands.")
 
     def handle_discord_message_event(self, message):
         if isinstance(message.author, Member):
@@ -377,26 +363,31 @@ class DiscordController:
     def discord_link_cmd(self, ctx, reply, args):
         char = args[1]
         if not char.char_id:
-            reply(self.getresp("global", "char_not_found", {"char": char.name}))
+            reply(StandardMessage.char_not_found(char.name))
             return
 
         main = self.alts_service.get_main(char.char_id)
         if main.char_id != char.char_id:
-            reply(self.getresp("module/discord", "must_link_main"))
+            reply("You cannot link an alt, you must link with a main character.")
             return
 
         author = ctx.message.author
         discord_user = "%s#%s (%d)" % (author.name, author.discriminator, author.id)
-        blob = self.getresp("module/discord", "confirm_instructions", {"discord_user": discord_user,
-                                                                       "confirm_link": self.text.make_tellcmd("Confirm", "discord confirm %d" % author.id)})
+        confirm_link = self.text.make_tellcmd("Confirm", "discord confirm %d" % author.id)
+
+        blob = f"Discord user {discord_user} would like to link to this character.\n\n"
+        blob += "This discord user will inherit your access level on the bot so be sure that this is what you want to do.\n\n"
+        blob += "If you are currently linked to another Discord user, this will replace that link.\n\n"
+        blob += f"To confirm, click here: {confirm_link}"
+
         self.bot.send_private_message(char.char_id, ChatBlob("Discord Confirm Link", blob))
 
-        reply(self.getresp("module/discord", "link_response", {"char": char.name}))
+        reply(f"A confirmation has been sent to {char.name}. You must confirm the link from that character.")
 
     def discord_unlink_cmd(self, ctx, reply, args):
         self.db.exec("DELETE FROM discord_char_link WHERE discord_id = ?", [ctx.message.author.id])
 
-        reply(self.getresp("module/discord", "unlink_success"))
+        reply("You have successfully been unlinked from your AO character.")
 
     def is_connected(self):
         # not self.client or not self.dthread.is_alive()

@@ -4,6 +4,7 @@ from core.decorators import instance, command, timerevent
 from core.command_param_types import Any, Const, Options, Character
 from core.chat_blob import ChatBlob
 from core.logger import Logger
+from core.standard_message import StandardMessage
 from core.translation_service import TranslationService
 
 
@@ -40,7 +41,7 @@ class BuddyController:
             self.buddy_service.add_buddy(char.char_id, buddy_type)
             return f"Character <highlight>{char.name}</highlight> has been added to the buddy list for type <highlight>{buddy_type}</highlight>."
         else:
-            return self.getresp("global", "char_not_found", {"char": char.name})
+            return StandardMessage.char_not_found(char.name)
 
     @command(command="buddylist", params=[Options(["rem", "remove"]), Const("all")], access_level="admin",
              description="Remove all characters from the buddy list")
@@ -60,7 +61,7 @@ class BuddyController:
             self.buddy_service.remove_buddy(char.char_id, buddy_type)
             return f"Character <highlight>{char.name}</highlight> has been removed from the buddy list for type <highlight>{buddy_type}</highlight>."
         else:
-            return self.getresp("global", "char_not_found", {"char": char.name})
+            return StandardMessage.char_not_found(char.name)
 
     @command(command="buddylist", params=[Options(["rem", "remove"]), Character("character")], access_level="admin",
              description="Remove a character from the buddy list forcefully")
@@ -69,7 +70,7 @@ class BuddyController:
             self.buddy_service.remove_buddy(char.char_id, None, force_remove=True)
             return f"Character <highlight>{char.name}</highlight> has been removed from the buddy list forcefully."
         else:
-            return self.getresp("global", "char_not_found", {"char": char.name})
+            return StandardMessage.char_not_found(char.name)
 
     @command(command="buddylist", params=[Const("clean")], access_level="admin",
              description="Remove all orphaned buddies from the buddy list")

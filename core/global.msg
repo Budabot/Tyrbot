@@ -1,8 +1,4 @@
 {
-  "char_not_found": {
-    "en_US": "Could not find character <highlight>{char}</highlight>.",
-    "de_DE": "Der Charakter <highlight>{char}</highlight> wurde nicht gefunden."
-  },
   "access_denied": {
     "en_US": "Access denied.",
     "de_DE": "Zugriff verweigert."

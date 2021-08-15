@@ -7,6 +7,7 @@ from core.decorators import instance, command, event
 from core.dict_object import DictObject
 from core.private_channel_service import PrivateChannelService
 from core.setting_service import SettingService
+from core.standard_message import StandardMessage
 from core.text import Text
 from core.translation_service import TranslationService
 
@@ -72,7 +73,7 @@ class PrivateChannelController:
                 self.private_channel_service.invite(char.char_id, conn)
                 return self.getresp("module/private_channel", "invite_success_self", {"target": char.name})
         else:
-            return self.getresp("global", "char_not_found", {"char": char.name})
+            return StandardMessage.char_not_found(char.name)
 
     @command(command="kick", params=[Character("character")], access_level="moderator",
              description="Kick a character from the private channel")
@@ -92,7 +93,7 @@ class PrivateChannelController:
                 else:
                     return self.getresp("module/private_channel", "kick_fail", {"target": char.name})
         else:
-            return self.getresp("global", "char_not_found", {"char": char.name})
+            return StandardMessage.char_not_found(char.name)
 
     @command(command="kickall", params=[], access_level="moderator",
              description="Kick all characters from the private channel")
