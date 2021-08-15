@@ -1,11 +1,8 @@
-import hjson
-
 from core.decorators import instance, command, timerevent
 from core.command_param_types import Any, Const, Options, Character
 from core.chat_blob import ChatBlob
 from core.logger import Logger
 from core.standard_message import StandardMessage
-from core.translation_service import TranslationService
 
 
 @instance()
@@ -17,8 +14,6 @@ class BuddyController:
         self.bot = registry.get_instance("bot")
         self.character_service = registry.get_instance("character_service")
         self.buddy_service = registry.get_instance("buddy_service")
-        self.ts: TranslationService = registry.get_instance("translation_service")
-        self.getresp = self.ts.get_response
 
     @command(command="buddylist", params=[], access_level="admin",
              description="Show characters on the buddy list")

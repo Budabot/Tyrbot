@@ -1,5 +1,3 @@
-import hjson
-
 from core.aochat.server_packets import BuddyAdded
 from core.chat_blob import ChatBlob
 from core.command_param_types import Character, Options, Const
@@ -11,7 +9,6 @@ import time
 
 from core.public_channel_service import PublicChannelService
 from core.standard_message import StandardMessage
-from core.translation_service import TranslationService
 
 
 @instance()
@@ -50,8 +47,6 @@ class OrgMemberController:
         self.org_pork_service = registry.get_instance("org_pork_service")
         self.event_service = registry.get_instance("event_service")
         self.character_service = registry.get_instance("character_service")
-        self.ts: TranslationService = registry.get_instance("translation_service")
-        self.getresp = self.ts.get_response
 
     def pre_start(self):
         self.event_service.register_event_type(self.ORG_MEMBER_LOGON_EVENT)
@@ -59,11 +54,6 @@ class OrgMemberController:
 
         self.access_service.register_access_level(self.ORG_ACCESS_LEVEL, 60, self.check_org_member)
         self.bot.register_packet_handler(BuddyAdded.id, self.handle_buddy_added)
-        self.ts.register_translation("module/org_members", self.load_org_members_msg)
-
-    def load_org_members_msg(self):
-        with open("modules/core/org_members/org_members.msg", mode="r", encoding="utf-8") as f:
-            return hjson.load(f)
 
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS org_member (char_id INT NOT NULL PRIMARY KEY,"
@@ -81,7 +71,7 @@ class OrgMemberController:
 
         org_member = self.get_org_member(char.char_id)
         if not org_member or org_member.mode == self.MODE_REM_MANUAL:
-            return self.getresp("module/org_members", "notify_rem_fail", {"char": char.name})
+            return f"<highlight>{char.name}</highlight> is not on the org roster."
 
         if not request.conn.org_id:
             return "This bot connection does not have an associated org."
@@ -93,7 +83,7 @@ class OrgMemberController:
                                                                                 "name": char.name,
                                                                                 "conn": request.conn}))
 
-        return self.getresp("module/org_members", "notify_rem_success", {"char": char.name})
+        return f"<highlight>{char.name}</highlight> has been manually removed from the org roster."
 
     @command(command="orgmember", params=[Options(["on", "add"]), Character("character")], access_level="moderator",
              description="Manually add a char to the org roster")
@@ -103,7 +93,7 @@ class OrgMemberController:
 
         org_member = self.get_org_member(char.char_id)
         if org_member and (org_member.mode == self.MODE_ADD_AUTO or org_member.mode == self.MODE_ADD_MANUAL):
-            return self.getresp("module/org_members", "notify_add_fail", {"char": char.name})
+            return f"<highlight>{char.name}</highlight> is already on the org roster."
 
         if not request.conn.org_id:
             return "This bot connection does not have an associated org."
@@ -117,7 +107,7 @@ class OrgMemberController:
                                                                                    "name": char.name,
                                                                                    "conn": request.conn}))
 
-        return self.getresp("module/org_members", "notify_add_success", {"char": char.name})
+        return f"<highlight>{char.name}</highlight> has been manually added to the org roster."
 
     @command(command="orgmember", params=[], access_level="moderator",
              description="Show the list of org members")
@@ -127,7 +117,7 @@ class OrgMemberController:
         for row in data:
             blob += self.text.format_char_info(row) + " " + row.mode + "\n"
 
-        return ChatBlob(self.getresp("module/org_members", "blob_title_list", {"amount": len(data)}), blob)
+        return ChatBlob(f"Org Members ({len(data)})", blob)
 
     @command(command="orgmember", params=[Const("update")], access_level="moderator",
              description="Force an update of the org roster")

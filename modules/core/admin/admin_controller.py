@@ -1,11 +1,8 @@
-import hjson
-
 from core.decorators import instance, command, event
 from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Options, Character
 from core.admin_service import AdminService
 from core.standard_message import StandardMessage
-from core.translation_service import TranslationService
 
 
 @instance()
@@ -19,17 +16,10 @@ class AdminController:
         self.pork_service = registry.get_instance("pork_service")
         self.command_alias_service = registry.get_instance("command_alias_service")
         self.buddy_service = registry.get_instance("buddy_service")
-        self.ts: TranslationService = registry.get_instance("translation_service")
-        self.getresp = self.ts.get_response
 
     def start(self):
         self.command_alias_service.add_alias("adminlist", "admin")
         self.command_alias_service.add_alias("admins", "admin")
-        self.ts.register_translation("module/admin", self.load_admin_msg)
-
-    def load_admin_msg(self):
-        with open("modules/core/admin/admin.msg", mode="r", encoding="UTF-8") as f:
-            return hjson.load(f)
 
     @command(command="admin", params=[], access_level="all",
              description="Show the admin list")
@@ -57,9 +47,9 @@ class AdminController:
             return StandardMessage.char_not_found(char.name)
 
         if self.admin_service.add(char.char_id, AdminService.ADMIN):
-            return self.getresp("module/admin", "add_success", {"char": char.name, "rank": AdminService.ADMIN})
+            return f"Character <highlight>{char.name}</highlight> added as <highlight>{AdminService.ADMIN}</highlight> successfully."
         else:
-            return self.getresp("module/admin", "add_fail", {"char": char.name, "rank": AdminService.ADMIN})
+            return f"Could not add character <highlight>{char.name}</highlight> as <highlight>{AdminService.ADMIN}</highlight>."
 
     @command(command="admin", params=[Options(["remove", "rem"]), Character("character")], access_level="superadmin",
              description="Remove an admin", sub_command="modify")
@@ -68,9 +58,9 @@ class AdminController:
             return StandardMessage.char_not_found(char.name)
 
         if self.admin_service.remove(char.char_id):
-            return self.getresp("module/admin", "rem_success", {"char": char.name, "rank": AdminService.ADMIN})
+            return f"Character <highlight>{char.name}</highlight> removed as <highlight>{AdminService.ADMIN}</highlight> successfully."
         else:
-            return self.getresp("module/admin", "rem_fail", {"char": char.name, "rank": AdminService.ADMIN})
+            return f"Could not remove character <highlight>{char.name}</highlight> as <highlight>{AdminService.ADMIN}</highlight>."
 
     @command(command="moderator", params=[Const("add"), Character("character")], access_level="admin",
              description="Add a moderator", sub_command="modify")
@@ -79,9 +69,9 @@ class AdminController:
             return StandardMessage.char_not_found(char.name)
 
         if self.admin_service.add(char.char_id, AdminService.MODERATOR):
-            return self.getresp("module/admin", "add_success", {"char": char.name, "rank": AdminService.MODERATOR})
+            return f"Character <highlight>{char.name}</highlight> added as <highlight>{AdminService.MODERATOR}</highlight> successfully."
         else:
-            return self.getresp("module/admin", "add_fail", {"char": char.name, "rank": AdminService.MODERATOR})
+            return f"Could not add character <highlight>{char.name}</highlight> as <highlight>{AdminService.MODERATOR}</highlight>."
 
     @command(command="moderator", params=[Options(["remove", "rem"]), Character("character")], access_level="admin",
              description="Remove a moderator", sub_command="modify")
@@ -90,9 +80,9 @@ class AdminController:
             return StandardMessage.char_not_found(char.name)
 
         if self.admin_service.remove(char.char_id):
-            return self.getresp("module/admin", "rem_success", {"char": char.name, "rank": AdminService.MODERATOR})
+            return f"Character <highlight>{char.name}</highlight> removed as <highlight>{AdminService.MODERATOR}</highlight> successfully."
         else:
-            return self.getresp("module/admin", "rem_fail", {"char": char.name, "rank": AdminService.MODERATOR})
+            return f"Could not remove character <highlight>{char.name}</highlight> as <highlight>{AdminService.MODERATOR}</highlight>."
 
     @event(event_type="connect", description="Add admins as buddies")
     def connect_event(self, event_type, event_data):
