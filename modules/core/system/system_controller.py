@@ -1,5 +1,3 @@
-import hjson
-
 from core.command_param_types import Any
 from core.decorators import instance, command, event
 from core.dict_object import DictObject
@@ -8,7 +6,6 @@ from core.private_channel_service import PrivateChannelService
 from core.public_channel_service import PublicChannelService
 from core.setting_service import SettingService
 from core.setting_types import BooleanSettingType
-from core.translation_service import TranslationService
 
 
 @instance()
@@ -24,23 +21,15 @@ class SystemController:
         self.setting_service: SettingService = registry.get_instance("setting_service")
         self.event_service = registry.get_instance("event_service")
         self.character_service = registry.get_instance("character_service")
-        self.ts: TranslationService = registry.get_instance("translation_service")
         self.message_hub_service = registry.get_instance("message_hub_service")
-        self.getresp = self.ts.get_response
 
     def pre_start(self):
         self.event_service.register_event_type(self.SHUTDOWN_EVENT)
         self.message_hub_service.register_message_source(self.MESSAGE_SOURCE)
 
     def start(self):
-        self.ts.register_translation("module/system", self.load_system_msg)
-
         self.setting_service.register(self.module_name, "expected_shutdown", True, BooleanSettingType(),
                                       "Helps bot to determine if last shutdown was expected or due to a problem")
-
-    def load_system_msg(self):
-        with open("modules/core/system/system.msg", mode="r", encoding="utf-8") as f:
-            return hjson.load(f)
 
     def expected_shutdown(self):
         return self.setting_service.get("expected_shutdown")
@@ -62,10 +51,10 @@ class SystemController:
     @event(event_type="connect", description="Notify superadmin that bot has come online")
     def connect_event(self, event_type, event_data):
         if self.expected_shutdown().get_value():
-            msg = self.getresp("module/system", "expected_online")
+            msg = "<myname> is now <green>online</green>."
         else:
             self.logger.warning("The bot has recovered from an unexpected shutdown or restart")
-            msg = self.getresp("module/system", "unexpected_online")
+            msg = "<myname> is now <green>online</green> but may have shut down or restarted unexpectedly."
 
         char_id = self.character_service.resolve_char_to_id(self.bot.superadmin)
         self.bot.send_private_message(char_id, msg, conn=self.bot.get_primary_conn())
@@ -86,10 +75,13 @@ class SystemController:
             self.bot.shutdown()
 
     def _format_message(self, restart, reason):
+        msg = ""
         if restart:
-            if reason:
-                return self.getresp("module/system", "restart") + self.getresp("module/system", "reason", {"reason": reason})
-            return self.getresp("module/system", "restart") + ".."
+            msg += "The bot is restarting."
+        else:
+            msg += "The bot is shutting down."
+
         if reason:
-            return self.getresp("module/system", "shutdown") + self.getresp("module/system", "reason", {"reason": reason})
-        return self.getresp("module/system", "shutdown") + ".."
+            msg += f" <highlight>Reason: {reason}</highlight>"
+
+        return msg

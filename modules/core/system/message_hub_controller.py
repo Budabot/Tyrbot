@@ -12,7 +12,6 @@ class MessageHubController:
         self.db = registry.get_instance("db")
         self.text = registry.get_instance("text")
         self.message_hub_service = registry.get_instance("message_hub_service")
-        self.getresp = partial(registry.get_instance("translation_service").get_response, "module/system")
 
     @command(command="messagehub", params=[], access_level="admin",
              description="Show the current message hub subscriptions")

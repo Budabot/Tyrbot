@@ -8,7 +8,6 @@ class QueueController:
         self.bot = registry.get_instance("bot")
         self.command_alias_service = registry.get_instance("command_alias_service")
         self.command_service = registry.get_instance("command_service")
-        self.getresp = registry.get_instance("translation_service").get_response
 
     def start(self):
         self.command_alias_service.add_alias("clearqueue", "queue clear")
@@ -18,7 +17,7 @@ class QueueController:
     def queue_clear_cmd(self, request, _):
         num_messages = len(request.conn.packet_queue)
         request.conn.packet_queue.clear()
-        return self.getresp("module/system", "clear_queue", {"count": num_messages})
+        return f"Cleared <highlight>{num_messages}</highlight> messages from the outgoing message queue."
 
     @command(command="massmsg", params=[Any("command")], access_level="moderator",
              description="Force the reply of the specified command to be sent via non-main bots")
