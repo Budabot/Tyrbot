@@ -1,11 +1,8 @@
-import hjson
-
 from core.alts_service import AltsService
 from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Options, Character, Multiple
 from core.decorators import instance, command
 from core.standard_message import StandardMessage
-from core.translation_service import TranslationService
 
 
 @instance()
@@ -15,15 +12,6 @@ class AltsController:
         self.alts_service: AltsService = registry.get_instance("alts_service")
         self.buddy_service = registry.get_instance("buddy_service")
         self.util = registry.get_instance("util")
-        self.ts: TranslationService = registry.get_instance("translation_service")
-        self.getresp = self.ts.get_response
-
-    def start(self):
-        self.ts.register_translation("module/alts", self.load_alts_msg)
-
-    def load_alts_msg(self):
-        with open("modules/core/alts/alts.msg", mode="r", encoding="UTF-8") as f:
-            return hjson.load(f)
 
     @command(command="alts", params=[], access_level="all",
              description="Show your alts")
@@ -31,7 +19,7 @@ class AltsController:
         alts = self.alts_service.get_alts(request.sender.char_id)
         blob = self.format_alt_list(alts)
 
-        return ChatBlob(self.getresp("module/alts", "list", {"char": alts[0].name, "amount": len(alts)}), blob)
+        return ChatBlob(f"Alts of {alts[0].name} ({len(alts)})", blob)
 
     def get_alt_status(self, status):
         if status == AltsService.MAIN:
@@ -46,11 +34,11 @@ class AltsController:
         msg, result = self.alts_service.set_as_main(request.sender.char_id)
 
         if result:
-            return self.getresp("module/alts", "new_main", {"char": request.sender.name})
+            return f"<highlight>{request.sender.name}</highlight> character has been set as your main.",
         elif msg == "not_an_alt":
-            return self.getresp("module/alts", "not_an_alt")
+            return "Error! This character cannot be set as your main since you do not have any alts."
         elif msg == "already_main":
-            return self.getresp("module/alts", "already_main")
+            return "Error! This character is already set as your main."
         else:
             raise Exception("Unknown msg: " + msg)
 
@@ -62,16 +50,16 @@ class AltsController:
             if not alt_char.char_id:
                 responses.append(StandardMessage.char_not_found(alt_char.name))
             elif alt_char.char_id == request.sender.char_id:
-                responses.append(self.getresp("module/alts", "add_fail_self"))
+                responses.append("Error! You cannot register yourself as an alt.")
             else:
                 msg, result = self.alts_service.add_alt(request.sender.char_id, alt_char.char_id)
                 if result:
                     self.bot.send_private_message(alt_char.char_id,
-                                                  self.getresp("module/alts", "add_success_target", {"char": request.sender.name}),
+                                                  f"<highlight>{request.sender.name}</highlight> has added you as an alt.",
                                                   conn=request.conn)
-                    responses.append(self.getresp("module/alts", "add_success_self", {"char": alt_char.name}))
+                    responses.append(f"<highlight>{alt_char.name}</highlight> has been added as your alt.")
                 elif msg == "another_main":
-                    responses.append(self.getresp("module/alts", "add_fail_already", {"char": alt_char.name}))
+                    responses.append(f"Error! <highlight>{alt_char.name}</highlight> already has alts.")
                 else:
                     raise Exception("Unknown msg: " + msg)
 
@@ -85,11 +73,11 @@ class AltsController:
 
         msg, result = self.alts_service.remove_alt(request.sender.char_id, alt_char.char_id)
         if result:
-            return self.getresp("module/alts", "rem_success", {"char": alt_char.name})
+            return f"<highlight>{alt_char.name}</highlight> has been removed as your alt."
         elif msg == "not_alt":
-            return self.getresp("module/alts", "rem_fail_not", {"char": alt_char.name})
+            return f"Error! <highlight>{alt_char.name}</highlight> is not your alt."
         elif msg == "remove_main":
-            return self.getresp("module/alts", "rem_fail_main")
+            return "Error! You cannot remove your main."
         else:
             raise Exception("Unknown msg: " + msg)
 
@@ -102,7 +90,7 @@ class AltsController:
         alts = self.alts_service.get_alts(char.char_id)
         blob = self.format_alt_list(alts)
 
-        return ChatBlob(self.getresp("module/alts", "list", {"char": alts[0].name, "amount": len(alts)}), blob)
+        return ChatBlob(f"Alts of {alts[0].name} ({len(alts)})", blob)
 
     @command(command="altadmin", params=[Const("add"), Character("main"), Character("alt")],
              access_level="admin",
@@ -114,15 +102,13 @@ class AltsController:
             return StandardMessage.char_not_found(alt.name)
 
         elif main.char_id == alt.char_id:
-            return self.getresp("module/alts", "altadmin_add_same")
+            return "Error! Alt and main are identical."
 
         msg, result = self.alts_service.add_alt(main.char_id, alt.char_id)
         if result:
-            return self.getresp("module/alts", "altadmin_add_success",
-                                {"alt": alt.name,
-                                 "main": main.name})
+            return f"The character <highlight>{alt.name}</highlight> was added as an alt of <highlight>{main.name}</highlight> successfully."
         elif msg == "another_main":
-            return self.getresp("module/alts", "add_fail_already", {"char": alt.name})
+            return f"Error! <highlight>{alt.name}</highlight> already has alts."
         else:
             raise Exception("Unknown msg: " + msg)
 
@@ -138,11 +124,11 @@ class AltsController:
         msg, result = self.alts_service.remove_alt(main.char_id, alt.char_id)
 
         if result:
-            return self.getresp("module/alts", "altadmin_rem_success", {"alt": alt.name, "main": main.name})
+            return f"The character <highlight>{alt.name}</highlight> was added as an alt of <highlight>{main.name}</highlight> successfully."
         elif msg == "not_alt":
-            return self.getresp("module/alts", "altadmin_rem_fail_not", {"alt": alt.name, "main": main.name})
+            return f"Error! <highlight>{alt.name}</highlight> is not an alt of <highlight>{main.name}</highlight>."
         elif msg == "remove_main":
-            return self.getresp("module/alts", "altadmin_rem_fail_main")
+            return "Error! Main characters may not be removed from their alt list."
         else:
             raise Exception("Unknown msg: " + msg)
 
