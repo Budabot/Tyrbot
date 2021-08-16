@@ -227,7 +227,7 @@ class CommandService:
             reply("There was an error processing your request.")
 
     def handle_unknown_command(self, command_str, command_args, channel, sender, reply):
-        reply("Error! Unknown command <highlight>{cmd}</highlight>.")
+        reply(f"Error! Unknown command <highlight>{command_str}</highlight>.")
 
     def access_denied_response(self, message, sender, cmd_config, reply):
         reply("Access denied.")
