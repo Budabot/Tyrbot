@@ -119,7 +119,6 @@ class TowerMessagesController:
         for row in data:
             blob += "\n<pagebreak>"
             blob += self.format_battle_info(row, t)
-            blob += self.text.make_tellcmd("More Info", "attacks battle %d" % row.id) + "\n"
             blob += "<header2>Attackers:</header2>\n"
             sql2 = """SELECT a.*, COALESCE(a.att_level, 0) AS att_level, COALESCE(a.att_ai_level, 0) AS att_ai_level
                     FROM tower_attacker a
@@ -453,7 +452,10 @@ class TowerMessagesController:
     def format_battle_info(self, row, t, verbose=False):
         blob = ""
         defeated = " - <notice>Defeated!</notice>" if row.is_finished else ""
-        blob += "Site: <highlight>%s %s</highlight>\n" % (row.short_name, row.site_number or "?")
+        blob += "Site: <highlight>%s %s</highlight> " % (row.short_name, row.site_number or "?")
+        if not verbose:
+            blob += self.text.make_tellcmd("More Info", "attacks battle %d" % row.id)
+        blob += "\n"
         if verbose:
             if row.site_number:
                 blob += f"Long name: <highlight>{row.site_name}, {row.long_name}</highlight>\n"
