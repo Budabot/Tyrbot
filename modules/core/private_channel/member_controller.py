@@ -43,9 +43,9 @@ class MemberController:
         self.command_alias_service.add_alias("remuser", "member rem")
         self.command_alias_service.add_alias("members", "member")
 
-        self.setting_service.register(self.module_name, "autoinvite_auto_al", "org_member",
+        self.setting_service.register(self.module_name, "autoinvite_auto_access_level", "org_member",
                                       TextSettingType(["all", "guest", "member", "org_member", "moderator", "admin", "superadmin", "none"]),
-                                      "Required Accesslevel to autoadd the player as an member (for the autoinvite)")
+                                      "Required access level to autoadd the character as an member (for the autoinvite)")
 
     @command(command="member", params=[Const("add"), Character("character")],
              access_level=OrgMemberController.ORG_ACCESS_LEVEL,

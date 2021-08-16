@@ -230,3 +230,8 @@ def run_upgrades():
             db.exec("INSERT INTO message_hub_subscriptions (source, destination) VALUES (?, ?)", ["timers", "org_channel"])
             db.exec("INSERT INTO message_hub_subscriptions (source, destination) VALUES (?, ?)", ["timers", "private_channel"])
         version = update_version(version)
+
+    if version == 22:
+        if table_exists("setting"):
+            db.exec("UPDATE setting SET name = 'autoinvite_auto_access_level' WHERE name = 'autoinvite_auto_al'")
+        version = update_version(version)
