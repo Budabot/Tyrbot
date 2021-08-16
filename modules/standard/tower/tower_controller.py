@@ -79,16 +79,25 @@ class TowerController:
             if not data:
                 return "Could not find tower info for org <highlight>%s</highlight>." % org
 
-            blob = ""
             current_day_time = int(time.time()) % 86400
-            for row in data:
-                blob += "<pagebreak>" + self.format_site_info(row, current_day_time) + "\n\n"
+            grouped_data = self.util.group_by(data, lambda x: (x.org_id, x.org_name))
+            blob = ""
+            for k, v in grouped_data.items():
+                v = sorted(v, key=lambda x: x.ql)
 
-            blob += self.get_lc_blob_footer()
+                org_blob = ""
+                ct_types = []
+                ql_total = 0
+                for ct in v:
+                    ct_types.append(self.get_ct_type(ct.ql))
+                    ql_total += ct.ql
+                    org_blob += self.format_site_info(ct, current_day_time) + "\n"
 
-            title = "Tower Info: %s (%d)" % (org, len(data))
+                blob += f"<pagebreak><header2>{k[1]} ({k[0]})</header2>"
+                blob += " Types: <highlight>" + ", ".join(ct_types) + f"</highlight> Total CT QL: <highlight>{ql_total}</highlight>\n\n"
+                blob += org_blob + "\n"
 
-            return ChatBlob(title, blob)
+            return ChatBlob(f"Org Info for '{org}' ({len(data)})", blob)
 
         @command(command="lc", params=[Const("unplanted")],
                  access_level="all", description="See a list of land control tower sites that are not currently planted")
@@ -102,7 +111,7 @@ class TowerController:
 
             blob = ""
             for row in data:
-                blob += "<pagebreak>" + self.format_site_info(row, None) + "\n\n"
+                blob += "<pagebreak>" + self.format_site_info(row, None) + "\n"
 
             blob += self.get_lc_blob_footer()
 
@@ -141,7 +150,7 @@ class TowerController:
 
             blob = ""
             for row in data:
-                blob += "<pagebreak>" + self.format_site_info(row, current_day_time) + "\n\n"
+                blob += "<pagebreak>" + self.format_site_info(row, current_day_time) + "\n"
 
             blob += self.get_lc_blob_footer()
 
@@ -171,7 +180,7 @@ class TowerController:
         blob = ""
         current_day_time = int(time.time()) % 86400
         for row in data:
-            blob += "<pagebreak>" + self.format_site_info(row, current_day_time) + "\n\n"
+            blob += "<pagebreak>" + self.format_site_info(row, current_day_time) + "\n"
 
         blob += self.get_lc_blob_footer()
 
@@ -259,3 +268,19 @@ class TowerController:
 
     def get_lc_blob_footer(self):
         return "Thanks to Draex and Unk for providing the tower information. And a special thanks to Trey."
+
+    def get_ct_type(self, ql):
+        if ql < 34:
+            return "I"
+        elif ql < 82:
+            return "II"
+        elif ql < 129:
+            return "III"
+        elif ql < 177:
+            return "IV"
+        elif ql < 201:
+            return "V"
+        elif ql < 226:
+            return "VI"
+        else:
+            return "VII"
