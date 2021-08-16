@@ -93,8 +93,8 @@ class AltsController:
         return ChatBlob(f"Alts of {alts[0].name} ({len(alts)})", blob)
 
     @command(command="altadmin", params=[Const("add"), Character("main"), Character("alt")],
-             access_level="admin",
-             description="Add alts to Main")
+             access_level="moderator",
+             description="Add alts to main")
     def altadmin_add_cmd(self, request, _, main, alt):
         if not main.char_id:
             return StandardMessage.char_not_found(main.name)
@@ -113,8 +113,8 @@ class AltsController:
             raise Exception("Unknown msg: " + msg)
 
     @command(command="altadmin", params=[Options(["rem", "remove"]), Character("main"), Character("alt")],
-             access_level="admin",
-             description="Remove alts of main")
+             access_level="moderator",
+             description="Remove alts from main")
     def altadmin_remove_cmd(self, request, _, main, alt):
         if not main.char_id:
             return StandardMessage.char_not_found(main.name)
