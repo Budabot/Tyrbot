@@ -4,7 +4,6 @@ from core.dict_object import DictObject
 from core.text import Text
 from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Any, Options, NamedFlagParameters
-from core.translation_service import TranslationService
 
 
 @instance()
@@ -15,8 +14,6 @@ class ConfigCommandController:
         self.access_service = registry.get_instance("access_service")
         self.command_service = registry.get_instance("command_service")
         self.command_alias_service = registry.get_instance("command_alias_service")
-        self.ts: TranslationService = registry.get_instance("translation_service")
-        self.getresp = self.ts.get_response
 
     @command(command="config", params=[Const("cmd"), Any("cmd_name"), Options(["enable", "disable"]), Any("channel")], access_level="admin",
              description="Enable or disable a command")
@@ -28,7 +25,7 @@ class ConfigCommandController:
         enabled = 1 if action == "enable" else 0
 
         if cmd_channel != "all" and not self.command_service.is_command_channel(cmd_channel):
-            return self.getresp("module/config", "cmd_unknown_channel", {"channel": cmd_channel})
+            return f"Unknown command channel <highlight>{cmd_channel}</highlight>."
 
         if not self.has_sufficient_access_level(request.sender.char_id, command_str, sub_command_str, cmd_channel):
             return "You do not have the required access level to change this command."
@@ -41,14 +38,12 @@ class ConfigCommandController:
 
         count = self.db.exec(sql, params)
         if count == 0:
-            return self.getresp("module/config", "cmd_unknown_for_channel", {"channel": cmd_channel, "cmd": cmd_name})
+            return f"Could not find command <highlight>{cmd_name}</highlight> for channel <highlight>{cmd_channel}</highlight>."
         else:
-            action = self.getresp("module/config", "enabled_low" if action == "enable" else "disabled_low")
             if cmd_channel == "all":
-                return self.getresp("module/config", "cmd_toggle_success", {"cmd": cmd_name, "changedto": action})
+                return f"Command <highlight>{cmd_name}<end> has been <highlight>{action}d<end> successfully."
             else:
-                return self.getresp("module/config", "cmd_toggle_channel_success",
-                                    {"channel": cmd_channel, "cmd": cmd_name, "changedto": action})
+                return f"Command <highlight>{cmd_name}<end> for channel <highlight>{cmd_channel}<end> has been <highlight>{action}d<end> successfully."
 
     @command(command="config", params=[Const("cmd"), Any("cmd_name"), Const("access_level"), Any("channel"), Any("access_level")], access_level="admin",
              description="Change access_level for a command")
@@ -59,10 +54,10 @@ class ConfigCommandController:
         command_str, sub_command_str = self.command_service.get_command_key_parts(cmd_name)
 
         if cmd_channel != "all" and not self.command_service.is_command_channel(cmd_channel):
-            return self.getresp("module/config", "cmd_unknown_channel", {"channel": cmd_channel})
+            return f"Unknown command channel <highlight>{cmd_channel}</highlight>."
 
         if self.access_service.get_access_level_by_label(access_level) is None:
-            return self.getresp("module/config", "unknown_accesslevel", {"al": access_level})
+            return f"Unknown access level <highlight>{access_level}</highlight>."
 
         if not self.has_sufficient_access_level(request.sender.char_id, command_str, sub_command_str, cmd_channel):
             return "You do not have the required access level to change this command."
@@ -75,13 +70,13 @@ class ConfigCommandController:
 
         count = self.db.exec(sql, params)
         if count == 0:
-            return self.getresp("module/config", "cmd_unknown_for_channel", {"channel": cmd_channel, "cmd": cmd_name})
+            return f"Could not find command <highlight>{cmd_name}</highlight> for channel <highlight>{cmd_channel}</highlight>."
         else:
             if cmd_channel == "all":
-                return self.getresp("module/config", "set_accesslevel_success", {"cmd": cmd_name, "al": access_level})
+                return f"Access level <highlight>{access_level}</highlight> for command <highlight>{cmd_name}</highlight> has been set successfully."
             else:
-                return self.getresp("module/config", "set_accesslevel_fail",
-                                    {"channel": cmd_channel, "cmd": cmd_name, "al": access_level})
+                return f"Access level <highlight>{access_level}</highlight> for command <highlight>{cmd_name}</highlight> " \
+                       f"on channel <highlight>{cmd_channel}</highlight> has been set successfully."
 
     @command(command="config", params=[Const("cmd"), Any("cmd_name"), NamedFlagParameters(["show_channels"])], access_level="admin",
              description="Show command configuration")
@@ -97,7 +92,7 @@ class ConfigCommandController:
         cmd_channel_configs = self.get_command_channel_config(command_str, sub_command_str)
 
         if not cmd_channel_configs:
-            return self.getresp("module/config", "no_cmd", {"cmd": cmd_name})
+            return f"Could not find command <highlight>{cmd_name}</highlight>."
 
         blob = ""
         if flag_params.show_channels or not self.are_command_channel_configs_same(cmd_channel_configs):
@@ -170,30 +165,26 @@ class ConfigCommandController:
 
     def format_cmd_config(self, cmd_name, enabled, access_level, channel):
         blob = ""
-        status = self.getresp("module/config", "enabled_high" if enabled == 1 else "disabled_high")
+        status = "<green>Enabled</green>" if enabled == 1 else "<red>Disabled</red>"
 
-        blob += "%s (%s: %s)\n" % (status, self.getresp("module/config", "access_level"), access_level.capitalize())
+        blob += "%s (%s: %s)\n" % (status, "Access Level", access_level.capitalize())
 
         # show status config
         blob += "Status:"
-        enable_link = self.text.make_tellcmd(self.getresp("module/config", "enable"),
-                                             "config cmd %s enable %s"
-                                             % (cmd_name, channel))
-        disable_link = self.text.make_tellcmd(self.getresp("module/config", "disable"),
-                                              "config cmd %s disable %s"
-                                              % (cmd_name, channel))
+        enable_link = self.text.make_tellcmd("Enable", f"config cmd {cmd_name} enable {channel}")
+        disable_link = self.text.make_tellcmd("Disable", f"config cmd {cmd_name} disable {channel}")
 
         blob += "  " + enable_link + "  " + disable_link
 
         # show access level config
-        blob += "\n" + self.getresp("module/config", "access_level")
+        blob += "\nAccess Level"
         for access_level in self.access_service.access_levels:
             # skip "None" access level
             if access_level["level"] == 0:
                 continue
 
             label = access_level["label"]
-            link = self.text.make_tellcmd(label.capitalize(), "config cmd %s access_level %s %s" % (cmd_name, channel, label))
+            link = self.text.make_tellcmd(label.capitalize(), f"config cmd {cmd_name} access_level {channel} {label}")
             blob += "  " + link
         blob += "\n\n"
 
