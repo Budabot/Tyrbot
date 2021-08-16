@@ -36,7 +36,7 @@ class Tyrbot:
         self.dimension = None
         self.last_timer_event = 0
         self.start_time = int(time.time())
-        self.version = "1.0"
+        self.version = "1.1"
         self.incoming_queue = FifoQueue()
         self.mass_message_queue = None
         self.conns = DictObject()
