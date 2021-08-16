@@ -1,6 +1,6 @@
 from core.buddy_service import BuddyService
 from core.chat_blob import ChatBlob
-from core.command_param_types import Int, Any, Character
+from core.command_param_types import Int, Any, NamedFlagParameters
 from core.decorators import instance, command, event
 from core.dict_object import DictObject
 
@@ -8,6 +8,9 @@ from core.dict_object import DictObject
 @instance()
 class OrgListController:
     ORGLIST_BUDDY_TYPE = "orglist"
+
+    DEFAULT_OFFLINE_MEMBER_DISPLAY_THRESHOLD = 200
+    SHOW_ALL_OFFLINE_MEMBERS = 10000
 
     def __init__(self):
         self.orglist = None
@@ -31,14 +34,16 @@ class OrgListController:
         self.buddy_service: BuddyService = registry.get_instance("buddy_service")
         self.character_service = registry.get_instance("character_service")
 
-    @command(command="orglist", params=[Int("org_id")], access_level="all",
+    @command(command="orglist", params=[Int("org_id"), NamedFlagParameters(["show_all_offline"])], access_level="all",
              description="Show online status of characters in an org")
-    def orglist_cmd(self, request, org_id):
-        self.start_orglist_lookup(request.reply, org_id)
+    def orglist_cmd(self, request, org_id, flag_params):
+        self.start_orglist_lookup(request.reply,
+                                  org_id,
+                                  self.SHOW_ALL_OFFLINE_MEMBERS if flag_params.show_all_offline else self.DEFAULT_OFFLINE_MEMBER_DISPLAY_THRESHOLD)
 
-    @command(command="orglist", params=[Any("character|org_name|org_id")], access_level="all",
+    @command(command="orglist", params=[Any("character|org_name|org_id"), NamedFlagParameters(["show_all_offline"])], access_level="all",
              description="Show online status of characters in an org")
-    def orglist_character_cmd(self, request, search):
+    def orglist_character_cmd(self, request, search, flag_params):
         if search.isdigit():
             org_id = int(search)
         else:
@@ -61,9 +66,11 @@ class OrgListController:
                     blob += self.text.make_tellcmd("%s (%d)" % (org.org_name, org.org_id), "orglist %d" % org.org_id) + "\n"
                 return ChatBlob("Org List (%d)" % num_orgs, blob)
 
-        self.start_orglist_lookup(request.reply, org_id)
+        self.start_orglist_lookup(request.reply,
+                                  org_id,
+                                  self.SHOW_ALL_OFFLINE_MEMBERS if flag_params.show_all_offline else self.DEFAULT_OFFLINE_MEMBER_DISPLAY_THRESHOLD)
 
-    def start_orglist_lookup(self, reply, org_id):
+    def start_orglist_lookup(self, reply, org_id, offline_member_display_threshold):
         if self.orglist:
             reply("There is an orglist already in progress.")
             return
@@ -80,6 +87,7 @@ class OrgListController:
         self.orglist.reply = reply
         self.orglist.waiting_org_members = {}
         self.orglist.finished_org_members = {}
+        self.orglist.offline_member_display_threshold = offline_member_display_threshold
 
         reply("Checking online status for %d members of <highlight>%s</highlight>..." % (len(self.orglist.org_members), self.orglist.org_info.name))
 
@@ -148,7 +156,7 @@ class OrgListController:
                 level = org_member.level if org_member.ai_level == 0 else "%d/<green>%d</green>" % (org_member.level, org_member.ai_level)
                 blob += "%s (Level <highlight>%s</highlight>, %s %s <highlight>%s</highlight>)\n" % (org_member.name, level, org_member.gender, org_member.breed, org_member.profession)
 
-            if rank_num_total < 200:
+            if rank_num_total < self.orglist.offline_member_display_threshold:
                 blob += "<font color='#555555'>" + ", ".join(map(lambda x: x.name, sorted(rank_info.offline_members, key=lambda x: x.name))) + "</font>"
                 blob += "\n"
             else:
