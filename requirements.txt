@@ -1,7 +1,6 @@
 requests==2.25.1
 mysql-connector-python==8.0.23
 pytz==2020.5
-hjson==3.0.2
 discord.py==1.6.0
 psutil==5.8.0
 bbcode==1.1.0
