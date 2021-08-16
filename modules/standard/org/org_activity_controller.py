@@ -1,6 +1,7 @@
 import time
 
 from core.chat_blob import ChatBlob
+from core.command_param_types import NamedParameters
 from core.conn import Conn
 from core.decorators import instance, command, event
 from core.logger import Logger
@@ -17,6 +18,7 @@ class OrgActivityController:
         self.bot = registry.get_instance("bot")
         self.db = registry.get_instance("db")
         self.util = registry.get_instance("util")
+        self.text = registry.get_instance("text")
         self.character_service = registry.get_instance("character_service")
         self.command_alias_service = registry.get_instance("command_alias_service")
 
@@ -26,9 +28,14 @@ class OrgActivityController:
 
         self.command_alias_service.add_alias("orghistory", "orgactivity")
 
-    @command(command="orgactivity", params=[], access_level="org_member",
+    @command(command="orgactivity", params=[NamedParameters(["page"])], access_level="org_member",
              description="Show org member activity")
-    def orgactivity_cmd(self, request):
+    def orgactivity_cmd(self, request, named_params):
+        page_size = 20
+        page_number = int(named_params.page or "1")
+
+        offset, limit = self.util.get_offset_limit(page_size, page_number)
+
         sql = """
             SELECT
                 p1.name AS actor,
@@ -41,10 +48,11 @@ class OrgActivityController:
                 LEFT JOIN player p2 ON o.actee_char_id = p2.char_id
             ORDER BY
                 o.created_at DESC
-            LIMIT 40
+            LIMIT ?, ?
         """
-        data = self.db.query(sql)
-        blob = ""
+        data = self.db.query(sql, [offset, limit])
+
+        blob = self.text.get_paging_links("orgactivity", page_number, len(data) == page_size) + "\n\n"
         for row in data:
             blob += self.format_org_action(row) + "\n"
 
