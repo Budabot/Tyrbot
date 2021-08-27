@@ -56,8 +56,9 @@ class HelpController:
 
         return ChatBlob("Help (main)", blob)
 
-    @command(command="help", params=[Any("command"), NamedFlagParameters(["show_regex"])], access_level="all",
-             description="Show help for a specific command")
+    @command(command="help", params=[Any("search"), NamedFlagParameters(["show_regex"])], access_level="all",
+             description="Show help for a specific command",
+             extended_description="Search param can be either a command name or a module name (eg. 'standard.online')")
     def help_detail_cmd(self, request, help_topic, named_params):
         help_topic = help_topic.lower()
 
@@ -66,8 +67,22 @@ class HelpController:
         if alias:
             help_topic = alias
 
-        help_text = self.command_service.get_help_text(request.sender.char_id, help_topic, request.channel, named_params.show_regex)
+        # check if help topic matches a command
+        data = self.db.query("SELECT command, sub_command, access_level FROM command_config "
+                             "WHERE command = ? AND channel = ? AND enabled = 1",
+                             [help_topic, request.channel])
+
+        help_text = self.command_service.format_help_text(data, request.sender.char_id, named_params.show_regex)
         if help_text:
-            return self.command_service.format_help_text(help_topic, help_text)
-        else:
-            return f"Could not find help on <highlight>{help_topic}</highlight>."
+            return self.command_service.format_help_text_blob(help_topic, help_text)
+
+        # check if help topic matches a module
+        data = self.db.query("SELECT command, sub_command, access_level FROM command_config "
+                             "WHERE module = ? AND channel = ? AND enabled = 1",
+                             [help_topic, request.channel])
+
+        help_text = self.command_service.format_help_text(data, request.sender.char_id, named_params.show_regex)
+        if help_text:
+            return self.command_service.format_help_text_blob(help_topic, help_text)
+
+        return f"Could not find help on <highlight>{help_topic}</highlight>."

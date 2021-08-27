@@ -214,11 +214,15 @@ class CommandService:
                         self.access_denied_response(message, sender, cmd_config, reply)
                 else:
                     # handlers were found, but no handler regex matched
-                    help_text = self.get_help_text(char_id, command_str, channel)
+                    data = self.db.query("SELECT command, sub_command, access_level FROM command_config "
+                                         "WHERE command = ? AND channel = ? AND enabled = 1",
+                                         [command_str, channel])
+
+                    help_text = self.format_help_text(data, char_id)
                     if help_text:
-                        reply(self.format_help_text(command_str, help_text))
+                        reply(self.format_help_text_blob(command_str, help_text))
                     else:
-                        # the command is known, but no help is returned, therefore user does not have access to command
+                        # the command is known, but no help is returned, therefore character does not have access to command
                         reply("Access denied.")
             else:
                 self.handle_unknown_command(command_str, command_args, channel, sender, reply)
@@ -275,11 +279,7 @@ class CommandService:
             processed.append(param.process_matches(groups))
         return processed
 
-    def get_help_text(self, char_id, command_str, channel, show_regex=False):
-        data = self.db.query("SELECT command, sub_command, access_level FROM command_config "
-                             "WHERE command = ? AND channel = ? AND enabled = 1",
-                             [command_str, channel])
-
+    def format_help_text(self, data, char_id, show_regex=False):
         # filter out commands that character does not have access level for
         data = filter(lambda row: self.access_service.check_access(char_id, row.access_level), data)
 
@@ -296,7 +296,7 @@ class CommandService:
         content = "\n\n".join(flatmap(read_help_text, data))
         return content if content else None
 
-    def format_help_text(self, topic, help_text):
+    def format_help_text_blob(self, topic, help_text):
         return ChatBlob("Help (" + topic + ")", help_text)
 
     def get_help_file(self, module, help_file):
