@@ -139,9 +139,9 @@ class Tyrbot:
 
             if i == 0:
                 self.primary_conn_id = _id
-                wait_for_logged_in = True
+                wait_for_logged_in = 20
             else:
-                wait_for_logged_in = False
+                wait_for_logged_in = 0
 
             conn = self.create_conn(_id)
             conn.connect(config.server.host, config.server.port)
