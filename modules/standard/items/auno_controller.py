@@ -1,5 +1,7 @@
 import re
 import html
+import time
+
 import requests
 from bs4 import BeautifulSoup
 from typing import List
@@ -13,13 +15,12 @@ from .auno_comment import AunoComment
 
 @instance()
 class AunoController:
-    def __init__(self):
-        pass
+    CACHE_GROUP = "auno_comments"
 
     def inject(self, registry):
         self.text: Text = registry.get_instance("text")
         self.items_controller: ItemsController = registry.get_instance("items_controller")
-        # TODO add cache controller
+        self.cache_service = registry.get_instance("cache_service")
 
     @command(command="auno", params=[Int("item_id")], access_level="member",
              description="Fetch comments for item from Auno by item id")
@@ -57,16 +58,25 @@ class AunoController:
             return "No items found matching <highlight>%s</highlight>." % search
 
     def get_combined_response(self, low_id, high_id, name):
-        combined_response = self.get_auno_response(low_id, high_id)
+        combined_response = []
+
+        result = self.get_auno_response(high_id)
+        if result:
+            combined_response.append(result)
+
+        if low_id != high_id:
+            result = self.get_auno_response(low_id)
+            if result:
+                combined_response.append(result)
 
         if len(combined_response) > 0:
             # high id comments
-            soup = BeautifulSoup(combined_response[0].text, features="html.parser")
+            soup = BeautifulSoup(combined_response[0], features="html.parser")
             comments: List[AunoComment] = self.find_comments(soup)
 
             if len(combined_response) > 1:
                 # low id comments
-                soup = BeautifulSoup(combined_response[1].text, features="html.parser")
+                soup = BeautifulSoup(combined_response[1], features="html.parser")
                 comments += self.find_comments(soup)
 
             # sort the comments by date
@@ -111,7 +121,7 @@ class AunoController:
             itemref = self.text.make_item(item.lowid, item.highid, item.highql, item.name)
             comments_link = self.text.make_tellcmd("Comments", "auno %s" % item.highid)
             auno_link_h = self.text.make_chatcmd("Auno", "/start %s" % self.get_auno_request_url(item.highid))
-            blob += "%s. %s\n | [%s] [%s]" % (i+1, itemref, comments_link, auno_link_h)
+            blob += "%s [%s] [%s]" % (itemref, comments_link, auno_link_h)
             blob += "\n\n<pagebreak>"
 
         return blob
@@ -149,26 +159,23 @@ class AunoController:
                 p = re.compile(r"aoc\d+")
                 return p.match(tag['id'])
 
-    def get_auno_response(self, low_id, high_id):
-        auno_request_low = self.get_auno_request_url(low_id)
-        auno_request_high = self.get_auno_request_url(high_id)
+    def get_auno_response(self, _id):
+        t = int(time.time())
+        thirty_days = 86400 * 30
 
-        auno_response_h = requests.get(auno_request_high, timeout=5)
-        auno_response_l = None
+        cache_obj = self.cache_service.retrieve(self.CACHE_GROUP, f"{_id}.html")
+        if cache_obj and t - thirty_days < cache_obj.last_modified:
+            print("using cache")
+            return cache_obj.data
 
-        if low_id != high_id:
-            auno_response_l = requests.get(auno_request_low, timeout=5)
+        url = self.get_auno_request_url(_id)
+        response = requests.get(url, timeout=5)
 
-        combined_response = []
-
-        if auno_response_h:
-            if auno_response_h.status_code == 200:
-                combined_response.append(auno_response_h)
-        if auno_response_l:
-            if auno_response_l.status_code == 200:
-                combined_response.append(auno_response_l)
-
-        return combined_response
+        if response and response.status_code == 200:
+            self.cache_service.store(self.CACHE_GROUP, f"{_id}.html", response.text)
+            return response.text
+        else:
+            return None
 
     def get_auno_request_url(self, item_id):
         return "https://auno.org/ao/db.php?id=%s" % item_id
