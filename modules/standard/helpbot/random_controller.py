@@ -1,5 +1,5 @@
 from core.decorators import instance, command
-from core.command_param_types import Any, Int, Const
+from core.command_param_types import Any, Int, Const, NamedParameters
 from core.db import DB
 import random
 import time
@@ -19,11 +19,12 @@ class RandomController:
         self.command_alias_service.add_alias("verify", "roll verify")
         self.command_alias_service.add_alias("lootorder", "random")
 
-    @command(command="random", params=[Any("items")], access_level="all",
+    @command(command="random", params=[Any("items"), NamedParameters(["separator"])], access_level="all",
              description="Randomly order a list of elements",
-             extended_description="Enter a space-delimited list of items to randomize.")
-    def random_command(self, request, items):
-        items = items.split(" ")
+             extended_description="Default separator is a space.")
+    def random_command(self, request, items, named_params):
+        separator = named_params.separator if named_params.separator else " "
+        items = items.split(separator)
         random.shuffle(items)
         return " ".join(items)
 
@@ -40,8 +41,8 @@ class RandomController:
                 row.result, name, time_string, row.options)
 
     @command(command="roll", params=[Int("start_value", is_optional=True), Int("end_value")], access_level="all",
-             description="Roll a number between 1 and a number",
-             extended_description="The given numbers are included in the roll.")
+             description="Roll a number between start_value and end_value number (inclusive)",
+             extended_description="Start_value is assumed 1 if not provided.")
     def roll_number_command(self, request, start_value, end_value):
         start_value = start_value or 1
         if start_value > end_value:
