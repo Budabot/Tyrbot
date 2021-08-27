@@ -15,9 +15,23 @@ class BosslootController:
         self.db.load_sql_file(self.module_dir + "/" + "boss.sql")
         self.db.load_sql_file(self.module_dir + "/" + "boss_loot.sql")
 
+    @command(command="boss", params=[], access_level="all",
+             description="Show a list of bosses")
+    def boss_list_cmd(self, request):
+        sql = "SELECT b.id, b.name, w.answer FROM boss b LEFT JOIN whereis w ON b.name = w.name ORDER BY b.name ASC"
+        data = self.db.query(sql)
+        cnt = len(data)
+
+        blob = ""
+        for row in data:
+            blob += self.text.make_tellcmd(row.name, f"boss {row.name}")
+            blob += "\n"
+
+        return ChatBlob("Boss List (%d)" % cnt, blob)
+
     @command(command="boss", params=[Any("search")], access_level="all",
              description="Show loot for a boss")
-    def boss_cmd(self, request, search):
+    def boss_search_cmd(self, request, search):
         sql = "SELECT b.id, b.name, w.answer FROM boss b LEFT JOIN whereis w ON b.name = w.name WHERE b.name <EXTENDED_LIKE=0> ?"
         data = self.db.query(sql, [search], extended_like=True)
         cnt = len(data)
