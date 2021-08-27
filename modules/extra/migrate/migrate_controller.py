@@ -15,6 +15,7 @@ class MigrateController:
         self.logger = Logger(__name__)
 
     def inject(self, registry):
+        self.bot = registry.get_instance("bot")
         self.db = registry.get_instance("db")
         self.character_service = registry.get_instance("character_service")
         self.alts_service = registry.get_instance("alts_service")
@@ -23,8 +24,9 @@ class MigrateController:
     def pre_start(self):
         self.db2 = DB()
 
-        # REQUIRED: the name of the bot character that the budabot/bebot ran as
-        self.bot_name = "bot_name"
+        # Optional: the name of the bot character that the budabot/bebot ran as
+        # if the bot name is the same, then you can leave this blank, otherwise you must fill in this value
+        bot_name = ""
 
         # if your budabot/bebot used mysql, then uncomment the second line below and fill out the appropriate values
         # otherwise, if your budabot used sqlite, then uncomment the first line below and enter the path to the sqlite db file
@@ -33,6 +35,8 @@ class MigrateController:
 
         # self.db2.connect_sqlite("./data/budabot.db")
         # self.db2.connect_mysql(host="localhost", port=3306, username="", password="", database_name="")
+
+        self.bot_name = bot_name.lower() if bot_name else self.bot.get_primary_conn().get_char_name()
 
     @command(command="bebot", params=[Const("migrate"), Const("alts")], access_level="superadmin",
              description="Migrate alts from a Bebot database")
