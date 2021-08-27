@@ -78,7 +78,8 @@ class CharacterInfoController:
             blob += "Level: %d\n" % char_info.level
             blob += "AI Level: <green>%d</green>\n" % char_info.ai_level
             if char_info.org_id:
-                blob += "Org: <highlight>%s</highlight> (%d)\n" % (char_info.org_name, char_info.org_id)
+                orglist_link = self.text.make_tellcmd("Orglist", f"orglist {char_info.org_id}")
+                blob += "Org: <highlight>%s</highlight> (%d) [%s]\n" % (char_info.org_name, char_info.org_id, orglist_link)
                 blob += "Org Rank: %s (%d)\n" % (char_info.org_rank_name, char_info.org_rank_id)
             else:
                 blob += "Org: &lt;None&gt;\n"
@@ -86,7 +87,7 @@ class CharacterInfoController:
             # blob += "Head Id: %d\n" % char_info.head_id
             # blob += "PVP Rating: %d\n" % char_info.pvp_rating
             # blob += "PVP Title: %s\n" % char_info.pvp_title
-            blob += "Source: %s %s\n" % (self.format_source(char_info, max_cache_age),
+            blob += "Source: %s [%s]\n" % (self.format_source(char_info, max_cache_age),
                                          self.text.make_tellcmd("Force Update", f"whois {char.name} {dimension} --force_update"))
             blob += "Dimension: %s\n" % char_info.dimension
 
