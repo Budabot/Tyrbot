@@ -10,7 +10,6 @@ class DingController:
         Port of Budabot fun module
     """
 
-
     @command(command="ding", params=[SignedInt("level", is_optional=True)], access_level="all",
              description="Show a random ding message, congratz!")
     def ding_command(self, request, level):

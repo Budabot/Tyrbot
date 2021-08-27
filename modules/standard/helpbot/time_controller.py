@@ -15,11 +15,12 @@ class TimeController:
              description="Show the current time")
     def time_cmd(self, request, flag_params):
         dt = datetime.now()
+        t = int(time.time())
 
         if not flag_params.all_timezones:
-            return "The current time is <highlight>%s</highlight> [%d]." % (dt.astimezone(pytz.utc).strftime("%Y-%m-%d %H:%M:%S %Z"), int(time.time()))
+            return "The current time is <highlight>%s</highlight> [%d]." % (dt.astimezone(pytz.utc).strftime("%Y-%m-%d %H:%M:%S %Z"), t)
         else:
-            blob = "Unixtime => %d\n\n" % int(time.time())
+            blob = "Unixtime => %d\n\n" % t
             current_region = ""
             for tz in pytz.common_timezones:
                 result = tz.split("/", 2)
@@ -45,4 +46,4 @@ class TimeController:
             if tz.lower() == timezone_str:
                 return "%s => %s" % (tz, datetime.now(tz=pytz.timezone(tz)).strftime(self.time_format))
 
-        return "Unknown timezone."
+        return f"Unknown timezone <highlight>{timezone_str}</highlight>. Use <highlight><symbol>time --all_timezones</highlight> to see a list of timezones."

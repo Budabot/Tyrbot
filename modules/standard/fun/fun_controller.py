@@ -91,4 +91,4 @@ class FunController:
         msg = msg.replace("*name*", request.sender.name)
         msg = msg.replace("*dmg*", str(dmg))
         msg = msg.replace("*creds*", str(creds))
-        return msg;
+        return msg
