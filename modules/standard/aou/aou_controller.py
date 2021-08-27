@@ -81,30 +81,29 @@ class AOUController:
     def aou_search_cmd(self, request, include_all_matches, search):
         include_all_matches = include_all_matches or False
 
-        r = requests.get(self.AOU_URL + "&mode=search&search=" + search, timeout=5)
-        xml = ElementTree.fromstring(r.content)
+        # automatically expand search if no results are found initially
+        results = self.search_for_guides(search, include_all_matches)
+        if not include_all_matches and len(results) == 0:
+            include_all_matches = True
+            results = self.search_for_guides(search, include_all_matches)
 
         blob = ""
-        count = 0
-        for section in xml.iter("section"):
-            category = self.get_category(section)
-            found = False
-            for guide in self.get_guides(section):
-                if include_all_matches or self.check_matches(category + " " + guide["name"] + " " + (guide["description"] or ""), search):
-                    # don't show category unless we have at least one guide for it
-                    if not found:
-                        blob += "\n<header2>%s</header2>\n" % category
-                        found = True
+        count = len(results)
+        current_category = ""
+        for guide in results:
+            if guide["category"] != current_category:
+                blob += "\n<header2>%s</header2>\n" % guide["category"]
+                current_category = guide["category"]
 
-                    count += 1
-                    blob += "%s - %s\n" % (self.text.make_tellcmd(guide["name"], "aou %s" % guide["id"]), guide["description"])
+            blob += "%s - %s\n" % (self.text.make_tellcmd(guide["name"], "aou %s" % guide["id"]), guide["description"])
+
         blob += "\n\nPowered by %s" % self.text.make_chatcmd("AO-Universe.com", "/start https://www.ao-universe.com")
 
         if count == 0:
             return f"Could not find any AO-Universe guides for search <highlight>{search}</highlight>."
         else:
             if include_all_matches:
-                ChatBlob(f"All AOU Guides containing '{search}' ({count})", blob)
+                return ChatBlob(f"All AOU Guides containing '{search}' ({count})", blob)
             else:
                 return ChatBlob(f"AOU Guides containing '{search}' ({count})", blob)
 
@@ -202,3 +201,17 @@ class AOUController:
         pf_id = options["pf"]
 
         return self.text.make_chatcmd("%s (%sx%s)" % (value, x_coord, y_coord), "/waypoint %s %s %s" % (x_coord, y_coord, pf_id))
+
+    def search_for_guides(self, search, include_all_matches):
+        r = requests.get(self.AOU_URL + "&mode=search&search=" + search, timeout=5)
+        xml = ElementTree.fromstring(r.content)
+
+        results = []
+        for section in xml.iter("section"):
+            category = self.get_category(section)
+            for guide in self.get_guides(section):
+                if include_all_matches or self.check_matches(category + " " + guide["name"] + " " + (guide["description"] or ""), search):
+                    guide["category"] = category
+                    results.append(guide)
+
+        return results
