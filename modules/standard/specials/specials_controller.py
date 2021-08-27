@@ -288,33 +288,31 @@ class SpecialsController:
 
         blob += self.get_inits_display(weapon_attack, weapon_recharge) + "\n"
 
-        blob += "<header2>Specials</header2>\n"
-
         if high_attributes.aimed_shot:
             as_info = self.get_aimed_shot_info(weapon_attack, weapon_recharge, 1)
-            blob += "Aimed Shot\n<highlight>%d</highlight> skill needed to cap Aimed Shot recharge at <highlight>%d secs</highlight>\n\n" % \
+            blob += "<header2>Aimed Shot</header2>\n<highlight>%d</highlight> skill needed to cap Aimed Shot recharge at <highlight>%d secs</highlight>\n\n" % \
                     (as_info.skill_cap, as_info.hard_cap)
 
         if high_attributes.burst:
             burst_recharge = self.util.interpolate_value(ql, {item.lowql: low_attributes.burst, item.highql: high_attributes.burst})
             burst_info = self.get_burst_info(weapon_attack, weapon_recharge, burst_recharge, 1)
-            blob += "Burst Recharge: <highlight>%d</highlight>\n<highlight>%d</highlight> skill needed to cap Burst recharge at <highlight>%d secs</highlight>\n\n" % \
+            blob += "<header2>Burst</header2> Recharge: <highlight>%d</highlight>\n<highlight>%d</highlight> skill needed to cap Burst recharge at <highlight>%d secs</highlight>\n\n" % \
                     (burst_recharge, burst_info.skill_cap, burst_info.hard_cap)
 
         if high_attributes.fast_attack:
             fast_attack_info = self.get_fast_attack_info(weapon_attack, 1)
-            blob += "Fast Attack\n<highlight>%d</highlight> skill needed to cap Fast Attack recharge at <highlight>%.2f secs</highlight>\n\n" % \
+            blob += "<header2>Fast Attack</header2>\n<highlight>%d</highlight> skill needed to cap Fast Attack recharge at <highlight>%.2f secs</highlight>\n\n" % \
                     (fast_attack_info.skill_cap, fast_attack_info.hard_cap)
 
         if high_attributes.fling_shot:
             fling_shot_info = self.get_fling_shot_info(weapon_attack, 1)
-            blob += "Fling Shot\n<highlight>%d</highlight> skill needed to cap Fling Shot recharge at <highlight>%.2f secs</highlight>\n\n" % \
+            blob += "<header2>Fling Shot</header2>\n<highlight>%d</highlight> skill needed to cap Fling Shot recharge at <highlight>%.2f secs</highlight>\n\n" % \
                     (fling_shot_info.skill_cap, fling_shot_info.hard_cap)
 
         if high_attributes.full_auto:
             full_auto_recharge = self.util.interpolate_value(ql, {item.lowql: low_attributes.full_auto, item.highql: high_attributes.full_auto})
             full_auto_info = self.get_full_auto_info(weapon_attack, weapon_recharge, full_auto_recharge, 1)
-            blob += "Full Auto Recharge: <highlight>%d</highlight>\n<highlight>%d</highlight> skill needed to cap Full Auto recharge at <highlight>%d secs</highlight>\n\n" % \
+            blob += "<header2>Full Auto</header2> Recharge: <highlight>%d</highlight>\n<highlight>%d</highlight> skill needed to cap Full Auto recharge at <highlight>%d secs</highlight>\n\n" % \
                     (full_auto_recharge, full_auto_info.skill_cap, full_auto_info.hard_cap)
 
         return ChatBlob("Weapon Info for %s (QL %d)" % (item.name, ql), blob)
@@ -345,7 +343,7 @@ class SpecialsController:
             inits_attack = ((((init_result - 87.5) * 0.02) + 1 - weapon_attack + 2) * -1800) + 1200
 
         if inits_recharge > 1200:
-            inits_recharge = ((((init_result - 87.5) * 0.02) + 1 - weapon_attack + 4) * -900) + 1200
+            inits_recharge = ((((init_result - 87.5) * 0.02) + 1 - weapon_recharge + 4) * -900) + 1200
 
         if inits_attack < inits_recharge:
             return inits_recharge
