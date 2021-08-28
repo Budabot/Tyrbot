@@ -2,7 +2,6 @@ from core.alts_service import AltsService
 from core.db import DB
 from core.command_param_types import Const
 from core.decorators import instance, command
-from core.dict_object import DictObject
 from core.logger import Logger
 
 
@@ -103,7 +102,8 @@ class MigrateController:
              description="Migrate admins from a Budabot database")
     def migrate_budabot_admins_cmd(self, request, _1, _2):
         data = self.db2.query("SELECT a.name, p.charid AS char_id, CASE WHEN adminlevel = 4 THEN 'admin' WHEN adminlevel = 3 THEN 'moderator' END AS access_level "
-                              f"FROM admin_{self.bot_name} a LEFT JOIN players p ON a.name = p.name WHERE p.charid > 0")
+                              f"FROM admin_{self.bot_name} a LEFT JOIN players p ON (a.name = p.name AND p.dimension = ?) "
+                              "WHERE p.charid > 0", [self.dimension])
         with self.db.transaction():
             for row in data:
                 char_id = self.resolve_to_char_id(row.name, row.char_id)
@@ -111,9 +111,6 @@ class MigrateController:
                 if char_id:
                     self.db.exec("DELETE FROM admin WHERE char_id = ?", [char_id])
                     self.db.exec("INSERT INTO admin (char_id, access_level) VALUES (?, ?)", [char_id, row.access_level])
-                else:
-                    # TODO
-                    pass
 
         return f"Successfully migrated <highlight>%d</highlight> admin characters." % len(data)
 
@@ -121,7 +118,8 @@ class MigrateController:
              description="Migrate ban list from a Budabot database")
     def migrate_budabot_banlist_cmd(self, request, _1, _2):
         data = self.db2.query("SELECT b.charid AS char_id, p.charid AS sender_char_id, time AS created_at, banend AS finished_at, reason "
-                              f"FROM banlist_{self.bot_name} b JOIN players p ON b.admin = p.name WHERE p.charid > 0")
+                              f"FROM banlist_{self.bot_name} b JOIN players p ON (b.admin = p.name AND p.dimension = ?)"
+                              "WHERE p.charid > 0", [self.dimension])
         with self.db.transaction():
             for row in data:
                 self.db.exec("DELETE FROM ban_list WHERE char_id = ?", [row.char_id])
@@ -134,8 +132,10 @@ class MigrateController:
              description="Migrate alts from a Budabot database")
     def migrate_budabot_alts_cmd(self, request, _1, _2):
         data = self.db2.query("SELECT p1.charid AS main_char_id, p2.charid AS alt_char_id "
-                              "FROM alts a JOIN players p1 ON p1.name = a.main JOIN players p2 ON p2.name = a.alt "
-                              "WHERE validated = 1 AND p1.charid > 0 AND p2.charid > 0 ORDER BY a.main ASC")
+                              "FROM alts a JOIN players p1 ON (p1.name = a.main AND p1.dimension = ?) "
+                              "JOIN players p2 ON (p2.name = a.alt AND p2.dimension = ?)"
+                              "WHERE validated = 1 AND p1.charid > 0 AND p2.charid > 0 ORDER BY a.main ASC",
+                              [self.dimension, self.dimension])
         with self.db.transaction():
             current_main = 0
             group_id = 0
@@ -155,7 +155,8 @@ class MigrateController:
              description="Migrate members from a Budabot database")
     def migrate_budabot_members_cmd(self, request, _1, _2):
         data = self.db2.query("SELECT m.name AS sender, p.charid AS char_id, m.autoinv AS auto_invite "
-                              f"FROM members_{self.bot_name} m JOIN players p ON m.name = p.name WHERE p.charid > 0")
+                              f"FROM members_{self.bot_name} m JOIN players p ON (m.name = p.name AND p.dimension = ?) "
+                              "WHERE p.charid > 0", [self.dimension])
 
         num = 0
         for row in data:
@@ -171,7 +172,9 @@ class MigrateController:
     @command(command="budabot", params=[Const("migrate"), Const("quotes")], access_level="superadmin",
              description="Migrate quotes from a Budabot database")
     def migrate_budabot_quotes_cmd(self, request, _1, _2):
-        data = self.db2.query("SELECT q.poster, p.charid AS char_id, q.id, q.msg, q.dt FROM quote q LEFT JOIN players p ON q.poster = p.name")
+        data = self.db2.query("SELECT q.poster, p.charid AS char_id, q.id, q.msg, q.dt "
+                              "FROM quote q LEFT JOIN players p ON (q.poster = p.name AND p.dimension = ?)",
+                              [self.dimension])
         count_inactive = 0
 
         request.reply("Processing %s quote records..." % len(data))
@@ -191,8 +194,9 @@ class MigrateController:
     @command(command="budabot", params=[Const("migrate"), Const("log_messages")], access_level="superadmin",
              description="Migrate log messages from a Budabot database")
     def migrate_budabot_log_messages_cmd(self, request, _1, _2):
-        data = self.db2.query(f"SELECT p2.charid AS char_id, p1.sender, p1.name, p1.value FROM preferences_{self.bot_name} p1 LEFT JOIN players p2 ON p1.sender = p2.name "
-                              "WHERE p1.name = 'logon_msg' OR p1.name = 'logoff_msg'")
+        data = self.db2.query(f"SELECT p2.charid AS char_id, p1.sender, p1.name, p1.value "
+                              f"FROM preferences_{self.bot_name} p1 LEFT JOIN players p2 ON (p1.sender = p2.name AND p2.dimension = ?) "
+                              "WHERE p1.name = 'logon_msg' OR p1.name = 'logoff_msg'", [self.dimension])
         count_inactive = 0
         count_logon = 0
         count_logoff = 0
@@ -237,7 +241,8 @@ class MigrateController:
              description="Migrate news from a Budabot database")
     def migrate_budabot_news_cmd(self, request, _1, _2):
         data = self.db2.query("SELECT n.name AS poster, p.charid AS char_id, news, sticky, time AS created_at, deleted AS deleted_at "
-                              "FROM news n JOIN players p ON n.name = p.name WHERE p.charid > 0")
+                              "FROM news n JOIN players p ON (n.name = p.name AND p.dimension = ?) WHERE p.charid > 0",
+                              [self.dimension])
         for row in data:
             char_id = self.resolve_to_char_id(row.poster, row.char_id)
 
@@ -253,7 +258,8 @@ class MigrateController:
              description="Migrate notes from a Budabot database")
     def migrate_budabot_notes_cmd(self, request, _1, _2):
         data = self.db2.query("SELECT n.added_by AS sender, p.charid AS char_id, n.note, n.dt AS created_at "
-                              "FROM notes n JOIN players p ON p.name = n.added_by WHERE p.charid > 0")
+                              "FROM notes n JOIN players p ON (p.name = n.added_by AND p.dimension = ?) WHERE p.charid > 0",
+                              [self.dimension])
 
         num = 0
         for row in data:
@@ -270,7 +276,8 @@ class MigrateController:
              description="Migrate last_seen data from a Budabot database")
     def migrate_budabot_last_seen_cmd(self, request, _1, _2):
         data = self.db2.query("SELECT o.name AS sender, p.charid AS char_id, logged_off AS last_seen "
-                              f"FROM org_members_{self.bot_name} o JOIN players p ON o.name = p.name WHERE p.charid > 0")
+                              f"FROM org_members_{self.bot_name} o JOIN players p ON (o.name = p.name AND p.dimension = ?) "
+                              "WHERE p.charid > 0", [self.dimension])
 
         num = 0
         for row in data:
@@ -290,7 +297,8 @@ class MigrateController:
             return "Could not migrate cloak status record since org id is not set."
 
         data = self.db2.query("SELECT o.name, p.charid AS char_id, action, time AS created_at "
-                              f"FROM org_city_{self.bot_name} o JOIN players p ON (o.player = p.name) WHERE p.charid > 0")
+                              f"FROM org_city_{self.bot_name} o JOIN players p ON (o.player = p.name AND p.dimension = ?)"
+                              "WHERE p.charid > 0", [self.dimension])
 
         num = 0
         for row in data:
@@ -309,8 +317,8 @@ class MigrateController:
             return "Could not migrate cloak status record since org id is not set."
 
         data = self.db2.query("SELECT o.actor AS actor_name, p1.charid AS actor_char_id, o.actee AS actee_name, p2.charid AS actee_char_id, action, time AS created_at "
-                              "FROM org_history o JOIN players p1 ON o.actor = p1.name JOIN players p2 ON o.actee = p2.name "
-                              "WHERE p1.charid > 0 AND p2.charid > 0")
+                              "FROM org_history o JOIN players p1 ON (o.actor = p1.name AND p1.dimension = ?) JOIN players p2 ON (o.actee = p2.name AND p2.dimension = ?) "
+                              "WHERE p1.charid > 0 AND p2.charid > 0", [self.dimension, self.dimension])
 
         self.db.exec("DELETE FROM org_activity WHERE org_id = ?", [self.org_id])
 
@@ -329,7 +337,7 @@ class MigrateController:
     @command(command="budabot", params=[Const("migrate"), Const("player")], access_level="superadmin",
              description="Migrate character info records from a Budabot database")
     def migrate_budabot_player_cmd(self, request, _1, _2):
-        data = self.db2.query("SELECT * FROM players WHERE charid > 0")
+        data = self.db2.query("SELECT * FROM players WHERE charid > 0 AND dimension = ?", [self.dimension])
 
         num = 0
         for row in data:
