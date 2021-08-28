@@ -1,7 +1,7 @@
 from core.alts_service import AltsService
 from core.db import DB
 from core.command_param_types import Const
-from core.decorators import instance, command
+from core.decorators import instance, command, event
 from core.logger import Logger
 
 
@@ -20,7 +20,8 @@ class MigrateController:
         self.alts_service = registry.get_instance("alts_service")
         self.pork_service = registry.get_instance("pork_service")
 
-    def pre_start(self):
+    @event(event_type="connect", description="Configure migration controller", is_hidden=True)
+    def connect_event(self, event_type, event_data):
         self.db2 = DB()
 
         # Optional: the name of the bot character that the budabot/bebot ran as
