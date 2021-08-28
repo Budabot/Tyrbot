@@ -26,7 +26,7 @@ class RandomController:
         separator = named_params.separator if named_params.separator else " "
         items = items.split(separator)
         random.shuffle(items)
-        return " ".join(items)
+        return separator.join(items)
 
     @command(command="roll", params=[Const("verify"), Int("roll_id")], access_level="all",
              description="Verify a roll that happened")
@@ -60,8 +60,7 @@ class RandomController:
 
     # Keep this method at the bottom of file otherwise it will precede over all other commands
     @command(command="roll", params=[Any("items")], access_level="all",
-             description="Roll a random value",
-             extended_description="Enter a space-delimited list of values to roll")
+             description="Roll a random value from a list of space-delimited values")
     def roll_text_variables_command(self, request, items):
         options = items.split(" ")
         result = random.choice(options)
