@@ -234,9 +234,10 @@ class MigrateController:
 
         request.reply("Processing %s name history records. This may take some time..." % len(data))
 
-        for row in data:
-            self.db.exec("DELETE FROM name_history WHERE char_id = ? AND name = ?", [row.char_id, row.name])
-            self.db.exec("INSERT INTO name_history (char_id, name, created_at) VALUES (?, ?, ?)", [row.char_id, row.name, row.created_at])
+        with self.db.transaction():
+            for row in data:
+                self.db.exec("DELETE FROM name_history WHERE char_id = ? AND name = ?", [row.char_id, row.name])
+                self.db.exec("INSERT INTO name_history (char_id, name, created_at) VALUES (?, ?, ?)", [row.char_id, row.name, row.created_at])
 
         return f"Successfully migrated <highlight>%d</highlight> name history records." % len(data)
 
