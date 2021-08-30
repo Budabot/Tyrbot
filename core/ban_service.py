@@ -55,12 +55,18 @@ class BanService:
         t = int(time.time())
         return self.db.query_single("SELECT * FROM ban_list WHERE char_id = ? AND ended_early != 1 AND (finished_at > ? OR finished_at = -1)", [char_id, t])
 
-    def get_ban_list(self):
-        t = int(time.time())
-        return self.db.query("SELECT b.*, COALESCE(p1.name, b.char_id) AS name, p2.name AS sender_name FROM ban_list b "
-                             "LEFT JOIN player p1 ON b.char_id = p1.char_id LEFT JOIN player p2 ON b.sender_char_id = p2.char_id "
-                             "WHERE ended_early != 1 AND (finished_at > ? OR finished_at = -1) "
-                             "ORDER BY b.created_at DESC", [t])
+    def get_ban_list(self, include_expired=False):
+        params = []
+
+        sql = "SELECT b.*, b.char_id, p1.name, COALESCE(p2.name, b.sender_char_id) AS sender_name FROM ban_list b "
+        sql += "LEFT JOIN player p1 ON b.char_id = p1.char_id LEFT JOIN player p2 ON b.sender_char_id = p2.char_id "
+        if not include_expired:
+            sql += "WHERE ended_early != 1 AND (finished_at > ? OR finished_at = -1) "
+            t = int(time.time())
+            params.append(t)
+
+        sql += "ORDER BY b.created_at DESC"
+        return self.db.query(sql, params)
 
     def check_for_banned(self, context):
         char_id = context.char_id

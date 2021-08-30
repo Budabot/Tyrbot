@@ -1,5 +1,5 @@
 from core.decorators import instance, command
-from core.command_param_types import Any, Const, Options, Time, Character
+from core.command_param_types import Any, Const, Options, Time, Character, NamedFlagParameters
 from core.chat_blob import ChatBlob
 import time
 
@@ -18,18 +18,19 @@ class BanController:
     def start(self):
         self.command_alias_service.add_alias("unban", "ban rem")
 
-    @command(command="ban", params=[Const("list", is_optional=True)], access_level="moderator",
+    @command(command="ban", params=[Const("list", is_optional=True), NamedFlagParameters(["include_expired"])], access_level="moderator",
              description="Show the ban list")
-    def ban_list_cmd(self, request, _):
+    def ban_list_cmd(self, request, _, flag_params):
         t = int(time.time())
-        data = self.ban_service.get_ban_list()
+        data = self.ban_service.get_ban_list(flag_params.include_expired)
         blob = ""
         for row in data:
             end_time = "never" if row.finished_at == -1 else self.util.format_datetime(row.finished_at)
             time_left = "" if row.finished_at == -1 else " (%s left)" % self.util.time_to_readable(row.finished_at - t)
             added_time = self.util.format_datetime(row.created_at)
+            name = row.name if row.name else ("Unknown(%d)" % row.char_id)
 
-            blob += f"<pagebreak>Name: <highlight>{row.name}</highlight>\n"
+            blob += f"<pagebreak>Name: <highlight>{name}</highlight>\n"
             blob += f"Added: <highlight>{added_time}</highlight>\n"
             blob += f"By: <highlight>{row.sender_name}</highlight>\n"
             blob += f"Ends: <highlight>{end_time}</highlight>{time_left}\n"
