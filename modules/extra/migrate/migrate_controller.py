@@ -284,13 +284,14 @@ class MigrateController:
                               "WHERE p.charid > 0", [self.dimension])
 
         num = 0
-        for row in data:
-            char_id = self.resolve_to_char_id(row.sender, row.char_id)
+        with self.db.transaction():
+            for row in data:
+                char_id = self.resolve_to_char_id(row.sender, row.char_id)
 
-            if char_id:
-                num += 1
-                self.db.exec("DELETE FROM last_seen WHERE char_id = ?", [char_id])
-                self.db.exec("INSERT INTO last_seen (char_id, dt) VALUES (?, ?)", [char_id, row.last_seen])
+                if char_id:
+                    num += 1
+                    self.db.exec("DELETE FROM last_seen WHERE char_id = ?", [char_id])
+                    self.db.exec("INSERT INTO last_seen (char_id, dt) VALUES (?, ?)", [char_id, row.last_seen])
 
         return f"Successfully migrated <highlight>{num}</highlight> last seen records."
 
@@ -300,17 +301,19 @@ class MigrateController:
         if not self.org_id:
             return "Could not migrate cloak status record since org id is not set."
 
-        data = self.db2.query("SELECT o.name, p.charid AS char_id, action, time AS created_at "
-                              f"FROM org_city_{self.bot_name} o JOIN players p ON (o.player = p.name AND p.dimension = ?)"
+        data = self.db2.query("SELECT o.player AS name, p.charid AS char_id, action, time AS created_at "
+                              f"FROM org_city_{self.bot_name} o JOIN players p ON (o.player = p.name AND p.dimension = ?) "
                               "WHERE p.charid > 0", [self.dimension])
 
         num = 0
-        for row in data:
-            char_id = self.resolve_to_char_id(row.name, row.char_id)
+        with self.db.transaction():
+            self.db.exec("DELETE FROM cloak_status WHERE org_id = ?", [self.org_id])
+            for row in data:
+                char_id = self.resolve_to_char_id(row.name, row.char_id)
 
-            if char_id:
-                num += 1
-                self.db.exec("INSERT INTO cloak_status (char_id, action, created_at, org_id) VALUES (?, ?, ?, ?)", [char_id, row.action, row.created_at, self.org_id])
+                if char_id:
+                    num += 1
+                    self.db.exec("INSERT INTO cloak_status (char_id, action, created_at, org_id) VALUES (?, ?, ?, ?)", [char_id, row.action, row.created_at, self.org_id])
 
         return f"Successfully migrated <highlight>{num}</highlight> cloak status records."
 
@@ -320,42 +323,47 @@ class MigrateController:
         if not self.org_id:
             return "Could not migrate cloak status record since org id is not set."
 
+        request.reply("Processing records. This may take some time...")
+
         data = self.db2.query("SELECT o.actor AS actor_name, p1.charid AS actor_char_id, o.actee AS actee_name, p2.charid AS actee_char_id, action, time AS created_at "
                               "FROM org_history o JOIN players p1 ON (o.actor = p1.name AND p1.dimension = ?) JOIN players p2 ON (o.actee = p2.name AND p2.dimension = ?) "
                               "WHERE p1.charid > 0 AND p2.charid > 0", [self.dimension, self.dimension])
 
-        self.db.exec("DELETE FROM org_activity WHERE org_id = ?", [self.org_id])
-
         num = 0
-        for row in data:
-            actor_char_id = self.resolve_to_char_id(row.actor_name, row.actor_char_id)
-            actee_char_id = self.resolve_to_char_id(row.actee_name, row.actee_char_id)
+        with self.db.transaction():
+            self.db.exec("DELETE FROM org_activity WHERE org_id = ?", [self.org_id])
+            for row in data:
+                actor_char_id = self.resolve_to_char_id(row.actor_name, row.actor_char_id)
+                actee_char_id = self.resolve_to_char_id(row.actee_name, row.actee_char_id)
 
-            if actor_char_id and actee_char_id:
-                num += 1
-                self.db.exec("INSERT INTO org_activity (actor_char_id, actee_char_id, action, created_at, org_id) VALUES (?, ?, ?, ?, ?)",
-                             [actor_char_id, actee_char_id, row.action, row.created_at, self.org_id])
+                if actor_char_id and actee_char_id:
+                    num += 1
+                    self.db.exec("INSERT INTO org_activity (actor_char_id, actee_char_id, action, created_at, org_id) VALUES (?, ?, ?, ?, ?)",
+                                 [actor_char_id, actee_char_id, row.action, row.created_at, self.org_id])
 
         return f"Successfully migrated <highlight>{num}</highlight> org activity records."
 
-    @command(command="budabot", params=[Const("migrate"), Const("player")], access_level="superadmin",
+    @command(command="budabot", params=[Const("migrate"), Const("players")], access_level="superadmin",
              description="Migrate character info records from a Budabot database")
     def migrate_budabot_player_cmd(self, request, _1, _2):
         data = self.db2.query("SELECT * FROM players WHERE charid > 0 AND dimension = ?", [self.dimension])
 
-        num = 0
-        for row in data:
-            if row.charid:
-                num += 1
-                self.db.exec("DELETE FROM player WHERE char_id = ?", [row.charid])
-                self.db.exec("INSERT INTO player (ai_level, ai_rank, breed, char_id, dimension, faction, first_name, gender, head_id, last_name, "
-                             "last_updated, level, name, org_id, org_name, org_rank_id, org_rank_name, profession, profession_title, pvp_rating, pvp_title, source) "
-                             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                             [row.ai_level, row.ai_rank, row.breed, row.charid, row.dimension, row.faction, row.firstname, row.gender, row.head_id if row.head_id else 0,
-                              row.lastname, row.last_update, row.level, row.name, row.guild_id, row.guild, row.guild_rank_id, row.guild_rank, row.profession, row.prof_title,
-                              row.pvp_rating if row.pvp_rating else 0, row.pvp_title if row.pvp_title else "", row.source])
+        request.reply("Processing %s records. This may take some time..." % len(data))
 
-        # maybe this is needed also? self.db.exec("DELETE FROM player WHERE char_id = 4294967295")
+        num = 0
+        with self.db.transaction():
+            for row in data:
+                if row.charid:
+                    num += 1
+                    self.db.exec("DELETE FROM player WHERE char_id = ?", [row.charid])
+                    self.db.exec("INSERT INTO player (ai_level, ai_rank, breed, char_id, dimension, faction, first_name, gender, head_id, last_name, "
+                                 "last_updated, level, name, org_id, org_name, org_rank_id, org_rank_name, profession, profession_title, pvp_rating, pvp_title, source) "
+                                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                                 [row.ai_level, row.ai_rank, row.breed, row.charid, row.dimension, row.faction, row.firstname, row.gender, row.head_id if row.head_id else 0,
+                                  row.lastname, row.last_update, row.level, row.name, row.guild_id, row.guild, row.guild_rank_id, row.guild_rank, row.profession, row.prof_title,
+                                  row.pvp_rating if row.pvp_rating else 0, row.pvp_title if row.pvp_title else "", row.source])
+
+            # maybe this is needed also? self.db.exec("DELETE FROM player WHERE char_id = 4294967295")
 
         return f"Successfully migrated <highlight>{num}</highlight> character info records."
 

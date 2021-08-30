@@ -36,6 +36,7 @@ class NewsController:
 
     @command(command="news", params=[], description="Show list of news", access_level="member")
     def news_cmd(self, request):
+        # TODO add paging
         row = self.db.query_single("SELECT created_at FROM news WHERE deleted_at = 0 ORDER BY created_at DESC LIMIT 1")
         if row:
             t = int(time.time())
