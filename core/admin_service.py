@@ -48,7 +48,7 @@ class AdminService:
 
     def get_all(self):
         superadmin_char_id = self.character_service.resolve_char_to_id(self.bot.superadmin)
-        return self.db.query("SELECT p.*, COALESCE(p.name, t.char_id) AS name, t.access_level, t.sort FROM "
+        return self.db.query("SELECT p.*, t.char_id, t.access_level, t.sort FROM "
                              "(SELECT ? AS char_id, 'superadmin' AS access_level, 0 AS sort "
                              "UNION "
                              "SELECT a.char_id, a.access_level, "

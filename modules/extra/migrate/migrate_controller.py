@@ -40,9 +40,11 @@ class MigrateController:
         # self.db2.connect_sqlite("./data/budabot.db")
         # self.db2.connect_mysql(host="localhost", port=3306, username="", password="", database_name="")
 
-        self.bot_name = bot_name.lower() if bot_name else self.bot.get_primary_conn().get_char_name()
+        self.bot_name = bot_name.lower() if bot_name else self.bot.get_primary_conn().get_char_name().lower()
         self.org_id = org_id if org_id else self.bot.get_primary_conn().org_id
         self.dimension = self.bot.dimension
+
+        # TODO in each command, check if db has been initialized properly first
 
     @command(command="bebot", params=[Const("migrate"), Const("alts")], access_level="superadmin",
              description="Migrate alts from a Bebot database")
@@ -109,7 +111,7 @@ class MigrateController:
             for row in data:
                 char_id = self.resolve_to_char_id(row.name, row.char_id)
 
-                if char_id:
+                if char_id and row.access_level:
                     self.db.exec("DELETE FROM admin WHERE char_id = ?", [char_id])
                     self.db.exec("INSERT INTO admin (char_id, access_level) VALUES (?, ?)", [char_id, row.access_level])
 

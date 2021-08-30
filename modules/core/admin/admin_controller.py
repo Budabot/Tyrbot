@@ -33,7 +33,11 @@ class AdminController:
                 blob += "\n<header2>%s</header2>\n" % row.access_level.capitalize()
                 current_access_level = row.access_level
 
-            blob += row.name
+            if row.name:
+                blob += row.name
+            else:
+                blob += "Unknown(%d)" % row.char_id
+
             if self.buddy_service.is_online(row.char_id):
                 blob += " [<green>Online</green>]"
             blob += "\n"
