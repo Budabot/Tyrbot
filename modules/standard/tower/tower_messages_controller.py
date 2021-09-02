@@ -126,7 +126,10 @@ class TowerMessagesController:
                     ORDER BY created_at DESC"""
             data2 = self.db.query(sql2, [row.id])
             for row2 in data2:
-                blob += "<tab>" + self.format_attacker(row2) + "\n"
+                blob += "<tab>" + self.format_attacker(row2)
+                if row.is_victory:
+                    blob += " - <notice>Winner!</notice>"
+                blob += "\n"
             if not data2:
                 blob += "<tab>Unknown attacker\n"
 
@@ -353,8 +356,7 @@ class TowerMessagesController:
     def format_attacker(self, row):
         level = ("%d/<green>%d</green>" % (row.att_level, row.att_ai_level)) if row.att_ai_level > 0 else "%d" % row.att_level
         org = row.att_org_name + " " if row.att_org_name else ""
-        victor = " - <notice>Winner!</notice>" if row.is_victory else ""
-        return "%s (%s %s) %s[%s]%s" % (row.att_char_name or "Unknown attacker", level, row.att_profession, org, self.text.get_formatted_faction(row.att_faction), victor)
+        return "%s (%s %s) %s[%s]" % (row.att_char_name or "Unknown attacker", level, row.att_profession, org, self.text.get_formatted_faction(row.att_faction))
 
     def find_closest_site_number(self, playfield_id, x_coord, y_coord):
         sql = "SELECT site_number FROM tower_site_bounds " \
@@ -496,6 +498,8 @@ class TowerMessagesController:
         for row in attackers:
             blob += "<tab>" + self.format_attacker(row)
             blob += " " + self.format_timestamp(row.created_at, t)
+            if row.is_victory:
+                blob += " - <notice>Winner!</notice>"
             blob += "\n"
 
         return blob
