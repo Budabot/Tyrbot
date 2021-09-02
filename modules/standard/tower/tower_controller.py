@@ -76,9 +76,6 @@ class TowerController:
                 params["org_name"] = "%" + org + "%"
             data = self.lookup_tower_info(params).results
 
-            if not data:
-                return "Could not find tower info for org <highlight>%s</highlight>." % org
-
             current_day_time = int(time.time()) % 86400
             grouped_data = self.util.group_by(data, lambda x: (x.org_id, x.org_name))
             blob = ""
@@ -106,17 +103,13 @@ class TowerController:
 
             data = self.lookup_tower_info(params).results
 
-            if not data:
-                return "There are no tower sites matching your criteria."
-
             blob = ""
             for row in data:
                 blob += "<pagebreak>" + self.format_site_info(row, None) + "\n"
 
             blob += self.get_lc_blob_footer()
 
-            title = "Tower Info: Unplanted"
-            title += " (%d)" % len(data)
+            title = "Tower Info: Unplanted (%d)" % len(data)
 
             return ChatBlob(title, blob)
 
@@ -145,9 +138,6 @@ class TowerController:
 
             data = self.lookup_tower_info(params).results
 
-            if not data:
-                return "There are no tower sites matching your criteria."
-
             blob = ""
             for row in data:
                 blob += "<pagebreak>" + self.format_site_info(row, current_day_time) + "\n"
@@ -170,12 +160,6 @@ class TowerController:
             return f"Could not find playfield <highlight>{playfield_name}</highlight>."
 
         data = self.get_tower_site_info(playfield.id, site_number)
-
-        if not data:
-            if site_number:
-                return "Could not find tower info for <highlight>%s %d</highlight>." % (playfield.long_name, site_number)
-            else:
-                return "Could not find tower info for <highlight>%s</highlight>." % playfield.long_name
 
         blob = ""
         current_day_time = int(time.time()) % 86400
