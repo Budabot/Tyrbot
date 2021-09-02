@@ -88,7 +88,7 @@ class AdminController:
         else:
             return f"Could not remove character <highlight>{char.name}</highlight> as <highlight>{AdminService.MODERATOR}</highlight>."
 
-    @event(event_type="connect", description="Add admins as buddies")
+    @event(event_type="connect", description="Add admins as buddies", is_hidden=True)
     def connect_event(self, event_type, event_data):
         for row in self.admin_service.get_all():
             self.buddy_service.add_buddy(row.char_id, "admin")

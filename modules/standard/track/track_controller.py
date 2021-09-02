@@ -71,6 +71,11 @@ class TrackController:
             if self.get_tracked_char(event_data.char_id):
                 self.add_track_info(event_data.char_id, "logoff")
 
+    @event(event_type="connect", description="Add tracked characters as buddies", is_hidden=True)
+    def connect_event(self, event_type, event_data):
+        for row in self.get_all_tracked_chars():
+            self.buddy_service.add_buddy(row.char_id, "admin")
+
     def get_tracked_char(self, char_id):
         return self.db.query_single("SELECT COALESCE(p1.name, t.char_id) AS name, COALESCE(p2.name, t.added_by_char_id) AS added_by_name, created_at "
                                     "FROM track t "
