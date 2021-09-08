@@ -127,7 +127,7 @@ class TowerMessagesController:
             data2 = self.db.query(sql2, [row.id])
             for row2 in data2:
                 blob += "<tab>" + self.format_attacker(row2)
-                if row.is_victory:
+                if row2.is_victory:
                     blob += " - <notice>Winner!</notice>"
                 blob += "\n"
             if not data2:
