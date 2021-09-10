@@ -3,6 +3,7 @@ import time
 from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Any, Int
 from core.decorators import instance, command, event
+from core.setting_types import BooleanSettingType
 from modules.core.org_members.org_member_controller import OrgMemberController
 
 
@@ -13,6 +14,7 @@ class PollController:
         self.db = registry.get_instance("db")
         self.util = registry.get_instance("util")
         self.text = registry.get_instance("text")
+        self.setting_service = registry.get_instance("setting_service")
         self.job_scheduler = registry.get_instance("job_scheduler")
         self.pork_service = registry.get_instance("pork_service")
         self.command_alias_service = registry.get_instance("command_alias_service")
@@ -23,6 +25,8 @@ class PollController:
                      "min_access_level VARCHAR(20) NOT NULL, char_id INT NOT NULL, created_at INT NOT NULL, finished_at INT NOT NULL, is_finished SMALLINT NOT NULL)")
         self.db.exec("CREATE TABLE IF NOT EXISTS poll_choice (id INT PRIMARY KEY AUTO_INCREMENT, poll_id INT NOT NULL, choice VARCHAR(1024))")
         self.db.exec("CREATE TABLE IF NOT EXISTS poll_vote (poll_id INT NOT NULL, choice_id INT NOT NULL, char_id INT NOT NULL)")
+
+        self.setting_service.register(self.module_name, "poll_show_voters", True, BooleanSettingType(), "Show the list of characters that have voted for each poll option")
 
         self.command_alias_service.add_alias("vote", "poll")
 
@@ -156,12 +160,15 @@ class PollController:
         blob += "Created: <highlight>%s</highlight>\n" % self.util.format_datetime(poll.created_at)
         blob += "Finished: <highlight>%s</highlight>\n" % self.util.format_datetime(poll.finished_at)
 
-        blob += "\n<header2>Choices</header2>\n"
+        blob += "\n<header2>Choices</header2> (click on a choice to cast your vote)\n"
         idx = 1
         for choice in self.get_choices(poll.id):
             blob += "%d. %s (%d)\n" % (idx, self.text.make_tellcmd(choice.choice, "poll %d vote %d" % (poll.id, choice.id)), choice.cnt)
-            for vote in self.get_votes(choice.id):
-                blob += "<tab>%s\n" % self.text.format_char_info(vote)
+
+            poll_show_voters = self.setting_service.get("poll_show_voters").get_value()
+            if poll_show_voters:
+                for vote in self.get_votes(choice.id):
+                    blob += "<tab>%s\n" % self.text.format_char_info(vote)
             idx += 1
 
         return ChatBlob("Poll ID %d: %s" % (poll.id, poll.question), blob)
