@@ -8,6 +8,9 @@ from core.chat_blob import ChatBlob
 
 @instance()
 class TrackController:
+    def __init__(self):
+        self.tracked_char_ids = set()
+
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
         self.db = registry.get_instance("db")
@@ -18,6 +21,9 @@ class TrackController:
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS track (char_id INT NOT NULL PRIMARY KEY, added_by_char_id INT NOT NULL, created_at INT NOT NULL)")
         self.db.exec("CREATE TABLE IF NOT EXISTS track_log (char_id INT NOT NULL, action VARCHAR(10) NOT NULL, created_at INT NOT NULL)")
+
+        for row in self.get_all_tracked_chars():
+            self.tracked_char_ids.add(row.char_id)
 
     @command(command="track", params=[], access_level="member",
              description="Show the track list")
@@ -62,14 +68,13 @@ class TrackController:
 
     @event(event_type=BuddyService.BUDDY_LOGON_EVENT, description="Record when a tracked char logs on", is_hidden=True)
     def buddy_logon_event(self, event_type, event_data):
-        if self.get_tracked_char(event_data.char_id):
+        if self.is_tracked_char(event_data.char_id):
             self.add_track_info(event_data.char_id, "logon")
 
     @event(event_type=BuddyService.BUDDY_LOGOFF_EVENT, description="Record when a tracked char logs off", is_hidden=True)
     def buddy_logoff_event(self, event_type, event_data):
-        if self.bot.is_ready():
-            if self.get_tracked_char(event_data.char_id):
-                self.add_track_info(event_data.char_id, "logoff")
+        if self.is_tracked_char(event_data.char_id):
+            self.add_track_info(event_data.char_id, "logoff")
 
     @event(event_type="connect", description="Add tracked characters as buddies", is_hidden=True)
     def connect_event(self, event_type, event_data):
@@ -95,15 +100,24 @@ class TrackController:
                              "WHERE char_id = ? "
                              "ORDER BY created_at DESC", [char_id])
 
+    def is_tracked_char(self, char_id):
+        return char_id in self.tracked_char_ids
+
     def add_tracked_char(self, char_id, added_by_char_id):
         self.buddy_service.add_buddy(char_id, "track")
         self.db.exec("INSERT INTO track (char_id, added_by_char_id, created_at) VALUES (?, ?, ?)",
                      [char_id, added_by_char_id, int(time.time())])
+        self.tracked_char_ids.add(char_id)
 
     def remove_tracked_char(self, char_id):
         self.buddy_service.remove_buddy(char_id, "track")
         self.db.exec("DELETE FROM track WHERE char_id = ?", [char_id])
+        self.tracked_char_ids.remove(char_id)
 
     def add_track_info(self, char_id, action):
-        self.db.exec("INSERT INTO track_log (char_id, action, created_at) VALUES (?, ?, ?)",
-                     [char_id, action, int(time.time())])
+        row = self.db.query_single("SELECT action FROM track_log WHERE char_id = ? ORDER BY created_at DESC", [char_id])
+
+        # only update track info if previous action is different
+        if not row or row.action != action:
+            self.db.exec("INSERT INTO track_log (char_id, action, created_at) VALUES (?, ?, ?)",
+                         [char_id, action, int(time.time())])
