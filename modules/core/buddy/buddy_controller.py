@@ -1,5 +1,5 @@
 from core.decorators import instance, command, timerevent
-from core.command_param_types import Any, Const, Options, Character
+from core.command_param_types import Any, Const, Options, Character, NamedFlagParameters
 from core.chat_blob import ChatBlob
 from core.logger import Logger
 from core.standard_message import StandardMessage
@@ -14,18 +14,6 @@ class BuddyController:
         self.bot = registry.get_instance("bot")
         self.character_service = registry.get_instance("character_service")
         self.buddy_service = registry.get_instance("buddy_service")
-
-    @command(command="buddylist", params=[], access_level="admin",
-             description="Show characters on the buddy list")
-    def buddylist_cmd(self, request):
-        buddy_list = []
-        for char_id, buddy in self.buddy_service.get_all_buddies().items():
-            char_name = self.character_service.resolve_char_to_name(char_id, "Unknown(%d)" % char_id)
-            buddy_list.append([char_name, buddy])
-
-        blob = self.format_buddies(buddy_list)
-
-        return ChatBlob(f"Buddy list ({len(buddy_list)})", blob)
 
     @command(command="buddylist", params=[Const("add"), Character("character"), Any("type")], access_level="admin",
              description="Add a character to the buddy list")
@@ -73,19 +61,32 @@ class BuddyController:
         num_removed = self.remove_orphaned_buddies()
         return f"Removed <highlight>{num_removed}</highlight> orphaned buddies from the buddy list."
 
-    @command(command="buddylist", params=[Const("search"), Any("character")], access_level="admin",
-             description="Search for characters on the buddy list")
-    def buddylist_search_cmd(self, request, _, search):
-        search = search.lower()
+    @command(command="buddylist", params=[Const("search", is_optional=True), Any("character", is_optional=True), NamedFlagParameters(["only_inactive"])],
+             access_level="admin", description="Search for characters on the buddy list")
+    def buddylist_search_cmd(self, request, _, search, flag_params):
+        is_search = False
+        if search:
+            is_search = True
+            search = search.lower()
+
+        if flag_params.only_inactive:
+            is_search = True
 
         buddy_list = []
         for char_id, buddy in self.buddy_service.get_all_buddies().items():
+            if flag_params.only_inactive and buddy["online"] is not None:
+                continue
+
             char_name = self.character_service.resolve_char_to_name(char_id, "Unknown(%d)" % char_id)
-            if search in char_name.lower():
+            if not is_search or search in char_name.lower():
                 buddy_list.append([char_name, buddy])
 
         blob = self.format_buddies(buddy_list)
-        return ChatBlob(f"Buddy List Search Results ({len(buddy_list)})", blob)
+
+        if is_search:
+            return ChatBlob(f"Buddy List Search Results ({len(buddy_list)})", blob)
+        else:
+            return ChatBlob(f"Buddy list ({len(buddy_list)})", blob)
 
     @timerevent(budatime="24h", description="Remove orphaned buddies", is_hidden=True)
     def remove_orphaned_buddies_event(self, event_type, event_data):
