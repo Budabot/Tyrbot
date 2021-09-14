@@ -1,5 +1,5 @@
 from core.decorators import instance, command, timerevent
-from core.command_param_types import Any, Const, Options, Character, NamedFlagParameters
+from core.command_param_types import Any, Const, Options, Character, NamedFlagParameters, NamedParameters
 from core.chat_blob import ChatBlob
 from core.logger import Logger
 from core.standard_message import StandardMessage
@@ -61,24 +61,37 @@ class BuddyController:
         num_removed = self.remove_orphaned_buddies()
         return f"Removed <highlight>{num_removed}</highlight> orphaned buddies from the buddy list."
 
-    @command(command="buddylist", params=[Const("search", is_optional=True), Any("character", is_optional=True), NamedFlagParameters(["only_inactive"])],
-             access_level="admin", description="Search for characters on the buddy list")
-    def buddylist_search_cmd(self, request, _, search, flag_params):
+    @command(command="buddylist", params=[Const("search", is_optional=True), Any("character", allowed_chars="[a-z0-9-]", is_optional=True), NamedParameters(["inactive"])],
+             access_level="admin", description="Search for characters on the buddy list",
+             extended_description="Use --inactive=include (default), --inactive=exclude, or --inactive=only to control if inactive buddies are shown")
+    def buddylist_search_cmd(self, request, _, search, named_params):
         is_search = False
         if search:
             is_search = True
             search = search.lower()
 
-        if flag_params.only_inactive:
+        include_active = True
+        include_inactive = True
+        if named_params.inactive:
+            if named_params.inactive.lower() == "exclude":
+                include_inactive = False
+            elif named_params.inactive.lower() == "only":
+                include_active = False
+            elif named_params.inactive.lower() != "include":
+                return "Named parameter <highlight>--inactive</highlight> only allows values <highlight>include</highlight>, " \
+                       "<highlight>exclude</highlight>, or <highlight>only</highlight>."
             is_search = True
 
         buddy_list = []
         for char_id, buddy in self.buddy_service.get_all_buddies().items():
-            if flag_params.only_inactive and buddy["online"] is not None:
+            is_active = buddy["online"] is not None
+            if not include_active and is_active:
+                continue
+            elif not include_inactive and not is_active:
                 continue
 
             char_name = self.character_service.resolve_char_to_name(char_id, "Unknown(%d)" % char_id)
-            if not is_search or search in char_name.lower():
+            if not search or search in char_name.lower():
                 buddy_list.append([char_name, buddy])
 
         blob = self.format_buddies(buddy_list)
