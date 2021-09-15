@@ -1,3 +1,4 @@
+from core.db import DB
 from core.decorators import instance, command
 from core.command_param_types import Any, Const
 from core.chat_blob import ChatBlob
@@ -20,6 +21,12 @@ class SqlController:
              description="Execute a SQL query and return the results")
     def sql_query_cmd(self, request, _, sql):
         try:
+            if self.db.type == DB.SQLITE:
+                if sql.lower() == "show tables":
+                    sql = "SELECT name FROM sqlite_master WHERE type = 'table'"
+                elif sql.lower().startswith("describe "):
+                    sql = "PRAGMA table_info(" + sql[9:] + ")"
+
             results = self.db.query(sql)
             return ChatBlob(f"Results ({len(results)})", json.dumps(results, indent=4, sort_keys=True))
         except Exception as e:
