@@ -94,7 +94,7 @@ class MemberController:
             self.update_auto_invite(request.sender.char_id, autoinvite_pref)
             return f"Your auto invite preference has been set to <highlight>{pref}</highlight>."
         else:
-            if self.access_service.check_access(request.sender.char_id, self.setting_service.get_value("autoinvite_auto_al")):
+            if self.access_service.check_access(request.sender.char_id, self.setting_service.get_value("autoinvite_auto_access_level")):
                 self.add_member(request.sender.char_id, auto_invite=autoinvite_pref)
                 return f"Your auto invite preference has been set to <highlight>{pref}</highlight>."
             else:
