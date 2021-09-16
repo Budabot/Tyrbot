@@ -229,17 +229,10 @@ class TowerController:
     def lookup_tower_info(self, params):
         url = self.setting_service.get("tower_api_address").get_value()
 
-        try:
-            headers = self.setting_service.get("tower_api_custom_headers").get_value() or {}
-            headers.update({"User-Agent": f"Tyrbot {self.bot.version}"})
-            r = requests.get(url, params, headers=headers, timeout=5)
-            result = DictObject(r.json())
-        except ReadTimeout:
-            self.logger.warning("Timeout while requesting '%s'" % url)
-            result = None
-        except Exception as e:
-            self.logger.error("Error requesting history for url '%s'" % url, e)
-            result = None
+        headers = self.setting_service.get("tower_api_custom_headers").get_value() or {}
+        headers.update({"User-Agent": f"Tyrbot {self.bot.version}"})
+        r = requests.get(url, params, headers=headers, timeout=5)
+        result = DictObject(r.json())
 
         return result
 

@@ -228,7 +228,7 @@ class Util:
         result = {}
         for item in iterable:
             k = keyfunc(item)
-            l = result.get(k, list())
-            result[k] = l
-            l.append(item)
+            coll = result.get(k, list())
+            coll.append(item)
+            result[k] = coll
         return result
