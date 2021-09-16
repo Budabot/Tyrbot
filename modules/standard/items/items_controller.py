@@ -17,7 +17,7 @@ class ItemsController:
         self.command_alias_service = registry.get_instance("command_alias_service")
 
     def pre_start(self):
-        self.db.load_sql_file(self.module_dir + "/" + "aodb.sql")
+        self.db.load_sql_file(self.module_dir + "/sql/" + "aodb.sql")
 
     def start(self):
         self.command_alias_service.add_alias("item", "items")

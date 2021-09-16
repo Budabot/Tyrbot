@@ -13,9 +13,9 @@ class WhatBuffsController:
         self.command_alias_service = registry.get_instance("command_alias_service")
 
     def pre_start(self):
-        self.db.load_sql_file(self.module_dir + "/" + "item_buffs.sql")
-        self.db.load_sql_file(self.module_dir + "/" + "item_types.sql")
-        self.db.load_sql_file(self.module_dir + "/" + "skills.sql")
+        self.db.load_sql_file(self.module_dir + "/sql/" + "item_buffs.sql")
+        self.db.load_sql_file(self.module_dir + "/sql/" + "item_types.sql")
+        self.db.load_sql_file(self.module_dir + "/sql/" + "skills.sql")
 
     def start(self):
         self.command_alias_service.add_alias("buffs", "whatbuffs")
