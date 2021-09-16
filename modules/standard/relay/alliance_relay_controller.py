@@ -8,7 +8,7 @@ from core.setting_types import TextSettingType, BooleanSettingType, ColorSetting
 from core.tyrbot import Tyrbot
 
 
-@instance("AllianceRelayController")
+@instance()
 class AllianceRelayController:
     relay_channel_id = None
     MESSAGE_SOURCE = "alliance"
