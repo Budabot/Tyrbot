@@ -34,7 +34,6 @@ class WebsocketRelayController:
         self.util = registry.get_instance("util")
         self.setting_service = registry.get_instance("setting_service")
         self.event_service = registry.get_instance("event_service")
-        self.relay_controller = registry.get_instance("relay_controller")
         self.character_service = registry.get_instance("character_service")
         self.pork_service = registry.get_instance("pork_service")
         self.online_controller = registry.get_instance("online_controller")
