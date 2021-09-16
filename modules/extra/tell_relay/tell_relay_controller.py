@@ -4,7 +4,7 @@ from core.setting_types import TextSettingType
 
 
 @instance()
-class RelayController:
+class TellRelayController:
     MESSAGE_SOURCE = "tell_relay"
 
     def inject(self, registry):
@@ -27,7 +27,6 @@ class RelayController:
                                                               [self.MESSAGE_SOURCE])
 
         self.setting_service.register(self.module_name, "relay_bot", "", TextSettingType(allow_empty=True), "Name of bot character for chat relay")
-        self.setting_service.register(self.module_name, "relay_prefix", "", TextSettingType(allow_empty=True), "Name of this relay (if you don't want to use org or bot name)")
 
     def relay_bot(self):
         return self.setting_service.get("relay_bot")

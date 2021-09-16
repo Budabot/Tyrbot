@@ -33,7 +33,7 @@ class OrgChannelController:
     def start(self):
         self.message_hub_service.register_message_destination(
             self.MESSAGE_SOURCE, self.handle_incoming_relay_message,
-            ["private_channel", "discord", "websocket_relay", "tell_relay", "broadcast", "raffle", "cloak_reminder", "wave_counter", "shutdown_notice", "raid", "tower_attacks", "timers"],
+            ["private_channel", "discord", "websocket_relay", "broadcast", "raffle", "cloak_reminder", "wave_counter", "shutdown_notice", "raid", "tower_attacks", "timers"],
             [self.MESSAGE_SOURCE])
 
         self.setting_service.register(self.module_name, "prefix_org_priv", True, BooleanSettingType(), "Should the prefix [org] be displayed in relayed messages")

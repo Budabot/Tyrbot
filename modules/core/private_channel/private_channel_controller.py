@@ -33,7 +33,7 @@ class PrivateChannelController:
     def start(self):
         self.message_hub_service.register_message_destination(self.MESSAGE_SOURCE,
                                                               self.handle_incoming_relay_message,
-                                                              ["org_channel", "discord", "websocket_relay", "tell_relay", "broadcast", "raffle", "shutdown_notice", "raid", "timers"],
+                                                              ["org_channel", "discord", "websocket_relay", "broadcast", "raffle", "shutdown_notice", "raid", "timers"],
                                                               [self.MESSAGE_SOURCE])
 
     def handle_incoming_relay_message(self, ctx):

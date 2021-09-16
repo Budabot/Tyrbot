@@ -98,7 +98,7 @@ class DiscordController:
 
         self.message_hub_service.register_message_destination(self.MESSAGE_SOURCE,
                                                               self.handle_incoming_relay_message,
-                                                              ["private_channel", "org_channel", "websocket_relay", "tell_relay", "shutdown_notice"],
+                                                              ["private_channel", "org_channel", "websocket_relay", "shutdown_notice"],
                                                               [self.MESSAGE_SOURCE])
 
         self.register_discord_command_handler(self.discord_link_cmd, "discord", [Const("link"), Character("ao_character")])
