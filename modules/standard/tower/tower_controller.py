@@ -3,7 +3,6 @@ from datetime import datetime
 
 import pytz
 import requests
-from requests import ReadTimeout
 
 from core.chat_blob import ChatBlob
 from core.command_param_types import Any, Int, Const, Options
@@ -64,16 +63,19 @@ class TowerController:
         @command(command="lc", params=[Const("org"), Any("org", is_optional=True)], access_level="all",
                  description="See a list of land control tower sites by org")
         def lc_org_cmd(self, request, _, org):
-            params = {"enabled": "true"}
+            params = list()
+            params.append(("enabled", "true"))
             if not org:
                 org = str(request.conn.org_id)
                 if not org:
                     return "Bot does not belong to an org so an org name or org id must be specified."
 
             if org.isdigit():
-                params["org_id"] = org
+                params.append(("org_id", org))
             else:
-                params["org_name"] = "%" + org + "%"
+                for org_name_piece in org.split(" "):
+                    params.append(("org_name", "%" + org_name_piece + "%"))
+
             data = self.lookup_tower_info(params).results
 
             current_day_time = int(time.time()) % 86400
@@ -99,7 +101,9 @@ class TowerController:
         @command(command="lc", params=[Const("unplanted")],
                  access_level="all", description="See a list of land control tower sites that are not currently planted")
         def lc_unplanted_cmd(self, request, _):
-            params = {"enabled": "true", "planted": "false"}
+            params = list()
+            params.append(("enabled", "true"))
+            params.append(("planted", "false"))
 
             data = self.lookup_tower_info(params).results
 
@@ -124,17 +128,20 @@ class TowerController:
             min_ql = min_ql or 1
             max_ql = max_ql or 300
 
-            params = {"enabled": "true", "min_ql": min_ql, "max_ql": max_ql}
+            params = list()
+            params.append(("enabled", "true"))
+            params.append(("min_ql", min_ql))
+            params.append(("max_ql", max_ql))
 
-            if faction:
-                params["faction"] = faction
+            if faction and faction != "all":
+                params.append(("faction", faction))
 
             if site_status.lower() == "open":
-                params["min_close_time"] = current_day_time
-                params["max_close_time"] = self.day_time(current_day_time + (3600 * 6))
+                params.append(("min_close_time", current_day_time))
+                params.append(("max_close_time", self.day_time(current_day_time + (3600 * 6))))
             elif site_status.lower() == "closed":
-                params["min_close_time"] = self.day_time(current_day_time + (3600 * 6))
-                params["max_close_time"] = current_day_time
+                params.append(("min_close_time", self.day_time(current_day_time + (3600 * 6))))
+                params.append(("max_close_time", current_day_time))
 
             data = self.lookup_tower_info(params).results
 
@@ -209,9 +216,10 @@ class TowerController:
 
     def get_tower_site_info(self, playfield_id, site_number):
         if FeatureFlags.USE_TOWER_API:
-            params = {"playfield_id": playfield_id}
+            params = list()
+            params.append(("playfield_id", playfield_id))
             if site_number:
-                params["site_number"] = site_number
+                params.append(("site_number", site_number))
 
             data = self.lookup_tower_info(params).results
         else:
