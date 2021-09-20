@@ -13,12 +13,13 @@ class WebsocketRelayWorker:
         self.url = url
         self.ws = None
         self.user_agent = user_agent
-        self.is_running = True
+        self.is_running = False
 
     def run(self):
         self.ws = create_connection(self.url, header={"User-Agent": self.user_agent})
         self.logger.info("Connected to Websocket Relay!")
         self.inbound_queue.append(DictObject({"type": "connected"}))
+        self.is_running = True
 
         try:
             result = self.ws.recv()

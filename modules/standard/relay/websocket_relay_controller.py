@@ -1,3 +1,4 @@
+import hashlib
 import json
 import threading
 import base64
@@ -10,15 +11,15 @@ from core.setting_types import ColorSettingType, TextSettingType, HiddenSettingT
 from core.private_channel_service import PrivateChannelService
 from modules.core.org_members.org_member_controller import OrgMemberController
 from modules.standard.online.online_controller import OnlineController
+from .aesgcm_wrapper import AESGCMWrapper
 from .websocket_relay_worker import WebsocketRelayWorker
-from cryptography.fernet import Fernet
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
 
 @instance()
 class WebsocketRelayController:
     MESSAGE_SOURCE = "websocket_relay"
+
+    AES_GCM_NONCE_LENGTH = 12
 
     def __init__(self):
         self.dthread = None
@@ -67,17 +68,12 @@ class WebsocketRelayController:
         self.setting_service.register_change_listener("websocket_relay_enabled", self.websocket_relay_update)
         self.setting_service.register_change_listener("websocket_relay_server_address", self.websocket_relay_update)
         self.setting_service.register_change_listener("websocket_encryption_key", self.websocket_relay_update)
+        self.setting_service.register_change_listener("websocket_relay_room", self.websocket_relay_update)
 
     def initialize_encrypter(self, password):
         if password:
-            salt = b"tyrbot"  # using hard-coded salt is less secure as it nullifies the function of the salt and allows for rainbow attacks
-            kdf = PBKDF2HMAC(
-                algorithm=hashes.SHA256(),
-                length=32,
-                salt=salt,
-                iterations=10000,)
-            key = base64.urlsafe_b64encode(kdf.derive(password.encode("utf-8")))
-            self.encrypter = Fernet(key)
+            key = hashlib.sha256(password.encode("utf-8")).digest()
+            self.encrypter = AESGCMWrapper(key, self.AES_GCM_NONCE_LENGTH)
         else:
             self.encrypter = None
 
@@ -129,7 +125,8 @@ class WebsocketRelayController:
     def decrypt_and_decode(self, message):
         try:
             if self.encrypter:
-                message = self.encrypter.decrypt(message.encode('utf-8'))
+                decoded_message = base64.decodebytes(message.encode("utf-8"))
+                message = self.encrypter.decrypt(decoded_message).decode("utf-8")
             return DictObject(json.loads(message))
         except Exception as e:
             self.logger.error(f"Error processing incoming message from websocket relay: '{message}'", e)
@@ -223,7 +220,7 @@ class WebsocketRelayController:
         if self.worker:
             message = json.dumps(message)
             if self.encrypter:
-                message = self.encrypter.encrypt(message.encode('utf-8')).decode('utf-8')
+                message = base64.encodebytes(self.encrypter.encrypt(message.encode("utf-8"))).decode("utf-8")
             obj = json.dumps({"type": "message", "room": self.setting_service.get("websocket_relay_room").get_value(), "body": message})
             self.worker.send_message(obj)
 
@@ -274,10 +271,13 @@ class WebsocketRelayController:
             self.initialize_encrypter(new_value)
             if self.setting_service.get("websocket_relay_enabled").get_value():
                 self.connect()
+        elif setting_name == "websocket_relay_room":
+            if self.setting_service.get("websocket_relay_enabled").get_value():
+                self.connect()
 
     def get_channel_name(self, source):
-        channel_name = source.label or source.name
-        if source.channel:
+        channel_name = source.get("label") or source.get("name") or "Unknown Relay"
+        if source.get("channel"):
             channel_name += " " + source.channel
         return channel_name
 
@@ -312,7 +312,7 @@ class WebsocketRelayController:
 
         return {
             "name": org_name or conn.get_char_name(),
-            "label": self.setting_service.get("relay_prefix").get_value() or "",
+            "label": self.setting_service.get("relay_prefix").get_value() or None,
             "channel": channel,
             "type": channel_type,
             "server": self.bot.dimension
