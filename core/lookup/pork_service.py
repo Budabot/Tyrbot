@@ -31,7 +31,7 @@ class PorkService:
 
     # forces a lookup from remote PoRK server
     # this should not be called directly unless you are requesting info for a char on a different server
-    # since cache will not be used and the result will also update the cache
+    # since cache will not be used and the result will not update the cache automatically
     def request_char_info(self, char_name, server_num):
         url = self.get_pork_url(server_num, char_name)
 

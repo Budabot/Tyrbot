@@ -37,6 +37,7 @@ class RelayGcrController:
         self.db: DB = registry.get_instance("db")
         self.character_service = registry.get_instance("character_service")
         self.online_controller = registry.get_instance("online_controller")
+        self.pork_service = registry.get_instance("pork_service")
 
     def start(self):
         self.setting_service.register(self.module_name, "relaygcrtype", "private_channel", TextSettingType(["tell", "private_channel"]), "Type of relay")
@@ -49,7 +50,7 @@ class RelayGcrController:
         self.setting_service.register(self.module_name, "relaygcr_guest", False, BooleanSettingType(), "Relay the Private/Guest Channel")
         self.setting_service.register(self.module_name, "relaygcr_guild_abbreviation", "ORG_TAG", TextSettingType(), "Abbreviation to use for org name")
         self.setting_service.register(self.module_name, "relaygcr_share", False, BooleanSettingType(), "Do we share online lists with relayed partners?")
-        self.setting_service.register(self.module_name, "relaygcr_others", "", TextSettingType(), "Online wanted Bot(s) unspaced list ; separated (example: Bot1;Bot2;Bot3)")
+        self.setting_service.register(self.module_name, "relaygcr_others", "", TextSettingType(allow_empty=True), "Online wanted Bot(s) unspaced list ; separated (example: Bot1;Bot2;Bot3)")
 
         self.bot.register_packet_handler(server_packets.PrivateChannelInvited.id, self.handle_private_channel_invite)
         self.bot.register_packet_handler(server_packets.PrivateChannelMessage.id, self.handle_private_channel_message)
@@ -158,23 +159,15 @@ class RelayGcrController:
                             self.db.exec("DELETE FROM online WHERE channel = ?", [sender])
                             for onliner in onliners:
                                 info = onliner.split(",")
-                                char_id = self.character_service.resolve_char_to_id(info[0])
-                                sql = "SELECT COUNT(*) as count FROM online WHERE char_id = ? AND channel = ?"
-                                check = self.db.query_single(sql, [char_id, sender]).count
-                                if check == 0:
-                                    self.db.exec("INSERT INTO online (char_id, afk_dt, afk_reason, channel, dt) VALUES (?, ?, ?, ?, ?)", [char_id, 0, "", sender, t])
+                                self.add_to_online(sender, info[0], t)
                         elif message[:5] == "buddy":
                             message = message[6:]
                             info = message.split(" ")
                             if info[0] == "0":
                                 char_id = self.character_service.resolve_char_to_id(info[1])
                                 self.db.exec("DELETE FROM online WHERE char_id = ?", [char_id])
-                            if info[0] == "1":
-                                char_id = self.character_service.resolve_char_to_id(info[1])
-                                sql = "SELECT COUNT(*) as count FROM online WHERE char_id = ?"
-                                check = self.db.query_single(sql, [char_id]).count
-                                if check == 0:
-                                    self.db.exec("INSERT INTO online (char_id, afk_dt, afk_reason, channel, dt) VALUES (?, ?, ?, ?, ?)", [char_id, 0, "", sender, t])
+                            elif info[0] == "1":
+                                self.add_to_online(sender, info[1], t)
         elif message[:4] == "!gcr":
             message = message[5:]
             message = message.replace("##relay_channel##", "")
@@ -203,6 +196,7 @@ class RelayGcrController:
 
         plain_msg = packet.message
         symbol = self.setting_service.get_value("relaygcr_symbol")
+        # TODO handle when not set
         org = self.setting_service.get_value("relaygcr_guild_abbreviation")
         msg = None
         if method == "Always":
@@ -239,3 +233,12 @@ class RelayGcrController:
                 blob += name + ",pg,0;"
         blob = blob[:-1]
         self.send(blob)
+
+    def add_to_online(self, sender, name, t):
+        char_id = self.character_service.resolve_char_to_id(name)
+        self.pork_service.load_character_info(char_id, name)
+
+        sql = "SELECT 1 FROM online WHERE char_id = ? LIMIT 1"
+        check = self.db.query_single(sql, [char_id])
+        if not check:
+            self.db.exec("INSERT INTO online (char_id, afk_dt, afk_reason, channel, dt) VALUES (?, ?, ?, ?, ?)", [char_id, 0, "", sender, t])
