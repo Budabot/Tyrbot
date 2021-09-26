@@ -10,6 +10,7 @@ class ConfigController:
     def inject(self, registry):
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
+        self.util = registry.get_instance("util")
         self.command_service = registry.get_instance("command_service")
         self.event_service = registry.get_instance("event_service")
         self.setting_service = registry.get_instance("setting_service")
@@ -64,13 +65,16 @@ class ConfigController:
         data = self.db.query("SELECT name FROM setting WHERE module = ? ORDER BY name ASC", [module])
         if data:
             blob += "<header2>Settings</header2>\n"
-            for row in data:
-                setting = self.setting_service.get(row.name)
-                blob += "%s: %s (%s)\n" % (setting.get_description(), setting.get_display_value(), self.text.make_tellcmd("change", "config setting " + row.name))
+            groups = self.util.group_by(data, lambda x: x.name.split("_")[0])
+            for group, settings in groups.items():
+                for row in settings:
+                    setting = self.setting_service.get(row.name)
+                    blob += "%s - %s: %s (%s)\n" % (setting.name, setting.get_description(), setting.get_display_value(), self.text.make_tellcmd("change", "config setting " + row.name))
+                blob += "\n"
 
         data = self.db.query("SELECT DISTINCT command, sub_command FROM command_config WHERE module = ? ORDER BY command ASC", [module])
         if data:
-            blob += "\n<header2>Commands</header2>\n"
+            blob += "<header2>Commands</header2>\n"
             for row in data:
                 command_key = self.command_service.get_command_key(row.command, row.sub_command)
                 blob += self.text.make_tellcmd(command_key, "config cmd " + command_key) + "\n"
@@ -104,9 +108,12 @@ class ConfigController:
                     blob += "\n<pagebreak><header2>%s</header2>\n" % row.module
 
                 setting = self.setting_service.get(row.name)
-                blob += "%s: %s (%s)\n" % (setting.get_description(),
-                                           setting.get_display_value(),
-                                           self.text.make_tellcmd("change", "config setting " + row.name))
+                blob += "%s - %s: %s (%s)\n" % (
+                    setting.name,
+                    setting.get_description(),
+                    setting.get_display_value(),
+                    self.text.make_tellcmd("change", "config setting " + row.name)
+                )
 
         return ChatBlob(f"Settings ({count})", blob)
 

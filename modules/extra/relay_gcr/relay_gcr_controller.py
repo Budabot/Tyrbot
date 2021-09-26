@@ -40,10 +40,10 @@ class RelayGcrController:
         self.pork_service = registry.get_instance("pork_service")
 
     def start(self):
-        self.setting_service.register(self.module_name, "relaygcrtype", "private_channel", TextSettingType(["tell", "private_channel"]), "Type of relay")
+        self.setting_service.register(self.module_name, "relaygcr_type", "private_channel", TextSettingType(["tell", "private_channel"]), "Type of relay")
         self.setting_service.register(self.module_name, "relaygcr_symbol", "@", TextSettingType(["!", "#", "*", "@", "$", "+", "-"]), "Symbol for external relay")
         self.setting_service.register(self.module_name, "relaygcr_symbol_method", "with_symbol", TextSettingType(["Always", "with_symbol", "unless_symbol"]), "When to relay messages")
-        self.setting_service.register(self.module_name, "relaygcrbot", "Relay", TextSettingType(), "Bot for Guildrelay")
+        self.setting_service.register(self.module_name, "relaygcr_bot", "Relay", TextSettingType(), "Bot for Guildrelay")
         self.setting_service.register(self.module_name, "relaygcr_enabled", False, BooleanSettingType(), "Is the Module Enabled?")
         self.setting_service.register(self.module_name, "relaygcr_color_guild", "#C3C3C3", ColorSettingType(), "Color of messages from relay to guild channel")
         self.setting_service.register(self.module_name, "relaygcr_color_priv", "#C3C3C3", ColorSettingType(), "Color of messages from relay to priv channel")
@@ -61,7 +61,7 @@ class RelayGcrController:
 
         if self.setting_service.get_value("relaygcr_enabled") == "0":
             self.logger.info(f"Denied private Channel invite: {channel_name} - Relay Module not active")
-        elif self.setting_service.get_value("relaygcrbot") != channel_name:
+        elif self.setting_service.get_value("relaygcr_bot") != channel_name:
             self.logger.info(f"Denied private Channel invite: {channel_name} - not the Relaybot")
         else:
             conn.send_packet(client_packets.PrivateChannelJoin(packet.private_channel_id))
@@ -99,8 +99,8 @@ class RelayGcrController:
 
     @event(event_type="connect", description="Initialize online with relay tell partner", is_enabled=True)
     def connect_event(self, event_type, event_data):
-        if self.setting_service.get_value("relaygcr_share") == "1" and self.setting_service.get_value("relaygcrtype") == "tell":
-            self.relay_name = self.setting_service.get_value("relaygcrbot")
+        if self.setting_service.get_value("relaygcr_share") == "1" and self.setting_service.get_value("relaygcr_type") == "tell":
+            self.relay_name = self.setting_service.get_value("relaygcr_bot")
             self.online_send()
             self.send("!gcrc onlinereq")
 
@@ -179,7 +179,7 @@ class RelayGcrController:
             colorpm = self.setting_service.get_value("relaygcr_color_priv")
             messagp = re.sub(r'##relay_message##([^#]+)##end##', r'<font color="{color}">\1</font>'.format(color=colorpm), message)
             messagp = messagp.replace("##end##", "")
-            if channel == self.setting_service.get_value("relaygcrbot"):
+            if channel == self.setting_service.get_value("relaygcr_bot"):
                 self.bot.send_org_message(messago)
                 if self.setting_service.get_value("relaygcr_guest") == "1":
                     self.bot.send_private_channel_message(messagp)
@@ -213,7 +213,7 @@ class RelayGcrController:
         if not msg:
             return
 
-        if self.setting_service.get_value("relaygcrtype") == "private_channel":
+        if self.setting_service.get_value("relaygcr_type") == "private_channel":
             if self.relay_channel_id:
                 self.bot.send_private_channel_message(private_channel_id=self.relay_channel_id, msg=msg, add_color=False)
             else:
