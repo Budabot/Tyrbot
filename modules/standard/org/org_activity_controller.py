@@ -1,11 +1,12 @@
 import time
 
 from core.chat_blob import ChatBlob
-from core.command_param_types import NamedParameters
+from core.command_param_types import NamedParameters, Character
 from core.conn import Conn
 from core.decorators import instance, command, event
 from core.logger import Logger
 from core.public_channel_service import PublicChannelService
+from core.standard_message import StandardMessage
 from modules.core.org_members.org_member_controller import OrgMemberController
 
 
@@ -28,15 +29,27 @@ class OrgActivityController:
 
         self.command_alias_service.add_alias("orghistory", "orgactivity")
 
-    @command(command="orgactivity", params=[NamedParameters(["page"])], access_level="org_member",
+    @command(command="orgactivity", params=[Character("char", is_optional=True), NamedParameters(["page"])], access_level="org_member",
              description="Show org member activity")
-    def orgactivity_cmd(self, request, named_params):
+    def orgactivity_cmd(self, request, char, named_params):
         page_size = 20
         page_number = int(named_params.page or "1")
 
-        offset, limit = self.util.get_offset_limit(page_size, page_number)
+        params = []
+        filter_sql = ""
+        if char:
+            if not char.char_id:
+                return StandardMessage.char_not_found(char.name)
+            else:
+                filter_sql = "WHERE o.actor_char_id = ? OR o.actee_char_id = ?"
+                params.append(char.char_id)
+                params.append(char.char_id)
 
-        sql = """
+        offset, limit = self.util.get_offset_limit(page_size, page_number)
+        params.append(offset)
+        params.append(limit)
+
+        sql = f"""
             SELECT
                 p1.name AS actor,
                 p2.name AS actee, o.action,
@@ -46,17 +59,20 @@ class OrgActivityController:
                 org_activity o
                 LEFT JOIN player p1 ON o.actor_char_id = p1.char_id
                 LEFT JOIN player p2 ON o.actee_char_id = p2.char_id
+            {filter_sql}
             ORDER BY
                 o.created_at DESC
             LIMIT ?, ?
         """
-        data = self.db.query(sql, [offset, limit])
+        data = self.db.query(sql, params)
 
-        blob = self.text.get_paging_links("orgactivity", page_number, len(data) == page_size) + "\n\n"
+        blob = self.text.get_paging_links("orgactivity" if not char else f"orgactivity {char.name}", page_number, len(data) == page_size) + "\n\n"
         for row in data:
             blob += self.format_org_action(row) + "\n"
 
-        return ChatBlob("Org Activity", blob)
+        title = "Org Activity" if not char else f"Org Activity for {char.name}"
+
+        return ChatBlob(title, blob)
 
     @event(PublicChannelService.ORG_MSG_EVENT, "Record org member activity", is_hidden=True)
     def org_msg_event(self, event_type, event_data):
