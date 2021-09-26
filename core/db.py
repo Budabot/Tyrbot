@@ -206,26 +206,44 @@ class DB:
                 cur.close()
 
     def _load_file_mysql(self, filename):
-        max_batch_size = 50
+        insert_regexp = re.compile(r"^(INSERT INTO [^ ]+( \(.*?\))? VALUES\s*)(\(.*?\));?$")
+        max_batch_size = 500
+
+        def execute(sql):
+            try:
+                # taken from: https://stackoverflow.com/a/32257894
+                cur.execute(sql)
+            except Exception as e:
+                raise Exception("sql error in file '%s': %s" % (filename, str(e)), e)
+
         with open(filename, mode="r", encoding="UTF-8") as f:
             with self.conn.cursor() as cur:
                 lines = f.readlines()
-                while lines:
-                    if len(lines) > max_batch_size:
-                        temp_lines = lines[:max_batch_size]
-                        lines = lines[max_batch_size:]
-                    else:
-                        temp_lines = lines
-                        lines = []
+                batches = []
+                current_table = None
+                for line in lines:
+                    line = line.strip()
+                    if not line or line.startswith("--"):
+                        continue
 
-                    contents = "".join(temp_lines)
-                    try:
-                        # taken from: https://stackoverflow.com/a/32257894
-                        results = cur.execute(contents, multi=True)
-                        for _ in results:
-                            pass
-                    except Exception as e:
-                        raise Exception("sql error in file '%s': %s" % (filename, str(e)), e)
+                    match = insert_regexp.match(line)
+                    if match:
+                        if match.group(1) != current_table or len(batches) > max_batch_size:
+                            if batches:
+                                execute(current_table + ", ".join(batches))
+                                batches = []
+                            current_table = match.group(1)
+
+                        batches.append(match.group(3))
+                    else:
+                        if batches:
+                            execute(current_table + ", ".join(batches))
+                            batches = []
+
+                        execute(line)
+
+                if batches:
+                    execute(current_table + ", ".join(batches))
 
     def get_type(self):
         return self.type
