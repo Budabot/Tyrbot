@@ -75,8 +75,9 @@ class TowerMessagesController:
 
     @command(command="attacks", params=[Any("playfield", is_optional=True, allowed_chars="[a-z0-9 ]"),
                                         Int("site_number", is_optional=True),
-                                        NamedParameters(["page"])],
-             access_level="all", description="Show recent tower attacks and victories")
+                                        NamedParameters(["victory", "page"])],
+             access_level="all", description="Show recent tower attacks and victories",
+             extended_description="Victory param can be 'true', 'false', or 'all' (default)")
     def attacks_cmd(self, request, playfield_name, site_number, named_params):
         playfield = None
         if playfield_name:
@@ -85,19 +86,29 @@ class TowerMessagesController:
                 return f"Could not find playfield <highlight>{playfield_name}</highlight>."
 
         page_number = int(named_params.page or "1")
+        victory = "all" if named_params.victory == "" else named_params.victory
 
         page_size = 10
         offset = (page_number - 1) * page_size
 
-        sql = "SELECT b.*, p.long_name, p.short_name FROM tower_battle b LEFT JOIN playfields p ON b.playfield_id = p.id"
+        sql = "SELECT b.*, p.long_name, p.short_name FROM tower_battle b LEFT JOIN playfields p ON b.playfield_id = p.id WHERE 1=1"
         params = []
 
         if playfield:
-            sql += " WHERE b.playfield_id = ?"
+            sql += " AND b.playfield_id = ?"
             params.append(playfield.id)
             if site_number:
                 sql += " AND b.site_number = ?"
                 params.append(site_number)
+
+        if victory != "all":
+            sql += " AND b.is_finished = ?"
+            if victory == "true":
+                params.append(1)
+            elif victory == "false":
+                params.append(0)
+            else:
+                return "Named param <highlight>--victory</highlight> must be one of: 'true', 'false', or 'all' (default)."
 
         sql += " ORDER BY b.last_updated DESC LIMIT ?, ?"
         params.append(offset)
@@ -112,6 +123,8 @@ class TowerMessagesController:
             command_str += " " + playfield_name
             if site_number:
                 command_str += " " + str(site_number)
+
+        command_str += f" --victory={victory}"
 
         blob = self.check_for_all_towers_channel()
         blob += self.text.get_paging_links(command_str, page_number, page_size == len(data))
@@ -479,7 +492,7 @@ class TowerMessagesController:
 
     def check_for_all_towers_channel(self):
         if self.ALL_TOWERS_ID not in self.bot.get_primary_conn().channels:
-            return "Notice: The primary bot must belong to an org and be promoted to a rank that is high enough to have the All Towers channel (e.g., Squad Commander) in order for the <symbol>attacks command to work correctly.\n\n"
+            return "Notice: The primary bot must belong to an org and be promoted to a rank that is high enough to have the All Towers channel (e.g., Squad Commander) in order for this command to work correctly.\n\n"
         else:
             return ""
 
