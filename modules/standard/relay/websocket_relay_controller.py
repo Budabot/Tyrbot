@@ -133,8 +133,9 @@ class WebsocketRelayController:
 
     def process_relay_message(self, client_id, message):
         obj = self.decrypt_and_decode(message)
+        obj_type = obj.get("type") if obj else None
 
-        if obj.type == "message":
+        if obj_type == "message":
             channel = self.get_channel_name(obj.source)
 
             message = ""
@@ -144,11 +145,11 @@ class WebsocketRelayController:
             message += self.setting_service.get("websocket_relay_message_color").format_text(obj.message)
 
             self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, message)
-        elif obj.type == "logon":
+        elif obj_type == "logon":
             self.add_online_char(obj.user.id, obj.user.name, obj.source, client_id)
-        elif obj.type == "logoff":
+        elif obj_type == "logoff":
             self.rem_online_char(obj.user.id, obj.source)
-        elif obj.type == "online_list":
+        elif obj_type == "online_list":
             for online_obj in obj.online:
                 if online_obj.source.type not in ["org", "priv"]:
                     continue
@@ -157,8 +158,10 @@ class WebsocketRelayController:
                 self.db.exec("DELETE FROM online WHERE channel = ?", [channel])
                 for user in online_obj.users:
                     self.add_online_char(user.id, user.name, online_obj.source, client_id)
-        elif obj.type == "online_list_request":
+        elif obj_type == "online_list_request":
             self.send_relay_message(self.get_online_list_obj())
+        else:
+            self.logger.info(f"Unknown message type from websocket relay: {obj if obj else message}")
 
     def get_online_list_obj(self):
         sources = []
