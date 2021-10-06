@@ -5,10 +5,10 @@ IF EXIST .\venv\ GOTO install
 
 :install
 IF [%1] == [--skip-install] GOTO run
-venv\Scripts\pip install -r requirements.txt
+.\venv\Scripts\pip.exe install -r requirements.txt
 
 :run
-venv\Scripts\python ./bootstrap.py
+.\venv\Scripts\python.exe .\bootstrap.py
 
 REM The bot uses non-zero exit codes to signal state.
 REM The bot will restart until it returns an exit code of zero.
