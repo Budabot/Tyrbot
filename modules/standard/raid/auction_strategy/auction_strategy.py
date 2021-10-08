@@ -62,11 +62,6 @@ class AuctionStrategy:
         self.next_item_index += 1
         return self.next_item_index
 
-    def remove_item(self, item_id):
-        # TODO will this fail if it doesn't exist?
-        del self.items[item_id]
-        del self.bids[item_id]
-
     def add_bid(self, sender: SenderObj, bid_amount, item_index):
         if len(self.items) > 1 and not item_index:
             return "You must specify an item to bid on by its item number in the auction list."
