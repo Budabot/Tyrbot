@@ -143,7 +143,11 @@ class OrgListController:
             else:
                 org_ranks[org_member.org_rank_name].offline_members.append(org_member)
 
-        blob = ""
+        blob = "[%s] [%s] [%s]\n\n" % (
+            self.text.make_chatcmd("HTML", f"/start http://people.anarchy-online.com/org/stats/d/5/name/{self.orglist.org_info.org_id}/"),
+            self.text.make_chatcmd("XML", f"/start http://people.anarchy-online.com/org/stats/d/5/name/{self.orglist.org_info.org_id}/basicstats.xml"),
+            self.text.make_chatcmd("JSON", f"/start http://people.anarchy-online.com/org/stats/d/5/name/{self.orglist.org_info.org_id}/basicstats.xml?data_type=json")
+        )
         num_online = 0
         num_total = 0
         for rank_name, rank_info in org_ranks.items():
