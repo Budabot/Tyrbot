@@ -51,11 +51,13 @@ class DB:
         else:
             return self.conn.cursor()
 
-    def _execute_wrapper(self, sql, params, callback):
+    def _execute_wrapper(self, sql, params, callback, log_query):
         cur = self.get_cursor()
         start_time = time.time()
         try:
             cur.execute(sql if self.type == self.SQLITE else sql.replace("?", "%s"), params)
+            if log_query:
+                self.logger.info("'%s' [%s]" % (sql, ", ".join(map(lambda x: str(x), params))))
         except Exception as e:
             raise SqlException("SQL Error: '%s' for '%s' [%s]" % (str(e), sql, ", ".join(map(lambda x: str(x), params)))) from e
 
@@ -68,7 +70,7 @@ class DB:
         cur.close()
         return result
 
-    def query_single(self, sql, params=None, extended_like=False):
+    def query_single(self, sql, params=None, extended_like=False, log_query=False):
         if params is None:
             params = []
 
@@ -81,9 +83,9 @@ class DB:
             row = cur.fetchone()
             return DictObject(row) if row else None
 
-        return self._execute_wrapper(sql, params, map_result)
+        return self._execute_wrapper(sql, params, map_result, log_query)
 
-    def query(self, sql, params=None, extended_like=False):
+    def query(self, sql, params=None, extended_like=False, log_query=False):
         if params is None:
             params = []
 
@@ -95,9 +97,9 @@ class DB:
         def map_result(cur):
             return list(map(lambda row: DictObject(row), cur.fetchall()))
 
-        return self._execute_wrapper(sql, params, map_result)
+        return self._execute_wrapper(sql, params, map_result, log_query)
 
-    def exec(self, sql, params=None, extended_like=False):
+    def exec(self, sql, params=None, extended_like=False, log_query=False):
         if params is None:
             params = []
 
@@ -109,7 +111,7 @@ class DB:
         def map_result(cur):
             return [cur.rowcount, cur.lastrowid]
 
-        row_count, lastrowid = self._execute_wrapper(sql, params, map_result)
+        row_count, lastrowid = self._execute_wrapper(sql, params, map_result, log_query)
         self.lastrowid = lastrowid
         return row_count
 
