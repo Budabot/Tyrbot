@@ -235,3 +235,11 @@ def run_upgrades():
         if table_exists("setting"):
             db.exec("UPDATE setting SET name = 'autoinvite_auto_access_level' WHERE name = 'autoinvite_auto_al'")
         version = update_version(version)
+
+    if version == 23:
+        if table_exists("scout_info"):
+            db.exec("ALTER TABLE scout_info RENAME TO scout_info_old")
+            db.exec("CREATE TABLE scout_info (playfield_id INT NOT NULL, site_number INT NOT NULL, ql INT NOT NULL, x_coord INT NOT NULL, y_coord INT NOT NULL, org_name VARCHAR(255) NOT NULL, org_id INT NOT NULL, faction VARCHAR(10) NOT NULL, close_time INT NOT NULL, penalty_duration INT NOT NULL, penalty_until INT NOT NULL, created_at INT NOT NULL, updated_at INT NOT NULL)")
+            db.exec("INSERT INTO scout_info SELECT playfield_id, site_number, ql, x_coord, y_coord, org_name, org_id, faction, close_time, 0, 0, created_at, updated_at FROM scout_info_old")
+            db.exec("DROP TABLE scout_info_old")
+        version = update_version(version)

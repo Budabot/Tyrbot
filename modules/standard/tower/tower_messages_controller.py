@@ -170,6 +170,20 @@ class TowerMessagesController:
             self.db.exec("DELETE FROM scout_info WHERE playfield_id = ? AND faction = ? AND org_name = ?",
                          [event_data.location.playfield.id, event_data.loser.faction, event_data.loser.org_name])
 
+    @event(event_type=TOWER_VICTORY_EVENT, description="Update penalty time on tower victory", is_hidden=True, is_enabled=False)
+    def tower_victory_update_penalty_event(self, event_type, event_data):
+        self.update_penalty_time(event_data.battle_id, event_data.timestamp)
+
+    @event(event_type=TOWER_ATTACK_EVENT, description="Update penalty time on tower attack", is_hidden=True, is_enabled=False)
+    def tower_attack_update_penalty_event(self, event_type, event_data):
+        self.update_penalty_time(event_data.battle_id, event_data.timestamp)
+
+    def update_penalty_time(self, battle_id, t):
+        results = self.db.query("SELECT att_faction, att_org_name FROM tower_attacker WHERE tower_battle_id = ?", [battle_id])
+        for attack_org in results:
+            self.db.exec("UPDATE scout_info SET penalty_duration=(? - created_at) % 3600 + 3600, penalty_until=penalty_duration + ? "
+                         "WHERE org_name = ? AND faction = ?", [t, t, attack_org.att_org_name, attack_org.att_faction])
+
     def handle_public_channel_message(self, conn: Conn, packet: server_packets.PublicChannelMessage):
         # only listen to tower packets from first bot, to avoid triggering multiple times
         if conn != self.bot.get_primary_conn():
@@ -225,6 +239,7 @@ class TowerMessagesController:
             obj.location.site_number = 0
             self.db.exec("INSERT INTO tower_battle (playfield_id, site_number, def_org_name, def_faction, is_finished, battle_type, last_updated) VALUES (?, ?, ?, ?, ?, ?, ?)",
                          [obj.location.playfield.id, obj.location.site_number, obj.loser.org_name, obj.loser.faction, is_finished, obj.type, t])
+            obj.battle_id = self.db.last_insert_id()
         else:
             raise Exception("Unknown victory event type: '%s'" % obj.type)
 
@@ -256,6 +271,7 @@ class TowerMessagesController:
 
         t = int(time.time())
         battle = self.find_or_create_battle(obj.location.playfield.id, obj.location.site_number, defender.org_name, defender.faction, "attack", t)
+        obj.battle_id = battle.id
 
         self.db.exec("INSERT INTO tower_attacker (att_org_name, att_faction, att_char_id, att_char_name, att_level, att_ai_level, att_profession, "
                      "x_coord, y_coord, is_victory, tower_battle_id, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
@@ -272,9 +288,12 @@ class TowerMessagesController:
         self.event_service.fire_event(self.TOWER_ATTACK_EVENT, obj)
 
     def get_attack_event(self, packet: server_packets.PublicChannelMessage):
+        t = int(time.time())
+
         if packet.extended_message and [packet.extended_message.category_id, packet.extended_message.instance_id] == self.ATTACK_1:
             params = packet.extended_message.params
             return DictObject({
+                "timestamp": t,
                 "attacker": {
                     "name": params[2],
                     "faction": params[0].capitalize(),
@@ -296,6 +315,7 @@ class TowerMessagesController:
             match = self.ATTACK_2.match(packet.message)
             if match:
                 return DictObject({
+                    "timestamp": t,
                     "attacker": {
                         "name": match.group(1),
                         "faction": "",
@@ -323,10 +343,13 @@ class TowerMessagesController:
         if match:
             return None
 
+        t = int(time.time())
+
         match = self.VICTORY_2.match(packet.message)
         if match:
             return DictObject({
                 "type": "attack",
+                "timestamp": t,
                 "winner": {
                     "faction": match.group(1).capitalize(),
                     "org_name": match.group(2)
@@ -347,6 +370,7 @@ class TowerMessagesController:
             return DictObject({
                 # TODO might be terminated or un-orged player
                 "type": "terminated",
+                "timestamp": t,
                 "winner": {
                     "faction": params[0].capitalize(),
                     "org_name": params[1]
@@ -486,9 +510,6 @@ class TowerMessagesController:
 
     def format_timestamp(self, t, current_t):
         return "<highlight>%s</highlight> (%s ago)" % (self.util.format_datetime(t), self.util.time_to_readable(current_t - t))
-
-    def get_chat_command(self, page):
-        return "/tell <myname> attacks --page=%d" % page
 
     def check_for_all_towers_channel(self):
         if self.ALL_TOWERS_ID not in self.bot.get_primary_conn().channels:
