@@ -18,8 +18,11 @@ try:
 
     Registry.logger = Logger("core.registry")
 
+    with open("version.txt", "r") as f:
+        version = f.read().strip()
+
     logger = Logger("core.bootstrap")
-    logger.info("Starting Tyrbot...")
+    logger.info(f"Starting Tyrbot {version}...")
     config_file = "./conf/config.py"
 
     if sys.version_info < (3, 6):
@@ -98,6 +101,7 @@ try:
 
     # finish initializing bot and modules, and then connect
     bot = Registry.get_instance("bot")
+    bot.version = version
     bot.init(config, Registry, MMDBParser("text.mdb"))
 
     if not bot.connect(config):
