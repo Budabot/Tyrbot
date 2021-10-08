@@ -23,7 +23,7 @@ try:
     config_file = "./conf/config.py"
 
     if sys.version_info < (3, 6):
-        logger.error("Python 3.6 is required (3.5 will not work)")
+        logger.error(f"Python 3.6 is required. Current Python version: {platform.python_version()}")
         exit(0)
 
     if (3, 8) <= sys.version_info < (3, 9):
