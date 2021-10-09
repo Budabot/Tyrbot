@@ -78,7 +78,7 @@ class TowerController:
 
             data = self.lookup_tower_info(params).results
 
-            current_day_time = int(time.time()) % 86400
+            t = int(time.time())
             grouped_data = self.util.group_by(data, lambda x: (x.org_id, x.org_name))
             blob = ""
             for k, v in grouped_data.items():
@@ -90,7 +90,7 @@ class TowerController:
                 for ct in v:
                     ct_types.append(self.get_ct_type(ct.ql))
                     ql_total += ct.ql
-                    org_blob += self.format_site_info(ct, current_day_time) + "\n"
+                    org_blob += self.format_site_info(ct, t) + "\n"
 
                 blob += f"<pagebreak><header2>{k[1]} ({k[0]})</header2>"
                 blob += " Types: <highlight>" + ", ".join(ct_types) + f"</highlight> Total CT QL: <highlight>{ql_total}</highlight>\n\n"
@@ -98,26 +98,7 @@ class TowerController:
 
             return ChatBlob(f"Org Info for '{org}' ({len(data)})", blob)
 
-        @command(command="lc", params=[Const("unplanted")],
-                 access_level="all", description="See a list of land control tower sites that are not currently planted")
-        def lc_unplanted_cmd(self, request, _):
-            params = list()
-            params.append(("enabled", "true"))
-            params.append(("planted", "false"))
-
-            data = self.lookup_tower_info(params).results
-
-            blob = ""
-            for row in data:
-                blob += "<pagebreak>" + self.format_site_info(row, None) + "\n"
-
-            blob += self.get_lc_blob_footer()
-
-            title = "Tower Info: Unplanted (%d)" % len(data)
-
-            return ChatBlob(title, blob)
-
-        @command(command="lc", params=[Options(["open", "closed", "all"]),
+        @command(command="lc", params=[Options(["all", "open", "closed", "penalty", "unplanted", "disabled"]),
                                        Options(["omni", "clan", "neutral", "all"], is_optional=True),
                                        Int("min_ql", is_optional=True),
                                        Int("max_ql", is_optional=True)],
@@ -129,9 +110,17 @@ class TowerController:
             max_ql = max_ql or 300
 
             params = list()
-            params.append(("enabled", "true"))
-            params.append(("min_ql", min_ql))
-            params.append(("max_ql", max_ql))
+
+            if site_status.lower() == "disabled":
+                params.append(("enabled", "false"))
+            else:
+                params.append(("enabled", "true"))
+
+            if min_ql > 1:
+                params.append(("min_ql", min_ql))
+
+            if max_ql < 300:
+                params.append(("max_ql", max_ql))
 
             if faction and faction != "all":
                 params.append(("faction", faction))
@@ -142,17 +131,22 @@ class TowerController:
             elif site_status.lower() == "closed":
                 params.append(("min_close_time", self.day_time(current_day_time + (3600 * 6))))
                 params.append(("max_close_time", current_day_time))
+            elif site_status.lower() == "penalty":
+                params.append(("penalty", "true"))
+            elif site_status.lower() == "unplanted":
+                params.append(("planted", "false"))
 
             data = self.lookup_tower_info(params).results
 
             blob = ""
             for row in data:
-                blob += "<pagebreak>" + self.format_site_info(row, current_day_time) + "\n"
+                blob += "<pagebreak>" + self.format_site_info(row, t) + "\n"
 
             blob += self.get_lc_blob_footer()
 
             title = "Tower Info: %s" % site_status.capitalize()
-            title += " QL %d - %d" % (min_ql, max_ql)
+            if min_ql > 1 or max_ql < 300:
+                title += " QL %d - %d" % (min_ql, max_ql)
             if faction:
                 title += " [%s]" % faction.capitalize()
             title += " (%d)" % len(data)
@@ -169,9 +163,9 @@ class TowerController:
         data = self.get_tower_site_info(playfield.id, site_number)
 
         blob = ""
-        current_day_time = int(time.time()) % 86400
+        t = int(time.time())
         for row in data:
-            blob += "<pagebreak>" + self.format_site_info(row, current_day_time) + "\n"
+            blob += "<pagebreak>" + self.format_site_info(row, t) + "\n"
 
         blob += self.get_lc_blob_footer()
 
@@ -182,22 +176,26 @@ class TowerController:
 
         return ChatBlob(title, blob)
 
-    def format_site_info(self, row, current_day_time):
+    def format_site_info(self, row, t):
         blob = "<highlight>%s %d</highlight> (QL %d-%d) %s\n" % (row.playfield_short_name, row.site_number, row.min_ql, row.max_ql, row.site_name)
 
         if row.get("org_name"):
-            t = int(time.time())
+            current_day_time = t % 86400
             value = datetime.fromtimestamp(row.close_time, tz=pytz.UTC)
             current_status_time = row.close_time - current_day_time
             if current_status_time < 0:
                 current_status_time += 86400
 
+            status = ""
             if current_status_time <= 3600:
-                status = "<red>5%%</red> (closes in %s)" % self.util.time_to_readable(current_status_time)
+                status += "<red>5%%</red> (closes in %s)" % self.util.time_to_readable(current_status_time)
             elif current_status_time <= (3600 * 6):
-                status = "<orange>25%%</orange> (closes in %s)" % self.util.time_to_readable(current_status_time)
+                status += "<orange>25%%</orange> (closes in %s)" % self.util.time_to_readable(current_status_time)
             else:
-                status = "<green>75%%</green> (opens in %s)" % self.util.time_to_readable(current_status_time - (3600 * 6))
+                status += "<green>75%%</green> (opens in %s)" % self.util.time_to_readable(current_status_time - (3600 * 6))
+
+            if row.penalty_until > t:
+                status += " <red>Penalty</red> (for %s)" % self.util.time_to_readable(row.penalty_until - t)
 
             blob += "%s (%d) [%s] <highlight>QL %d</highlight> %s %s\n" % (
                 row.org_name,
