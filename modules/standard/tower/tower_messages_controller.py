@@ -181,7 +181,7 @@ class TowerMessagesController:
     def update_penalty_time(self, battle_id, t):
         results = self.db.query("SELECT att_faction, att_org_name FROM tower_attacker WHERE tower_battle_id = ?", [battle_id])
         for attack_org in results:
-            self.db.exec("UPDATE scout_info SET penalty_duration=(? - created_at) % 3600 + 3600, penalty_until=penalty_duration + ? "
+            self.db.exec("UPDATE scout_info SET penalty_duration=(7200 - ((? - created_at) % 3600)), penalty_until=penalty_duration + ? "
                          "WHERE org_name = ? AND faction = ?", [t, t, attack_org.att_org_name, attack_org.att_faction])
 
     def handle_public_channel_message(self, conn: Conn, packet: server_packets.PublicChannelMessage):
