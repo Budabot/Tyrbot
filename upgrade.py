@@ -243,3 +243,8 @@ def run_upgrades():
             db.exec("INSERT INTO scout_info SELECT playfield_id, site_number, ql, x_coord, y_coord, org_name, org_id, faction, close_time, 0, 0, created_at, updated_at FROM scout_info_old")
             db.exec("DROP TABLE scout_info_old")
         version = update_version(version)
+
+    if version == 22:
+        if table_exists("setting"):
+            db.exec("UPDATE setting SET value = 'https://tower-api.jkbff.com/v1/api/towers' WHERE name = 'tower_api_address'")
+        version = update_version(version)

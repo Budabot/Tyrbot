@@ -39,8 +39,8 @@ class TowerController:
     def start(self):
         self.command_alias_service.add_alias("hot", "lc open")
 
-        self.setting_service.register(self.module_name, "tower_api_address", "https://tower-api.jkbff.com/api/towers",
-                                      TextSettingType(["https://tower-api.jkbff.com/api/towers"]),
+        self.setting_service.register(self.module_name, "tower_api_address", "https://tower-api.jkbff.com/v1/api/towers",
+                                      TextSettingType(["https://tower-api.jkbff.com/v1/api/towers"]),
                                       "The address of the Tower API")
         self.setting_service.register(self.module_name, "tower_api_custom_headers", "",
                                       DictionarySettingType(),
@@ -105,7 +105,6 @@ class TowerController:
                  access_level="all", description="See a list of land control tower sites by QL, faction, and open status")
         def lc_search_cmd(self, request, site_status, faction, min_ql, max_ql):
             t = int(time.time())
-            current_day_time = t % 86400
             min_ql = min_ql or 1
             max_ql = max_ql or 300
 
@@ -126,11 +125,11 @@ class TowerController:
                 params.append(("faction", faction))
 
             if site_status.lower() == "open":
-                params.append(("min_close_time", current_day_time))
-                params.append(("max_close_time", self.day_time(current_day_time + (3600 * 6))))
+                params.append(("min_close_time", t))
+                params.append(("max_close_time", t + (3600 * 6)))
             elif site_status.lower() == "closed":
-                params.append(("min_close_time", self.day_time(current_day_time + (3600 * 6))))
-                params.append(("max_close_time", current_day_time))
+                params.append(("min_close_time", t + (3600 * 6)))
+                params.append(("max_close_time", t + (3600 * 24)))
             elif site_status.lower() == "penalty":
                 params.append(("penalty", "true"))
             elif site_status.lower() == "unplanted":
@@ -241,13 +240,6 @@ class TowerController:
         result = DictObject(r.json())
 
         return result
-
-    def day_time(self, day_t):
-        if day_t > 86400:
-            day_t -= 86400
-        elif day_t < 0:
-            day_t += 86400
-        return day_t
 
     def get_lc_blob_footer(self):
         return "Thanks to Draex and Unk for providing the tower information. And a special thanks to Trey."
