@@ -1,0 +1,86 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tyrbot-logging
+  namespace: tyrbot
+data:
+  logging.py: |
+    import logging
+    import logging.config
+    import logging.handlers
+    import sys
+    
+    
+    class FilterInfo:
+        def filter(self, rec):
+            return rec.levelno <= logging.INFO
+    
+    
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(name)s - %(message)s')
+    
+    console_out = logging.StreamHandler(sys.stdout)
+    console_out.setFormatter(formatter)
+    console_out.addFilter(FilterInfo())
+    
+    console_err = logging.StreamHandler(sys.stderr)
+    console_err.setFormatter(formatter)
+    console_err.setLevel(logging.WARN)
+    
+    # reduce discord spam
+    logging.getLogger("websockets").setLevel(logging.INFO)
+    
+    logging.root.setLevel(logging.INFO)
+    logging.root.addHandler(console_out)
+    logging.root.addHandler(console_err)
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tyrbot-config
+  namespace: tyrbot
+type: Opaque
+stringData:
+  config.py: |-
+    from core.dict_object import DictObject
+    
+    config = DictObject({
+        "superadmin": "",
+    
+        "database": {
+            "type": "sqlite",
+            "username": "",
+            "password": "",
+            "host": "",
+            "port": 3306,
+            "name": "database.db",
+        },
+    
+        "bots": [
+            {
+                "username": "",
+                "password": "",
+                "character": "",
+                "is_main": True
+            },
+        ],
+    
+        # do not modify below this line unless you know what you are doing
+        "server": {
+            "dimension": 5,
+            "host": "chat.d1.funcom.com",
+            "port": 7105
+        },
+    
+        "features": {
+            "text_formatting_v2": False,
+            "use_tower_api": True
+        },
+    
+        "module_paths": [
+            "modules/core",
+            "modules/standard",
+            "modules/custom",
+        ]
+    })

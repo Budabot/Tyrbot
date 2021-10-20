@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tyrbot-headless-service
+  namespace: tyrbot
+spec:
+  clusterIP: None
+  selector:
+    app: tyrbot
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: tyrbot
+  namespace: tyrbot
+  labels:
+    app: tyrbot
+spec:
+  replicas: 1
+  serviceName: tyrbot-headless-service
+  selector:
+    matchLabels:
+      app: tyrbot
+  template:
+    metadata:
+      labels:
+        app: tyrbot
+    spec:
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: tyrbot
+          image: bigwheels16/tyrbot:latest
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 20m
+              memory: 50Mi
+            #limits:
+              #cpu: 100m
+              #memory: 120Mi
+          volumeMounts:
+            - name: storage
+              mountPath: /app/data
+              subPath: data
+            - name: config
+              mountPath: /app/conf/config.py
+              subPath: config.py
+              readOnly: true
+            - name: logging
+              mountPath: /app/conf/logging.py
+              subPath: logging.py
+              readOnly: true
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: tyrbot-pvc
+        - name: config
+          secret:
+            secretName: tyrbot-config
+        - name: logging
+          configMap:
+            name: tyrbot-logging

@@ -5,7 +5,6 @@ conf/*
 !conf/config_template.py
 !conf/logging.py
 data/*
-k8s
 win32
 logs/*
 /venv

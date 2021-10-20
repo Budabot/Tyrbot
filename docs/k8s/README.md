@@ -1,24 +1,13 @@
 ## Kubernetes examples
 
-### Directory structure
+First, edit `config.yaml` and fill out the config values. Also, check `pvc.yaml` and verify the "storageClassName" is correct for your cluster.
 
-|Directory|Description|
-|---------|-----------|
-|k8s/example/base/*|Base manifestos|
-|k8s/example/overlay/<environment>/|Customization for the environment|
-|k8s/example/overlay/<environment>/secrets|Configuration and secrets|    
+Then apply the yaml files:
 
 #### Kubectl +1.14.x 
 ```
 # Creating resources
-cd example/overlay/example
-kubectl apply -f .
+kubectl apply -f config.yaml
+kubectl apply -f pvc.yaml
+kubectl apply -f statefulset.yaml
 ```
-
-### Kustomize setup
-```
-# Creating resources
-cd example/overlay/example
-kustomize build . |kubectl -f -
-```
-
