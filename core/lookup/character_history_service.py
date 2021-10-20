@@ -8,6 +8,8 @@ from core.logger import Logger
 import requests
 import json
 
+from core.setting_types import TextSettingType
+
 
 @instance()
 class CharacterHistoryService:
@@ -20,6 +22,12 @@ class CharacterHistoryService:
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
         self.cache_service = registry.get_instance("cache_service")
+        self.setting_service = registry.get_instance("setting_service")
+
+    def start(self):
+        self.setting_service.register("core.system", "pork_history_url", "http://pork.budabot.jkbff.com/pork/history.php?server={dimension}&name={name}",
+                                      TextSettingType(["http://pork.budabot.jkbff.com/pork/history.php?server={dimension}&name={name}"]),
+                                      "URL to lookup character history")
 
     def get_character_history(self, name, server_num):
         cache_key = "%s.%d.json" % (name, server_num)
@@ -58,4 +66,4 @@ class CharacterHistoryService:
             return None
 
     def get_pork_url(self, dimension, char_name):
-        return "http://pork.budabot.jkbff.com/pork/history.php?server=%d&name=%s" % (dimension, char_name)
+        return self.setting_service.get_value("pork_history_url").format(dimension=dimension, name=char_name)
