@@ -27,13 +27,19 @@ class CharacterHistoryController:
         if not data:
             return "Could not find history for <highlight>%s</highlight> on server <highlight>%d</highlight>." % (char.name, server_num)
 
-        return ChatBlob("History of %s (RK%d)" % (char.name, server_num), self.format_character_history(data))
+        return ChatBlob("History of %s (RK%d)" % (char.name, server_num), self.format_character_history(char.name, server_num, data))
 
-    def format_character_history(self, history):
+    def format_character_history(self, name, server_num, history):
         col_separator = " | "
 
-        rows = [["Name", "Date", "Lvl", "AI", "Side", "Breed", "CharId", "Guild (Rank)"]]
+        rows = [["Name", "Date", "Lvl", "AI", "Side", "Breed", "CharId", "Org (Rank)"]]
+        uniques = set()
         for row in history:
+            if row.nickname and row.nickname != name:
+                uniques.add(row.nickname)
+            if row.char_id and row.char_id != name:
+                uniques.add(row.char_id)
+
             if row.guild_name:
                 org = "%s (%s)" % (row.guild_name, row.guild_rank_name)
             else:
@@ -50,7 +56,9 @@ class CharacterHistoryController:
             rows.append(current_row)
 
         rows = self.text.pad_table(rows)
-        blob = col_separator.join(rows[0]) + "\n"
+        blob = "  ".join(map(lambda x: "[" + self.text.make_tellcmd(f"History {x}", f"history {x} {server_num}") + "]", uniques)) + "\n\n"
+
+        blob += col_separator.join(rows[0]) + "\n"
         blob += "__________________________________________________________\n"
         for columns in rows[1:]:
             blob += col_separator.join(columns) + "\n"
