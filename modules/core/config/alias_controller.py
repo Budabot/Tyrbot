@@ -7,15 +7,18 @@ from core.chat_blob import ChatBlob
 class AliasController:
     def inject(self, registry):
         self.command_alias_service = registry.get_instance("command_alias_service")
+        self.text = registry.get_instance("text")
 
     @command(command="alias", params=[Const("list")], access_level="all",
              description="List command aliases")
     def alias_list_cmd(self, request, _):
-        blob = ""
         data = self.command_alias_service.get_enabled_aliases()
         count = len(data)
-        for row in data:
-            blob += row.alias + " - " + row.command + "\n"
+        padded_rows = self.text.pad_table(list(map(lambda row: [row.alias, row.command], data)))
+
+        blob = ""
+        for cols in padded_rows:
+            blob += "  ".join(cols) + "\n"
 
         return ChatBlob(f"Aliases ({count})", blob)
 
