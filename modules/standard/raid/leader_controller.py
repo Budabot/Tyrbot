@@ -120,7 +120,7 @@ class LeaderController:
                 self.raid_controller.send_message("%s has logged off and has been removed as raid leader." % event_data.name,
                                                   event_data.conn)
 
-    @event(PrivateChannelService.PRIVATE_CHANNEL_MESSAGE_EVENT, "Echo leader messages from private channel", is_hidden=True)
+    @event(PrivateChannelService.PRIVATE_CHANNEL_MESSAGE_EVENT, "Echo leader messages from private channel", is_system=True)
     def leader_echo_private_event(self, event_type, event_data):
         leader = self.get_leader(event_data.conn)
         if leader and event_data.conn.data.leader_echo:
@@ -128,7 +128,7 @@ class LeaderController:
                 if not event_data.message.startswith(self.setting_service.get("symbol").get_value()):
                     self.leader_echo(event_data.char_id, event_data.message, PrivateChannelService.PRIVATE_CHANNEL_COMMAND, conn=event_data.conn)
 
-    @event(PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, "Echo leader messages from org channel", is_hidden=True)
+    @event(PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, "Echo leader messages from org channel", is_system=True)
     def leader_echo_org_event(self, event_type, event_data):
         leader = self.get_leader(event_data.conn)
         if leader and event_data.conn.data.leader_echo:

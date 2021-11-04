@@ -97,13 +97,13 @@ class OrgListController:
 
         self.check_for_orglist_end()
 
-    @event(event_type=BuddyService.BUDDY_LOGON_EVENT, description="Detect online buddies for orglist command", is_hidden=True)
+    @event(event_type=BuddyService.BUDDY_LOGON_EVENT, description="Detect online buddies for orglist command", is_system=True)
     def buddy_logon_event(self, event_type, event_data):
         if self.orglist and event_data.char_id in self.orglist.waiting_org_members:
             self.update_online_status(event_data.char_id, True)
             self.check_for_orglist_end()
 
-    @event(event_type=BuddyService.BUDDY_LOGOFF_EVENT, description="Detect offline buddies for orglist command", is_hidden=True)
+    @event(event_type=BuddyService.BUDDY_LOGOFF_EVENT, description="Detect offline buddies for orglist command", is_system=True)
     def buddy_logoff_event(self, event_type, event_data):
         if self.orglist and event_data.char_id in self.orglist.waiting_org_members:
             self.update_online_status(event_data.char_id, False)

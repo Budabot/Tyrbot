@@ -20,7 +20,7 @@ class MigrateController:
         self.alts_service = registry.get_instance("alts_service")
         self.pork_service = registry.get_instance("pork_service")
 
-    @event(event_type="connect", description="Configure migration controller", is_hidden=True)
+    @event(event_type="connect", description="Configure migration controller", is_system=True)
     def connect_event(self, event_type, event_data):
         self.db2 = DB()
 

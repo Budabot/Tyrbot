@@ -55,7 +55,7 @@ class ConfigController:
 
         return ChatBlob(f"Config ({count})", blob)
 
-    @command(command="config", params=[Options(["mod", "module"]), Any("module_name"), NamedFlagParameters(["include_hidden_events"])], access_level="admin",
+    @command(command="config", params=[Options(["mod", "module"]), Any("module_name"), NamedFlagParameters(["include_system_events"])], access_level="admin",
              description="Show configuration options for a specific module")
     def config_module_list_cmd(self, request, _, module, named_params):
         module = module.lower()
@@ -81,13 +81,13 @@ class ConfigController:
 
         blob += self.format_events(self.get_events(module, False), "Events")
 
-        if named_params.include_hidden_events:
-            blob += self.format_events(self.get_events(module, True), "Hidden Events")
+        system_events = self.get_events(module, True)
+        if named_params.include_system_events:
+            blob += self.format_events(system_events, "System Events")
+        elif system_events:
+            blob += "\n" + self.text.make_tellcmd("Show system events", f"config mod {module} --include_system_events")
 
         if blob:
-            if not named_params.include_hidden_events:
-                blob += "\n" + self.text.make_tellcmd("Include hidden events", f"config mod {module} --include_hidden_events")
-
             return ChatBlob(f"Module ({module})", blob)
         else:
             return "Could not find module <highlight>{module}</highlight>."
@@ -157,11 +157,11 @@ class ConfigController:
         else:
             return f"Could not find setting <highlight>{setting_name}</highlight>."
 
-    def get_events(self, module, is_hidden):
+    def get_events(self, module, is_system):
         return self.db.query("SELECT event_type, event_sub_type, handler, description, enabled, is_hidden "
                              f"FROM event_config WHERE module = ? AND is_hidden = ? "
                              "ORDER BY is_hidden, event_type, handler ASC",
-                             [module, 1 if is_hidden else 0])
+                             [module, 1 if is_system else 0])
 
     def format_events(self, data, title):
         blob = ""

@@ -42,7 +42,7 @@ class OrgChannelController:
         for _id, conn in self.bot.get_conns(lambda x: x.is_main and x.org_id):
             self.bot.send_org_message(ctx.formatted_message, conn=conn)
 
-    @event(event_type=PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, description="Relay messages from the org channel to the relay hub", is_hidden=True)
+    @event(event_type=PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, description="Relay messages from the org channel to the relay hub", is_system=True)
     def handle_org_message_event(self, event_type, event_data):
         if self.bot.get_conn_by_char_id(event_data.char_id) or self.ban_service.get_ban(event_data.char_id):
             return
@@ -93,7 +93,7 @@ class OrgChannelController:
                 self.bot.send_org_message(msg, conn=conn)
             self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, self.ORG_CHANNEL_PREFIX, msg)
 
-    @event(event_type=PublicChannelService.ORG_CHANNEL_COMMAND_EVENT, description="Relay commands from the org channel to the relay hub", is_hidden=True)
+    @event(event_type=PublicChannelService.ORG_CHANNEL_COMMAND_EVENT, description="Relay commands from the org channel to the relay hub", is_system=True)
     def outgoing_org_message_event(self, event_type, event_data):
         msg = self.ORG_CHANNEL_PREFIX + " "
         sender = None

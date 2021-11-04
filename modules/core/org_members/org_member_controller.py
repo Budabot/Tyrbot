@@ -129,12 +129,12 @@ class OrgMemberController:
         self.update_org_roster(max_cache_age=0)
         return "The org roster update has finished."
 
-    @event(event_type="connect", description="Add members as buddies of the bot on startup", is_hidden=True)
+    @event(event_type="connect", description="Add members as buddies of the bot on startup", is_system=True)
     def handle_connect_event(self, event_type, event_data):
         for row in self.get_all_org_members():
             self.update_buddylist(row.char_id, row.mode)
 
-    @timerevent(budatime="24h", description="Download the org_members roster", is_hidden=True)
+    @timerevent(budatime="24h", description="Download the org_members roster", is_system=True)
     def download_org_roster_event(self, event_type, event_data):
         self.update_org_roster()
 
@@ -184,7 +184,7 @@ class OrgMemberController:
             # TODO remove from buddy list
             self.db.exec("DELETE FROM org_member WHERE org_id = ?", [org_id])
 
-    @event(PublicChannelService.ORG_MSG_EVENT, "Update org roster when characters join or leave", is_hidden=True)
+    @event(PublicChannelService.ORG_MSG_EVENT, "Update org roster when characters join or leave", is_system=True)
     def org_msg_event(self, event_type, event_data):
         ext_msg = event_data.extended_message
         if [ext_msg.category_id, ext_msg.instance_id] == self.LEFT_ORG:

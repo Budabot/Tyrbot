@@ -103,13 +103,13 @@ class CoLeaderController(LeaderController):
             self.raid_controller.send_message("%s has logged off and has been removed as co-leader." % event_data.name,
                                               event_data.conn)
 
-    @event(PrivateChannelService.PRIVATE_CHANNEL_MESSAGE_EVENT, "Echo co-leader messages from private channel", is_hidden=True)
+    @event(PrivateChannelService.PRIVATE_CHANNEL_MESSAGE_EVENT, "Echo co-leader messages from private channel", is_system=True)
     def co_leader_echo_private_event(self, event_type, event_data):
         if event_data.conn.data.get("leader_echo") and self.is_co_leader(event_data.char_id, event_data.conn):
             if not event_data.message.startswith(self.setting_service.get("symbol").get_value()):
                 self.co_leader_echo(event_data.char_id, event_data.message, PrivateChannelService.PRIVATE_CHANNEL_COMMAND, conn=event_data.conn)
 
-    @event(PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, "Echo co-leader messages from org channel", is_hidden=True)
+    @event(PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, "Echo co-leader messages from org channel", is_system=True)
     def co_leader_echo_org_event(self, event_type, event_data):
         if event_data.conn.data.get("leader_echo") and self.is_co_leader(event_data.char_id, event_data.conn):
             if not event_data.message.startswith(self.setting_service.get("symbol").get_value()):

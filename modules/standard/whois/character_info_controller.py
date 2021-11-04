@@ -119,7 +119,7 @@ class CharacterInfoController:
             blob += "[%s] %s\n" % (self.util.format_date(row.created_at), row.name)
         return blob
 
-    @timerevent(budatime="1min", description="Save name history", is_hidden=True)
+    @timerevent(budatime="1min", description="Save name history", is_system=True)
     def save_name_history_event(self, event_type, event_data):
         if not self.name_history:
             return

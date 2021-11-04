@@ -100,13 +100,13 @@ class MemberController:
             else:
                 return "You must be a member of this bot to set your auto invite preference."
 
-    @event(event_type="connect", description="Add members as buddies of the bot on startup", is_hidden=True)
+    @event(event_type="connect", description="Add members as buddies of the bot on startup", is_system=True)
     def handle_connect_event(self, event_type, event_data):
         for row in self.get_all_members():
             if row.auto_invite == 1:
                 self.buddy_service.add_buddy(row.char_id, self.MEMBER_BUDDY_TYPE)
 
-    @event(event_type=MEMBER_LOGON_EVENT, description="Auto invite members to the private channel when they logon", is_hidden=True)
+    @event(event_type=MEMBER_LOGON_EVENT, description="Auto invite members to the private channel when they logon", is_system=True)
     def handle_buddy_logon(self, event_type, event_data):
         if event_data.auto_invite == 1:
             conn = self.private_channel_controller.get_conn(None)
@@ -114,7 +114,7 @@ class MemberController:
             self.private_channel_service.invite(event_data.char_id, conn)
 
     @event(event_type=BanService.BAN_ADDED_EVENT, description="Remove characters as members when they are banned",
-           is_hidden=True)
+           is_system=True)
     def ban_added_event(self, event_type, event_data):
         self.remove_member(event_data.char_id)
 

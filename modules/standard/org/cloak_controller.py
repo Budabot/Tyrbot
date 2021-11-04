@@ -89,7 +89,7 @@ class CloakController:
                      [request.sender.char_id, self.CLOAK_STATUS_MANUAL, int(time.time()), request.conn.org_id])
         return "The cloaking device has been manually enabled in the bot (you must still enable the cloak if it is disabled)."
 
-    @event(event_type=CLOAK_EVENT, description="Record when the city cloak is turned off and on", is_hidden=True)
+    @event(event_type=CLOAK_EVENT, description="Record when the city cloak is turned off and on", is_system=True)
     def city_cloak_event(self, event_type, event_data):
         self.db.exec("INSERT INTO cloak_status (char_id, action, created_at, org_id) VALUES (?, ?, ?, ?)",
                      [event_data.char_id, event_data.action, int(time.time()), event_data.conn.org_id])

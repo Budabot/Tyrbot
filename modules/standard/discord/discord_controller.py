@@ -187,7 +187,7 @@ class DiscordController:
                     return
         return f"Could not find Discord server with ID <highlight>{server_id}</highlight>."
 
-    @timerevent(budatime="1s", description="Discord relay queue handler", is_hidden=True)
+    @timerevent(budatime="1s", description="Discord relay queue handler", is_system=True)
     def handle_discord_queue_event(self, event_type, event_data):
         if self.dqueue:
             dtype, message = self.dqueue.pop(0)
@@ -202,12 +202,12 @@ class DiscordController:
 
             self.event_service.fire_event(dtype, message)
 
-    @timerevent(budatime="1m", description="Ensure the bot is connected to Discord", is_enabled=False, is_hidden=True, run_at_startup=True)
+    @timerevent(budatime="1m", description="Ensure the bot is connected to Discord", is_enabled=False, is_system=True, run_at_startup=True)
     def handle_connect_event(self, event_type, event_data):
         if not self.is_connected():
             self.connect_discord_client()
 
-    @event(event_type=AltsService.MAIN_CHANGED_EVENT_TYPE, description="Update discord character link when a main is changed", is_hidden=True)
+    @event(event_type=AltsService.MAIN_CHANGED_EVENT_TYPE, description="Update discord character link when a main is changed", is_system=True)
     def handle_main_changed(self, event_type, event_data):
         old_row = self.db.query_single("SELECT discord_id FROM discord_char_link WHERE char_id = ?", [event_data.old_main_id])
         if old_row:
@@ -215,7 +215,7 @@ class DiscordController:
             if not new_row:
                 self.db.exec("INSERT INTO discord_char_link (discord_id, char_id) VALUES (?, ?)", [old_row.discord_id, event_data.new_main_id])
 
-    @event(event_type="discord_invites", description="Handles invite requests", is_hidden=True)
+    @event(event_type="discord_invites", description="Handles invite requests", is_system=True)
     def handle_discord_invite_event(self, event_type, event_data):
         char_name = event_data[0]
         invites = event_data[1]

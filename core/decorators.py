@@ -1,5 +1,9 @@
 from core.dict_object import DictObject
+from core.logger import Logger
 from core.registry import Registry
+
+
+logger = Logger("core.decorators")
 
 
 # taken from: https://stackoverflow.com/a/26151604/280574
@@ -25,21 +29,27 @@ def command(handler, command, params, access_level, description, sub_command=Non
 
 
 @parameterized
-def event(handler, event_type, description, is_hidden=False, is_enabled=True):
+def event(handler, event_type, description, is_system=False, is_enabled=True, is_hidden=False):
+    if is_hidden:
+        log_deprecated_is_hidden(handler)
+
     handler.event = DictObject({"event_type": event_type,
                                 "description": description,
-                                "is_hidden": is_hidden,
+                                "is_system": is_system or is_hidden,
                                 "is_enabled": is_enabled})
     return handler
 
 
 @parameterized
-def timerevent(handler, budatime, description, is_hidden=False, is_enabled=True, run_at_startup=False):
+def timerevent(handler, budatime, description, is_system=False, is_enabled=True, run_at_startup=False, is_hidden=False):
+    if is_hidden:
+        log_deprecated_is_hidden(handler)
+
     util = Registry.get_instance("util")
     t = util.parse_time(budatime)
     handler.event = DictObject({"event_type": "timer:" + str(t),
                                 "description": description,
-                                "is_hidden": is_hidden,
+                                "is_system": is_system or is_hidden,
                                 "is_enabled": is_enabled,
                                 "run_at_startup": run_at_startup})
     return handler
@@ -55,3 +65,8 @@ def setting(handler, name, value, description, extended_description=None):
     new_handler.setting = [name, value, description, extended_description, obj]
     new_handler.__module__ = handler.__module__
     return new_handler
+
+
+def log_deprecated_is_hidden(handler):
+    util = Registry.get_instance("util")
+    logger.warning("Event option `is_hidden` is deprecated; use `is_system` instead (event %s)" % util.get_handler_name(handler))

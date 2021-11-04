@@ -6,7 +6,6 @@ from core.functions import flatmap
 
 class Registry:
     _registry = {}
-    logger = None
 
     @classmethod
     def inject_all(cls):

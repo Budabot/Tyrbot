@@ -155,13 +155,13 @@ class TowerMessagesController:
 
         return ChatBlob(title, blob)
 
-    @event(event_type="connect", description="Check if All Towers channel is available", is_hidden=True)
+    @event(event_type="connect", description="Check if All Towers channel is available", is_system=True)
     def handle_connect_event(self, event_type, event_data):
         conn = self.bot.get_primary_conn()
         if conn.org_id and self.ALL_TOWERS_ID not in conn.channels:
             self.logger.warning("The primary bot is a member of an org but does not have access to 'All Towers' channel and therefore will not be able to record tower attacks")
 
-    @event(event_type=TOWER_VICTORY_EVENT, description="Remove scout info for tower sites that are destroyed", is_hidden=True, is_enabled=False)
+    @event(event_type=TOWER_VICTORY_EVENT, description="Remove scout info for tower sites that are destroyed", is_system=True, is_enabled=False)
     def tower_scout_info_cleanup_event(self, event_type, event_data):
         if event_data.location.site_number:
             self.db.exec("DELETE FROM scout_info WHERE playfield_id = ? AND site_number = ?",
@@ -170,11 +170,11 @@ class TowerMessagesController:
             self.db.exec("DELETE FROM scout_info WHERE playfield_id = ? AND faction = ? AND org_name = ?",
                          [event_data.location.playfield.id, event_data.loser.faction, event_data.loser.org_name])
 
-    @event(event_type=TOWER_VICTORY_EVENT, description="Update penalty time on tower victory", is_hidden=True, is_enabled=False)
+    @event(event_type=TOWER_VICTORY_EVENT, description="Update penalty time on tower victory", is_system=True, is_enabled=False)
     def tower_victory_update_penalty_event(self, event_type, event_data):
         self.update_penalty_time(event_data.battle_id, event_data.timestamp)
 
-    @event(event_type=TOWER_ATTACK_EVENT, description="Update penalty time on tower attack", is_hidden=True, is_enabled=False)
+    @event(event_type=TOWER_ATTACK_EVENT, description="Update penalty time on tower attack", is_system=True, is_enabled=False)
     def tower_attack_update_penalty_event(self, event_type, event_data):
         self.update_penalty_time(event_data.battle_id, event_data.timestamp)
 

@@ -77,7 +77,7 @@ class WebsocketRelayController:
         else:
             self.encrypter = None
 
-    @timerevent(budatime="1s", description="Relay messages from websocket relay to the internal message hub", is_hidden=True, is_enabled=False)
+    @timerevent(budatime="1s", description="Relay messages from websocket relay to the internal message hub", is_system=True, is_enabled=False)
     def handle_queue_event(self, event_type, event_data):
         while self.queue:
             obj = self.queue.pop(0)
@@ -99,26 +99,26 @@ class WebsocketRelayController:
                     if obj.user in self.channels:
                         del self.channels[obj.user]
 
-    @timerevent(budatime="30s", description="Ensure the bot is connected to websocket relay", is_hidden=True, is_enabled=False, run_at_startup=True)
+    @timerevent(budatime="30s", description="Ensure the bot is connected to websocket relay", is_system=True, is_enabled=False, run_at_startup=True)
     def handle_connect_event(self, event_type, event_data):
         if not self.worker or not self.dthread.is_alive():
             self.connect()
         else:
             self.worker.send_ping()
 
-    @event(PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, "Send to websocket relay when someone joins private channel", is_hidden=True, is_enabled=False)
+    @event(PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, "Send to websocket relay when someone joins private channel", is_system=True, is_enabled=False)
     def private_channel_joined_event(self, event_type, event_data):
         self.send_relay_event(event_data.char_id, "logon", "private_channel")
 
-    @event(PrivateChannelService.LEFT_PRIVATE_CHANNEL_EVENT, "Send to websocket relay when someone joins private channel", is_hidden=True, is_enabled=False)
+    @event(PrivateChannelService.LEFT_PRIVATE_CHANNEL_EVENT, "Send to websocket relay when someone joins private channel", is_system=True, is_enabled=False)
     def private_channel_left_event(self, event_type, event_data):
         self.send_relay_event(event_data.char_id, "logoff", "private_channel")
 
-    @event(OrgMemberController.ORG_MEMBER_LOGON_EVENT, "Send to websocket relay when org member logs on", is_hidden=True, is_enabled=False)
+    @event(OrgMemberController.ORG_MEMBER_LOGON_EVENT, "Send to websocket relay when org member logs on", is_system=True, is_enabled=False)
     def org_member_logon_event(self, event_type, event_data):
         self.send_relay_event(event_data.char_id, "logon", "org_channel")
 
-    @event(OrgMemberController.ORG_MEMBER_LOGOFF_EVENT, "Send to websocket relay when org member logs off", is_hidden=True, is_enabled=False)
+    @event(OrgMemberController.ORG_MEMBER_LOGOFF_EVENT, "Send to websocket relay when org member logs off", is_system=True, is_enabled=False)
     def org_member_logoff_event(self, event_type, event_data):
         self.send_relay_event(event_data.char_id, "logoff", "org_channel")
 

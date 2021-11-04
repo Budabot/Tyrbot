@@ -33,7 +33,7 @@ class EventService:
                 if hasattr(method, "event"):
                     attrs = getattr(method, "event")
                     handler = getattr(inst, name)
-                    self.register(handler, attrs.event_type, attrs.description, inst.module_name, attrs.is_hidden, attrs.is_enabled)
+                    self.register(handler, attrs.event_type, attrs.description, inst.module_name, attrs.is_system, attrs.is_enabled)
 
     def register_event_type(self, event_type):
         """
@@ -55,7 +55,7 @@ class EventService:
     def is_event_type(self, event_base_type):
         return event_base_type in self.event_types
 
-    def register(self, handler, event_type, description, module, is_hidden, is_enabled):
+    def register(self, handler, event_type, description, module, is_system, is_enabled):
         """
         Call during pre_start
 
@@ -64,7 +64,7 @@ class EventService:
             event_type: str
             description: str
             module: str
-            is_hidden: bool
+            is_system: bool
             is_enabled: bool
         """
 
@@ -74,7 +74,7 @@ class EventService:
         event_base_type, event_sub_type = self.get_event_type_parts(event_type)
         module = module.lower()
         handler_name = self.util.get_handler_name(handler)
-        is_hidden = 1 if is_hidden else 0
+        is_system = 1 if is_system else 0
         is_enabled = 1 if is_enabled else 0
 
         if event_base_type not in self.event_types:
@@ -91,7 +91,7 @@ class EventService:
             # add new event commands
             self.db.exec(
                 "INSERT INTO event_config (event_type, event_sub_type, handler, description, module, enabled, verified, is_hidden) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                [event_base_type, event_sub_type, handler_name, description, module, is_enabled, 1, is_hidden])
+                [event_base_type, event_sub_type, handler_name, description, module, is_enabled, 1, is_system])
 
             if event_base_type == "timer":
                 self.db.exec("INSERT INTO timer_event (event_type, event_sub_type, handler, next_run) VALUES (?, ?, ?, ?)",
@@ -100,7 +100,7 @@ class EventService:
             # mark command as verified
             self.db.exec(
                 "UPDATE event_config SET verified = ?, module = ?, description = ?, event_sub_type = ?, is_hidden = ? WHERE event_type = ? AND handler = ?",
-                [1, module, description, event_sub_type, is_hidden, event_base_type, handler_name])
+                [1, module, description, event_sub_type, is_system, event_base_type, handler_name])
 
             if event_base_type == "timer":
                 self.db.exec("UPDATE timer_event SET event_sub_type = ? WHERE event_type = ? AND handler = ?",

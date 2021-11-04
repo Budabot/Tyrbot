@@ -131,7 +131,7 @@ class NewsController:
             msg = self.format_unread_news(unread_news, conn)
             self.bot.send_private_message(event_data.char_id, msg, conn=conn)
 
-    @event(event_type=AltsService.MAIN_CHANGED_EVENT_TYPE, description="Update news items marked as read when main is changed", is_hidden=True)
+    @event(event_type=AltsService.MAIN_CHANGED_EVENT_TYPE, description="Update news items marked as read when main is changed", is_system=True)
     def main_changed_event(self, event_type, event_data):
         self.db.exec("DELETE FROM news_read WHERE char_id = ?", [event_data.old_main_id])
 

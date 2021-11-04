@@ -93,11 +93,11 @@ class PrivateChannelController:
                                               conn=conn)
         self.job_scheduler.delayed_job(lambda t: self.private_channel_service.kickall(conn), 10)
 
-    @event(event_type=BanService.BAN_ADDED_EVENT, description="Kick characters from the private channel who are banned", is_hidden=True)
+    @event(event_type=BanService.BAN_ADDED_EVENT, description="Kick characters from the private channel who are banned", is_system=True)
     def ban_added_event(self, event_type, event_data):
         self.private_channel_service.kick_from_all(event_data.char_id)
 
-    @event(event_type=PrivateChannelService.PRIVATE_CHANNEL_MESSAGE_EVENT, description="Relay messages from the private channel to the relay hub", is_hidden=True)
+    @event(event_type=PrivateChannelService.PRIVATE_CHANNEL_MESSAGE_EVENT, description="Relay messages from the private channel to the relay hub", is_system=True)
     def handle_private_channel_message_event(self, event_type, event_data):
         if self.bot.get_conn_by_char_id(event_data.char_id) or self.ban_service.get_ban(event_data.char_id):
             return
@@ -128,7 +128,7 @@ class PrivateChannelController:
         self.bot.send_private_channel_message(msg, conn=event_data.conn)
         self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)
 
-    @event(event_type=PrivateChannelService.PRIVATE_CHANNEL_COMMAND_EVENT, description="Relay commands from the private channel to the relay hub", is_hidden=True)
+    @event(event_type=PrivateChannelService.PRIVATE_CHANNEL_COMMAND_EVENT, description="Relay commands from the private channel to the relay hub", is_system=True)
     def outgoing_private_channel_message_event(self, event_type, event_data):
         sender = None
         if event_data.name:

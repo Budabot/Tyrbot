@@ -101,7 +101,7 @@ class BuddyController:
         else:
             return ChatBlob(f"Buddy list ({len(buddy_list)})", blob)
 
-    @timerevent(budatime="24h", description="Remove orphaned buddies", is_hidden=True)
+    @timerevent(budatime="24h", description="Remove orphaned buddies", is_system=True)
     def remove_orphaned_buddies_event(self, event_type, event_data):
         if self.bot.is_ready():
             self.logger.debug("Removing %d orphaned buddies" % self.remove_orphaned_buddies())

@@ -66,17 +66,17 @@ class TrackController:
             blob += datetime_str + " - " + ("<green>Logon</green>" if row.action == "logon" else "<red>Logoff</red>") + "\n" 
         return ChatBlob("Track history for %s" % char.name, blob)
 
-    @event(event_type=BuddyService.BUDDY_LOGON_EVENT, description="Record when a tracked char logs on", is_hidden=True)
+    @event(event_type=BuddyService.BUDDY_LOGON_EVENT, description="Record when a tracked char logs on", is_system=True)
     def buddy_logon_event(self, event_type, event_data):
         if self.is_tracked_char(event_data.char_id):
             self.add_track_info(event_data.char_id, "logon")
 
-    @event(event_type=BuddyService.BUDDY_LOGOFF_EVENT, description="Record when a tracked char logs off", is_hidden=True)
+    @event(event_type=BuddyService.BUDDY_LOGOFF_EVENT, description="Record when a tracked char logs off", is_system=True)
     def buddy_logoff_event(self, event_type, event_data):
         if self.is_tracked_char(event_data.char_id):
             self.add_track_info(event_data.char_id, "logoff")
 
-    @event(event_type="connect", description="Add tracked characters as buddies", is_hidden=True)
+    @event(event_type="connect", description="Add tracked characters as buddies", is_system=True)
     def connect_event(self, event_type, event_data):
         for row in self.get_all_tracked_chars():
             self.buddy_service.add_buddy(row.char_id, "admin")
