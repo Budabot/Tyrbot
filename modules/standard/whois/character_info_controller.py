@@ -94,7 +94,7 @@ class CharacterInfoController:
             if dimension == self.bot.dimension:
                 blob += "Status: %s\n" % ("<green>Active</green>" if char.char_id else "<red>Inactive</red>")
 
-                blob += self.get_name_history(char.char_id)
+                blob += self.get_name_history(char.char_id, char.name)
 
             more_info = self.text.paginate_single(ChatBlob("More Info", blob), conn)
 
@@ -105,18 +105,18 @@ class CharacterInfoController:
             blob += "Character ID: <highlight>%d</highlight>\n" % char.char_id
             if online_status is not None:
                 blob += "Online status: %s\n" % ("<green>Online</green>" if online_status else "<red>Offline</red>")
-            blob += self.get_name_history(char.char_id)
+            blob += self.get_name_history(char.char_id, char.name)
             msg = ChatBlob("Basic Info for %s" % char.name, blob)
         else:
             msg = "Could not find character <highlight>%s</highlight> on RK%d." % (char.name, dimension)
 
         reply(msg)
 
-    def get_name_history(self, char_id):
+    def get_name_history(self, char_id, name):
         blob = "\n<header2>Name History</header2>\n"
-        data = self.db.query("SELECT name, created_at FROM name_history WHERE char_id = ? ORDER BY created_at DESC", [char_id])
+        data = self.db.query("SELECT name, char_id, created_at FROM name_history WHERE char_id = ? OR name = ? ORDER BY created_at DESC", [char_id, name])
         for row in data:
-            blob += "[%s] %s\n" % (self.util.format_date(row.created_at), row.name)
+            blob += "[%s] %s (%s)\n" % (self.util.format_date(row.created_at), row.name, row.char_id)
         return blob
 
     @timerevent(budatime="1min", description="Save name history", is_system=True)
