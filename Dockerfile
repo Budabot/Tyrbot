@@ -1,32 +1,22 @@
 ARG PYTHON_VERSION=3.9.1
 
-# build stage
-FROM python:${PYTHON_VERSION}
-ARG PYTHON_VERSION
+FROM python:${PYTHON_VERSION}-slim
 RUN echo "Building with Python version $PYTHON_VERSION"
 
-WORKDIR /app
 ENV PYTHONPATH=/app/deps
 
-COPY requirements.txt /app/
-RUN pip install --no-cache-dir --disable-pip-version-check -r requirements.txt -t /app/deps
-
-COPY . /app
-RUN chmod +x /app/container_start.sh && \
-    python -m unittest discover -p '*_test.py'
-
-
-# run stage
-FROM python:${PYTHON_VERSION}-slim
-
-WORKDIR /app
-ENV PYTHONPATH=/app/deps
-
-RUN adduser -h /app -s /bin/false -D -H -u 1000 user
+RUN adduser --no-create-home --disabled-login --disabled-password --shell /bin/false --uid 1000 user
 
 # Security context in k8s requires uid as user
-USER 1000
+USER user
 
-COPY --chown=1000:1000 --from=0 /app /app
+WORKDIR /app
+
+COPY --chown=user:user requirements.txt /app
+RUN pip install --no-cache-dir --disable-pip-version-check -r requirements.txt -t /app/deps
+
+COPY --chown=user:user . /app
+RUN python -m unittest discover -p '*_test.py' && \
+    chmod +x /app/container_start.sh
 
 CMD ["/app/container_start.sh"]
