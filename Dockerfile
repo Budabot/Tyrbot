@@ -5,7 +5,7 @@ RUN echo "Building with Python version $PYTHON_VERSION"
 
 ENV PYTHONPATH=/app/deps
 
-RUN adduser --no-create-home --disabled-login --disabled-password --shell /bin/false --uid 1000 user
+RUN adduser --no-create-home --disabled-login --disabled-password --shell /bin/false --gecos "" --uid 1000 user
 
 # Security context in k8s requires uid as user
 USER user
