@@ -13,7 +13,7 @@ USER user
 WORKDIR /app
 
 COPY --chown=user:user requirements.txt /app
-RUN pip install --no-cache-dir --disable-pip-version-check -r requirements.txt -t /app/deps
+RUN mkdir /app/deps && pip install --no-cache-dir --disable-pip-version-check -r requirements.txt -t /app/deps
 
 COPY --chown=user:user . /app
 RUN python -m unittest discover -p '*_test.py' && \
