@@ -20,7 +20,7 @@ from core.command_param_types import Any
 #   Custom written by Bitnykk/Kynethic courtesy of Minidodo (Cyndergames.at) aka Idande/Cildie.
 #   Thanks Tyrence that helped to update for newest Tyrbot ; install into modules/custom folder.
 #
-@instance("RelayGcrController")
+@instance()
 class RelayGcrController:
     relay_channel_id = None
     relay_name = None
