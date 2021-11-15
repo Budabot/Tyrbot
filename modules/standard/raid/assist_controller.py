@@ -38,7 +38,7 @@ class AssistController:
         if not self.leader_controller.can_use_command(request.sender.char_id, request.conn):
             return LeaderController.NOT_LEADER_MSG
         else:
-            assist = request.conn.data.get("assist", [])
+            assist = request.conn.data.get("assist", None) or []
             for target in targets:
                 target = target.capitalize()
                 if target not in assist:
