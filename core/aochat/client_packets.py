@@ -254,11 +254,12 @@ class Ping(ClientPacket):
 
 class ChatCommand(ClientPacket):
     id = 120
-    types = "s"
+    types = "sI"
 
-    def __init__(self, commands):
+    def __init__(self, commands, window_id):
         self.commands = commands
-        super().__init__(self.id, self.types, [self.commands])
+        self.window_id = window_id
+        super().__init__(self.id, self.types, [self.commands, self.window_id])
 
     @classmethod
     def from_bytes(cls, data):

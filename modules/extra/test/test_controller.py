@@ -1,4 +1,4 @@
-from core.aochat import server_packets
+from core.aochat import server_packets, client_packets
 from core.command_param_types import Int, Const, Options, Character, Any
 from core.decorators import instance, command
 from core.public_channel_service import PublicChannelService
@@ -158,6 +158,16 @@ class TestController:
 
         site_number = self.tower_messages_controller.find_closest_site_number(playfield.id, x_coord, y_coord)
         return f"{playfield.short_name} {site_number}"
+
+    @command(command="test", params=[Const("cc"), Any("chat_command")], access_level="superadmin",
+             description="Test chat commands")
+    def test_chat_command_cmd(self, request, _, chat_command):
+        args = chat_command.split()
+
+        packet = client_packets.ChatCommand(args, 0)
+
+        request.conn.send_packet(packet)
+        return f"Chat command sent: <highlight>{chat_command}</highlight>"
 
     def ext_message_as_string(self, category_id, instance_id, params):
         ext_msg = self.bot.mmdb_parser.write_ext_message(category_id, instance_id, params)
