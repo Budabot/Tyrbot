@@ -1,4 +1,4 @@
-text.mdb extracted 18-May-2018
+#text.mdb extracted 18-May-2018
 [100, 1, "You can't attack this target."]
 [100, 2, 'Your bodily remains have been made available.']
 [100, 3, 'No corpse in reclaim booth.']
