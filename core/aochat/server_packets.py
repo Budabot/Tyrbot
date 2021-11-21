@@ -312,6 +312,8 @@ class PrivateChannelKicked(ServerPacket):
         return cls(*args)
 
 
+# does not appear to be used
+# in testing, PrivateChannelKicked (id = 51) was always sent instead of this one
 class PrivateChannelLeft(ServerPacket):
     id = 53
     types = "I"
