@@ -64,6 +64,9 @@ class BanController:
         if self.ban_service.get_ban(char.char_id):
             return f"<highlight>{char.name}</highlight> is already banned."
 
+        if reason and len(reason) > 255:
+            return "Ban reason cannot be more than 255 characters."
+
         duration_str = self.util.time_to_readable(duration) if duration else "permanent"
         if reason:
             msg = f"You have been banned by <highlight>{request.sender.name}</highlight> for reason: <highlight>{reason}</highlight>. " \
