@@ -1,6 +1,8 @@
 import datetime
 import re
 import threading
+import time
+from datetime import timezone
 from functools import partial
 from html.parser import HTMLParser
 
@@ -220,13 +222,15 @@ class DiscordController:
         char_name = event_data[0]
         invites = event_data[1]
 
+        t = int(time.time())
+
         blob = f"<header2>Available invites</header2>\n"
         if len(invites) > 0:
             for invite in invites:
                 link = self.text.make_chatcmd("Join", "/start %s" % invite.url)
-                timeleft = "Permanent" if invite.max_age == 0 else str(datetime.timedelta(seconds=invite.max_age))
-                used = str(invite.uses) if invite.uses is not None else "N/A"
-                useleft = str(invite.max_uses) if invite.max_uses is not None else "N/A"
+                timeleft = self.get_time_left(t, invite)
+                used = str(invite.uses)
+                useleft = "Unlimited" if invite.max_uses == 0 else (invite.max_uses - invite.uses)
                 if invite.channel is not None:
                     channel = f" └ for channel: {invite.channel.name}"
                 else:
@@ -243,6 +247,18 @@ class DiscordController:
 
         char_id = self.character_service.resolve_char_to_id(char_name)
         self.bot.send_private_message(char_id, ChatBlob("Discord invites", blob))
+
+    def get_time_left(self, t, invite):
+        if invite.max_age == 0:
+            return "Permanent"
+
+        created_at = int(invite.created_at.replace(tzinfo=timezone.utc).timestamp())
+        expires_at = created_at + invite.max_age
+
+        if expires_at < t:
+            return "Expired"
+
+        return self.util.time_to_readable(expires_at - t)
 
     def handle_discord_command_event(self, message):
         if not self.find_discord_command_handler(message):
