@@ -166,7 +166,7 @@ class LootController:
                         loot_item.count = loot_item.count - 1
 
                 blob += "%d. %s\n" % (i, loot_item.get_item_str())
-                blob += "  Winners: <red>%s</red>\n\n" % '</red>, <red>'.join(winners)
+                blob += "  Winners: <highlight>%s</highlight>\n\n" % '</highlight>, <highlight>'.join(winners)
 
             if loot_item.count == 0:
                 loot_list.pop(i)
