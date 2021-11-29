@@ -47,9 +47,6 @@ class BanController:
         if not self.ban_service.get_ban(char.char_id):
             return f"<highlight>{char.name}</highlight> is not banned."
 
-        self.bot.send_private_message(char.char_id,
-                                      f"You have been unbanned by <highlight>{request.sender.name}</highlight>.",
-                                      conn=request.conn)
         self.ban_service.remove_ban(char.char_id)
         return f"<highlight>{char.name}</highlight> has been removed from the ban list."
 
@@ -67,13 +64,5 @@ class BanController:
         if reason and len(reason) > 255:
             return "Ban reason cannot be more than 255 characters."
 
-        duration_str = self.util.time_to_readable(duration) if duration else "permanent"
-        if reason:
-            msg = f"You have been banned by <highlight>{request.sender.name}</highlight> for reason: <highlight>{reason}</highlight>. " \
-                  f"Duration: <highlight>{duration_str}</highlight>."
-        else:
-            msg = f"You have been banned by <highlight>{request.sender.name}</highlight>. Duration: <highlight>{duration_str}</highlight>."
-
-        self.bot.send_private_message(char.char_id, msg, conn=request.conn)
         self.ban_service.add_ban(char.char_id, request.sender.char_id, duration, reason)
         return f"<highlight>{char.name}</highlight> has been added to the ban list."
