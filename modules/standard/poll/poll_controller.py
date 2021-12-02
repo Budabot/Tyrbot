@@ -19,6 +19,7 @@ class PollController:
         self.pork_service = registry.get_instance("pork_service")
         self.command_alias_service = registry.get_instance("command_alias_service")
         self.alts_service = registry.get_instance("alts_service")
+        self.access_service = registry.get_instance("access_service")
 
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS poll (id INT PRIMARY KEY AUTO_INCREMENT, question VARCHAR(1024) NOT NULL, duration INT NOT NULL, "
@@ -30,7 +31,7 @@ class PollController:
 
         self.command_alias_service.add_alias("vote", "poll")
 
-    @command(command="poll", params=[], access_level="all",
+    @command(command="poll", params=[], access_level="guest",
              description="List the polls")
     def poll_list_cmd(self, request):
         blob = ""
@@ -54,17 +55,17 @@ class PollController:
 
         return ChatBlob("Polls (%d)" % len(polls), blob)
 
-    @command(command="poll", params=[Int("poll_id")], access_level="all",
+    @command(command="poll", params=[Int("poll_id")], access_level="guest",
              description="View a poll")
     def poll_view_cmd(self, request, poll_id):
         poll = self.get_poll(poll_id)
 
         if not poll:
-            return "Could not find poll with ID <highlight>%d</highlight>." % poll_id
+            return f"Could not find poll with ID <highlight>{poll_id}</highlight>."
 
         return self.show_poll_details_blob(poll)
 
-    @command(command="poll", params=[Const("add"), Any("duration|poll_question|option1|option2|...")], access_level="all",
+    @command(command="poll", params=[Const("add"), Any("duration|poll_question|option1|option2|...")], access_level="guest",
              description="Add a poll")
     def poll_add_cmd(self, request, _, options):
         options = options.split("|")
@@ -88,16 +89,16 @@ class PollController:
 
         return self.show_poll_details_blob(self.get_poll(poll_id))
 
-    @command(command="poll", params=[Int("poll_id"), Const("vote"), Int("choice_id")], access_level="all",
+    @command(command="poll", params=[Int("poll_id"), Const("vote"), Int("choice_id")], access_level="guest",
              description="Vote on a poll")
     def poll_vote_cmd(self, request, poll_id, _, choice_id):
         poll = self.get_poll(poll_id)
         if not poll:
-            return "Could not find poll with id <highlight>%d</highlight>." % poll_id
+            return f"Could not find poll with ID <highlight>{poll_id}</highlight>."
 
         choice = self.db.query_single("SELECT * FROM poll_choice WHERE poll_id = ? AND id = ?", [poll_id, choice_id])
         if not choice:
-            return "Could not find choice with id <highlight>%d</highlight> for poll id <highlight>%d</highlight>." % (choice_id, poll_id)
+            return f"Could not find choice with ID <highlight>{choice_id}</highlight> for poll with ID <highlight>{poll_id}</highlight>."
 
         main = self.alts_service.get_main(request.sender.char_id)
 
@@ -108,24 +109,42 @@ class PollController:
         self.db.exec("INSERT INTO poll_vote (poll_id, choice_id, char_id) VALUES (?, ?, ?)", [poll_id, choice_id, main.char_id])
 
         if cnt > 0:
-            return "Your vote has been updated."
+            return f"Your vote has been updated for poll with ID <highlight>{poll_id}</highlight>."
         else:
-            return "Your vote has been saved."
+            return f"Your vote has been saved for poll with ID <highlight>{poll_id}</highlight>."
 
-    @command(command="poll", params=[Int("poll_id"), Const("remvote")], access_level="all",
+    @command(command="poll", params=[Int("poll_id"), Const("remvote")], access_level="guest",
              description="Remove your vote on a poll")
     def poll_remvote_cmd(self, request, poll_id, _):
         poll = self.get_poll(poll_id)
         if not poll:
-            return "Could not find poll with id <highlight>%d</highlight>." % poll_id
+            return f"Could not find poll with ID <highlight>{poll_id}</highlight>."
 
         main = self.alts_service.get_main(request.sender.char_id)
 
         cnt = self.db.exec("DELETE FROM poll_vote WHERE poll_id = ? AND (char_id = ? OR char_id = ?)", [poll_id, main.char_id, request.sender.char_id])
         if cnt > 0:
-            return "Your vote has been removed."
+            return f"Your vote has been removed for poll with ID <highlight>{poll_id}</highlight>."
         else:
-            return "You have not voted for that choice."
+            return f"You have not voted for poll with ID <highlight>{poll_id}</highlight>."
+
+    @command(command="poll", params=[Const("cancel"), Int("poll_id")], access_level="guest",
+             description="Cancel a poll before it has finished")
+    def poll_cancel_cmd(self, request, _, poll_id):
+        poll = self.get_poll(poll_id)
+        if not poll:
+            return f"Could not find poll with ID <highlight>{poll_id}</highlight>."
+
+        if not self.access_service.has_sufficient_access_level(request.sender.char_id, poll.char_id):
+            return "You do not have sufficient access level to cancel this poll."
+
+        if poll.is_finished:
+            return "You cannot cancel a poll that is already finished."
+
+        self.db.exec("DELETE FROM poll_vote WHERE poll_id = ?", [poll_id])
+        self.db.exec("DELETE FROM poll_choice WHERE poll_id = ?", [poll_id])
+        self.db.exec("DELETE FROM poll WHERE id = ?", [poll_id])
+        return f"Poll with ID <highlight>{poll_id}</highlight> has been cancelled."
 
     @event(event_type="connect", description="Check for finished polls", is_system=True)
     def connect_event(self, event_type, event_data):
@@ -207,7 +226,11 @@ class PollController:
         self.job_scheduler.scheduled_job(self.show_results, poll.finished_at, poll.id)
 
     def show_results(self, t, poll_id):
-        self.end_poll(self.get_poll(poll_id))
+        poll = self.get_poll(poll_id)
+
+        # make sure poll has not been cancelled
+        if poll:
+            self.end_poll(poll)
 
     def end_poll(self, poll):
         self.bot.send_private_message(poll.char_id,
