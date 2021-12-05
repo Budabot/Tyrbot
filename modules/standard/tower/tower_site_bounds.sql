@@ -1,5 +1,7 @@
 DROP TABLE IF EXISTS tower_site_bounds;
 CREATE TABLE tower_site_bounds (playfield_id INT NOT NULL, site_number SMALLINT NOT NULL, x_coord1 SMALLINT NOT NULL, y_coord1 SMALLINT NOT NULL, x_coord2 SMALLINT NOT NULL, y_coord2 SMALLINT NOT NULL);
+
+-- random
 INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (716, 3, 315, 2331, 499, 2096);
 INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (716, 4, 508, 2375, 884, 2003);
 INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (717, 3, 1771, 2408, 2121, 1719);
