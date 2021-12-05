@@ -45,7 +45,7 @@ class TowerController:
                                       DictionarySettingType(),
                                       "Custom headers for the Tower API")
 
-    @command(command="lc", params=[], access_level="all",
+    @command(command="lc", params=[], access_level="guest",
              description="See a list of playfields containing land control tower sites")
     def lc_list_cmd(self, request):
         data = self.db.query("SELECT id, long_name, short_name FROM playfields WHERE id IN (SELECT DISTINCT playfield_id FROM tower_site) ORDER BY short_name")
@@ -59,7 +59,7 @@ class TowerController:
         return ChatBlob("Land Control Playfields (%d)" % len(data), blob)
 
     if FeatureFlags.USE_TOWER_API:
-        @command(command="lc", params=[Const("org"), Any("org", is_optional=True)], access_level="all",
+        @command(command="lc", params=[Const("org"), Any("org", is_optional=True)], access_level="guest",
                  description="See a list of land control tower sites by org")
         def lc_org_cmd(self, request, _, org):
             params = list()
@@ -101,7 +101,7 @@ class TowerController:
                                        Options(["omni", "clan", "neutral", "all"], is_optional=True),
                                        Int("min_ql", is_optional=True),
                                        Int("max_ql", is_optional=True)],
-                 access_level="all", description="See a list of land control tower sites by QL, faction, and open status")
+                 access_level="guest", description="See a list of land control tower sites by QL, faction, and open status")
         def lc_search_cmd(self, request, site_status, faction, min_ql, max_ql):
             t = int(time.time())
             min_ql = min_ql or 1
@@ -151,7 +151,7 @@ class TowerController:
 
             return ChatBlob(title, blob)
 
-    @command(command="lc", params=[Any("playfield"), Int("site_number", is_optional=True)], access_level="all",
+    @command(command="lc", params=[Any("playfield"), Int("site_number", is_optional=True)], access_level="guest",
              description="See a list of land control tower sites in a particular playfield")
     def lc_playfield_cmd(self, request, playfield_name, site_number):
         playfield = self.playfield_controller.get_playfield_by_name_or_id(playfield_name)

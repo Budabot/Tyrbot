@@ -20,7 +20,7 @@ class NanoController:
         self.command_alias_service.add_alias("nl", "nanolines")
         self.command_alias_service.add_alias("nanoline", "nanolines")
 
-    @command(command="nano", params=[Any("search"), NamedParameters(["page"])], access_level="all",
+    @command(command="nano", params=[Any("search"), NamedParameters(["page"])], access_level="guest",
              description="Search for a nano")
     def nano_cmd(self, request, search, named_params):
         page_number = int(named_params.page or "1")
@@ -65,7 +65,7 @@ class NanoController:
     def format_single_nano(self, row):
         return "QL %d %s %s" % (row.lowql, self.text.make_item(row.lowid, row.lowid, row.lowql, row.name), row.location)
 
-    @command(command="nanoloc", params=[], access_level="all",
+    @command(command="nanoloc", params=[], access_level="guest",
              description="Show all nano locations")
     def nanoloc_list_cmd(self, request):
         data = self.db.query("SELECT location, COUNT(location) AS cnt FROM nanos GROUP BY location ORDER BY location ASC")
@@ -77,7 +77,7 @@ class NanoController:
 
         return ChatBlob("Nano Locations", blob)
 
-    @command(command="nanoloc", params=[Any("location")], access_level="all",
+    @command(command="nanoloc", params=[Any("location")], access_level="guest",
              description="Show nanos by location")
     def nanoloc_show_cmd(self, request, location):
         sql = "SELECT n1.lowid, n1.lowql, n1.name, n1.location, n3.profession " \
@@ -96,7 +96,7 @@ class NanoController:
 
         return ChatBlob("Nanos for Location '%s' (%d)" % (location, cnt), blob)
 
-    @command(command="nanolines", params=[], access_level="all",
+    @command(command="nanolines", params=[], access_level="guest",
              description="Show nanos by nanoline")
     def nanolines_list_cmd(self, request):
         data = self.db.query("SELECT DISTINCT profession FROM nanolines ORDER BY profession ASC")
@@ -108,7 +108,7 @@ class NanoController:
 
         return ChatBlob("Nanolines", blob)
 
-    @command(command="nanolines", params=[Int("nanoline_id")], access_level="all",
+    @command(command="nanolines", params=[Int("nanoline_id")], access_level="guest",
              description="Show nanos by nanoline id")
     def nanolines_id_cmd(self, request, nanoline_id):
         nanoline = self.db.query_single("SELECT * FROM nanolines WHERE id = ?", [nanoline_id])
@@ -128,7 +128,7 @@ class NanoController:
 
         return ChatBlob("%s %s Nanos" % (nanoline.profession, nanoline.name), blob)
 
-    @command(command="nanolines", params=[Any("profession")], access_level="all",
+    @command(command="nanolines", params=[Any("profession")], access_level="guest",
              description="Show nanolines by profession")
     def nanolines_profession_cmd(self, request, prof_name):
         profession = self.util.get_profession(prof_name)

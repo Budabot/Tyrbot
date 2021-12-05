@@ -62,7 +62,7 @@ class TimerController:
 
         self.command_alias_service.add_alias("timers", "timer")
 
-    @command(command="timer", params=[], access_level="all",
+    @command(command="timer", params=[], access_level="guest",
              description="Show current timers")
     def timer_list_cmd(self, request):
         t = int(time.time())
@@ -77,7 +77,7 @@ class TimerController:
             
         return ChatBlob("Timers (%d)" % len(data), blob) 
 
-    @command(command="timer", params=[Const("add", is_optional=True), TimerTime("time"), Any("name", is_optional=True)], access_level="all",
+    @command(command="timer", params=[Const("add", is_optional=True), TimerTime("time"), Any("name", is_optional=True)], access_level="guest",
              description="Add a timer")
     def timer_add_cmd(self, request, _, duration, timer_name):
         timer_name = timer_name or self.get_timer_name(request.sender.name)
@@ -90,7 +90,7 @@ class TimerController:
 
         return "Timer <highlight>%s</highlight> has been set for %s." % (timer_name, self.util.time_to_readable(duration, max_levels=None))
 
-    @command(command="timer", params=[Options(["rem", "remove"]), Any("name")], access_level="all",
+    @command(command="timer", params=[Options(["rem", "remove"]), Any("name")], access_level="guest",
              description="Remove a timer")
     def timer_remove_cmd(self, request, _, timer_name):
         timer = self.get_timer(timer_name)
@@ -104,7 +104,7 @@ class TimerController:
             return f"Error! Insufficient access level to remove timer <highlight>{timer.name}</highlight>."
 
     @command(command="rtimer", params=[Const("add", is_optional=True), TimerTime("start_time"), TimerTime("repeating_time"), Any("name", is_optional=True)],
-             access_level="all", description="Add a repeating timer")
+             access_level="guest", description="Add a repeating timer")
     def rtimer_add_cmd(self, request, _, start_time, repeating_time, timer_name):
         timer_name = timer_name or self.get_timer_name(request.sender.name)
         if repeating_time < 60:

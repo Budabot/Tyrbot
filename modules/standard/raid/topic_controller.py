@@ -24,7 +24,7 @@ class TopicController:
 
         self.setting_service.register(self.module_name, "topic", "", DictionarySettingType(), "The bot topic")
 
-    @command(command="topic", params=[], access_level="all",
+    @command(command="topic", params=[], access_level="guest",
              description="Show the current topic")
     def topic_show_command(self, request):
         topic = self.get_topic()
@@ -33,16 +33,18 @@ class TopicController:
         else:
             return "There is no current topic."
 
-    @command(command="topic", params=[Options(["clear", "unset"])], access_level="all",
+    @command(command="topic", params=[Options(["clear", "unset"])], access_level="guest",
              description="Clears the current topic")
     def topic_clear_command(self, request, _):
+        # TODO compare against access level of existing topic author
         self.clear_topic()
 
         return "The topic has been cleared."
 
-    @command(command="topic", params=[Const("set", is_optional=True), Any("topic_message")], access_level="all",
+    @command(command="topic", params=[Const("set", is_optional=True), Any("topic_message")], access_level="guest",
              description="Set the current topic")
     def topic_set_command(self, request, _, topic_message):
+        # TODO compare against access level of existing topic author
         self.set_topic(topic_message, request.sender)
 
         return "The topic has been set."
