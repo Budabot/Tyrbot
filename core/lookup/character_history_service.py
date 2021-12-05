@@ -25,8 +25,8 @@ class CharacterHistoryService:
         self.setting_service = registry.get_instance("setting_service")
 
     def start(self):
-        self.setting_service.register("core.system", "pork_history_url", "http://pork.budabot.jkbff.com/pork/history.php?server={dimension}&name={name}",
-                                      TextSettingType(["http://pork.budabot.jkbff.com/pork/history.php?server={dimension}&name={name}"]),
+        self.setting_service.register("core.system", "pork_history_url", "https://pork.jkbff.com/pork/history.php?server={dimension}&name={name}",
+                                      TextSettingType(["https://pork.jkbff.com/pork/history.php?server={dimension}&name={name}"]),
                                       "URL to lookup character history")
 
     def get_character_history(self, name, server_num):
