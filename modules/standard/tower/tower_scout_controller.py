@@ -48,14 +48,23 @@ class TowerScoutController:
 
     @event(event_type=TowerMessagesController.TOWER_VICTORY_EVENT, description="Update penalty time on tower victory", is_system=True, is_enabled=False)
     def tower_victory_update_penalty_event(self, event_type, event_data):
-        self.update_penalty_time(event_data.battle_id, event_data.timestamp)
+        self.update_penalty_time(event_data.battle_id, event_data.winner.org_name, event_data.winner.faction)
 
     @event(event_type=TowerMessagesController.TOWER_ATTACK_EVENT, description="Update penalty time on tower attack", is_system=True, is_enabled=False)
     def tower_attack_update_penalty_event(self, event_type, event_data):
-        self.update_penalty_time(event_data.battle_id, event_data.timestamp)
+        self.update_penalty_time(event_data.timestamp, event_data.attacker.org_name, event_data.attacker.faction)
 
-    def update_penalty_time(self, battle_id, t):
-        results = self.db.query("SELECT att_faction, att_org_name FROM tower_attacker WHERE tower_battle_id = ?", [battle_id])
-        for attack_org in results:
-            self.db.exec("UPDATE scout_info SET penalty_duration=(7200 - ((? - created_at) % 3600)), penalty_until=penalty_duration + ? "
-                         "WHERE org_name = ? AND faction = ?", [t, t, attack_org.att_org_name, attack_org.att_faction])
+    def update_penalty_time(self, t, org_name, faction):
+        if not org_name or not faction:
+            return
+
+        data = self.db.query("SELECT playfield_id, site_number, org_name, faction, penalty_duration, penalty_until, created_at "
+                             "FROM scout_info "
+                             "WHERE org_name = ? AND faction = ? AND created_at <= ?", [org_name, faction, t])
+        for row in data:
+            penalty_duration = ((row.created_at - t) % 3600) + 3600
+            penalty_until = t + penalty_duration
+
+            if row.penalty_until < penalty_until:
+                self.db.exec("UPDATE scout_info SET penalty_duration = ?, penalty_until = ? "
+                             "WHERE playfield_id = ? AND site_number = ?", [penalty_duration, penalty_until, row.playfield_id, row.site_number])
