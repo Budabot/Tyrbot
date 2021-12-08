@@ -60,7 +60,7 @@ class TowerScoutController:
 
         data = self.db.query("SELECT playfield_id, site_number, org_name, faction, penalty_duration, penalty_until, created_at "
                              "FROM scout_info "
-                             "WHERE org_name = ? AND faction = ? AND created_at <= ?", [org_name, faction, t])
+                             "WHERE org_name LIKE ? AND faction LIKE ? AND created_at <= ?", [org_name, faction, t])
         for row in data:
             penalty_duration = ((row.created_at - t) % 3600) + 3600
             penalty_until = t + penalty_duration

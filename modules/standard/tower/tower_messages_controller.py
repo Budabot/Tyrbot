@@ -465,7 +465,7 @@ class TowerMessagesController:
     def format_battle_info(self, row, t, verbose=False):
         blob = ""
         defeated = " - <notice>Defeated!</notice>" if row.is_finished else ""
-        blob += "Site: <highlight>%s %s</highlight> " % (row.short_name, row.site_number or "?")
+        blob += f"Site: %s " % self.text.make_tellcmd(f"{row.short_name} {row.site_number}", f"lc {row.short_name} {row.site_number}")
         if not verbose:
             blob += self.text.make_tellcmd("More Info", "attacks battle %d" % row.id)
         blob += "\n"
