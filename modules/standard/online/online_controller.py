@@ -181,7 +181,7 @@ class OnlineController:
             for row in online_list:
                 if current_main != row.main:
                     count += 1
-                    blob += "\n%s\n" % self.text.make_tellcmd(row.main, "alts %s" % row.main)
+                    blob += "\n<pagebreak>%s\n" % self.text.make_tellcmd(row.main, "alts %s" % row.main)
                     current_main = row.main
 
                 afk = ""
@@ -193,7 +193,7 @@ class OnlineController:
                     if row.org_name:
                         org_info = ", %s of %s" % (row.org_rank_name, row.org_name)
 
-                blob += "  %s (%d/<green>%d</green>) %s %s%s%s\n" % (row.name, row.level or 0, row.ai_level or 0, row.faction, row.profession, afk, org_info)
+                blob += "  %s (%d/<green>%d</green>) %s%s%s\n" % (row.name, row.level or 0, row.ai_level or 0, row.profession, afk, org_info)
             blob += "\n\n"
 
         return ChatBlob("Online (%d)" % count, blob)
