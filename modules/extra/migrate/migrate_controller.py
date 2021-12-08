@@ -360,7 +360,7 @@ class MigrateController:
                                  "last_updated, level, name, org_id, org_name, org_rank_id, org_rank_name, profession, profession_title, pvp_rating, pvp_title, source) "
                                  "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                                  [row.ai_level, row.ai_rank, row.breed, row.charid, row.dimension, row.faction, row.firstname, row.gender, row.head_id if row.head_id else 0,
-                                  row.lastname, row.last_update, row.level, row.name, row.guild_id, row.guild, row.guild_rank_id, row.guild_rank, row.profession, row.prof_title,
+                                  row.lastname, row.last_update, row.level, row.name, row.guild_id, row.guild, row.guild_rank_id or 0, row.guild_rank, row.profession, row.prof_title,
                                   row.pvp_rating if row.pvp_rating else 0, row.pvp_title if row.pvp_title else "", row.source])
 
             # maybe this is needed also? self.db.exec("DELETE FROM player WHERE char_id = 4294967295")
