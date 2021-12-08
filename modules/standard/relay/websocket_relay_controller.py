@@ -69,6 +69,12 @@ class WebsocketRelayController:
         self.setting_service.register_change_listener("websocket_relay_server_address", self.websocket_relay_update)
         self.setting_service.register_change_listener("websocket_encryption_key", self.websocket_relay_update)
         self.setting_service.register_change_listener("websocket_relay_room", self.websocket_relay_update)
+        self.setting_service.register(self.module_name, "websocket_symbol", "#",
+                                      TextSettingType(["!", "#", "*", "@", "$", "+", "-"]),
+                                      "Symbol for websocket relay")
+        self.setting_service.register(self.module_name, "websocket_symbol_method", "Always",
+                                      TextSettingType(["Always", "with_symbol", "unless_symbol"]),
+                                      "When to relay messages")
 
     def initialize_encrypter(self, password):
         if password:
@@ -229,9 +235,20 @@ class WebsocketRelayController:
 
     def handle_message_from_hub(self, ctx):
         if self.worker:
-            # TODO use relay_symbol to determine if message should be relayed or not
 
+            method = self.setting_service.get_value("websocket_symbol_method")
+            symbol = self.setting_service.get_value("websocket_symbol")
             message = ctx.message or ctx.formatted_message
+
+            if method == "unless_symbol" and message.startswith(symbol):
+                return
+            elif method == "with_symbol":
+                if not message.startswith(symbol):
+                    return
+                else:
+                    # trim symbol from message
+                    message = message[len(symbol):]
+
             obj = {"user": self.create_user_obj(ctx.sender),
                    "message": message,
                    "type": "message",
