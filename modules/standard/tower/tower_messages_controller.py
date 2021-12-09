@@ -74,7 +74,7 @@ class TowerMessagesController:
 
     @command(command="attacks", params=[Any("playfield", is_optional=True, allowed_chars="[a-z0-9 ]"),
                                         Int("site_number", is_optional=True),
-                                        NamedParameters(["defender_org", "attacker_org", "victory", "page"])],
+                                        NamedParameters(["defender_org", "attacker_org", "attacker", "victory", "page"])],
              access_level="all", description="Show recent tower attacks and victories",
              extended_description="Victory param can be 'true', 'false', or 'all' (default)")
     def attacks_cmd(self, request, playfield_name, site_number, named_params):
@@ -130,6 +130,13 @@ class TowerMessagesController:
             command_str += f" --attacker_org={attacker_org}"
             sql += f" AND a.att_org_name <EXTENDED_LIKE={len(params)}> ?"
             params.append(attacker_org)
+
+        if named_params.attacker:
+            attacker = named_params.attacker
+            command_str += f" --attacker={attacker}"
+            sql += f" AND a.att_char_name LIKE ? OR a.att_char_id = ?"
+            params.append(attacker)
+            params.append(attacker)
 
         sql += " ORDER BY b.last_updated DESC LIMIT ?, ?"
         params.append(offset)
