@@ -59,6 +59,7 @@ class TowerMessagesController:
                      "def_org_name VARCHAR(50) NOT NULL, def_faction VARCHAR(10) NOT NULL, is_finished INT NOT NULL, battle_type VARCHAR(20) NOT NULL, last_updated INT NOT NULL)")
 
         self.command_alias_service.add_alias("victory", "attacks")
+        self.command_alias_service.add_alias("battles", "attacks")
 
     @command(command="attacks", params=[Const("battle"), Int("battle_id")], access_level="all",
              description="Show battle info for a specific battle")
@@ -73,7 +74,7 @@ class TowerMessagesController:
 
     @command(command="attacks", params=[Any("playfield", is_optional=True, allowed_chars="[a-z0-9 ]"),
                                         Int("site_number", is_optional=True),
-                                        NamedParameters(["victory", "page"])],
+                                        NamedParameters(["defender_org", "attacker_org", "victory", "page"])],
              access_level="all", description="Show recent tower attacks and victories",
              extended_description="Victory param can be 'true', 'false', or 'all' (default)")
     def attacks_cmd(self, request, playfield_name, site_number, named_params):
@@ -86,10 +87,19 @@ class TowerMessagesController:
         page_number = int(named_params.page or "1")
         victory = "all" if named_params.victory == "" else named_params.victory
 
+        command_str = "attacks"
+        if playfield_name:
+            command_str += " " + playfield_name
+            if site_number:
+                command_str += " " + str(site_number)
+
         page_size = 10
         offset = (page_number - 1) * page_size
 
-        sql = "SELECT b.*, p.long_name, p.short_name FROM tower_battle b LEFT JOIN playfields p ON b.playfield_id = p.id WHERE 1=1"
+        sql = "SELECT DISTINCT b.*, p.long_name, p.short_name FROM tower_battle b " \
+              "LEFT JOIN playfields p ON b.playfield_id = p.id " \
+              "LEFT JOIN tower_attacker a ON b.id = a.tower_battle_id " \
+              "WHERE 1=1"
         params = []
 
         if playfield:
@@ -100,6 +110,7 @@ class TowerMessagesController:
                 params.append(site_number)
 
         if victory != "all":
+            command_str += f" --victory={victory}"
             sql += " AND b.is_finished = ?"
             if victory == "true":
                 params.append(1)
@@ -108,21 +119,25 @@ class TowerMessagesController:
             else:
                 return "Named param <highlight>--victory</highlight> must be one of: 'true', 'false', or 'all' (default)."
 
+        if named_params.defender_org:
+            defender_org = named_params.defender_org
+            command_str += f" --defender_org={defender_org}"
+            sql += f" AND b.def_org_name <EXTENDED_LIKE={len(params)}> ?"
+            params.append(defender_org)
+
+        if named_params.attacker_org:
+            attacker_org = named_params.attacker_org
+            command_str += f" --attacker_org={attacker_org}"
+            sql += f" AND a.att_org_name <EXTENDED_LIKE={len(params)}> ?"
+            params.append(attacker_org)
+
         sql += " ORDER BY b.last_updated DESC LIMIT ?, ?"
         params.append(offset)
         params.append(page_size)
 
-        data = self.db.query(sql, params)
+        data = self.db.query(sql, params, extended_like=True)
 
         t = int(time.time())
-
-        command_str = "attacks"
-        if playfield_name:
-            command_str += " " + playfield_name
-            if site_number:
-                command_str += " " + str(site_number)
-
-        command_str += f" --victory={victory}"
 
         blob = self.check_for_all_towers_channel()
         blob += self.text.get_paging_links(command_str, page_number, page_size == len(data))
