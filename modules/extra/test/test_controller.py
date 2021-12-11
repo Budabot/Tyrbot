@@ -169,6 +169,13 @@ class TestController:
         request.conn.send_packet(packet)
         return f"Chat command sent: <highlight>{chat_command}</highlight>"
 
+    @command(command="test", params=[Const("setorg"), Int("org_id"), Any("org_name")], access_level="superadmin",
+             description="Manually set an org id for a conn")
+    def test_setorg_cmd(self, request, _, org_id, org_name):
+        request.conn.org_id = org_id
+        request.conn.org_name = org_name
+        return f"Org id <highlight>{org_id}</highlight> and org name <highlight>{org_name}</highlight> have been set."
+
     def ext_message_as_string(self, category_id, instance_id, params):
         ext_msg = self.bot.mmdb_parser.write_ext_message(category_id, instance_id, params)
         return ext_msg.decode("utf-8")
