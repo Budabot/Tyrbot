@@ -27,7 +27,7 @@ class TestController:
     def test_cloak_status_command(self, request, _, cloak_status):
         ext_msg = self.ext_message_as_string(1001, 1, [("s", request.sender.name), ("s", cloak_status)])
 
-        packet = server_packets.PublicChannelMessage(request.conn.org_channel_id, request.sender.char_id, ext_msg, "\0")
+        packet = server_packets.PublicChannelMessage(request.conn.org_channel_id, 0, ext_msg, "\x02\x01")
         self.bot.incoming_queue.put((request.conn, packet))
 
     @command(command="test", params=[Const("citytargetted")], access_level="superadmin",
@@ -35,7 +35,7 @@ class TestController:
     def test_citytargetted_command(self, request, _):
         ext_msg = self.ext_message_as_string(1001, 3, [("s", "Antarctica")])
 
-        packet = server_packets.PublicChannelMessage(request.conn.org_channel_id, request.sender.char_id, ext_msg, "\0")
+        packet = server_packets.PublicChannelMessage(request.conn.org_channel_id, 0, ext_msg, "\x02\x01")
         self.bot.incoming_queue.put((request.conn, packet))
 
     @command(command="test", params=[Const("attack"), Character("attack_char", is_optional=True), Any("defend_faction", is_optional=True), Any("defend_org_name", is_optional=True)],

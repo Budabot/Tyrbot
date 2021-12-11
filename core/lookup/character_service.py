@@ -6,6 +6,8 @@ import time
 
 @instance()
 class CharacterService:
+    SYSTEM_CHAR_ID = 4294967295
+
     def __init__(self):
         self.name_to_id = {}
         self.id_to_name = {}
@@ -58,7 +60,7 @@ class CharacterService:
     def update(self, conn, packet):
         self.waiting_for_response.discard(packet.name)
 
-        if packet.char_id == 4294967295:
+        if packet.char_id == self.SYSTEM_CHAR_ID:
             self.name_to_id[packet.name] = None
         else:
             self.id_to_name[packet.char_id] = packet.name

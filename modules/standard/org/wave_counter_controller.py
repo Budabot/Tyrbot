@@ -13,6 +13,7 @@ class WaveCounterController:
     def inject(self, registry):
         self.job_scheduler = registry.get_instance("job_scheduler")
         self.message_hub_service = registry.get_instance("message_hub_service")
+        self.org_channel_controller = registry.get_instance("org_channel_controller", is_optional=True)
 
     def pre_start(self):
         self.message_hub_service.register_message_source(self.MESSAGE_SOURCE)
@@ -27,18 +28,24 @@ class WaveCounterController:
         if conn.data.wave_counter_job_id:
             self.job_scheduler.cancel_job(conn.data.wave_counter_job_id)
 
-        self.send_message(f"Wave counter started for {conn.get_org_name()}.")
+        self.send_message("%s Wave counter started." % self.get_org_abbreviation(conn))
         conn.data.wave_counter_job_id = self.job_scheduler.delayed_job(self.timer_alert, self.ALERT_TIMES[0], conn, 0)
 
     def timer_alert(self, t, conn, wave_number):
         wave_number += 1
 
         if wave_number == 9:
-            self.send_message("General incoming.")
+            self.send_message("%s General incoming." % self.get_org_abbreviation(conn))
             conn.data.wave_counter_job_id = None
         else:
-            self.send_message("Wave <highlight>%d</highlight> incoming." % wave_number)
+            self.send_message("%s Wave <highlight>%d</highlight> incoming." % (self.get_org_abbreviation(conn), wave_number))
             conn.data.wave_counter_job_id = self.job_scheduler.scheduled_job(self.timer_alert, t + self.ALERT_TIMES[wave_number], conn, wave_number)
 
     def send_message(self, msg):
         self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)
+
+    def get_org_abbreviation(self, conn):
+        if self.org_channel_controller:
+            return self.org_channel_controller.get_org_abbreviation(conn)
+        else:
+            return conn.get_org_name()
