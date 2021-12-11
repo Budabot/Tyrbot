@@ -158,7 +158,7 @@ class OrgListController:
         for rank_name, rank_info in org_ranks.items():
             rank_num_online = len(rank_info.online_members)
             rank_num_total = len(rank_info.offline_members) + rank_num_online
-            blob += "<header2>%s (%d / %d)</header2>\n" % (rank_name, rank_num_online, rank_num_total)
+            blob += "<pagebreak><header2>%s (%d / %d)</header2>\n" % (rank_name, rank_num_online, rank_num_total)
             num_online += rank_num_online
             num_total += rank_num_total
             for org_member in sorted(rank_info.online_members, key=lambda x: x.name):

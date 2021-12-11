@@ -156,7 +156,7 @@ class OnlineController:
             self.set_afk(char_id, int(time.time()), message)
             # channel_reply("<highlight>%s</highlight> is now afk." % char_name)
         else:
-            # TODO handle multiple rows
+            # will handle multiple rows since set_afk() will update multiple
             row = self.db.query_single("SELECT * FROM online WHERE char_id = ? AND afk_dt > 0", [char_id])
             if row:
                 self.set_afk(char_id, 0, "")
