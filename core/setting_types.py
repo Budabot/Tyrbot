@@ -110,7 +110,7 @@ class DictionarySettingType(SettingType):
         if value:
             return DictObject(json.loads(value))
         else:
-            return value
+            return DictObject()
 
     def get_display_value(self):
         return "<highlight>%s</highlight>" % (self.get_value() or "&lt;empty&gt;")
