@@ -203,6 +203,9 @@ class OrgMemberController:
     @event(event_type=PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, description="Automatically add chars that speak in the org channel to the org roster",
            is_enabled=False)
     def auto_add_org_members_event(self, event_type, event_data):
+        if event_data.char_id == 0:
+            return
+
         org_member = self.get_org_member(event_data.char_id)
         if not org_member:
             old_mode = None
