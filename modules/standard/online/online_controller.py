@@ -168,6 +168,8 @@ class OnlineController:
         self.db.exec("UPDATE online SET afk_dt = ?, afk_reason = ? WHERE char_id = ?", [dt, reason, char_id])
 
     def get_online_output(self):
+        num_org_bots = len(self.bot.get_conns(lambda x: x.is_main and x.org_id))
+
         blob = ""
         count = 0
         for channel, _ in self.channels:
@@ -189,7 +191,7 @@ class OnlineController:
                     afk = " - <highlight>%s (%s ago)</highlight>" % (row.afk_reason, self.util.time_to_readable(int(time.time()) - row.afk_dt))
 
                 org_info = ""
-                if channel == self.PRIVATE_CHANNEL:
+                if channel == self.PRIVATE_CHANNEL or num_org_bots > 1:
                     if row.org_name:
                         org_info = ", %s of %s" % (row.org_rank_name, row.org_name)
 
