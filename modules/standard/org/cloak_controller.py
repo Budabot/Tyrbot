@@ -59,6 +59,8 @@ class CloakController:
     def cloak_command(self, request):
         t = int(time.time())
 
+        current_status = ""
+
         blob = ""
         for _id, conn in self.bot.get_conns(lambda x: x.is_main and x.org_id):
             row = self.db.query_single("SELECT c.char_id, c.action, c.created_at, p.name FROM cloak_status c LEFT JOIN player p ON c.char_id = p.char_id "
@@ -70,10 +72,20 @@ class CloakController:
                 time_str = self.util.time_to_readable(t - row.created_at)
                 history_link = self.text.make_tellcmd("History", f"cloak history {conn.org_id}")
                 blob += f"{org_name} - {action} [{time_str} ago] {history_link}\n"
-            else:
-                blob += f"{org_name} - Unknown status\n"
 
-        return ChatBlob(f"Cloak Status", blob)
+                if _id == request.conn.id:
+                    current_status = f"{org_name} - {row.action} [{time_str} ago]"
+            else:
+                blob += f"{org_name} - Unknown\n"
+
+                if _id == request.conn.id:
+                    current_status = f"{org_name} - Unknown"
+
+        title = "Cloak Status"
+        if current_status:
+            title += ": " + current_status
+
+        return ChatBlob(title, blob)
 
     @command(command="cloak", params=[Options(["raise", "on"])], access_level="org_member",
              description="Manually raises the cloak status on the bot")
