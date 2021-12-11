@@ -81,7 +81,7 @@ class CloakController:
         if not request.conn.org_id:
             return "This bot is not a member of an org."
 
-        row = self.db.query_single("SELECT c.action FROM cloak_status WHERE c.org_id = ?", request.conn.org_id)
+        row = self.db.query_single("SELECT action FROM cloak_status WHERE org_id = ?", [request.conn.org_id])
         if row and (row.action == self.CLOAK_STATUS_ON or row.action == self.CLOAK_STATUS_MANUAL):
             return "The cloaking device is already <green>enabled</green>."
 
