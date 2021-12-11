@@ -37,7 +37,7 @@ class NotesController:
 
         return ChatBlob("Notes for %s (%d)" % (alts[0].name, cnt), blob)
 
-    @command(command="notes", params=[Const("add"), Any("note")], access_level="all",
+    @command(command="notes", params=[Const("add", is_optional=True), Any("note")], access_level="all",
              description="Add a note")
     def notes_add_cmd(self, request, _, note):
         self.db.exec("INSERT INTO notes (char_id, note, created_at) VALUES (?, ?, ?)", [request.sender.char_id, note, int(time.time())])
