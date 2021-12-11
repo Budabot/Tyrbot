@@ -244,7 +244,17 @@ def run_upgrades():
             db.exec("DROP TABLE scout_info_old")
         version = update_version(version)
 
-    if version == 22:
+    if version == 24:
         if table_exists("setting"):
             db.exec("UPDATE setting SET value = 'https://tower-api.jkbff.com/v1/api/towers' WHERE name = 'tower_api_address'")
+        version = update_version(version)
+
+    if version == 25:
+        if table_exists("timer"):
+            db.exec("ALTER TABLE timer RENAME TO timer_old")
+            db.exec("CREATE TABLE IF NOT EXISTS timer (name VARCHAR(255) NOT NULL, char_id INT NOT NULL, channel VARCHAR(10) NOT NULL, "
+                    "duration INT NOT NULL, created_at INT NOT NULL, finished_at INT NOT NULL, repeating_every INT NOT NULL, job_id INT NOT NULL, "
+                    "UNIQUE(name))")
+            db.exec("INSERT INTO timer SELECT name, char_id, channel, duration, created_at, finished_At, repeating_every, job_id FROM timer_old")
+            db.exec("DROP TABLE timer_old")
         version = update_version(version)

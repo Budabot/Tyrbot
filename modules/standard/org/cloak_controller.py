@@ -134,6 +134,8 @@ class CloakController:
         else:
             raise Exception(f"Unknown cloak action '{event_data.action}'")
 
+        timer_name = self.timer_controller.get_timer_name(timer_name)
+
         self.timer_controller.add_timer(timer_name, event_data.char_id, PublicChannelService.ORG_CHANNEL_COMMAND, int(time.time()), 3600)
 
     def handle_public_message(self, conn: Conn, packet: PublicChannelMessage):

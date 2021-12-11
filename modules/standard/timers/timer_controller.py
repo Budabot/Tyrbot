@@ -52,7 +52,8 @@ class TimerController:
 
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS timer (name VARCHAR(255) NOT NULL, char_id INT NOT NULL, channel VARCHAR(10) NOT NULL, "
-                     "duration INT NOT NULL, created_at INT NOT NULL, finished_at INT NOT NULL, repeating_every INT NOT NULL, job_id INT NOT NULL)")
+                     "duration INT NOT NULL, created_at INT NOT NULL, finished_at INT NOT NULL, repeating_every INT NOT NULL, job_id INT NOT NULL, "
+                     "UNIQUE(name))")
 
         # add scheduled jobs for timers that are already running
         data = self.db.query("SELECT * FROM timer")
