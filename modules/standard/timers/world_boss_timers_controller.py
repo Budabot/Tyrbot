@@ -9,7 +9,7 @@ from core.setting_types import TextSettingType
 
 
 @instance()
-class BossTimersController:
+class WorldBossTimersController:
     def __init__(self):
         self.bosses = {
             "tara": {
@@ -19,8 +19,8 @@ class BossTimersController:
             },
             "vizaresh": {
                 "name": "Vizaresh",
-                "spawn_time": 3600 * 18,
-                "invulnerable_time": 60 * 10
+                "spawn_time": 3600 * 17,
+                "invulnerable_time": 6 * 60
             }
         }
 
