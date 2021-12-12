@@ -193,7 +193,7 @@ class OnlineController:
                 org_info = ""
                 if channel == self.PRIVATE_CHANNEL or num_org_bots > 1:
                     if row.org_name:
-                        org_info = ", %s of %s" % (row.org_rank_name, row.org_name)
+                        org_info = ", %s (%s)" % (row.org_name, row.org_rank_name)
 
                 blob += "  %s (%d/<green>%d</green>) %s%s%s\n" % (row.name, row.level or 0, row.ai_level or 0, row.profession, afk, org_info)
             blob += "\n\n"

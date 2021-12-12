@@ -203,8 +203,8 @@ class Text:
 
     def format_char_info(self, char_info, online_status=None):
         if char_info.org_name and char_info.org_rank_name:
-            msg = "<highlight>%s</highlight> (%d/<green>%d</green>) %s %s, %s of <highlight>%s</highlight>" % \
-                   (char_info.name, char_info.level, char_info.ai_level, self.get_formatted_faction(char_info.faction), char_info.profession, char_info.org_rank_name, char_info.org_name)
+            msg = "<highlight>%s</highlight> (%d/<green>%d</green>) %s %s, <highlight>%s</highlight> (%s)" % \
+                   (char_info.name, char_info.level, char_info.ai_level, self.get_formatted_faction(char_info.faction), char_info.profession, char_info.org_name, char_info.org_rank_name)
         elif char_info.level:
             msg = "<highlight>%s</highlight> (%d/<green>%d</green>) %s %s" % \
                    (char_info.name, char_info.level, char_info.ai_level, self.get_formatted_faction(char_info.faction), char_info.profession)
