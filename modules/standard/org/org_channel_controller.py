@@ -25,6 +25,7 @@ class OrgChannelController:
         self.ban_service = registry.get_instance("ban_service")
         self.log_controller = registry.get_instance("log_controller", is_optional=True)
         self.online_controller = registry.get_instance("online_controller", is_optional=True)
+        self.command_alias_service = registry.get_instance("command_alias_service")
         self.text: Text = registry.get_instance("text")
 
     def pre_start(self):
@@ -37,6 +38,8 @@ class OrgChannelController:
             self.MESSAGE_SOURCE, self.handle_incoming_relay_message,
             ["private_channel", "discord", "websocket_relay", "broadcast", "raffle", "cloak_reminder", "wave_counter", "shutdown_notice", "raid", "tower_attacks", "timers"],
             [self.MESSAGE_SOURCE])
+
+        self.command_alias_service.add_alias("orgabbreviations", "orgabbreviation")
 
     def handle_incoming_relay_message(self, ctx):
         for _id, conn in self.bot.get_conns(lambda x: x.is_main and x.org_id):
@@ -164,7 +167,4 @@ class OrgChannelController:
 
     def get_org_abbreviation(self, conn):
         org_abbreviations = self.setting_service.get("org_abbreviations").get_value()
-        if conn.org_id and conn.org_id in org_abbreviations:
-            return "[%s]" % org_abbreviations[conn.org_id]
-        else:
-            return "[%s]" % conn.get_org_name()
+        return "[%s]" % org_abbreviations.get(str(conn.org_id), conn.get_org_name())
