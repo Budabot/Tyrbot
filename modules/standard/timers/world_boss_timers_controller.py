@@ -84,7 +84,12 @@ class WorldBossTimersController:
             blob += f"<header2>{row.faction.capitalize()}</header2>\n"
             blob += f"<highlight>{time_left} left</highlight>\n\n"
 
-        blob += "\n%s\n\n\nGauntlet timers provided by <highlight>The Nadybot Team</highlight>" % (self.text.make_tellcmd("Gauntlet Tradeskills", "info gauntlet_tradeskills"))
+        if not result.timers:
+            blob += "No Gauntlet buffs currently active\n\n"
+
+        blob += self.text.make_tellcmd("Gauntlet Tradeskills", "info gauntlet_tradeskills") + "\n\n"
+
+        blob += "Gauntlet timers provided by <highlight>The Nadybot Team</highlight>"
 
         return ChatBlob("Gauntlet Buff Timers", blob)
 
