@@ -39,7 +39,7 @@ class WorldBossTimersController:
 
         self.setting_service.register(self.module_name, "gauntlet_timers_api_address", "https://timers.aobots.org/api/v1.0/gaubuffs",
                                       TextSettingType(["https://timers.aobots.org/api/v1.0/gaubuffs"]),
-                                      "The address of the Boss Timers API")
+                                      "The address of the Gauntlet Buff Timers API")
 
         self.command_alias_service.add_alias("tara", "worldboss")
         self.command_alias_service.add_alias("loren", "worldboss")
@@ -84,7 +84,7 @@ class WorldBossTimersController:
             blob += f"<header2>{row.faction.capitalize()}</header2>\n"
             blob += f"<highlight>{time_left} left</highlight>\n\n"
 
-        blob += "\nGauntlet timers provided by <highlight>The Nadybot Team</highlight>"
+        blob += "\n%s\n\n\nGauntlet timers provided by <highlight>The Nadybot Team</highlight>" % (self.text.make_tellcmd("Gauntlet Tradeskills", "info gauntlet_tradeskills"))
 
         return ChatBlob("Gauntlet Buff Timers", blob)
 
