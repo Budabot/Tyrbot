@@ -195,7 +195,7 @@ class OnlineController:
                     if row.org_name:
                         org_info = ", %s (%s)" % (row.org_name, row.org_rank_name)
 
-                blob += "  %s (%d/<green>%d</green>) %s%s%s\n" % (row.name, row.level or 0, row.ai_level or 0, row.profession, afk, org_info)
+                blob += "  %s (%d/<green>%d</green>) %s%s%s\n" % (row.name, row.level or 0, row.ai_level or 0, row.profession, org_info, afk)
             blob += "\n\n"
 
         return ChatBlob("Online (%d)" % count, blob)
