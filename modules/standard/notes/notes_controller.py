@@ -37,13 +37,6 @@ class NotesController:
 
         return ChatBlob("Notes for %s (%d)" % (alts[0].name, cnt), blob)
 
-    @command(command="notes", params=[Const("add", is_optional=True), Any("note")], access_level="all",
-             description="Add a note")
-    def notes_add_cmd(self, request, _, note):
-        self.db.exec("INSERT INTO notes (char_id, note, created_at) VALUES (?, ?, ?)", [request.sender.char_id, note, int(time.time())])
-
-        return "Note added successfully."
-
     @command(command="notes", params=[Options(["rem", "remove"]), Int("note_id")], access_level="all",
              description="Remove a note")
     def notes_remove_cmd(self, request, _, note_id):
@@ -58,3 +51,10 @@ class NotesController:
         self.db.exec("DELETE FROM notes WHERE id = ?", [note_id])
 
         return "Note with ID <highlight>%d</highlight> deleted successfully." % note_id
+
+    @command(command="notes", params=[Const("add", is_optional=True), Any("note")], access_level="all",
+             description="Add a note")
+    def notes_add_cmd(self, request, _, note):
+        self.db.exec("INSERT INTO notes (char_id, note, created_at) VALUES (?, ?, ?)", [request.sender.char_id, note, int(time.time())])
+
+        return "Note added successfully."
