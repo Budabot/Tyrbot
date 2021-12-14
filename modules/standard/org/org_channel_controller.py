@@ -118,24 +118,30 @@ class OrgChannelController:
             else:
                 char_info = self.character_service.resolve_char_to_name(event_data.char_id, f"Unknown({event_data.char_id})")
 
-            msg = self.get_org_abbreviation(event_data.conn) + f" {char_info} has logged on."
+            msg = f"{char_info} has logged on."
             if self.log_controller:
                 msg += " " + self.log_controller.get_logon(event_data.char_id)
 
             for _id, conn in self.bot.get_conns(lambda x: x.is_main and x.org_id):
-                self.bot.send_org_message(msg, conn=conn)
+                if event_data.conn == conn:
+                    self.bot.send_org_message(msg, conn=conn)
+                else:
+                    self.bot.send_org_message(self.get_org_abbreviation(event_data.conn) + " " + msg, conn=conn)
             self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, self.get_org_abbreviation(event_data.conn), msg)
 
     @event(event_type=OrgMemberController.ORG_MEMBER_LOGOFF_EVENT, description="Notify when org member logs off")
     def org_member_logoff_event(self, event_type, event_data):
         if self.bot.is_ready():
             char_name = event_data.name or f"Unknown({event_data.char_id})"
-            msg = self.get_org_abbreviation(event_data.conn) + f" <highlight>{char_name}</highlight> has logged off."
+            msg = f"<highlight>{char_name}</highlight> has logged off."
             if self.log_controller:
                 msg += " " + self.log_controller.get_logoff(event_data.char_id)
 
             for _id, conn in self.bot.get_conns(lambda x: x.is_main and x.org_id):
-                self.bot.send_org_message(msg, conn=conn)
+                if event_data.conn == conn:
+                    self.bot.send_org_message(msg, conn=conn)
+                else:
+                    self.bot.send_org_message(self.get_org_abbreviation(event_data.conn) + " " + msg, conn=conn)
             self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, self.get_org_abbreviation(event_data.conn), msg)
 
     @event(event_type=PublicChannelService.ORG_CHANNEL_COMMAND_EVENT, description="Relay commands from the org channel to the relay hub", is_system=True)
