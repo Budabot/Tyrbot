@@ -118,7 +118,7 @@ class OrgChannelController:
             else:
                 char_info = self.character_service.resolve_char_to_name(event_data.char_id, f"Unknown({event_data.char_id})")
 
-            msg = f"{char_info} has logged on."
+            msg = self.get_org_abbreviation(event_data.conn) + f" {char_info} has logged on."
             if self.log_controller:
                 msg += " " + self.log_controller.get_logon(event_data.char_id)
 
@@ -130,7 +130,7 @@ class OrgChannelController:
     def org_member_logoff_event(self, event_type, event_data):
         if self.bot.is_ready():
             char_name = event_data.name or f"Unknown({event_data.char_id})"
-            msg = f"<highlight>{char_name}</highlight> has logged off."
+            msg = self.get_org_abbreviation(event_data.conn) + f" <highlight>{char_name}</highlight> has logged off."
             if self.log_controller:
                 msg += " " + self.log_controller.get_logoff(event_data.char_id)
 
