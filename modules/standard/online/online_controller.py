@@ -221,6 +221,8 @@ class OnlineController:
         return name
 
     def get_online_alts_output(self, profession):
+        num_org_bots = len(self.bot.get_conns(lambda x: x.is_main and x.org_id))
+
         blob = ""
         count = 0
         for channel, _ in self.channels:
@@ -236,11 +238,11 @@ class OnlineController:
                     current_main = row.main
 
                 org_info = ""
-                if channel == self.PRIVATE_CHANNEL:
+                if channel == self.PRIVATE_CHANNEL or num_org_bots > 1:
                     if row.org_name:
-                        org_info = ", %s of %s" % (row.org_rank_name, row.org_name)
+                        org_info = ", %s (%s)" % (row.org_name, row.org_rank_name)
 
-                blob += "  <highlight>%s</highlight> (%d/<green>%d</green>) %s %s%s" % (row.name, row.level or 0, row.ai_level or 0, row.faction, row.profession, org_info)
+                blob += "  <highlight>%s</highlight> (%d/<green>%d</green>) %s%s" % (row.name, row.level or 0, row.ai_level or 0, row.profession, org_info)
                 if row.online:
                     blob += " [<green>Online</green>]"
                 blob += "\n"
