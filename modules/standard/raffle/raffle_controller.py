@@ -10,6 +10,7 @@ import re
 @instance()
 class RaffleController:
     MESSAGE_SOURCE = "raffle"
+    RAFFLE_ALERT_SCHEDULE = [48*3600, 12*3600, 4*3600, 3600, 15*60, 3*60, 2*60, 60, 30]
 
     def __init__(self):
         self.raffle = None
@@ -143,7 +144,6 @@ class RaffleController:
 
     def get_next_alert_time(self, current_time, finished_at):
         time_left = finished_at - current_time
-        if time_left > 60:
-            return current_time + 60
-        else:
-            return current_time + time_left
+
+        next_alert_time = next((alert_time for alert_time in self.RAFFLE_ALERT_SCHEDULE if time_left - 15 > alert_time), 0)
+        return current_time + time_left - next_alert_time
