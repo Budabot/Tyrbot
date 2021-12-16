@@ -1,10 +1,9 @@
 from core.chat_blob import ChatBlob
+from core.command_service import CommandService
 from core.decorators import instance, command
 from core.command_param_types import Any, Const, Time, Options
 import time
 
-from core.private_channel_service import PrivateChannelService
-from core.public_channel_service import PublicChannelService
 from core.registry import Registry
 
 
@@ -176,7 +175,7 @@ class TimerController:
                     new_t += timer.repeating_every
                 self.add_timer(timer.name, timer.char_id, timer.channel, new_t, timer.repeating_every, timer.repeating_every)
 
-        if timer.channel == PublicChannelService.ORG_CHANNEL_COMMAND or timer.channel == PrivateChannelService.PRIVATE_CHANNEL_COMMAND:
-            self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)
-        else:
+        if timer.channel == CommandService.PRIVATE_MESSAGE_CHANNEL:
             self.bot.send_private_message(timer.char_id, msg, conn=self.bot.get_primary_conn())
+        else:
+            self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)
