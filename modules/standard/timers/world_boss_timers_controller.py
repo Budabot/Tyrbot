@@ -55,8 +55,8 @@ class WorldBossTimersController:
 
         blob = ""
         for row in result.timers:
-            boss = self.bosses.get(row.name)
-            bossname = boss.get("name", row.name)
+            boss = self.bosses.get(row.name, {})
+            bossname = boss.get("name", row.name.capitalize())
             last_spawned = self.util.time_to_readable(t - row.last_spawn)
             if boss:
                 next_spawn = self.util.time_to_readable((row.last_spawn + boss.get("spawn_time") + boss.get("invulnerable_time")) - t)
