@@ -1,0 +1,19 @@
+This is a quick overview of the commands used to configure and customize your Tyrbot.
+
+<header2>Config - <a href='chatcmd:///tell <myname> config'>!config</a></header2>
+This is the master configuration command. This will include links to configure settings of commands on a module by module basis.
+
+<header2>Message Hub - <a href='chatcmd:///tell <myname> messagehub'>!messagehub</a></header2>
+The message hub allows you to direct messages to and from specific channels. This will allow you to relay discord with org chat, but not private chat, for example.
+
+<header2>Org Abbreviations - <a href='chatcmd:///tell <myname> orgabbreviations'>!orgabbreviations</a></header2>
+This will allow you to set abbreviations for the orgs your bot serves. These abbreviations will be used primarily in the relaying of chat, allowing you to reduce bot spam in chat messages.
+
+<header2>Alias List - <a href='chatcmd:///tell <myname> alias'>!alias</a></header2>
+This will list your bot's current aliases. This allows you to use a shortened version of a command, for example '!o' instead of '!online'. These can be added with '!alias add' or '!alias remove'.
+
+<header2>Colors - <a href='chatcmd:///tell <myname> config mod core.colors'>!config mod core.colors</a></header2>
+This menu allows you to customize the colors of your bot's output. HTML HEX color codes can be used. See HTML Color Codes: <a href='chatcmd:///start https://htmlcolorcodes.com'>https://htmlcolorcodes.com</a>
+
+<header2>System - <a href='chatcmd:///tell <myname> system'>!system</a></header2>
+This will show basic info about your bot, including how many buddies it has, what bot characters it has logged in, which chat channels it has access to, etc.
