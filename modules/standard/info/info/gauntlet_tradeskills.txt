@@ -1,1 +1,47 @@
-<a href="text://<font color=red>SSC Bastion tradeskill for 1 piece of armor:</font><br><br><font color=fuchsia>Note: Fatou upgrades inactive armor to 1st Tier, Mandlebrot 1st to 2nd and Collatz 2nd to 3rd (and last).</font><br><br><font color=lime>Bacteriophage M73 = Fatou (Red)<br>Bacteriophage Phi X 3957 = Mandlebrot (Blue)<br>Bacteriophage F9 = Collatz (Green)</font><br><br>Do this for each colour.<br><br><a href='itemref://292507/292507/292507'><img src='rdb://292793'></a> + <a href='itemref://292509/292509/292509'><img src='rdb://292775'></a> = <a href='itemref://292512/292512/292512'><img src='rdb://292802'></a><br><a href='itemref://292512/292512/292512'><img src='rdb://292802'></a> + <a href='itemref://292514/292514/292514'><img src='rdb://292764'></a> = <a href='itemref://292518/292518/292518'><img src='rdb://292794'></a><br><a href='itemref://292518/292518/292518'><img src='rdb://292794'></a> + <a href='itemref://292517/292517/292517'><img src='rdb://292762'></a> = <a href='itemref://292521/292521/292521'><img src='rdb://292789'></a><br><br><font color=yellow>======================</font><br><br><font color=yellow>~~~~~~~ 3 times ~~~~~~</font><br><br><a href='itemref://292532/292532/292532'><img src='rdb://292760'></a> + <a href='itemref://292533/292533/292533'><img src='rdb://292788'></a> = <a href='itemref://292534/292534/292534'><img src='rdb://292791'></a><br><a href='itemref://292529/292529/292529'><img src='rdb://292779'></a> + <a href='itemref://292530/292530/292530'><img src='rdb://292759'></a> = <a href='itemref://292531/292531/292531'><img src='rdb://292761'></a><br><a href='itemref://292534/292534/292534'><img src='rdb://292791'></a> + <a href='itemref://292531/292531/292531'><img src='rdb://292761'></a> = <a href='itemref://292527/292527/292527'><img src='rdb://292783'></a><br><br><font color=yellow>======================</font><br><br><font color=yellow>~~~~~~~ 3 times ~~~~~~</font><br><br><a href='itemref://292524/292524/292524'><img src='rdb://292784'></a> + <a href='itemref://292538/292538/292538'><img src='rdb://292772'></a> = <a href='itemref://292539/292539/292539'><img src='rdb://292768'></a><br><a href='itemref://292525/292525/292525'><img src='rdb://292763'></a> + <a href='itemref://292539/292539/292539'><img src='rdb://292768'></a> = <a href='itemref://292540/292540/292540'><img src='rdb://292769'></a><br><a href='itemref://292526/292526/292526'><img src='rdb://292777'></a> + <a href='itemref://292540/292540/292540'><img src='rdb://292769'></a> = <a href='itemref://292541/292541/292541'><img src='rdb://292770'></a><br><a href='itemref://292527/292527/292527'><img src='rdb://292783'></a> + <a href='itemref://292541/292541/292541'><img src='rdb://292770'></a> = <a href='itemref://292542/292542/292542'><img src='rdb://292771'></a><br><a href='itemref://292528/292528/292528'><img src='rdb://292778'></a> + <a href='itemref://292542/292542/292542'><img src='rdb://292771'></a> = <a href='itemref://292543/292543/292543'><img src='rdb://292773'></a><br><br><font color=yellow>~~~~~~~~~~~~~~~~~~</font><br><br><a href='itemref://292521/292521/292521'><img src='rdb://292789'></a> + <a href='itemref://292543/292543/292543'><img src='rdb://292773'></a> = <a href='itemref://292535/292535/292535'><img src='rdb://292790'></a><br><br>Same tradeskill with <b><i>Mandlebrot Pattern Programming Utility Device</b></i> and <i>Collatz Pattern Programming Utility Device</i> to make, respectively, <i>Mandlebrot Upgrade Plate</i> and <i>Collatz Upgrade Plate</i>.<br><br><font color=yellow>======================</font><br><br><a href='itemref://292535/292535/292535'><img src='rdb://292790'></a> + Inactive Armor = Fatou Armor<br><br><a href='itemref://292536/292536/295536'><img src='rdb://292758'></a> + Fatou Armor = Mandlebrot Armor<br><br><a href='itemref://292537/292537/295537'><img src='rdb://292782'></a> + Mandlebrot Armor =  Collatz Armor<br><br><font color=yellow>======================</font>">Gauntlet Items Tradeskill Process</a>
+<a href="text://<font color=red>SSC Bastion tradeskill for 1 piece of armor:</font>
+
+<font color=fuchsia>Note: Fatou upgrades inactive armor to 1st Tier, Mandlebrot 1st to 2nd and Collatz 2nd to 3rd (and last).</font>
+
+<font color=lime>Bacteriophage M73 = Fatou (Red)
+Bacteriophage Phi X 3957 = Mandlebrot (Blue)
+Bacteriophage F9 = Collatz (Green)</font>
+
+Do this for each colour.
+
+<a href='itemref://292507/292507/292507'><img src='rdb://292793'></a> + <a href='itemref://292509/292509/292509'><img src='rdb://292775'></a> = <a href='itemref://292512/292512/292512'><img src='rdb://292802'></a>
+<a href='itemref://292512/292512/292512'><img src='rdb://292802'></a> + <a href='itemref://292514/292514/292514'><img src='rdb://292764'></a> = <a href='itemref://292518/292518/292518'><img src='rdb://292794'></a>
+<a href='itemref://292518/292518/292518'><img src='rdb://292794'></a> + <a href='itemref://292517/292517/292517'><img src='rdb://292762'></a> = <a href='itemref://292521/292521/292521'><img src='rdb://292789'></a>
+
+<font color=yellow>======================</font>
+
+<font color=yellow>~~~~~~~ 3 times ~~~~~~</font>
+
+<a href='itemref://292532/292532/292532'><img src='rdb://292760'></a> + <a href='itemref://292533/292533/292533'><img src='rdb://292788'></a> = <a href='itemref://292534/292534/292534'><img src='rdb://292791'></a>
+<a href='itemref://292529/292529/292529'><img src='rdb://292779'></a> + <a href='itemref://292530/292530/292530'><img src='rdb://292759'></a> = <a href='itemref://292531/292531/292531'><img src='rdb://292761'></a>
+<a href='itemref://292534/292534/292534'><img src='rdb://292791'></a> + <a href='itemref://292531/292531/292531'><img src='rdb://292761'></a> = <a href='itemref://292527/292527/292527'><img src='rdb://292783'></a>
+
+<font color=yellow>======================</font>
+
+<font color=yellow>~~~~~~~ 3 times ~~~~~~</font>
+
+<a href='itemref://292524/292524/292524'><img src='rdb://292784'></a> + <a href='itemref://292538/292538/292538'><img src='rdb://292772'></a> = <a href='itemref://292539/292539/292539'><img src='rdb://292768'></a>
+<a href='itemref://292525/292525/292525'><img src='rdb://292763'></a> + <a href='itemref://292539/292539/292539'><img src='rdb://292768'></a> = <a href='itemref://292540/292540/292540'><img src='rdb://292769'></a>
+<a href='itemref://292526/292526/292526'><img src='rdb://292777'></a> + <a href='itemref://292540/292540/292540'><img src='rdb://292769'></a> = <a href='itemref://292541/292541/292541'><img src='rdb://292770'></a>
+<a href='itemref://292527/292527/292527'><img src='rdb://292783'></a> + <a href='itemref://292541/292541/292541'><img src='rdb://292770'></a> = <a href='itemref://292542/292542/292542'><img src='rdb://292771'></a>
+<a href='itemref://292528/292528/292528'><img src='rdb://292778'></a> + <a href='itemref://292542/292542/292542'><img src='rdb://292771'></a> = <a href='itemref://292543/292543/292543'><img src='rdb://292773'></a>
+
+<font color=yellow>~~~~~~~~~~~~~~~~~~</font>
+
+<a href='itemref://292521/292521/292521'><img src='rdb://292789'></a> + <a href='itemref://292543/292543/292543'><img src='rdb://292773'></a> = <a href='itemref://292535/292535/292535'><img src='rdb://292790'></a>
+
+Same tradeskill with <b><i>Mandlebrot Pattern Programming Utility Device</b></i> and <i>Collatz Pattern Programming Utility Device</i> to make, respectively, <i>Mandlebrot Upgrade Plate</i> and <i>Collatz Upgrade Plate</i>.
+
+<font color=yellow>======================</font>
+
+<a href='itemref://292535/292535/292535'><img src='rdb://292790'></a> + Inactive Armor = Fatou Armor
+
+<a href='itemref://292536/292536/295536'><img src='rdb://292758'></a> + Fatou Armor = Mandlebrot Armor
+
+<a href='itemref://292537/292537/295537'><img src='rdb://292782'></a> + Mandlebrot Armor =  Collatz Armor
+
+<font color=yellow>======================</font>">Gauntlet Items Tradeskill Process</a>

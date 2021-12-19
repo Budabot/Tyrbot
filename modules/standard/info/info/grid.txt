@@ -1,5 +1,3 @@
-<header> :::::: Guide to The Grid  :::::: </header>
-
 The grid is a fast way to teleport to other locations within Rubi-Ka.  Fixers have their own grid, but the public grid is available for all characters to use.  The Grid requires a certain amount of Computer Literacy to exit or enter the various grid terminals.  There are three floors to the Grid, each with different ranges of Computer Literacy needed:
 
 <header2> ::: First Floor ::: </header2>

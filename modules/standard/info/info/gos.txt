@@ -1,5 +1,3 @@
-<header> :::::: Guardian of Shadow  ::::::</header>
-
 Faction requirements for using different SL portals:
 Elysium   <tab><tab><tab><tab><highlight> 1</highlight>
 <img src=tdb://id:GFX_GUI_FRIENDLIST_SPLITTER>

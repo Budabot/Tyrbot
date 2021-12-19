@@ -1,5 +1,3 @@
-<header>::::: Deflect :::::</header>
-
 Parry has been renamed to Deflect.
 Deflect is a defensive stat and not a melee special. Deflect increases the chance that incoming attacks become Glancing Hits.
 A Glancing Hit deals 50% damage. Glance chance is 0%->10%, between 0->3000 Deflect skill.

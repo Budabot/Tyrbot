@@ -39,7 +39,7 @@ class InfoController:
 
         blob = ""
         for topic in topics:
-            blob += self.text.make_tellcmd(topic, "info " + topic) + "\n"
+            blob += self.text.make_tellcmd(self.format_topic_name(topic), "info " + topic) + "\n"
 
         return ChatBlob("Info Topics (%d)" % len(topics), blob)
 
@@ -49,7 +49,7 @@ class InfoController:
         topic = self.get_topic_info(topic_name)
 
         if topic:
-            return ChatBlob(topic_name.capitalize(), topic)
+            return ChatBlob(self.format_topic_name(topic_name), topic)
         else:
             return "Could not find info topic <highlight>%s</highlight>." % topic_name
 
@@ -73,3 +73,6 @@ class InfoController:
         for base in reversed(self.paths):
             topics += [f[:-len(self.FILE_EXT)] for f in os.listdir(base) if f.endswith(self.FILE_EXT)]
         return sorted(set(topics))
+
+    def format_topic_name(self, name):
+        return " ".join(map(lambda x: x.capitalize(), name.split("_")))

@@ -1,5 +1,3 @@
-<header> :::::: Opifex :::::: </header>
-
 This grey-skinned breed is more slender and agile than Humans. They have bonuses
 to Agility and Sense (which are Light Green for them) and a penalty to Stamina
 (which is Dark Blue). This makes the Opifex ideal for ranged combat, especially

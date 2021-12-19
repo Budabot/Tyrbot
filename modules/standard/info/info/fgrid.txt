@@ -1,5 +1,3 @@
-<header> :::::: Fixer Grid exits :::::: </header>
-
 The Fixer Grid is accessible by all fixers (over level 40) who have completed the <a href='chatcmd:///tell <myname> aou 30'>first Fixer Grid quest</a>.
 
 Other professions may access the Fixer Grid when teamed with a fixer (over level 100) who has completed the <a href='chatcmd:///tell <myname> aou 31'>second Fixer Grid quest</a>.

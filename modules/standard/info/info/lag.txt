@@ -1,5 +1,3 @@
-<header> :::::: Lag Tweaks :::::: </header>
-
 <header2><tab> ::: Environment and Visual (No Zoning Required) :::</header2>
 <a href='chatcmd:///option ShowAllNames 1'>Enable</a> <a href='chatcmd:///option ShowAllNames 0'>Disable</a> Character names show over head
 <a href='chatcmd:///option SimpleClouds 1'>Enable</a> <a href='chatcmd:///option SimpleClouds 0'>Disable</a> Display Simple Clouds

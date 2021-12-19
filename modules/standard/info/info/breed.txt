@@ -1,5 +1,3 @@
-<header> :::::: Breeds :::::: </header>
-
 <header2> ::: Solitus :::</header2> <a href='chatcmd:///tell <myname> info solitus'>Guide</a>
 <orange>Ability      Rubi-ka  / Shadowlands</orange>
 <font color='#0088CC'>Strength</font>        472 / 772

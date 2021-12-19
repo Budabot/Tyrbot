@@ -1,5 +1,3 @@
-<header> :::::: Light Settings :::::: </header>
-
 <a href='chatcmd:///fxscript Tweak_Rubi-Ka_SunLight #'>RKLight</a>
 
 <a href='chatcmd:///fxscript Tweak_Shadowlands_SunLight #'>SLBasicLight</a>

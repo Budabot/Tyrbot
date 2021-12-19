@@ -1,5 +1,3 @@
-<header> :::::: Stats :::::: </header>
-
 <header2>::: Offense / Defense :::</header2>
 <a href=skillid://276>Offense (Addall-Off)</a>
 <a href=skillid://277>Defense (Addall-Def)</a>

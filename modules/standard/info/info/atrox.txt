@@ -1,5 +1,3 @@
-<header> :::::: Atrox :::::: </header>
-
 These fellas (if that's the appropriate term, since they are genderless) are
 the big workhorse breed of Anarchy Online. They receive the most Health per
 point of Body Development, and have bonuses to Stamina and Strength. They make
