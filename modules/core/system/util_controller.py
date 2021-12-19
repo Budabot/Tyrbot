@@ -7,7 +7,7 @@ import time
 import psutil
 
 from core.chat_blob import ChatBlob
-from core.command_param_types import Any, Character
+from core.command_param_types import Any, Character, NamedFlagParameters
 from core.decorators import instance, command
 from core.standard_message import StandardMessage
 
@@ -18,6 +18,7 @@ class UtilController:
         self.bot = registry.get_instance("bot")
         self.db = registry.get_instance("db")
         self.util = registry.get_instance("util")
+        self.text = registry.get_instance("text")
         self.command_service = registry.get_instance("command_service")
         self.buddy_service = registry.get_instance("buddy_service")
         self.access_service = registry.get_instance("access_service")
@@ -77,9 +78,9 @@ class UtilController:
 
         return f"Command <highlight>{command_str}</highlight> output has been sent to <highlight>{char.name}</highlight>."
 
-    @command(command="system", params=[], access_level="admin",
+    @command(command="system", params=[NamedFlagParameters(["show_all"])], access_level="admin",
              description="Show system information")
-    def system_cmd(self, request):
+    def system_cmd(self, request, flag_params):
         mass_message_queue = "None"
         if self.bot.mass_message_queue:
             mass_message_queue = str(self.bot.mass_message_queue.qsize())
@@ -104,22 +105,30 @@ class UtilController:
 
         blob += "<pagebreak><header2>Bots Connected</header2>\n"
         for _id, conn in self.bot.get_conns():
-            blob += f"<highlight>{_id}</highlight> - {conn.char_name} ({conn.char_id})\n"
+            blob += f"<highlight>{_id}</highlight> - {conn.char_name}({conn.char_id}) "
+            if conn.org_id:
+                blob += f"Org: {conn.get_org_name()}({conn.org_id})"
             if conn.is_main:
-                blob += f" └ Org: {conn.get_org_name()} ({conn.org_id})\n"
+                blob += " <highlight>[main]</highlight>"
+            blob += "\n"
 
+            if flag_params.show_all:
                 for channel_id, packet in conn.channels.items():
-                    blob += f" └ {packet.args}\n"
-        blob += "\n"
+                    blob += f"{packet.args}\n"
 
-        blob += "<pagebreak><header2>Event Types</header2>\n"
-        for event_type in self.event_service.get_event_types():
-            blob += "%s\n" % event_type
-        blob += "\n"
+        if not flag_params.show_all:
+            blob += "\n" + self.text.make_tellcmd("Show More Info", "system --show_all") + "\n"
+        else:
+            blob += "\n"
 
-        blob += "<pagebreak><header2>Access Levels</header2>\n"
-        for access_level in self.access_service.get_access_levels():
-            blob += "%s (%d)\n" % (access_level["label"], access_level["level"])
+            blob += "<pagebreak><header2>Event Types</header2>\n"
+            for event_type in self.event_service.get_event_types():
+                blob += "%s\n" % event_type
+            blob += "\n"
+
+            blob += "<pagebreak><header2>Access Levels</header2>\n"
+            for access_level in self.access_service.get_access_levels():
+                blob += "%s (%d)\n" % (access_level["label"], access_level["level"])
 
         return ChatBlob("System Info", blob)
 
