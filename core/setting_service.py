@@ -70,7 +70,7 @@ class SettingService:
         """
 
         if len(inspect.signature(handler).parameters) != 3:
-            raise Exception("Incorrect number of arguments for handler '%s.%s()'" % (handler.__module__, handler.__name__))
+            raise Exception("Incorrect number of arguments for handler '%s.%s()'" % (handler.__module__, handler.__qualname__))
 
         if setting_name in self.settings:
             if setting_name not in self.change_listeners:

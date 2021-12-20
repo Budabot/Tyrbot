@@ -45,7 +45,7 @@ class MessageHubService:
         """
 
         if len(inspect.signature(callback).parameters) != 1:
-            raise Exception("Incorrect number of arguments for handler '%s.%s()'" % (callback.__module__, callback.__name__))
+            raise Exception("Incorrect number of arguments for handler '%s.%s()'" % (callback.__module__, callback.__qualname__))
 
         if destination in self.hub:
             raise Exception("Message hub destination '%s' already subscribed" % destination)

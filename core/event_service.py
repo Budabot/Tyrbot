@@ -69,7 +69,7 @@ class EventService:
         """
 
         if len(inspect.signature(handler).parameters) != 2:
-            raise Exception("Incorrect number of arguments for handler '%s.%s()'" % (handler.__module__, handler.__name__))
+            raise Exception("Incorrect number of arguments for handler '%s.%s()'" % (handler.__module__, handler.__qualname__))
 
         event_base_type, event_sub_type = self.get_event_type_parts(event_type)
         module = module.lower()

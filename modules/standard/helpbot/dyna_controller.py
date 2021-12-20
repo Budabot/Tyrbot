@@ -3,7 +3,6 @@ from core.command_param_types import Int, Any
 from core.db import DB
 from core.text import Text
 from core.chat_blob import ChatBlob
-import math
 
 
 @instance()

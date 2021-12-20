@@ -165,7 +165,6 @@ class AunoController:
 
         cache_obj = self.cache_service.retrieve(self.CACHE_GROUP, f"{_id}.html")
         if cache_obj and t - thirty_days < cache_obj.last_modified:
-            print("using cache")
             return cache_obj.data
 
         url = self.get_auno_request_url(_id)

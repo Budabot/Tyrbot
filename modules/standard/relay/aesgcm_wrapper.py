@@ -28,7 +28,7 @@ class AESGCMWrapper:
         # GCM tag used for authenticating the message.
         iv = encrypted_text[:self.nonce_length]
         rest = encrypted_text[self.nonce_length:]
-        tag = rest[:self.tag_length:]
+        tag = rest[:self.tag_length]
         rest = rest[self.tag_length:]
 
         decryptor = Cipher(algorithms.AES(self.key), modes.GCM(iv, tag)).decryptor()

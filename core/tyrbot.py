@@ -266,7 +266,7 @@ class Tyrbot:
         """
 
         if len(inspect.signature(handler).parameters) != 2:
-            raise Exception("Incorrect number of arguments for handler '%s.%s()'" % (handler.__module__, handler.__name__))
+            raise Exception("Incorrect number of arguments for handler '%s.%s()'" % (handler.__module__, handler.__qualname__))
 
         handlers = self.packet_handlers.get(packet_id, [])
         handlers.append(DictObject({"priority": priority, "handler": handler}))

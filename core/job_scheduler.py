@@ -41,7 +41,7 @@ class JobScheduler:
         """
 
         if len(inspect.signature(callback).parameters) < 1:
-            raise Exception("Incorrect number of arguments for handler '%s.%s()'" % (callback.__module__, callback.__name__))
+            raise Exception("Incorrect number of arguments for handler '%s.%s()'" % (callback.__module__, callback.__qualname__))
 
         job_id = self._get_next_job_id()
         new_job = {

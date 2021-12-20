@@ -93,7 +93,7 @@ class CommandService:
         """
 
         if len(inspect.signature(handler).parameters) != len(params) + 1:
-            raise Exception("Incorrect number of arguments for handler '%s.%s()'" % (handler.__module__, handler.__name__))
+            raise Exception("Incorrect number of arguments for handler '%s.%s()'" % (handler.__module__, handler.__qualname__))
 
         command = command.lower()
         if sub_command:
@@ -209,7 +209,7 @@ class CommandService:
                             reply(response)
 
                         # record command usage
-                        self.usage_service.add_usage(command_str, handler["callback"].__qualname__, char_id, channel)
+                        self.usage_service.add_usage(command_str, self.util.get_handler_name(handler["callback"]), char_id, channel)
                     else:
                         self.access_denied_response(message, sender, cmd_config, reply)
                 else:

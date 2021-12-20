@@ -27,7 +27,7 @@ class AccessService:
         """
 
         if len(inspect.signature(handler).parameters) != 1:
-            raise Exception("Incorrect number of arguments for handler '%s.%s()'" % (handler.__module__, handler.__name__))
+            raise Exception("Incorrect number of arguments for handler '%s.%s()'" % (handler.__module__, handler.__qualname__))
 
         self.logger.debug("Registering access level %d with label '%s'" % (level, label))
         self.access_levels.append({"label": label.lower(), "level": level, "handler": handler})
