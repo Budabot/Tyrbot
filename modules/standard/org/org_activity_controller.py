@@ -29,21 +29,26 @@ class OrgActivityController:
 
         self.command_alias_service.add_alias("orghistory", "orgactivity")
 
-    @command(command="orgactivity", params=[Character("char", is_optional=True), NamedParameters(["page"])], access_level="org_member",
+    @command(command="orgactivity", params=[Character("char", is_optional=True), NamedParameters(["action", "page"])], access_level="org_member",
              description="Show org member activity")
     def orgactivity_cmd(self, request, char, named_params):
         page_size = 20
         page_number = int(named_params.page or "1")
 
         params = []
-        filter_sql = ""
+        filter_sql = "WHERE 1=1"
         if char:
             if not char.char_id:
                 return StandardMessage.char_not_found(char.name)
             else:
-                filter_sql = "WHERE o.actor_char_id = ? OR o.actee_char_id = ?"
+                filter_sql += " AND (o.actor_char_id = ? OR o.actee_char_id = ?)"
                 params.append(char.char_id)
                 params.append(char.char_id)
+
+        if named_params.action:
+            named_params.action = named_params.action.lower()
+            filter_sql += " AND o.action LIKE ?"
+            params.append(named_params.action)
 
         offset, limit = self.util.get_offset_limit(page_size, page_number)
         params.append(offset)
@@ -66,11 +71,21 @@ class OrgActivityController:
         """
         data = self.db.query(sql, params)
 
-        blob = self.text.get_paging_links("orgactivity" if not char else f"orgactivity {char.name}", page_number, len(data) == page_size) + "\n\n"
+        command_str = "orgactivity"
+        if char:
+            command_str += " " + char.name
+        if named_params.action:
+            command_str += " --action=" + named_params.action
+
+        blob = self.text.get_paging_links(command_str, page_number, len(data) == page_size) + "\n\n"
         for row in data:
             blob += self.format_org_action(row) + "\n"
 
-        title = "Org Activity" if not char else f"Org Activity for {char.name}"
+        title = "Org Activity"
+        if char:
+            title += " for " + char.name
+        if named_params.action:
+            title += " [" + named_params.action + "]"
 
         return ChatBlob(title, blob)
 
