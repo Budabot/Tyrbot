@@ -48,8 +48,9 @@ class Conn(Bot):
         except Exception as e:
             self.failure_callback()
 
-    def add_packet_to_queue(self, packet):
-        self.packet_queue.enqueue(packet)
+    def add_packets_to_queue(self, packets):
+        for packet in packets:
+            self.packet_queue.enqueue(packet)
         self.check_outgoing_message_queue()
 
     def check_outgoing_message_queue(self):

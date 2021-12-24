@@ -174,12 +174,12 @@ class Tyrbot:
                             if conn.packet_queue.is_empty():
                                 packet = mass_message_queue.get_or_default(block=False)
                                 if packet:
-                                    conn.add_packet_to_queue(packet)
+                                    conn.add_packets_to_queue([packet])
                         else:
                             while conn.packet_queue.is_empty():
                                 packet = mass_message_queue.get_or_default(block=False)
                                 if packet:
-                                    conn.add_packet_to_queue(packet)
+                                    conn.add_packets_to_queue([packet])
 
             except (EOFError, OSError) as e:
                 self.status = BotStatus.ERROR
@@ -330,9 +330,11 @@ class Tyrbot:
         else:
             color = self.setting_service.get("org_channel_color").get_font_color() if add_color else ""
             pages = self.get_text_pages(msg, conn, self.setting_service.get("org_channel_max_page_length").get_value())
-            for page in pages:
-                packet = client_packets.PublicChannelMessage(conn.org_channel_id, color + page, "")
-                conn.add_packet_to_queue(packet)
+
+            def map_page(page):
+                return client_packets.PublicChannelMessage(conn.org_channel_id, color + page, "")
+
+            conn.add_packets_to_queue(map(map_page, pages))
 
     def send_private_message(self, char_id, msg, add_color=True, conn=None):
         if not conn:
@@ -343,10 +345,12 @@ class Tyrbot:
         else:
             color = self.setting_service.get("private_message_color").get_font_color() if add_color else ""
             pages = self.get_text_pages(msg, conn, self.setting_service.get("private_message_max_page_length").get_value())
-            for page in pages:
+
+            def map_page(page):
                 self.logger.log_tell(conn, "To", self.character_service.get_char_name(char_id), page)
-                packet = client_packets.PrivateMessage(char_id, color + page, "\0")
-                conn.add_packet_to_queue(packet)
+                return client_packets.PrivateMessage(char_id, color + page, "\0")
+
+            conn.add_packets_to_queue(map(map_page, pages))
 
     def send_private_channel_message(self, msg, private_channel_id=None, add_color=True, conn=None):
         if not conn:
