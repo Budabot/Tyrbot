@@ -232,3 +232,7 @@ class Util:
             coll.append(item)
             result[k] = coll
         return result
+
+    # taken from: https://stackoverflow.com/a/18854817/280574
+    def chunk_string(self, s, length):
+        return (s[0 + i:length + i] for i in range(0, len(s), length))

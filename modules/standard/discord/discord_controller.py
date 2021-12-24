@@ -61,6 +61,8 @@ class DiscordController:
     MESSAGE_SOURCE = "discord"
     COMMAND_CHANNEL = "discord"
 
+    MAX_DISCORD_MESSAGE_SIZE = 2000
+
     def __init__(self):
         self.dthread = None
         self.dqueue = []
@@ -311,7 +313,7 @@ class DiscordController:
 
         if isinstance(content, str):
             msgcolor = self.setting_service.get("discord_embed_color").get_int_value()
-            pages = self.text.split_by_separators(self.format_message(content), 2048) # discord max is 2048
+            pages = self.text.split_by_separators(self.format_message(content), 2048)  # discord max is 2048
             num_pages = len(pages)
             page_title = title
             for page_num, page in enumerate(pages, start=1):
@@ -424,8 +426,11 @@ class DiscordController:
         if not self.is_connected():
             return
 
-        message = DiscordTextMessage(self.strip_html_tags(ctx.formatted_message))
-        self.send_to_discord("msg", message)
+        formatted_message = self.strip_html_tags(ctx.formatted_message)
+
+        chunks = self.util.chunk_string(formatted_message, self.MAX_DISCORD_MESSAGE_SIZE)
+        for chunk in chunks:
+            self.send_to_discord("msg", DiscordTextMessage(chunk))
 
     def get_text_channels(self):
         if self.client:
