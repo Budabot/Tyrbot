@@ -31,7 +31,7 @@ config = DictObject({
   "features": {
     "text_formatting_v2": False,
     "use_tower_api": True,
-    "force_large_messages_from_slaves": False
+    "force_large_messages_from_slaves": True
   },
 
   "module_paths": [

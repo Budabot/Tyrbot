@@ -180,6 +180,8 @@ class Tyrbot:
                                 packet = mass_message_queue.get_or_default(block=False)
                                 if packet:
                                     conn.add_packets_to_queue([packet])
+                                else:
+                                    break
 
             except (EOFError, OSError) as e:
                 self.status = BotStatus.ERROR
@@ -375,12 +377,11 @@ class Tyrbot:
             color = self.setting_service.get("private_message_color").get_font_color() if add_color else ""
             pages = self.get_text_pages(msg, conn, self.setting_service.get("private_message_max_page_length").get_value())
             for page in pages:
+                packet = client_packets.PrivateMessage(char_id, color + page, "\0")
                 if self.mass_message_queue:
-                    packet = client_packets.PrivateMessage(char_id, color + page, "\0")
                     self.mass_message_queue.put(packet)
                 else:
-                    packet = client_packets.PrivateMessage(char_id, color + page, "spam")
-                    self.get_primary_conn().send_packet(packet)
+                    conn.add_packets_to_queue([packet])
 
     def send_message_to_other_org_channels(self, msg, from_conn: Conn):
         for _id, conn in self.get_conns(lambda x: x.is_main and x.org_id and x != from_conn):
