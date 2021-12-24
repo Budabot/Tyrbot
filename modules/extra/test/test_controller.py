@@ -1,4 +1,5 @@
 from core.aochat import server_packets, client_packets
+from core.chat_blob import ChatBlob
 from core.command_param_types import Int, Const, Options, Character, Any
 from core.decorators import instance, command
 from core.public_channel_service import PublicChannelService
@@ -175,6 +176,16 @@ class TestController:
         request.conn.org_id = org_id
         request.conn.org_name = org_name
         return f"Org id <highlight>{org_id}</highlight> and org name <highlight>{org_name}</highlight> have been set."
+
+    @command(command="test", params=[Const("large"), Int("message_size"), Any("message_contents", is_optional=True)], access_level="superadmin",
+             description="Send a large message")
+    def test_large_cmd(self, request, _, message_size, message_contents):
+        message_contents = (message_contents or "*") + "\n"
+        num_repeat = (message_size // len(message_contents)) + 1
+
+        blob = (num_repeat * message_contents)[:message_size]
+
+        return ChatBlob("Large Message", blob)
 
     def ext_message_as_string(self, category_id, instance_id, params):
         ext_msg = self.bot.mmdb_parser.write_ext_message(category_id, instance_id, params)
