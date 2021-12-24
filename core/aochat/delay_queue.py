@@ -8,8 +8,21 @@ class DelayQueue:
         self.items = []
         self.next_packet = 0
 
-    def enqueue(self, item):
-        self.items.insert(0, item)
+    def enqueue(self, item, priority=50):
+        """
+
+        :param item:
+        :param priority: 0 is highest priority
+        :return:
+        """
+        index = 0
+        for _priority, _item in self.items:
+            if priority < _priority:
+                index += 1
+            else:
+                break
+
+        self.items.insert(index, (priority, item))
 
     def dequeue(self):
         if self.items:
@@ -20,7 +33,8 @@ class DelayQueue:
 
             if t >= self.next_packet:
                 self.next_packet += self.recovery
-                return self.items.pop()
+                (priority, item) = self.items.pop()
+                return item
         else:
             return None
 
