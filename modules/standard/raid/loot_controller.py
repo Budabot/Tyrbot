@@ -8,6 +8,7 @@ from core.command_param_types import Const, Int, Any, Options
 from core.conn import Conn
 from core.db import DB
 from core.decorators import instance, command, timerevent
+from core.dict_object import DictObject
 from core.setting_service import SettingService
 from core.text import Text
 from modules.standard.items.items_controller import ItemsController
@@ -252,16 +253,19 @@ class LootController:
         items = re.findall(r"(([^<]+)?<a href=[\"\']itemref://(\d+)/(\d+)/(\d+)[\"\']>([^<]+)</a>([^<]+)?)", item)
         if items:
             for _1, _2, low_id, high_id, ql, name, _3 in items:
+                obj = DictObject({
+                    "low_id": int(low_id),
+                    "high_id": int(high_id),
+                    "ql": int(ql),
+                    "name": name,
+                    "icon": 0
+                })
+
                 row = self.items_controller.get_by_item_id(high_id, ql)
                 if row:
-                    row.low_id = row.lowid
-                    row.high_id = row.highid
-                    row.ql = row.highql
-                    loot_item = self.add_item_to_loot(row, None, item_count, request.conn)
-                else:
-                    item_link = self.text.make_item(int(low_id), int(high_id), int(ql), name)
-                    loot_item = self.add_item_to_loot(item_link, None, item_count, request.conn)
+                    obj.icon = row.icon
 
+                loot_item = self.add_item_to_loot(obj, None, item_count, request.conn)
                 items_added.append(loot_item.get_item_str())
         else:
             loot_item = self.add_item_to_loot(item, None, item_count, request.conn)

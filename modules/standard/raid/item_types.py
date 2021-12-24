@@ -13,7 +13,7 @@ class LootItem:
         if isinstance(self.item, DictObject):
             item_name = "%s (%s)" % (self.item.name, self.comment) if self.comment else self.item.name
             text = Registry.get_instance("text")
-            return text.make_item(self.item.low_id, self.item.high_id, self.item.ql, item_name)
+            return text.make_item(self.item.low_id, self.item.high_id, self.item.ql, item_name) + f" (QL {self.item.ql})"
         else:
             item_name = "<highlight>%s</highlight>" % self.item
             if self.comment:
@@ -21,7 +21,7 @@ class LootItem:
             return item_name
 
     def get_item_image(self):
-        if isinstance(self.item, DictObject):
+        if isinstance(self.item, DictObject) and self.item.icon:
             text = Registry.get_instance("text")
             return text.make_item(self.item.low_id, self.item.high_id, self.item.ql, text.make_image(self.item.icon))
         else:
