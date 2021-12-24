@@ -115,6 +115,7 @@ class UtilController:
             if flag_params.show_all:
                 for channel_id, packet in conn.channels.items():
                     blob += f"{packet.args}\n"
+                blob += "\n"
 
         if not flag_params.show_all:
             blob += "\n" + self.text.make_tellcmd("Show More Info", "system --show_all") + "\n"

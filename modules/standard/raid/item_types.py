@@ -15,7 +15,9 @@ class LootItem:
             text = Registry.get_instance("text")
             return text.make_item(self.item.low_id, self.item.high_id, self.item.ql, item_name)
         else:
-            item_name = "%s (%s)" % (self.item, self.comment) if self.comment else self.item
+            item_name = "<highlight>%s</highlight>" % self.item
+            if self.comment:
+                item_name += " (%s)" % self.comment
             return item_name
 
     def get_item_image(self):
