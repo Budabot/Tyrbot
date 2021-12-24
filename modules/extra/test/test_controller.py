@@ -21,7 +21,7 @@ class TestController:
         for i in range(0, num_tells):
             msg = "Test " + str(i)
             # request.reply(msg)
-            self.bot.send_mass_message(request.sender.char_id, msg)
+            self.bot.send_mass_message(request.sender.char_id, msg, conn=request.conn)
 
     @command(command="test", params=[Const("cloak"), Options(["on", "off"])], access_level="superadmin",
              description="Trigger raising or lowering cloak")
@@ -177,15 +177,25 @@ class TestController:
         request.conn.org_name = org_name
         return f"Org id <highlight>{org_id}</highlight> and org name <highlight>{org_name}</highlight> have been set."
 
-    @command(command="test", params=[Const("large"), Int("message_size"), Any("message_contents", is_optional=True)], access_level="superadmin",
+    @command(command="test", params=[Const("largeblob"), Int("message_size"), Any("message_contents", is_optional=True)], access_level="superadmin",
              description="Send a large message")
-    def test_large_cmd(self, request, _, message_size, message_contents):
+    def test_largeblob_cmd(self, request, _, message_size, message_contents):
         message_contents = (message_contents or "*") + "\n"
         num_repeat = (message_size // len(message_contents)) + 1
 
         blob = (num_repeat * message_contents)[:message_size]
 
         return ChatBlob("Large Message", blob)
+
+    @command(command="test", params=[Const("largemsg"), Int("message_size"), Any("message_contents", is_optional=True)], access_level="superadmin",
+             description="Send a large message")
+    def test_largemsg_cmd(self, request, _, message_size, message_contents):
+        message_contents = (message_contents or "*")
+        num_repeat = (message_size // len(message_contents)) + 1
+
+        msg = (num_repeat * message_contents)[:message_size]
+
+        return msg
 
     def ext_message_as_string(self, category_id, instance_id, params):
         ext_msg = self.bot.mmdb_parser.write_ext_message(category_id, instance_id, params)
