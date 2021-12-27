@@ -3,6 +3,7 @@ from core.chat_blob import ChatBlob
 from core.command_param_types import Character
 from core.decorators import instance, command, event
 from core.dict_object import DictObject
+from core.logger import Logger
 from core.private_channel_service import PrivateChannelService
 from core.setting_service import SettingService
 from core.setting_types import TextSettingType
@@ -13,6 +14,10 @@ from core.text import Text
 @instance()
 class PrivateChannelController:
     MESSAGE_SOURCE = "private_channel"
+
+    def __init__(self):
+        self.logger = Logger(__name__)
+        self.private_channel_conn = None
 
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
@@ -33,6 +38,10 @@ class PrivateChannelController:
     def start(self):
         self.setting_service.register(self.module_name, "private_channel_prefix", "[Priv]", TextSettingType(["[Priv]", "[Guest]"]),
                                       "The name to show for messages coming from the private channel")
+
+        self.setting_service.register(self.module_name, "private_channel_conn", "", TextSettingType(allow_empty=True),
+                                      "The conn id or name to use for the private channel",
+                                      extended_description="If empty, the bot will use the primary conn. You MUST restart the bot after changing this value for the change to take effect.")
 
         self.message_hub_service.register_message_destination(self.MESSAGE_SOURCE,
                                                               self.handle_incoming_relay_message,
@@ -96,6 +105,15 @@ class PrivateChannelController:
                                               conn=conn)
         self.job_scheduler.delayed_job(lambda t: self.private_channel_service.kickall(conn), 10)
 
+    @event(event_type="connect", description="Load the conn ids as choice for private_channel_conn setting", is_system=True)
+    def load_conns_into_setting_choice(self, event_type, event_data):
+        options = []
+        for _id, conn in self.bot.get_conns(lambda x: x.is_main == True):
+            options.append(conn.char_name)
+
+        setting = self.setting_service.get("private_channel_conn")
+        setting.options = options
+
     @event(event_type=BanService.BAN_ADDED_EVENT, description="Kick characters from the private channel who are banned", is_system=True)
     def ban_added_event(self, event_type, event_data):
         self.private_channel_service.kick_from_all(event_data.char_id)
@@ -150,8 +168,23 @@ class PrivateChannelController:
             self.message_hub_service.send_message(self.MESSAGE_SOURCE, sender, self.get_private_channel_prefix(), event_data.message)
 
     def get_conn(self, conn):
-        # always invite to primary conn priv channel
-        return self.bot.get_primary_conn()
+        if self.private_channel_conn:
+            return self.private_channel_conn
+
+        conn_id = self.setting_service.get_value("private_channel_conn")
+        if conn_id:
+            for _id, conn in self.bot.get_conns(lambda x: x.id == conn_id or x.char_name == conn_id):
+                self.private_channel_conn = conn
+                break
+
+            if not self.private_channel_conn:
+                self.logger.warning(f"Could not find conn with id '{conn_id}', defaulting to primary conn")
+                self.private_channel_conn = self.bot.get_primary_conn()
+        else:
+            # use the primary conn if private_channel_conn is not set
+            self.private_channel_conn = self.bot.get_primary_conn()
+
+        return self.private_channel_conn
 
     def get_private_channel_prefix(self):
         return self.setting_service.get_value("private_channel_prefix")
