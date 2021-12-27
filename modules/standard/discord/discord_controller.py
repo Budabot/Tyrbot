@@ -190,7 +190,7 @@ class DiscordController:
                     return
         return f"Could not find Discord server with ID <highlight>{server_id}</highlight>."
 
-    @timerevent(budatime="1s", description="Discord relay queue handler", is_system=True)
+    @timerevent(budatime="1s", description="Discord relay queue handler", is_enabled=False, is_system=True)
     def handle_discord_queue_event(self, event_type, event_data):
         if self.dqueue:
             dtype, message = self.dqueue.pop(0)
