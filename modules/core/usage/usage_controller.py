@@ -21,16 +21,27 @@ class UsageController:
         self.util = registry.get_instance("util")
         self.character_service = registry.get_instance("character_service")
 
-    @command(command="usage", params=[Time("max_time", is_optional=True)], access_level="moderator",
+    @command(command="usage", params=[Time("max_time", is_optional=True), NamedParameters(["cmd", "page"])], access_level="moderator",
              description="Show command usage summary")
-    def usage_command(self, request, max_time):
+    def usage_command(self, request, max_time, named_params):
+        page_size = 20
+        page_number = int(named_params.page or "1")
+
         params = []
-        sql = "SELECT command, count(1) AS count FROM command_usage "
+        sql = "SELECT command, count(1) AS count FROM command_usage WHERE 1=1"
         if max_time:
-            sql += "WHERE created_at > ? "
+            sql += " AND created_at > ?"
             t = int(time.time())
             params.append(t - max_time)
-        sql += "GROUP BY command ORDER BY count(1) DESC LIMIT 30"
+
+        if named_params.cmd:
+            sql += " AND command LIKE ?"
+            params.append(named_params.cmd)
+
+        sql += " GROUP BY command ORDER BY count(1) DESC LIMIT ?, ?"
+        offset, limit = self.util.get_offset_limit(page_size, page_number)
+        params.append(offset)
+        params.append(limit)
         data = self.db.query(sql, params)
 
         rows = []
@@ -39,7 +50,14 @@ class UsageController:
 
         display_table = self.text.pad_table(rows, " ", pad_right=False)
 
+        cmd_string = "usage"
+        if max_time:
+            cmd_string += f" {max_time}"
+        if named_params.cmd:
+            cmd_string += f" --cmd={named_params.cmd}"
+
         blob = ""
+        blob += self.text.get_paging_links(cmd_string, page_number, len(data) == page_size) + "\n\n"
         for cols in display_table:
             blob += "  ".join(cols) + "\n"
 
