@@ -21,7 +21,12 @@ class WorldBossTimersController:
                 "name": "Vizaresh",
                 "spawn_time": 3600 * 17,
                 "invulnerable_time": 6 * 60
-            }
+            },
+            "father-time": {
+                "name": "Father Time",
+                "spawn_time": 3600 * 9,
+                "invulnerable_time": 15 * 60
+            },
         }
 
     def inject(self, registry):
