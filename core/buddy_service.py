@@ -81,6 +81,7 @@ class BuddyService:
             buddy["types"].append(_type)
         else:
             conn = self.get_conn_for_new_buddy()
+            # TODO send ChatCommand packet in order to get back response - use FeatureFlag
             conn.send_packet(client_packets.BuddyAdd(char_id, "\1"))
             conn.buddy_list[char_id] = {"online": None, "types": [_type], "conn_id": conn.id}
 

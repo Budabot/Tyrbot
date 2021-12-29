@@ -178,7 +178,7 @@ class TestController:
         return f"Org id <highlight>{org_id}</highlight> and org name <highlight>{org_name}</highlight> have been set."
 
     @command(command="test", params=[Const("largeblob"), Int("message_size"), Any("message_contents", is_optional=True)], access_level="superadmin",
-             description="Send a large message")
+             description="Send a large message blob")
     def test_largeblob_cmd(self, request, _, message_size, message_contents):
         message_contents = (message_contents or "*") + "\n"
         num_repeat = (message_size // len(message_contents)) + 1
