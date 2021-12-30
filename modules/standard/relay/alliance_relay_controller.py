@@ -57,7 +57,7 @@ class AllianceRelayController:
 
         self.message_hub_service.register_message_destination(self.MESSAGE_SOURCE,
                                                               self.handle_relay_hub_message,
-                                                              ["org_channel"],
+                                                              ["org_channel", "private_channel", "discord"],
                                                               [self.MESSAGE_SOURCE])
 
         self.bot.register_packet_handler(server_packets.PrivateChannelInvited.id, self.handle_private_channel_invite, 100)

@@ -45,7 +45,8 @@ class PrivateChannelController:
 
         self.message_hub_service.register_message_destination(self.MESSAGE_SOURCE,
                                                               self.handle_incoming_relay_message,
-                                                              ["org_channel", "discord", "websocket_relay", "broadcast", "raffle", "shutdown_notice", "raid", "timers"],
+                                                              ["org_channel", "discord", "websocket_relay", "broadcast", "raffle",
+                                                               "shutdown_notice", "raid", "timers", "alliance"],
                                                               [self.MESSAGE_SOURCE])
 
     def handle_incoming_relay_message(self, ctx):
