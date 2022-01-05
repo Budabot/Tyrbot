@@ -34,7 +34,7 @@ class AltsController:
         msg, result = self.alts_service.set_as_main(request.sender.char_id)
 
         if result:
-            return f"<highlight>{request.sender.name}</highlight> character has been set as your main.",
+            return f"<highlight>{request.sender.name}</highlight> character has been set as your main."
         elif msg == "not_an_alt":
             return "Error! This character cannot be set as your main since you do not have any alts."
         elif msg == "already_main":
