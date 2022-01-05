@@ -21,11 +21,21 @@ class AltsService:
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS alts (char_id INT NOT NULL PRIMARY KEY, group_id INT NOT NULL, status SMALLINT NOT NULL)")
 
-    def get_alts(self, char_id):
+    def get_alts(self, char_id, sort_by="level"):
+        sort_by_sql = ""
+        if sort_by == "profession":
+            sort_by_sql = ", p.profession ASC, p.name ASC"
+        elif sort_by == "name":
+            sort_by_sql = ", p.name ASC"
+        elif sort_by == "level":
+            sort_by_sql = ", p.level DESC, p.name ASC"
+        else:
+            raise Exception("Unknown alt sort_by value '" + sort_by + "'")
+
         sql = "SELECT p.*, a.group_id, a.status FROM player p " \
               "LEFT JOIN alts a ON p.char_id = a.char_id " \
               "WHERE p.char_id = ? OR a.group_id = (SELECT group_id FROM alts WHERE char_id = ?) " \
-              "ORDER BY a.status DESC, p.level DESC, p.name ASC"
+              "ORDER BY a.status DESC" + sort_by_sql
 
         return self.db.query(sql, [char_id, char_id])
 

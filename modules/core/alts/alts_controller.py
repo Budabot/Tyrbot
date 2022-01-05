@@ -1,22 +1,31 @@
 from core.alts_service import AltsService
 from core.chat_blob import ChatBlob
-from core.command_param_types import Const, Options, Character, Multiple
+from core.command_param_types import Const, Options, Character, Multiple, NamedParameters
 from core.decorators import instance, command
 from core.standard_message import StandardMessage
 
 
 @instance()
 class AltsController:
+    SORT_OPTIONS = ["level", "name", "profession"]
+
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
         self.alts_service: AltsService = registry.get_instance("alts_service")
         self.buddy_service = registry.get_instance("buddy_service")
         self.util = registry.get_instance("util")
 
-    @command(command="alts", params=[], access_level="all",
-             description="Show your alts")
-    def alts_list_cmd(self, request):
-        alts = self.alts_service.get_alts(request.sender.char_id)
+    @command(command="alts", params=[NamedParameters(["sort_by"])], access_level="all",
+             description="Show your alts",
+             extended_description="Sort_by param can be one of: " + ", ".join(SORT_OPTIONS))
+    def alts_list_cmd(self, request, named_params):
+        if named_params.sort_by:
+            if named_params.sort_by not in self.SORT_OPTIONS:
+                return "Sort_by parameter must be one of: " + ", ".join(self.SORT_OPTIONS)
+        else:
+            named_params.sort_by = "level"
+
+        alts = self.alts_service.get_alts(request.sender.char_id, named_params.sort_by)
         blob = self.format_alt_list(alts)
 
         return ChatBlob(f"Alts of {alts[0].name} ({len(alts)})", blob)
@@ -34,16 +43,16 @@ class AltsController:
         msg, result = self.alts_service.set_as_main(request.sender.char_id)
 
         if result:
-            return f"<highlight>{request.sender.name}</highlight> character has been set as your main."
+            return f"Character <highlight>{request.sender.name}</highlight> has been set as your main."
         elif msg == "not_an_alt":
-            return "Error! This character cannot be set as your main since you do not have any alts."
+            return "Error! Character <highlight>{request.sender.name}</highlight> cannot be set as your main since you do not have any alts."
         elif msg == "already_main":
-            return "Error! This character is already set as your main."
+            return "Error! Character <highlight>{request.sender.name}</highlight> is already set as your main."
         else:
             raise Exception("Unknown msg: " + msg)
 
     @command(command="alts", params=[Const("add"), Multiple(Character("character"))], access_level="all",
-             description="Add an alt")
+             description="Add one or more alts")
     def alts_add_cmd(self, request, _, alt_chars):
         responses = []
         for alt_char in alt_chars:
@@ -55,11 +64,11 @@ class AltsController:
                 msg, result = self.alts_service.add_alt(request.sender.char_id, alt_char.char_id)
                 if result:
                     self.bot.send_private_message(alt_char.char_id,
-                                                  f"<highlight>{request.sender.name}</highlight> has added you as an alt.",
+                                                  f"Character <highlight>{request.sender.name}</highlight> has added you as an alt.",
                                                   conn=request.conn)
-                    responses.append(f"<highlight>{alt_char.name}</highlight> has been added as your alt.")
+                    responses.append(f"Character <highlight>{alt_char.name}</highlight> has been added as your alt.")
                 elif msg == "another_main":
-                    responses.append(f"Error! <highlight>{alt_char.name}</highlight> already has alts.")
+                    responses.append(f"Error! Character <highlight>{alt_char.name}</highlight> already has alts.")
                 else:
                     raise Exception("Unknown msg: " + msg)
 
@@ -73,21 +82,28 @@ class AltsController:
 
         msg, result = self.alts_service.remove_alt(request.sender.char_id, alt_char.char_id)
         if result:
-            return f"<highlight>{alt_char.name}</highlight> has been removed as your alt."
+            return f"Character <highlight>{alt_char.name}</highlight> has been removed as your alt."
         elif msg == "not_alt":
-            return f"Error! <highlight>{alt_char.name}</highlight> is not your alt."
+            return f"Error! Character <highlight>{alt_char.name}</highlight> is not your alt."
         elif msg == "remove_main":
             return "Error! You cannot remove your main."
         else:
             raise Exception("Unknown msg: " + msg)
 
-    @command(command="alts", params=[Character("character")], access_level="member",
-             description="Show alts of another character", sub_command="show")
-    def alts_list_other_cmd(self, request, char):
+    @command(command="alts", params=[Character("character"), NamedParameters(["sort_by"])], access_level="member",
+             description="Show alts of another character", sub_command="show",
+             extended_description="Sort_by param can be one of: " + ", ".join(SORT_OPTIONS))
+    def alts_list_other_cmd(self, request, char, named_params):
         if not char.char_id:
             return StandardMessage.char_not_found(char.name)
 
-        alts = self.alts_service.get_alts(char.char_id)
+        if named_params.sort_by:
+            if named_params.sort_by not in self.SORT_OPTIONS:
+                return "Sort_by parameter must be one of: " + ", ".join(self.SORT_OPTIONS)
+        else:
+            named_params.sort_by = "level"
+
+        alts = self.alts_service.get_alts(char.char_id, named_params.sort_by)
         blob = self.format_alt_list(alts)
 
         return ChatBlob(f"Alts of {alts[0].name} ({len(alts)})", blob)
@@ -106,9 +122,9 @@ class AltsController:
 
         msg, result = self.alts_service.add_alt(main.char_id, alt.char_id)
         if result:
-            return f"The character <highlight>{alt.name}</highlight> was added as an alt of <highlight>{main.name}</highlight> successfully."
+            return f"Character <highlight>{alt.name}</highlight> was added as an alt of <highlight>{main.name}</highlight> successfully."
         elif msg == "another_main":
-            return f"Error! <highlight>{alt.name}</highlight> already has alts."
+            return f"Error! Character <highlight>{alt.name}</highlight> already has alts."
         else:
             raise Exception("Unknown msg: " + msg)
 
@@ -124,9 +140,9 @@ class AltsController:
         msg, result = self.alts_service.remove_alt(main.char_id, alt.char_id)
 
         if result:
-            return f"The character <highlight>{alt.name}</highlight> was added as an alt of <highlight>{main.name}</highlight> successfully."
+            return f"Character <highlight>{alt.name}</highlight> was added as an alt of <highlight>{main.name}</highlight> successfully."
         elif msg == "not_alt":
-            return f"Error! <highlight>{alt.name}</highlight> is not an alt of <highlight>{main.name}</highlight>."
+            return f"Error! Character <highlight>{alt.name}</highlight> is not an alt of <highlight>{main.name}</highlight>."
         elif msg == "remove_main":
             return "Error! Main characters may not be removed from their alt list."
         else:
