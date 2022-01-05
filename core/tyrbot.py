@@ -96,14 +96,14 @@ class Tyrbot:
     def start(self):
         self.setting_service.register("core.system", "symbol", "!", TextSettingType(["!", "#", "*", "@", "$", "+", "-"]), "Symbol for executing bot commands")
 
-        self.setting_service.register("core.system", "org_channel_max_page_length", 7500,
-                                      NumberSettingType([4500, 6000, 7500, 9000, 10500, 12000]),
+        self.setting_service.register("core.system", "org_channel_max_page_length", 4000,
+                                      NumberSettingType([3000, 3500, 4000, 4500, 5500, 6500, 7500]),
                                       "Maximum size of blobs in org channel")
-        self.setting_service.register("core.system", "private_message_max_page_length", 7500,
-                                      NumberSettingType([4500, 6000, 7500, 9000, 10500, 12000]),
+        self.setting_service.register("core.system", "private_message_max_page_length", 5500,
+                                      NumberSettingType([3000, 3500, 4000, 4500, 5500, 6500, 7500]),
                                       "Maximum size of blobs in private messages")
-        self.setting_service.register("core.system", "private_channel_max_page_length", 7500,
-                                      NumberSettingType([4500, 6000, 7500, 9000, 10500, 12000]),
+        self.setting_service.register("core.system", "private_channel_max_page_length", 5500,
+                                      NumberSettingType([3000, 3500, 4000, 4500, 5500, 6500, 7500]),
                                       "Maximum size of blobs in private channel")
 
         self.setting_service.register("core.system", "accept_commands_from_slave_bots", False, BooleanSettingType(),
