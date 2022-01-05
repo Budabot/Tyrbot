@@ -1,7 +1,7 @@
 This is a quick overview of the commands used to configure and customize your Tyrbot.
 
 <header2>Config - <a href='chatcmd:///tell <myname> config'>!config</a></header2>
-This is the master configuration command. This will include links to configure settings of commands on a module by module basis.
+This is the master configuration command. This will include links to configure settings and commands on a module by module basis.
 
 <header2>Message Hub - <a href='chatcmd:///tell <myname> messagehub'>!messagehub</a></header2>
 The message hub allows you to direct messages to and from specific channels. This will allow you to relay discord with org chat, but not private chat, for example.
