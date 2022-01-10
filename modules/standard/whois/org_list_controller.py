@@ -1,3 +1,5 @@
+import time
+
 from core.buddy_service import BuddyService
 from core.chat_blob import ChatBlob
 from core.command_param_types import Int, Any, NamedFlagParameters
@@ -72,12 +74,14 @@ class OrgListController:
 
     def start_orglist_lookup(self, reply, org_id, offline_member_display_threshold):
         if self.orglist:
-            reply("There is an orglist already in progress.")
+            elapsed = int(time.time()) - self.orglist.get("started_at", )
+            reply("There is an orglist already in progress. Elapsed time: " + self.util.time_to_readable(elapsed))
             return
 
         reply("Downloading org roster for org id %d..." % org_id)
 
         self.orglist = self.org_pork_service.get_org_info(org_id)
+        self.orglist.started_at = int(time.time())
 
         if not self.orglist:
             reply("Could not find org with ID <highlight>%d</highlight>." % org_id)
