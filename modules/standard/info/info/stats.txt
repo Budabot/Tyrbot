@@ -48,7 +48,7 @@
 <a href=skillid://475>MaxReflectedProjectileDmg</a>
 <a href=skillid://476>MaxReflectedMeleeDmg</a>
 <a href=skillid://477>MaxReflectedEnergyDmg</a>
-<a href=skillid://278>MaxReflectedChemicalDmg</a>
+<a href=skillid://478>MaxReflectedChemicalDmg</a>
 <a href=skillid://479>MaxReflectedRadiationDmg</a>
 <a href=skillid://480>MaxReflectedColdDmg</a>
 <a href=skillid://481>MaxReflectedNanoDmg</a>
