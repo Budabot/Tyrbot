@@ -3,7 +3,7 @@ CREATE TABLE EffectTypeMatrix (ID INT NOT NULL PRIMARY KEY, Name VARCHAR(20) NOT
 INSERT INTO EffectTypeMatrix (ID, Name, MinValLow, MaxValLow, MinValHigh, MaxValHigh) VALUES (1,'Skill',6,105,106,141);
 INSERT INTO EffectTypeMatrix (ID, Name, MinValLow, MaxValLow, MinValHigh, MaxValHigh) VALUES (2,'Ability',5,55,55,73);
 INSERT INTO EffectTypeMatrix (ID, Name, MinValLow, MaxValLow, MinValHigh, MaxValHigh) VALUES (3,'AC',8,505,508,687);
-INSERT INTO EffectTypeMatrix (ID, Name, MinValLow, MaxValLow, MinValHigh, MaxValHigh) VALUES (4,'Max H/N',7,405,407,550);
+INSERT INTO EffectTypeMatrix (ID, Name, MinValLow, MaxValLow, MinValHigh, MaxValHigh) VALUES (4,'Max Health/Max Nano',7,405,407,550);
 INSERT INTO EffectTypeMatrix (ID, Name, MinValLow, MaxValLow, MinValHigh, MaxValHigh) VALUES (5,'XP',5,7,7,8);
 INSERT INTO EffectTypeMatrix (ID, Name, MinValLow, MaxValLow, MinValHigh, MaxValHigh) VALUES (6,'Add Dmg',5,18,18,22);
 INSERT INTO EffectTypeMatrix (ID, Name, MinValLow, MaxValLow, MinValHigh, MaxValHigh) VALUES (7,'Reflect',5,20,20,25);

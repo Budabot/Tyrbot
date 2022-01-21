@@ -108,12 +108,12 @@ class ImplantController:
         blob += "<highlight>%d</highlight> Bright (%d - %d)\n" % (implant.skill_bright, implant.skill_bright_min, implant.skill_bright_max)
         blob += "<highlight>%d</highlight> Faded (%d - %d)\n" % (implant.skill_faded, implant.skill_faded_min, implant.skill_faded_max)
 
-        blob += "\n<header2>Requirements to Clean</header2>\n"
         if implant.ql <= 200:
+            blob += "\n<header2>Requirements to Clean</header2>\n"
             blob += "<highlight>%d</highlight> Break&Entry\n" % implant.clean_break_and_entry
             blob += "<highlight>%d</highlight> NanoProgramming\n" % implant.clean_nano_programming
         else:
-            blob += "Refined implants cannot be cleaned\n"
+            blob += "\nRefined implants cannot be cleaned\n"
 
         blob += "\n<header2>Max Requirements to Build</header2> (actual requirements may be lower)\n"
         blob += "<highlight>%d</highlight> NanoProgramming for Shiny\n" % implant.build_shiny
@@ -126,13 +126,11 @@ class ImplantController:
         blob += "<highlight>%d</highlight> Faded\n" % implant.minimum_cluster_faded
 
         if implant.ql >= 99:
-            blob += "\n<header2>Jobe Requirements</header2>\n"
-
-            blob += "\n<header2>Requirements to Wear</header2>\n"
+            blob += "\n<header2>Requirements to Wear Jobe Implants</header2>\n"
             blob += "<highlight>%d</highlight> Treatment\n" % implant.jobe_treatment
             blob += "<highlight>%d</highlight> Ability\n" % implant.jobe_ability
 
-            blob += "\n<header2>Max Requirements to Build</header2> (actual requirements may be lower)\n"
+            blob += "\n<header2>Max Requirements to Build Jobe Implants</header2> (actual requirements may be lower)\n"
             blob += "<highlight>%d</highlight> NanoProgramming for Shiny\n" % implant.jobe_build_shiny
             blob += "<highlight>%d</highlight> NanoProgramming for Bright\n" % implant.jobe_build_bright
             blob += "<highlight>%d</highlight> NanoProgramming for Faded\n" % implant.jobe_build_faded
