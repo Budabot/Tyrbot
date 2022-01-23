@@ -43,7 +43,7 @@ class NanoController:
             return "No nanos found matching <highlight>%s</highlight>." % search
         elif count == 1:
             row = data[0]
-            return "%s <highlight>%s</highlight>" % (self.format_single_nano(row), row.nanoline_name)
+            return "%s [<highlight>%s - %s</highlight>]" % (self.format_single_nano(row), row.profession, row.nanoline_name)
 
         blob += self.text.get_paging_links(f"nano {search}", page_number, offset + page_size < len(data))
         blob += "\n\n"
