@@ -5,7 +5,7 @@ import pytz
 import requests
 
 from core.chat_blob import ChatBlob
-from core.command_param_types import Any, Int, Const, Options
+from core.command_param_types import Any, Int, Const, Options, Time
 from core.db import DB
 from core.decorators import instance, command
 from core.dict_object import DictObject
@@ -30,6 +30,7 @@ class TowerController:
         self.command_alias_service = registry.get_instance("command_alias_service")
         self.setting_service = registry.get_instance("setting_service")
         self.playfield_controller: PlayfieldController = registry.get_instance("playfield_controller")
+        self.level_controller = registry.get_instance("level_controller")
 
     def pre_start(self):
         self.db.load_sql_file(self.module_dir + "/" + "tower_site.sql")
@@ -99,13 +100,22 @@ class TowerController:
 
         @command(command="lc", params=[Options(["all", "open", "closed", "penalty", "unplanted", "disabled"]),
                                        Options(["omni", "clan", "neutral", "all"], is_optional=True),
-                                       Int("min_ql", is_optional=True),
-                                       Int("max_ql", is_optional=True)],
-                 access_level="guest", description="See a list of land control tower sites by QL, faction, and open status")
-        def lc_search_cmd(self, request, site_status, faction, min_ql, max_ql):
+                                       Int("pvp_level", is_optional=True),
+                                       Time("time", is_optional=True)],
+                 access_level="guest", description="See a list of land control tower sites by QL, faction, and open status",
+                 extended_description="The time param only applies when the first param is either 'open' or 'closed'")
+        def lc_search_cmd(self, request, site_status, faction, pvp_level, time_offset):
             t = int(time.time())
-            min_ql = min_ql or 1
-            max_ql = max_ql or 300
+            relative_time = t + (time_offset or 0)
+
+            min_ql = 1
+            max_ql = 300
+            if pvp_level:
+                level_info = self.level_controller.get_level_info(pvp_level)
+                if not level_info:
+                    return "PVP level must be between 1 and 220."
+                min_ql = level_info.pvp_min
+                max_ql = level_info.pvp_max
 
             params = list()
 
@@ -124,11 +134,11 @@ class TowerController:
                 params.append(("faction", faction))
 
             if site_status.lower() == "open":
-                params.append(("min_close_time", t))
-                params.append(("max_close_time", t + (3600 * 6)))
+                params.append(("min_close_time", relative_time))
+                params.append(("max_close_time", relative_time + (3600 * 6)))
             elif site_status.lower() == "closed":
-                params.append(("min_close_time", t + (3600 * 6)))
-                params.append(("max_close_time", t + (3600 * 24)))
+                params.append(("min_close_time", relative_time + (3600 * 6)))
+                params.append(("max_close_time", relative_time + (3600 * 24)))
             elif site_status.lower() == "penalty":
                 params.append(("penalty", "true"))
             elif site_status.lower() == "unplanted":
@@ -140,13 +150,16 @@ class TowerController:
             for row in data:
                 blob += "<pagebreak>" + self.format_site_info(row, t) + "\n"
 
-            blob += self.get_lc_blob_footer()
+            if blob:
+                blob += self.get_lc_blob_footer()
 
             title = "Tower Info: %s" % site_status.capitalize()
             if min_ql > 1 or max_ql < 300:
                 title += " QL %d - %d" % (min_ql, max_ql)
             if faction:
                 title += " [%s]" % faction.capitalize()
+            if time_offset:
+                title += " in " + self.util.time_to_readable(time_offset)
             title += " (%d)" % len(data)
 
             return ChatBlob(title, blob)
