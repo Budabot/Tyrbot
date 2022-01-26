@@ -1,11 +1,12 @@
+import logging
 import socket
 import struct
 import select
+import time
+
 from core.aochat.server_packets import ServerPacket, LoginOK, LoginError, LoginCharacterList
 from core.aochat.client_packets import LoginRequest, LoginSelect
-from core.logger import Logger
 from core.aochat.crypt import generate_login_key
-import time
 
 
 class Bot:
@@ -14,10 +15,10 @@ class Bot:
         self.char_id = None
         self.char_name = None
         self.is_main = None
-        self.logger = Logger(__name__)
+        self.logger = logging.getLogger(__name__)
 
     def connect(self, host, port):
-        self.logger.info("Connecting to '%s:%d'" % (host, port))
+        self.logger.info(f"Connecting to '{host}:{port}'")
         self.socket = socket.create_connection((host, port), 10)
 
     def disconnect(self):
@@ -31,8 +32,10 @@ class Bot:
 
         character = character.capitalize()
 
+        char_user_prefix = f"{character}({username}) -"
+
         # read seed packet
-        self.logger.info("Logging in as '%s'" % character)
+        self.logger.info(f"{char_user_prefix} Logging in")
         seed_packet = self.read_packet(10)
         seed = seed_packet.seed
 
@@ -44,10 +47,10 @@ class Bot:
         # read character list
         character_list_packet: LoginCharacterList = self.read_packet()
         if isinstance(character_list_packet, LoginError):
-            self.logger.error("Error logging in: %s" % character_list_packet.message)
+            self.logger.error(f"{char_user_prefix} Error logging in: {character_list_packet.message}")
             return False
         if character not in character_list_packet.names:
-            self.logger.error("Character '%s' does not exist on this account" % character)
+            self.logger.error(f"{char_user_prefix} Character does not exist on this account")
             return False
         index = character_list_packet.names.index(character)
 
@@ -55,7 +58,7 @@ class Bot:
         self.char_id = character_list_packet.char_ids[index]
         self.char_name = character_list_packet.names[index]
         if character_list_packet.online_statuses[index] and wait_for_logged_in:
-            self.logger.warning("Character '%s' is already logged on, waiting %ds before proceeding" % (self.char_name, wait_for_logged_in))
+            self.logger.warning(f"{char_user_prefix} Character is already logged on, waiting {wait_for_logged_in}s before proceeding")
             time.sleep(wait_for_logged_in)
         login_select_packet = LoginSelect(self.char_id)
         self.send_packet(login_select_packet)
@@ -63,10 +66,10 @@ class Bot:
         # wait for OK
         packet = self.read_packet()
         if packet.id == LoginOK.id:
-            self.logger.info("Connected!")
+            self.logger.info(f"{char_user_prefix} Login successful!")
             return packet
         else:
-            self.logger.error("Error logging in: %s" % packet.message)
+            self.logger.error(f"{char_user_prefix} Error logging in: {packet.message}")
             return False
 
     def read_packet(self, max_delay_time=1):
@@ -85,8 +88,8 @@ class Bot:
 
             try:
                 return ServerPacket.get_instance(packet_type, data)
-            except Exception as e:
-                self.logger.error("Error parsing packet parameters for packet_type '%d' and payload: %s" % (packet_type, data), e)
+            except Exception:
+                self.logger.error("Error parsing packet parameters for packet_type '%d' and payload: %s" % (packet_type, data), exc_info=True)
                 return None
 
     def send_packet(self, packet):
