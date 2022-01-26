@@ -197,6 +197,11 @@ class TestController:
 
         return msg
 
+    @command(command="test", params=[Const("exception"), Any("message", is_optional=True)], access_level="superadmin",
+             description="Raise an exception")
+    def test_cloak_status_command(self, request, _, message):
+        raise Exception(message)
+
     def ext_message_as_string(self, category_id, instance_id, params):
         ext_msg = self.bot.mmdb_parser.write_ext_message(category_id, instance_id, params)
         return ext_msg.decode("utf-8")
