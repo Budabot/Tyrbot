@@ -1,4 +1,4 @@
-from core.command_param_types import Any
+from core.command_param_types import Any, NamedFlagParameters
 from core.conn import Conn
 from core.db import DB
 from core.decorators import instance, command, event
@@ -43,14 +43,41 @@ class OnlineController:
     def online_cmd(self, request):
         return self.get_online_output()
 
-    @command(command="online", params=[Any("profession")], access_level="member",
+    @command(command="online", params=[Any("profession"), NamedFlagParameters(["include_offline_alts"])], access_level="member",
              description="Show the list of online characters with alts of a certain profession")
-    def online_profession_cmd(self, request, prof):
+    def online_profession_cmd(self, request, prof, flag_params):
         profession = self.util.get_profession(prof)
         if not profession:
             return "Error! Unknown profession <highlight>%s</highlight>." % prof
 
-        return self.get_online_alts_output(profession)
+        num_org_bots = len(self.bot.get_conns(lambda x: x.is_main and x.org_id))
+
+        blob = ""
+        count = 0
+        for channel, _ in self.channels:
+            online_list = self.get_online_alts(channel, profession, flag_params.include_offline_alts)
+            if len(online_list) > 0:
+                blob += "<header2>%s Channel</header2>\n" % channel
+
+            current_main = ""
+            for row in online_list:
+                if current_main != row.main:
+                    count += 1
+                    blob += "\n%s\n" % row.main
+                    current_main = row.main
+
+                org_info = ""
+                if channel == self.PRIVATE_CHANNEL or num_org_bots > 1:
+                    if row.org_name:
+                        org_info = ", %s (%s)" % (row.org_name, row.org_rank_name)
+
+                blob += "  <highlight>%s</highlight> (%d/<green>%d</green>) %s%s" % (row.name, row.level or 0, row.ai_level or 0, row.profession, org_info)
+                if row.online:
+                    blob += " [<green>Online</green>]"
+                blob += "\n"
+            blob += "\n\n"
+
+        return ChatBlob("Online %s (%d)" % (profession, count), blob)
 
     @command(command="count", params=[], access_level="member",
              description="Show counts of players by title level, profession, and organization")
@@ -220,37 +247,7 @@ class OnlineController:
 
         return name
 
-    def get_online_alts_output(self, profession):
-        num_org_bots = len(self.bot.get_conns(lambda x: x.is_main and x.org_id))
-
-        blob = ""
-        count = 0
-        for channel, _ in self.channels:
-            online_list = self.get_online_alts(channel, profession)
-            if len(online_list) > 0:
-                blob += "<header2>%s Channel</header2>\n" % channel
-
-            current_main = ""
-            for row in online_list:
-                if current_main != row.main:
-                    count += 1
-                    blob += "\n%s\n" % row.main
-                    current_main = row.main
-
-                org_info = ""
-                if channel == self.PRIVATE_CHANNEL or num_org_bots > 1:
-                    if row.org_name:
-                        org_info = ", %s (%s)" % (row.org_name, row.org_rank_name)
-
-                blob += "  <highlight>%s</highlight> (%d/<green>%d</green>) %s%s" % (row.name, row.level or 0, row.ai_level or 0, row.profession, org_info)
-                if row.online:
-                    blob += " [<green>Online</green>]"
-                blob += "\n"
-            blob += "\n\n"
-
-        return ChatBlob("%s Alts of Online Characters (%d)" % (profession, count), blob)
-
-    def get_online_alts(self, channel, profession):
+    def get_online_alts(self, channel, profession, include_offline=False):
         sql = "SELECT DISTINCT " \
                 "p2.*, " \
                 "(CASE WHEN o2.char_id IS NULL THEN 0 ELSE 1 END) AS online, " \
@@ -264,8 +261,12 @@ class OnlineController:
               "LEFT JOIN alts a3 ON a2.group_id = a3.group_id " \
               "LEFT JOIN player p2 ON p2.char_id = COALESCE(a3.char_id, o.char_id) " \
               "LEFT JOIN online o2 ON p2.char_id = o2.char_id " \
-              "WHERE o.channel = ? AND p2.profession = ? " \
-              "ORDER BY p1.name ASC, p2.name ASC"
+              "WHERE o.channel = ? AND p2.profession = ?"
+
+        if not include_offline:
+            sql += " AND online = 1"
+
+        sql += " ORDER BY p1.name ASC, p2.name ASC"
 
         return self.db.query(sql, [AltsService.MAIN, channel, profession])
 
