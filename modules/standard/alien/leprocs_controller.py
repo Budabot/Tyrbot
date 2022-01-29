@@ -6,6 +6,8 @@ from core.text import Text
 
 @instance()
 class LeProcsController:
+    LE_PROC_CREDITS = "Proc info provided by Wolfbiter (RK1), Gatester (RK2), DrUrban"
+
     def inject(self, registry):
         self.db = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
@@ -17,6 +19,7 @@ class LeProcsController:
 
     def start(self):
         self.command_alias_service.add_alias("leproc", "leprocs")
+        self.command_alias_service.add_alias("leperk", "leprocs")
 
     @command(command="leprocs", params=[], access_level="all",
              description="Show a list of professions with LE procs")
@@ -27,7 +30,7 @@ class LeProcsController:
         for row in data:
             blob += "<pagebreak>%s\n" % self.text.make_tellcmd(row.profession, "leprocs %s" % row.profession)
 
-        blob += "\nProc info provided by Wolfbiter (RK1), Gatester (RK2), DrUrban"
+        blob += "\n" + self.LE_PROC_CREDITS
 
         return ChatBlob("LE Procs", blob)
 
@@ -50,6 +53,6 @@ class LeProcsController:
             blob += "<pagebreak>[%d] %s <orange>%s</orange> %s <green>%s</green>\n" % (row.research_lvl, row.name, row.modifiers, row.duration, row.proc_trigger)
 
         blob += "\n\nNote: Offensive procs have a 5% chance of firing every time you attack; Defensive procs have a 10% chance of firing every time something attacks you."
-        blob += "\n\nProc info provided by Wolfbiter (RK1), Gatester (RK2)"
+        blob += "\n\n" + self.LE_PROC_CREDITS
 
         return ChatBlob("%s LE Procs" % profession, blob)
