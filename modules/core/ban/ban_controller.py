@@ -47,7 +47,7 @@ class BanController:
         if not self.ban_service.get_ban(char.char_id):
             return f"<highlight>{char.name}</highlight> is not banned."
 
-        self.ban_service.remove_ban(char.char_id)
+        self.ban_service.remove_ban(char.char_id, request.sender.char_id)
         return f"<highlight>{char.name}</highlight> has been removed from the ban list."
 
     @command(command="ban",
@@ -65,4 +65,12 @@ class BanController:
             return "Ban reason cannot be more than 255 characters."
 
         self.ban_service.add_ban(char.char_id, request.sender.char_id, duration, reason)
-        return f"<highlight>{char.name}</highlight> has been added to the ban list."
+        msg = f"<highlight>{char.name}</highlight> has been added to the ban list"
+        if duration:
+            msg += " for "
+            msg += self.util.time_to_readable(duration)
+        if reason:
+            msg += " with reason: "
+            msg += reason
+        msg += "."
+        return msg

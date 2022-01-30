@@ -42,12 +42,12 @@ class BanService:
 
         return num_rows
 
-    def remove_ban(self, char_id):
+    def remove_ban(self, char_id, sender_char_id):
         t = int(time.time())
         num_rows = self.db.exec("UPDATE ban_list SET ended_early = 1 WHERE char_id = ? AND (finished_at > ? OR finished_at = -1)", [char_id, t])
 
         if num_rows:
-            self.event_service.fire_event(self.BAN_REMOVED_EVENT, DictObject({"char_id": char_id}))
+            self.event_service.fire_event(self.BAN_REMOVED_EVENT, DictObject({"char_id": char_id, "sender_char_id": sender_char_id}))
 
         return num_rows
 
