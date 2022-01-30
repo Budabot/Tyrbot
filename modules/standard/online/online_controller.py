@@ -264,7 +264,7 @@ class OnlineController:
               "WHERE o.channel = ? AND p2.profession = ?"
 
         if not include_offline:
-            sql += " AND online = 1"
+            sql += " AND o2.char_id IS NOT NULL"
 
         sql += " ORDER BY p1.name ASC, p2.name ASC"
 
