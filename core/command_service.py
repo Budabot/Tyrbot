@@ -185,13 +185,13 @@ class CommandService:
             command_str, command_args = self.get_command_parts(message)
 
             # check for command alias
-            command_alias = self.command_alias_service.check_for_alias(command_str)
+            command_alias_str = self.command_alias_service.get_alias_command_str(command_str, command_args)
 
             alias_depth_count = 0
-            while command_alias:
+            while command_alias_str:
                 alias_depth_count += 1
-                command_str, command_args = self.get_command_parts(command_alias + command_args)
-                command_alias = self.command_alias_service.check_for_alias(command_str)
+                command_str, command_args = self.get_command_parts(command_alias_str)
+                command_alias_str = self.command_alias_service.get_alias_command_str(command_str, command_args)
 
                 if alias_depth_count > 20:
                     raise Exception("Command alias infinite recursion detected for command '%s'" % message)

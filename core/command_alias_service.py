@@ -17,6 +17,13 @@ class CommandAliasService:
         else:
             return None
 
+    def get_alias_command_str(self, command_str, command_args):
+        row = self.get_alias(command_str)
+        if row and row.enabled:
+            return row.command + command_args
+        else:
+            return None
+
     def get_alias(self, alias):
         return self.db.query_single("SELECT alias, command, enabled FROM command_alias WHERE alias = ?", [alias])
 
