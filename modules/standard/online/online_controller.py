@@ -53,29 +53,30 @@ class OnlineController:
         num_org_bots = len(self.bot.get_conns(lambda x: x.is_main and x.org_id))
 
         blob = ""
+        blob += self.text.make_tellcmd("Include offline alts", f"online {profession} --include_offline_alts") + "\n\n"
         count = 0
         for channel, _ in self.channels:
             online_list = self.get_online_alts(channel, profession, flag_params.include_offline_alts)
             if len(online_list) > 0:
                 blob += "<header2>%s Channel</header2>\n" % channel
 
-            current_main = ""
-            for row in online_list:
-                if current_main != row.main:
-                    count += 1
-                    blob += "\n%s\n" % row.main
-                    current_main = row.main
+                current_main = ""
+                for row in online_list:
+                    if current_main != row.main:
+                        count += 1
+                        blob += "\n%s\n" % row.main
+                        current_main = row.main
 
-                org_info = ""
-                if channel == self.PRIVATE_CHANNEL or num_org_bots > 1:
-                    if row.org_name:
-                        org_info = ", %s (%s)" % (row.org_name, row.org_rank_name)
+                    org_info = ""
+                    if channel == self.PRIVATE_CHANNEL or num_org_bots > 1:
+                        if row.org_name:
+                            org_info = ", %s (%s)" % (row.org_name, row.org_rank_name)
 
-                blob += "  <highlight>%s</highlight> (%d/<green>%d</green>) %s%s" % (row.name, row.level or 0, row.ai_level or 0, row.profession, org_info)
-                if row.online:
-                    blob += " [<green>Online</green>]"
-                blob += "\n"
-            blob += "\n\n"
+                    blob += "  <highlight>%s</highlight> (%d/<green>%d</green>) %s%s" % (row.name, row.level or 0, row.ai_level or 0, row.profession, org_info)
+                    if row.online:
+                        blob += " [<green>Online</green>]"
+                    blob += "\n"
+                blob += "\n\n"
 
         return ChatBlob("Online %s (%d)" % (profession, count), blob)
 
