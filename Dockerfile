@@ -5,6 +5,8 @@ RUN echo "Building with Python version $PYTHON_VERSION"
 
 ENV PYTHONPATH=/app/deps
 
+RUN apt update && apt upgrade -y
+
 RUN adduser --no-create-home --disabled-login --disabled-password --shell /bin/false --gecos "" --uid 1001 user && \
     mkdir /app && \
     chown user:user /app
