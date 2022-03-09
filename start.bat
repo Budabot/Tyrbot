@@ -1,7 +1,8 @@
 @echo off
 
 IF EXIST .\venv\ GOTO install
-.\win32\Python3.6\python.exe -m virtualenv --python=.\win32\Python3.6\python.exe venv
+.\win32\Python3.9.10\python.exe -m pip install virtualenv
+.\win32\Python3.9.10\python.exe -m virtualenv --python=.\win32\Python3.9.10\python.exe venv
 
 :install
 IF [%1] == [--skip-install] GOTO run
