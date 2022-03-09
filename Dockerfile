@@ -1,4 +1,4 @@
-ARG PYTHON_VERSION=3.9.1
+ARG PYTHON_VERSION=3.9.10
 
 FROM python:${PYTHON_VERSION}-slim
 RUN echo "Building with Python version $PYTHON_VERSION"
