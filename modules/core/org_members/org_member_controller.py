@@ -148,8 +148,18 @@ class OrgMemberController:
         for row in self.get_all_org_members():
             db_members[row.char_id] = row
 
+        processed_org_ids = set()
+
         for _id, conn in self.bot.get_conns(lambda x: x.is_main and x.org_id):
             org_id = conn.org_id
+
+            # do not process the same org multiple times
+            # (for when multiple bot cores belong to the same org)
+            if org_id in processed_org_ids:
+                continue
+
+            processed_org_ids.add(org_id)
+
             if org_id in extra_org_ids:
                 extra_org_ids.remove(org_id)
 
