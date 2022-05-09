@@ -137,6 +137,15 @@ class BuddyService:
 
         return result
 
+    def remove_all_buddies_by_type(self, _type):
+        buddies = filter(lambda obj: _type in obj["types"], self.get_all_buddies())
+        for char_id, buddy in buddies.items():
+            buddy["types"].remove(_type)
+
+            if len(buddy["types"]) == 0:
+                conn = self.bot.conns[buddy["conn_id"]]
+                conn.send_packet(client_packets.BuddyRemove(char_id))
+
     def get_buddy_list_size(self):
         count = 0
         for _id, conn in self.bot.get_conns():

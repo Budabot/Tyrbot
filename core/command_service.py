@@ -265,7 +265,6 @@ class CommandService:
             command_key = self.get_command_key(row.command, row.sub_command)
             handlers = self.handlers[command_key]
             for handler in handlers:
-                # add leading space to search string to normalize input for command params
                 matches = handler["regex"].search(command_args)
                 if matches:
                     return row, matches, handler

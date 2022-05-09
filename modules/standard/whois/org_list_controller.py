@@ -74,19 +74,26 @@ class OrgListController:
 
     def start_orglist_lookup(self, reply, org_id, offline_member_display_threshold):
         if self.orglist:
-            elapsed = int(time.time()) - self.orglist.get("started_at", )
-            reply("There is an orglist already in progress. Elapsed time: " + self.util.time_to_readable(elapsed))
-            return
+            elapsed = int(time.time()) - self.orglist.get("started_at")
+            if elapsed > 60 * 10:
+                reply("Automatically ending orglist which has been running for %s (%d remaining, %d waiting, %d finished)." %
+                      (self.util.time_to_readable(elapsed), len(self.orglist.org_members), len(self.orglist.waiting_org_members),
+                       len(self.orglist.finished_org_members)))
+                self.orglist = None
+                self.buddy_service.remove_all_buddies_by_type(self.ORGLIST_BUDDY_TYPE)
+            else:
+                reply("There is an orglist already in progress. Elapsed time: " + self.util.time_to_readable(elapsed))
+                return
 
         reply("Downloading org roster for org id %d..." % org_id)
 
         self.orglist = self.org_pork_service.get_org_info(org_id)
-        self.orglist.started_at = int(time.time())
 
         if not self.orglist:
             reply("Could not find org with ID <highlight>%d</highlight>." % org_id)
             return
 
+        self.orglist.started_at = int(time.time())
         self.orglist.org_members = list(self.orglist.org_members.values())
         self.orglist.reply = reply
         self.orglist.waiting_org_members = {}
