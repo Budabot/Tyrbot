@@ -2,7 +2,7 @@ import time
 
 from core.aochat.server_packets import PublicChannelMessage
 from core.chat_blob import ChatBlob
-from core.command_param_types import Const, Int, Options
+from core.command_param_types import Const, Int, Options, NamedFlagParameters
 from core.conn import Conn
 from core.decorators import instance, command, event, timerevent
 from core.dict_object import DictObject
@@ -54,15 +54,34 @@ class CloakController:
         org_name = conn.get_org_name()
         return ChatBlob(f"Cloak History for {org_name}", blob)
 
-    @command(command="cloak", params=[], access_level="org_member",
+    @command(command="cloak", params=[NamedFlagParameters(["all"])], access_level="org_member",
              description="Shows the cloak status")
-    def cloak_command(self, request):
+    def cloak_command(self, request, flag_params):
         t = int(time.time())
 
-        current_status = ""
+        if flag_params.all:
+            blob = ""
+            for _id, conn in self.bot.get_conns(lambda x: x.is_main and x.org_id):
+                row = self.db.query_single("SELECT c.char_id, c.action, c.created_at, p.name FROM cloak_status c LEFT JOIN player p ON c.char_id = p.char_id "
+                                           "WHERE c.org_id = ? ORDER BY created_at DESC LIMIT 1", [conn.org_id])
 
-        blob = ""
-        for _id, conn in self.bot.get_conns(lambda x: x.is_main and x.org_id):
+                org_name = conn.get_org_name()
+                if row:
+                    action = self.get_cloak_status_display(row.action)
+                    time_str = self.util.time_to_readable(t - row.created_at)
+                    history_link = self.text.make_tellcmd("History", f"cloak history {conn.org_id}")
+                    blob += f"{org_name} - {action} [{time_str} ago] {history_link}\n"
+                else:
+                    blob += f"{org_name} - Unknown\n"
+
+            title = "Cloak Status"
+
+            return ChatBlob(title, blob)
+        else:
+            conn = request.conn
+            if not conn.org_id:
+                return "This bot is not a member of an org."
+
             row = self.db.query_single("SELECT c.char_id, c.action, c.created_at, p.name FROM cloak_status c LEFT JOIN player p ON c.char_id = p.char_id "
                                        "WHERE c.org_id = ? ORDER BY created_at DESC LIMIT 1", [conn.org_id])
 
@@ -70,36 +89,25 @@ class CloakController:
             if row:
                 action = self.get_cloak_status_display(row.action)
                 time_str = self.util.time_to_readable(t - row.created_at)
-                history_link = self.text.make_tellcmd("History", f"cloak history {conn.org_id}")
-                blob += f"{org_name} - {action} [{time_str} ago] {history_link}\n"
-
-                if _id == request.conn.id:
-                    current_status = f"{org_name} - {row.action} [{time_str} ago]"
+                return f"{org_name} - {action} [{time_str} ago]"
             else:
-                blob += f"{org_name} - Unknown\n"
+                return f"{org_name} - Unknown cloak status"
 
-                if _id == request.conn.id:
-                    current_status = f"{org_name} - Unknown"
-
-        title = "Cloak Status"
-        if current_status:
-            title += ": " + current_status
-
-        return ChatBlob(title, blob)
-
-    @command(command="cloak", params=[Options(["raise", "on"])], access_level="org_member",
+    @command(command="cloak", params=[Options(["raise", "on"]), Int("org_id", is_optional=True)], access_level="org_member",
              description="Manually raises the cloak status on the bot")
-    def cloak_raise_command(self, request, _):
-        if not request.conn.org_id:
+    def cloak_raise_command(self, request, _, org_id):
+        org_id = org_id or request.conn.org_id
+
+        if not org_id:
             return "This bot is not a member of an org."
 
-        row = self.db.query_single("SELECT action FROM cloak_status WHERE org_id = ?", [request.conn.org_id])
+        row = self.db.query_single("SELECT action FROM cloak_status WHERE org_id = ?", [org_id])
         if row and (row.action == self.CLOAK_STATUS_ON or row.action == self.CLOAK_STATUS_MANUAL):
             return "The cloaking device is already <green>enabled</green>."
 
         self.db.exec("INSERT INTO cloak_status (char_id, action, created_at, org_id) VALUES (?, ?, ?, ?)",
-                     [request.sender.char_id, self.CLOAK_STATUS_MANUAL, int(time.time()), request.conn.org_id])
-        return "The cloaking device has been manually enabled in the bot (you must still enable the cloak if it is disabled)."
+                     [request.sender.char_id, self.CLOAK_STATUS_MANUAL, int(time.time()), org_id])
+        return "The cloaking device has been set to enabled in the bot (you must still enable the cloak if it is disabled)."
 
     @event(event_type=CLOAK_EVENT, description="Record when the city cloak is turned off and on", is_system=True)
     def city_cloak_event(self, event_type, event_data):
