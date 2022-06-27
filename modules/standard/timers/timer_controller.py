@@ -95,10 +95,14 @@ class TimerController:
     def timer_add_cmd(self, request, _, duration, timer_name):
         timer_name = timer_name or self.get_timer_name(request.sender.name)
 
+        if duration == 0:
+            return "Invalid timer duration specified."
+
         if self.get_timer(timer_name):
             return f"A timer named <highlight>{timer_name}</highlight> is already running."
 
         t = int(time.time())
+
         self.add_timer(timer_name, request.sender.char_id, request.channel, t, duration)
 
         return "Timer <highlight>%s</highlight> has been set for %s." % (timer_name, self.util.time_to_readable(duration, max_levels=None))
