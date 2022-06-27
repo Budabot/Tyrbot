@@ -258,3 +258,9 @@ def run_upgrades():
             db.exec("INSERT INTO timer SELECT name, char_id, channel, duration, created_at, finished_At, repeating_every, job_id FROM timer_old")
             db.exec("DROP TABLE timer_old")
         version = update_version(version)
+
+    if version == 26:
+        if table_exists("setting"):
+            db.exec("UPDATE setting SET value = 'https://timers.aobots.org/api/v1.1/bosses' WHERE name = 'boss_timers_api_address'")
+            db.exec("UPDATE setting SET value = 'https://timers.aobots.org/api/v1.1/gaubuffs' WHERE name = 'gauntlet_timers_api_address'")
+        version = update_version(version)

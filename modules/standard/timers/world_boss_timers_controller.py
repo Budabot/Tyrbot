@@ -38,12 +38,12 @@ class WorldBossTimersController:
         self.util = registry.get_instance("util")
 
     def start(self):
-        self.setting_service.register(self.module_name, "boss_timers_api_address", "https://timers.aobots.org/api/v1.0/bosses",
-                                      TextSettingType(["https://timers.aobots.org/api/v1.0/bosses"]),
+        self.setting_service.register(self.module_name, "boss_timers_api_address", "https://timers.aobots.org/api/v1.1/bosses",
+                                      TextSettingType(["https://timers.aobots.org/api/v1.1/bosses"]),
                                       "The address of the Boss Timers API")
 
-        self.setting_service.register(self.module_name, "gauntlet_timers_api_address", "https://timers.aobots.org/api/v1.0/gaubuffs",
-                                      TextSettingType(["https://timers.aobots.org/api/v1.0/gaubuffs"]),
+        self.setting_service.register(self.module_name, "gauntlet_timers_api_address", "https://timers.aobots.org/api/v1.1/gaubuffs",
+                                      TextSettingType(["https://timers.aobots.org/api/v1.1/gaubuffs"]),
                                       "The address of the Gauntlet Buff Timers API")
 
         self.command_alias_service.add_alias("tara", "worldboss")
@@ -60,6 +60,9 @@ class WorldBossTimersController:
 
         blob = ""
         for row in result.timers:
+            if row.dimension != self.bot.dimension:
+                continue
+
             boss = self.bosses.get(row.name, {})
             bossname = boss.get("name", row.name.capitalize())
             last_spawned = self.util.time_to_readable(t - row.last_spawn)
@@ -85,6 +88,9 @@ class WorldBossTimersController:
 
         blob = ""
         for row in result.timers:
+            if row.dimension != self.bot.dimension:
+                continue
+
             time_left = self.util.time_to_readable(row.expires - t)
             blob += f"<header2>{row.faction.capitalize()}</header2>\n"
             blob += f"<highlight>{time_left} left</highlight>\n\n"
