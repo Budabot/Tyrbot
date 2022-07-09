@@ -79,6 +79,7 @@
 
 <header2>::: Misc :::</header2>
 <a href=skillid://319>XP Bonus</a>
+<a href=skillid://592>Unsaved XP</a>
 <a href=skillid://382>SkillLockModifier</a>
 <a href=skillid://380>Weapon Range Increase</a>
 <a href=skillid://517>Special Attack Blockers</a>
