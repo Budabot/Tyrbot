@@ -176,7 +176,9 @@ class OrgListController:
                 level = org_member.level if org_member.ai_level == 0 else "%d/<green>%d</green>" % (org_member.level, org_member.ai_level)
                 blob += "%s (Level <highlight>%s</highlight>, %s %s <highlight>%s</highlight>)\n" % (org_member.name, level, org_member.gender, org_member.breed, org_member.profession)
 
-            if rank_num_total < self.orglist.offline_member_display_threshold:
+            if rank_num_total == rank_num_online:
+                pass
+            elif rank_num_total < self.orglist.offline_member_display_threshold:
                 blob += "<font color='#555555'>" + ", ".join(map(lambda x: x.name, sorted(rank_info.offline_members, key=lambda x: x.name))) + "</font>"
                 blob += "\n"
             else:

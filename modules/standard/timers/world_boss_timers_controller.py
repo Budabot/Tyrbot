@@ -59,6 +59,7 @@ class WorldBossTimersController:
         t = int(time.time())
 
         blob = ""
+        # TODO sort by name? next spawn?
         for row in result.timers:
             if row.dimension != self.bot.dimension:
                 continue
