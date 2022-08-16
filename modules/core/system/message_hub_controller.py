@@ -2,8 +2,6 @@ from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Any
 from core.decorators import instance, command
 
-from functools import partial
-
 
 @instance()
 class MessageHubController:

@@ -23,7 +23,7 @@ class TellRelayController:
     def start(self):
         self.message_hub_service.register_message_destination(self.MESSAGE_SOURCE,
                                                               self.handle_incoming_relay_message,
-                                                              ["private_channel", "org_channel", "discord", "websocket_relay", "shutdown_notice"],
+                                                              ["private_channel", "private_channel_update", "org_channel", "org_channel_update", "discord", "websocket_relay", "shutdown_notice"],
                                                               [self.MESSAGE_SOURCE])
 
         self.setting_service.register(self.module_name, "relay_bot", "", TextSettingType(allow_empty=True), "Name of bot character for chat relay")

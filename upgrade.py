@@ -264,3 +264,10 @@ def run_upgrades():
             db.exec("UPDATE setting SET value = 'https://timers.aobots.org/api/v1.1/bosses' WHERE name = 'boss_timers_api_address'")
             db.exec("UPDATE setting SET value = 'https://timers.aobots.org/api/v1.1/gaubuffs' WHERE name = 'gauntlet_timers_api_address'")
         version = update_version(version)
+
+    if version == 27:
+        if table_exists("message_hub_subscriptions"):
+            data = db.query("SELECT destination FROM message_hub_subscriptions WHERE source = 'private_channel'")
+            for row in data:
+                db.exec("INSERT INTO message_hub_subscriptions (source, destination) VALUES ('private_channel_update', ?)", [row.destination])
+        version = update_version(version)

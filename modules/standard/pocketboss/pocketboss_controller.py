@@ -20,6 +20,7 @@ class PocketbossController:
     def start(self):
         self.command_alias_service.add_alias("pb", "pocketboss")
 
+    # TODO allow linking pb patterns
     @command(command="pocketboss", params=[Any("search")], access_level="all",
              description="Show information about a pocketboss")
     def pocketboss_cmd(self, request, search):

@@ -13,6 +13,7 @@ from modules.core.org_members.org_member_controller import OrgMemberController
 @instance()
 class OrgChannelController:
     MESSAGE_SOURCE = "org_channel"
+    MESSAGE_SOURCE_UPDATE = "org_channel_update"
 
     def __init__(self):
         self.logger = Logger(__name__)
@@ -30,15 +31,16 @@ class OrgChannelController:
 
     def pre_start(self):
         self.message_hub_service.register_message_source(self.MESSAGE_SOURCE)
+        self.message_hub_service.register_message_source(self.MESSAGE_SOURCE_UPDATE)
 
     def start(self):
         self.setting_service.register(self.module_name, "org_abbreviations", "", DictionarySettingType(), "Org Abbreviates for relay messages")
 
         self.message_hub_service.register_message_destination(
             self.MESSAGE_SOURCE, self.handle_incoming_relay_message,
-            ["private_channel", "discord", "websocket_relay", "broadcast", "raffle", "cloak_reminder", "wave_counter",
+            ["private_channel", "private_channel_update", "discord", "websocket_relay", "broadcast", "raffle", "cloak_reminder", "wave_counter",
              "shutdown_notice", "raid", "tower_attacks", "timers", "alliance"],
-            [self.MESSAGE_SOURCE])
+            [self.MESSAGE_SOURCE, self.MESSAGE_SOURCE_UPDATE])
 
         self.command_alias_service.add_alias("orgabbreviations", "orgabbreviation")
 
@@ -128,7 +130,7 @@ class OrgChannelController:
                     self.bot.send_org_message(msg, conn=conn)
                 else:
                     self.bot.send_org_message(self.get_org_abbreviation(event_data.conn) + " " + msg, conn=conn)
-            self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, self.get_org_abbreviation(event_data.conn), msg)
+            self.message_hub_service.send_message(self.MESSAGE_SOURCE_UPDATE, None, self.get_org_abbreviation(event_data.conn), msg)
 
     @event(event_type=OrgMemberController.ORG_MEMBER_LOGOFF_EVENT, description="Notify when org member logs off")
     def org_member_logoff_event(self, event_type, event_data):
@@ -143,7 +145,7 @@ class OrgChannelController:
                     self.bot.send_org_message(msg, conn=conn)
                 else:
                     self.bot.send_org_message(self.get_org_abbreviation(event_data.conn) + " " + msg, conn=conn)
-            self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, self.get_org_abbreviation(event_data.conn), msg)
+            self.message_hub_service.send_message(self.MESSAGE_SOURCE_UPDATE, None, self.get_org_abbreviation(event_data.conn), msg)
 
     @event(event_type=PublicChannelService.ORG_CHANNEL_COMMAND_EVENT, description="Relay commands from the org channel to the relay hub", is_system=True)
     def outgoing_org_message_event(self, event_type, event_data):

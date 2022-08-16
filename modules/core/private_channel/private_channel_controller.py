@@ -14,6 +14,7 @@ from core.text import Text
 @instance()
 class PrivateChannelController:
     MESSAGE_SOURCE = "private_channel"
+    MESSAGE_SOURCE_UPDATE = "private_channel_update"
 
     def __init__(self):
         self.logger = Logger(__name__)
@@ -34,6 +35,7 @@ class PrivateChannelController:
 
     def pre_start(self):
         self.message_hub_service.register_message_source(self.MESSAGE_SOURCE)
+        self.message_hub_service.register_message_source(self.MESSAGE_SOURCE_UPDATE)
 
     def start(self):
         self.setting_service.register(self.module_name, "private_channel_prefix", "[Priv]", TextSettingType(["[Priv]", "[Guest]"]),
@@ -45,9 +47,9 @@ class PrivateChannelController:
 
         self.message_hub_service.register_message_destination(self.MESSAGE_SOURCE,
                                                               self.handle_incoming_relay_message,
-                                                              ["org_channel", "discord", "websocket_relay", "broadcast", "raffle",
+                                                              ["org_channel", "org_channel_update", "discord", "websocket_relay", "broadcast", "raffle",
                                                                "shutdown_notice", "raid", "timers", "alliance"],
-                                                              [self.MESSAGE_SOURCE])
+                                                              [self.MESSAGE_SOURCE, self.MESSAGE_SOURCE_UPDATE])
 
     def handle_incoming_relay_message(self, ctx):
         self.bot.send_private_channel_message(ctx.formatted_message, conn=self.get_conn(None))
@@ -139,7 +141,7 @@ class PrivateChannelController:
             msg += " " + self.log_controller.get_logon(event_data.char_id)
 
         self.bot.send_private_channel_message(msg, conn=event_data.conn)
-        self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, self.get_private_channel_prefix(), msg)
+        self.message_hub_service.send_message(self.MESSAGE_SOURCE_UPDATE, None, self.get_private_channel_prefix(), msg)
 
     @event(event_type=PrivateChannelService.LEFT_PRIVATE_CHANNEL_EVENT, description="Notify when a character leaves the private channel")
     def handle_private_channel_left_event(self, event_type, event_data):
@@ -148,7 +150,7 @@ class PrivateChannelController:
             msg += " " + self.log_controller.get_logoff(event_data.char_id)
 
         self.bot.send_private_channel_message(msg, conn=event_data.conn)
-        self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, self.get_private_channel_prefix(), msg)
+        self.message_hub_service.send_message(self.MESSAGE_SOURCE_UPDATE, None, self.get_private_channel_prefix(), msg)
 
     @event(event_type=PrivateChannelService.PRIVATE_CHANNEL_COMMAND_EVENT, description="Relay commands from the private channel to the relay hub", is_system=True)
     def outgoing_private_channel_message_event(self, event_type, event_data):

@@ -47,7 +47,7 @@ class WebsocketRelayController:
     def start(self):
         self.message_hub_service.register_message_destination(self.MESSAGE_SOURCE,
                                                               self.handle_message_from_hub,
-                                                              ["private_channel", "org_channel", "discord"],
+                                                              ["private_channel", "private_channel_update", "org_channel", "org_channel_update", "discord"],
                                                               [self.MESSAGE_SOURCE])
 
         self.setting_service.register(self.module_name, "relay_prefix", "", TextSettingType(allow_empty=True), "Name of this relay (if you don't want to use org or bot name)")
