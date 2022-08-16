@@ -18,10 +18,10 @@ class MessageHubController:
     def messagehub_cmd(self, request):
         blob = "Destinations are listed below, along with the sources they are subscribed to.\n"
         subscriptions = self.message_hub_service.hub
-        for destination, obj in subscriptions.items():
+        for destination, obj in sorted(subscriptions.items()):
             edit_subs_link = self.text.make_tellcmd(destination, "messagehub edit %s" % destination)
             blob += "\n%s\n" % edit_subs_link
-            for source in obj.sources:
+            for source in sorted(obj.sources):
                 blob += " └ %s\n" % source
 
         return ChatBlob(f"Message Hub Subscriptions ({len(subscriptions)})", blob)
@@ -35,7 +35,7 @@ class MessageHubController:
 
         blob = ""
         count = 0
-        for source in self.message_hub_service.sources:
+        for source in sorted(self.message_hub_service.sources):
             if source in obj.invalid_sources:
                 continue
 
