@@ -137,6 +137,9 @@ class Tyrbot:
             else:
                 _id = "bot" + str(i)
 
+            if _id in self.conns:
+                raise Exception(f"A connection with id {_id} already exists")
+
             if i == 0:
                 self.primary_conn_id = _id
                 wait_for_logged_in = 20
@@ -152,12 +155,17 @@ class Tyrbot:
 
             packet = conn.login(bot.username, bot.password, bot.character, is_main=bot.is_main, wait_for_logged_in=wait_for_logged_in)
             if not packet:
-                self.status = BotStatus.ERROR
-                return False
+                if i == 0 or not FeatureFlags.IGNORE_FAILED_BOTS_ON_LOGIN:
+                    self.status = BotStatus.ERROR
+                    return False
+                else:
+                    self.logger.warning("Skipping conn login")
             else:
                 self.incoming_queue.put((conn, packet))
 
-            self.create_conn_thread(conn, None if bot.is_main else self.mass_message_queue)
+                self.conns[_id] = conn
+
+                self.create_conn_thread(conn, None if bot.is_main else self.mass_message_queue)
 
         return True
 
@@ -192,14 +200,10 @@ class Tyrbot:
         dthread.start()
 
     def create_conn(self, _id):
-        if _id in self.conns:
-            raise Exception(f"A connection with id {_id} already exists")
-
         def failure_callback():
             self.status = BotStatus.ERROR
 
         conn = Conn(_id, failure_callback)
-        self.conns[_id] = conn
         return conn
 
     def disconnect(self):
