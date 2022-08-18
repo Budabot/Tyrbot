@@ -271,3 +271,10 @@ def run_upgrades():
             for row in data:
                 db.exec("INSERT INTO message_hub_subscriptions (source, destination) VALUES ('private_channel_update', ?)", [row.destination])
         version = update_version(version)
+
+    if version == 28:
+        if table_exists("message_hub_subscriptions"):
+            data = db.query("SELECT destination FROM message_hub_subscriptions WHERE source = 'org_channel'")
+            for row in data:
+                db.exec("INSERT INTO message_hub_subscriptions (source, destination) VALUES ('org_channel_update', ?)", [row.destination])
+        version = update_version(version)
