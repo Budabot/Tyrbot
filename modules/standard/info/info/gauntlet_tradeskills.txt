@@ -1,4 +1,4 @@
-<a href="text://<font color=red>SSC Bastion tradeskill for 1 piece of armor:</font>
+<font color=red>SSC Bastion tradeskill for 1 piece of armor:</font>
 
 <font color=fuchsia>Note: Fatou upgrades inactive armor to 1st Tier, Mandlebrot 1st to 2nd and Collatz 2nd to 3rd (and last).</font>
 
@@ -44,4 +44,4 @@ Same tradeskill with <b><i>Mandlebrot Pattern Programming Utility Device</b></i>
 
 <a href='itemref://292537/292537/295537'><img src='rdb://292782'></a> + Mandlebrot Armor =  Collatz Armor
 
-<font color=yellow>======================</font>">Gauntlet Items Tradeskill Process</a>
+<font color=yellow>======================</font>
