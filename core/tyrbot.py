@@ -25,6 +25,7 @@ from core.bot_status import BotStatus
 class Tyrbot:
     CONNECT_EVENT = "connect"
     PRIVATE_MSG_EVENT = "private_msg"
+    LOGIN_FAILURE = "login_failure"
 
     def __init__(self):
         super().__init__()
@@ -92,6 +93,7 @@ class Tyrbot:
         self.access_service.register_access_level("superadmin", 10, self.check_superadmin)
         self.event_service.register_event_type(self.CONNECT_EVENT)
         self.event_service.register_event_type(self.PRIVATE_MSG_EVENT)
+        self.event_service.register_event_type(self.LOGIN_FAILURE)
 
     def start(self):
         self.setting_service.register("core.system", "symbol", "!", TextSettingType(["!", "#", "*", "@", "$", "+", "-"]), "Symbol for executing bot commands")
@@ -153,8 +155,9 @@ class Tyrbot:
             if not bot.is_main and not self.mass_message_queue:
                 self.mass_message_queue = FifoQueue()
 
-            packet = conn.login(bot.username, bot.password, bot.character, is_main=bot.is_main, wait_for_logged_in=wait_for_logged_in)
-            if not packet:
+            login_success, packet = conn.login(bot.username, bot.password, bot.character, is_main=bot.is_main, wait_for_logged_in=wait_for_logged_in)
+            if not login_success:
+                self.event_service.fire_event(self.LOGIN_FAILURE, packet)
                 if i == 0 or not FeatureFlags.IGNORE_FAILED_BOTS_ON_LOGIN:
                     self.status = BotStatus.ERROR
                     return False

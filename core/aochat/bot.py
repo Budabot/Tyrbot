@@ -48,10 +48,10 @@ class Bot:
         character_list_packet: LoginCharacterList = self.read_packet()
         if isinstance(character_list_packet, LoginError):
             self.logger.error(f"{char_user_prefix} Error logging in: {character_list_packet.message}")
-            return False
+            return False, character_list_packet
         if character not in character_list_packet.names:
             self.logger.error(f"{char_user_prefix} Character does not exist on this account")
-            return False
+            return False, character_list_packet
         index = character_list_packet.names.index(character)
 
         # select character
@@ -67,10 +67,10 @@ class Bot:
         packet = self.read_packet()
         if packet.id == LoginOK.id:
             self.logger.info(f"{char_user_prefix} Login successful!")
-            return packet
+            return True, packet
         else:
             self.logger.error(f"{char_user_prefix} Error logging in: {packet.message}")
-            return False
+            return False, packet
 
     def read_packet(self, max_delay_time=1):
         """
