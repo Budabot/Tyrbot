@@ -278,3 +278,11 @@ def run_upgrades():
             for row in data:
                 db.exec("INSERT INTO message_hub_subscriptions (source, destination) VALUES ('org_channel_update', ?)", [row.destination])
         version = update_version(version)
+
+    if version == 29:
+        if table_exists("log_messages"):
+            db.exec("ALTER TABLE log_messages RENAME TO log_messages_old")
+            db.exec("CREATE TABLE IF NOT EXISTS log_messages (char_id INT NOT NULL PRIMARY KEY, logon TEXT, logon_set_dt INT NOT NULL, logoff TEXT, logoff_set_dt INT NOT NULL)")
+            db.exec("INSERT INTO log_messages SELECT char_id, logon, 0, logoff, 0 FROM log_messages_old")
+            db.exec("DROP TABLE log_messages_old")
+        version = update_version(version)
