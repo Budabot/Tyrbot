@@ -35,7 +35,7 @@ class DarknetController:
         self.message_hub_service.register_message_source(self.MESSAGE_SOURCE)
 
     def start(self):
-        self.setting_service.register(self.module_name, "dark_relay", "false", BooleanSettingType(), "Is the Module Enabled?",
+        self.setting_service.register(self.module_name, "dark_relay", "true", BooleanSettingType(), "Is the Module Enabled?",
                                       extended_description="Use !messagehub to control where Darknet messages are relayed to")
         self.setting_service.register(self.module_name, "dark_wts", "true", BooleanSettingType(), "Is the WTS channel visible?")
         self.setting_service.register(self.module_name, "dark_wtb", "true", BooleanSettingType(), "Is the WTB channel visible?")
