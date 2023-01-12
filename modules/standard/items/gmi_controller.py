@@ -24,7 +24,7 @@ class GMIController:
                                       TextSettingType(["https://gmi.us.nadybot.org/v1.0/aoid/{item_id}", "https://gmi.eu.nadybot.org/v1.0/aoid/{item_id}"]),
                                       "URL for the GMI API")
 
-    @command(command="gmi", params=[Int("item_id")], access_level="all",
+    @command(command="gmi", params=[Int("item_id")], access_level="guest",
              description="Search for GMI listings by item id",
              extended_description="Use <symbol>items to search for an item by name")
     def gmi_id_cmd(self, request, item_id):
