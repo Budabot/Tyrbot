@@ -17,7 +17,7 @@ config = DictObject({
       "username": "",
       "password": "",
       "character": "",
-      "is_main": True
+      "is_main": True,
     }
   ],
 
@@ -25,19 +25,20 @@ config = DictObject({
   "server": {
     "dimension": 5,
     "host": "chat.d1.funcom.com",
-    "port": 7105
+    "port": 7105,
   },
 
   "features": {
     "text_formatting_v2": False,
     "use_tower_api": True,
     "force_large_messages_from_slaves": True,
-    "ignore_failed_bots_on_login": False
+    "ignore_failed_bots_on_login": False,
+    "auto_unfreeze_accounts": False,
   },
 
   "module_paths": [
     "modules/core",
     "modules/standard",
-    "modules/custom"
+    "modules/custom",
   ]
 })

@@ -2,6 +2,7 @@ import inspect
 import signal
 import threading
 import time
+import requests
 
 from core.conn import Conn
 from core.feature_flags import FeatureFlags
@@ -158,6 +159,10 @@ class Tyrbot:
             login_success, packet = conn.login(bot.username, bot.password, bot.character, is_main=bot.is_main, wait_for_logged_in=wait_for_logged_in)
             if not login_success:
                 self.event_service.fire_event(self.LOGIN_FAILURE, packet)
+                
+                if FeatureFlags.AUTO_UNFREEZE_ACCOUNTS and packet.id == server_packets.LoginError.id and packet.message and packet.message.endswith("/Account system denies login"):
+                    self.unfreeze_account(bot.username, bot.password)
+                
                 if i == 0 or not FeatureFlags.IGNORE_FAILED_BOTS_ON_LOGIN:
                     self.status = BotStatus.ERROR
                     return False
@@ -169,6 +174,41 @@ class Tyrbot:
                 self.conns[_id] = conn
 
                 self.create_conn_thread(conn, None if bot.is_main else self.mass_message_queue)
+
+        return True
+
+    def unfreeze_account(self, username, password):
+        self.logger.info(f"({username}) - unfreezing account")
+        minutes_delay = 10
+        timeout = 5
+
+        s = requests.Session()
+        s.headers.update({"User-Agent": f"Tyrbot {self.version}"})
+        
+        login_response = s.post("https://register.funcom.com/account", data={"__ac_name": username, "__ac_password": password}, timeout=timeout)
+        if login_response.status_code != 200:
+            self.logger.info(f"({username}) - login failed trying to unfreeze account, waiting {minutes_delay} to avoid lockout")
+            time.sleep(minutes_delay * 60)
+            return False
+        
+        time.sleep(5)
+        
+        #reactivate_response = s.get(f"https://register.funcom.com/account/subscription/ctrl/anarchy/{username}/reactivate", timeout=timeout)
+        #if reactivate_response.status_code != 200:
+        #    self.logger.info(f"({username}) - failed to unfreeze account, waiting {minutes_delay} to avoid lockout")
+        #    time.sleep(minutes_delay * 60)
+        #    return
+            
+        reactivate_response = s.post(f"https://register.funcom.com/account/subscription/ctrl/anarchy/{username}/reactivate", data={"process": "submit"}, timeout=timeout)
+        if reactivate_response.status_code != 200:
+            self.logger.info(f"({username}) - failed to unfreeze account, waiting {minutes_delay} to avoid lockout")
+            time.sleep(minutes_delay * 60)
+            return False
+
+        self.logger.info(f"({username}) - account unfrozen successfully")
+        time.sleep(5)
+        
+        s.get("https://register.funcom.com/account/logOut", timeout=timeout)
 
         return True
 
