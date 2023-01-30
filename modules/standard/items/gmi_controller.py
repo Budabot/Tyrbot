@@ -45,7 +45,7 @@ class GMIController:
 
         blob += "\n<header2>Buy Orders</header2>\n"
         for buy_order in result.buy_orders:
-            ql = buy_order.max_ql if buy_order.max_ql == buy_order.min_ql else "%s-%s" % (buy_order.min_ql, buy_order.max_ql)
+            ql = buy_order.max_ql if buy_order.max_ql == buy_order.min_ql else "%s - %s" % (buy_order.min_ql, buy_order.max_ql)
             blob += "%s [QL%s] x%d %s expires in %s\n" % (
                 self.util.format_number(buy_order.price),
                 ql,
