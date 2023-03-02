@@ -185,30 +185,24 @@ class Tyrbot:
         s = requests.Session()
         s.headers.update({"User-Agent": f"Tyrbot {self.version}"})
         
-        login_response = s.post("https://register.funcom.com/account", data={"__ac_name": username, "__ac_password": password}, timeout=timeout)
-        if login_response.status_code != 200:
+        login_response = s.post("https://account.anarchy-online.com/", data={"nickname": username, "password": password}, timeout=timeout)
+        if login_response.status_code != 200 or login_response.url != "https://account.anarchy-online.com/account/":
             self.logger.info(f"({username}) - login failed trying to unfreeze account, waiting {minutes_delay} to avoid lockout")
             time.sleep(minutes_delay * 60)
             return False
-        
+
         time.sleep(5)
-        
-        #reactivate_response = s.get(f"https://register.funcom.com/account/subscription/ctrl/anarchy/{username}/reactivate", timeout=timeout)
-        #if reactivate_response.status_code != 200:
-        #    self.logger.info(f"({username}) - failed to unfreeze account, waiting {minutes_delay} to avoid lockout")
-        #    time.sleep(minutes_delay * 60)
-        #    return
-            
-        reactivate_response = s.post(f"https://register.funcom.com/account/subscription/ctrl/anarchy/{username}/reactivate", data={"process": "submit"}, timeout=timeout)
-        if reactivate_response.status_code != 200:
-            self.logger.info(f"({username}) - failed to unfreeze account, waiting {minutes_delay} to avoid lockout")
+
+        reactivate_response = s.get("https://account.anarchy-online.com/uncancel_sub", timeout=timeout)
+        if reactivate_response.status_code != 200 or reactivate_response.url != "https://account.anarchy-online.com/account/":
+            self.logger.info(f"({username}) - login failed trying to unfreeze account, waiting {minutes_delay} to avoid lockout")
             time.sleep(minutes_delay * 60)
             return False
 
         self.logger.info(f"({username}) - account unfrozen successfully")
         time.sleep(5)
-        
-        s.get("https://register.funcom.com/account/logOut", timeout=timeout)
+
+        s.get("https://account.anarchy-online.com/log_out", timeout=timeout)
 
         return True
 
