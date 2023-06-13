@@ -19,6 +19,8 @@ from modules.standard.helpbot.playfield_controller import PlayfieldController
 
 @instance()
 class TowerController:
+    INVALID_TIME_OFFSET_MSG = "Parameter <highlight>time_offset</highlight> can only be used when parameter <highlight>site_status</highlight> is <highlight>open</highlight> or <highlight>closed</highlight>."
+
     def __init__(self):
         self.logger = Logger(__name__)
 
@@ -38,13 +40,6 @@ class TowerController:
 
     def start(self):
         self.command_alias_service.add_alias("hot", "lc open")
-
-        self.setting_service.register(self.module_name, "tower_api_address", "https://tower-api.jkbff.com/v1/api/towers",
-                                      TextSettingType(["https://tower-api.jkbff.com/v1/api/towers"]),
-                                      "The address of the Tower API")
-        self.setting_service.register(self.module_name, "tower_api_custom_headers", "",
-                                      DictionarySettingType(),
-                                      "Custom headers for the Tower API")
 
     @command(command="lc", params=[], access_level="guest",
              description="See a list of playfields containing land control tower sites")
@@ -76,7 +71,7 @@ class TowerController:
                 for org_name_piece in org.split(" "):
                     params.append(("org_name", "%" + org_name_piece + "%"))
 
-            data = self.lookup_tower_info(params).results
+            data = self.lookup_tower_info(params)
 
             t = int(time.time())
             grouped_data = self.util.group_by(data, lambda x: (x.org_id, x.org_name))
@@ -140,11 +135,18 @@ class TowerController:
                 params.append(("min_close_time", relative_time + (3600 * 6)))
                 params.append(("max_close_time", relative_time + (3600 * 24)))
             elif site_status.lower() == "penalty":
+                if time_offset:
+                    return self.INVALID_TIME_OFFSET_MSG
                 params.append(("penalty", "true"))
             elif site_status.lower() == "unplanted":
+                if time_offset:
+                    return self.INVALID_TIME_OFFSET_MSG
                 params.append(("planted", "false"))
+            else:
+                if time_offset:
+                    return self.INVALID_TIME_OFFSET_MSG
 
-            data = self.lookup_tower_info(params).results
+            data = self.lookup_tower_info(params)
 
             blob = ""
             for row in data:
@@ -216,6 +218,7 @@ class TowerController:
                 self.text.make_chatcmd("%dx%d" % (row.x_coord, row.y_coord), "/waypoint %d %d %d" % (row.x_coord, row.y_coord, row.playfield_id)),
                 self.util.time_to_readable(t - row.created_at))
             blob += "Close Time: <highlight>%s</highlight> %s\n" % (value.strftime("%H:%M:%S %Z"), status)
+            blob += "Conductors: <highlight>%s</highlight> Turrets: <highlight>%s</highlight>\n" % (row.num_conductors, row.num_turrets)
         else:
             blob += "%s\n" % self.text.make_chatcmd("%dx%d" % (row.x_coord, row.y_coord), "/waypoint %d %d %d" % (row.x_coord, row.y_coord, row.playfield_id))
             if not row.enabled:
@@ -230,7 +233,7 @@ class TowerController:
             if site_number:
                 params.append(("site_number", site_number))
 
-            data = self.lookup_tower_info(params).results
+            data = self.lookup_tower_info(params)
         else:
             if site_number:
                 data = self.db.query("SELECT t.*, p.short_name AS playfield_short_name, p.long_name AS playfield_long_name "
@@ -243,18 +246,118 @@ class TowerController:
 
         return data
 
-    def lookup_tower_info(self, params):
-        url = self.setting_service.get("tower_api_address").get_value()
+    def lookup_tower_info(self, search_params):
+        sql = "SELECT t.playfield_id, p.long_name AS playfield_long_name, p.short_name AS playfield_short_name, t.site_number, " \
+              "s.ql, t.min_ql, t.max_ql, COALESCE(s.x_coord, t.x_coord) AS x_coord, COALESCE(s.y_coord, t.y_coord) AS y_coord, " \
+              "s.org_name, s.org_id, s.faction, t.site_name, s.close_time, s.penalty_duration, s.penalty_until, s.created_at, t.enabled, " \
+              "s.num_conductors, s.num_turrets " \
+              "FROM tower_site t LEFT JOIN scout_info s ON (t.playfield_id = s.playfield_id AND t.site_number = s.site_number) " \
+              "JOIN playfields p ON t.playfield_id = p.id " \
+              "WHERE 1=1 "
 
-        headers = self.setting_service.get("tower_api_custom_headers").get_value() or {}
-        headers.update({"User-Agent": f"Tyrbot {self.bot.version}"})
-        r = requests.get(url, params, headers=headers, timeout=5)
-        result = DictObject(r.json())
+        d = DictObject()
+        for k, v in search_params:
+            if k in ["org_name", "faction"]:
+                l = d.get(k, [])
+                l.append(v)
+                d[k] = l
+            else:
+                d[k] = v
 
-        return result
+        query_params = []
+
+        absolute_min_close_time = int(time.time())
+        if "min_close_time" in d and d.min_close_time > 86400:
+            absolute_min_close_time = d.min_close_time
+            d.min_close_time = d.min_close_time % 86400
+
+        if "max_close_time" in d and d.max_close_time > 86400:
+            d.max_close_time = d.max_close_time % 86400
+
+        if "playfield_id" in d:
+            sql += " AND t.playfield_id = ?"
+            query_params.append(d.playfield_id)
+
+        if "playfield" in d:
+            sql += " AND (p.long_name LIKE ? OR p.short_name LIKE ?)"
+            query_params.append(d.playfield)
+            query_params.append(d.playfield)
+
+        if "org_id" in d:
+            sql += " AND s.org_id = ?"
+            query_params.append(d.org_id)
+
+        if "org_name" in d:
+            for q in d.org_name:
+                sql += " AND s.org_name LIKE ?"
+                query_params.append(q)
+
+        if "site_number" in d:
+            sql += " AND t.site_number = ?"
+            query_params.append(d.site_number)
+
+        if "min_ql" in d:
+            sql += " AND s.ql >= ?"
+            query_params.append(d.min_ql)
+
+        if "max_ql" in d:
+            sql += " AND s.ql <= ?"
+            query_params.append(d.max_ql)
+
+        if "faction" in d:
+            sql += " AND ("
+            sql += " OR ".join(["s.faction LIKE ?" for q in d.faction])
+            sql += ")"
+            for q in d.faction:
+                query_params.append(q.capitalize())
+
+        if "planted_after" in d:
+            sql += " AND s.created_at > ?"
+            query_params.append(d.planted_after)
+
+        if "planted" in d:
+            if d.planted == "true":
+                sql += " AND s.playfield_id IS NOT NULL"
+            elif d.planted == "false":
+                sql += " AND s.playfield_id IS NULL"
+
+        if "enabled" in d:
+            if d.enabled == "true":
+                sql += " AND t.enabled = 1"
+            elif d.enabled == "false":
+                sql += " AND t.enabled = 0"
+
+        if "penalty" in d:
+            if d.penalty == "true":
+                sql += " AND s.penalty_until >= ?"
+                query_params.append(absolute_min_close_time)
+            elif d.penalty == "false":
+                sql += " AND s.penalty_until < ?"
+                query_params.append(absolute_min_close_time)
+
+        if "min_close_time" in d and "max_close_time" in d:
+            if d.min_close_time < d.max_close_time:
+                sql += " AND ((s.close_time >= ? AND s.close_time <= ?)"
+            else:
+                sql += " AND ((s.close_time >= ? OR s.close_time <= ?)"
+
+            query_params.append(d.min_close_time)
+            query_params.append(d.max_close_time)
+
+            if "penalty" not in d:
+                sql += " OR s.penalty_until >= ?"
+                query_params.append(absolute_min_close_time)
+
+            sql += ")"
+
+        sql += " ORDER BY t.playfield_id ASC, t.site_number ASC"
+
+        results = self.db.query(sql, query_params)
+
+        return results
 
     def get_lc_blob_footer(self):
-        return "Thanks to Draex and Unk for providing the tower information. And a special thanks to Trey."
+        return "The Tower API data is provided by the Nadybot Team."
 
     def get_ct_type(self, ql):
         if ql < 34:

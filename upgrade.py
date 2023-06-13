@@ -286,3 +286,8 @@ def run_upgrades():
             db.exec("INSERT INTO log_messages SELECT char_id, logon, 0, logoff, 0 FROM log_messages_old")
             db.exec("DROP TABLE log_messages_old")
         version = update_version(version)
+
+    if version == 30:
+        if table_exists("scout_info"):
+            db.exec("DROP TABLE scout_info")
+        version = update_version(version)

@@ -19,7 +19,10 @@ class DictObject(dict):
         return val
 
     def __getattr__(self, name):
-        return self.get_value(name)
+        try:
+            return self.get_value(name)
+        except KeyError as e:
+            raise AttributeError(e)
 
     def __setattr__(self, key, value):
         self[key] = value

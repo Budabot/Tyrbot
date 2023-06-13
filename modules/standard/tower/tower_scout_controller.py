@@ -1,3 +1,6 @@
+import requests
+import time
+
 from core.command_param_types import Options, Any, Int
 from core.decorators import instance, event, command
 from core.logger import Logger
@@ -13,14 +16,18 @@ class TowerScoutController:
         self.logger = Logger(__name__)
 
     def inject(self, registry):
+        self.bot = registry.get_instance("bot")
         self.db = registry.get_instance("db")
         self.text = registry.get_instance("text")
         self.util = registry.get_instance("util")
         self.pork_service = registry.get_instance("pork_service")
         self.playfield_controller: PlayfieldController = registry.get_instance("playfield_controller")
+        self.highway_websocket_controller = registry.get_instance("highway_websocket_controller")
 
     def start(self):
         self.db.load_sql_file(self.module_dir + "/" + "scout_info.sql")
+
+        self.highway_websocket_controller.register_room_callback("tower_events", self.handle_websocket_message)
 
     @command(command="scout", params=[Options(["rem", "remove"]), Any("playfield"), Int("site_number")], access_level=OrgMemberController.ORG_ACCESS_LEVEL,
              description="Removing scouting information for a tower site")
@@ -61,6 +68,58 @@ class TowerScoutController:
         data = self.db.query("SELECT playfield_id, site_number, org_name, faction, penalty_duration, penalty_until, created_at "
                              "FROM scout_info "
                              "WHERE org_name LIKE ? AND faction LIKE ? AND created_at <= ?", [org_name, faction, t])
+        for row in data:
+            penalty_duration = ((row.created_at - t) % 3600) + 3600
+            penalty_until = t + penalty_duration
+
+            if row.penalty_until < penalty_until:
+                self.db.exec("UPDATE scout_info SET penalty_duration = ?, penalty_until = ? "
+                             "WHERE playfield_id = ? AND site_number = ?", [penalty_duration, penalty_until, row.playfield_id, row.site_number])
+
+    def handle_websocket_message(self, obj):
+        print(obj)
+        if obj.type == "room-info":
+            headers = {"User-Agent": f"Tyrbot {self.bot.version}"}
+            r = requests.get("https://towers.aobots.org/api/sites", headers=headers, timeout=5)
+            result = r.json()
+
+            t = int(time.time())
+            for site in result:
+                self.update_scout_info(t, site['playfield_id'], site['site_id'], site.get("org_id"), site.get("org_name"), site.get("org_faction"), site.get("ql"),
+                    site.get("plant_time"), (site.get("ct_pos") or {}).get("x"), (site.get("ct_pos") or {}).get("y"), site.get("num_conductors"), site.get("num_turrets"))
+                    
+            data = self.db.query("SELECT org_id, count(1), max(created_at) FROM scout_info WHERE created_at > ? GROUP BY org_id", [t - 7200])
+            for row in data:
+                self.update_penalty_time(t, row.org_id)
+        elif obj.type == "update_site":
+            site = obj.body
+            self.update_scout_info(t, site['playfield_id'], site['site_id'], site.get("org_id"), site.get("org_name"), site.get("org_faction"), site.get("ql"),
+                site.get("plant_time"), (site.get("ct_pos") or {}).get("x"), (site.get("ct_pos") or {}).get("y"), site.get("num_conductors"), site.get("num_turrets"))
+
+    def update_scout_info(self, t, playfield_id, site_number, org_id, org_name, faction, ql, plant_time, x_coord, y_coord, num_conductors, num_turrets):
+        self.db.exec("DELETE FROM scout_info WHERE playfield_id = ? AND site_number = ?", [playfield_id, site_number])
+
+        if org_id:
+            tower_site_info = self.get_tower_site_info(playfield_id, site_number)
+            close_time = plant_time % 86400
+            if tower_site_info.close_time:
+                close_time = tower_site_info.close_time + (close_time % 3600)
+
+            self.db.exec("INSERT INTO scout_info (playfield_id, site_number, ql, x_coord, y_coord, org_name, org_id, faction, close_time, "
+                        "num_conductors, num_turrets, penalty_duration, penalty_until, created_at, updated_at) "
+                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, ?, ?)",
+                        [playfield_id, site_number, ql, x_coord, y_coord, org_name, org_id, faction, close_time, num_conductors, num_turrets, plant_time, t])
+
+    def get_tower_site_info(self, playfield_id, site_number):
+        return self.db.query_single("SELECT playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name "
+                                    "FROM tower_site "
+                                    "WHERE playfield_id = ? AND site_number = ?",
+                                    [playfield_id, site_number])
+
+    def update_penalty_time(self, t, org_id):
+        data = self.db.query("SELECT playfield_id, site_number, org_id, faction, penalty_duration, penalty_until, created_at "
+                             "FROM scout_info "
+                             "WHERE org_id = ?", [org_id])
         for row in data:
             penalty_duration = ((row.created_at - t) % 3600) + 3600
             penalty_until = t + penalty_duration
