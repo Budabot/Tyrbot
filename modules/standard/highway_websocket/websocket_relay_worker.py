@@ -24,7 +24,6 @@ class WebsocketRelayWorker:
             result = self.ws.recv()
             while result:
                 obj = DictObject(json.loads(result))
-                #print("Receiving: %s" % obj)
                 self.inbound_queue.append(obj)
                 result = self.ws.recv()
         except WebSocketConnectionClosedException as e:
@@ -35,7 +34,6 @@ class WebsocketRelayWorker:
 
     def send_message(self, message):
         if self.ws:
-            #print("Sending: " + message)
             self.ws.send(message)
 
     def get_message_from_queue(self):
