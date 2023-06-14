@@ -32,13 +32,12 @@ class HighwayWebsocketController:
         self.event_service = registry.get_instance("event_service")
 
     def start(self):
-        self.setting_service.register(self.module_name, "websocket_relay_server_address", "wss://ws.nadybot.org",
+        self.setting_service.register(self.module_name, "highway_websocket_server_address", "wss://ws.nadybot.org",
                                       TextSettingType(["wss://ws.nadybot.org"]),
                                       "The address of the websocket relay server",
                                       "Point this to a running instance of https://github.com/Nadybot/highway")
 
     def register_room_callback(self, room_name, callback_func):
-        print("register room: " + room_name)
         callbacks = self.callbacks.get(room_name, [])
         callbacks.append(callback_func)
 
@@ -109,7 +108,7 @@ class HighwayWebsocketController:
 
         # TODO enable events
 
-        self.worker = WebsocketRelayWorker(self.setting_service.get("websocket_relay_server_address").get_value(), f"Tyrbot {self.bot.version}")
+        self.worker = WebsocketRelayWorker(self.setting_service.get("highway_websocket_server_address").get_value(), f"Tyrbot {self.bot.version}")
         self.dthread = threading.Thread(target=self.worker.run, daemon=True)
         self.dthread.start()
 
@@ -127,6 +126,6 @@ class HighwayWebsocketController:
                     callback(self.DISCONNECT_OBJ)
 
     def websocket_relay_update(self, setting_name, old_value, new_value):
-        if setting_name == "websocket_relay_server_address":
+        if setting_name == "highway_websocket_server_address":
             if self.setting_service.get("websocket_relay_enabled").get_value():
                 self.connect()
