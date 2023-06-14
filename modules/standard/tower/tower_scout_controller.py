@@ -5,7 +5,7 @@ from core.command_param_types import Options, Any, Int
 from core.decorators import instance, event, command
 from core.logger import Logger
 from modules.core.org_members.org_member_controller import OrgMemberController
-
+from core.setting_types import BooleanSettingType
 from modules.standard.helpbot.playfield_controller import PlayfieldController
 from modules.standard.tower.tower_messages_controller import TowerMessagesController
 
@@ -20,14 +20,17 @@ class TowerScoutController:
         self.db = registry.get_instance("db")
         self.text = registry.get_instance("text")
         self.util = registry.get_instance("util")
-        self.pork_service = registry.get_instance("pork_service")
+        self.setting_service = registry.get_instance("setting_service")
         self.playfield_controller: PlayfieldController = registry.get_instance("playfield_controller")
         self.highway_websocket_controller = registry.get_instance("highway_websocket_controller")
 
     def start(self):
         self.db.load_sql_file(self.module_dir + "/" + "scout_info.sql")
-
-        self.highway_websocket_controller.register_room_callback("tower_events", self.handle_websocket_message)
+        
+        self.setting_service.register(self.module_name, "auto_scout_enable", True, BooleanSettingType(), "Enable Auto Scout")
+        self.setting_service.register_change_listener("auto_scout_enable", self.auto_scout_update)
+        
+        self.auto_scout_update("auto_scout_enable", None, self.setting_service.get("auto_scout_enable").get_value())
 
     @command(command="scout", params=[Options(["rem", "remove"]), Any("playfield"), Int("site_number")], access_level=OrgMemberController.ORG_ACCESS_LEVEL,
              description="Removing scouting information for a tower site")
@@ -127,3 +130,9 @@ class TowerScoutController:
             if row.penalty_until < penalty_until:
                 self.db.exec("UPDATE scout_info SET penalty_duration = ?, penalty_until = ? "
                              "WHERE playfield_id = ? AND site_number = ?", [penalty_duration, penalty_until, row.playfield_id, row.site_number])
+
+    def auto_scout_update(self, setting_name, old_value, new_value):
+        if old_value:
+            self.highway_websocket_controller.unregister_room_callback("tower_events", self.handle_websocket_message)
+        if new_value:
+            self.highway_websocket_controller.register_room_callback("tower_events", self.handle_websocket_message)
