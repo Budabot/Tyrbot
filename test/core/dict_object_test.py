@@ -47,7 +47,7 @@ class DictObjectTest(unittest.TestCase):
     def test_empty_access(self):
         d = DictObject()
         self.assertRaises(KeyError, lambda: d["test1"])
-        self.assertRaises(KeyError, lambda: d.test1)
+        self.assertRaises(AttributeError, lambda: d.test1)
 
     def test_empty_update(self):
         d = DictObject()
