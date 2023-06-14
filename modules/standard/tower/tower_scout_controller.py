@@ -44,7 +44,7 @@ class TowerScoutController:
         else:
             return f"Scouting information for <highlight>{playfield.long_name} {site_number}</highlight> removed successfully."
 
-    @event(event_type=TowerMessagesController.TOWER_VICTORY_EVENT, description="Remove scout info for tower sites that are destroyed", is_system=True, is_enabled=False)
+    @event(event_type=TowerMessagesController.TOWER_VICTORY_EVENT, description="Remove scout info for tower sites that are destroyed", is_system=True)
     def tower_scout_info_cleanup_event(self, event_type, event_data):
         if event_data.location.site_number:
             self.db.exec("DELETE FROM scout_info WHERE playfield_id = ? AND site_number = ?",
@@ -53,11 +53,11 @@ class TowerScoutController:
             self.db.exec("DELETE FROM scout_info WHERE playfield_id = ? AND faction = ? AND org_name = ?",
                          [event_data.location.playfield.id, event_data.loser.faction, event_data.loser.org_name])
 
-    @event(event_type=TowerMessagesController.TOWER_VICTORY_EVENT, description="Update penalty time on tower victory", is_system=True, is_enabled=False)
+    @event(event_type=TowerMessagesController.TOWER_VICTORY_EVENT, description="Update penalty time on tower victory", is_system=True)
     def tower_victory_update_penalty_event(self, event_type, event_data):
-        self.update_penalty_time(event_data.battle_id, event_data.winner.org_name, event_data.winner.faction)
+        self.update_penalty_time(event_data.timestamp, event_data.winner.org_name, event_data.winner.faction)
 
-    @event(event_type=TowerMessagesController.TOWER_ATTACK_EVENT, description="Update penalty time on tower attack", is_system=True, is_enabled=False)
+    @event(event_type=TowerMessagesController.TOWER_ATTACK_EVENT, description="Update penalty time on tower attack", is_system=True)
     def tower_attack_update_penalty_event(self, event_type, event_data):
         self.update_penalty_time(event_data.timestamp, event_data.attacker.org_name, event_data.attacker.faction)
 
@@ -87,9 +87,9 @@ class TowerScoutController:
                 self.update_scout_info(t, site['playfield_id'], site['site_id'], site.get("org_id"), site.get("org_name"), site.get("org_faction"), site.get("ql"),
                     site.get("plant_time"), (site.get("ct_pos") or {}).get("x"), (site.get("ct_pos") or {}).get("y"), site.get("num_conductors"), site.get("num_turrets"))
                     
-            data = self.db.query("SELECT org_id, count(1), max(created_at) FROM scout_info WHERE created_at > ? GROUP BY org_id", [t - 7200])
+            data = self.db.query("SELECT org_name, faction, count(1), max(created_at) FROM scout_info WHERE created_at > ? GROUP BY org_name, faction", [t - 7200])
             for row in data:
-                self.update_penalty_time(t, row.org_id)
+                self.update_penalty_time(t, row.org_name, row.faction)
         elif obj.type == "message" and obj.body.get("type") == "update_site":
             site = obj.body
             t = int(time.time())
@@ -116,10 +116,10 @@ class TowerScoutController:
                                     "WHERE playfield_id = ? AND site_number = ?",
                                     [playfield_id, site_number])
 
-    def update_penalty_time(self, t, org_id):
+    def update_penalty_time(self, t, org_name, faction):
         data = self.db.query("SELECT playfield_id, site_number, org_id, faction, penalty_duration, penalty_until, created_at "
                              "FROM scout_info "
-                             "WHERE org_id = ?", [org_id])
+                             "WHERE org_name LIKE ? AND faction LIKE ? AND created_at <= ?", [org_name, faction, t])
         for row in data:
             penalty_duration = ((row.created_at - t) % 3600) + 3600
             penalty_until = t + penalty_duration

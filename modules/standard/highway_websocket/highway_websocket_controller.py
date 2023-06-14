@@ -74,7 +74,7 @@ class HighwayWebsocketController:
             return
     
         obj = self.worker.get_message_from_queue()
-        if obj:
+        while obj:
             room = obj.get("room")
             if room:
                 for callback in self.callbacks.get(room, []):
@@ -89,6 +89,8 @@ class HighwayWebsocketController:
                 for rooms in self.callbacks:
                     for callback in rooms:
                         callback(obj)
+
+            obj = self.worker.get_message_from_queue()
 
     @timerevent(budatime="30s", description="Ensure the bot is connected to websocket relay", is_system=True, is_enabled=True, run_at_startup=True)
     def handle_connect_event(self, event_type, event_data):
