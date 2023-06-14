@@ -67,7 +67,7 @@ class HighwayWebsocketController:
         if not self.callbacks:
             self.disconnect()
 
-    @timerevent(budatime="1s", description="Process messages from websocket", is_system=True, is_enabled=True)
+    @timerevent(budatime="1s", description="Process messages from websocket", is_system=True)
     def handle_queue_event(self, event_type, event_data):
         if not self.worker:
             return
@@ -91,7 +91,7 @@ class HighwayWebsocketController:
 
             obj = self.worker.get_message_from_queue()
 
-    @timerevent(budatime="30s", description="Ensure the bot is connected to websocket relay", is_system=True, is_enabled=True, run_at_startup=True)
+    @timerevent(budatime="30s", description="Ensure the bot is connected to highway websocket", is_system=True, run_at_startup=True)
     def handle_connect_event(self, event_type, event_data):
         if not self.worker or not self.dthread.is_alive():
             if self.callbacks:
