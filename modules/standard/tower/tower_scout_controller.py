@@ -77,7 +77,6 @@ class TowerScoutController:
                              "WHERE playfield_id = ? AND site_number = ?", [penalty_duration, penalty_until, row.playfield_id, row.site_number])
 
     def handle_websocket_message(self, obj):
-        print(obj)
         if obj.type == "room-info":
             headers = {"User-Agent": f"Tyrbot {self.bot.version}"}
             r = requests.get("https://towers.aobots.org/api/sites", headers=headers, timeout=5)
@@ -91,8 +90,9 @@ class TowerScoutController:
             data = self.db.query("SELECT org_id, count(1), max(created_at) FROM scout_info WHERE created_at > ? GROUP BY org_id", [t - 7200])
             for row in data:
                 self.update_penalty_time(t, row.org_id)
-        elif obj.type == "update_site":
+        elif obj.type == "message" and obj.body.get("type") == "update_site":
             site = obj.body
+            t = int(time.time())
             self.update_scout_info(t, site['playfield_id'], site['site_id'], site.get("org_id"), site.get("org_name"), site.get("org_faction"), site.get("ql"),
                 site.get("plant_time"), (site.get("ct_pos") or {}).get("x"), (site.get("ct_pos") or {}).get("y"), site.get("num_conductors"), site.get("num_turrets"))
 

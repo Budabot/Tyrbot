@@ -36,14 +36,21 @@ class HighwayWebsocketController:
                                       TextSettingType(["wss://ws.nadybot.org"]),
                                       "The address of the websocket relay server",
                                       "Point this to a running instance of https://github.com/Nadybot/highway")
-                                      
+
     def register_room_callback(self, room_name, callback_func):
+        print("register room: " + room_name)
         callbacks = self.callbacks.get(room_name, [])
         callbacks.append(callback_func)
+
+        if self.worker:
+            # if room isn't already joined, join room
+            if not self.callbacks.get(room_name):
+                self.worker.send_message(json.dumps({"type": "join", "room": room_name}))
+        else:
+            self.connect()
+
         self.callbacks[room_name] = callbacks
-        
-        self.handle_connect_event(None, None)
-        
+
     def unregister_room_callback(self, room_name, callback_func):
         callbacks = self.callbacks.get(room_name, [])
         for idx, callback in enumerate(callbacks):
@@ -54,6 +61,9 @@ class HighwayWebsocketController:
             self.callbacks[room_name] = callbacks
         elif room_name in self.callbacks:
             del self.callbacks[room_name]
+            # if room is already joined and worker is connected, leave room
+            if self.worker:
+                self.worker.send_message(json.dumps({"type": "leave", "room": room_name}))
 
         if not self.callbacks:
             self.disconnect()
@@ -75,7 +85,10 @@ class HighwayWebsocketController:
                     self.worker.send_message(json.dumps({"type": "join", "room": room}))
             elif obj.type == "failure":
                 self.logger.error(obj)
-
+            elif obj.type == "disconnect":
+                for rooms in self.callbacks:
+                    for callback in rooms:
+                        callback(obj)
 
     @timerevent(budatime="30s", description="Ensure the bot is connected to websocket relay", is_system=True, is_enabled=True, run_at_startup=True)
     def handle_connect_event(self, event_type, event_data):

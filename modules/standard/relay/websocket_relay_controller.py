@@ -12,7 +12,6 @@ from core.private_channel_service import PrivateChannelService
 from modules.core.org_members.org_member_controller import OrgMemberController
 from modules.standard.online.online_controller import OnlineController
 from .aesgcm_wrapper import AESGCMWrapper
-from .websocket_relay_worker import WebsocketRelayWorker
 
 
 @instance()
@@ -25,7 +24,6 @@ class WebsocketRelayController:
         self.dthread = None
         self.queue = []
         self.logger = Logger(__name__)
-        self.worker = None
         self.encrypter = None
         self.channels = {}
 
@@ -40,6 +38,7 @@ class WebsocketRelayController:
         self.online_controller = registry.get_instance("online_controller")
         self.public_channel_service = registry.get_instance("public_channel_service")
         self.message_hub_service = registry.get_instance("message_hub_service")
+        self.highway_websocket_controller = registry.get_instance("highway_websocket_controller")
 
     def pre_start(self):
         self.message_hub_service.register_message_source(self.MESSAGE_SOURCE)
@@ -52,10 +51,6 @@ class WebsocketRelayController:
 
         self.setting_service.register(self.module_name, "relay_prefix", "", TextSettingType(allow_empty=True), "Name of this relay (if you don't want to use org or bot name)")
         self.setting_service.register(self.module_name, "websocket_relay_enabled", False, BooleanSettingType(), "Enable the websocket relay")
-        self.setting_service.register(self.module_name, "websocket_relay_server_address", "wss://ws.nadybot.org",
-                                      TextSettingType(["ws://localhost/subscribe/relay", "wss://ws.nadybot.org"]),
-                                      "The address of the websocket relay server (must be the same on all bots)",
-                                      "Point this to a running instance of https://github.com/Nadybot/highway")
 
         self.setting_service.register(self.module_name, "websocket_relay_room", "", TextSettingType(allow_empty=True), "The name of the websocket room to join (must be the same on all bots)")
         self.setting_service.register(self.module_name, "websocket_relay_channel_color", "#FFFF00", ColorSettingType(), "Color of the channel in websocket relay messages")
@@ -63,10 +58,7 @@ class WebsocketRelayController:
         self.setting_service.register(self.module_name, "websocket_relay_sender_color", "#00DE42", ColorSettingType(), "Color of the sender in websocket relay messages")
         self.setting_service.register(self.module_name, "websocket_encryption_key", "", HiddenSettingType(allow_empty=True), "An encryption key used to encrypt messages over a public websocket relay")
 
-        self.initialize_encrypter(self.setting_service.get("websocket_encryption_key").get_value())
-
         self.setting_service.register_change_listener("websocket_relay_enabled", self.websocket_relay_update)
-        self.setting_service.register_change_listener("websocket_relay_server_address", self.websocket_relay_update)
         self.setting_service.register_change_listener("websocket_encryption_key", self.websocket_relay_update)
         self.setting_service.register_change_listener("websocket_relay_room", self.websocket_relay_update)
         self.setting_service.register(self.module_name, "websocket_symbol", "#",
@@ -76,6 +68,9 @@ class WebsocketRelayController:
                                       TextSettingType(["Always", "with_symbol", "unless_symbol"]),
                                       "When to relay messages")
 
+        for setting_name in ["websocket_relay_enabled", "websocket_encryption_key"]:
+            self.websocket_relay_update(setting_name, None, self.setting_service.get(setting_name).get_value())
+
     def initialize_encrypter(self, password):
         if password:
             key = hashlib.sha256(password.encode("utf-8")).digest()
@@ -83,34 +78,24 @@ class WebsocketRelayController:
         else:
             self.encrypter = None
 
-    @timerevent(budatime="1s", description="Relay messages from websocket relay to the internal message hub", is_system=True, is_enabled=False)
-    def handle_queue_event(self, event_type, event_data):
-        while self.queue:
-            obj = self.queue.pop(0)
-            if obj.type == "message":
-                self.process_relay_message(obj.user, obj.body)
-            elif obj.type == "hello":
-                self.worker.send_message(json.dumps({"type": "join", "room": self.setting_service.get("websocket_relay_room").get_value()}))
-            elif obj.type == "room-info":
-                if obj.room == self.setting_service.get("websocket_relay_room").get_value():
-                    self.send_relay_message({"type": "online_list_request"})
-                    self.send_relay_message(self.get_online_list_obj())
-            elif obj.type == "failure":
-                self.logger.error(obj.message)
-            elif obj.type == "leave":
-                if obj.room == self.setting_service.get("websocket_relay_room").get_value():
-                    for channel in self.channels.get(obj.user, []):
-                        self.online_controller.deregister_online_channel(channel)
+    def handle_websocket_message(self, obj):
+        if obj.type == "message":
+            self.process_relay_message(obj.user, obj.body)
+        elif obj.type == "room-info":
+            if obj.room == self.setting_service.get("websocket_relay_room").get_value():
+                self.send_relay_message({"type": "online_list_request"})
+                self.send_relay_message(self.get_online_list_obj())
+        elif obj.type == "leave":
+            if obj.room == self.setting_service.get("websocket_relay_room").get_value():
+                for channel in self.channels.get(obj.user, []):
+                    self.online_controller.deregister_online_channel(channel)
 
-                    if obj.user in self.channels:
-                        del self.channels[obj.user]
-
-    @timerevent(budatime="30s", description="Ensure the bot is connected to websocket relay", is_system=True, is_enabled=False, run_at_startup=True)
-    def handle_connect_event(self, event_type, event_data):
-        if not self.worker or not self.dthread.is_alive():
-            self.connect()
-        else:
-            self.worker.send_ping()
+                if obj.user in self.channels:
+                    del self.channels[obj.user]
+        elif obj == self.highway_websocket_controller.DISCONNECT_OBJ:
+            for channels in self.channels.values():
+                for channel in channels:
+                    self.online_controller.deregister_online_channel(channel)
 
     @event(PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, "Send to websocket relay when someone joins private channel", is_system=True, is_enabled=False)
     def private_channel_joined_event(self, event_type, event_data):
@@ -226,16 +211,15 @@ class WebsocketRelayController:
         self.db.exec("DELETE FROM online WHERE char_id = ? AND channel = ?", [char_id, channel])
 
     def send_relay_message(self, message):
-        if self.worker:
+        if self.highway_websocket_controller.worker:
             message = json.dumps(message)
             if self.encrypter:
                 message = base64.encodebytes(self.encrypter.encrypt(message.encode("utf-8"))).decode("utf-8")
             obj = json.dumps({"type": "message", "room": self.setting_service.get("websocket_relay_room").get_value(), "body": message})
-            self.worker.send_message(obj)
+            self.highway_websocket_controller.send_message(obj)
 
     def handle_message_from_hub(self, ctx):
-        if self.worker:
-
+        if self.highway_websocket_controller.worker:
             method = self.setting_service.get_value("websocket_symbol_method")
             symbol = self.setting_service.get_value("websocket_symbol")
             message = ctx.message or ctx.formatted_message
@@ -255,45 +239,26 @@ class WebsocketRelayController:
                    "source": self.create_source_obj(ctx.source)}
             self.send_relay_message(obj)
 
-    def connect(self):
-        self.disconnect()
-
-        self.worker = WebsocketRelayWorker(self.queue, self.setting_service.get("websocket_relay_server_address").get_value(), f"Tyrbot {self.bot.version}")
-        self.dthread = threading.Thread(target=self.worker.run, daemon=True)
-        self.dthread.start()
-
-    def disconnect(self):
-        for channels in self.channels.values():
-            for channel in channels:
-                self.online_controller.deregister_online_channel(channel)
-
-        if self.worker:
-            self.worker.close()
-            self.worker = None
-            self.dthread.join()
-            self.dthread = None
-
     def websocket_relay_update(self, setting_name, old_value, new_value):
         if setting_name == "websocket_relay_enabled":
-            event_handlers = [self.handle_connect_event, self.handle_queue_event, self.private_channel_joined_event, self.private_channel_left_event,
+            event_handlers = [self.private_channel_joined_event, self.private_channel_left_event,
                               self.org_member_logon_event, self.org_member_logoff_event]
             for handler in event_handlers:
                 event_handler = self.util.get_handler_name(handler)
                 event_base_type, event_sub_type = self.event_service.get_event_type_parts(handler.event.event_type)
                 self.event_service.update_event_status(event_base_type, event_sub_type, event_handler, 1 if new_value else 0)
 
-            if not new_value:
-                self.disconnect()
-        elif setting_name == "websocket_relay_server_address":
-            if self.setting_service.get("websocket_relay_enabled").get_value():
-                self.connect()
+            if old_value:
+                self.highway_websocket_controller.unregister_room_callback(self.setting_service.get("websocket_relay_room").get_value(), self.handle_websocket_message)
+
+            if new_value:
+                self.highway_websocket_controller.register_room_callback(self.setting_service.get("websocket_relay_room").get_value(), self.handle_websocket_message)
         elif setting_name == "websocket_encryption_key":
             self.initialize_encrypter(new_value)
-            if self.setting_service.get("websocket_relay_enabled").get_value():
-                self.connect()
         elif setting_name == "websocket_relay_room":
             if self.setting_service.get("websocket_relay_enabled").get_value():
-                self.connect()
+                self.highway_websocket_controller.unregister_room_callback(old_value, self.handle_websocket_message)
+                self.highway_websocket_controller.register_room_callback(new_value, self.handle_websocket_message)
 
     def get_channel_name(self, source):
         channel_name = source.get("label") or source.get("name") or "Unknown Relay"
@@ -314,12 +279,12 @@ class WebsocketRelayController:
         conn = self.bot.get_temp_conn()
         org_name = conn.org_name
 
-        if source == "private_channel" or source == OnlineController.PRIVATE_CHANNEL:
+        if source == "private_channel" or source == "private_channel_update" or source == OnlineController.PRIVATE_CHANNEL:
             if org_name:
                 channel = "Guest"
             else:
                 channel = ""
-        elif org_name and (source == "org_channel" or source == OnlineController.ORG_CHANNEL):
+        elif org_name and (source == "org_channel" or source == "org_channel_update" or source == OnlineController.ORG_CHANNEL):
             channel = ""
         else:
             channel = source.capitalize()
