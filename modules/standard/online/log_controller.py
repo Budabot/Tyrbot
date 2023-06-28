@@ -35,7 +35,7 @@ class LogController:
         if self.db.query_single("SELECT logon FROM log_messages WHERE char_id = ?", [request.sender.char_id]):
             self.db.exec("UPDATE log_messages SET logon = ?, logon_set_dt = ? WHERE char_id = ?", [logon_message, int(time.time()), request.sender.char_id])
         else:
-            self.db.exec("INSERT INTO log_messages (char_id, logon) VALUES(?, ?)", [request.sender.char_id, logon_message])
+            self.db.exec("INSERT INTO log_messages (char_id, logon, logon_set_dt, logoff_set_dt) VALUES (?, ?, ?, 0)", [request.sender.char_id, logon_message, int(time.time())])
         return "Your new logon message is: %s" % logon_message
 
     @command(command="logoff", params=[], access_level="member", description="Check your current logoff message")
@@ -57,7 +57,7 @@ class LogController:
         if self.db.query_single("SELECT logoff FROM log_messages WHERE char_id = ?", [request.sender.char_id]):
             self.db.exec("UPDATE log_messages SET logoff = ?, logoff_set_dt = ? WHERE char_id = ?", [logoff_message, int(time.time()), request.sender.char_id])
         else:
-            self.db.exec("INSERT INTO log_messages (char_id, logoff) VALUES(?, ?)", [request.sender.char_id, logoff_message])
+            self.db.exec("INSERT INTO log_messages (char_id, logoff, logoff_set_dt, logon_set_dt) VALUES (?, ?, ?, 0)", [request.sender.char_id, logoff_message, int(time.time())])
         return "Your new logoff message is: %s" % logoff_message
 
     def get_log_message(self, char_id, log_message_type, show_time_set=False):
