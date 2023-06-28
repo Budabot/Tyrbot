@@ -44,7 +44,7 @@ class OrgPorkService:
             url = self.get_pork_url(self.bot.dimension, org_id)
 
             try:
-                r = requests.get(url, timeout=5)
+                r = requests.get(url, timeout=10)
                 result = r.json()
 
                 # if data is invalid
