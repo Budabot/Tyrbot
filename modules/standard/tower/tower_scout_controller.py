@@ -26,10 +26,10 @@ class TowerScoutController:
 
     def start(self):
         self.db.load_sql_file(self.module_dir + "/" + "scout_info.sql")
-        
+
         self.setting_service.register(self.module_name, "auto_scout_enable", True, BooleanSettingType(), "Enable Auto Scout")
         self.setting_service.register_change_listener("auto_scout_enable", self.auto_scout_update)
-        
+
         self.auto_scout_update("auto_scout_enable", None, self.setting_service.get("auto_scout_enable").get_value())
 
     @command(command="scout", params=[Options(["rem", "remove"]), Any("playfield"), Int("site_number")], access_level=OrgMemberController.ORG_ACCESS_LEVEL,
@@ -81,8 +81,9 @@ class TowerScoutController:
 
     def handle_websocket_message(self, obj):
         def extract_and_update(t, site):
-            self.update_scout_info(t, site['playfield_id'], site['site_id'], site.get("org_id"), site.get("org_name"), site.get("org_faction") or "Unknown", site.get("ql"),
-                site.get("plant_time"), (site.get("ct_pos") or {}).get("x", -1), (site.get("ct_pos") or {}).get("y", -1), site.get("num_conductors"), site.get("num_turrets"))
+            self.update_scout_info(t, site["playfield_id"], site["site_id"], site.get("org_id"), site.get("org_name"), site.get("org_faction") or "Unknown",
+                site.get("ql"), site.get("plant_time"), (site.get("ct_pos") or {}).get("x") or site["center"]["x"],
+                (site.get("ct_pos") or {}).get("y") or site["center"]["y"], site.get("num_conductors"), site.get("num_turrets"))
     
         if obj.type == "room-info":
             headers = {"User-Agent": f"Tyrbot {self.bot.version}"}
