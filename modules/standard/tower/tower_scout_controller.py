@@ -80,6 +80,10 @@ class TowerScoutController:
                              "WHERE playfield_id = ? AND site_number = ?", [penalty_duration, penalty_until, row.playfield_id, row.site_number])
 
     def handle_websocket_message(self, obj):
+        def extract_and_update(t, site):
+            self.update_scout_info(t, site['playfield_id'], site['site_id'], site.get("org_id"), site.get("org_name"), site.get("org_faction") or "Unknown", site.get("ql"),
+                site.get("plant_time"), (site.get("ct_pos") or {}).get("x", -1), (site.get("ct_pos") or {}).get("y", -1), site.get("num_conductors"), site.get("num_turrets"))
+    
         if obj.type == "room-info":
             headers = {"User-Agent": f"Tyrbot {self.bot.version}"}
             r = requests.get("https://towers.aobots.org/api/sites", headers=headers, timeout=5)
@@ -87,8 +91,7 @@ class TowerScoutController:
 
             t = int(time.time())
             for site in result:
-                self.update_scout_info(t, site['playfield_id'], site['site_id'], site.get("org_id"), site.get("org_name"), site.get("org_faction"), site.get("ql"),
-                    site.get("plant_time"), (site.get("ct_pos") or {}).get("x"), (site.get("ct_pos") or {}).get("y"), site.get("num_conductors"), site.get("num_turrets"))
+                extract_and_update(t, site)
                     
             data = self.db.query("SELECT org_name, faction, count(1), max(created_at) FROM scout_info WHERE created_at > ? GROUP BY org_name, faction", [t - 7200])
             for row in data:
@@ -96,8 +99,7 @@ class TowerScoutController:
         elif obj.type == "message" and obj.body.get("type") == "update_site":
             site = obj.body
             t = int(time.time())
-            self.update_scout_info(t, site['playfield_id'], site['site_id'], site.get("org_id"), site.get("org_name"), site.get("org_faction"), site.get("ql"),
-                site.get("plant_time"), (site.get("ct_pos") or {}).get("x"), (site.get("ct_pos") or {}).get("y"), site.get("num_conductors"), site.get("num_turrets"))
+            extract_and_update(t, site)
 
     def update_scout_info(self, t, playfield_id, site_number, org_id, org_name, faction, ql, plant_time, x_coord, y_coord, num_conductors, num_turrets):
         self.db.exec("DELETE FROM scout_info WHERE playfield_id = ? AND site_number = ?", [playfield_id, site_number])
