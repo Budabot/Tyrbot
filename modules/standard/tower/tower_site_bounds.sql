@@ -10,17 +10,6 @@ INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_
 INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (717, 4, 1774, 1685, 1985, 1124);
 INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (717, 7, 1816, 1119, 2233, 680);
 INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (717, 7, 1650, 988, 1817, 680);
-INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (620, 4, 1860, 2640, 2925, 1840);
-INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (620, 5, 1285, 2200, 1766, 1372);
-INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (560, 2, 2800, 3400, 3285, 2575);
-INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (560, 3, 3288, 3400, 3743, 2575);
-INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (560, 7, 2350, 1000, 2610, 220);
-INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (560, 7, 2350, 1000, 2650, 650);
-INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (560, 7, 2350, 1000, 3100, 680);
-INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (560, 7, 2901, 1000, 3100, 220);
-INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (560, 7, 2350, 360, 3100, 220);
-INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (560, 9, 2700, 670, 2900, 380);
-INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (560, 9, 2610, 630, 2900, 380);
 
 -- andromeda - done
 INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (655, 1, 221, 2848, 667, 2545);
@@ -30,7 +19,7 @@ INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_
 INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (655, 5, 1290, 1750, 1598, 1414);
 INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (655, 6, 3941, 1146, 4651, 628);
 INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (655, 7, 1776, 673, 2718, 91);
-INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (655, 8, 4093, 4659, 207, 628);
+INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (655, 8, 4093, 581, 4659, 184);
 INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (655, 9, 618, 460, 1063, 225);
 
 -- clondyke - done
@@ -45,6 +34,16 @@ INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_
 INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (670, 8, 2113, 711, 2254, 558);
 INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (670, 8, 2255, 711, 2414, 596);
 INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (670, 9, 2148, 570, 2424, 390);
+
+-- eastern foul plains - done
+INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (620, 1, 2466, 4009, 2936, 3702);
+INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (620, 2, 1656, 3607, 2203, 2699);
+INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (620, 3, 566, 3089, 717, 2837);
+INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (620, 4, 1860, 2640, 2925, 1840);
+INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (620, 5, 1285, 2200, 1766, 1372);
+INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (620, 6, 1461, 1192, 1646, 1050);
+INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (620, 7, 1756, 1083, 2304, 666);
+INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (620, 8, 562, 749, 1065, 307);
 
 -- galway shire - done
 INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (687, 1, 372, 2039, 577, 1832);
@@ -61,6 +60,22 @@ INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_
 INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (791, 4, 497, 970, 947, 699);
 INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (791, 5, 653, 602, 902, 342);
 INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (791, 6, 266, 427, 454, 229);
+
+-- mort - done
+INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (560, 1, 1256, 3674, 1743, 3188);
+INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (560, 2, 2873, 3388, 3285, 2652);
+INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (560, 3, 3350, 3348, 3743, 2656);
+INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (560, 4, 894, 2631, 1618, 1905);
+INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (560, 5, 635, 1637, 1265, 1309);
+INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (560, 6, 2898, 1630, 3220, 1344);
+INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (560, 7, 2350, 1000, 2610, 220);
+INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (560, 7, 2350, 1000, 2650, 650);
+INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (560, 7, 2350, 1000, 3100, 680);
+INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (560, 7, 2901, 1000, 3100, 220);
+INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (560, 7, 2350, 360, 3100, 220);
+INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (560, 8, 253, 908, 838, 263);
+INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (560, 9, 2700, 670, 2900, 380);
+INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (560, 9, 2610, 630, 2900, 380);
 
 -- stret west bank - done
 INSERT INTO tower_site_bounds (playfield_id, site_number, x_coord1, y_coord1, x_coord2, y_coord2) VALUES (790, 1, 1618, 3222, 1775, 2950);

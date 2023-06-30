@@ -38,6 +38,14 @@ class TowerController:
         self.db.load_sql_file(self.module_dir + "/" + "tower_site.sql")
         self.db.load_sql_file(self.module_dir + "/" + "tower_site_bounds.sql")
 
+        row = self.db.query_single("SELECT * FROM tower_site_bounds WHERE x_coord1 > x_coord2")
+        if row:
+            raise Exception("invalid value in tower_site_bounds: %s" % row)
+
+        row = self.db.query_single("SELECT * FROM tower_site_bounds WHERE y_coord1 < y_coord2")
+        if row:
+            raise Exception("invalid value in tower_site_bounds: %s" % row)
+
     def start(self):
         self.command_alias_service.add_alias("hot", "lc open")
 

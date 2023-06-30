@@ -392,12 +392,15 @@ class TowerMessagesController:
         return "%s (%s %s) %s[%s]" % (row.att_char_name or "Unknown attacker", level, row.att_profession or "Unknown", org, self.text.get_formatted_faction(row.att_faction))
 
     def find_closest_site_number(self, playfield_id, x_coord, y_coord):
-        sql = "SELECT site_number FROM tower_site_bounds " \
-              "WHERE playfield_id = ? AND x_coord1 <= ? AND x_coord2 >= ? AND y_coord1 >= ? AND y_coord2 <= ? " \
-              "LIMIT 1"
-        row = self.db.query_single(sql, [playfield_id, x_coord, x_coord, y_coord, y_coord])
-        if row:
+        sql = "SELECT DISTINCT site_number FROM tower_site_bounds " \
+              "WHERE playfield_id = ? AND x_coord1 <= ? AND x_coord2 >= ? AND y_coord1 >= ? AND y_coord2 <= ?"
+        data = self.db.query(sql, [playfield_id, x_coord, x_coord, y_coord, y_coord])
+        num_results = len(data)
+        if num_results > 1:
+            raise Exception(f"multiple tower sites found for coordinates '{x_coord}x{y_coord}'")
+        elif num_results == 1:
             return row.site_number
+        # else use traditional radius calculation to find site
 
         sql = """
             SELECT
