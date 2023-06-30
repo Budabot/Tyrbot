@@ -38,6 +38,7 @@ class TowerController:
         self.db.load_sql_file(self.module_dir + "/" + "tower_site.sql")
         self.db.load_sql_file(self.module_dir + "/" + "tower_site_bounds.sql")
 
+        # validate tower_site_bounds
         row = self.db.query_single("SELECT * FROM tower_site_bounds WHERE x_coord1 > x_coord2")
         if row:
             raise Exception("invalid value in tower_site_bounds: %s" % row)
@@ -45,6 +46,19 @@ class TowerController:
         row = self.db.query_single("SELECT * FROM tower_site_bounds WHERE y_coord1 < y_coord2")
         if row:
             raise Exception("invalid value in tower_site_bounds: %s" % row)
+
+        # TODO check that no boxes overlap for different sites
+        data = self.db.query("SELECT * FROM tower_site_bounds")
+        sql = "SELECT * FROM tower_site_bounds WHERE " \
+            "playfield_id = ? AND site_number != ? AND " \
+            "((x_coord1 >= ? AND x_coord1 <= ?) OR (x_coord2 >= ? AND x_coord2 <= ?)) AND " \
+            "((y_coord1 <= ? AND y_coord1 >= ?) OR (y_coord2 <= ? AND y_coord2 >= ?))"
+        for row in data:
+            row2 = self.db.query_single(sql, [row.playfield_id, row.site_number,
+                row.x_coord1, row.x_coord2, row.x_coord1, row.x_coord2,
+                row.y_coord1, row.y_coord2, row.y_coord1, row.y_coord2])
+            if row2:
+                raise Exception("overlapping bounds in tower_site_bounds: %s %s" % (row, row2))
 
     def start(self):
         self.command_alias_service.add_alias("hot", "lc open")
