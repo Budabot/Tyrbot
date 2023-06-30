@@ -47,7 +47,7 @@ class TowerController:
         if row:
             raise Exception("invalid value in tower_site_bounds: %s" % row)
 
-        # TODO check that no boxes overlap for different sites
+        # check that no boxes overlap for different sites
         data = self.db.query("SELECT * FROM tower_site_bounds")
         sql = "SELECT * FROM tower_site_bounds WHERE " \
             "playfield_id = ? AND site_number != ? AND " \
