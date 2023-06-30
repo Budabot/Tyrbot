@@ -82,8 +82,7 @@ class TowerScoutController:
     def handle_websocket_message(self, obj):
         def extract_and_update(t, site):
             self.update_scout_info(t, site["playfield_id"], site["site_id"], site.get("org_id"), site.get("org_name"), site.get("org_faction") or "Unknown",
-                site.get("ql"), site.get("plant_time"), (site.get("ct_pos") or {}).get("x") or site["center"]["x"],
-                (site.get("ct_pos") or {}).get("y") or site["center"]["y"], site.get("num_conductors"), site.get("num_turrets"))
+                site.get("ql"), site.get("plant_time"), (site.get("ct_pos") or {}).get("x"), (site.get("ct_pos") or {}).get("y"), site.get("num_conductors"), site.get("num_turrets"))
     
         if obj.type == "room-info":
             headers = {"User-Agent": f"Tyrbot {self.bot.version}"}
@@ -93,7 +92,7 @@ class TowerScoutController:
             t = int(time.time())
             for site in result:
                 extract_and_update(t, site)
-                    
+
             data = self.db.query("SELECT org_name, faction, count(1), max(created_at) FROM scout_info WHERE created_at > ? GROUP BY org_name, faction", [t - 7200])
             for row in data:
                 self.update_penalty_time(t, row.org_name, row.faction)
@@ -105,7 +104,7 @@ class TowerScoutController:
     def update_scout_info(self, t, playfield_id, site_number, org_id, org_name, faction, ql, plant_time, x_coord, y_coord, num_conductors, num_turrets):
         self.db.exec("DELETE FROM scout_info WHERE playfield_id = ? AND site_number = ?", [playfield_id, site_number])
 
-        if org_id:
+        if org_id and x_coord and y_coord:
             tower_site_info = self.get_tower_site_info(playfield_id, site_number)
             close_time = plant_time % 86400
             if tower_site_info.close_time:
