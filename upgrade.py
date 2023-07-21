@@ -291,3 +291,8 @@ def run_upgrades():
         if table_exists("scout_info"):
             db.exec("DROP TABLE scout_info")
         version = update_version(version)
+
+    if version == 31:
+        if table_exists("setting"):
+            db.exec("UPDATE setting SET value = 'https://pork.jkbff.com/pork/history.php?server={dimension}&name={name}' WHERE name = 'pork_history_url'")
+        version = update_version(version)
