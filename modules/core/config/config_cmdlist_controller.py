@@ -12,7 +12,7 @@ class CommandListController:
         self.text: Text = registry.get_instance("text")
         self.command_service = registry.get_instance("command_service")
 
-    @command(command="config", params=[Const("cmdlist"), NamedParameters(["access_level"])], access_level="admin",
+    @command(command="config", params=[Const("cmd"), NamedParameters(["access_level"])], access_level="admin",
              description="List all commands")
     def config_cmdlist_cmd(self, request, _, named_params):
         sql = "SELECT access_level, channel, enabled, command, module, sub_command FROM command_config"

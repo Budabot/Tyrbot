@@ -92,7 +92,7 @@ class ConfigController:
         else:
             return "Could not find module <highlight>{module}</highlight>."
 
-    @command(command="config", params=[Const("settinglist")], access_level="admin",
+    @command(command="config", params=[Const("setting")], access_level="admin",
              description="List all settings")
     def config_settinglist_cmd(self, request, _):
         blob = ""

@@ -59,7 +59,7 @@ class ConfigEventsController:
             self.event_service.execute_timed_event(row, int(time.time()))
             return f"Event type <highlight>{event_type}</highlight> for handler <highlight>{event_handler}</highlight> has been run successfully."
 
-    @command(command="config", params=[Const("eventlist"), NamedParameters(["event_type"])], access_level="admin",
+    @command(command="config", params=[Const("event"), NamedParameters(["event_type"])], access_level="admin",
              description="List all events")
     def config_eventlist_cmd(self, request, _, named_params):
         params = []
@@ -87,7 +87,7 @@ class ConfigEventsController:
                 blob += "*"
             blob += "%s [%s] %s %s - %s\n" % (event_type_key, self.format_enabled(row.enabled), on_link, off_link, row.description)
 
-        return ChatBlob("Events ({len(data)})", blob)
+        return ChatBlob(f"Events ({len(data)})", blob)
 
     def format_enabled(self, enabled):
         return "<green>E</green>" if enabled else "<red>D</red>"
