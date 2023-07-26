@@ -157,7 +157,7 @@ class TestController:
         if not playfield:
             return f"Unknown playfield <highlight>{playfield_name}</highlight>."
 
-        site_number = self.tower_messages_controller.find_closest_site_number(playfield.id, x_coord, y_coord)
+        site_number = self.tower_messages_controller.find_site_number(playfield.id, x_coord, y_coord)
         return f"{playfield.short_name} {site_number}"
 
     @command(command="test", params=[Const("cc"), Any("chat_command")], access_level="superadmin",

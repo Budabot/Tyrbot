@@ -260,7 +260,7 @@ class TowerMessagesController:
         obj.attacker.faction = faction or obj.attacker.get("faction", "Unknown")
         obj.attacker.org_name = org_name
 
-        obj.location.site_number = self.find_closest_site_number(obj.location.playfield.id, obj.location.x_coord, obj.location.y_coord)
+        obj.location.site_number = self.find_site_number(obj.location.playfield.id, obj.location.x_coord, obj.location.y_coord)
 
         attacker = obj.attacker or {}
         defender = obj.defender
@@ -391,7 +391,7 @@ class TowerMessagesController:
         org = row.att_org_name + " " if row.att_org_name else ""
         return "%s (%s %s) %s[%s]" % (row.att_char_name or "Unknown attacker", level, row.att_profession or "Unknown", org, self.text.get_formatted_faction(row.att_faction))
 
-    def find_closest_site_number(self, playfield_id, x_coord, y_coord):
+    def find_site_number(self, playfield_id, x_coord, y_coord):
         sql = "SELECT DISTINCT site_number FROM tower_site_bounds " \
               "WHERE playfield_id = ? AND x_coord1 <= ? AND x_coord2 >= ? AND y_coord1 >= ? AND y_coord2 <= ?"
         data = self.db.query(sql, [playfield_id, x_coord, x_coord, y_coord, y_coord])
@@ -399,7 +399,7 @@ class TowerMessagesController:
         if num_results > 1:
             raise Exception(f"multiple tower sites found for coordinates '{x_coord}x{y_coord}'")
         elif num_results == 1:
-            return row.site_number
+            return data[0].site_number
         # else use traditional radius calculation to find site
 
         sql = """
