@@ -87,7 +87,7 @@ class BuddyController:
         else:
             blob += "No duplicates"
         
-        return ChatBlob(f"Buddy Stats", blob)
+        return ChatBlob(f"Buddy List Stats", blob)
 
     @command(command="buddylist", params=[Const("search", is_optional=True), Any("character", allowed_chars="[a-z0-9-]", is_optional=True), NamedParameters(["inactive"])],
              access_level="admin", description="Search for characters on the buddy list",
@@ -127,7 +127,7 @@ class BuddyController:
         if is_search:
             return ChatBlob(f"Buddy List Search Results ({len(buddy_list)})", blob)
         else:
-            return ChatBlob(f"Buddy list ({len(buddy_list)})", blob)
+            return ChatBlob(f"Buddy List ({len(buddy_list)})", blob)
 
     @timerevent(budatime="24h", description="Remove orphaned buddies", is_system=True)
     def remove_orphaned_buddies_event(self, event_type, event_data):
