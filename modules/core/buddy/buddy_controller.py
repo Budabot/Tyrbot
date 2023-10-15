@@ -61,6 +61,34 @@ class BuddyController:
         num_removed = self.remove_orphaned_buddies()
         return f"Removed <highlight>{num_removed}</highlight> orphaned buddies from the buddy list."
 
+    @command(command="buddylist", params=[Const("stats")], access_level="admin",
+             description="Shows stats about the buddy list")
+    def buddylist_stats_cmd(self, request, _):
+        blob = ""
+        buddy_list = {}
+        duplicates = []
+        for _id, conn in self.bot.get_conns():
+            pending = 0
+            for char_id, buddy in conn.buddy_list.items():
+                if char_id in buddy_list:
+                    duplicates.append(char_id)
+
+                buddy_list[char_id] = buddy
+                if buddy["online"] is None:
+                    pending += 1
+
+            blob += f"<highlight>{_id}</highlight> - {conn.char_name}({conn.char_id}): <highlight>{len(conn.buddy_list)}</highlight> buddies, <highlight>{pending}</highlight> pending/inactive\n"
+
+        blob += "\n"
+        blob += "<header2>Duplicates</header2>\n"
+        if duplicates:
+            for char_id in duplicates:
+                blob += f"{char_id}\n"
+        else:
+            blob += "No duplicates"
+        
+        return ChatBlob(f"Buddy Stats", blob)
+
     @command(command="buddylist", params=[Const("search", is_optional=True), Any("character", allowed_chars="[a-z0-9-]", is_optional=True), NamedParameters(["inactive"])],
              access_level="admin", description="Search for characters on the buddy list",
              extended_description="Use --inactive=include (default), --inactive=exclude, or --inactive=only to control if inactive buddies are shown")
