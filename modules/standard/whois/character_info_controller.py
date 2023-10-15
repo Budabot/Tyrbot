@@ -38,7 +38,7 @@ class CharacterInfoController:
         self.command_alias_service.add_alias("lookup", "whois")
         self.command_alias_service.add_alias("is", "whois")
 
-    @command(command="whois", params=[Character("character"), Int("server_num", is_optional=True), NamedFlagParameters(["force_update"])], access_level="member",
+    @command(command="whois", params=[Character("character"), Int("server_num", is_optional=True), NamedFlagParameters(["force_update", "skip_online_check"])], access_level="member",
              description="Get whois information for a character", extended_description="Use server_num 6 for RK2019 and server_num 5 for live")
     def whois_cmd(self, request, char, dimension, flag_params):
         dimension = dimension or self.bot.dimension
@@ -46,7 +46,7 @@ class CharacterInfoController:
 
         if dimension == self.bot.dimension and char.char_id:
             online_status = self.buddy_service.is_online(char.char_id)
-            if online_status is None:
+            if online_status is None and not flag_params.skip_online_check:
                 self.bot.register_packet_handler(BuddyAdded.id, self.handle_buddy_status)
                 self.waiting_for_update[char.char_id] = DictObject({"char_id": char.char_id,
                                                                     "name": char.name,
