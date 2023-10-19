@@ -89,7 +89,6 @@ class UtilController:
         if self.bot.mass_message_queue:
             mass_message_queue = str(self.bot.mass_message_queue.qsize())
 
-        python_version = str(sys.version_info.major) + "." + str(sys.version_info.minor) + "." + str(sys.version_info.micro) + "." + sys.version_info.releaselevel
         uptime = self.util.time_to_readable(int(time.time()) - self.bot.start_time, max_levels=None)
         
         process_info = psutil.Process(os.getpid())
@@ -107,7 +106,7 @@ class UtilController:
         blob += f"Name: <highlight><myname></highlight>\n\n"
 
         blob += f"OS: <highlight>{platform.system()} {platform.release()}</highlight>\n"
-        blob += f"Python: <highlight>{python_version}</highlight>\n"
+        blob += f"Python: <highlight>{platform.python_version()}</highlight>\n"
         blob += f"Database: <highlight>{self.db.type}</highlight>\n"
         blob += f"Memory Usage: <highlight>{memory_usage} KB</highlight>\n"
 
