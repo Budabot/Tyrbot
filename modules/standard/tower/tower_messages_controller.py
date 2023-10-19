@@ -512,7 +512,7 @@ class TowerMessagesController:
 
     def check_for_all_towers_channel(self):
         if self.ALL_TOWERS_ID not in self.bot.get_primary_conn().channels:
-            return "Notice: The primary bot must belong to an org and be promoted to a rank that is high enough to have the All Towers channel (e.g., Squad Commander) in order for this command to work correctly.\n\n"
+            return "Notice: The primary bot must belong to an org and be promoted to a rank that is high enough to have access to the All Towers channel (e.g., Squad Commander) in order for this command to work correctly.\n\n"
         else:
             return ""
 

@@ -25,13 +25,8 @@ try:
     logger.info(f"Starting Tyrbot {version}...")
     config_file = "./conf/config.py"
 
-    if sys.version_info < (3, 6):
-        logger.error(f"Python 3.6 is required. Current Python version: {platform.python_version()}")
-        exit(0)
-
-    if (3, 8) <= sys.version_info < (3, 9):
-        logger.warning("Python 3.8 has known issues with Tyrbot. If you have issues with the discord module or the websocket relay, "
-                       "or if you see SSL errors in the logs, consider downgrading to Python 3.6 or upgrading to Python 3.9")
+    if sys.version_info < (3, 9):
+        logger.error(f"Python 3.9 or greater is recommended. Consider upgrading your Python version if you have issues. Current Python version: {platform.python_version()}")
 
     # load template config file as a base set of defaults
     from conf.config_template import config as template_config

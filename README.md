@@ -12,9 +12,9 @@ This is a rewrite of [Budabot](https://github.com/Budabot/Budabot) in Python 3.
 
 ## Requirements
 
-Tyrbot requires Python 3.6. We recommend either version 3.6.6 or 3.9.1 as we have tested these versions most extensively.
+Tyrbot supports Python 3.9. We recommend version 3.9.1 as we have tested this version most extensively. It will likely work with versions greater than 3.9 but some features may not be available or the bot may not start with versions of Python less than 3.9.
 
-We have also tested Python versions 3.7.9 and 3.8.7.  We do not recommend Python 3.8 as it has known issues with Tyrbot, specifically regarding SSL. If you see SSL errors in your logs, or if the Discord module or websocket relay does not work, consider using a different Python version.
+We do not recommend Python 3.8 as it has known issues with Tyrbot, specifically regarding SSL. If you see SSL errors in your logs, or if the Discord module or websocket relay does not work, consider upgrading to Python 3.9.
 
 ## Installation
 
