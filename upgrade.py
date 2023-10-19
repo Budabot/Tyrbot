@@ -296,3 +296,8 @@ def run_upgrades():
         if table_exists("setting"):
             db.exec("UPDATE setting SET value = 'https://pork.jkbff.com/pork/history.php?server={dimension}&name={name}' WHERE name = 'pork_history_url'")
         version = update_version(version)
+
+    if version == 32:
+        if table_exists("command_config"):
+            db.exec("UPDATE command_config SET access_level = 'superadmin' WHERE command = 'system'")
+        version = update_version(version)

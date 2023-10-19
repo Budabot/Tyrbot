@@ -2,7 +2,7 @@ requests==2.31.0
 mysql-connector-python==8.0.23
 pytz==2020.5
 discord.py==1.6.0
-psutil==5.8.0
+psutil==5.9.6
 bbcode==1.1.0
 beautifulsoup4==4.9.3
 websocket_client==0.57.0

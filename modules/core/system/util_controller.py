@@ -25,6 +25,10 @@ class UtilController:
         self.event_service = registry.get_instance("event_service")
         self.public_channel_service = registry.get_instance("public_channel_service")
 
+    def start(self):
+        # init cpu percent calculation  see: https://psutil.readthedocs.io/en/latest/#psutil.Process.cpu_percent
+        psutil.Process(os.getpid()).cpu_percent()
+
     @command(command="checkaccess", params=[Character("character")], access_level="moderator",
              description="Check access level for a character", sub_command="other")
     def checkaccess_other_cmd(self, request, char):
@@ -78,7 +82,7 @@ class UtilController:
 
         return f"Command <highlight>{command_str}</highlight> output has been sent to <highlight>{char.name}</highlight>."
 
-    @command(command="system", params=[NamedFlagParameters(["show_all"])], access_level="admin",
+    @command(command="system", params=[NamedFlagParameters(["show_all"])], access_level="superadmin",
              description="Show system information")
     def system_cmd(self, request, flag_params):
         mass_message_queue = "None"
@@ -86,8 +90,18 @@ class UtilController:
             mass_message_queue = str(self.bot.mass_message_queue.qsize())
 
         python_version = str(sys.version_info.major) + "." + str(sys.version_info.minor) + "." + str(sys.version_info.micro) + "." + sys.version_info.releaselevel
-        memory_usage = self.util.format_number(psutil.Process(os.getpid()).memory_info().rss / 1024)
         uptime = self.util.time_to_readable(int(time.time()) - self.bot.start_time, max_levels=None)
+        
+        process_info = psutil.Process(os.getpid())
+        other_info = ""
+        with process_info.oneshot():
+            memory_usage = self.util.format_number(process_info.memory_info().rss / 1024)
+            io_counters = process_info.io_counters()
+            cpu_times = process_info.cpu_times()
+            cpu_percent = process_info.cpu_percent()
+            memory_info = process_info.memory_info()
+            open_files = process_info.open_files()
+            connections = process_info.connections()
 
         blob = f"Version: <highlight>Tyrbot {self.bot.version}</highlight>\n"
         blob += f"Name: <highlight><myname></highlight>\n\n"
@@ -95,7 +109,27 @@ class UtilController:
         blob += f"OS: <highlight>{platform.system()} {platform.release()}</highlight>\n"
         blob += f"Python: <highlight>{python_version}</highlight>\n"
         blob += f"Database: <highlight>{self.db.type}</highlight>\n"
-        blob += f"Memory Usage: <highlight>{memory_usage} KB</highlight>\n\n"
+        blob += f"Memory Usage: <highlight>{memory_usage} KB</highlight>\n"
+
+        if flag_params.show_all:
+            blob += f"CPU Percent: <highlight>{cpu_percent}</highlight>\n"
+            blob += f"IO Counters:\n"
+            for k, v in io_counters._asdict().items():
+                blob += f"   {k}: <highlight>{self.util.format_number(v)}</highlight>\n"
+            blob += f"CPU Times:\n"
+            for k, v in cpu_times._asdict().items():
+                blob += f"   {k}: <highlight>{v}</highlight>\n"
+            blob += f"Memory Info:\n"
+            for k, v in memory_info._asdict().items():
+                blob += f"    {k}: <highlight>{self.util.format_number(v)}</highlight>\n"
+            blob += f"Open Files ({len(open_files)}):\n"
+            for f in open_files:
+                blob += f"    <highlight>{f.path}</highlight>\n"
+            blob += f"Connections ({len(connections)}):\n"
+            for c in connections:
+                blob += f"    <highlight>{c}</highlight>\n"
+
+        blob += "\n"
 
         blob += f"Superadmin: <highlight>{self.bot.superadmin}</highlight>\n"
         blob += f"Buddy List: <highlight>{self.buddy_service.get_buddy_list_size()}/{self.buddy_service.buddy_list_size}</highlight>\n"
