@@ -22,7 +22,7 @@ try:
         version = f.read().strip()
 
     logger = Logger("core.bootstrap")
-    logger.info(f"Starting Tyrbot {version}...")
+    logger.info(f"Starting Tyrbot {version} with Python {platform.python_version()}")
     config_file = "./conf/config.py"
 
     if sys.version_info < (3, 9):
