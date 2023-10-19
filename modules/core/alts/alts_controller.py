@@ -21,7 +21,7 @@ class AltsController:
     def alts_list_cmd(self, request, named_params):
         if named_params.sort_by:
             if named_params.sort_by not in self.SORT_OPTIONS:
-                return "Sort_by parameter must be one of: " + ", ".join(self.SORT_OPTIONS)
+                return "sort_by parameter must be one of: " + ", ".join(self.SORT_OPTIONS)
         else:
             named_params.sort_by = "level"
 
@@ -45,7 +45,7 @@ class AltsController:
         if result:
             return f"Character <highlight>{request.sender.name}</highlight> has been set as your main."
         elif msg == "not_an_alt" or msg == "already_main":
-            return "Error! Character <highlight>{request.sender.name}</highlight> is already set as your main."
+            return f"Error! Character <highlight>{request.sender.name}</highlight> is already set as your main."
         else:
             raise Exception("Unknown msg: " + msg)
 
