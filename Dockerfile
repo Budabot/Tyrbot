@@ -19,7 +19,6 @@ COPY --chown=user:user requirements.txt /app
 RUN pip install --no-cache-dir --disable-pip-version-check -r requirements.txt -t /app/deps
 
 COPY --chown=user:user . /app
-RUN python -m unittest discover -p '*_test.py' && \
-    chmod +x /app/container_start.sh
+RUN python -m unittest discover -p '*_test.py'
 
-CMD ["/app/container_start.sh"]
+CMD ["python", "bootstrap.py"]

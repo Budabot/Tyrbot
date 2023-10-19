@@ -114,6 +114,8 @@ try:
         exit(status.value)
 except KeyboardInterrupt:
     # TODO set bot.status = BotStatus.SHUTDOWN, then bot.disconnect()
+    logger = Logger("core.bootstrap")
+    logger.info("keyboard interrupt detected, shutting down")
     exit(0)
 except Exception as e:
     logger = Logger("core.bootstrap")
