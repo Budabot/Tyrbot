@@ -10,3 +10,4 @@ __pycache__
 /.vscode
 *.log
 /.vs
+/.local

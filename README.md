@@ -5,6 +5,7 @@ Tyrbot is an in-game chatbot for the MMORPG Anarchy Online released by Funcom in
 This is a rewrite of [Budabot](https://github.com/Budabot/Budabot) in Python 3.
 
 ## Quickstart
+
 1. Download the bot: https://github.com/Budabot/Tyrbot/archive/master.zip
 1. Unzip the bot to a location on your computer
 1. Run `start.bat`
@@ -12,9 +13,7 @@ This is a rewrite of [Budabot](https://github.com/Budabot/Budabot) in Python 3.
 
 ## Requirements
 
-Tyrbot supports Python 3.9. We recommend version 3.9.1 as we have tested this version most extensively. It will likely work with versions greater than 3.9 but some features may not be available or the bot may not start with versions of Python less than 3.9.
-
-We do not recommend Python 3.8 as it has known issues with Tyrbot, specifically regarding SSL. If you see SSL errors in your logs, or if the Discord module or websocket relay does not work, consider upgrading to Python 3.9.
+Tyrbot has been tested on Python 3.9 and 3.11. You may run into issues with other versions of Python.
 
 ## Installation
 
