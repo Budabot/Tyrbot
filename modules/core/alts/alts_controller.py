@@ -44,9 +44,7 @@ class AltsController:
 
         if result:
             return f"Character <highlight>{request.sender.name}</highlight> has been set as your main."
-        elif msg == "not_an_alt":
-            return "Error! Character <highlight>{request.sender.name}</highlight> cannot be set as your main since you do not have any alts."
-        elif msg == "already_main":
+        elif msg == "not_an_alt" or msg == "already_main":
             return "Error! Character <highlight>{request.sender.name}</highlight> is already set as your main."
         else:
             raise Exception("Unknown msg: " + msg)
