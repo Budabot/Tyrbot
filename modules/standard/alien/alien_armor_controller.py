@@ -159,12 +159,13 @@ class AlienArmorController:
         bot_ql = math.floor(ql * 0.8)
         armor = self.items_controller.find_by_name("%s Body Armor" % armor_type, ql)
         bot = self.items_controller.find_by_name("%s Lead Viralbots" % armor_type, bot_ql)
-        return {"icon_armor": self.text.make_item(armor.lowid, armor.highid, ql, self.text.make_image(armor.icon)),
-                "text_armor": self.text.make_item(armor.lowid, armor.highid, ql, armor.name),
-                "icon_vb_bot": self.text.make_item(bot.lowid, bot.highid, bot_ql, self.text.make_image(bot.icon)),
-                "text_vb_bot": self.text.make_item(bot.lowid, bot.highid, bot_ql, bot.name),
-                "vb_ql": bot_ql
-                }
+        return {
+            "icon_armor": self.text.make_item(armor.lowid, armor.highid, ql, self.text.make_image(armor.icon)),
+            "text_armor": self.text.make_item(armor.lowid, armor.highid, ql, armor.name),
+            "icon_vb_bot": self.text.make_item(bot.lowid, bot.highid, bot_ql, self.text.make_image(bot.icon)),
+            "text_vb_bot": self.text.make_item(bot.lowid, bot.highid, bot_ql, bot.name),
+            "vb_ql": bot_ql
+        }
 
     @command(command="aiarmor",
              params=[Options(["cc", "cm", "co", "cp", "cs", "css", "ss"]), Int("ql", is_optional=True)],
@@ -225,7 +226,7 @@ class AlienArmorController:
             target_armor_id = 246622  # Supple Body Armor
             name_target = "supple"
         else:
-            return f"Unknown armor type <highlight>{armor_type}</highlight>"
+            return f"Unknown armor type <highlight>{armor_type}</highlight>."
 
         source = self.items_controller.get_by_item_id(source_armor_id)
         target = self.items_controller.get_by_item_id(target_armor_id)

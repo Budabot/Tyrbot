@@ -72,7 +72,7 @@ class AlienBioController:
         if bio_info:
             return bio_info
         else:
-            return "Bio-Material type unknown or not a bio-material."
+            return "Bio-Material type unknown or not bio-material."
 
     @command(command="bioinfo", params=[], access_level="all",
              description="Show list of Kyr'Ozch Bio-Material types")
