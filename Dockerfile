@@ -7,6 +7,9 @@ ENV PYTHONPATH=/app/deps
 
 RUN apt update && apt upgrade -y
 
+ARG TARGETPLATFORM
+RUN if [ "$TARGETPLATFORM" = "linux/arm64" ]; then apt-get -y install gcc; fi
+
 RUN adduser --no-create-home --disabled-login --disabled-password --shell /bin/false --gecos "" --uid 1001 user && \
     mkdir /app && \
     chown user:user /app
