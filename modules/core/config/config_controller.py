@@ -90,7 +90,7 @@ class ConfigController:
         if blob:
             return ChatBlob(f"Module ({module})", blob)
         else:
-            return "Could not find module <highlight>{module}</highlight>."
+            return f"Could not find module <highlight>{module}</highlight>."
 
     @command(command="config", params=[Const("setting")], access_level="admin",
              description="List all settings")
