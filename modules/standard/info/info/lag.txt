@@ -24,7 +24,6 @@
 
 <header2><tab> ::: View Distance Settings (No Zoning Required) :::</header2>
 <a href='chatcmd:///option ViewDistance 0.05'>Min</a> <a href='chatcmd:///option ViewDistance 0.30'>Low</a> <a href='chatcmd:///option ViewDistance 0.50'>Medium</a> <a href='chatcmd:///option ViewDistance 0.75'>High</a> <a href='chatcmd:///option ViewDistance 1'>Max</a> View Distance
-<a href='chatcmd:///option CharDist 5'>Min</a> <a href='chatcmd:///option CharDist 30'>Low</a> <a href='chatcmd:///option CharDist 50'>Medium</a> <a href='chatcmd:///option CharDist 75'>High</a> <a href='chatcmd:///option CharDist 100'>Max</a> Character View Distance
 
 * Based off the Client Lag Tweaks module for Bebot by Glarawyn (RK1)
 * Ported to Budabot by Tyrence (RK2)
