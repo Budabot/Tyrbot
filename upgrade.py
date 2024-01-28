@@ -306,7 +306,7 @@ def run_upgrades():
         if table_exists("points_log"):
             db.exec("ALTER TABLE points_log RENAME TO points_log_old")
             db.exec("CREATE TABLE IF NOT EXISTS points_log (log_id INT PRIMARY KEY AUTO_INCREMENT, char_id BIGINT NOT NULL, audit INT NOT NULL, leader_id BIGINT NOT NULL, reason VARCHAR(255), created_at INT NOT NULL)")
-            db.exec("INSERT INTO points_log (char_id, audit, leader_id, reason, created_at) SELECT char_id, audit, leader_id, reason, created_at FROM points_log_old ORDER BY created_at ASC")
+            db.exec("INSERT INTO points_log SELECT log_id, char_id, audit, leader_id, reason, created_at FROM points_log_old")
             db.exec("DROP TABLE points_log_old")
         version = update_version(version)
             
