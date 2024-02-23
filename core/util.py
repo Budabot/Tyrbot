@@ -154,7 +154,7 @@ class Util:
             return 7
 
     def format_number(self, number):
-        return locale.format_string("%.*f", (0, number), grouping=True)
+        return f"{number:,}"
 
     def get_profession(self, search):
         search = search.lower()
