@@ -59,14 +59,14 @@ def generate_login_key(server_key, username, password):
     crypted = aochat_crypt(dhK, plain)
 
     if not crypted:
-        raise Exception("panic")
+        raise Exception("encryption failed")
 
     return ("%0x" % dhX) + "-" + crypted
 
 
 def aochat_crypt(key, data):
     if len(data) % 8 != 0:
-        return None
+        raise Exception(f"length expected % 8 = 0, actual length: {len(data)}")
 
     cycle = [0, 0]
     result = [0, 0]
