@@ -161,7 +161,7 @@ The effect of this special is an Atrox favorite, slow but fatal attack. It'll gr
 Duration: 2 Seconds
 Recharge: 2 Minutes, 10 Seconds
 
-<a href='chatcmd:///start http://aoitems.com/item/252487'>http://aoitems.com/item/252487</a>
+<a href='chatcmd:///start https://auno.org/ao/db.php?id=252487'>https://auno.org/ao/db.php?id=252487</a>
 
 4. Requirements:
 
@@ -247,7 +247,7 @@ Ths effect of this special will increase your attack rating by a massive amount 
 Duration: 10 Seconds
 Recharge: 2 Minutes, 30 Seconds
 
-<a href='chatcmd:///start http://aoitems.com/item/252490'>http://aoitems.com/item/252490</a>
+<a href='chatcmd:///start https://auno.org/ao/db.php?id=252490'>https://auno.org/ao/db.php?id=252490</a>
 
 <pagebreak><green>Atrox Secondary Genome</green>
 
@@ -296,7 +296,7 @@ The effect of this special is an evade and damage buff.
 Duration: 30 Seconds
 Recharge: 1 Minute. 30 Seconds
 
-<a href='chatcmd:///start http://aoitems.com/item/252508'>http://aoitems.com/item/252508</a>
+<a href='chatcmd:///start https://auno.org/ao/db.php?id=252508'>https://auno.org/ao/db.php?id=252508</a>
 
 4. Requirements:
 
@@ -396,7 +396,7 @@ The effect of this special is an attack and armor buff.
 Duration: 30 Seconds
 Recharge: 1 Minute, 30 Seconds
 
-<a href='chatcmd:///start http://aoitems.com/item/252511'>http://aoitems.com/item/252511</a>
+<a href='chatcmd:///start https://auno.org/ao/db.php?id=252511'>https://auno.org/ao/db.php?id=252511</a>
 
 By Curlycat (RK2), Mdkdoc420 (RK2)
 original version at <a href='chatcmd:///start http://aocrimson.darkbb.com/t126-comprehensive-breeds-guide-very-detailed'>http://aocrimson.darkbb.com/t126-comprehensive-breeds-guide-very-detailed</a>

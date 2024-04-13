@@ -92,14 +92,13 @@ class AunoController:
 
     def build_comments_blob(self, comments, name, low_id, high_id):
         link_auno = self.text.make_chatcmd("Auno", "/start %s" % self.get_auno_request_url(high_id))
-        link_aoitems = self.text.make_chatcmd("AOItems", "/start %s" % self.get_aoitems_request_url(high_id))
 
         item = self.items_controller.get_by_item_id(high_id)
         blob = ""
         if item:
             ql = item.highql
             blob += "Item: %s\n" % self.text.make_item(int(low_id), int(high_id), int(ql), name)
-        blob += "Item links: [%s] [%s]\n\n" % (link_auno, link_aoitems)
+        blob += "Item links: [%s]\n\n" % (link_auno)
         blob += "<header2>Comments</header2>\n"
 
         for comment in comments:
@@ -178,6 +177,3 @@ class AunoController:
 
     def get_auno_request_url(self, item_id):
         return "https://auno.org/ao/db.php?id=%s" % item_id
-
-    def get_aoitems_request_url(self, item_id):
-        return "https://aoitems.com/item/%s/" % item_id

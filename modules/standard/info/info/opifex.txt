@@ -155,7 +155,7 @@ This opifex attack was usually used as an opening attack, hence the name Opening
 Duration: N/A
 Recharge: 2 Minutes, 15 Seconds
 
-<a href='chatcmd:///start http://aoitems.com/item/252523'>http://aoitems.com/item/252523</a>
+<a href='chatcmd:///start https://auno.org/ao/db.php?id=252523'>https://auno.org/ao/db.php?id=252523</a>
 
 4. Requirements:
 
@@ -241,7 +241,7 @@ This is a special poison that the opifex can use on its target. It requires that
 Duration: 35 Seconds
 Recharge: 1 Minute, 50 Seconds
 
-<a href='chatcmd:///start http://aoitems.com/item/252526'>http://aoitems.com/item/252526</a>
+<a href='chatcmd:///start https://auno.org/ao/db.php?id=252526'>https://auno.org/ao/db.php?id=252526</a>
 
 <pagebreak><green>Opifex Secondary Genome</green>
 
@@ -290,7 +290,7 @@ The effect of this special is a target blind. It will also reduce the targets na
 Duration: 25 Seconds
 Recharge: 1 Minute, 50 Seconds
 
-<a href='chatcmd:///start http://aoitems.com/item/252539'>http://aoitems.com/item/252539</a>
+<a href='chatcmd:///start https://auno.org/ao/db.php?id=252539'>https://auno.org/ao/db.php?id=252539</a>
 
 4. Requirements:
 
@@ -391,7 +391,7 @@ The effect of this special is a direct damage only available on the target that 
 Duration: N/A
 Recharge: 1 Minute, 40 Seconds
 
-<a href='chatcmd:///start http://aoitems.com/item/252541'>http://aoitems.com/item/252541</a>
+<a href='chatcmd:///start https://auno.org/ao/db.php?id=252541'>https://auno.org/ao/db.php?id=252541</a>
 
 By Curlycat (RK2), Mdkdoc420 (RK2)
 original version at <a href='chatcmd:///start http://aocrimson.darkbb.com/t126-comprehensive-breeds-guide-very-detailed'>http://aocrimson.darkbb.com/t126-comprehensive-breeds-guide-very-detailed</a>

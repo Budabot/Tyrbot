@@ -175,7 +175,7 @@ The effect of this special is a root resist buff. This one will provide 90% prot
 Duration = 15 Seconds
 Recharge = 1 Minute, 45 Seconds
 
-<a href='chatcmd:///start http://aoitems.com/item/253030'>http://aoitems.com/item/253030</a>
+<a href='chatcmd:///start https://auno.org/ao/db.php?id=253030'>https://auno.org/ao/db.php?id=253030</a>
 
 4. Requirements:
 
@@ -268,7 +268,7 @@ The effect of this special is a team buff that will increase the teams offense a
 Duration = 25 Seconds
 Recharge = 1 Minute, 40 Seconds
 
-<a href='chatcmd:///start http://aoitems.com/item/253033/'>http//aoitems.com/item/253033/</a>
+<a href='chatcmd:///start https://auno.org/ao/db.php?id=253033/'>https://auno.org/ao/db.php?id=253033/</a>
 
 <pagebreak><green>Solitus Beta Genome</green>
 
@@ -314,7 +314,7 @@ The effect of this special will do a minor direct damage to the target. This per
 Duration = N/A
 Recharge = 1 Minute, 45 Seconds
 
-<a href='chatcmd:///start http://aoitems.com/item/253045'>http://aoitems.com/item/253045</a>
+<a href='chatcmd:///start https://auno.org/ao/db.php?id=253045'>https://auno.org/ao/db.php?id=253045</a>
 
 4. Requirements:
 
@@ -407,7 +407,7 @@ The effect of this special is a team heal over time.
 Duration = 30 Seconds
 Recharge = 2 Minutes
 
-<a href='chatcmd:///start http://aoitems.com/item/253048'>http://aoitems.com/item/253048</a>
+<a href='chatcmd:///start https://auno.org/ao/db.php?id=253048'>https://auno.org/ao/db.php?id=253048</a>
 
 By Curlycat (RK2), Mdkdoc420 (RK2)
 original version at <a href='chatcmd:///start http://aocrimson.darkbb.com/t126-comprehensive-breeds-guide-very-detailed'>http://aocrimson.darkbb.com/t126-comprehensive-breeds-guide-very-detailed</a>

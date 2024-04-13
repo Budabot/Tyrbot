@@ -190,7 +190,7 @@ The effect of this special is a minor direct damage to the target.
 Duration: N/A
 Recharge: 30 Seconds
 
-<a href='chatcmd:///start http://aoitems.com/item/254313'>http://aoitems.com/item/254313</a>
+<a href='chatcmd:///start https://auno.org/ao/db.php?id=254313'>https://auno.org/ao/db.php?id=254313</a>
 
 4. Requirements:
 
@@ -276,7 +276,7 @@ The effect of this attack is a special buff that increases the targets nanocost 
 Duration: 30 Seconds
 Recharge: 1 Minute, 15 Seconds
 
-<a href='chatcmd:///start http://aoitems.com/item/252559'>http://aoitems.com/item/252559</a>
+<a href='chatcmd:///start https://auno.org/ao/db.php?id=252559'>https://auno.org/ao/db.php?id=252559</a>
 
 <pagebreak><green>Nanobreed Secondary Genome</green>
 
@@ -325,7 +325,7 @@ The effect of this special is a direct damage to the target. It will also lower 
 Duration: 30 Seconds
 Recharge: 1 Minute, 40 Seconds
 
-<a href='chatcmd:///start http://aoitems.com/item/253014'>http://aoitems.com/item/253014</a>
+<a href='chatcmd:///start https://auno.org/ao/db.php?id=253014'>https://auno.org/ao/db.php?id=253014</a>
 
 4. Requirements:
 
@@ -425,7 +425,7 @@ The effect of this special is a shield that will deflect 15% amount of damage ta
 Duration: 10 Seconds (Reoccurring)
 Recharge: 1 Minute, 15 Seconds
 
-<a href='chatcmd:///start http://aoitems.com/item/253017'>http://aoitems.com/item/253017</a>
+<a href='chatcmd:///start https://auno.org/ao/db.php?id=253017'>https://auno.org/ao/db.php?id=253017</a>
 
 By Curlycat (RK2), Mdkdoc420 (RK2)
 original version at <a href='chatcmd:///start http://aocrimson.darkbb.com/t126-comprehensive-breeds-guide-very-detailed'>http://aocrimson.darkbb.com/t126-comprehensive-breeds-guide-very-detailed</a>
