@@ -134,9 +134,9 @@ class Tyrbot:
         return char_name == self.superadmin
 
     def connect(self, config):
-        for i, bot in enumerate(config.bots):
-            if "id" in bot:
-                _id = bot.id
+        for i, bot_config in enumerate(config.bots):
+            if "id" in bot_config:
+                _id = bot_config.id
             else:
                 _id = "bot" + str(i)
 
@@ -153,15 +153,15 @@ class Tyrbot:
             conn.connect(config.server.host, config.server.port)
 
             # only create the mass_message_queue if there is at least 1 non-main bot
-            if not bot.is_main and not self.mass_message_queue:
+            if not bot_config.is_main and not self.mass_message_queue:
                 self.mass_message_queue = FifoQueue()
 
-            login_success, packet = conn.login(bot.username, bot.password, bot.character, is_main=bot.is_main, wait_for_logged_in=wait_for_logged_in)
+            login_success, packet = conn.login(bot_config.username, bot_config.password, bot_config.character, is_main=bot_config.is_main, wait_for_logged_in=wait_for_logged_in)
             if not login_success:
                 self.event_service.fire_event(self.LOGIN_FAILURE, packet)
                 
                 if FeatureFlags.AUTO_UNFREEZE_ACCOUNTS and packet.id == server_packets.LoginError.id and packet.message and packet.message.endswith("/Account system denies login"):
-                    self.unfreeze_account(bot.username, bot.password)
+                    self.unfreeze_account(bot_config)
                 
                 if i == 0 or not FeatureFlags.IGNORE_FAILED_BOTS_ON_LOGIN:
                     self.status = BotStatus.ERROR
@@ -173,11 +173,14 @@ class Tyrbot:
 
                 self.conns[_id] = conn
 
-                self.create_conn_thread(conn, None if bot.is_main else self.mass_message_queue)
+                self.create_conn_thread(conn, None if bot_config.is_main else self.mass_message_queue)
 
         return True
 
-    def unfreeze_account(self, username, password):
+    def unfreeze_account(self, bot_config):
+        username = bot_config.username
+        password = bot_config.password
+
         self.logger.info(f"({username}) - unfreezing account")
         minutes_delay = 10
         timeout = 5
