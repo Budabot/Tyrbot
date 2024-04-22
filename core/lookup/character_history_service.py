@@ -33,6 +33,7 @@ class CharacterHistoryService:
         cache_key = "%s.%d.json" % (name, server_num)
 
         t = int(time.time())
+        result = None
 
         # check cache for fresh value
         cache_result = self.cache_service.retrieve(self.CACHE_GROUP, cache_key)
@@ -44,7 +45,10 @@ class CharacterHistoryService:
 
             try:
                 r = requests.get(url, headers={"User-Agent": f"Tyrbot {self.bot.version}"}, timeout=5)
-                result = r.json()
+                if r.status_code == 200:
+                    result = r.json()
+                else:
+                    self.logger.warning(f"Unexpected response received from '{url}': {r.status_code} '{r.text}'")
             except ReadTimeout:
                 self.logger.warning("Timeout while requesting '%s'" % url)
                 result = None
