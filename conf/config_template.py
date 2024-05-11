@@ -23,9 +23,9 @@ config = DictObject({
 
   # do not modify below this line unless you know what you are doing
   "server": {
-    "dimension": 5,
+    "dimension": 5,  # 6 for RK2019
     "host": "chat.d1.funcom.com",
-    "port": 7105,
+    "port": 7105,  # 7106 for RK2019
   },
 
   "features": {
