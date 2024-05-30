@@ -23,7 +23,7 @@ class CharacterService:
         self.bot.register_packet_handler(server_packets.CharacterName.id, self.update)
 
     def start(self):
-        self.db.exec("CREATE TABLE IF NOT EXISTS name_history (char_id BIGINT NOT NULL, name VARCHAR(20) NOT NULL, created_at INT NOT NULL, PRIMARY KEY (char_id, name))")
+        self.db.exec("CREATE TABLE IF NOT EXISTS name_history (char_id INT NOT NULL, name VARCHAR(20) NOT NULL, created_at INT NOT NULL, PRIMARY KEY (char_id, name))")
 
     def _wait_for_char_id(self, char_name):
         # char_name must be .capitalize()'ed
