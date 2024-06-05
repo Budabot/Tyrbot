@@ -21,7 +21,7 @@ class AuctionController:
         self.setting_service.register(self.module_name, "auction_length", "90s", TimeSettingType(), "Regular auction duration")
 
         self.db.exec("CREATE TABLE IF NOT EXISTS auction_log (auction_id INT PRIMARY KEY AUTO_INCREMENT, item_ref VARCHAR(255) NOT NULL, item_name VARCHAR(255) NOT NULL, "
-                     "winner_id BIGINT NOT NULL, auctioneer_id BIGINT NOT NULL, created_at INT NOT NULL, winning_bid INT NOT NULL)")
+                     "winner_id INT NOT NULL, auctioneer_id INT NOT NULL, created_at INT NOT NULL, winning_bid INT NOT NULL)")
 
     @command(command="auction", params=[], description="Show auction status",
              access_level="member")
