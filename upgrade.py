@@ -309,4 +309,59 @@ def run_upgrades():
             db.exec("INSERT INTO points_log SELECT log_id, char_id, audit, leader_id, reason, created_at FROM points_log_old")
             db.exec("DROP TABLE points_log_old")
         version = update_version(version)
+    
+    if version == 34:
+        if table_exists("name_history"):
+            db.exec("ALTER TABLE name_history RENAME TO name_history_old")
+            db.exec("CREATE TABLE IF NOT EXISTS name_history (char_id INT NOT NULL, name VARCHAR(20) NOT NULL, created_at INT NOT NULL, PRIMARY KEY (char_id, name))")
+            db.exec("INSERT INTO name_history SELECT char_id, name, created_at FROM name_history_old")
+            db.exec("DROP TABLE name_history_old")
+        
+        if table_exists("player"):
+            db.exec("ALTER TABLE player RENAME TO player_old")
+            db.exec("CREATE TABLE IF NOT EXISTS player ( char_id INT PRIMARY KEY, first_name VARCHAR(30) NOT NULL, name VARCHAR(20) NOT NULL, last_name VARCHAR(30) NOT NULL, "
+                    "level SMALLINT NOT NULL, breed VARCHAR(20) NOT NULL, gender VARCHAR(20) NOT NULL, faction VARCHAR(20) NOT NULL, profession VARCHAR(20) NOT NULL, "
+                    "profession_title VARCHAR(50) NOT NULL, ai_rank VARCHAR(20) NOT NULL, ai_level SMALLINT, org_id INT DEFAULT NULL, org_name VARCHAR(255) NOT NULL, "
+                    "org_rank_name VARCHAR(20) NOT NULL, org_rank_id SMALLINT NOT NULL, dimension SMALLINT NOT NULL, head_id INT NOT NULL, pvp_rating SMALLINT NOT NULL, "
+                    "pvp_title VARCHAR(20) NOT NULL, source VARCHAR(50) NOT NULL, last_updated INT NOT NULL )")
+            db.exec("INSERT INTO player SELECT char_id, first_name, name, last_name, "
+                    "level, breed, gender, faction, profession, "
+                    "profession_title, ai_rank, ai_level, org_id, org_name, "
+                    "org_rank_name, org_rank_id, dimension, head_id, pvp_rating, "
+                    "pvp_title, source, last_updated FROM player_old")
+            db.exec("DROP TABLE player_old")
             
+        if table_exists("auction_log"):
+            db.exec("ALTER TABLE auction_log RENAME TO auction_log_old")
+            db.exec("CREATE TABLE IF NOT EXISTS auction_log (auction_id INT PRIMARY KEY AUTO_INCREMENT, item_ref VARCHAR(255) NOT NULL, item_name VARCHAR(255) NOT NULL, "
+                     "winner_id INT NOT NULL, auctioneer_id INT NOT NULL, created_at INT NOT NULL, winning_bid INT NOT NULL)")
+            db.exec("INSERT INTO auction_log SELECT auction_id, item_ref, item_name, "
+                    "winner_id, auctioneer_id, created_at, winning_bid FROM auction_log_old")
+            db.exec("DROP TABLE auction_log_old")
+            
+        if table_exists("points"):
+            db.exec("ALTER TABLE points RENAME TO points_old")
+            db.exec("CREATE TABLE IF NOT EXISTS points (char_id INT PRIMARY KEY, points INT DEFAULT 0, created_at INT NOT NULL, disabled SMALLINT DEFAULT 0)")
+            db.exec("INSERT INTO points SELECT char_id, points, created_at, disabled FROM points_old")
+            db.exec("DROP TABLE points_old")
+            
+        if table_exists("points_log"):
+            db.exec("ALTER TABLE points_log RENAME TO points_log_old")
+            db.exec("CREATE TABLE IF NOT EXISTS points_log (log_id INT PRIMARY KEY AUTO_INCREMENT, char_id INT NOT NULL, audit INT NOT NULL, leader_id INT NOT NULL, reason VARCHAR(255), created_at INT NOT NULL)")
+            db.exec("INSERT INTO points_log SELECT log_id, char_id, audit, leader_id, reason, created_at FROm points_log_old")
+            db.exec("DROP TABLE points_log_old")
+            
+        if table_exists("raid_log"):
+            db.exec("ALTER TABLE raid_log RENAME TO raid_log_old")
+            db.exec("CREATE TABLE IF NOT EXISTS raid_log (raid_id INT PRIMARY KEY AUTO_INCREMENT, raid_name VARCHAR(255) NOT NULL, "
+                    "started_by INT NOT NULL, raid_start INT NOT NULL, raid_end INT NOT NULL)")
+            db.exec("INSERT INTO raid_log SELECT raid_id, raid_name, started_by, raid_start, raid_end FROM raid_log_old")
+            db.exec("DROP TABLE raid_log_old")
+            
+        if table_exists("raid_log_participants"):
+            db.exec("ALTER TABLE raid_log_participants RENAME TO raid_log_participants_old")
+            db.exec("CREATE TABLE IF NOT EXISTS raid_log_participants (raid_id INT NOT NULL, raider_id INT NOT NULL, "
+                    "accumulated_points INT DEFAULT 0, left_raid INT, was_kicked INT, was_kicked_reason VARCHAR(500))")
+            db.exec("INSERT INTO raid_log_participants SELECT raid_id, raider_id, accumulated_points, left_raid, was_kicked, was_kicked_reason FROM raid_log_participants_old")
+            db.exec("DROP TABLE raid_log_participants_old")
+        version = update_version(version)

@@ -1,4 +1,4 @@
-from core.command_param_types import Any, NamedFlagParameters
+from core.command_param_types import Any, Const, NamedFlagParameters
 from core.conn import Conn
 from core.db import DB
 from core.decorators import instance, command, event
@@ -118,6 +118,18 @@ class OnlineController:
                 blob += "%s: %d\n" % (org, count)
 
         return ChatBlob("Count (%d)" % len(data), blob)
+    
+    @command(command="activity", params=[Const("set"), Any(name="activity")], access_level="guest",
+             description="Sets the player's activity.")
+    def activity_set_cmd(self, request, set, activity):
+        self.set_afk(request.sender.char_id, int(time.time()), activity)
+        request.reply("Activity has been set.")
+    
+    @command(command="activity", params=[Const("clear")], access_level="guest",
+             description="Removes the player's activity")
+    def activity_clear_cmd(self, request, clear):
+        self.set_afk(request.sender.char_id, 0, "")
+        request.reply("Activity has been removed.")
 
     def get_online_characters(self, channel):
         sql = "SELECT " \
@@ -186,7 +198,8 @@ class OnlineController:
         else:
             # will handle multiple rows since set_afk() will update multiple
             row = self.db.query_single("SELECT * FROM online WHERE char_id = ? AND afk_dt > 0", [char_id])
-            if row:
+            # only set characters back, if they are afk/brb and not if they have a different activity set
+            if row and self.afk_regex.match(row.afk_reason):
                 self.set_afk(char_id, 0, "")
                 char_name = self.character_service.resolve_char_to_name(char_id)
                 time_string = self.util.time_to_readable(int(time.time()) - row.afk_dt)

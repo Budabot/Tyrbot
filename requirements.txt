@@ -1,4 +1,4 @@
-requests==2.31.0
+requests==2.32.0
 mysql-connector-python==8.1.0
 pytz==2023.3
 discord.py==1.7.3
@@ -6,4 +6,4 @@ psutil==5.9.6
 bbcode==1.1.0
 beautifulsoup4==4.12.2
 websocket-client==1.6.4
-cryptography==42.0.4
+cryptography==43.0.1
