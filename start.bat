@@ -1,6 +1,6 @@
 @echo off
 
-SET PYTHON_BIN=.\win32\Python3.11.6\python.exe
+SET PYTHON_BIN=.\win32\Python3.12.7\python.exe
 
 IF EXIST .\venv\ GOTO install
 %PYTHON_BIN% -m pip install virtualenv

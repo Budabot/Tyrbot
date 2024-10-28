@@ -1,7 +1,7 @@
 from core.decorators import instance
 from core.dict_object import DictObject
 from core.logger import Logger
-from pkg_resources import parse_version
+from packaging.version import parse as parse_version
 import mysql.connector
 import sqlite3
 import re
