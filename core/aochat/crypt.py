@@ -43,7 +43,7 @@ def generate_login_key(server_key, username, password):
     if len(dhK) > 32:
         dhK = dhK[:32]
 
-    dhK = eval("0x" + dhK)
+    dhK = int(dhK, 16)
 
     challenge = "%s|%s|%s" % (username, server_key, password)
 
