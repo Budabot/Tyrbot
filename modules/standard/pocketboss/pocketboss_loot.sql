@@ -380,6 +380,7 @@ INSERT INTO pocketboss_loot (pocketboss_id, symb_type, slot, line, item_id) VALU
 INSERT INTO pocketboss_loot (pocketboss_id, symb_type, slot, line, item_id) VALUES (72, 'Infantry', 'Left Hand', 'Moving', 235804);
 INSERT INTO pocketboss_loot (pocketboss_id, symb_type, slot, line, item_id) VALUES (72, 'Infantry', 'Thigh', 'Vibrating', 235787);
 INSERT INTO pocketboss_loot (pocketboss_id, symb_type, slot, line, item_id) VALUES (72, 'Infantry', 'Right Hand', 'Breathing', 235772);
+INSERT INTO pocketboss_loot (pocketboss_id, symb_type, slot, line, item_id) VALUES (72, 'Infantry', 'Thigh', 'Breathing', 235788);
 INSERT INTO pocketboss_loot (pocketboss_id, symb_type, slot, line, item_id) VALUES (73, 'Artillery', 'Ocular', 'Persisting', 219140);
 INSERT INTO pocketboss_loot (pocketboss_id, symb_type, slot, line, item_id) VALUES (73, 'Control', 'Feet', 'Persisting', 236502);
 INSERT INTO pocketboss_loot (pocketboss_id, symb_type, slot, line, item_id) VALUES (73, 'Infantry', 'Left Arm', 'Persisting', 235710);
