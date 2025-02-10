@@ -3,6 +3,7 @@ import signal
 import threading
 import time
 import requests
+import re
 
 from core.conn import Conn
 from core.feature_flags import FeatureFlags
@@ -179,7 +180,8 @@ class Tyrbot:
 
     def unfreeze_account(self, bot_config):
         username = bot_config.username
-        password = bot_config.password
+        web_username = bot_config.web_username if "web_username" in bot_config else bot_config.username
+        web_password = bot_config.web_password if "web_password" in bot_config else bot_config.password
 
         self.logger.info(f"({username}) - unfreezing account")
         minutes_delay = 10
@@ -188,17 +190,44 @@ class Tyrbot:
         s = requests.Session()
         s.headers.update({"User-Agent": f"Tyrbot {self.version}"})
         
-        login_response = s.post("https://account.anarchy-online.com/", data={"nickname": username, "password": password}, timeout=timeout)
+        # login
+        login_response = s.post("https://account.anarchy-online.com/", data={"nickname": web_username, "password": web_password}, timeout=timeout)
         if login_response.status_code != 200 or login_response.url != "https://account.anarchy-online.com/account/":
-            self.logger.info(f"({username}) - login failed trying to unfreeze account, waiting {minutes_delay} to avoid lockout")
+            self.logger.warning(f"({username}) - login failed trying to unfreeze account, waiting {minutes_delay} to avoid lockout")
             time.sleep(minutes_delay * 60)
             return False
 
         time.sleep(5)
 
+        # sub account handling
+        if username != web_username or True:
+            self.logger.info(f"({username}) - sub account detected")
+            pattern = r"<a href=\"\/subscription\/(\d+)\">([a-z0-9]+)<\/a>"
+            matches = re.findall(pattern, login_response.text)
+            subscription_id = None
+            for match in matches:
+                if match[1] == username:
+                    subscription_id = match[0]
+                    self.logger.info(f"({username}) - found subscription id {subscription_id} for sub account")
+
+            if subscription_id is None:
+                self.logger.warning(f"({username}) - could not find subscription id for sub account to unfreeze account, waiting {minutes_delay} to avoid lockout")
+                time.sleep(minutes_delay * 60)
+                return False
+            else:
+                self.logger.info(f"({username}) - switching to sub account")
+                sub_account_switch_response = s.get(f"https://account.anarchy-online.com/subscription/{subscription_id}", timeout=timeout)
+                if sub_account_switch_response.status_code != 200 or sub_account_switch_response.url != "https://account.anarchy-online.com/account/":
+                    self.logger.warning(f"({username}) - failed to switch to sub account, waiting {minutes_delay} to avoid lockout")
+                    time.sleep(minutes_delay * 60)
+                    return False
+            
+            time.sleep(5)
+
+        # unfreeze
         reactivate_response = s.get("https://account.anarchy-online.com/uncancel_sub", timeout=timeout)
         if reactivate_response.status_code != 200 or reactivate_response.url != "https://account.anarchy-online.com/account/":
-            self.logger.info(f"({username}) - login failed trying to unfreeze account, waiting {minutes_delay} to avoid lockout")
+            self.logger.warning(f"({username}) - login failed trying to unfreeze account, waiting {minutes_delay} to avoid lockout")
             time.sleep(minutes_delay * 60)
             return False
 
@@ -231,10 +260,9 @@ class Tyrbot:
                                 else:
                                     break
 
-            except (EOFError, OSError) as e:
+            except Exception as e:
                 self.status = BotStatus.ERROR
                 self.logger.error("", e)
-                raise e
 
         dthread = threading.Thread(target=read_packets, daemon=True)
         dthread.start()
