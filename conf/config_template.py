@@ -31,7 +31,7 @@ config = DictObject({
   "features": {
     "text_formatting_v2": False,              # when enabled, uses an alternate text formatting implementation (not recommended)
     "use_tower_api": True,                    # when enabled, will use the Tower API configured in the bot rather than the bot's local database (recommended)
-    "force_large_messages_from_slaves": True, # when enabled, the bot will send large messages from multiple slave bots rather than the main bot
+    "force_large_messages_from_slaves": True, # when enabled, the bot will send large tell messages from multiple slave bots rather than the main bot
     "ignore_failed_bots_on_login": False,     # when enabled, the bot will continue logging in even if some of the bots in the config fail, as long as the login for the first bot in the config succeeds
     "auto_unfreeze_accounts": True,           # when enabled, the bot will automatically unfreeze bot accounts by logging into the Funcom website
   },
