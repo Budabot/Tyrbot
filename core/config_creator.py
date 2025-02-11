@@ -5,7 +5,7 @@ def create_new_cfg(config_file, template_config):
             {
                 "username": validate_input("Account username"),
                 "password": validate_input("Account password"),
-                "character": validate_input("Enter the character name the bot will run on"),
+                "character": validate_input("Enter the name of the character the bot will run on"),
                 "is_main": True
             }
         ],
@@ -18,9 +18,9 @@ def create_new_cfg(config_file, template_config):
             "name": validate_input("Database name (leave default for SQLite)", "database.db")
         },
         "server": {
-            "dimension": validate_input("Server Dimension (Enter '4' for Test, '5' for RK5 (Live), '6' for RK6 (RK2019)", "5", formatter=int),
+            "dimension": validate_input("Server Dimension (Enter '5' for Rubi-Ka, '6' for RK2019)", "5", formatter=int),
             "host": validate_input("Server Host (use default for both servers)", "chat.d1.funcom.com"),
-            "port": validate_input("Server Port (enter 7105 for RK5, and 7106 for RK6)", 7105, formatter=int)
+            "port": validate_input("Server Port (enter 7105 for Rubi-Ka, and 7106 for RK2019)", 7105, formatter=int)
         }
     }
 
