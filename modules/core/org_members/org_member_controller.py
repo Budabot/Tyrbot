@@ -183,6 +183,10 @@ class OrgMemberController:
                     mode = db_member.mode
                     del db_members[char_id]
 
+                    # skip updates if mode and org_id are unchanged
+                    if db_member.mode == self.MODE_ADD_AUTO and db_member.org_id == org_id:
+                        continue
+
                 self.process_update(char_id, mode, self.MODE_ADD_AUTO, conn)
 
             for char_id, db_member in db_members.items():
