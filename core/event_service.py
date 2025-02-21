@@ -142,6 +142,8 @@ class EventService:
         return event_base_type + ":" + event_sub_type
 
     def check_for_timer_events(self, current_timestamp):
+        self.logger.debug("Checking for timer events at '%s'" % current_timestamp)
+
         try:
             data = self.db.query("SELECT e.event_type, e.event_sub_type, e.handler, t.next_run FROM timer_event t "
                                  "JOIN event_config e ON t.event_type = e.event_type AND t.handler = e.handler "
@@ -153,6 +155,7 @@ class EventService:
             self.bot.status = BotStatus.ERROR
 
     def execute_timed_event(self, row, current_timestamp):
+        self.logger.debug("Executing timed event '%s'" % row)
         event_type_key = self.get_event_type_key(row.event_type, row.event_sub_type)
 
         # timer event run times should be consistent, so we base the next run time off the last run time,

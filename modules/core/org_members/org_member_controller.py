@@ -297,6 +297,8 @@ class OrgMemberController:
             elif new_mode == self.MODE_REM_AUTO:
                 self.remove_org_member(char_id)
                 self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, event_data)
+            elif new_mode == self.MODE_ADD_AUTO:  # handles case where char switched orgs and org_id needs to be updated
+                self.update_org_member(char_id, new_mode, conn.org_id)
         elif old_mode == self.MODE_ADD_MANUAL:
             if new_mode == self.MODE_ADD_AUTO:
                 self.update_org_member(char_id, new_mode, conn.org_id)
