@@ -15,7 +15,6 @@ class ItemsController:
         self.db: DB = registry.get_instance("db")
         self.text: Text = registry.get_instance("text")
         self.command_alias_service = registry.get_instance("command_alias_service")
-        self.gmi_controller = registry.get_instance("gmi_controller", is_optional=True)
 
     def pre_start(self):
         self.db.load_sql_file(self.module_dir + "/sql/" + "aodb.sql")
@@ -100,9 +99,6 @@ class ItemsController:
                 msg += " [%s]" % self.text.make_item(item.lowid, item.highid, item.highql, item.highql)
             else:
                 msg += " [%s - %s]" % (self.text.make_item(item.lowid, item.highid, item.lowql, item.lowql), self.text.make_item(item.lowid, item.highid, item.highql, item.highql))
-
-        if self.gmi_controller:
-            msg += " " + self.text.make_tellcmd("GMI", f"gmi {item_group[0].highid}")
 
         return msg
 

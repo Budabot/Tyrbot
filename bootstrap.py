@@ -42,22 +42,27 @@ try:
             env_config.module_paths = list(env_config.module_paths.values())
 
         # shallow merge of template and env configs
-        config = DictObject({**template_config, **env_config})
         logger.info("Reading config from env vars")
-    else:
-        # start config wizard if config file does not exist
-        if not os.path.exists(config_file):
-            config_creator.create_new_cfg(config_file, template_config)
+        
+    # start config wizard if config file does not exist and no env vars have been set
+    if not os.path.exists(config_file) and not env_config:
+        config_creator.create_new_cfg(config_file, template_config)
 
-        # load config
-        logger.info("Reading config from file '%s'" % config_file)
-        from conf.config import config
+    # load config
+    logger.info("Reading config from file '%s'" % config_file)
+    from conf.config import config as file_config
 
-    if "bots" not in config:
+    config = DictObject({**template_config, **file_config, **env_config})
+
+    if "bots" not in config or not config.bots:
         raise Exception("No bots detected in config")
 
     if not config.bots[0].is_main:
         raise Exception("First bot must be configured as a main bot")
+    
+    for i, bot in enumerate(config.bots):
+        if not bot.username or not bot.password or not bot.character:
+            raise Exception(f"Bot at index {i} must have username, password, and character fields set")
 
     # ensure dimension is integer
     if isinstance(config.server.dimension, str):

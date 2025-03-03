@@ -1,7 +1,8 @@
 import requests
+import html
 
 from core.chat_blob import ChatBlob
-from core.command_param_types import Int
+from core.command_param_types import Int, Const, Any
 from core.decorators import instance, command
 from core.dict_object import DictObject
 from core.setting_types import TextSettingType
@@ -68,3 +69,23 @@ class GMIController:
             blob = ""
 
         return ChatBlob("GMI Results (%d Buy Orders, %s Sell Orders)" % (len(result.buy_orders), len(result.sell_orders)), blob)
+
+    @command(command="gmi", params=[Const("search", is_optional=True), Any("search")], access_level="guest",
+             description="Search for GMI listings by exact item name")
+    def gmi_search_cmd(self, request, _, search):
+        search = html.unescape(search)
+
+        items = self.items_controller.sort_items(search, self.items_controller.find_items(search))[0:100]
+
+        blob = ""
+        for item in items:
+            blob += self.text.make_tellcmd("GMI", f"gmi {item.highid}")
+            blob += " " + item.name
+            if item.lowql == item.highql:
+                blob += " [%s]" % self.text.make_item(item.lowid, item.highid, item.highql, item.highql)
+            else:
+                blob += " [%s - %s]" % (self.text.make_item(item.lowid, item.highid, item.lowql, item.lowql), self.text.make_item(item.lowid, item.highid, item.highql, item.highql))
+            blob += "\n"
+
+        return ChatBlob("GMI Search (%d)" % len(items), blob)
+
