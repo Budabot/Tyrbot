@@ -182,7 +182,7 @@ class SpecialsController:
 
         blob += "From <highlight>0 to 10K</highlight> damage, the bullet damage is unchanged.\n"
         blob += "From <highlight>10K to 11.5K</highlight> damage, each bullet damage is halved.\n"
-        blob += "From <highlight>11K to 15K</highlight> damage, each bullet damage is halved again.\n"
+        blob += "From <highlight>11.5K to 15K</highlight> damage, each bullet damage is halved again.\n"
         blob += "<highlight>15K</highlight> is the damage cap."
 
         return ChatBlob("Full Auto Results", blob)
