@@ -81,7 +81,7 @@ class WorldBossTimersController:
         return ChatBlob("World Boss Timers", blob)
 
     @command(command="gauntletbuffs", params=[], access_level="guest",
-             description="Show current boss timers")
+             description="Show current gauntlet buff timers")
     def gauntletbuffs_cmd(self, request):
         url = self.setting_service.get("gauntlet_timers_api_address").get_value()
         result = self.make_request(url)
@@ -101,6 +101,8 @@ class WorldBossTimersController:
 
         blob += self.text.make_tellcmd("Gauntlet Tradeskills", "info gauntlet_tradeskills") + "\n\n"
 
+        blob += self.text.make_tellcmd("Vizaresh Spawn Timer", "worldboss") + "\n\n"
+        
         blob += "Gauntlet timers provided by <highlight>The Nadybot Team</highlight>"
 
         return ChatBlob("Gauntlet Buff Timers", blob)
