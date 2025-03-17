@@ -2,7 +2,7 @@ import math
 
 from core.chat_blob import ChatBlob
 from core.decorators import instance, command
-from core.command_param_types import Int, Decimal, Item
+from core.command_param_types import SignedInt, Int, Decimal, Item
 
 from core.dict_object import DictObject
 
@@ -30,7 +30,7 @@ class SpecialsController:
         self.command_alias_service.add_alias("specials", "weapon")
         self.command_alias_service.add_alias("fling", "flingshot")
 
-    @command(command="aggdef", params=[Decimal("weapon_attack"), Decimal("weapon_recharge"), Int("init_skill")], access_level="all",
+    @command(command="aggdef", params=[Decimal("weapon_attack"), Decimal("weapon_recharge"), SignedInt("init_skill")], access_level="all",
              description="Show agg/def information")
     def aggdef_cmd(self, request, weapon_attack, weapon_recharge, init_skill):
         init_result = self.get_init_result(weapon_attack, weapon_recharge, init_skill)
@@ -43,7 +43,12 @@ class SpecialsController:
         blob += "Recharge: <highlight>%.2f secs</highlight>\n" % weapon_recharge
         blob += "Init Skill: <highlight>%d</highlight>\n\n" % init_skill
 
-        blob += "You must set your AGG/DEF bar at <highlight>%d%%</highlight> to wield your weapon at 1/1.\n\n" % int(init_result)
+        if init_result > 100:
+            blob += "You do not have enough inits to wield your weapon at 1/1 for any AGG/DEF bar setting.\n\n"
+        elif init_result < 0:
+            blob += "You have enough inits to wield your weapon at 1/1 for any AGG/DEF bar setting.\n\n"
+        else:
+            blob += "You must set your AGG/DEF bar at <highlight>%d%%</highlight> to wield your weapon at 1/1.\n\n" % init_result
 
         blob += "Init needed for max speed at Full Agg (100%%): <highlight>%d</highlight>\n" % inits_full_agg
         blob += "Init needed for max speed at Neutral (87.5%%): <highlight>%d</highlight>\n" % inits_neutral
@@ -51,7 +56,7 @@ class SpecialsController:
 
         blob += self.get_inits_display(weapon_attack, weapon_recharge) + "\n\n"
 
-        blob += "Note that at the neutral position (87.5%), your attack and recharge time will match that of the weapon you are using.\n\n\n"
+        blob += "At the neutral position (87.5%), your attack and recharge time will match that of the weapon you are using.\n\n\n"
 
         blob += "Based on the !aggdef command from Budabot, which was based upon a RINGBOT module made by NoGoal(RK2) and modified for Budabot by Healnjoo(RK2)"
 
@@ -330,8 +335,8 @@ class SpecialsController:
         else:
             init_result = attack_calc
 
-        init_result = min(init_result, 100)  # max of 100
-        init_result = max(init_result, 0)  # min of 0
+        #init_result = min(init_result, 100)  # max of 100
+        #init_result = max(init_result, 0)  # min of 0
 
         return init_result
 
