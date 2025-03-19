@@ -39,9 +39,14 @@ class CloakController:
         self.db.exec("CREATE TABLE IF NOT EXISTS cloak_status (char_id INT NOT NULL, action VARCHAR(10) NOT NULL, created_at INT NOT NULL, org_id INT NOT NULL)")
         self.command_alias_service.add_alias("city", "cloak")
 
-    @command(command="cloak", params=[Const("history"), Int("org_id")], access_level="org_member",
+    @command(command="cloak", params=[Const("history"), Int("org_id", is_optional=True)], access_level="org_member",
              description="Shows the cloak history")
     def cloak_history_command(self, request, _, org_id):
+        org_id = org_id or request.conn.org_id
+
+        if not org_id:
+            return "This bot is not a member of an org."
+
         data = self.db.query("SELECT c.*, p.name FROM cloak_status c LEFT JOIN player p ON c.char_id = p.char_id "
                              "WHERE c.org_id = ? ORDER BY created_at DESC LIMIT 20", [org_id])
 
