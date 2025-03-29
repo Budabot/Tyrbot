@@ -48,7 +48,10 @@ try:
         # load config
         logger.info("Reading config from file '%s'" % config_file)
         from conf.config import config as file_config
-    elif not env_config:
+    else:
+        file_config = {}
+
+    if not env_config and not file_config:
         # start config wizard if config file does not exist and no env vars have been set
         config_creator.create_new_cfg(config_file, template_config)
 
