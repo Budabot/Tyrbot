@@ -2,7 +2,7 @@ import pathlib
 
 from core.decorators import instance, command
 from core.chat_blob import ChatBlob
-from core.command_param_types import Any
+from core.command_param_types import Regex
 import os
 
 
@@ -43,9 +43,10 @@ class InfoController:
 
         return ChatBlob("Info Topics (%d)" % len(topics), blob)
 
-    @command(command="info", params=[Any("topic")], access_level="all",
+    @command(command="info", params=[Regex("topic", r"\s([a-zA-Z0-9_-]+)")], access_level="all",
              description="Show the info topic details")
     def info_show_cmd(self, request, topic_name):
+        topic_name = topic_name[0]
         topic = self.get_topic_info(topic_name)
 
         if topic:
