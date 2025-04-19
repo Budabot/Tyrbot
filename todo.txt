@@ -7,7 +7,7 @@ online lists split by conn?
 topic/raid should be conn-specific?
 flatroll history
 trader drain command
-add a command to list all raid loot categories, cleanup !loot subcommands
+add a command to list all raid loot categories
 loot lists should also work for auctions
 raid log needs (main_id(eg, account_id), char_id, by_char_id, type[joined, left, kicked, added, switched_alt, points], description)
 !raid start - should we get rid of points presets and have raid types instead?

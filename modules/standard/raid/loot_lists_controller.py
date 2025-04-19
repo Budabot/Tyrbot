@@ -50,7 +50,7 @@ class LootListsController:
             "db2": "DB2",
             "db3": "DB3",
             "ncu": "HUD/NCU",
-            "gaunt": "Bastion",
+            "gauntlet": "Gauntlet",
             "mitaar": "Mitaar",
             "12m": "12Man",
             "vortexx": "Vortexx",
@@ -172,7 +172,7 @@ class LootListsController:
     @command(command="pande",
              params=[Options(["bweapons", "barmor", "bstars", "aries", "aquarius", "leo",
                               "virgo", "cancer", "gemini", "libra", "pisces", "capricorn",
-                              "scorpio", "taurus", "sagittarius", "tnh", "gaunt", "sb"])],
+                              "scorpio", "taurus", "sagittarius", "tnh", "gauntlet", "sb"])],
              description="Get list of items from Pandemonium", access_level="all")
     def pande_loot_cmd(self, _, category_name):
         category_name = category_name.lower()
