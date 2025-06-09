@@ -11,6 +11,9 @@ class CommandParam:
     def get_name(self):
         pass
 
+    def process_matches(self, params):
+        pass
+
 
 class Const(CommandParam):
     def __init__(self, name, is_optional=False):

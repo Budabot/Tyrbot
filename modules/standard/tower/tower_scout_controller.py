@@ -121,18 +121,6 @@ class TowerScoutController:
                                     "WHERE playfield_id = ? AND site_number = ?",
                                     [playfield_id, site_number])
 
-    def update_penalty_time(self, t, org_name, faction):
-        data = self.db.query("SELECT playfield_id, site_number, org_id, faction, penalty_duration, penalty_until, created_at "
-                             "FROM scout_info "
-                             "WHERE org_name LIKE ? AND faction LIKE ? AND created_at <= ?", [org_name, faction, t])
-        for row in data:
-            penalty_duration = ((row.created_at - t) % 3600) + 3600
-            penalty_until = t + penalty_duration
-
-            if row.penalty_until < penalty_until:
-                self.db.exec("UPDATE scout_info SET penalty_duration = ?, penalty_until = ? "
-                             "WHERE playfield_id = ? AND site_number = ?", [penalty_duration, penalty_until, row.playfield_id, row.site_number])
-
     def auto_scout_update(self, setting_name, old_value, new_value):
         if old_value:
             self.highway_websocket_controller.unregister_room_callback("tower_events", self.handle_websocket_message)
