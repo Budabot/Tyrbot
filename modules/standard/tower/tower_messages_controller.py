@@ -196,8 +196,6 @@ class TowerMessagesController:
                 self.fire_attack_event(attack)
 
     def fire_victory_event(self, obj):
-        # self.logger.debug("tower victory packet: %s" % str(packet))
-
         # lookup playfield
         playfield_name = obj.location.playfield.long_name
         obj.location.playfield = self.playfield_controller.get_playfield_by_name(playfield_name) or DictObject()
@@ -243,8 +241,6 @@ class TowerMessagesController:
         self.event_service.fire_event(self.TOWER_VICTORY_EVENT, obj)
 
     def fire_attack_event(self, obj):
-        # self.logger.debug("tower attack packet: %s" % str(packet))
-
         # lookup playfield
         playfield_name = obj.location.playfield.long_name
         obj.location.playfield = self.playfield_controller.get_playfield_by_name(playfield_name) or DictObject()

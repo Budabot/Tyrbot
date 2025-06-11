@@ -71,6 +71,7 @@ class TowerScoutController:
         data = self.db.query("SELECT playfield_id, site_number, org_name, faction, penalty_duration, penalty_until, created_at "
                              "FROM scout_info "
                              "WHERE org_name LIKE ? AND faction LIKE ? AND created_at <= ?", [org_name, faction, t])
+
         for row in data:
             penalty_duration = ((row.created_at - t) % 3600) + 3600
             penalty_until = t + penalty_duration
@@ -96,11 +97,18 @@ class TowerScoutController:
             data = self.db.query("SELECT org_name, faction, count(1), max(created_at) FROM scout_info WHERE created_at > ? GROUP BY org_name, faction", [t - 7200])
             for row in data:
                 self.update_penalty_time(t, row.org_name, row.faction)
-        elif obj.type == "message" and obj.body.get("type") == "update_site":
-            site = obj.body
-            t = int(time.time())
-            extract_and_update(t, site)
-
+        elif obj.type == "message":
+            if obj.body.get("type") == "update_site":  # {'attacker': {'ai_level': 3, 'breed': None, 'character_id': 1866227579, 'faction': 'Neutral', 'gender': None, 'level': 27, 'name': 'Eggbeatr', 'org': {'faction': 'Neutral', 'id': 1986585, 'name': 'Normal Pvp'}, 'org_rank': 'Executive', 'profession': 'Enforcer'}, 'defender': {'faction': 'Clan', 'id': None, 'name': 'Fairy Tail'}, 'location': {'x': 1680, 'y': 2695}, 'penalizing_ended': None, 'playfield_id': 790, 'ql': 30, 'site_id': 3, 'timestamp': 1749668777, 'type': 'tower_attack'}
+                site = obj.body
+                t = int(time.time())
+                extract_and_update(t, site)
+            elif obj.body.get("type") == "tower_attack":  # {'center': {'x': 1700, 'y': 2780}, 'ct_pos': {'x': 1680, 'y': 2695}, 'enabled': True, 'gas': 25, 'max_ql': 30, 'min_ql': 15, 'name': 'Hound Land', 'num_conductors': 1, 'num_turrets': 2, 'org_faction': 'Clan', 'org_id': 6699, 'org_name': 'Fairy Tail', 'plant_time': 1712918999, 'playfield_id': 790, 'ql': 30, 'site_id': 3, 'timing': 'StaticEurope', 'type': 'update_site'}
+                pass
+            elif obj.body.get("type") == "tower_outcome":  # {'attacking_faction': 'Neutral', 'attacking_org': 'Normal Pvp', 'losing_faction': 'Omni', 'losing_org': 'Valhall Guardians', 'playfield_id': 791, 'site_id': 5, 'timestamp': 1749668427, 'type': 'tower_outcome'}
+                pass
+            elif obj.body.get("type") == "update_gas":
+                pass
+        
     def update_scout_info(self, t, playfield_id, site_number, org_id, org_name, faction, ql, plant_time, x_coord, y_coord, num_conductors, num_turrets):
         self.db.exec("DELETE FROM scout_info WHERE playfield_id = ? AND site_number = ?", [playfield_id, site_number])
 

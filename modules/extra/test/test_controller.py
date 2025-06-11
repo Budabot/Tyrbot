@@ -48,7 +48,9 @@ class TestController:
         if not attacker:
             attacker = request.sender
         if not def_faction:
-            def_faction = "Neutral"
+            def_faction = "neutral"
+        else:
+            def_faction = def_faction.lower()
         if not def_org_name:
             def_org_name = "DefendOrg"
 
@@ -56,10 +58,10 @@ class TestController:
         if not char_info:
             return f"Could not retrieve character info for <highlight>{attacker.name}</highlight>."
         elif not char_info.org_name:
-            f"{attacker.name} just attacked the {def_faction} organization {def_org_name.lower()}'s tower in {playfield_name} at location ({x_coords}, {y_coords})."
+            f"{attacker.name} just attacked the {def_faction} organization {def_org_name}'s tower in {playfield_name} at location ({x_coords}, {y_coords})."
         else:
             # The %s organization %s just entered a state of war! %s attacked the %s organization %s's tower in %s at location (%d,%d).
-            ext_msg = self.ext_message_as_string(506, 12753364, [("s", char_info.faction), ("s", char_info.org_name), ("s", char_info.name),
+            ext_msg = self.ext_message_as_string(506, 12753364, [("s", char_info.faction.lower()), ("s", char_info.org_name), ("s", char_info.name),
                                                                  ("s", def_faction), ("s", def_org_name),
                                                                  ("s", playfield_name), ("s", x_coords), ("s", y_coords)])
             packet = server_packets.PublicChannelMessage(TowerMessagesController.ALL_TOWERS_ID, 0, ext_msg, "\0")
