@@ -64,17 +64,20 @@ class TowerScoutController:
     def tower_attack_update_penalty_event(self, event_type, event_data):
         self.update_penalty_time(event_data.timestamp, event_data.attacker.org_name, event_data.attacker.faction)
 
-    def update_penalty_time(self, t, org_name, faction):
+    def update_penalty_time(self, event_time, org_name, faction):
+        # if attacker is not in an org, or org or faction is unknown, skip
         if not org_name or not faction:
             return
 
+        # find all sites for given org and faction that were created before event_time
         data = self.db.query("SELECT playfield_id, site_number, org_name, faction, penalty_duration, penalty_until, created_at "
                              "FROM scout_info "
-                             "WHERE org_name LIKE ? AND faction LIKE ? AND created_at <= ?", [org_name, faction, t])
-
+                             "WHERE org_name LIKE ? AND faction LIKE ? AND created_at <= ?", [org_name, faction, event_time])
+        
+        # for each row, calculate time until penalty ends, and if it's later than current penalty_until time, update
         for row in data:
-            penalty_duration = ((row.created_at - t) % 3600) + 3600
-            penalty_until = t + penalty_duration
+            penalty_duration = ((row.created_at - event_time) % 3600) + 3600
+            penalty_until = event_time + penalty_duration
 
             if row.penalty_until < penalty_until:
                 self.db.exec("UPDATE scout_info SET penalty_duration = ?, penalty_until = ? "
@@ -90,19 +93,16 @@ class TowerScoutController:
             r = requests.get("https://towers.aobots.org/api/sites", headers=headers, timeout=5)
             result = r.json()
 
+            # update all sites from API when first connected to websocket server
             t = int(time.time())
             for site in result:
                 extract_and_update(t, site)
-
-            data = self.db.query("SELECT org_name, faction, count(1), max(created_at) FROM scout_info WHERE created_at > ? GROUP BY org_name, faction", [t - 7200])
-            for row in data:
-                self.update_penalty_time(t, row.org_name, row.faction)
         elif obj.type == "message":
-            if obj.body.get("type") == "update_site":  # {'attacker': {'ai_level': 3, 'breed': None, 'character_id': 1866227579, 'faction': 'Neutral', 'gender': None, 'level': 27, 'name': 'Eggbeatr', 'org': {'faction': 'Neutral', 'id': 1986585, 'name': 'Normal Pvp'}, 'org_rank': 'Executive', 'profession': 'Enforcer'}, 'defender': {'faction': 'Clan', 'id': None, 'name': 'Fairy Tail'}, 'location': {'x': 1680, 'y': 2695}, 'penalizing_ended': None, 'playfield_id': 790, 'ql': 30, 'site_id': 3, 'timestamp': 1749668777, 'type': 'tower_attack'}
+            if obj.body.get("type") == "update_site":  # {'center': {'x': 1700, 'y': 2780}, 'ct_pos': {'x': 1680, 'y': 2695}, 'enabled': True, 'gas': 25, 'max_ql': 30, 'min_ql': 15, 'name': 'Hound Land', 'num_conductors': 1, 'num_turrets': 2, 'org_faction': 'Clan', 'org_id': 6699, 'org_name': 'Fairy Tail', 'plant_time': 1712918999, 'playfield_id': 790, 'ql': 30, 'site_id': 3, 'timing': 'StaticEurope', 'type': 'update_site'}
                 site = obj.body
                 t = int(time.time())
                 extract_and_update(t, site)
-            elif obj.body.get("type") == "tower_attack":  # {'center': {'x': 1700, 'y': 2780}, 'ct_pos': {'x': 1680, 'y': 2695}, 'enabled': True, 'gas': 25, 'max_ql': 30, 'min_ql': 15, 'name': 'Hound Land', 'num_conductors': 1, 'num_turrets': 2, 'org_faction': 'Clan', 'org_id': 6699, 'org_name': 'Fairy Tail', 'plant_time': 1712918999, 'playfield_id': 790, 'ql': 30, 'site_id': 3, 'timing': 'StaticEurope', 'type': 'update_site'}
+            elif obj.body.get("type") == "tower_attack":  # {'attacker': {'ai_level': 3, 'breed': None, 'character_id': 1866227579, 'faction': 'Neutral', 'gender': None, 'level': 27, 'name': 'Eggbeatr', 'org': {'faction': 'Neutral', 'id': 1986585, 'name': 'Normal Pvp'}, 'org_rank': 'Executive', 'profession': 'Enforcer'}, 'defender': {'faction': 'Clan', 'id': None, 'name': 'Fairy Tail'}, 'location': {'x': 1680, 'y': 2695}, 'penalizing_ended': None, 'playfield_id': 790, 'ql': 30, 'site_id': 3, 'timestamp': 1749668777, 'type': 'tower_attack'}
                 pass
             elif obj.body.get("type") == "tower_outcome":  # {'attacking_faction': 'Neutral', 'attacking_org': 'Normal Pvp', 'losing_faction': 'Omni', 'losing_org': 'Valhall Guardians', 'playfield_id': 791, 'site_id': 5, 'timestamp': 1749668427, 'type': 'tower_outcome'}
                 pass
@@ -110,18 +110,37 @@ class TowerScoutController:
                 pass
         
     def update_scout_info(self, t, playfield_id, site_number, org_id, org_name, faction, ql, plant_time, x_coord, y_coord, num_conductors, num_turrets):
-        self.db.exec("DELETE FROM scout_info WHERE playfield_id = ? AND site_number = ?", [playfield_id, site_number])
+        penalty_duration = 0
+        penalty_until = 0
 
+        # get current scout_info, and then delete if it exists
+        obj = self.db.query_single("SELECT * FROM scout_info WHERE playfield_id = ? AND site_number = ?", [playfield_id, site_number]) or {}
+        if obj:
+            self.db.exec("DELETE FROM scout_info WHERE playfield_id = ? AND site_number = ?", [playfield_id, site_number])
+
+            # grab current penalty values to save with new scout info
+            if obj.org_name == org_name and obj.faction == faction:
+                penalty_duration = obj.get("penalty_duration", 0)
+                penalty_until = obj.get("penalty_until", 0)
+
+        # if org_id is not set, assume unplanted
         if org_id and x_coord and y_coord:
             tower_site_info = self.get_tower_site_info(playfield_id, site_number)
             close_time = plant_time % 86400
+
+            # if playfield tower sites have a set close time, adjust site close time accordingly to that hour
             if tower_site_info.close_time:
                 close_time = tower_site_info.close_time + (close_time % 3600)
 
             self.db.exec("INSERT INTO scout_info (playfield_id, site_number, ql, x_coord, y_coord, org_name, org_id, faction, close_time, "
                         "num_conductors, num_turrets, penalty_duration, penalty_until, created_at, updated_at) "
-                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, ?, ?)",
-                        [playfield_id, site_number, ql, x_coord, y_coord, org_name, org_id, faction, close_time, num_conductors, num_turrets, plant_time, t])
+                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                        [playfield_id, site_number, ql, x_coord, y_coord, org_name, org_id, faction, close_time, num_conductors, num_turrets,
+                         penalty_duration, penalty_until, plant_time, t])
+
+            # if update could be a new CT plant, update penalty time
+            if t - plant_time < 7200:
+                self.update_penalty_time(plant_time, org_name, faction)
 
     def get_tower_site_info(self, playfield_id, site_number):
         return self.db.query_single("SELECT playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name "
