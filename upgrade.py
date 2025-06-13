@@ -368,7 +368,7 @@ def run_upgrades():
 
     if version == 35:
         if table_exists("event_config"):
-            db.exec("UPDATE event_config SET enabled = 1 WHERE handle = 'modules.standard.tower.tower_scout_controller.TowerScoutController.tower_scout_info_cleanup_event'")
-            db.exec("UPDATE event_config SET enabled = 1 WHERE handle = 'modules.standard.tower.tower_scout_controller.TowerScoutController.tower_victory_update_penalty_event'")
-            db.exec("UPDATE event_config SET enabled = 1 WHERE handle = 'modules.standard.tower.tower_scout_controller.TowerScoutController.tower_attack_update_penalty_event'")
+            db.exec("UPDATE event_config SET enabled = 1 WHERE handler = 'modules.standard.tower.tower_scout_controller.TowerScoutController.tower_scout_info_cleanup_event'")
+            db.exec("UPDATE event_config SET enabled = 1 WHERE handler = 'modules.standard.tower.tower_scout_controller.TowerScoutController.tower_victory_update_penalty_event'")
+            db.exec("UPDATE event_config SET enabled = 1 WHERE handler = 'modules.standard.tower.tower_scout_controller.TowerScoutController.tower_attack_update_penalty_event'")
         version = update_version(version)
