@@ -365,3 +365,10 @@ def run_upgrades():
             db.exec("INSERT INTO raid_log_participants SELECT raid_id, raider_id, accumulated_points, left_raid, was_kicked, was_kicked_reason FROM raid_log_participants_old")
             db.exec("DROP TABLE raid_log_participants_old")
         version = update_version(version)
+
+    if version == 35:
+        if table_exists("event_config"):
+            db.exec("UPDATE event_config SET enabled = 1 WHERE handle = 'modules.standard.tower.tower_scout_controller.TowerScoutController.tower_scout_info_cleanup_event'")
+            db.exec("UPDATE event_config SET enabled = 1 WHERE handle = 'modules.standard.tower.tower_scout_controller.TowerScoutController.tower_victory_update_penalty_event'")
+            db.exec("UPDATE event_config SET enabled = 1 WHERE handle = 'modules.standard.tower.tower_scout_controller.TowerScoutController.tower_attack_update_penalty_event'")
+        version = update_version(version)
