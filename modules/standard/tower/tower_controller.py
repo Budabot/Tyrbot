@@ -19,7 +19,7 @@ from modules.standard.helpbot.playfield_controller import PlayfieldController
 
 @instance()
 class TowerController:
-    INVALID_TIME_OFFSET_MSG = "Parameter <highlight>time_offset</highlight> can only be used when parameter <highlight>site_status</highlight> is <highlight>open</highlight> or <highlight>closed</highlight>."
+    INVALID_TIME_OFFSET_MSG = "Parameter <highlight>time_offset</highlight> can only be used when parameter <highlight>site_status</highlight> is <highlight>open</highlight>, <highlight>closed</highlight>, or <highlight>new</highlight>."
 
     def __init__(self):
         self.logger = Logger(__name__)
@@ -115,15 +115,18 @@ class TowerController:
 
             return ChatBlob(f"Org Info for '{org}' ({len(data)})", blob)
 
-        @command(command="lc", params=[Options(["all", "open", "closed", "penalty", "unplanted", "disabled"]),
+        @command(command="lc", params=[Options(["all", "open", "hot", "closed", "penalty", "unplanted", "disabled", "new"]),
                                        Options(["omni", "clan", "neutral", "all"], is_optional=True),
                                        Int("pvp_level", is_optional=True),
                                        Time("time", is_optional=True)],
                  access_level="guest", description="See a list of land control tower sites by QL, faction, and open status",
-                 extended_description="The time param only applies when the first param is either 'open' or 'closed'")
+                 extended_description="The time param only applies when the first param is either 'open', 'closed', or 'new'")
         def lc_search_cmd(self, request, site_status, faction, pvp_level, time_offset):
             t = int(time.time())
             relative_time = t + (time_offset or 0)
+            site_status = site_status.lower()
+            if site_status == "hot":
+                site_status == "open"
 
             min_ql = 1
             max_ql = 300
@@ -136,7 +139,7 @@ class TowerController:
 
             params = list()
 
-            if site_status.lower() == "disabled":
+            if site_status == "disabled":
                 params.append(("enabled", "false"))
             else:
                 params.append(("enabled", "true"))
@@ -150,20 +153,23 @@ class TowerController:
             if faction and faction != "all":
                 params.append(("faction", faction))
 
-            if site_status.lower() == "open":
+            if site_status == "open":
                 params.append(("min_close_time", relative_time))
                 params.append(("max_close_time", relative_time + (3600 * 6)))
-            elif site_status.lower() == "closed":
+            elif site_status == "closed":
                 params.append(("min_close_time", relative_time + (3600 * 6)))
                 params.append(("max_close_time", relative_time + (3600 * 24)))
-            elif site_status.lower() == "penalty":
+            elif site_status == "penalty":
                 if time_offset:
                     return self.INVALID_TIME_OFFSET_MSG
                 params.append(("penalty", "true"))
-            elif site_status.lower() == "unplanted":
+            elif site_status == "unplanted":
                 if time_offset:
                     return self.INVALID_TIME_OFFSET_MSG
                 params.append(("planted", "false"))
+            elif site_status == "new":
+                time_offset = time_offset or 7200
+                params.append(("min_created_at", t - time_offset))
             else:
                 if time_offset:
                     return self.INVALID_TIME_OFFSET_MSG
@@ -182,7 +188,9 @@ class TowerController:
                 title += " QL %d - %d" % (min_ql, max_ql)
             if faction:
                 title += " [%s]" % faction.capitalize()
-            if time_offset:
+            if site_status == "new":
+                title += " within " + self.util.time_to_readable(time_offset)
+            elif time_offset:
                 title += " in " + self.util.time_to_readable(time_offset)
             title += " (%d)" % len(data)
 
@@ -371,6 +379,10 @@ class TowerController:
                 query_params.append(absolute_min_close_time)
 
             sql += ")"
+        
+        if "min_created_at" in d:
+            sql += " AND s.created_at >= ?"
+            query_params.append(d.min_created_at)
 
         sql += " ORDER BY t.playfield_id ASC, t.site_number ASC"
 
