@@ -160,10 +160,10 @@ class Tyrbot:
             login_success, packet = conn.login(bot_config.username, bot_config.password, bot_config.character, is_main=bot_config.is_main, wait_for_logged_in=wait_for_logged_in)
             if not login_success:
                 self.event_service.fire_event(self.LOGIN_FAILURE, packet)
-                
+
                 if FeatureFlags.AUTO_UNFREEZE_ACCOUNTS and packet.id == server_packets.LoginError.id and packet.message and packet.message.endswith("/Account system denies login"):
                     self.unfreeze_account(bot_config)
-                
+
                 if i == 0 or not FeatureFlags.IGNORE_FAILED_BOTS_ON_LOGIN:
                     self.status = BotStatus.ERROR
                     return False
@@ -174,7 +174,7 @@ class Tyrbot:
 
                 self.conns[_id] = conn
 
-                self.create_conn_thread(conn, None if bot_config.is_main else self.mass_message_queue)
+                self.create_conn_thread(conn, None if bot_config.is_main or not bot_config.get("is_mass_message", True) else self.mass_message_queue)
 
         return True
 
