@@ -200,7 +200,7 @@ class Tyrbot:
         time.sleep(5)
 
         # sub account handling
-        if username != web_username or True:
+        if username != web_username:
             self.logger.info(f"({username}) - sub account detected")
             pattern = r"<a href=\"\/subscription\/(\d+)\">([a-z0-9]+)<\/a>"
             matches = re.findall(pattern, login_response.text)
@@ -211,7 +211,7 @@ class Tyrbot:
                     self.logger.info(f"({username}) - found subscription id {subscription_id} for sub account")
 
             if subscription_id is None:
-                self.logger.warning(f"({username}) - could not find subscription id for sub account to unfreeze account, waiting {minutes_delay} to avoid lockout")
+                self.logger.warning(f"({username}) - could not find subscription id for sub account to unfreeze account, waiting {minutes_delay} minutes to avoid lockout")
                 time.sleep(minutes_delay * 60)
                 return False
             else:
