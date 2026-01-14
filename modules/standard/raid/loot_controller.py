@@ -187,7 +187,7 @@ class LootController:
         if not self.leader_controller.can_use_command(request.sender.char_id, request.conn):
             return LeaderController.NOT_LEADER_MSG
 
-        sql = "SELECT r.name, r.comment, r.ql, a.lowid AS low_id, a.highid AS high_id, a.icon FROM aodb a LEFT JOIN raid_loot r ON (a.name = r.name AND a.highql >= r.ql) " \
+        sql = "SELECT r.name, r.comment, r.ql, a.lowid AS low_id, a.highid AS high_id, a.icon FROM aodb a LEFT JOIN raid_loot r ON (a.highid = r.high_id AND a.highql >= r.ql) " \
               "WHERE r.id = ? LIMIT 1"
         item = self.db.query_single(sql, [raid_item_id])
 
@@ -207,7 +207,7 @@ class LootController:
             "SELECT r.raid, r.category, r.id, r.ql, r.name, r.comment, r.multiloot, a.lowid AS low_id, a.highid AS high_id, a.icon "
             "FROM raid_loot r "
             "LEFT JOIN aodb a "
-            "ON (r.name = a.name AND r.ql <= a.highql) "
+            "ON (a.highid = r.high_id AND r.ql <= a.highql) "
             "WHERE r.raid = ? AND r.category = ? "
             "ORDER BY r.name",
             [raid, category]
@@ -290,9 +290,9 @@ class LootController:
 
     def add_item_to_loot(self, item, comment, item_count, conn: Conn):
         loot_list = self.get_loot_list(conn)
-        loot_item = next((obj for _, obj in loot_list.items() if obj.item == item), None)
+        loot_item = next((obj for _, obj in loot_list.items() if obj.item.high_id == item.high_id), None)
         if loot_item:
-            loot_item.count += 1
+            loot_item.count += item_count
         else:
             # this prevents loot items from being re-numbered when items are removed
             end_index = list(loot_list.keys())[-1] + 1 if len(loot_list) > 0 else 1
