@@ -192,7 +192,7 @@ INSERT INTO raid_loot (raid, category, ql, high_id, name, comment, multiloot) VA
 INSERT INTO raid_loot (raid, category, ql, high_id, name, comment, multiloot) VALUES ('APF', 'Sector 13', 1, 257533, 'Kyr''Ozch Video Processing Unit', 'All Bounties', 1);
 INSERT INTO raid_loot (raid, category, ql, high_id, name, comment, multiloot) VALUES ('APF', 'Sector 13', 1, 257968, 'Hacker ICE-Breaker Source', 'All ICE', 1);
 INSERT INTO raid_loot (raid, category, ql, high_id, name, comment, multiloot) VALUES ('APF', 'Sector 13', 1, 257706, 'Kyr''Ozch Helmet', '2500 Token board', 1);
-INSERT INTO raid_loot (raid, category, ql, high_id, name, comment, multiloot) VALUES ('APF', 'Sector 13', 1, 258296, 'Kyr''Ozch Data Core', '', 1);
+INSERT INTO raid_loot (raid, category, ql, high_id, name, comment, multiloot) VALUES ('APF', 'Sector 13', 1, 258296, 'Kyr''Ozch Data Core', '', 4);
 
 INSERT INTO raid_loot (raid, category, ql, high_id, name, comment, multiloot) VALUES ('APF', 'Sector 28', 1, 275912, 'Crystalline Matrix', '', 3);
 INSERT INTO raid_loot (raid, category, ql, high_id, name, comment, multiloot) VALUES ('APF', 'Sector 28', 1, 275914, 'Kyr''ozch Circuitry', '', 3);
@@ -201,7 +201,7 @@ INSERT INTO raid_loot (raid, category, ql, high_id, name, comment, multiloot) VA
 INSERT INTO raid_loot (raid, category, ql, high_id, name, comment, multiloot) VALUES ('APF', 'Sector 28', 1, 257533, 'Kyr''Ozch Video Processing Unit', 'All Bounties', 1);
 INSERT INTO raid_loot (raid, category, ql, high_id, name, comment, multiloot) VALUES ('APF', 'Sector 28', 1, 257968, 'Hacker ICE-Breaker Source', 'All ICE', 1);
 INSERT INTO raid_loot (raid, category, ql, high_id, name, comment, multiloot) VALUES ('APF', 'Sector 28', 1, 257706, 'Kyr''Ozch Helmet', '2500 Token board', 1);
-INSERT INTO raid_loot (raid, category, ql, high_id, name, comment, multiloot) VALUES ('APF', 'Sector 28', 1, 258295, 'Kyr''Ozch Data Core', '', 1);
+INSERT INTO raid_loot (raid, category, ql, high_id, name, comment, multiloot) VALUES ('APF', 'Sector 28', 1, 258295, 'Kyr''Ozch Data Core', '', 4);
 
 INSERT INTO raid_loot (raid, category, ql, high_id, name, comment, multiloot) VALUES ('APF', 'Sector 35', 1, 275918, 'Alpha Program Chip', '', 3);
 INSERT INTO raid_loot (raid, category, ql, high_id, name, comment, multiloot) VALUES ('APF', 'Sector 35', 1, 275919, 'Beta Program Chip', '', 3);
@@ -212,7 +212,7 @@ INSERT INTO raid_loot (raid, category, ql, high_id, name, comment, multiloot) VA
 INSERT INTO raid_loot (raid, category, ql, high_id, name, comment, multiloot) VALUES ('APF', 'Sector 35', 1, 257533, 'Kyr''Ozch Video Processing Unit', 'All Bounties', 1);
 INSERT INTO raid_loot (raid, category, ql, high_id, name, comment, multiloot) VALUES ('APF', 'Sector 35', 1, 257968, 'Hacker ICE-Breaker Source', 'All ICE', 1);
 INSERT INTO raid_loot (raid, category, ql, high_id, name, comment, multiloot) VALUES ('APF', 'Sector 35', 1, 257706, 'Kyr''Ozch Helmet', '2500 Token board', 1);
-INSERT INTO raid_loot (raid, category, ql, high_id, name, comment, multiloot) VALUES ('APF', 'Sector 35', 1, 258292, 'Kyr''Ozch Data Core', '', 1);
+INSERT INTO raid_loot (raid, category, ql, high_id, name, comment, multiloot) VALUES ('APF', 'Sector 35', 1, 258292, 'Kyr''Ozch Data Core', '', 6);
 
 INSERT INTO raid_loot (raid, category, ql, high_id, name, comment, multiloot) VALUES ('APF', 'Sector 42 - West', 250, 257959, 'Inertial Adjustment Processing Unit', '', 1);
 INSERT INTO raid_loot (raid, category, ql, high_id, name, comment, multiloot) VALUES ('APF', 'Sector 42 - West', 250, 257963, 'Notum Amplification Coil', '', 1);
