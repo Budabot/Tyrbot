@@ -57,4 +57,4 @@ See the Wiki page: https://github.com/Budabot/Tyrbot/wiki/Writing-Custom-Modules
 
 ## Running in Docker
 
-See the Wiki page: https://github.com/Budabot/Tyrbot/wiki/Docker
+See the Wiki page: https://github.com/Budabot/Tyrbot/wiki/Docker-setup
