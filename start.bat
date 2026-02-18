@@ -2,11 +2,11 @@
 
 SET PYTHON_BIN=.\win32\Python3.12.7\python.exe
 
-IF EXIST .\venv\ GOTO install
+IF EXIST .\venv\ GOTO install_requirements
 %PYTHON_BIN% -m pip install virtualenv
 %PYTHON_BIN% -m virtualenv --python=%PYTHON_BIN% venv
 
-:install
+:install_requirements
 IF [%1] == [--skip-install] GOTO run
 .\venv\Scripts\pip.exe install -r requirements.txt
 
@@ -20,11 +20,11 @@ if %errorlevel% == 0 goto end
 if %errorlevel% == 2 goto restart
 
 timeout /t 10
-goto :install
+goto :install_requirements
 
 :restart
 timeout /t 5
-goto :install
+goto :install_requirements
 
 :end
 pause
