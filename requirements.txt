@@ -1,10 +1,10 @@
-requests==2.32.4
-mysql-connector-python==9.1.0
-pytz==2023.3
+requests==2.32.5
+mysql-connector-python==9.6.0
+pytz==2026.1.post1
 discord.py==1.7.3
-psutil==5.9.6
+psutil==7.2.2
 bbcode==1.1.0
-beautifulsoup4==4.12.2
-websocket-client==1.6.4
+beautifulsoup4==4.14.3
+websocket-client==1.9.0
 cryptography==46.0.5
-packaging==24.1
+packaging==26.0
