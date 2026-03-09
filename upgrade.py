@@ -2,6 +2,7 @@ from core.db import DB
 from core.logger import Logger
 from core.registry import Registry
 
+
 db = Registry.get_instance("db")
 logger = Logger("core.upgrade")
 
@@ -309,14 +310,14 @@ def run_upgrades():
             db.exec("INSERT INTO points_log SELECT log_id, char_id, audit, leader_id, reason, created_at FROM points_log_old")
             db.exec("DROP TABLE points_log_old")
         version = update_version(version)
-    
+
     if version == 34:
         if table_exists("name_history"):
             db.exec("ALTER TABLE name_history RENAME TO name_history_old")
             db.exec("CREATE TABLE IF NOT EXISTS name_history (char_id INT NOT NULL, name VARCHAR(20) NOT NULL, created_at INT NOT NULL, PRIMARY KEY (char_id, name))")
             db.exec("INSERT INTO name_history SELECT char_id, name, created_at FROM name_history_old")
             db.exec("DROP TABLE name_history_old")
-        
+
         if table_exists("player"):
             db.exec("ALTER TABLE player RENAME TO player_old")
             db.exec("CREATE TABLE IF NOT EXISTS player ( char_id INT PRIMARY KEY, first_name VARCHAR(30) NOT NULL, name VARCHAR(20) NOT NULL, last_name VARCHAR(30) NOT NULL, "
@@ -371,4 +372,9 @@ def run_upgrades():
             db.exec("UPDATE event_config SET enabled = 1 WHERE handler = 'modules.standard.tower.tower_scout_controller.TowerScoutController.tower_scout_info_cleanup_event'")
             db.exec("UPDATE event_config SET enabled = 1 WHERE handler = 'modules.standard.tower.tower_scout_controller.TowerScoutController.tower_victory_update_penalty_event'")
             db.exec("UPDATE event_config SET enabled = 1 WHERE handler = 'modules.standard.tower.tower_scout_controller.TowerScoutController.tower_attack_update_penalty_event'")
+        version = update_version(version)
+
+    if version == 36:
+        if table_exists("setting"):
+            db.exec("UPDATE setting SET value = 'https://history.aobots.org/?server={dimension}&name={name}' WHERE name = 'pork_history_url'")
         version = update_version(version)
