@@ -71,6 +71,7 @@ class McpController:
         self.command_service = registry.get_instance("command_service")
         self.character_service = registry.get_instance("character_service")
         self.bot = registry.get_instance("bot")
+        self.text = registry.get_instance("text")
 
     def start(self):
         self.setting_service.register(
@@ -112,6 +113,8 @@ class McpController:
         _cs = self.command_service
         _char_service = self.character_service
         _bot = self.bot
+        _logger = self.logger
+        _text = self.text
 
         @mcp.resource("tyrbot://commands")
         def list_commands() -> str:
@@ -128,7 +131,7 @@ class McpController:
             """
             import json
 
-            # Group by (module, command, sub_command) and collect channels
+            # generate command list data
             command_list: list[dict] = []
             for key, handlers in self.command_service.handlers.items():
                 for handler in handlers:
@@ -137,7 +140,7 @@ class McpController:
                     command_data = {
                         "command": command,
                         "module": handler["callback"].__self__.__class__.__module__,
-                        "help": handler["help"],
+                        "params": list(map(lambda x: x.get_name(), handler["params"])),
                         "description": handler["description"],
                     }
 
@@ -155,6 +158,10 @@ class McpController:
               query="config settings list"
               query="whois Tyrbot"
             """
+            conn = _bot.get_primary_conn()
+
+            _logger.log_chat(conn, "MCP Server", "Query", query)
+
             # Resolve superadmin char_id so all commands pass access checks
             try:
                 char_id = _char_service.resolve_char_to_id(_bot.superadmin)
@@ -164,17 +171,28 @@ class McpController:
             results: list[str] = []
 
             def reply(msg):
-                results.append(_response_to_text(msg))
+                results.append(msg)
 
             _cs.process_command(
                 message=query.strip(),
                 channel="msg",
                 char_id=char_id,
                 reply=reply,
-                conn=_bot.get_primary_conn(),
+                conn=conn,
             )
 
-            return "\n\n---\n\n".join(results) if results else "(no response)"
+            # format log output
+            for result in results:
+                pages = []
+                if isinstance(result, ChatBlob):
+                    pages = self.text.paginate(result, conn, max_page_length=None)
+                else:
+                    pages = [self.text.format_message(result, conn)]
+                
+                for page in pages:
+                    _logger.log_chat(conn, "MCP Server", "Response", page)
+
+            return "\n\n---\n\n".join(map(_response_to_text, results)) if results else "(no response)"
 
         return mcp
 
@@ -182,7 +200,7 @@ class McpController:
         """Spin up the Streamable-HTTP MCP server in a background daemon thread."""
         self.stop_mcp_server()
         
-        self.logger.info(f"Starting Streamable-HTTP MCP server")
+        self.logger.info("Starting Streamable-HTTP MCP server")
 
         host = self.setting_service.get("mcp_server_host").get_value()
         port = int(self.setting_service.get("mcp_server_port").get_value())
