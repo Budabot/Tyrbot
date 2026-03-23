@@ -22,7 +22,7 @@ class CommandService:
     PRIVATE_MESSAGE_CHANNEL = "msg"
 
     def __init__(self):
-        self.handlers = collections.defaultdict(list)
+        self.handlers: dict[str, list[dict]] = collections.defaultdict(list)
         self.logger = Logger(__name__)
         self.channels = {}
         self.pre_processors = []

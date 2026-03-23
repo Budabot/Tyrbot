@@ -1,3 +1,4 @@
+from typing import Any
 from core.decorators import instance
 import re
 import math
@@ -10,14 +11,14 @@ from core.dict_object import DictObject
 
 @instance()
 class Util:
-    budatime_full_regex = re.compile("^([0-9]+[a-z]+)+$", re.IGNORECASE)
-    budatime_unit_regex = re.compile("([0-9]+)([a-z]+)", re.IGNORECASE)
+    budatime_full_regex: re.Pattern = re.compile("^([0-9]+[a-z]+)+$", re.IGNORECASE)
+    budatime_unit_regex: re.Pattern = re.compile("([0-9]+)([a-z]+)", re.IGNORECASE)
 
     def __init__(self):
         # needed for self.format_number() to work properly
         locale.setlocale(locale.LC_NUMERIC, '')
 
-        self.abilities = [
+        self.abilities: list[str] = [
             "Agility",
             "Intelligence",
             "Psychic",
@@ -26,7 +27,7 @@ class Util:
             "Sense"
         ]
 
-        self.time_units = [
+        self.time_units: list[dict[str, Any]] = [
             {
                 "units": ["yr", "years", "year", "y"],
                 "conversion_factor": 31536000
@@ -51,15 +52,15 @@ class Util:
             }
         ]
 
-    def get_handler_name(self, handler):
+    def get_handler_name(self, handler: Any) -> str:
         return handler.__module__ + "." + handler.__qualname__
 
-    def get_module_name(self, handler):
+    def get_module_name(self, handler: Any) -> str:
         handler_name = self.get_handler_name(handler)
         parts = handler_name.split(".")
         return parts[1] + "." + parts[2]
 
-    def parse_time(self, budatime, default=0):
+    def parse_time(self, budatime: str, default: int = 0) -> int:
         unixtime = 0
 
         if not self.budatime_full_regex.search(budatime):
@@ -75,7 +76,7 @@ class Util:
 
         return unixtime
 
-    def time_to_readable(self, unixtime, min_unit="sec", max_unit="day", max_levels=2):
+    def time_to_readable(self, unixtime, min_unit="sec", max_unit="day", max_levels=2) -> str:
         if unixtime == 0:
             return "0 secs"
 
@@ -132,10 +133,10 @@ class Util:
                 return ability
         return None
 
-    def get_all_abilities(self):
+    def get_all_abilities(self) -> list[str]:
         return self.abilities.copy()
 
-    def get_title_level(self, level):
+    def get_title_level(self, level: int) -> int:
         if level < 5:
             return 0
         elif level < 15:
@@ -156,7 +157,7 @@ class Util:
     def format_number(self, number):
         return f"{number:,}"
 
-    def get_profession(self, search):
+    def get_profession(self, search: str) -> str | None:
         search = search.lower()
 
         if search in ["adv", "advy", "adventurer"]:
@@ -190,19 +191,19 @@ class Util:
         else:
             return None
 
-    def get_all_professions(self):
+    def get_all_professions(self) -> list[str]:
         return ["Adventurer", "Agent", "Bureaucrat", "Doctor", "Enforcer", "Engineer", "Fixer", "Keeper",
                 "Martial Artist", "Meta-Physicist", "Nano-Technician", "Shade", "Soldier", "Trader"]
 
-    def format_date(self, timestamp):
+    def format_date(self, timestamp: int) -> str:
         value = datetime.datetime.fromtimestamp(timestamp, tz=pytz.UTC)
         return value.strftime("%Y-%m-%d")
 
-    def format_datetime(self, timestamp):
+    def format_datetime(self, timestamp: int) -> str:
         value = datetime.datetime.fromtimestamp(timestamp, tz=pytz.UTC)
         return value.strftime("%Y-%m-%d %H:%M:%S %Z")
 
-    def interpolate_value(self, interpolated_ql, interpolation_ranges, precision=0):
+    def interpolate_value(self, interpolated_ql: int, interpolation_ranges: dict[int, int], precision: int = 0) -> int | None:
         min_val = None
         max_val = None
         for ql, v in interpolation_ranges.items():
@@ -221,7 +222,7 @@ class Util:
 
         return round((max_val.val - min_val.val) / (max_val.ql - min_val.ql) * (interpolated_ql - min_val.ql) + min_val.val, precision)
 
-    def get_offset_limit(self, page_size, page_number):
+    def get_offset_limit(self, page_size: int, page_number: int) -> tuple[int, int]:
         return (page_number - 1) * page_size, page_size
 
     def group_by(self, iterable, keyfunc):
@@ -234,5 +235,5 @@ class Util:
         return result
 
     # taken from: https://stackoverflow.com/a/18854817/280574
-    def chunk_string(self, s, length):
+    def chunk_string(self, s: str, length: int):
         return (s[0 + i:length + i] for i in range(0, len(s), length))

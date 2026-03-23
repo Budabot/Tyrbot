@@ -55,7 +55,7 @@ class AllianceAccessController:
         return f"Org <highlight>{org_info.org_info.name}</highlight> ({org_id}) has been added to the alliance successfully."
 
     @command(command="alliance", params=[Options(["rem", "remove"]), Int("org_id")], access_level="admin",
-             description="Remove an org from, the alliance")
+             description="Remove an org from the alliance")
     def alliance_rem_cmd(self, request, _, org_id):
         alliance_org = self.get_alliance_org(org_id)
         if not alliance_org:

@@ -60,7 +60,7 @@ class SettingService:
 
         self.settings[name] = setting
 
-    def register_change_listener(self, setting_name, handler):
+    def register_change_listener(self, setting_name: str, handler):
         """
         Call during start
 
@@ -79,7 +79,7 @@ class SettingService:
         else:
             raise Exception("Could not register change_listener for setting '%s' since it does not exist" % setting_name)
 
-    def get_value(self, name):
+    def get_value(self, name: str) -> str | None:
         # check cache first
         result = self.db_cache.get(name, None)
         if result:
@@ -104,7 +104,7 @@ class SettingService:
             for change_listener in self.change_listeners[name]:
                 change_listener(name, old_value, value)
 
-    def get(self, name):
+    def get(self, name: str) -> SettingType | None:
         name = name.lower()
         setting = self.settings.get(name, None)
         if setting:

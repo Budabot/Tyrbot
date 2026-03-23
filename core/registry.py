@@ -1,3 +1,4 @@
+from typing import Any
 import re
 import os
 import importlib
@@ -5,7 +6,7 @@ from core.functions import flatmap
 
 
 class Registry:
-    _registry = {}
+    _registry: dict[str, Any] = {}
 
     @classmethod
     def inject_all(cls):
@@ -41,7 +42,7 @@ class Registry:
                 cls._registry[key].start()
 
     @classmethod
-    def get_instance(cls, name, is_optional=False):
+    def get_instance(cls, name: str, is_optional: bool = False) -> Any:
         instance = cls._registry.get(name)
         if instance or is_optional:
             return instance
@@ -49,11 +50,11 @@ class Registry:
             raise Exception("Missing required dependency '%s'" % name)
 
     @classmethod
-    def get_all_instances(cls):
+    def get_all_instances(cls) -> dict[str, Any]:
         return cls._registry
 
     @classmethod
-    def add_instance(cls, name, inst, override=False):
+    def add_instance(cls, name: str, inst: Any, override: bool = False):
         name = cls.format_name(name)
 
         inst.module_name = Registry.get_module_name(inst)
@@ -66,13 +67,13 @@ class Registry:
         cls._registry[name] = inst
 
     @classmethod
-    def format_name(cls, name):
+    def format_name(cls, name: str) -> str:
         # camel-case to snake-case
         s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
         return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
 
     @classmethod
-    def load_instances(cls, parent_dirs):
+    def load_instances(cls, parent_dirs: list[str]):
         # get all subdirectories
         dirs = flatmap(lambda x: os.walk(x, followlinks=True), parent_dirs)
         dirs = filter(lambda y: not y[0].endswith("__pycache__"), dirs)
@@ -89,13 +90,13 @@ class Registry:
             cls.load_module(file)
 
     @classmethod
-    def load_module(cls, file):
+    def load_module(cls, file: str):
         # strip the extension
         file = file[:-3]
         importlib.import_module(file.replace("\\", ".").replace("/", "."))
 
     @classmethod
-    def get_module_name(cls, inst):
+    def get_module_name(cls, inst: Any) -> str:
         parts = inst.__module__.split(".")
         if parts[0] == "core":
             return "core"
@@ -107,7 +108,7 @@ class Registry:
             return ".".join(parts[:-1])
 
     @classmethod
-    def get_module_dir(cls, inst):
+    def get_module_dir(cls, inst: Any) -> str:
         parts = inst.__module__.split(".")
         return "." + os.sep + os.sep.join(parts[:-1])
 

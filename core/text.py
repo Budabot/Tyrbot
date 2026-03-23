@@ -5,7 +5,6 @@ from core.conn import Conn
 from core.decorators import instance
 from core.feature_flags import FeatureFlags
 from core.logger import Logger
-from core.setting_service import SettingService
 
 
 class TextFormatter(HTMLParser):
