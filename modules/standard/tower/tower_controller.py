@@ -1,7 +1,6 @@
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 
-import pytz
 import requests
 
 from core.chat_blob import ChatBlob
@@ -224,7 +223,7 @@ class TowerController:
 
         if row.get("org_name"):
             current_day_time = t % 86400
-            value = datetime.fromtimestamp(row.close_time, tz=pytz.UTC)
+            value = datetime.fromtimestamp(row.close_time, tz=timezone.utc)
             current_status_time = row.close_time - current_day_time
             if current_status_time < 0:
                 current_status_time += 86400

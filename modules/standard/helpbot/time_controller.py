@@ -1,8 +1,8 @@
 from core.decorators import instance, command
 from core.chat_blob import ChatBlob
 from core.command_param_types import Any, NamedFlagParameters
-from datetime import datetime
-import pytz
+from datetime import datetime, timezone
+from zoneinfo import ZoneInfo, available_timezones
 import time
 
 
@@ -18,11 +18,11 @@ class TimeController:
         t = int(time.time())
 
         if not flag_params.all_timezones:
-            return "The current time is <highlight>%s</highlight> [%d]." % (dt.astimezone(pytz.utc).strftime("%Y-%m-%d %H:%M:%S %Z"), t)
+            return "The current time is <highlight>%s</highlight> [%d]." % (dt.astimezone(timezone.utc).strftime("%Y-%m-%d %H:%M:%S %Z"), t)
         else:
             blob = "Unixtime => %d\n\n" % t
             current_region = ""
-            for tz in pytz.common_timezones:
+            for tz in sorted(available_timezones()):
                 result = tz.split("/", 2)
                 if len(result) == 2:
                     region, city = result
@@ -34,7 +34,7 @@ class TimeController:
                     blob += "\n<pagebreak><header2>%s</header2>\n" % region
                     current_region = region
 
-                blob += "%s => %s\n" % (city, dt.astimezone(pytz.timezone(tz)).strftime(self.time_format))
+                blob += "%s => %s\n" % (city, dt.astimezone(ZoneInfo(tz)).strftime(self.time_format))
 
             return ChatBlob("Timezones", blob)
 
@@ -42,8 +42,8 @@ class TimeController:
              description="Show time for the specified timezone")
     def time_zone_cmd(self, request, timezone_str):
         timezone_str = timezone_str.lower()
-        for tz in pytz.common_timezones:
+        for tz in available_timezones():
             if tz.lower() == timezone_str:
-                return "%s => %s" % (tz, datetime.now(tz=pytz.timezone(tz)).strftime(self.time_format))
+                return "%s => %s" % (tz, datetime.now(tz=ZoneInfo(tz)).strftime(self.time_format))
 
         return f"Unknown timezone <highlight>{timezone_str}</highlight>. Use <highlight><symbol>time --all_timezones</highlight> to see a list of timezones."
