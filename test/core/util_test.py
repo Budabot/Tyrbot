@@ -79,6 +79,62 @@ class UtilTest(unittest.TestCase):
         # test out of order
         self.assertEqual(55, util.interpolate_value(200, {201: 55, 300: 73, 1: 5, 200: 55}))
 
+    def test_get_profession(self):
+        util = Util()
+
+        # full names
+        self.assertEqual("Adventurer", util.get_profession("adventurer"))
+        self.assertEqual("Agent", util.get_profession("agent"))
+        self.assertEqual("Bureaucrat", util.get_profession("bureaucrat"))
+        self.assertEqual("Doctor", util.get_profession("doctor"))
+        self.assertEqual("Enforcer", util.get_profession("enforcer"))
+        self.assertEqual("Engineer", util.get_profession("engineer"))
+        self.assertEqual("Fixer", util.get_profession("fixer"))
+        self.assertEqual("Keeper", util.get_profession("keeper"))
+        self.assertEqual("Martial Artist", util.get_profession("martial artist"))
+        self.assertEqual("Meta-Physicist", util.get_profession("meta-physicist"))
+        self.assertEqual("Nano-Technician", util.get_profession("nano-technician"))
+        self.assertEqual("Shade", util.get_profession("shade"))
+        self.assertEqual("Soldier", util.get_profession("soldier"))
+        self.assertEqual("Trader", util.get_profession("trader"))
+
+        # common aliases
+        self.assertEqual("Adventurer", util.get_profession("adv"))
+        self.assertEqual("Adventurer", util.get_profession("advy"))
+        self.assertEqual("Bureaucrat", util.get_profession("crat"))
+        self.assertEqual("Doctor", util.get_profession("doc"))
+        self.assertEqual("Enforcer", util.get_profession("enf"))
+        self.assertEqual("Enforcer", util.get_profession("enfo"))
+        self.assertEqual("Engineer", util.get_profession("eng"))
+        self.assertEqual("Engineer", util.get_profession("engi"))
+        self.assertEqual("Engineer", util.get_profession("engy"))
+        self.assertEqual("Fixer", util.get_profession("fix"))
+        self.assertEqual("Keeper", util.get_profession("keep"))
+        self.assertEqual("Martial Artist", util.get_profession("ma"))
+        self.assertEqual("Martial Artist", util.get_profession("martial"))
+        self.assertEqual("Martial Artist", util.get_profession("martialartist"))
+        self.assertEqual("Meta-Physicist", util.get_profession("mp"))
+        self.assertEqual("Meta-Physicist", util.get_profession("meta"))
+        self.assertEqual("Meta-Physicist", util.get_profession("metaphysicist"))
+        self.assertEqual("Nano-Technician", util.get_profession("nt"))
+        self.assertEqual("Nano-Technician", util.get_profession("nano"))
+        self.assertEqual("Nano-Technician", util.get_profession("nanotechnician"))
+        self.assertEqual("Shade", util.get_profession("sha"))
+        self.assertEqual("Soldier", util.get_profession("sol"))
+        self.assertEqual("Soldier", util.get_profession("sold"))
+        self.assertEqual("Trader", util.get_profession("tra"))
+        self.assertEqual("Trader", util.get_profession("trad"))
+
+        # case insensitive
+        self.assertEqual("Adventurer", util.get_profession("ADV"))
+        self.assertEqual("Adventurer", util.get_profession("Adventurer"))
+        self.assertEqual("Engineer", util.get_profession("ENGINEER"))
+
+        # unknown returns None
+        self.assertIsNone(util.get_profession("unknown"))
+        self.assertIsNone(util.get_profession(""))
+        self.assertIsNone(util.get_profession("xyz"))
+
     def test_group_by(self):
         util = Util()
 

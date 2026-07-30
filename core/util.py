@@ -14,6 +14,23 @@ class Util:
     budatime_full_regex: re.Pattern = re.compile("^([0-9]+[a-z]+)+$", re.IGNORECASE)
     budatime_unit_regex: re.Pattern = re.compile("([0-9]+)([a-z]+)", re.IGNORECASE)
 
+    _PROFESSION_MAP: dict[str, str] = {
+        "adv": "Adventurer", "advy": "Adventurer", "adventurer": "Adventurer",
+        "agent": "Agent",
+        "crat": "Bureaucrat", "bureaucrat": "Bureaucrat",
+        "doc": "Doctor", "doctor": "Doctor",
+        "enf": "Enforcer", "enfo": "Enforcer", "enforcer": "Enforcer",
+        "eng": "Engineer", "engi": "Engineer", "engy": "Engineer", "engineer": "Engineer",
+        "fix": "Fixer", "fixer": "Fixer",
+        "keep": "Keeper", "keeper": "Keeper",
+        "ma": "Martial Artist", "martial": "Martial Artist", "martialartist": "Martial Artist", "martial artist": "Martial Artist",
+        "mp": "Meta-Physicist", "meta": "Meta-Physicist", "metaphysicist": "Meta-Physicist", "meta-physicist": "Meta-Physicist",
+        "nt": "Nano-Technician", "nano": "Nano-Technician", "nanotechnician": "Nano-Technician", "nano-technician": "Nano-Technician",
+        "sha": "Shade", "shade": "Shade",
+        "sol": "Soldier", "sold": "Soldier", "soldier": "Soldier",
+        "tra": "Trader", "trad": "Trader", "trader": "Trader",
+    }
+
     def __init__(self):
         # needed for self.format_number() to work properly
         locale.setlocale(locale.LC_NUMERIC, '')
@@ -158,38 +175,7 @@ class Util:
         return f"{number:,}"
 
     def get_profession(self, search: str) -> str | None:
-        search = search.lower()
-
-        if search in ["adv", "advy", "adventurer"]:
-            return "Adventurer"
-        elif search in ["agent"]:
-            return "Agent"
-        elif search in ["crat", "bureaucrat"]:
-            return "Bureaucrat"
-        elif search in ["doc", "doctor"]:
-            return "Doctor"
-        elif search in ["enf", "enfo", "enforcer"]:
-            return "Enforcer"
-        elif search in ["eng", "engi", "engy", "engineer"]:
-            return "Engineer"
-        elif search in ["fix", "fixer"]:
-            return "Fixer"
-        elif search in ["keep", "keeper"]:
-            return "Keeper"
-        elif search in ["ma", "martial", "martialartist", "martial artist"]:
-            return "Martial Artist"
-        elif search in ["mp", "meta", "metaphysicist", "meta-physicist"]:
-            return "Meta-Physicist"
-        elif search in ["nt", "nano", "nanotechnician", "nano-technician"]:
-            return "Nano-Technician"
-        elif search in ["sha", "shade"]:
-            return "Shade"
-        elif search in ["sol", "sold", "soldier"]:
-            return "Soldier"
-        elif search in ["tra", "trad", "trader"]:
-            return "Trader"
-        else:
-            return None
+        return self._PROFESSION_MAP.get(search.lower())
 
     def get_all_professions(self) -> list[str]:
         return ["Adventurer", "Agent", "Bureaucrat", "Doctor", "Enforcer", "Engineer", "Fixer", "Keeper",
