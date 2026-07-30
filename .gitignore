@@ -11,3 +11,9 @@ __pycache__
 *.log
 /.vs
 /.local
+
+# Beads / Dolt files (added by bd init)
+.dolt/
+*.db
+.beads-credential-key
+.beads/proxieddb/
