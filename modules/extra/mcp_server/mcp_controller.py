@@ -3,8 +3,15 @@ import re
 import threading
 from html.parser import HTMLParser
 
-import uvicorn
-from mcp.server.fastmcp import FastMCP
+try:
+    import uvicorn
+    from mcp.server.fastmcp import FastMCP
+    HAS_MCP = True
+except ImportError:
+    uvicorn = None
+    FastMCP = None
+    HAS_MCP = False
+
 
 from core.chat_blob import ChatBlob
 from core.decorators import instance, event
@@ -199,7 +206,11 @@ class McpController:
     def start_mcp_server(self):
         """Spin up the Streamable-HTTP MCP server in a background daemon thread."""
         self.stop_mcp_server()
-        
+
+        if not HAS_MCP:
+            self.logger.error("Cannot start MCP server: 'mcp' or 'uvicorn' module not installed.")
+            return
+
         self.logger.info("Starting Streamable-HTTP MCP server")
 
         host = self.setting_service.get("mcp_server_host").get_value()
