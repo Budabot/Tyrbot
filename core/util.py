@@ -4,7 +4,7 @@ import re
 import math
 import locale
 import datetime
-import pytz
+from datetime import timezone
 
 from core.dict_object import DictObject
 
@@ -196,11 +196,11 @@ class Util:
                 "Martial Artist", "Meta-Physicist", "Nano-Technician", "Shade", "Soldier", "Trader"]
 
     def format_date(self, timestamp: int) -> str:
-        value = datetime.datetime.fromtimestamp(timestamp, tz=pytz.UTC)
+        value = datetime.datetime.fromtimestamp(timestamp, tz=timezone.utc)
         return value.strftime("%Y-%m-%d")
 
     def format_datetime(self, timestamp: int) -> str:
-        value = datetime.datetime.fromtimestamp(timestamp, tz=pytz.UTC)
+        value = datetime.datetime.fromtimestamp(timestamp, tz=timezone.utc)
         return value.strftime("%Y-%m-%d %H:%M:%S %Z")
 
     def interpolate_value(self, interpolated_ql: int, interpolation_ranges: dict[int, int], precision: int = 0) -> int | None:
