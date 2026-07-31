@@ -26,7 +26,16 @@ class SymbiantController:
         blob = ""
         for row in data:
             blob += "%s (%d)\n" % (self.text.make_item(row.lowid, row.highid, row.highql, row.name), row.highql)
-            blob += "Found on %s\n\n" % self.text.make_tellcmd(row.pocketboss_name, "pocketboss %s" % row.pocketboss_name)
+            blob += "Found on %s" % self.text.make_tellcmd(row.pocketboss_name, "pocketboss %s" % row.pocketboss_name)
+
+            symb_info = self.db.query_single(
+                "SELECT i.ShortName FROM Symbiant s JOIN ImplantType i ON s.SlotID = i.ImplantTypeID WHERE s.Name = ?",
+                [row.name]
+            )
+            if symb_info:
+                add_link = self.text.make_tellcmd("Add to Implant Designer", f"implantdesigner {symb_info.ShortName} symb {row.name}")
+                blob += f" [{add_link}]"
+            blob += "\n\n"
 
         return ChatBlob("Symbiant Search Results (%d)" % len(data), blob)
 

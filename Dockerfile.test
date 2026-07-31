@@ -1,0 +1,21 @@
+ARG PYTHON_VERSION=3.12.7
+
+FROM python:${PYTHON_VERSION}-slim
+
+RUN apt update && apt upgrade -y
+
+ARG TARGETPLATFORM
+RUN if [ "$TARGETPLATFORM" = "linux/arm64" ]; then apt-get -y install gcc; fi
+
+WORKDIR /app
+COPY requirements.txt /app
+RUN pip install --no-cache-dir --disable-pip-version-check -r requirements.txt
+
+RUN adduser --no-create-home --disabled-login --disabled-password --shell /bin/false --gecos "" --uid 1001 user && \
+    chown -R user:user /app
+
+USER user
+
+ENV PYTHONPATH=/app
+
+CMD ["python", "-m", "unittest", "discover", "-p", "*_test.py"]
