@@ -70,14 +70,14 @@ class Conn:
             head = await asyncio.wait_for(self.reader.readexactly(4), timeout=timeout)
         except asyncio.TimeoutError:
             return None
-        except (asyncio.IncompleteReadError, EOFError, ConnectionResetError):
+        except (asyncio.IncompleteReadError, EOFError, ConnectionError, OSError):
             raise EOFError("Connection closed by remote host")
 
         packet_type, packet_length = struct.unpack(">2H", head)
 
         try:
             data = await asyncio.wait_for(self.reader.readexactly(packet_length), timeout=10)
-        except (asyncio.IncompleteReadError, EOFError, ConnectionResetError):
+        except (asyncio.IncompleteReadError, EOFError, ConnectionError, OSError):
             raise EOFError("Connection closed while reading packet payload")
 
         try:
@@ -169,6 +169,18 @@ class Conn:
                                 self.add_packets_to_queue([pkt])
                             else:
                                 break
+
+                await asyncio.sleep(0.01)
+            except (EOFError, ConnectionError, OSError) as e:
+                self.logger.error(f"[{self.id}] Connection lost: {e}")
+                if self.failure_callback:
+                    self.failure_callback()
+                break
+            except Exception as e:
+                self.logger.error(f"[{self.id}] Unexpected error in packet loop", exc_info=True)
+                if self.failure_callback:
+                    self.failure_callback()
+                break
             except asyncio.CancelledError:
                 break
             except Exception as e:
