@@ -54,6 +54,7 @@ class Tyrbot:
         self.access_service: AccessService = registry.get_instance("access_service")
         self.event_service = registry.get_instance("event_service")
         self.job_scheduler = registry.get_instance("job_scheduler")
+        self.async_service = registry.get_instance("async_service")
 
     def init(self, config, registry, mmdb_parser):
         self.mmdb_parser = mmdb_parser
@@ -135,6 +136,7 @@ class Tyrbot:
         return char_name == self.superadmin
 
     def connect(self, config):
+        self.async_service.start_loop()
         for i, bot_config in enumerate(config.bots):
             if "id" in bot_config:
                 _id = bot_config.id
@@ -239,39 +241,16 @@ class Tyrbot:
         return True
 
     def create_conn_thread(self, conn: Conn, mass_message_queue=None):
-        def read_packets():
-            try:
-                while self.status == BotStatus.RUN:
-                    packet = conn.read_packet(1)
-                    if packet:
-                        self.incoming_queue.put((conn, packet))
+        def get_bot_status():
+            return self.status
 
-                    if mass_message_queue:
-                        if FeatureFlags.FORCE_LARGE_MESSAGES_FROM_SLAVES:
-                            if conn.packet_queue.is_empty():
-                                packet = mass_message_queue.get_or_default(block=False)
-                                if packet:
-                                    conn.add_packets_to_queue([packet])
-                        else:
-                            while conn.packet_queue.is_empty():
-                                packet = mass_message_queue.get_or_default(block=False)
-                                if packet:
-                                    conn.add_packets_to_queue([packet])
-                                else:
-                                    break
-
-            except Exception as e:
-                self.status = BotStatus.ERROR
-                self.logger.error("", e)
-
-        dthread = threading.Thread(target=read_packets, daemon=True)
-        dthread.start()
+        conn.start_packet_loop(self.incoming_queue, mass_message_queue, get_bot_status)
 
     def create_conn(self, _id):
         def failure_callback():
             self.status = BotStatus.ERROR
 
-        conn = Conn(_id, failure_callback)
+        conn = Conn(_id, failure_callback, self.async_service)
         return conn
 
     def disconnect(self):
@@ -279,6 +258,7 @@ class Tyrbot:
         time.sleep(2)
         for _id, conn in self.get_conns():
             conn.disconnect()
+        self.async_service.stop_loop()
 
     def run(self):
         start = time.time()

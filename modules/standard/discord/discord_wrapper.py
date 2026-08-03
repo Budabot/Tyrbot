@@ -1,16 +1,19 @@
+import asyncio
+import discord
 from discord import ChannelType
 
 from core.logger import Logger
-import discord
-import asyncio
-
 from modules.standard.discord.discord_message import DiscordEmbedMessage
 
 
 class DiscordWrapper(discord.Client):
     def __init__(self, channel_id, dqueue, aoqueue):
-        super().__init__(intents=discord.Intents(guilds=True, invites=True, guild_messages=True, dm_messages=True, members=True))
-        asyncio.set_event_loop(asyncio.new_event_loop())
+        intents = discord.Intents.default()
+        intents.message_content = True
+        intents.members = True
+        intents.invites = True
+        super().__init__(intents=intents)
+
         self.logger = Logger(__name__)
         self.dqueue = dqueue
         self.aoqueue = aoqueue
@@ -19,8 +22,11 @@ class DiscordWrapper(discord.Client):
 
     async def logout_with_message(self, msg):
         if self.default_channel:
-            await self.default_channel.send(msg)
-        await super().logout()
+            try:
+                await self.default_channel.send(msg)
+            except Exception:
+                pass
+        await self.close()
 
     async def on_ready(self):
         self.set_channel_id(self.channel_id)
@@ -40,8 +46,8 @@ class DiscordWrapper(discord.Client):
                     if dtype == "get_invite":
                         name = message[0]
                         server = message[1]
-                        # TODO handle insufficient permissions
-                        invites = await self.get_guild(server.id).invites()
+                        guild = self.get_guild(server.id)
+                        invites = await guild.invites() if guild else []
                         self.dqueue.append(("discord_invites", (name, invites)))
 
                     else:

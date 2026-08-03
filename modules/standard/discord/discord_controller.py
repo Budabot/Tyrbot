@@ -1,3 +1,4 @@
+import asyncio
 import re
 import threading
 import time
@@ -354,17 +355,27 @@ class DiscordController:
             self.dthread.start()
 
     def run_discord_thread(self, client, token):
+        async def main():
+            asyncio.create_task(client.relay_message())
+            await client.start(token)
+
         try:
             self.logger.info("connecting to discord")
-            client.loop.create_task(client.start(token))
-            client.loop.run_until_complete(client.relay_message())
+            asyncio.run(main())
         except Exception as e:
             self.logger.error("discord connection lost", e)
 
     def disconnect_discord_client(self):
         if self.client:
-            self.client.loop.create_task(self.client.logout_with_message(
-                f"{self.bot.get_primary_conn().get_char_name()} is disconnecting..."))
+            try:
+                loop = getattr(self.client, "loop", None)
+                if loop and loop.is_running():
+                    asyncio.run_coroutine_threadsafe(
+                        self.client.logout_with_message(f"{self.bot.get_primary_conn().get_char_name()} is disconnecting..."),
+                        loop
+                    )
+            except Exception:
+                pass
             self.client = None
         if self.dthread:
             self.dthread.join()

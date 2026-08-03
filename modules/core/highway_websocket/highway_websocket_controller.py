@@ -1,5 +1,4 @@
 import json
-import threading
 
 from core.decorators import instance, timerevent
 from core.logger import Logger
@@ -14,7 +13,6 @@ class HighwayWebsocketController:
 
     def __init__(self):
         self.logger = Logger(__name__)
-        self.dthread = None
         self.worker = None
         self.callbacks = {}
 
@@ -24,6 +22,7 @@ class HighwayWebsocketController:
         self.util = registry.get_instance("util")
         self.setting_service = registry.get_instance("setting_service")
         self.event_service = registry.get_instance("event_service")
+        self.async_service = registry.get_instance("async_service")
 
     def start(self):
         self.setting_service.register(self.module_name, "highway_websocket_server_address", "wss://ws.nadybot.org",
@@ -35,7 +34,7 @@ class HighwayWebsocketController:
         callbacks = self.callbacks.get(room_name, [])
         callbacks.append(callback_func)
 
-        if self.worker:
+        if self.worker and self.worker.is_running:
             # if room isn't already joined, join room
             if not self.callbacks.get(room_name):
                 self.worker.send_message(json.dumps({"type": "join", "room": room_name}))
@@ -55,7 +54,7 @@ class HighwayWebsocketController:
         elif room_name in self.callbacks:
             del self.callbacks[room_name]
             # if room is already joined and worker is connected, leave room
-            if self.worker:
+            if self.worker and self.worker.is_running:
                 self.worker.send_message(json.dumps({"type": "leave", "room": room_name}))
 
         if not self.callbacks:
@@ -65,7 +64,7 @@ class HighwayWebsocketController:
     def handle_queue_event(self, event_type, event_data):
         if not self.worker:
             return
-    
+
         obj = self.worker.get_message_from_queue()
         while obj:
             room = obj.get("room")
@@ -79,7 +78,7 @@ class HighwayWebsocketController:
             elif obj.type == "failure":
                 self.logger.error(obj)
             elif obj.type == "disconnect":
-                for rooms in self.callbacks:
+                for rooms in self.callbacks.values():
                     for callback in rooms:
                         callback(obj)
 
@@ -87,7 +86,7 @@ class HighwayWebsocketController:
 
     @timerevent(budatime="30s", description="Ensure the bot is connected to highway websocket server", is_system=True, run_at_startup=True)
     def handle_connect_event(self, event_type, event_data):
-        if not self.worker or not self.dthread.is_alive():
+        if not self.worker or not self.worker.is_running:
             if self.callbacks:
                 self.connect()
         else:
@@ -103,15 +102,12 @@ class HighwayWebsocketController:
         # TODO enable events
 
         self.worker = WebsocketRelayWorker(self.setting_service.get("highway_websocket_server_address").get_value(), f"Tyrbot {self.bot.version}")
-        self.dthread = threading.Thread(target=self.worker.run, daemon=True)
-        self.dthread.start()
+        self.async_service.run_coroutine(self.worker.run_loop())
 
     def disconnect(self):
         if self.worker:
             self.worker.close()
             self.worker = None
-            self.dthread.join()
-            self.dthread = None
 
             # TODO disable events
 
