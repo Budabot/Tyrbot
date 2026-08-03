@@ -7,7 +7,7 @@ from modules.standard.discord.discord_message import DiscordEmbedMessage
 
 
 class DiscordWrapper(discord.Client):
-    def __init__(self, channel_id, dqueue, aoqueue):
+    def __init__(self, channel_id, event_service, aoqueue):
         intents = discord.Intents.default()
         intents.message_content = True
         intents.members = True
@@ -15,7 +15,7 @@ class DiscordWrapper(discord.Client):
         super().__init__(intents=intents)
 
         self.logger = Logger(__name__)
-        self.dqueue = dqueue
+        self.event_service = event_service
         self.aoqueue = aoqueue
         self.channel_id = channel_id
         self.default_channel = None
@@ -30,11 +30,11 @@ class DiscordWrapper(discord.Client):
 
     async def on_ready(self):
         self.set_channel_id(self.channel_id)
-        self.dqueue.append(("discord_ready", "ready"))
+        self.event_service.fire_event("discord_connected", None)
 
     async def on_message(self, message):
         if not message.author.bot and (self.default_channel and message.channel.id == self.default_channel.id or message.channel.type == ChannelType.private):
-            self.dqueue.append(("discord_message", message))
+            self.event_service.fire_event("discord_message", message)
 
     async def relay_message(self):
         await self.wait_until_ready()
@@ -48,7 +48,7 @@ class DiscordWrapper(discord.Client):
                         server = message[1]
                         guild = self.get_guild(server.id)
                         invites = await guild.invites() if guild else []
-                        self.dqueue.append(("discord_invites", (name, invites)))
+                        self.event_service.fire_event("discord_invites", (name, invites))
 
                     else:
                         content = message.get_message()

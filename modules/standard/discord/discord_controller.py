@@ -87,7 +87,7 @@ class DiscordController:
         self.alts_service = registry.get_instance("alts_service")
 
     def pre_start(self):
-        self.event_service.register_event_type("discord_ready")
+        self.event_service.register_event_type("discord_connected")
         self.event_service.register_event_type("discord_message")
         self.event_service.register_event_type("discord_channels")
         self.event_service.register_event_type("discord_command")
@@ -191,20 +191,16 @@ class DiscordController:
                     return
         return f"Could not find Discord server with ID <highlight>{server_id}</highlight>."
 
-    @timerevent(budatime="1s", description="Discord relay queue handler", is_enabled=False, is_system=True)
-    def handle_discord_queue_event(self, event_type, event_data):
-        if self.dqueue:
-            dtype, message = self.dqueue.pop(0)
+    @event(event_type="discord_connected", description="Handles discord ready/connected notification", is_system=True)
+    def handle_discord_connected_event(self, event_type, event_data):
+        self.send_to_discord("msg", DiscordTextMessage(f"{self.bot.get_primary_conn().get_char_name()} is now connected."))
 
-            if dtype == "discord_message":
-                if message.channel.type == ChannelType.private or message.content.startswith(self.setting_service.get("symbol").get_value()):
-                    self.handle_discord_command_event(message)
-                else:
-                    self.handle_discord_message_event(message)
-            elif dtype == "discord_ready":
-                self.send_to_discord("msg", DiscordTextMessage(f"{self.bot.get_primary_conn().get_char_name()} is now connected."))
-
-            self.event_service.fire_event(dtype, message)
+    @event(event_type="discord_message", description="Handles incoming message from discord", is_system=True)
+    def handle_discord_incoming_message_event(self, event_type, message):
+        if message.channel.type == ChannelType.private or message.content.startswith(self.setting_service.get("symbol").get_value()):
+            self.handle_discord_command_event(message)
+        else:
+            self.handle_discord_message_event(message)
 
     @timerevent(budatime="1m", description="Ensure the bot is connected to Discord", is_enabled=False, is_system=True, run_at_startup=True)
     def handle_connect_event(self, event_type, event_data):
@@ -348,7 +344,7 @@ class DiscordController:
 
             self.client = DiscordWrapper(
                 self.setting_service.get("discord_channel_id").get_value(),
-                self.dqueue,
+                self.event_service,
                 self.aoqueue)
 
             self.dthread = threading.Thread(target=self.run_discord_thread, args=(self.client, token), daemon=True)
@@ -456,7 +452,7 @@ class DiscordController:
 
     def update_discord_state(self, setting_name, old_value, new_value):
         if setting_name == "discord_enabled":
-            event_handlers = [self.handle_connect_event, self.handle_discord_queue_event, self.handle_discord_invite_event]
+            event_handlers = [self.handle_connect_event, self.handle_discord_connected_event, self.handle_discord_incoming_message_event, self.handle_discord_invite_event]
             for handler in event_handlers:
                 event_handler = self.util.get_handler_name(handler)
                 event_base_type, event_sub_type = self.event_service.get_event_type_parts(handler.event.event_type)
