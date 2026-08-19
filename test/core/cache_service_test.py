@@ -19,7 +19,7 @@ class CacheServiceTest(unittest.TestCase):
         self.assertEqual("this is a test2", contents.data)
 
         # cleanup files
-        shutil.rmtree("./data")
+        shutil.rmtree("./data/cache", ignore_errors=True)
 
     def test_retrieve_empty(self):
         cache = CacheService()
@@ -35,4 +35,4 @@ class CacheServiceTest(unittest.TestCase):
         self.assertEqual("this is a test", contents.data)
 
         # cleanup files
-        shutil.rmtree("./data")
+        shutil.rmtree("./data/cache", ignore_errors=True)

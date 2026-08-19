@@ -12,6 +12,7 @@ COPY requirements.txt /app
 RUN pip install --no-cache-dir --disable-pip-version-check -r requirements.txt
 
 RUN adduser --no-create-home --disabled-login --disabled-password --shell /bin/false --gecos "" --uid 1001 user && \
+    mkdir -p /app/data && \
     chown -R user:user /app
 
 USER user

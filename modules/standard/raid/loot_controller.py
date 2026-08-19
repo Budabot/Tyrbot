@@ -290,7 +290,7 @@ class LootController:
 
     def add_item_to_loot(self, item, comment, item_count, conn: Conn):
         loot_list = self.get_loot_list(conn)
-        loot_item = next((obj for _, obj in loot_list.items() if obj.item.high_id == item.high_id), None)
+        loot_item = next((obj for _, obj in loot_list.items() if (obj.item == item if isinstance(item, str) or isinstance(obj.item, str) else obj.item.high_id == item.high_id)), None)
         if loot_item:
             loot_item.count += item_count
         else:
