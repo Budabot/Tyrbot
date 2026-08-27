@@ -39,7 +39,8 @@ class LastSeenController:
                 for row in data:
                     blob += f"<highlight>{row.name}</highlight>"
                     if row.dt:
-                        blob += " last seen at " + self.util.format_datetime(row.dt)
+                        time_elapsed = self.util.time_to_readable(int(time.time()) - row.dt, max_unit="yr")
+                        blob += " last seen at " + self.util.format_datetime(row.dt) + f" ({time_elapsed} ago)"
                     else:
                         blob += " unknown"
                     blob += "\n\n"
@@ -54,8 +55,9 @@ class LastSeenController:
                 else:
                     alt_name = data[0].name
                     if data[0].dt:
+                        time_elapsed = self.util.time_to_readable(int(time.time()) - data[0].dt, max_unit="yr")
                         last_seen = self.util.format_datetime(data[0].dt)
-                        return f"<highlight>{char.name}</highlight> was last seen online with <highlight>{alt_name}</highlight> at <highlight>{last_seen}</highlight>."
+                        return f"<highlight>{char.name}</highlight> was last seen online with <highlight>{alt_name}</highlight> at <highlight>{last_seen}</highlight> ({time_elapsed} ago)."
                     else:
                         return f"No lastseen information for <highlight>{char.name}</highlight> has been recorded."
 
