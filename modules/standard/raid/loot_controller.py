@@ -2,6 +2,7 @@ import re
 import secrets
 import time
 from collections import OrderedDict
+import datetime
 
 from core.chat_blob import ChatBlob
 from core.command_param_types import Const, Int, Any, Options
@@ -26,6 +27,9 @@ class LootController:
         self.setting_service: SettingService = registry.get_instance("setting_service")
         self.items_controller: ItemsController = registry.get_instance("items_controller")
         self.raid_controller = registry.get_instance("raid_controller")
+
+    def start(self):
+        self.db.exec("CREATE TABLE IF NOT EXISTS loot_history (id INT PRIMARY KEY AUTO_INCREMENT, channel_id VARCHAR(50), item_name VARCHAR(255), winner_name VARCHAR(255), roll_value INT, timestamp INT)")
 
     @command(command="loot", params=[], description="Show the list of added items", access_level="all")
     def loot_cmd(self, request):
@@ -155,6 +159,7 @@ class LootController:
             return "Loot list is empty."
 
         blob = ""
+        roll_results = []
         for i, loot_item in loot_list.copy().items():
             winners = []
 
@@ -172,14 +177,51 @@ class LootController:
 
                 blob += "%d. %s\n" % (i, loot_item.get_item_str())
                 blob += "  Winners: <highlight>%s</highlight>\n\n" % '</highlight>, <highlight>'.join(winners)
+                roll_results.append((loot_item.get_item_str(), winners))
 
             if loot_item.count == 0:
                 loot_list.pop(i)
+
+        if len(roll_results) > 0:        
+            timestamp = int(time.time())
+            for item_name, winners in roll_results:
+                for winner in winners:
+                    self.db.exec("INSERT INTO loot_history (channel_id, item_name, winner_name, roll_value, timestamp) VALUES (?, ?, ?, ?, ?)",
+                                 [request.conn.id, item_name, winner, 0, timestamp])
 
         if len(blob) > 0:
             self.send_loot_message(ChatBlob("Roll results", blob), request.conn)
         else:
             return "No one was added to any loot."
+
+    @command(command="loot", params=[Const("history")], description="Show the history of loot rolls", access_level="all")
+    def loot_history_cmd(self, request, _):
+        rows = self.db.query("SELECT item_name, winner_name, timestamp FROM loot_history WHERE channel_id = ? ORDER BY timestamp DESC, id ASC LIMIT 400", [request.conn.id])
+        if not rows:
+            return "No history available."
+
+        history_groups = OrderedDict()
+        for row in rows:
+            ts = row.timestamp
+            if ts not in history_groups:
+                history_groups[ts] = OrderedDict()
+            
+            if row.item_name not in history_groups[ts]:
+                history_groups[ts][row.item_name] = []
+            
+            history_groups[ts][row.item_name].append(row.winner_name)
+
+        blob = ""
+        for ts, items in history_groups.items():
+            time_str = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+            blob += f"--- Roll at {time_str} ---\n"
+            
+            for i, (item_name, winners) in enumerate(items.items(), 1):
+                blob += "%d. %s\n" % (i, item_name)
+                blob += "  Winners: <highlight>%s</highlight>\n\n" % '</highlight>, <highlight>'.join(reversed(winners))
+
+        return ChatBlob("Loot History", blob)
+
 
     @command(command="loot", params=[Const("addraiditem"), Int("raid_item_id"), Int("item_count")],
              description="Add item from pre-defined raid to loot list", access_level="all", sub_command="modify")

@@ -107,5 +107,55 @@ class LootControllerTest(unittest.TestCase):
         result = self.loot_controller.loot_add_item_cmd(request, None, "item\nnewline", 1)
         self.assertEqual(result, "Item name cannot contain newline characters.")
 
+    def test_loot_history_cmd_empty(self):
+        request = MagicMock()
+        request.conn = self.conn
+        self.db.query.return_value = []
+        
+        result = self.loot_controller.loot_history_cmd(request, None)
+        self.assertEqual(result, "No history available.")
+
+    def test_loot_history_cmd(self):
+        import time
+        import datetime
+        request = MagicMock()
+        request.conn = self.conn
+        
+        timestamp1 = int(time.time()) - 100
+        timestamp2 = int(time.time())
+        
+        self.db.query.return_value = [
+            DictObject({"item_name": "test item 2", "winner_name": "char2", "timestamp": timestamp2}),
+            DictObject({"item_name": "test item 1", "winner_name": "char1", "timestamp": timestamp1})
+        ]
+        
+        result = self.loot_controller.loot_history_cmd(request, None)
+        
+        self.assertEqual(result.title, "Loot History")
+        
+        time_str1 = datetime.datetime.fromtimestamp(timestamp1).strftime('%Y-%m-%d %H:%M:%S')
+        time_str2 = datetime.datetime.fromtimestamp(timestamp2).strftime('%Y-%m-%d %H:%M:%S')
+        
+        expected_msg = f"--- Roll at {time_str2} ---\n1. test item 2\n  Winners: <highlight>char2</highlight>\n\n--- Roll at {time_str1} ---\n1. test item 1\n  Winners: <highlight>char1</highlight>\n\n"
+        self.assertEqual(result.msg, expected_msg)
+
+    def test_loot_roll_cmd_persists_history(self):
+        from unittest.mock import ANY
+        self.leader_controller.can_use_command.return_value = True
+        request = MagicMock()
+        request.conn = self.conn
+        request.sender.char_id = 1234
+        
+        self.loot_controller.add_item_to_loot("test item", None, 1, self.conn)
+        loot_list = self.loot_controller.get_loot_list(self.conn)
+        loot_list[1].bidders.append("char1")
+        
+        self.loot_controller.loot_roll_cmd(request, None)
+        
+        self.db.exec.assert_called_with(
+            "INSERT INTO loot_history (channel_id, item_name, winner_name, roll_value, timestamp) VALUES (?, ?, ?, ?, ?)",
+            [request.conn.id, "test item", "char1", 0, ANY]
+        )
+
 if __name__ == '__main__':
     unittest.main()
