@@ -5,7 +5,7 @@ conf/*
 !conf/config_template.py
 !conf/logging.py
 data/*
-win32
+win32/*
 logs/*
 /venv
 **/__pycache__

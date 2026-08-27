@@ -1,6 +1,4 @@
-ARG PYTHON_VERSION=3.12.7
-
-FROM python:${PYTHON_VERSION}-slim
+FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
 RUN echo "Building with Python version $PYTHON_VERSION"
 
 ENV PYTHONPATH=/app/deps
@@ -19,7 +17,7 @@ USER user
 WORKDIR /app
 
 COPY --chown=user:user requirements.txt /app
-RUN pip install --no-cache-dir --disable-pip-version-check -r requirements.txt -t /app/deps
+RUN uv pip install --no-cache --system -t /app/deps -r requirements.txt
 
 COPY --chown=user:user . /app
 RUN python -m unittest discover -p '*_test.py'
