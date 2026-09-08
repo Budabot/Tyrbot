@@ -1,0 +1,82 @@
+icon = 0
+icon = 130858
+icon = 84789
+icon = 84310
+UPPER(name) LIKE '%001'
+UPPER(name) LIKE '% - 004'
+UPPER(name) LIKE UPPER('%testitem%')
+UPPER(name) LIKE UPPER('Charged Nano Critter - %')
+UPPER(name) LIKE UPPER('Charged Nano Finger - %')
+UPPER(name) LIKE UPPER('Pill with %')
+UPPER(name) LIKE UPPER('Blister Pack with %')
+UPPER(name) LIKE UPPER('%Implant:%')
+UPPER(name) LIKE UPPER('A % Implant%')
+UPPER(name) LIKE UPPER('%dummy%')
+UPPER(name) LIKE UPPER('%Delta % (type _)')
+UPPER(name) LIKE UPPER('%Digamma%')
+UPPER(name) LIKE UPPER('%test%') AND UPPER(name) LIKE UPPER('%item%')
+UPPER(name) LIKE UPPER('% CLONE')
+UPPER(name) LIKE UPPER('% (%replica)')
+UPPER(name) LIKE UPPER('Replica Armor Set:%')
+UPPER(name) LIKE UPPER('Nano Can: %')
+UPPER(name) LIKE UPPER('compiled algorithm (%')
+UPPER(name) LIKE UPPER('programmed photon particle emitter (%')
+UPPER(name) LIKE UPPER('unfinished %')
+UPPER(name) LIKE UPPER('balanced bracelet blueprints')
+UPPER(name) LIKE UPPER('engineer % shell')
+UPPER(name) LIKE UPPER('bureaucrat % shell')
+UPPER(name) LIKE UPPER('cracked % jewel of %')
+UPPER(name) LIKE UPPER('uncut % jewel of %')
+UPPER(name) LIKE UPPER('boss modifier item (%')
+UPPER(name) LIKE UPPER('aban pattern of %')
+UPPER(name) LIKE UPPER('abhan pattern %')
+UPPER(name) LIKE UPPER('bhotaar pattern %')
+UPPER(name) LIKE UPPER('chi pattern of %')
+UPPER(name) LIKE UPPER('dom pattern of %')
+UPPER(name) LIKE UPPER('aban-bhotar assembly%')
+UPPER(name) LIKE UPPER('aban-bhotar-chi assembly%')
+UPPER(name) LIKE UPPER('complete blueprint pattern of %')
+UPPER(name) LIKE UPPER('complete blueptrint pattern of %')
+UPPER(name) LIKE UPPER('notum crystal with etched %')
+UPPER(name) LIKE UPPER('novictalized notum crystal with %')
+UPPER(name) LIKE UPPER('fashion kit - %')
+UPPER(name) LIKE UPPER('%Construction Kit%')
+UPPER(name) LIKE UPPER('NPC%')
+UPPER(name) LIKE UPPER('Blood of%')
+UPPER(name) LIKE UPPER('Anim Action%')
+UPPER(name) LIKE UPPER('Badly Corroded Crystal %')
+UPPER(name) LIKE UPPER('Badly Eroded Crystal %')
+UPPER(name) LIKE UPPER('Blood Stained and Corroded Crystal %')
+UPPER(name) LIKE UPPER('Corroded Crystal with Bullet Holes %')
+UPPER(name) LIKE UPPER('Cracked Crystal %')
+UPPER(name) LIKE UPPER('Cracked and Miskept Shadow Crystal %')
+UPPER(name) LIKE UPPER('Hacked Blister Pack with %')
+UPPER(name) LIKE UPPER('Hacked Charged Nano Critter %')
+UPPER(name) LIKE UPPER('Hacked Corroded Crystal %')
+name = 'Bio Rejuvenation'
+name = 'Called Shot'
+name = 'Bracelet of Arul Saba'
+name = 'Martial Arts Item'
+name = 'Brawl Item'
+name = 'Resistance Item'
+name = 'Skeleton'
+name = 'Heal'
+name = 'Treasure'
+UPPER(name) LIKE UPPER('%wearitem')
+UPPER(name) LIKE UPPER('%boss%item')
+UPPER(name) LIKE UPPER('%useitem%')
+UPPER(name) LIKE UPPER('%MonsterOnly')
+UPPER(name) LIKE UPPER('%test')
+UPPER(name) LIKE UPPER('Spawn%')
+UPPER(name) LIKE UPPER('Wearable:%')
+UPPER(name) LIKE UPPER('Playfield Item:%')
+UPPER(name) LIKE UPPER('Resolves Mission%')
+UPPER(name) LIKE UPPER('%wear%item')
+UPPER(name) LIKE UPPER('%use%item')
+aoid = 233827
+aoid = 215054
+aoid = 230444
+aoid = 267591
+aoid = 267592
+aoid = 267594
+aoid = 217667 --FandS Wearable
