@@ -37230,7 +37230,6 @@ INSERT INTO item_buffs (item_id, attribute_id, amount) VALUES (217666, 94, 1750)
 INSERT INTO item_buffs (item_id, attribute_id, amount) VALUES (217666, 93, 1750);
 INSERT INTO item_buffs (item_id, attribute_id, amount) VALUES (217666, 96, 1000);
 INSERT INTO item_buffs (item_id, attribute_id, amount) VALUES (217666, 221, 150);
-INSERT INTO item_buffs (item_id, attribute_id, amount) VALUES (217667, 379, -100);
 INSERT INTO item_buffs (item_id, attribute_id, amount) VALUES (217671, 201, 10);
 INSERT INTO item_buffs (item_id, attribute_id, amount) VALUES (217671, 360, -80);
 INSERT INTO item_buffs (item_id, attribute_id, amount) VALUES (217682, 91, 245);

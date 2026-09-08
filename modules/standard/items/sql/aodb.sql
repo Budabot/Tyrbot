@@ -8229,7 +8229,6 @@ INSERT INTO aodb VALUES (232920, 232921, 1, 149, 'Fancy looking frippery', 14993
 INSERT INTO aodb VALUES (232921, 232923, 150, 199, 'Fancy looking frippery', 149937);
 INSERT INTO aodb VALUES (232923, 232924, 200, 249, 'Fancy looking frippery', 149937);
 INSERT INTO aodb VALUES (232924, 232925, 250, 400, 'Fancy looking frippery', 149937);
-INSERT INTO aodb VALUES (217667, 217667, 1, 1, 'FandS Wearable', 84059);
 INSERT INTO aodb VALUES (248580, 248581, 22, 54, 'Fantaghiro BBI-Viral', 84025);
 INSERT INTO aodb VALUES (248588, 248588, 185, 185, 'Fantaghiro BBI-Viral Gold Star', 84025);
 INSERT INTO aodb VALUES (248586, 248587, 130, 184, 'Fantaghiro BBI-Viral Silver Liner', 84025);
