@@ -1,6 +1,5 @@
 import asyncio
 import struct
-import threading
 import time
 
 from core.aochat.client_packets import LoginRequest, LoginSelect, Ping
@@ -10,6 +9,7 @@ from core.aochat.server_packets import ServerPacket, LoginOK, LoginError, LoginC
 from core.bot_status import BotStatus
 from core.dict_object import DictObject
 from core.feature_flags import FeatureFlags
+from core.fifo_queue import FifoQueue
 from core.logger import Logger
 from core.registry import Registry
 
@@ -30,8 +30,11 @@ class Conn:
         self.async_service = async_service
 
         self.packet_queue = DelayQueue(2, 2.5)
+        # packets that bypass the rate limit (chat pages, character lookups). Thread-safe, and
+        # drained only by the packet loop, which is the single writer to the socket - so no send
+        # lock is needed and outgoing order is whatever order things were queued in.
+        self.immediate_queue = FifoQueue()
         self.packet_last_received_timestamp = time.time()
-        self.send_lock = threading.Lock()
         self.org_channel_id = None
         self.org_id = None
         self.org_name = None
@@ -142,7 +145,7 @@ class Conn:
     async def _async_packet_loop(self, incoming_queue, mass_message_queue, get_bot_status):
         while get_bot_status() == BotStatus.RUN:
             try:
-                self.check_outgoing_message_queue()
+                await self.drain_outgoing_packets()
                 packet = await self._async_read_packet(timeout=1)
                 if packet:
                     self.packet_last_received_timestamp = time.time()
@@ -189,15 +192,44 @@ class Conn:
     # Queue and helper methods
 
     def add_packets_to_queue(self, packets):
+        """
+        Call from any thread. Never blocks.
+
+        Queues packets for the rate-limited path. The packet loop drains them at the rate the
+        chat server tolerates; nothing is written to the socket on the caller's thread.
+        """
+
         for packet in packets:
             self.packet_queue.enqueue(packet)
-        self.check_outgoing_message_queue()
 
-    def check_outgoing_message_queue(self):
-        # check packet queue for outgoing packets
+    def send_packet(self, packet):
+        """
+        Call from any thread. Never blocks.
+
+        Queues `packet` ahead of the rate-limited queue, which is what the old synchronous send
+        did by writing straight to the socket. It blocked the caller until the write completed,
+        costing the main thread a round-trip to the async loop on every buddy add and name
+        lookup - and once the bot runs on a single event loop that becomes a self-deadlock, since
+        the loop would be blocking on a coroutine only it can run.
+        """
+
+        self.immediate_queue.put(packet)
+
+    async def drain_outgoing_packets(self):
+        """
+        Runs on the packet loop, which is the only writer to the socket.
+
+        Immediate packets go first: they bypass the rate limit by design.
+        """
+
+        packet = self.immediate_queue.get_or_default(block=False)
+        while packet:
+            await self._send_outgoing_packet(packet)
+            packet = self.immediate_queue.get_or_default(block=False)
+
         outgoing_packet = self.packet_queue.dequeue()
         while outgoing_packet:
-            self._send_outgoing_packet(outgoing_packet)
+            await self._send_outgoing_packet(outgoing_packet)
             outgoing_packet = self.packet_queue.dequeue()
 
         num_messages = len(self.packet_queue)
@@ -207,15 +239,16 @@ class Conn:
         elif num_messages > 10:
             self.logger.warning("%d messages in outgoing message queue" % num_messages)
 
-    def send_packet(self, packet, timeout=10):
-        # synchronize sending packets
-        with self.send_lock:
-            return self.async_service.run_until_complete(self._async_send_packet(packet), timeout=timeout)
-
-    def _send_outgoing_packet(self, packet):
-        # synchronize sending packets
-        with self.send_lock:
-            self.async_service.run_coroutine(self._async_send_packet(packet))
+    async def _send_outgoing_packet(self, packet):
+        try:
+            await self._async_send_packet(packet)
+        except RuntimeError as e:
+            # not connected: the packet is lost, but the conn is not necessarily dead - this
+            # happens in the window between a disconnect and the loop noticing. Logged rather
+            # than swallowed; the previous fire-and-forget send dropped these silently, since
+            # nothing ever looked at the future it returned. Connection-level errors are left to
+            # propagate to the packet loop, which fails the conn over.
+            self.logger.error(f"[{self.id}] dropped outgoing packet {type(packet).__name__}: {e}")
     
     def disconnect(self, timeout=5):
         return self.async_service.run_until_complete(self._async_disconnect(), timeout=timeout)
