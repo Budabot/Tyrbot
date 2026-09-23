@@ -79,7 +79,7 @@ class MessageHubService:
 
     def subscribe_to_source(self, destination, source):
         if source not in self.sources:
-            raise Exception("Message hub source '%s' doeselecs not exist" % source)
+            raise Exception("Message hub source '%s' does not exist" % source)
 
         obj = self.hub.get(destination, None)
         if not obj:

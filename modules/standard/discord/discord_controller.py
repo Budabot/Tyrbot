@@ -1,6 +1,5 @@
 import asyncio
 import re
-import threading
 import time
 from datetime import timezone
 from functools import partial
@@ -64,10 +63,12 @@ class DiscordController:
 
     MAX_DISCORD_MESSAGE_SIZE = 2000
 
+    DISCONNECT_TIMEOUT = 10
+    DISCORD_READ_TIMEOUT = 5
+
     def __init__(self):
-        self.dthread = None
-        self.dqueue = []
-        self.aoqueue = []
+        self.dtask = None
+        self.aoqueue = None
         self.logger = Logger(__name__)
         self.client = None
         self.command_handlers = []
@@ -85,6 +86,7 @@ class DiscordController:
         self.message_hub_service = registry.get_instance("message_hub_service")
         self.pork_service = registry.get_instance("pork_service")
         self.alts_service = registry.get_instance("alts_service")
+        self.async_service = registry.get_instance("async_service")
 
     def pre_start(self):
         self.event_service.register_event_type("discord_connected")
@@ -128,22 +130,25 @@ class DiscordController:
 
         blob = "<header2>Info</header2>\n"
         blob += f"Status: {status}\n"
-        blob += f"Channels available: <highlight>{len(self.get_text_channels())}</highlight>\n\n"
+        channels = self.get_text_channels()
+        servers = self.get_servers()
+
+        blob += f"Channels available: <highlight>{len(channels)}</highlight>\n\n"
         blob += "<header2>Servers</header2>\n"
 
-        if self.client and self.client.guilds:
-            for server in self.client.guilds:
+        if servers:
+            for server in servers:
                 invites = self.text.make_tellcmd("Get invite", "discord getinvite %s" % server.id)
-                owner = server.owner.nick or re.sub(pattern=r"#\d+", repl="", string=str(server.owner))
+                owner = server.owner_nick or re.sub(pattern=r"#\d+", repl="", string=server.owner_str)
                 blob += f"{server.name} [{invites}]\n"
-                blob += f" └ member count: {len(server.members)}\n"
+                blob += f" └ member count: {server.member_count}\n"
                 blob += f" └ owner: {owner}\n\n"
         else:
             blob += "None\n\n"
 
         blob += "<header2>Channels</header2>\n"
-        for channel in self.get_text_channels():
-            blob += f"<highlight>{channel.guild.name}</highlight> :: <highlight>{channel.name}</highlight>\n"
+        for channel in channels:
+            blob += f"<highlight>{channel.guild_name}</highlight> :: <highlight>{channel.name}</highlight>\n"
 
         blob += "\n\nDiscord Module written by <highlight>Vladimirovna</highlight>\n"
 
@@ -158,12 +163,14 @@ class DiscordController:
 
         blob = "<header2>Info</header2>\n"
         blob += f"Status: {constatus} [{connect_link} {disconnect_link}]\n"
-        blob += f"Channels available: <highlight>{len(self.get_text_channels())}</highlight>\n\n"
+        channels = self.get_text_channels()
+
+        blob += f"Channels available: <highlight>{len(channels)}</highlight>\n\n"
         blob += "<header2>Subscription setup</header2>\n"
-        for channel in self.get_text_channels():
+        for channel in channels:
             select_link = self.text.make_tellcmd("select", "config setting discord_channel_id set %s" % channel.id)
-            selected = "(selected)" if self.setting_service.get("discord_channel_id").get_value() == channel.id else ""
-            blob += f"<highlight>{channel.guild.name}</highlight> :: <highlight>{channel.name}</highlight> [{select_link}] {selected}\n"
+            selected = "(selected)" if self.setting_service.get("discord_channel_id").get_value() == str(channel.id) else ""
+            blob += f"<highlight>{channel.guild_name}</highlight> :: <highlight>{channel.name}</highlight> [{select_link}] {selected}\n"
 
         blob += "\n\nDiscord Module written by <highlight>Vladimirovna</highlight>\n"
 
@@ -184,11 +191,11 @@ class DiscordController:
     @command(command="discord", params=[Const("getinvite"), Int("server_id")], access_level="member",
              description="Get an invite for specified server", sub_command="getinvite")
     def discord_getinvite_cmd(self, request, _, server_id):
-        if self.client and self.client.guilds:
-            for server in self.client.guilds:
-                if server.id == server_id:
-                    self.send_to_discord("get_invite", (request.sender.name, server))
-                    return
+        for server in self.get_servers():
+            if server.id == server_id:
+                # the id is enough; the loop resolves it to a guild on its own side
+                self.send_to_discord("get_invite", (request.sender.name, server_id))
+                return
         return f"Could not find Discord server with ID <highlight>{server_id}</highlight>."
 
     @event(event_type="discord_connected", description="Handles discord ready/connected notification", is_system=True)
@@ -335,6 +342,17 @@ class DiscordController:
         r = re.compile(self.command_service.get_regex_from_params(params), re.IGNORECASE | re.DOTALL)
         self.command_handlers.append(DictObject({"callback": callback, "command": command_str, "params": params, "regex": r}))
 
+    def fire_event_on_main_thread(self, event_type, event_data):
+        """
+        Called from the Discord client thread.
+
+        Discord events end up running bot commands, which read and write the database, the
+        character cache, and the outgoing packet queues - none of which are safe to touch from
+        another thread - so the event is queued and fired from the bot's main loop instead.
+        """
+
+        self.bot.run_on_main_thread(lambda: self.event_service.fire_event(event_type, event_data))
+
     def connect_discord_client(self):
         token = self.setting_service.get("discord_bot_token").get_value()
         if not token:
@@ -342,42 +360,48 @@ class DiscordController:
         else:
             self.disconnect_discord_client()
 
+            # bound to the AsyncService loop on first use, which is where it is consumed
+            self.aoqueue = asyncio.Queue()
             self.client = DiscordWrapper(
                 self.setting_service.get("discord_channel_id").get_value(),
-                self.event_service,
+                self.fire_event_on_main_thread,
                 self.aoqueue)
 
-            self.dthread = threading.Thread(target=self.run_discord_thread, args=(self.client, token), daemon=True)
-            self.dthread.start()
-
-    def run_discord_thread(self, client, token):
-        async def main():
-            asyncio.create_task(client.relay_message())
-            await client.start(token)
-
-        try:
             self.logger.info("connecting to discord")
-            asyncio.run(main())
+            self.dtask = self.async_service.run_coroutine(self.run_discord_client(self.client, token))
+
+    async def run_discord_client(self, client, token):
+        # runs on the shared AsyncService loop, alongside the AO connections
+        relay_task = asyncio.create_task(client.relay_message())
+        try:
+            await client.start(token)
         except Exception as e:
             self.logger.error("discord connection lost", e)
+        finally:
+            # await the cancellation so the task is fully torn down before dtask resolves
+            relay_task.cancel()
+            await asyncio.gather(relay_task, return_exceptions=True)
 
     def disconnect_discord_client(self):
         if self.client:
             try:
-                loop = getattr(self.client, "loop", None)
-                if loop and loop.is_running():
-                    asyncio.run_coroutine_threadsafe(
-                        self.client.logout_with_message(f"{self.bot.get_primary_conn().get_char_name()} is disconnecting..."),
-                        loop
-                    )
-            except Exception:
-                pass
+                self.async_service.run_until_complete(
+                    self.client.logout_with_message(f"{self.bot.get_primary_conn().get_char_name()} is disconnecting..."),
+                    timeout=self.DISCONNECT_TIMEOUT)
+            except Exception as e:
+                self.logger.warning("error while disconnecting from discord", e)
             self.client = None
-        if self.dthread:
-            self.dthread.join()
-            self.dthread = None
-        self.dqueue = []
-        self.aoqueue = []
+        if self.dtask:
+            try:
+                # client.close() ends start(), which ends run_discord_client()
+                self.dtask.result(timeout=self.DISCONNECT_TIMEOUT)
+            except TimeoutError:
+                self.logger.warning("timed out waiting for the discord client to shut down")
+                self.dtask.cancel()
+            except Exception as e:
+                self.logger.warning("error while shutting down the discord client", e)
+            self.dtask = None
+        self.aoqueue = None
 
     def strip_html_tags(self, html):
         s = MLStripper()
@@ -414,8 +438,7 @@ class DiscordController:
         reply("You have successfully been unlinked from your AO character.")
 
     def is_connected(self):
-        # not self.client or not self.dthread.is_alive()
-        return self.client and self.client.is_ready() and self.dthread and self.dthread.is_alive()
+        return bool(self.client and self.client.is_ready() and self.dtask and not self.dtask.done())
 
     def get_char_info_display(self, char_id):
         char_info = self.pork_service.get_character_info(char_id)
@@ -427,7 +450,19 @@ class DiscordController:
         return name
 
     def send_to_discord(self, message_type, data):
-        self.aoqueue.append((message_type, data))
+        """
+        Call from the main thread.
+
+        Hands the message to the Discord client's loop, which is woken by it immediately - the
+        relay does not poll.
+        """
+
+        loop = self.async_service.loop
+        if self.aoqueue is None or not loop or not loop.is_running():
+            self.logger.warning("Could not send message to discord: the client is not running")
+            return
+
+        loop.call_soon_threadsafe(self.aoqueue.put_nowait, (message_type, data))
 
     def handle_incoming_relay_message(self, ctx):
         if not self.is_connected():
@@ -439,15 +474,40 @@ class DiscordController:
         for chunk in chunks:
             self.send_to_discord("msg", DiscordTextMessage(chunk))
 
+    def run_on_discord_loop(self, coro, default=None):
+        """
+        Call from the main thread.
+
+        discord.py's state belongs to the AsyncService loop, so reads are performed there and
+        come back as plain data. Returns `default` if the client is not usable or the loop does
+        not answer in time.
+        """
+
+        if not self.is_connected():
+            coro.close()
+            return default
+
+        try:
+            return self.async_service.run_until_complete(coro, timeout=self.DISCORD_READ_TIMEOUT)
+        except Exception as e:
+            self.logger.warning("error reading state from the discord client", e)
+            return default
+
     def get_text_channels(self):
-        if self.client:
-            return self.client.get_text_channels()
-        else:
+        if not self.client:
             return []
+
+        return self.run_on_discord_loop(self.client.get_channel_snapshot(), default=[])
+
+    def get_servers(self):
+        if not self.client:
+            return []
+
+        return self.run_on_discord_loop(self.client.get_server_snapshot(), default=[])
 
     def update_discord_channel(self, setting_name, old_value, new_value):
         if self.client:
-            if not self.client.set_channel_id(new_value):
+            if not self.run_on_discord_loop(self.client.set_default_channel(new_value), default=False):
                 self.logger.warning(f"Could not find discord channel '{new_value}'")
 
     def update_discord_state(self, setting_name, old_value, new_value):

@@ -5,6 +5,8 @@ import time
 import requests
 import re
 
+from concurrent.futures import Future
+
 from core.conn import Conn
 from core.feature_flags import FeatureFlags
 from core.fifo_queue import FifoQueue
@@ -41,6 +43,7 @@ class Tyrbot:
         self.start_time = int(time.time())
         self.version = "unknown"
         self.incoming_queue = FifoQueue()
+        self.main_thread_queue = FifoQueue()
         self.mass_message_queue = None
         self.conns = DictObject()
         self.primary_conn_id = None
@@ -292,6 +295,7 @@ class Tyrbot:
             try:
                 timestamp = int(time.time())
                 self.check_for_timer_events(timestamp)
+                self.process_main_thread_queue()
 
                 self.iterate()
             except Exception as e:
@@ -308,6 +312,47 @@ class Tyrbot:
             self.last_timer_event = timestamp
             self.job_scheduler.check_for_scheduled_jobs(timestamp)
             self.event_service.check_for_timer_events(timestamp)
+
+    def run_on_main_thread(self, callback):
+        """
+        Call from any thread. Never blocks.
+
+        Schedules `callback` to be run on the main thread. Code running on another thread
+        (eg. the Discord client thread, the MCP server thread) must use this before firing
+        events, running commands, or otherwise touching bot state, since none of it is safe
+        to use concurrently.
+
+        Args:
+            callback: () -> result
+
+        Returns:
+            Future, resolved with the callback's return value once the main loop has run it.
+            Fire-and-forget callers can ignore it. Callers that need the result must pass a
+            timeout to `.result()`, since the main loop may be busy with something else.
+        """
+
+        future = Future()
+        self.main_thread_queue.put((future, callback))
+        return future
+
+    def process_main_thread_queue(self):
+        while True:
+            item = self.main_thread_queue.get_or_default(block=False)
+            if not item:
+                break
+
+            future, callback = item
+
+            # False means the caller gave up waiting and cancelled it
+            if not future.set_running_or_notify_cancel():
+                continue
+
+            try:
+                future.set_result(callback())
+            except Exception as e:
+                # logged as well as set on the future, so fire-and-forget callers still see it
+                self.logger.error("error running callback on main thread", e)
+                future.set_exception(e)
 
     def register_packet_handler(self, packet_id: int, handler, priority=50):
         """
@@ -333,6 +378,17 @@ class Tyrbot:
                 handlers.remove(h)
 
     def iterate(self, timeout=0.1):
+        # The whole dispatch chain below assumes it owns the bot: it pulls from the shared incoming
+        # queue and runs packet handlers, which touch the DB, the buddy list and the outgoing
+        # queues. A second thread in here steals packets from the main loop and corrupts that
+        # state, which is exactly the bug the Discord hand-off fixed. Checked rather than asserted
+        # so `python -O` cannot strip it.
+        if threading.current_thread() is not threading.main_thread():
+            raise RuntimeError(
+                "iterate() was called from thread %r - it may only run on the main thread. "
+                "Use bot.run_on_main_thread() to hand work back to the main loop."
+                % threading.current_thread().name)
+
         conn, packet = self.incoming_queue.get_or_default(block=True, timeout=timeout, default=(None, None))
         if packet:
             if isinstance(packet, server_packets.SystemMessage):

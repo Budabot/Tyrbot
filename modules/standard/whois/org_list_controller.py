@@ -5,6 +5,7 @@ from core.chat_blob import ChatBlob
 from core.command_param_types import Int, Any, NamedFlagParameters
 from core.decorators import instance, command, event
 from core.dict_object import DictObject
+from core.logger import Logger
 
 
 @instance()
@@ -13,8 +14,16 @@ class OrgListController:
 
     DEFAULT_OFFLINE_MEMBER_DISPLAY_THRESHOLD = 200
     SHOW_ALL_OFFLINE_MEMBERS = 10000
+    # One budget for the whole run, shared by every name lookup it makes, rather than a timeout per
+    # name: the chat server answers bulk lookups as a steady but rate-limited stream of roughly 60
+    # per second, so on a large org the reply to the name being waited on sits behind thousands of
+    # others. A per-name timeout expires on that queueing and misreports active characters as
+    # inactive. Any member still unresolved when the budget runs out is treated as inactive, which
+    # is the same conclusion an individual timeout reached.
+    ORGLIST_LOOKUP_TIMEOUT = 300
 
     def __init__(self):
+        self.logger = Logger(__name__)
         self.orglist = None
         self.governing_types = DictObject({
             "Anarchism": ["Anarchist"],
@@ -98,11 +107,14 @@ class OrgListController:
         self.orglist.reply = reply
         self.orglist.waiting_org_members = {}
         self.orglist.finished_org_members = {}
+        self.orglist.unresolved_at_deadline = 0
         self.orglist.offline_member_display_threshold = offline_member_display_threshold
 
         reply("Checking online status for %d members of <highlight>%s</highlight>..." % (len(self.orglist.org_members), self.orglist.org_info.name))
 
-        # process all name lookups
+        # process all name lookups. This drains until the chat server goes quiet for a second,
+        # which is how we know every pending response has been handled - do not bound it by the
+        # lookup budget, since breaking out early abandons responses that are still arriving.
         while self.bot.iterate(1):
             pass
 
@@ -130,6 +142,10 @@ class OrgListController:
             self.iterate_org_members()
 
         if not self.orglist.waiting_org_members:
+            if self.orglist.unresolved_at_deadline:
+                self.logger.warning("orglist lookup budget of %ds ran out with %d member(s) unresolved; "
+                                    "they are reported as inactive"
+                                    % (self.ORGLIST_LOOKUP_TIMEOUT, self.orglist.unresolved_at_deadline))
             self.orglist.reply(self.format_result())
             self.orglist = None
 
@@ -187,20 +203,31 @@ class OrgListController:
 
         return ChatBlob("Orglist for '%s' (%d / %d)" % (self.orglist.org_info.name, num_online, num_total), blob)
 
+    def get_lookup_deadline(self):
+        # anchored to started_at, so the budget covers the whole run rather than restarting each
+        # time a buddy event brings us back into iterate_org_members()
+        return self.orglist.started_at + self.ORGLIST_LOOKUP_TIMEOUT
+
     def iterate_org_members(self):
         # add org_members that we don't have online status for as buddies
+        deadline = self.get_lookup_deadline()
+
         while self.orglist.org_members and self.buddy_list_has_available_slots():
             org_member = self.orglist.org_members.pop()
             char_id = org_member.char_id
             self.orglist.waiting_org_members[char_id] = org_member
             is_online = self.buddy_service.is_online(char_id)
             if is_online is None:
-                if self.character_service.resolve_char_to_id(org_member.name):
+                if self.character_service.resolve_char_to_id(org_member.name, deadline=deadline):
                     self.buddy_service.add_buddy(char_id, self.ORGLIST_BUDDY_TYPE)
                     self.buddy_service.remove_buddy(char_id, self.ORGLIST_BUDDY_TYPE)
                 else:
                     # character is inactive, set as offline
                     self.update_online_status(char_id, 2)
+                    if time.time() > deadline:
+                        # distinct from a character that actually failed to resolve: we stopped
+                        # waiting, so this one is unknown rather than known-inactive
+                        self.orglist.unresolved_at_deadline += 1
             else:
                 self.update_online_status(char_id, is_online)
 

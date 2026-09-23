@@ -1,6 +1,5 @@
 import logging
 import logging.handlers
-import traceback
 import re
 
 
@@ -36,9 +35,3 @@ class Logger:
         msg = re.sub("</font>", "", msg, 0, re.UNICODE)
         msg = re.sub("</a>", "[/link]", msg, 0, re.UNICODE)
         return msg
-
-    def format_message(self, msg, obj):
-        if obj:
-            return msg + "\n" + traceback.format_exc()
-        else:
-            return msg

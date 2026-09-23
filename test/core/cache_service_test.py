@@ -1,38 +1,57 @@
+import os
 import shutil
+import tempfile
 import unittest
-import time
 
 from core.cache_service import CacheService
 
 
 class CacheServiceTest(unittest.TestCase):
+    """
+    These run against a temp directory. They must never touch ./data/cache: that belongs to the
+    running bot, and this suite used to delete it outright.
+    """
+
+    def setUp(self):
+        self.temp_dir = tempfile.mkdtemp(prefix="tyrbot_cache_test_")
+        self.cache = CacheService(base_path=self.temp_dir)
+
+    def tearDown(self):
+        shutil.rmtree(self.temp_dir)
 
     def test_store_overwrite(self):
-        cache = CacheService()
-        cache.store("test", "test.txt", "this is a test")
-        contents = cache.retrieve("test", "test.txt")
+        self.cache.store("test", "test.txt", "this is a test")
+        contents = self.cache.retrieve("test", "test.txt")
 
         self.assertEqual("this is a test", contents.data)
-        cache.store("test", "test.txt", "this is a test2")
+        self.cache.store("test", "test.txt", "this is a test2")
 
-        contents = cache.retrieve("test", "test.txt")
+        contents = self.cache.retrieve("test", "test.txt")
         self.assertEqual("this is a test2", contents.data)
 
-        # cleanup files
-        shutil.rmtree("./data/cache", ignore_errors=True)
-
     def test_retrieve_empty(self):
-        cache = CacheService()
-        contents = cache.retrieve("test", "empty.txt")
+        contents = self.cache.retrieve("test", "empty.txt")
 
         self.assertIsNone(contents)
 
     def test_retrieve_expired(self):
-        cache = CacheService()
-        cache.store("test", "test.txt", "this is a test")
+        self.cache.store("test", "test.txt", "this is a test")
 
-        contents = cache.retrieve("test", "test.txt")
+        contents = self.cache.retrieve("test", "test.txt")
         self.assertEqual("this is a test", contents.data)
 
-        # cleanup files
-        shutil.rmtree("./data/cache", ignore_errors=True)
+    def test_writes_stay_inside_the_temp_dir(self):
+        self.cache.store("test", "test.txt", "this is a test")
+
+        _, full_path = self.cache.get_full_path("test", "test.txt")
+        self.assertTrue(os.path.abspath(full_path).startswith(os.path.abspath(self.temp_dir)))
+        self.assertTrue(os.path.exists(full_path))
+
+    def test_store_recreates_a_missing_cache_dir(self):
+        # the cache dir is created lazily by store(), so it may be absent or deleted under us
+        self.cache.store("test", "test.txt", "first")
+        shutil.rmtree(os.path.join(self.temp_dir, "data", "cache"))
+
+        self.cache.store("test", "test.txt", "this is a test")
+
+        self.assertEqual("this is a test", self.cache.retrieve("test", "test.txt").data)

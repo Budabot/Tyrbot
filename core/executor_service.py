@@ -3,11 +3,13 @@ from concurrent.futures import ThreadPoolExecutor
 
 from core.decorators import instance
 from core.dict_object import DictObject
+from core.logger import Logger
 
 
 @instance()
 class ExecutorService:
     def __init__(self):
+        self.logger = Logger(__name__)
         self.jobs = []
         self.job_scheduler_id = None
 

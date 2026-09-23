@@ -50,5 +50,3 @@ class MMDBParserTest(unittest.TestCase):
 
         new_n = mmdb_parser.read_base_85(num_str)
         self.assertEqual(n, new_n)
-
-        print(mmdb_parser.read_base_85(b"!!!!\""))

@@ -5,7 +5,6 @@ messagehub: remove formatted_message, add formatted_prefix
 module changes:
 online lists split by conn?
 topic/raid should be conn-specific?
-flatroll history
 trader drain command
 add a command to list all raid loot categories
 loot lists should also work for auctions

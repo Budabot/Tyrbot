@@ -1,6 +1,6 @@
 import asyncio
 import re
-import threading
+from concurrent.futures import Future
 from html.parser import HTMLParser
 
 try:
@@ -66,11 +66,16 @@ def _response_to_text(response) -> str:
 
 @instance()
 class McpController:
+    # A command runs on the bot's main thread, which may already be busy; some commands also
+    # make their own blocking HTTP calls, so this has to cover more than just the queue wait.
+    COMMAND_TIMEOUT = 60
+
+    SHUTDOWN_TIMEOUT = 5
+
     def __init__(self):
         self.logger = Logger(__name__)
-        self._server_thread: threading.Thread | None = None
+        self._server_task: Future | None = None
         self._uvicorn_server: uvicorn.Server | None = None
-        self._loop: asyncio.AbstractEventLoop | None = None
         self._mcp: FastMCP | None = None
 
     def inject(self, registry):
@@ -79,6 +84,7 @@ class McpController:
         self.character_service = registry.get_instance("character_service")
         self.bot = registry.get_instance("bot")
         self.text = registry.get_instance("text")
+        self.async_service = registry.get_instance("async_service")
 
     def start(self):
         self.setting_service.register(
@@ -156,7 +162,7 @@ class McpController:
             return json.dumps(command_list, indent=2)
 
         @mcp.tool()
-        def command(query: str) -> str:
+        async def command(query: str) -> str:
             """Execute any Tyrbot command and return its response as plain text.
 
             Pass the full command string exactly as you would type it in-game,
@@ -169,42 +175,57 @@ class McpController:
 
             _logger.log_chat(conn, "MCP Server", "Query", query)
 
-            # Resolve superadmin char_id so all commands pass access checks
+            def run_on_bot():
+                # Runs on the bot's main thread. Everything below - resolving the char id,
+                # running the command, paginating the response - reads and writes bot state
+                # that is not safe to touch from the MCP server thread.
+
+                # Resolve superadmin char_id so all commands pass access checks
+                try:
+                    char_id = _char_service.resolve_char_to_id(_bot.superadmin)
+                except Exception:
+                    char_id = None
+
+                results: list[str] = []
+
+                def reply(msg):
+                    results.append(msg)
+
+                _cs.process_command(
+                    message=query.strip(),
+                    channel="msg",
+                    char_id=char_id,
+                    reply=reply,
+                    conn=conn,
+                )
+
+                # format log output
+                for result in results:
+                    if isinstance(result, ChatBlob):
+                        pages = _text.paginate(result, conn, max_page_length=None)
+                    else:
+                        pages = [_text.format_message(result, conn)]
+
+                    for page in pages:
+                        _logger.log_chat(conn, "MCP Server", "Response", page)
+
+                return "\n\n---\n\n".join(map(_response_to_text, results)) if results else "(no response)"
+
+            future = _bot.run_on_main_thread(run_on_bot)
             try:
-                char_id = _char_service.resolve_char_to_id(_bot.superadmin)
-            except Exception:
-                char_id = None
-
-            results: list[str] = []
-
-            def reply(msg):
-                results.append(msg)
-
-            _cs.process_command(
-                message=query.strip(),
-                channel="msg",
-                char_id=char_id,
-                reply=reply,
-                conn=conn,
-            )
-
-            # format log output
-            for result in results:
-                pages = []
-                if isinstance(result, ChatBlob):
-                    pages = self.text.paginate(result, conn, max_page_length=None)
-                else:
-                    pages = [self.text.format_message(result, conn)]
-                
-                for page in pages:
-                    _logger.log_chat(conn, "MCP Server", "Response", page)
-
-            return "\n\n---\n\n".join(map(_response_to_text, results)) if results else "(no response)"
+                # awaited rather than blocked on: this coroutine runs on the shared AsyncService
+                # loop, which also drives the AO connections, so it must never hold the loop.
+                # FastMCP calls sync tool functions inline, which is why this one is async.
+                return await asyncio.wait_for(asyncio.wrap_future(future), timeout=self.COMMAND_TIMEOUT)
+            except TimeoutError:
+                future.cancel()
+                _logger.warning(f"MCP command '{query}' timed out after {self.COMMAND_TIMEOUT}s waiting for the bot's main thread")
+                return f"Error: the bot did not finish processing this command within {self.COMMAND_TIMEOUT} seconds."
 
         return mcp
 
     def start_mcp_server(self):
-        """Spin up the Streamable-HTTP MCP server in a background daemon thread."""
+        """Start the Streamable-HTTP MCP server as a task on the shared AsyncService loop."""
         self.stop_mcp_server()
 
         if not HAS_MCP:
@@ -224,25 +245,12 @@ class McpController:
             host=host,
             port=port,
             log_level="warning",
-            # uvicorn needs its own event loop inside the thread
-            loop="asyncio",
         )
         self._uvicorn_server = uvicorn.Server(config)
 
-        def run_server():
-            self._loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(self._loop)
-            try:
-                self._loop.run_until_complete(self._uvicorn_server.serve())
-            finally:
-                self._loop.close()
-
-        self._server_thread = threading.Thread(
-            target=run_server,
-            name="mcp-http-server",
-            daemon=True,
-        )
-        self._server_thread.start()
+        # serve() uses the loop it is awaited on, and no-ops its signal handling off the main
+        # thread, so the bot keeps its own SIGINT/SIGTERM handlers
+        self._server_task = self.async_service.run_coroutine(self._uvicorn_server.serve())
         self.logger.info(f"MCP Streamable-HTTP server started on http://{host}:{port}/mcp")
 
     def stop_mcp_server(self):
@@ -250,9 +258,15 @@ class McpController:
         self.logger.info(f"Stopping Streamable-HTTP MCP server")
         if self._uvicorn_server:
             self._uvicorn_server.should_exit = True
-        if self._server_thread:
-            self._server_thread.join(timeout=5)
-            self._server_thread = None
+        if self._server_task:
+            try:
+                self._server_task.result(timeout=self.SHUTDOWN_TIMEOUT)
+            except TimeoutError:
+                self.logger.warning("timed out waiting for the MCP server to stop")
+                self._server_task.cancel()
+            except Exception as e:
+                self.logger.warning("error while stopping the MCP server", e)
+            self._server_task = None
         self.logger.info(f"Streamable-HTTP MCP server has been stopped")
 
     @event(event_type="connect", description="Log MCP server readiness on bot connect", is_system=True)

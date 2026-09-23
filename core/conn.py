@@ -176,21 +176,15 @@ class Conn:
                 if self.failure_callback:
                     self.failure_callback()
                 break
-            except Exception as e:
+            except asyncio.CancelledError:
+                # listed before `except Exception` only for readability - CancelledError derives
+                # from BaseException in 3.8+, so `except Exception` never caught it either way
+                break
+            except Exception:
                 self.logger.error(f"[{self.id}] Unexpected error in packet loop", exc_info=True)
                 if self.failure_callback:
                     self.failure_callback()
                 break
-            except asyncio.CancelledError:
-                break
-            except Exception as e:
-                if isinstance(e, (EOFError, ConnectionResetError)):
-                    self.logger.warning(f"[{self.id}] Connection closed")
-                    if self.failure_callback:
-                        self.failure_callback()
-                    break
-                self.logger.error(f"[{self.id}] Error in packet loop", exc_info=True)
-                await asyncio.sleep(1)
 
     # Queue and helper methods
 

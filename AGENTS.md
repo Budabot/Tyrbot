@@ -2,14 +2,13 @@
 
 ## Testing Instructions
 1. **Branching**: Always create and work on a dedicated git branch for new work before making modifications.
-2. **Containerized Execution**: All Python commands, scripts, and tests must be executed inside a Docker container (e.g., using `Dockerfile.test`).
-3. **Database Isolation**: When running tests in Docker, isolate the database by mounting a dedicated file volume over `/app/data/database.db` so `data/database.db` is never affected:
+3. **Database Isolation**: When running tests, isolate the database by mounting a dedicated file volume so `data/database.db` is never affected:
    ```bash
    # Run all unit tests inside container
-   docker run --rm -v "%CD%:/app" -v "%CD%/data/test_db.sqlite:/app/data/database.db" tyrbot-test python -m unittest discover -p "*_test.py"
+   python -m unittest discover -p "*_test.py"
 
    # Run specific test module inside container
-   docker run --rm -v "%CD%:/app" -v "%CD%/data/test_db.sqlite:/app/data/database.db" tyrbot-test python -m unittest test/modules/extra/ai_controller_test.py
+   python -m unittest test/modules/extra/ai_controller_test.py
    ```
 
 ## Static Analysis

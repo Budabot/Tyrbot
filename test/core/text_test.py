@@ -1,7 +1,50 @@
 from core.chat_blob import ChatBlob
 from core.text import Text, TextFormatter
 import unittest
+import unittest.mock
 from unittest.mock import Mock, MagicMock
+
+
+class GetPixelWidthTest(unittest.TestCase):
+
+    def test_unknown_char_is_logged_once(self):
+        text = Text()
+
+        with unittest.mock.patch.object(text, "logger") as logger:
+            for _ in range(10):
+                text.get_pixel_width("\u4e2d")
+
+        # a padded table re-renders on every command, so the same missing char must not keep logging
+        self.assertEqual(1, logger.warning.call_count)
+
+    def test_each_distinct_unknown_char_is_logged(self):
+        text = Text()
+
+        with unittest.mock.patch.object(text, "logger") as logger:
+            text.get_pixel_width("\u4e2d\u6587\u4e2d")
+
+        # deduplicated, not suppressed - two distinct chars, reported once each
+        self.assertEqual(2, logger.warning.call_count)
+
+    def test_unknown_char_still_uses_the_default_width(self):
+        text = Text()
+
+        with unittest.mock.patch.object(text, "logger"):
+            width = text.get_pixel_width("\u4e2d")
+
+        self.assertEqual(Text.DEFAULT_PIXEL_WIDTH, width)
+
+    def test_known_chars_are_measured_and_log_nothing(self):
+        text = Text()
+
+        with unittest.mock.patch.object(text, "logger") as logger:
+            # i and l are 3 each, space is 5
+            self.assertEqual(11, text.get_pixel_width("il "))
+
+        self.assertEqual(0, logger.warning.call_count)
+
+    def test_empty_string_is_zero(self):
+        self.assertEqual(0, Text().get_pixel_width(""))
 
 
 class TextTest(unittest.TestCase):

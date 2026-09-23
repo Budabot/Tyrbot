@@ -150,6 +150,8 @@ class MLStripper(HTMLParser):
 
 @instance()
 class Text:
+    DEFAULT_PIXEL_WIDTH = 8
+
     separators = [{"symbol": "<pagebreak>", "include": False}, {"symbol": "\n", "include": True}, {"symbol": " ", "include": True}]
 
     # taken from IGN bot
@@ -164,6 +166,8 @@ class Text:
     def __init__(self):
         self.logger = Logger(__name__)
         self.items_regex = re.compile(r"<a href=\"itemref://(\d+)/(\d+)/(\d+)\">(.+?)</a>")
+        # chars already reported by get_pixel_width(), so each one is logged once per run
+        self.unknown_pixel_width_chars = set()
 
     def inject(self, registry):
         self.setting_service: SettingService = registry.get_instance("setting_service")
@@ -233,7 +237,7 @@ class Text:
     def paginate_single(self, chatblob, conn: Conn):
         return self.paginate(chatblob, conn, 8000)[0]
 
-    def paginate(self, chatblob, conn: Conn, max_page_length=None, max_num_pages=None, footer=None):
+    def paginate(self, chatblob, conn: Conn, max_page_length=None, max_num_pages=None):
         label = chatblob.title
         msg = chatblob.msg
 
@@ -249,16 +253,7 @@ class Text:
         msg = ("<header>" + label + "</header>\n\n" + color + msg).replace("\"", "&quot;")
         msg = self.format_message(msg, conn)
 
-        if footer:
-            footer = "\n\n" + self.format_message(footer.replace("\"", "&quot;", conn).strip(), conn)
-        else:
-            footer = ""
-
-        adjusted_max_page_length = None
-        if max_page_length:
-            adjusted_max_page_length = max_page_length - len(footer)
-        pages = self.split_by_separators(msg, adjusted_max_page_length, max_num_pages)
-        pages = list(map(lambda p: p + footer, pages))
+        pages = self.split_by_separators(msg, max_page_length, max_num_pages)
 
         num_pages = len(pages)
 
@@ -304,11 +299,10 @@ class Text:
 
             current_page += line
 
-        current_page = current_page.strip()
-        if max_page_length and len(current_page) > max_page_length:
-            pages.append(current_page)
-        else:
-            pages.append(current_page)
+        # note: this used to branch on `len(current_page) > max_page_length` with both arms
+        # appending the page unchanged. Whatever the over-long case was meant to do was never
+        # written, so the page is appended as-is - which is what the code already did.
+        pages.append(current_page.strip())
 
         return pages
 
@@ -398,9 +392,13 @@ class Text:
         for c in s:
             pixel_width = self.pixel_mapping.get(c, None)
             if not pixel_width:
-                self.logger.warning(f"Unknown pixel width mapping for char '{c}'")
-                pixel_width = 8
-            width += pixel_width or 8
+                # once per distinct char: the names in a padded table are player-supplied, so a
+                # single unmapped char would otherwise log a line every time the table is rendered
+                if c not in self.unknown_pixel_width_chars:
+                    self.unknown_pixel_width_chars.add(c)
+                    self.logger.warning(f"Unknown pixel width mapping for char '{c}'")
+                pixel_width = self.DEFAULT_PIXEL_WIDTH
+            width += pixel_width
         return width
 
     def format_message(self, msg, conn: Conn):
