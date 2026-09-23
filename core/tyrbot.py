@@ -395,15 +395,23 @@ class Tyrbot:
         if len(inspect.signature(handler).parameters) != 2:
             raise Exception("Incorrect number of arguments for handler '%s.%s()'" % (handler.__module__, handler.__qualname__))
 
-        handlers = self.packet_handlers.get(packet_id, [])
-        handlers.append(DictObject({"priority": priority, "handler": handler}))
+        # a new list rather than an append to the existing one: dispatch may be iterating that
+        # list right now, and handlers register other handlers from inside their own callback
+        # (`!whois` registers handle_buddy_status while handling a PrivateMessage). Rebinding
+        # means a registry change takes effect from the next packet, never mid-packet.
+        handlers = self.packet_handlers.get(packet_id, []) + [DictObject({"priority": priority, "handler": handler})]
         self.packet_handlers[packet_id] = sorted(handlers, key=lambda x: x.priority)
 
     def remove_packet_handler(self, packet_id, handler):
-        handlers = self.packet_handlers.get(packet_id, [])
-        for h in handlers:
-            if h.handler == handler:
-                handlers.remove(h)
+        # Rebuilt, not mutated in place. The old version removed from the list it was iterating,
+        # which skips the entry after each match - so a handler registered twice (two concurrent
+        # `!whois` do exactly that) only ever lost one of its registrations and the other stayed
+        # live forever. Rebinding also leaves any in-flight dispatch iterating the old list alone.
+        handlers = self.packet_handlers.get(packet_id, None)
+        if handlers is None:
+            return
+
+        self.packet_handlers[packet_id] = [h for h in handlers if h.handler != handler]
 
     async def iterate(self, timeout=0.1):
         # The whole dispatch chain below assumes it owns the bot: it pulls from the incoming queue
@@ -436,7 +444,10 @@ class Tyrbot:
             elif isinstance(packet, server_packets.BuddyAdded) and packet.char_id == 0:
                 return
 
-            for handler in self.packet_handlers.get(packet.id, []):
+            # snapshot: a handler may register or deregister handlers for this same packet id
+            # while it runs, and the set that dispatches this packet is the set that existed
+            # when the packet arrived
+            for handler in list(self.packet_handlers.get(packet.id, [])):
                 # serial by design: each handler runs to completion before the next one starts,
                 # and before the next packet is pulled. A handler that must not hold the queue
                 # spawns its own task rather than being dispatched concurrently here.

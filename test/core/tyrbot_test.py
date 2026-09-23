@@ -259,3 +259,102 @@ class IterateTest(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(1, len(errors))
         self.assertIn("may only run on the main thread", errors[0])
         self.assertIn("worker", errors[0])
+
+
+class PacketHandlerRegistryTest(unittest.IsolatedAsyncioTestCase):
+    """
+    Handlers register and deregister other handlers from inside their own callback - `!whois`
+    registers handle_buddy_status while handling a PrivateMessage, and that handler removes
+    itself once the BuddyAdded it was waiting for arrives. The registry has to survive being
+    edited while dispatch is walking it.
+    """
+
+    async def test_a_handler_removing_itself_does_not_skip_the_next_one(self):
+        bot = make_bot()
+        calls = []
+
+        def first(conn, packet):
+            calls.append("first")
+
+        def second(conn, packet):
+            # deregisters itself mid-dispatch, exactly as handle_buddy_status does
+            calls.append("second")
+            bot.remove_packet_handler(77, second)
+
+        def third(conn, packet):
+            calls.append("third")
+
+        for h in (first, second, third):
+            bot.register_packet_handler(77, h)
+        bot.incoming_queue.put_nowait((None, unittest.mock.Mock(id=77)))
+
+        await bot.iterate(1)
+
+        # "third" used to be skipped: removing from the list being iterated shifts everything down
+        self.assertEqual(["first", "second", "third"], calls)
+
+    async def test_removing_clears_every_registration_of_that_handler(self):
+        # two concurrent !whois register the same handler twice; one removal must clear both,
+        # or the leftover stays live for the rest of the process
+        bot = make_bot()
+
+        def handler(conn, packet):
+            pass
+
+        bot.register_packet_handler(77, handler)
+        bot.register_packet_handler(77, handler)
+        self.assertEqual(2, len(bot.packet_handlers[77]))
+
+        bot.remove_packet_handler(77, handler)
+
+        self.assertEqual([], bot.packet_handlers[77])
+
+    async def test_removing_leaves_other_handlers_registered(self):
+        bot = make_bot()
+
+        def keep(conn, packet):
+            pass
+
+        def drop(conn, packet):
+            pass
+
+        bot.register_packet_handler(77, keep)
+        bot.register_packet_handler(77, drop)
+        bot.remove_packet_handler(77, drop)
+
+        self.assertEqual([keep], [h.handler for h in bot.packet_handlers[77]])
+
+    async def test_a_handler_registered_mid_dispatch_does_not_run_for_that_packet(self):
+        # it was not registered when the packet arrived, so it has no business seeing it
+        bot = make_bot()
+        calls = []
+
+        def latecomer(conn, packet):
+            calls.append("latecomer")
+
+        def register_another(conn, packet):
+            calls.append("register_another")
+            bot.register_packet_handler(77, latecomer)
+
+        bot.register_packet_handler(77, register_another)
+        bot.incoming_queue.put_nowait((None, unittest.mock.Mock(id=77)))
+
+        await bot.iterate(1)
+
+        self.assertEqual(["register_another"], calls)
+        # ... but it is registered for the next one
+        bot.incoming_queue.put_nowait((None, unittest.mock.Mock(id=77)))
+        await bot.iterate(1)
+        self.assertEqual(["register_another", "register_another", "latecomer"], calls)
+
+    async def test_removing_a_handler_that_was_never_registered_is_a_no_op(self):
+        bot = make_bot()
+
+        def never(conn, packet):
+            pass
+
+        bot.remove_packet_handler(77, never)          # no packet id at all
+        bot.register_packet_handler(77, lambda c, p: None)
+        bot.remove_packet_handler(77, never)          # packet id exists, handler does not
+
+        self.assertEqual(1, len(bot.packet_handlers[77]))

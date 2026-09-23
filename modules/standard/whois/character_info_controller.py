@@ -152,7 +152,7 @@ class CharacterInfoController:
         elif char_info.cache_age > max_cache_age:
             return "%s (old cache; %s old)" % (char_info.source, self.util.time_to_readable(char_info.cache_age))
 
-    def handle_buddy_status(self, conn, packet):
+    async def handle_buddy_status(self, conn, packet):
         obj = self.waiting_for_update.get(packet.char_id)
         if obj:
             self.buddy_service.remove_buddy(packet.char_id, self.BUDDY_IS_ONLINE_TYPE)
@@ -160,7 +160,11 @@ class CharacterInfoController:
             if not self.waiting_for_update:
                 self.bot.remove_packet_handler(BuddyAdded.id, self.handle_buddy_status)
 
-            obj.callback(packet.online == 1)
+            # callback is partial(show_output, ...), which is a coroutine function. Calling it
+            # without awaiting built a coroutine and dropped it, so !whois answered nothing at
+            # all whenever the character's online status was not already known - and said so
+            # only as a RuntimeWarning on stderr.
+            await obj.callback(packet.online == 1)
 
     def character_name_update(self, conn, packet):
         self.name_history.append(packet)
