@@ -1,0 +1,14 @@
+# Normalize line endings.
+#
+# Every text file is stored with LF in the repository and checked out with LF, on every
+# platform. Without this nothing enforces it: a tool or editor can introduce CRLF into an
+# individual file and it shows up as a real edit rather than as noise.
+* text=auto eol=lf
+
+# Windows batch files keep CRLF in the working tree. cmd.exe mis-parses some constructs
+# (labels and goto in particular) when a .bat file is LF-only. Still stored as LF in the
+# repository, so diffs stay clean.
+*.bat text eol=crlf
+
+# Binary - never normalized, never diffed as text.
+*.mdb binary
