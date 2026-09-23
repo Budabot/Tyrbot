@@ -290,7 +290,9 @@ class CommandService:
 
     def format_help_text(self, data, char_id, show_regex=False):
         # filter out commands that character does not have access level for
-        data = filter(lambda row: self.access_service.check_access(char_id, row.access_level), data)
+        # resolved once rather than per row, since resolving it costs several queries
+        access_level = self.access_service.get_access_level(char_id)
+        data = filter(lambda row: access_level["level"] <= self.access_service.get_access_level_by_label(row.access_level)["level"], data)
 
         def get_regex(params):
             if show_regex:

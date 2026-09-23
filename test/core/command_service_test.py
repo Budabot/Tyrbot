@@ -83,3 +83,24 @@ class CommandDispatchTest(unittest.IsolatedAsyncioTestCase):
 
         self.assertEqual(1, logger.error.call_count)
         self.assertEqual(["There was an error processing your request."], replies)
+
+
+class FormatHelpTextTest(unittest.TestCase):
+
+    def test_filters_by_access_level_and_resolves_it_once(self):
+        levels = {"admin": {"level": 20}, "member": {"level": 60}, "all": {"level": 100}}
+        service = CommandService()
+        service.access_service = unittest.mock.Mock()
+        service.access_service.get_access_level.return_value = levels["member"]
+        service.access_service.get_access_level_by_label.side_effect = lambda label: levels[label]
+        for command in ["a", "b", "c"]:
+            service.handlers[command] = [{"help": f"help {command}", "params": []}]
+        data = [DictObject({"command": "a", "sub_command": "", "access_level": "admin"}),
+                DictObject({"command": "b", "sub_command": "", "access_level": "member"}),
+                DictObject({"command": "c", "sub_command": "", "access_level": "all"})]
+
+        help_text = service.format_help_text(data, 1)
+
+        self.assertEqual("help b\n\nhelp c", help_text)
+        # resolving an access level costs several queries, so it must not be repeated per row
+        service.access_service.get_access_level.assert_called_once_with(1)
