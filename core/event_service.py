@@ -1,3 +1,4 @@
+import asyncio
 import inspect
 
 import mysql
@@ -17,6 +18,7 @@ class EventService:
         self.logger = Logger(__name__)
         self.event_types = []
         self.db_cache = {}
+        self.pending_event_tasks = set()
 
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
@@ -109,7 +111,24 @@ class EventService:
         # load command handler
         self.handlers[handler_name] = handler
 
-    def fire_event(self, event_type, event_data=None):
+    def fire_event_soon(self, event_type, event_data=None):
+        """
+        Call from the event loop, from code that cannot await - a synchronous callback such as a
+        command's `reply` closure.
+
+        The event is fired on a task of its own rather than inline, so it lands after the caller
+        yields instead of before the caller continues. Only use it where that ordering does not
+        matter; everything that can await should call fire_event directly.
+        """
+
+        # asyncio only holds a weak reference to a running task, so an unreferenced one can be
+        # garbage collected mid-flight. Keep it until it finishes.
+        task = asyncio.create_task(self.fire_event(event_type, event_data))
+        self.pending_event_tasks.add(task)
+        task.add_done_callback(self.pending_event_tasks.discard)
+        return task
+
+    async def fire_event(self, event_type, event_data=None):
         event_base_type, event_sub_type = self.get_event_type_parts(event_type)
 
         if event_base_type not in self.event_types:
@@ -118,16 +137,21 @@ class EventService:
 
         data = self.get_handlers(event_base_type, event_sub_type)
         for row in data:
-            self.call_handler(row.handler, event_type, event_data)
+            await self.call_handler(row.handler, event_type, event_data)
 
-    def call_handler(self, handler_method, event_type, event_data):
+    async def call_handler(self, handler_method, event_type, event_data):
         handler = self.handlers.get(handler_method, None)
         if not handler:
             self.logger.error("Could not find handler callback for event type '%s' and handler '%s'" % (event_type, handler_method))
             return
 
         try:
-            handler(event_type, event_data)
+            # serial by design: handlers run one at a time, in registration order, exactly as they
+            # did when everything was synchronous. An `async def` handler that must not hold the
+            # loop spawns its own task.
+            result = handler(event_type, event_data)
+            if inspect.isawaitable(result):
+                await result
         except Exception as e:
             self.logger.error("error processing event '%s'" % event_type, e)
 
@@ -141,7 +165,7 @@ class EventService:
     def get_event_type_key(self, event_base_type, event_sub_type):
         return event_base_type + ":" + event_sub_type
 
-    def check_for_timer_events(self, current_timestamp):
+    async def check_for_timer_events(self, current_timestamp):
         self.logger.debug("Checking for timer events at '%s'" % current_timestamp)
 
         try:
@@ -149,12 +173,12 @@ class EventService:
                                  "JOIN event_config e ON t.event_type = e.event_type AND t.handler = e.handler "
                                  "WHERE t.next_run <= ? AND e.enabled = 1", [current_timestamp])
             for row in data:
-                self.execute_timed_event(row, current_timestamp)
+                await self.execute_timed_event(row, current_timestamp)
         except mysql.connector.errors.OperationalError as e:
             self.logger.error("MySQL connection lost", e)
             self.bot.status = BotStatus.ERROR
 
-    def execute_timed_event(self, row, current_timestamp):
+    async def execute_timed_event(self, row, current_timestamp):
         self.logger.debug("Executing timed event '%s'" % row)
         event_type_key = self.get_event_type_key(row.event_type, row.event_sub_type)
 
@@ -170,7 +194,7 @@ class EventService:
         self.db.exec("UPDATE timer_event SET next_run = ? WHERE event_type = ? AND handler = ?",
                      [next_run, row.event_type, row.handler])
 
-        self.call_handler(row.handler, event_type_key, None)
+        await self.call_handler(row.handler, event_type_key, None)
 
     def update_event_status(self, event_base_type, event_sub_type, event_handler, enabled_status):
         # clear cache
@@ -196,7 +220,7 @@ class EventService:
 
             return result
 
-    def run_timer_events_at_startup(self):
+    async def run_timer_events_at_startup(self):
         t = int(time.time())
         data = self.db.query("SELECT e.event_type, e.event_sub_type, e.handler, t.next_run FROM timer_event t "
                              "JOIN event_config e ON t.event_type = e.event_type AND t.handler = e.handler "
@@ -205,4 +229,4 @@ class EventService:
             handler = self.handlers[row.handler]
             attrs = getattr(handler, "event")
             if attrs.get("run_at_startup", False):
-                self.execute_timed_event(row, t)
+                await self.execute_timed_event(row, t)

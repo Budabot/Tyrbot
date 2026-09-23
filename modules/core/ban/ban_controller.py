@@ -40,21 +40,21 @@ class BanController:
 
     @command(command="ban", params=[Options(["rem", "remove"]), Character("character")], access_level="moderator",
              description="Remove a character from the ban list")
-    def ban_remove_cmd(self, request, _, char):
+    async def ban_remove_cmd(self, request, _, char):
         if not char.char_id:
             return StandardMessage.char_not_found(char.name)
 
         if not self.ban_service.get_ban(char.char_id):
             return f"<highlight>{char.name}</highlight> is not banned."
 
-        self.ban_service.remove_ban(char.char_id, request.sender.char_id)
+        await self.ban_service.remove_ban(char.char_id, request.sender.char_id)
         return f"<highlight>{char.name}</highlight> has been removed from the ban list."
 
     @command(command="ban",
              params=[Const("add", is_optional=True), Character("character"), Time("duration", is_optional=True),
                      Any("reason", is_optional=True)],
              access_level="moderator", description="Add a character to the ban list")
-    def ban_add_cmd(self, request, _, char, duration, reason):
+    async def ban_add_cmd(self, request, _, char, duration, reason):
         if not char.char_id:
             return StandardMessage.char_not_found(char.name)
 
@@ -64,7 +64,7 @@ class BanController:
         if reason and len(reason) > 255:
             return "Ban reason cannot be more than 255 characters."
 
-        self.ban_service.add_ban(char.char_id, request.sender.char_id, duration, reason)
+        await self.ban_service.add_ban(char.char_id, request.sender.char_id, duration, reason)
         msg = f"<highlight>{char.name}</highlight> has been added to the ban list"
         if duration:
             msg += " for "

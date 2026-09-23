@@ -78,7 +78,7 @@ class PublicChannelService:
 
         del conn.channels[packet.channel_id]
 
-    def public_channel_message(self, conn: Conn, packet: server_packets.PublicChannelMessage):
+    async def public_channel_message(self, conn: Conn, packet: server_packets.PublicChannelMessage):
         if not conn.is_main:
             return
 
@@ -94,11 +94,11 @@ class PublicChannelService:
                 return
 
             if not self.handle_public_channel_command(conn, packet):
-                self.event_service.fire_event(self.ORG_CHANNEL_MESSAGE_EVENT, DictObject({"char_id": packet.char_id,
-                                                                                          "name": char_name,
-                                                                                          "message": message,
-                                                                                          "extended_message": packet.extended_message,
-                                                                                          "conn": conn}))
+                await self.event_service.fire_event(self.ORG_CHANNEL_MESSAGE_EVENT, DictObject({"char_id": packet.char_id,
+                                                                                                "name": char_name,
+                                                                                                "message": message,
+                                                                                                "extended_message": packet.extended_message,
+                                                                                                "conn": conn}))
         elif packet.channel_id == self.ORG_MSG_CHANNEL_ID:
             char_name = self.character_service.get_char_name(packet.char_id)
             if packet.extended_message:
@@ -106,13 +106,13 @@ class PublicChannelService:
             else:
                 message = packet.message
             self.logger.log_chat(conn, "Org Msg", char_name, message)
-            self.event_service.fire_event(self.ORG_MSG_EVENT, DictObject({"char_id": packet.char_id,
-                                                                          "name": char_name,
-                                                                          "message": packet.message,
-                                                                          "extended_message": packet.extended_message,
-                                                                          "conn": conn}))
+            await self.event_service.fire_event(self.ORG_MSG_EVENT, DictObject({"char_id": packet.char_id,
+                                                                                "name": char_name,
+                                                                                "message": packet.message,
+                                                                                "extended_message": packet.extended_message,
+                                                                                "conn": conn}))
 
-    def handle_public_channel_command(self, conn: Conn, packet: server_packets.PublicChannelMessage):
+    async def handle_public_channel_command(self, conn: Conn, packet: server_packets.PublicChannelMessage):
         if not self.setting_service.get("accept_commands_from_slave_bots").get_value() and not conn.is_main:
             return False
 
@@ -131,15 +131,18 @@ class PublicChannelService:
                 self.bot.send_mass_message(packet.char_id, msg, conn=conn)
             else:
                 self.bot.send_org_message(msg, conn=conn)
-                self.event_service.fire_event(self.ORG_CHANNEL_COMMAND_EVENT,
-                                              DictObject({"char_id": None, "name": None, "message": msg, "conn": conn}))
+                # reply() is a plain callback invoked from inside command handlers, so it cannot
+                # await. The message is already queued by this point; the notification landing a
+                # tick later changes nothing.
+                self.event_service.fire_event_soon(self.ORG_CHANNEL_COMMAND_EVENT,
+                                                   DictObject({"char_id": None, "name": None, "message": msg, "conn": conn}))
 
         if message.startswith(self.setting_service.get("symbol").get_value()) and conn.org_channel_id == packet.channel_id:
             char_name = self.character_service.get_char_name(packet.char_id)
-            self.event_service.fire_event(self.ORG_CHANNEL_COMMAND_EVENT,
-                                          DictObject({"char_id": packet.char_id, "name": char_name, "message": packet.message, "conn": conn}))
+            await self.event_service.fire_event(self.ORG_CHANNEL_COMMAND_EVENT,
+                                                DictObject({"char_id": packet.char_id, "name": char_name, "message": packet.message, "conn": conn}))
 
-            self.command_service.process_command(
+            await self.command_service.process_command(
                 self.command_service.trim_command_symbol(message),
                 self.ORG_CHANNEL_COMMAND,
                 packet.char_id,

@@ -44,7 +44,7 @@ class ExternalChannelController:
             self.private_channels.remove(packet.private_channel_id)
             self.logger.info("Kicked from private channel %s" % channel_name)
 
-    def handle_private_channel_message(self, conn: Conn, packet: server_packets.PrivateChannelMessage):
+    async def handle_private_channel_message(self, conn: Conn, packet: server_packets.PrivateChannelMessage):
         if not conn.is_main:
             return
 
@@ -62,7 +62,7 @@ class ExternalChannelController:
         message = packet.message.lstrip()
 
         if message.startswith(self.setting_service.get("symbol").get_value()):
-            self.command_service.process_command(
+            await self.command_service.process_command(
                 self.command_service.trim_command_symbol(message),
                 self.command_service.PRIVATE_CHANNEL,
                 packet.char_id,

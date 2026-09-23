@@ -1,3 +1,4 @@
+import asyncio
 import inspect
 import signal
 import threading
@@ -42,8 +43,9 @@ class Tyrbot:
         self.last_timer_event = 0
         self.start_time = int(time.time())
         self.version = "unknown"
-        self.incoming_queue = FifoQueue()
-        self.main_thread_queue = FifoQueue()
+        self.loop = None
+        # filled by the conns' packet loops, drained by iterate() - all on the one event loop
+        self.incoming_queue = asyncio.Queue()
         self.mass_message_queue = None
         self.conns = DictObject()
         self.primary_conn_id = None
@@ -60,6 +62,11 @@ class Tyrbot:
         self.async_service = registry.get_instance("async_service")
 
     def init(self, config, registry, mmdb_parser):
+        # called from inside asyncio.run(), so modules that schedule coroutines in start() (the
+        # Discord client, the MCP server, the highway websocket) have a loop to schedule onto
+        self.loop = asyncio.get_running_loop()
+        self.async_service.attach(self.loop)
+
         self.mmdb_parser = mmdb_parser
         self.superadmin = config.superadmin.capitalize()
         self.dimension = config.server.dimension
@@ -138,8 +145,7 @@ class Tyrbot:
         char_name = self.character_service.resolve_char_to_name(char_id)
         return char_name == self.superadmin
 
-    def connect(self, config):
-        self.async_service.start_loop()
+    async def connect(self, config):
         for i, bot_config in enumerate(config.bots):
             if "id" in bot_config:
                 _id = bot_config.id
@@ -156,18 +162,20 @@ class Tyrbot:
                 wait_for_logged_in = 0
 
             conn = self.create_conn(_id)
-            conn.connect(config.server.host, config.server.port)
+            await conn.connect(config.server.host, config.server.port)
 
             # only create the mass_message_queue if there is at least 1 non-main bot
             if not bot_config.is_main and not self.mass_message_queue:
                 self.mass_message_queue = FifoQueue()
 
-            login_success, packet = conn.login(bot_config.username, bot_config.password, bot_config.character, is_main=bot_config.is_main, wait_for_logged_in=wait_for_logged_in)
+            login_success, packet = await conn.login(bot_config.username, bot_config.password, bot_config.character, is_main=bot_config.is_main, wait_for_logged_in=wait_for_logged_in)
             if not login_success:
-                self.event_service.fire_event(self.LOGIN_FAILURE, packet)
+                await self.event_service.fire_event(self.LOGIN_FAILURE, packet)
 
                 if FeatureFlags.AUTO_UNFREEZE_ACCOUNTS and packet.id == server_packets.LoginError.id and packet.message and packet.message.endswith("/Account system denies login"):
-                    self.unfreeze_account(bot_config)
+                    # still synchronous, and it sleeps for minutes at a time. On a worker thread
+                    # so it cannot stall the conns that have already started their packet loops
+                    await asyncio.to_thread(self.unfreeze_account, bot_config)
 
                 if i == 0 or not FeatureFlags.IGNORE_FAILED_BOTS_ON_LOGIN:
                     self.status = BotStatus.ERROR
@@ -175,11 +183,11 @@ class Tyrbot:
                 else:
                     self.logger.warning("Skipping conn login")
             else:
-                self.incoming_queue.put((conn, packet))
+                self.incoming_queue.put_nowait((conn, packet))
 
                 self.conns[_id] = conn
 
-                self.create_conn_thread(conn, None if bot_config.is_main or not bot_config.get("is_mass_message", True) else self.mass_message_queue)
+                self.start_conn_packet_loop(conn, None if bot_config.is_main or not bot_config.get("is_mass_message", True) else self.mass_message_queue)
 
         return True
 
@@ -243,7 +251,7 @@ class Tyrbot:
 
         return True
 
-    def create_conn_thread(self, conn: Conn, mass_message_queue=None):
+    def start_conn_packet_loop(self, conn: Conn, mass_message_queue=None):
         def get_bot_status():
             return self.status
 
@@ -253,106 +261,126 @@ class Tyrbot:
         def failure_callback():
             self.status = BotStatus.ERROR
 
-        conn = Conn(_id, failure_callback, self.async_service)
+        conn = Conn(_id, failure_callback)
         return conn
 
-    def disconnect(self):
-        # wait for all threads to stop reading packets, then disconnect them all
-        time.sleep(2)
+    async def disconnect(self):
+        # let the packet loops notice the status change and stop reading, then close them all
+        await asyncio.sleep(2)
         for _id, conn in self.get_conns():
-            conn.disconnect()
-        self.async_service.stop_loop()
+            await conn.disconnect()
 
-    def run(self):
+    async def run(self):
         start = time.time()
 
         # wait for flood of packets from login to stop sending
         time_waited = 0
         while time_waited < 2:
-            if not self.iterate(1):
+            if not await self.iterate(1):
                 time_waited += 1
 
         self.logger.info("Login complete (%fs)" % (time.time() - start))
 
         start = time.time()
-        self.event_service.fire_event("connect", None)
-        self.event_service.run_timer_events_at_startup()
-        self.event_service.check_for_timer_events(int(start))
+        await self.event_service.fire_event("connect", None)
+        await self.event_service.run_timer_events_at_startup()
+        await self.event_service.check_for_timer_events(int(start))
         self.logger.info("Connect events finished (%fs)" % (time.time() - start))
 
         time_waited = 0
         while time_waited < 2:
-            if not self.iterate(1):
+            if not await self.iterate(1):
                 time_waited += 1
 
         self.ready = True
-        timestamp = int(time.time())
 
         signal.signal(signal.SIGINT, self.handle_sigterm)
         signal.signal(signal.SIGTERM, self.handle_sigterm)
 
-        while self.status == BotStatus.RUN:
-            try:
-                timestamp = int(time.time())
-                self.check_for_timer_events(timestamp)
-                self.process_main_thread_queue()
-
-                self.iterate()
-            except Exception as e:
-                self.logger.error("", e)
+        # timers run as their own task rather than in the dispatch loop. Handlers are awaited to
+        # completion in both, so the two still never overlap - but a slow packet handler no longer
+        # delays every timer behind it, which is what the shared loop body used to do.
+        timer_task = asyncio.create_task(self.run_timer_loop())
+        try:
+            while self.status == BotStatus.RUN:
+                try:
+                    await self.iterate()
+                except Exception as e:
+                    self.logger.error("", e)
+        finally:
+            timer_task.cancel()
+            await asyncio.gather(timer_task, return_exceptions=True)
 
         # run any pending jobs/events
-        self.check_for_timer_events(timestamp + 1)
+        await self.check_for_timer_events(int(time.time()) + 1)
 
         return self.status
 
-    def check_for_timer_events(self, timestamp):
+    async def run_timer_loop(self):
+        while self.status == BotStatus.RUN:
+            try:
+                await self.check_for_timer_events(int(time.time()))
+            except Exception as e:
+                self.logger.error("error running timer events", e)
+
+            await asyncio.sleep(1)
+
+    async def check_for_timer_events(self, timestamp):
         # timer events will execute no more often than once per second
         if self.last_timer_event < timestamp:
             self.last_timer_event = timestamp
-            self.job_scheduler.check_for_scheduled_jobs(timestamp)
-            self.event_service.check_for_timer_events(timestamp)
+            await self.job_scheduler.check_for_scheduled_jobs(timestamp)
+            await self.event_service.check_for_timer_events(timestamp)
 
     def run_on_main_thread(self, callback):
         """
         Call from any thread. Never blocks.
 
-        Schedules `callback` to be run on the main thread. Code running on another thread
-        (eg. the Discord client thread, the MCP server thread) must use this before firing
-        events, running commands, or otherwise touching bot state, since none of it is safe
-        to use concurrently.
+        Schedules `callback` to be run on the bot's event loop. Code running on another thread
+        (eg. the MCP server thread) must use this before firing events, running commands, or
+        otherwise touching bot state, since none of it is safe to use concurrently.
+
+        `callback` may be a plain function or a coroutine function; a coroutine it returns is
+        awaited on the loop before the future resolves.
 
         Args:
-            callback: () -> result
+            callback: () -> result, or () -> awaitable
 
         Returns:
-            Future, resolved with the callback's return value once the main loop has run it.
+            Future, resolved with the callback's return value once the loop has run it.
             Fire-and-forget callers can ignore it. Callers that need the result must pass a
-            timeout to `.result()`, since the main loop may be busy with something else.
+            timeout to `.result()`, since the loop may be busy with something else.
         """
 
         future = Future()
-        self.main_thread_queue.put((future, callback))
-        return future
 
-    def process_main_thread_queue(self):
-        while True:
-            item = self.main_thread_queue.get_or_default(block=False)
-            if not item:
-                break
-
-            future, callback = item
-
+        def runner():
             # False means the caller gave up waiting and cancelled it
             if not future.set_running_or_notify_cancel():
-                continue
+                return
 
             try:
-                future.set_result(callback())
+                result = callback()
             except Exception as e:
                 # logged as well as set on the future, so fire-and-forget callers still see it
                 self.logger.error("error running callback on main thread", e)
                 future.set_exception(e)
+                return
+
+            if inspect.isawaitable(result):
+                asyncio.ensure_future(self._resolve_future_from(result, future))
+            else:
+                future.set_result(result)
+
+        self.loop.call_soon_threadsafe(runner)
+        return future
+
+    async def _resolve_future_from(self, awaitable, future):
+        try:
+            future.set_result(await awaitable)
+        except Exception as e:
+            self.logger.error("error running callback on main thread", e)
+            future.set_exception(e)
 
     def register_packet_handler(self, packet_id: int, handler, priority=50):
         """
@@ -377,19 +405,28 @@ class Tyrbot:
             if h.handler == handler:
                 handlers.remove(h)
 
-    def iterate(self, timeout=0.1):
-        # The whole dispatch chain below assumes it owns the bot: it pulls from the shared incoming
-        # queue and runs packet handlers, which touch the DB, the buddy list and the outgoing
-        # queues. A second thread in here steals packets from the main loop and corrupts that
-        # state, which is exactly the bug the Discord hand-off fixed. Checked rather than asserted
-        # so `python -O` cannot strip it.
+    async def iterate(self, timeout=0.1):
+        # The whole dispatch chain below assumes it owns the bot: it pulls from the incoming queue
+        # and runs packet handlers, which touch the DB, the buddy list and the outgoing queues.
+        # Running this on a second loop on another thread steals packets from the real one and
+        # corrupts that state. Checked rather than asserted so `python -O` cannot strip it.
         if threading.current_thread() is not threading.main_thread():
             raise RuntimeError(
                 "iterate() was called from thread %r - it may only run on the main thread. "
                 "Use bot.run_on_main_thread() to hand work back to the main loop."
                 % threading.current_thread().name)
 
-        conn, packet = self.incoming_queue.get_or_default(block=True, timeout=timeout, default=(None, None))
+        if timeout <= 0:
+            try:
+                conn, packet = self.incoming_queue.get_nowait()
+            except asyncio.QueueEmpty:
+                return None
+        else:
+            try:
+                conn, packet = await asyncio.wait_for(self.incoming_queue.get(), timeout)
+            except asyncio.TimeoutError:
+                return None
+
         if packet:
             if isinstance(packet, server_packets.SystemMessage):
                 packet = self.system_message_ext_msg_handling(packet)
@@ -400,7 +437,12 @@ class Tyrbot:
                 return
 
             for handler in self.packet_handlers.get(packet.id, []):
-                handler.handler(conn, packet)
+                # serial by design: each handler runs to completion before the next one starts,
+                # and before the next packet is pulled. A handler that must not hold the queue
+                # spawns its own task rather than being dispatched concurrently here.
+                result = handler.handler(conn, packet)
+                if inspect.isawaitable(result):
+                    await result
 
         return packet
 
@@ -495,13 +537,13 @@ class Tyrbot:
         for _id, conn in self.get_conns(lambda x: x.is_main and x.org_id and x != from_conn):
             self.send_org_message(msg, conn=conn)
 
-    def handle_private_message(self, conn: Conn, packet: server_packets.PrivateMessage):
+    async def handle_private_message(self, conn: Conn, packet: server_packets.PrivateMessage):
         char_name = self.character_service.get_char_name(packet.char_id)
         self.logger.log_tell(conn, "From", char_name, packet.message)
-        self.event_service.fire_event(self.PRIVATE_MSG_EVENT, DictObject({"char_id": packet.char_id,
-                                                                          "name": char_name,
-                                                                          "message": packet.message,
-                                                                          "conn": conn}))
+        await self.event_service.fire_event(self.PRIVATE_MSG_EVENT, DictObject({"char_id": packet.char_id,
+                                                                                "name": char_name,
+                                                                                "message": packet.message,
+                                                                                "conn": conn}))
 
     def get_text_pages(self, msg, conn, max_page_length):
         if isinstance(msg, ChatBlob):

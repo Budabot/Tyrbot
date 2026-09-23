@@ -130,9 +130,9 @@ class PrivateChannelController:
         self.message_hub_service.send_message(self.MESSAGE_SOURCE, sender, self.get_private_channel_prefix(), event_data.message)
 
     @event(event_type=PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, description="Notify when a character joins the private channel")
-    def handle_private_channel_joined_event(self, event_type, event_data):
+    async def handle_private_channel_joined_event(self, event_type, event_data):
         if self.online_controller:
-            char_info = self.online_controller.get_char_info_display(event_data.char_id, event_data.conn)
+            char_info = await self.online_controller.get_char_info_display(event_data.char_id, event_data.conn)
         else:
             char_info = self.character_service.resolve_char_to_name(event_data.char_id)
 

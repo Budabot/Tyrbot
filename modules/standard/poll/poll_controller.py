@@ -91,7 +91,7 @@ class PollController:
 
     @command(command="poll", params=[Int("poll_id"), Const("vote"), Int("choice_id")], access_level="guest",
              description="Vote on a poll")
-    def poll_vote_cmd(self, request, poll_id, _, choice_id):
+    async def poll_vote_cmd(self, request, poll_id, _, choice_id):
         poll = self.get_poll(poll_id)
         if not poll:
             return f"Could not find poll with ID <highlight>{poll_id}</highlight>."
@@ -103,7 +103,7 @@ class PollController:
         main = self.alts_service.get_main(request.sender.char_id)
 
         # retrieve pork info
-        self.pork_service.get_character_info(main.char_id)
+        await self.pork_service.get_character_info(main.char_id)
 
         cnt = self.db.exec("DELETE FROM poll_vote WHERE poll_id = ? AND (char_id = ? OR char_id = ?)", [poll_id, main.char_id, request.sender.char_id])
         self.db.exec("INSERT INTO poll_vote (poll_id, choice_id, char_id) VALUES (?, ?, ?)", [poll_id, choice_id, main.char_id])

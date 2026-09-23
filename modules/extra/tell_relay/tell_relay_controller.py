@@ -44,17 +44,17 @@ class TellRelayController:
         if relay_bot and sender.name.lower() == relay_bot.lower():
             self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, message)
 
-    def handle_incoming_relay_message(self, ctx):
+    async def handle_incoming_relay_message(self, ctx):
         message = ctx.formatted_message
-        self.send_message_to_relay(message)
+        await self.send_message_to_relay(message)
 
-    def send_message_to_relay(self, message):
+    async def send_message_to_relay(self, message):
         relay_bot = self.relay_bot().get_value()
         if relay_bot:
             # if setting, then use setting, else if org, then use org name, else use botname
             prefix = self.get_org_channel_prefix()
 
-            char_id = self.character_service.resolve_char_to_id(relay_bot)
+            char_id = await self.character_service.resolve_char_to_id(relay_bot)
             self.bot.send_private_message(char_id, "grc [%s] %s" % (prefix, message), add_color=False, conn=self.bot.get_primary_conn())
 
     def get_org_channel_prefix(self):

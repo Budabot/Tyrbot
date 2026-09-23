@@ -9,8 +9,8 @@ from modules.standard.online.online_controller import OnlineController
 @instance("online_controller", override=True)
 class RaidInstanceOnlineController(OnlineController):
     @event(PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, "Record in database when someone joins private channel", is_system=True)
-    def private_channel_joined_event(self, event_type, event_data):
-        self.pork_service.load_character_info(event_data.char_id)
+    async def private_channel_joined_event(self, event_type, event_data):
+        await self.pork_service.load_character_info(event_data.char_id)
         channel_name = self.get_channel(event_data.conn)
         self.register_online_channel(channel_name)
         self.db.exec("INSERT INTO online (char_id, afk_dt, afk_reason, channel, dt) VALUES (?, ?, ?, ?, ?)",

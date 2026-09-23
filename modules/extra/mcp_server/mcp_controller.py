@@ -175,14 +175,14 @@ class McpController:
 
             _logger.log_chat(conn, "MCP Server", "Query", query)
 
-            def run_on_bot():
+            async def run_on_bot():
                 # Runs on the bot's main thread. Everything below - resolving the char id,
                 # running the command, paginating the response - reads and writes bot state
                 # that is not safe to touch from the MCP server thread.
 
                 # Resolve superadmin char_id so all commands pass access checks
                 try:
-                    char_id = _char_service.resolve_char_to_id(_bot.superadmin)
+                    char_id = await _char_service.resolve_char_to_id(_bot.superadmin)
                 except Exception:
                     char_id = None
 
@@ -191,7 +191,7 @@ class McpController:
                 def reply(msg):
                     results.append(msg)
 
-                _cs.process_command(
+                await _cs.process_command(
                     message=query.strip(),
                     channel="msg",
                     char_id=char_id,

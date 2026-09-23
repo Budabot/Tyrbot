@@ -65,7 +65,7 @@ class OrgMemberController:
 
     @command(command="orgmember", params=[Options(["off", "rem", "remove"]), Character("character")], access_level="moderator",
              description="Manually remove a char from the org roster")
-    def orgmember_remove_cmd(self, request, _, char):
+    async def orgmember_remove_cmd(self, request, _, char):
         if not char.char_id:
             return StandardMessage.char_not_found(char.name)
 
@@ -76,18 +76,18 @@ class OrgMemberController:
         if not request.conn.org_id:
             return "This bot connection does not have an associated org."
 
-        self.process_update(char.char_id, org_member.mode if org_member else None, self.MODE_REM_MANUAL, request.conn)
+        await self.process_update(char.char_id, org_member.mode if org_member else None, self.MODE_REM_MANUAL, request.conn)
 
         # fire org_member logoff event
-        self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, DictObject({"char_id": org_member.char_id,
-                                                                                "name": char.name,
-                                                                                "conn": request.conn}))
+        await self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, DictObject({"char_id": org_member.char_id,
+                                                                                      "name": char.name,
+                                                                                      "conn": request.conn}))
 
         return f"<highlight>{char.name}</highlight> has been manually removed from the org roster."
 
     @command(command="orgmember", params=[Options(["on", "add"]), Character("character")], access_level="moderator",
              description="Manually add a char to the org roster")
-    def orgmember_add_cmd(self, request, _, char):
+    async def orgmember_add_cmd(self, request, _, char):
         if not char.char_id:
             return StandardMessage.char_not_found(char.name)
 
@@ -98,14 +98,14 @@ class OrgMemberController:
         if not request.conn.org_id:
             return "This bot connection does not have an associated org."
 
-        self.process_update(char.char_id, org_member.mode if org_member else None, self.MODE_ADD_MANUAL, request.conn)
+        await self.process_update(char.char_id, org_member.mode if org_member else None, self.MODE_ADD_MANUAL, request.conn)
 
         # fire org_member logon event
         if self.buddy_service.is_online(char.char_id):
             org_member = self.get_org_member(char.char_id)
-            self.event_service.fire_event(self.ORG_MEMBER_LOGON_EVENT, DictObject({"char_id": org_member.char_id,
-                                                                                   "name": char.name,
-                                                                                   "conn": request.conn}))
+            await self.event_service.fire_event(self.ORG_MEMBER_LOGON_EVENT, DictObject({"char_id": org_member.char_id,
+                                                                                         "name": char.name,
+                                                                                         "conn": request.conn}))
 
         return f"<highlight>{char.name}</highlight> has been manually added to the org roster."
 
@@ -121,12 +121,12 @@ class OrgMemberController:
 
     @command(command="orgmember", params=[Const("update")], access_level="moderator",
              description="Force an update of the org roster")
-    def orgmember_update_cmd(self, request, _):
+    async def orgmember_update_cmd(self, request, _):
         if not self.bot.get_conns(lambda x: x.is_main and x.org_id):
             return "This bot does not belong to an org."
 
         request.reply("The org roster update is starting...")
-        self.update_org_roster(max_cache_age=0)
+        await self.update_org_roster(max_cache_age=0)
         return "The org roster update has finished."
 
     @event(event_type="connect", description="Add members as buddies of the bot on startup", is_system=True)
@@ -135,10 +135,10 @@ class OrgMemberController:
             self.update_buddylist(row.char_id, row.mode)
 
     @timerevent(budatime="24h", description="Download the org_members roster", is_system=True)
-    def download_org_roster_event(self, event_type, event_data):
-        self.update_org_roster()
+    async def download_org_roster_event(self, event_type, event_data):
+        await self.update_org_roster()
 
-    def update_org_roster(self, max_cache_age=None):
+    async def update_org_roster(self, max_cache_age=None):
         extra_org_ids = set()
         data = self.db.query("SELECT DISTINCT org_id FROM org_member")
         for row in data:
@@ -187,11 +187,11 @@ class OrgMemberController:
                     if db_member.mode == self.MODE_ADD_AUTO and db_member.org_id == org_id:
                         continue
 
-                self.process_update(char_id, mode, self.MODE_ADD_AUTO, conn)
+                await self.process_update(char_id, mode, self.MODE_ADD_AUTO, conn)
 
             for char_id, db_member in db_members.items():
                 if db_member.org_id == org_id:
-                    self.process_update(char_id, db_member.mode, self.MODE_REM_AUTO, conn)
+                    await self.process_update(char_id, db_member.mode, self.MODE_REM_AUTO, conn)
 
         # remove org members who no longer have a corresponding conn
         for org_id in extra_org_ids:
@@ -199,24 +199,24 @@ class OrgMemberController:
             self.db.exec("DELETE FROM org_member WHERE org_id = ?", [org_id])
 
     @event(PublicChannelService.ORG_MSG_EVENT, "Update org roster when characters join or leave", is_system=True)
-    def org_msg_event(self, event_type, event_data):
+    async def org_msg_event(self, event_type, event_data):
         ext_msg = event_data.extended_message
         if [ext_msg.category_id, ext_msg.instance_id] == self.LEFT_ORG:
-            self.process_org_msg(ext_msg.params[0], self.MODE_REM_MANUAL, event_data.conn)
+            await self.process_org_msg(ext_msg.params[0], self.MODE_REM_MANUAL, event_data.conn)
         elif [ext_msg.category_id, ext_msg.instance_id] == self.KICKED_FROM_ORG:
-            self.process_org_msg(ext_msg.params[1], self.MODE_REM_MANUAL, event_data.conn)
+            await self.process_org_msg(ext_msg.params[1], self.MODE_REM_MANUAL, event_data.conn)
         elif [ext_msg.category_id, ext_msg.instance_id] == self.INVITED_TO_ORG:
-            self.process_org_msg(ext_msg.params[1], self.MODE_ADD_MANUAL, event_data.conn)
+            await self.process_org_msg(ext_msg.params[1], self.MODE_ADD_MANUAL, event_data.conn)
         elif [ext_msg.category_id, ext_msg.instance_id] == self.KICKED_INACTIVE_FROM_ORG:
-            self.process_org_msg(ext_msg.params[1], self.MODE_REM_MANUAL, event_data.conn)
+            await self.process_org_msg(ext_msg.params[1], self.MODE_REM_MANUAL, event_data.conn)
         elif [ext_msg.category_id, ext_msg.instance_id] == self.KICKED_ALIGNMENT_CHANGED:
-            self.process_org_msg(ext_msg.params[0], self.MODE_REM_MANUAL, event_data.conn)
+            await self.process_org_msg(ext_msg.params[0], self.MODE_REM_MANUAL, event_data.conn)
         elif [ext_msg.category_id, ext_msg.instance_id] == self.JOINED_ORG:
-            self.process_org_msg(ext_msg.params[0], self.MODE_ADD_MANUAL, event_data.conn)
+            await self.process_org_msg(ext_msg.params[0], self.MODE_ADD_MANUAL, event_data.conn)
 
     @event(event_type=PublicChannelService.ORG_CHANNEL_MESSAGE_EVENT, description="Automatically add chars that speak in the org channel to the org roster",
            is_enabled=False)
-    def auto_add_org_members_event(self, event_type, event_data):
+    async def auto_add_org_members_event(self, event_type, event_data):
         if event_data.char_id == 0:
             return
 
@@ -224,9 +224,9 @@ class OrgMemberController:
         if not org_member:
             old_mode = None
             # set as MODE_ADD_AUTO to prevent this from overriding !notify off settings
-            self.process_update(event_data.char_id, old_mode, self.MODE_ADD_AUTO, event_data.conn)
+            await self.process_update(event_data.char_id, old_mode, self.MODE_ADD_AUTO, event_data.conn)
 
-    def handle_buddy_added(self, conn: Conn, packet: BuddyAdded):
+    async def handle_buddy_added(self, conn: Conn, packet: BuddyAdded):
         org_member = self.get_org_member(packet.char_id)
         if org_member and (org_member.mode == self.MODE_ADD_AUTO or org_member.mode == self.MODE_ADD_MANUAL):
             # TODO
@@ -239,14 +239,14 @@ class OrgMemberController:
             })
 
             if packet.online:
-                self.event_service.fire_event(self.ORG_MEMBER_LOGON_EVENT, event_data)
+                await self.event_service.fire_event(self.ORG_MEMBER_LOGON_EVENT, event_data)
             else:
-                self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, event_data)
+                await self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, event_data)
 
-    def process_org_msg(self, char_name, new_mode, conn):
-        char_id = self.character_service.resolve_char_to_id(char_name)
+    async def process_org_msg(self, char_name, new_mode, conn):
+        char_id = await self.character_service.resolve_char_to_id(char_name)
         org_member = self.get_org_member(char_id)
-        self.process_update(char_id, org_member.mode if org_member else None, new_mode, conn)
+        await self.process_update(char_id, org_member.mode if org_member else None, new_mode, conn)
 
     def get_org_member(self, char_id):
         return self.db.query_single("SELECT char_id, mode, org_id FROM org_member WHERE char_id = ?", [char_id])
@@ -278,7 +278,7 @@ class OrgMemberController:
         else:
             self.buddy_service.remove_buddy(char_id, self.ORG_BUDDY_TYPE)
 
-    def process_update(self, char_id, old_mode, new_mode, conn):
+    async def process_update(self, char_id, old_mode, new_mode, conn):
         if not char_id:
             raise Exception("char_id = 0; %s %s %s %s" % (char_id, old_mode, new_mode, conn))
         name = self.character_service.get_char_name(char_id)
@@ -297,10 +297,10 @@ class OrgMemberController:
         elif old_mode == self.MODE_ADD_AUTO:
             if new_mode == self.MODE_REM_MANUAL:
                 self.update_org_member(char_id, new_mode, conn.org_id)
-                self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, event_data)
+                await self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, event_data)
             elif new_mode == self.MODE_REM_AUTO:
                 self.remove_org_member(char_id)
-                self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, event_data)
+                await self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, event_data)
             elif new_mode == self.MODE_ADD_AUTO:  # handles case where char switched orgs and org_id needs to be updated
                 self.update_org_member(char_id, new_mode, conn.org_id)
         elif old_mode == self.MODE_ADD_MANUAL:
@@ -308,7 +308,7 @@ class OrgMemberController:
                 self.update_org_member(char_id, new_mode, conn.org_id)
             elif new_mode == self.MODE_REM_MANUAL:
                 self.remove_org_member(char_id)
-                self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, event_data)
+                await self.event_service.fire_event(self.ORG_MEMBER_LOGOFF_EVENT, event_data)
         elif old_mode == self.MODE_REM_MANUAL:
             if new_mode == self.MODE_ADD_MANUAL:
                 self.update_org_member(char_id, new_mode, conn.org_id)

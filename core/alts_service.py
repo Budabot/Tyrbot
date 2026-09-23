@@ -39,7 +39,7 @@ class AltsService:
 
         return self.db.query(sql, [char_id, char_id])
 
-    def add_alt(self, sender_char_id, alt_char_id):
+    async def add_alt(self, sender_char_id, alt_char_id):
         alts = self.get_alts(alt_char_id)
         if len(alts) > 1:
             return ["another_main", False]
@@ -51,9 +51,9 @@ class AltsService:
             if len(alts) == 1:
                 self.db.exec("DELETE FROM alts WHERE char_id = ?", [alt_char_id])
 
-            self.event_service.fire_event(self.MAIN_CHANGED_EVENT_TYPE,
-                                          DictObject({"old_main_id": alt_char_id,
-                                                      "new_main_id": self.get_main(sender_char_id).char_id}))
+            await self.event_service.fire_event(self.MAIN_CHANGED_EVENT_TYPE,
+                                                DictObject({"old_main_id": alt_char_id,
+                                                            "new_main_id": self.get_main(sender_char_id).char_id}))
 
             params = [alt_char_id, sender_row.group_id, self.CONFIRMED]
         else:
@@ -63,17 +63,17 @@ class AltsService:
             self.db.exec("INSERT INTO alts (char_id, group_id, status) VALUES (?, ?, ?)",
                          [sender_char_id, group_id, self.MAIN])
 
-            self.event_service.fire_event(self.MAIN_CHANGED_EVENT_TYPE,
-                                          DictObject({"old_main_id": alt_char_id,
-                                                      "new_main_id": sender_char_id}))
+            await self.event_service.fire_event(self.MAIN_CHANGED_EVENT_TYPE,
+                                                DictObject({"old_main_id": alt_char_id,
+                                                            "new_main_id": sender_char_id}))
 
             # make sure char info exists in character table
-            self.pork_service.load_character_info(sender_char_id)
+            await self.pork_service.load_character_info(sender_char_id)
 
             params = [alt_char_id, group_id, self.CONFIRMED]
 
         # make sure char info exists in character table
-        self.pork_service.load_character_info(alt_char_id)
+        await self.pork_service.load_character_info(alt_char_id)
         self.db.exec("INSERT INTO alts (char_id, group_id, status) VALUES (?, ?, ?)", params)
         return ["success", True]
 
@@ -91,7 +91,7 @@ class AltsService:
         self.db.exec("DELETE FROM alts WHERE char_id = ?", [alt_char_id])
         return ["success", True]
 
-    def set_as_main(self, sender_char_id):
+    async def set_as_main(self, sender_char_id):
         alts = self.get_alts(sender_char_id)
 
         if len(alts) < 2:
@@ -101,9 +101,9 @@ class AltsService:
         else:
             self.update_status(sender_char_id, self.MAIN)
             self.update_status(alts[0].char_id, self.CONFIRMED)
-            self.event_service.fire_event(self.MAIN_CHANGED_EVENT_TYPE,
-                                          DictObject({"old_main_id": alts[0].char_id,
-                                                      "new_main_id": sender_char_id}))
+            await self.event_service.fire_event(self.MAIN_CHANGED_EVENT_TYPE,
+                                                DictObject({"old_main_id": alts[0].char_id,
+                                                            "new_main_id": sender_char_id}))
             return ["success", True]
 
     def get_alt_status(self, char_id):

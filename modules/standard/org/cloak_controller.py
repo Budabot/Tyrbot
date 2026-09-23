@@ -151,16 +151,16 @@ class CloakController:
 
         self.timer_controller.add_timer(timer_name, event_data.char_id, PublicChannelService.ORG_CHANNEL_COMMAND, int(time.time()), 3600)
 
-    def handle_public_message(self, conn: Conn, packet: PublicChannelMessage):
+    async def handle_public_message(self, conn: Conn, packet: PublicChannelMessage):
         if not conn.is_main:
             return
 
         ext_msg = packet.extended_message
         if ext_msg and ext_msg.category_id == 1001 and ext_msg.instance_id == 1:
             char_name = ext_msg.params[0]
-            char_id = self.character_service.resolve_char_to_id(char_name)
+            char_id = await self.character_service.resolve_char_to_id(char_name)
             action = ext_msg.params[1]
-            self.event_service.fire_event(self.CLOAK_EVENT, DictObject({"char_id": char_id, "name": char_name, "action": action, "conn": conn}))
+            await self.event_service.fire_event(self.CLOAK_EVENT, DictObject({"char_id": char_id, "name": char_name, "action": action, "conn": conn}))
 
     def get_cloak_status_display(self, status):
         if status == self.CLOAK_STATUS_ON:

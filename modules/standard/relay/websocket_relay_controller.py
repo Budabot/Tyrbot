@@ -78,9 +78,9 @@ class WebsocketRelayController:
         else:
             self.encrypter = None
 
-    def handle_websocket_message(self, obj):
+    async def handle_websocket_message(self, obj):
         if obj.type == "message":
-            self.process_relay_message(obj.user, obj.body)
+            await self.process_relay_message(obj.user, obj.body)
         elif obj.type == "room-info":
             if obj.room == self.setting_service.get("websocket_relay_room").get_value():
                 self.send_relay_message({"type": "online_list_request"})
@@ -122,7 +122,7 @@ class WebsocketRelayController:
         except Exception as e:
             self.logger.error(f"Error processing incoming message from websocket relay: '{message}'", e)
 
-    def process_relay_message(self, client_id, message):
+    async def process_relay_message(self, client_id, message):
         obj = self.decrypt_and_decode(message)
         obj_type = obj.get("type") if obj else None
 
@@ -137,7 +137,7 @@ class WebsocketRelayController:
 
             self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, message)
         elif obj_type == "logon":
-            self.add_online_char(obj.user.id, obj.user.name, obj.source, client_id)
+            await self.add_online_char(obj.user.id, obj.user.name, obj.source, client_id)
         elif obj_type == "logoff":
             self.rem_online_char(obj.user.id, obj.source)
         elif obj_type == "online_list":
@@ -148,7 +148,7 @@ class WebsocketRelayController:
                 channel = self.get_channel_name(online_obj.source)
                 self.db.exec("DELETE FROM online WHERE channel = ?", [channel])
                 for user in online_obj.users:
-                    self.add_online_char(user.id, user.name, online_obj.source, client_id)
+                    await self.add_online_char(user.id, user.name, online_obj.source, client_id)
         elif obj_type == "online_list_request":
             self.send_relay_message(self.get_online_list_obj())
         else:
@@ -190,12 +190,12 @@ class WebsocketRelayController:
                "source": self.create_source_obj(source)}
         self.send_relay_message(obj)
 
-    def add_online_char(self, char_id, name, source, client_id):
+    async def add_online_char(self, char_id, name, source, client_id):
         # TODO how to handle chars not on current server
         if not char_id or (source.server and source.server != self.bot.dimension):
             return
 
-        self.pork_service.load_character_info(char_id, name)
+        await self.pork_service.load_character_info(char_id, name)
         channel = self.get_channel_name(source)
         if client_id not in self.channels:
             self.channels[client_id] = []

@@ -53,7 +53,7 @@ class KosListController:
         
     @command(command="kos", params=[Const("add"), Character("character"), Any("reason", is_optional=True)], access_level="member",
              description="Adds a character to the kill-on-sight list")
-    def kos_list_add_cmd(self, request, _, target: SenderObj, reason):
+    async def kos_list_add_cmd(self, request, _, target: SenderObj, reason):
         if not target.char_id:
             return StandardMessage.char_not_found(target.name)
         
@@ -65,7 +65,7 @@ class KosListController:
         # send the reply and afterwards trigger an info fetch from PoRK to update the database
         # the reply needs to be sent first to avoid the unnecessary delay from the PoRK request
         request.reply("Character <highlight>%s</highlight> has been added to the kill-on-sight list." % target.name)
-        self.pork_service.get_character_info(target.name)
+        await self.pork_service.get_character_info(target.name)
     
     @command(command="kos", params=[Options(["rem", "remove"]), Character("character")], sub_command="remove", access_level="moderator",
              description="Removes a character from the kill-on-sight list")

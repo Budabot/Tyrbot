@@ -48,10 +48,10 @@ class UtilController:
 
     @command(command="macro", params=[Any("command1|command2|command3...")], access_level="all",
              description="Execute multiple commands at once")
-    def macro_cmd(self, request, commands):
+    async def macro_cmd(self, request, commands):
         commands = commands.split("|")
         for command_str in commands:
-            self.command_service.process_command(
+            await self.command_service.process_command(
                 self.command_service.trim_command_symbol(command_str),
                 request.channel,
                 request.sender.char_id,
@@ -65,7 +65,7 @@ class UtilController:
 
     @command(command="showcommand", params=[Character("character"), Any("message")], access_level="admin",
              description="Show command output to another character")
-    def showcommand_cmd(self, request, char, command_str):
+    async def showcommand_cmd(self, request, char, command_str):
         if not char.char_id:
             return StandardMessage.char_not_found(char.name)
 
@@ -73,7 +73,7 @@ class UtilController:
                                       f"<highlight>{request.sender.name}</highlight> is showing you output for command <highlight>{command_str}</highlight>:",
                                       conn=request.conn)
 
-        self.command_service.process_command(
+        await self.command_service.process_command(
             self.command_service.trim_command_symbol(command_str),
             request.channel,
             request.sender.char_id,
@@ -168,5 +168,5 @@ class UtilController:
 
     @command(command="htmldecode", params=[Any("command")], access_level="all",
              description="Decode html entities from a command before passing to the bot for execution")
-    def htmldecode_cmd(self, request, command_str):
-        self.command_service.process_command(html.unescape(command_str), request.channel, request.sender.char_id, request.reply, request.conn)
+    async def htmldecode_cmd(self, request, command_str):
+        await self.command_service.process_command(html.unescape(command_str), request.channel, request.sender.char_id, request.reply, request.conn)

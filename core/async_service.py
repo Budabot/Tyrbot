@@ -1,5 +1,4 @@
 import asyncio
-import threading
 
 from core.decorators import instance
 from core.logger import Logger
@@ -7,83 +6,68 @@ from core.logger import Logger
 
 @instance("async_service")
 class AsyncService:
+    """
+    Access to the bot's event loop.
+
+    There is exactly one loop and the bot runs on it. The AO connections, the Discord client and
+    the MCP server all share it, which is what makes bot state safe to touch from a coroutine
+    without any locking: only one of them runs at a time.
+
+    This used to own a second loop on a daemon thread, with the bot's main loop running beside it
+    and the two handing work across via blocking futures. Those hand-offs are what this class
+    exists to prevent now.
+    """
+
     def __init__(self):
         self.logger = Logger(__name__)
         self.loop = None
-        self.thread = None
-        self._running = False
 
-    def start_loop(self):
+    def attach(self, loop):
         """
-        Initializes and starts the dedicated background asyncio event loop thread if not already running.
-        Spawns a daemon thread ('AsyncServiceThread') that runs loop.run_forever().
+        Called once by the bot when its loop starts running.
         """
-        if self._running:
-            return
 
-        self._running = True
-        self.loop = asyncio.new_event_loop()
-        self.thread = threading.Thread(target=self._run_event_loop, name="AsyncServiceThread", daemon=True)
-        self.thread.start()
-        self.logger.info("AsyncService background asyncio event loop started.")
-
-    def _run_event_loop(self):
-        """
-        Target function for AsyncServiceThread. Sets the thread's event loop and runs it forever.
-        """
-        asyncio.set_event_loop(self.loop)
-        try:
-            self.loop.run_forever()
-        finally:
-            try:
-                pending = asyncio.all_tasks(self.loop)
-                for task in pending:
-                    task.cancel()
-                if pending:
-                    self.loop.run_until_complete(asyncio.gather(*pending, return_exceptions=True))
-            except Exception:
-                pass
-            self.loop.close()
-
-    def stop_loop(self):
-        """
-        Gracefully signals the background asyncio event loop to stop and waits for the thread to exit.
-        """
-        if not self._running:
-            return
-
-        self._running = False
-        if self.loop and self.loop.is_running():
-            self.loop.call_soon_threadsafe(self.loop.stop)
-        if self.thread:
-            self.thread.join(timeout=5)
-        self.logger.info("AsyncService background asyncio event loop stopped.")
+        self.loop = loop
 
     def is_running(self):
-        """
-        Returns True if the background event loop is running and active.
-        """
-        return self._running and self.loop is not None and self.loop.is_running()
+        return self.loop is not None and self.loop.is_running()
+
+    def is_on_loop_thread(self):
+        try:
+            return asyncio.get_running_loop() is self.loop
+        except RuntimeError:
+            # no loop running on this thread at all
+            return False
 
     def run_coroutine(self, coro):
         """
-        Schedules a coroutine to run asynchronously on the background asyncio event loop thread.
+        Call from any thread. Never blocks.
 
-        Non-blocking: returns a concurrent.futures.Future immediately without waiting for
-        the coroutine to complete. Use for background tasks (e.g. packet loops, fire-and-forget sends).
+        Schedules `coro` on the bot's loop and returns a concurrent.futures.Future. Callers that
+        ignore the future never learn that the coroutine failed, so anything fire-and-forget
+        should log its own errors.
         """
-        if not self._running or not self.loop:
-            self.start_loop()
+
+        if not self.loop:
+            raise RuntimeError("the bot's event loop is not running yet - it starts in Tyrbot.run()")
+
         return asyncio.run_coroutine_threadsafe(coro, self.loop)
 
     def run_until_complete(self, coro, timeout=None):
         """
-        Submits a coroutine to the background asyncio event loop and blocks the calling thread
-        until execution completes or the optional timeout expires.
+        Call only from a thread that is NOT the bot's event loop. Blocks that thread until the
+        coroutine finishes.
 
-        Synchronous / Blocking: returns the direct result of the coroutine. Re-raises any
-        exceptions thrown by the coroutine to the caller. Use when synchronous code requires
-        an immediate result from an async operation (e.g. connect, login, synchronous send_packet).
+        Code already running on the loop must `await` instead. Blocking the loop on a coroutine
+        that only the loop can run is a deadlock, so that case is refused rather than hung: a
+        bot that stops answering is far harder to diagnose than a stack trace.
         """
-        future = self.run_coroutine(coro)
-        return future.result(timeout=timeout)
+
+        if self.is_on_loop_thread():
+            coro.close()
+            raise RuntimeError(
+                "run_until_complete() was called from the bot's event loop, which would deadlock. "
+                "Await the coroutine instead, or hand it to run_coroutine() if nothing needs the "
+                "result.")
+
+        return self.run_coroutine(coro).result(timeout)

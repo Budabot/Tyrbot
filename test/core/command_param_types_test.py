@@ -1,3 +1,4 @@
+import asyncio
 import re
 import unittest
 
@@ -125,6 +126,8 @@ class CommandParamTypesTest(unittest.TestCase):
         regex = param.get_regex()
         matches = re.search("^" + regex + "$", " " + param_input, re.IGNORECASE | re.DOTALL)
         if matches:
-            return param.process_matches(list(matches.groups()))
+            # every param type's process_matches is a coroutine now, since a type may need the
+            # chat server to resolve a name. None of the types exercised here wait on anything.
+            return asyncio.run(param.process_matches(list(matches.groups())))
         else:
             return None

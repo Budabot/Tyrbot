@@ -1,3 +1,5 @@
+import asyncio
+import inspect
 import json
 
 from core.decorators import instance, timerevent
@@ -15,6 +17,7 @@ class HighwayWebsocketController:
         self.logger = Logger(__name__)
         self.worker = None
         self.callbacks = {}
+        self._pending_callbacks = set()
 
     def inject(self, registry):
         self.bot = registry.get_instance("bot")
@@ -60,8 +63,29 @@ class HighwayWebsocketController:
         if not self.callbacks:
             self.disconnect()
 
+    async def _run_callback(self, callback, obj):
+        """
+        Room callbacks may be plain functions or coroutine functions - both are registered the
+        same way, so the dispatch handles either.
+        """
+
+        result = callback(obj)
+        if inspect.isawaitable(result):
+            await result
+
+    def _schedule_callback(self, callback, obj):
+        """
+        For callers that cannot await: disconnect() runs from a setting change listener, which is
+        a plain callback. A disconnect notification landing a tick later changes nothing.
+        """
+
+        # asyncio holds only a weak reference to a running task
+        task = asyncio.create_task(self._run_callback(callback, obj))
+        self._pending_callbacks.add(task)
+        task.add_done_callback(self._pending_callbacks.discard)
+
     @timerevent(budatime="1s", description="Process messages from highway websocket server", is_system=True)
-    def handle_queue_event(self, event_type, event_data):
+    async def handle_queue_event(self, event_type, event_data):
         if not self.worker:
             return
 
@@ -70,7 +94,7 @@ class HighwayWebsocketController:
             room = obj.get("room")
             if room:
                 for callback in self.callbacks.get(room, []):
-                    callback(obj)
+                    await self._run_callback(callback, obj)
 
             if obj.type == "hello":
                 for room in self.callbacks.keys():
@@ -80,7 +104,7 @@ class HighwayWebsocketController:
             elif obj.type == "disconnect":
                 for rooms in self.callbacks.values():
                     for callback in rooms:
-                        callback(obj)
+                        await self._run_callback(callback, obj)
 
             obj = self.worker.get_message_from_queue()
 
@@ -113,7 +137,7 @@ class HighwayWebsocketController:
 
             for rooms in self.callbacks.values():
                 for callback in rooms:
-                    callback(self.DISCONNECT_OBJ)
+                    self._schedule_callback(callback, self.DISCONNECT_OBJ)
 
     def websocket_relay_update(self, setting_name, old_value, new_value):
         if setting_name == "highway_websocket_server_address":

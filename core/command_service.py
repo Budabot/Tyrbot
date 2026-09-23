@@ -169,7 +169,7 @@ class CommandService:
     def is_command_channel(self, channel):
         return channel in self.channels
 
-    def process_command(self, message: str, channel: str, char_id, reply, conn):
+    async def process_command(self, message: str, channel: str, char_id, reply, conn):
         try:
             context = DictObject({"message": message, "char_id": char_id, "channel": channel, "reply": reply})
             for pre_processor in self.pre_processors:
@@ -204,7 +204,12 @@ class CommandService:
                 cmd_config, matches, handler = self.get_matches(cmd_configs, command_args)
                 if matches:
                     if handler["check_access"](char_id, cmd_config.access_level):
-                        response = handler["callback"](CommandRequest(conn, channel, sender, reply), *self.process_matches(matches, handler["params"]))
+                        # serial by design: the handler is awaited to completion before this
+                        # returns, so commands cannot interleave unless one opts in by spawning
+                        # its own task
+                        response = handler["callback"](CommandRequest(conn, channel, sender, reply), *await self.process_matches(matches, handler["params"]))
+                        if inspect.isawaitable(response):
+                            response = await response
                         if response is not None:
                             reply(response)
 
@@ -270,12 +275,17 @@ class CommandService:
                     return row, matches, handler
         return None, None, None
 
-    def process_matches(self, matches, params):
+    async def process_matches(self, matches, params):
         groups = list(matches.groups())
 
         processed = []
         for param in params:
-            processed.append(param.process_matches(groups))
+            # a param type may need the chat server to resolve something (Character looks a name
+            # up), so processing is awaited rather than assumed to be instant
+            value = await param.process_matches(groups)
+            if inspect.isawaitable(value):
+                value = await value
+            processed.append(value)
         return processed
 
     def format_help_text(self, data, char_id, show_regex=False):
@@ -336,7 +346,7 @@ class CommandService:
     def get_handlers(self, command_key):
         return self.handlers.get(command_key, None)
 
-    def handle_private_message(self, conn: Conn, packet: server_packets.PrivateMessage):
+    async def handle_private_message(self, conn: Conn, packet: server_packets.PrivateMessage):
         if not self.setting_service.get("accept_commands_from_slave_bots").get_value() and not conn.is_main:
             return
 
@@ -356,7 +366,7 @@ class CommandService:
             else:
                 self.bot.send_private_message(packet.char_id, msg, conn=conn)
 
-        self.process_command(
+        await self.process_command(
             self.trim_command_symbol(message),
             self.PRIVATE_MESSAGE_CHANNEL,
             packet.char_id,

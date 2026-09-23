@@ -77,14 +77,14 @@ class DarknetController:
             message = packet.message.lstrip()
             self.process_incoming_relay_message(message)
 
-    def handle_private_message(self, conn, packet: server_packets.PrivateMessage):
+    async def handle_private_message(self, conn, packet: server_packets.PrivateMessage):
         if not conn.is_main:
             pass
 
         #if self.setting_service.get_value("dark_relay") == "0":
         #    return
 
-        char_id = self.character_service.resolve_char_to_id(self.DARKNET_NAME)
+        char_id = await self.character_service.resolve_char_to_id(self.DARKNET_NAME)
         if packet.char_id == char_id:
             message = packet.message.lstrip()
             self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, f"[<highlight>{self.DARKNET_NAME}</highlight>]", message)
@@ -120,8 +120,8 @@ class DarknetController:
 
             self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, channel_formatted, rest_of_message)
 
-    def update_darket_status(self, setting_name, old_value, new_value):
-        char_id = self.character_service.resolve_char_to_id(self.DARKNET_NAME)
+    async def update_darket_status(self, setting_name, old_value, new_value):
+        char_id = await self.character_service.resolve_char_to_id(self.DARKNET_NAME)
         if not char_id:
             self.logger.warning(f"Could not resolve {self.DARKNET_NAME} to a char id.")
         else:

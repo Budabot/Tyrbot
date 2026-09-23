@@ -11,7 +11,7 @@ class CommandParam:
     def get_name(self):
         pass
 
-    def process_matches(self, params):
+    async def process_matches(self, params):
         pass
 
 
@@ -32,7 +32,7 @@ class Const(CommandParam):
         else:
             return self.name
 
-    def process_matches(self, params):
+    async def process_matches(self, params):
         val = params.pop(0)
         if val is None:
             return None
@@ -57,7 +57,7 @@ class Int(CommandParam):
         else:
             return "<highlight>%s</highlight>" % self.name
 
-    def process_matches(self, params):
+    async def process_matches(self, params):
         val = params.pop(0)
         if val is None:
             return None
@@ -91,7 +91,7 @@ class Decimal(CommandParam):
         else:
             return "<highlight>%s</highlight>" % self.name
 
-    def process_matches(self, params):
+    async def process_matches(self, params):
         val = params.pop(0)
         if val is None:
             return None
@@ -117,7 +117,7 @@ class Any(CommandParam):
         else:
             return "<highlight>%s</highlight>" % self.name
 
-    def process_matches(self, params):
+    async def process_matches(self, params):
         val = params.pop(0)
         if val is None:
             return None
@@ -143,7 +143,7 @@ class Regex(CommandParam):
         else:
             return "<highlight>%s</highlight>" % self.name
 
-    def process_matches(self, params):
+    async def process_matches(self, params):
         p = []
         for i in range(self.num_groups):
             p.append(params.pop(0))
@@ -168,7 +168,7 @@ class Options(CommandParam):
         else:
             return "|".join(self.options)
 
-    def process_matches(self, params):
+    async def process_matches(self, params):
         val = params.pop(0)
         if val is None:
             return None
@@ -193,7 +193,7 @@ class Time(CommandParam):
         else:
             return "<highlight>%s</highlight>" % self.name
 
-    def process_matches(self, params):
+    async def process_matches(self, params):
         budatime_str = params.pop(0)
         params.pop(0)
         params.pop(0)
@@ -223,7 +223,7 @@ class Item(CommandParam):
         else:
             return "<highlight>%s</highlight>" % self.name
 
-    def process_matches(self, params):
+    async def process_matches(self, params):
         if params.pop(0):
             return DictObject({
                 "low_id": int(params.pop(0)),
@@ -247,15 +247,15 @@ class Character(Any):
         regex = r"(\s+[\d+a-z-]+)"
         return regex + ("?" if self.is_optional else "")
 
-    def process_matches(self, params):
-        val = super().process_matches(params)
+    async def process_matches(self, params):
+        val = await super().process_matches(params)
 
         if val is None:
             return None
         else:
             character_service = Registry.get_instance("character_service")
             access_service = Registry.get_instance("access_service")
-            char_id = character_service.resolve_char_to_id(val)
+            char_id = await character_service.resolve_char_to_id(val)
             if char_id is None:
                 return SenderObj(char_id, val.capitalize(), None)
             else:
@@ -278,7 +278,7 @@ class NamedParameters(CommandParam):
     def get_name(self):
         return " ".join(map(lambda x: f"[--{x}=<highlight>{x}</highlight>]", self.names))
 
-    def process_matches(self, params):
+    async def process_matches(self, params):
         v = params.pop(0)
         params.pop(0)
 
@@ -308,7 +308,7 @@ class NamedFlagParameters(CommandParam):
     def get_name(self):
         return " ".join(map(lambda x: "[--%s]" % x, self.names))
 
-    def process_matches(self, params):
+    async def process_matches(self, params):
         v = params.pop(0)
         params.pop(0)
 
@@ -345,11 +345,11 @@ class Multiple(CommandParam):
     def get_name(self):
         return self.inner_type.get_name() + "*"
 
-    def process_matches(self, params):
+    async def process_matches(self, params):
         v = params.pop(0)
 
         # remove unused params
-        self.inner_type.process_matches(params)
+        await self.inner_type.process_matches(params)
 
         results = []
         p = re.compile(self.inner_type.get_regex(), re.IGNORECASE | re.DOTALL)
@@ -357,7 +357,7 @@ class Multiple(CommandParam):
         matches = p.search(v)
         while matches:
             v = v[matches.end():]
-            a = self.inner_type.process_matches(list(matches.groups()))
+            a = await self.inner_type.process_matches(list(matches.groups()))
             results.append(a)
             matches = p.search(v)
 

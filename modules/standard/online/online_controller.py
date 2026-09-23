@@ -149,8 +149,8 @@ class OnlineController:
         return self.db.query(sql, [AltsService.MAIN, channel])
 
     @event(PrivateChannelService.JOINED_PRIVATE_CHANNEL_EVENT, "Record in database when someone joins private channel", is_system=True)
-    def private_channel_joined_event(self, event_type, event_data):
-        self.pork_service.load_character_info(event_data.char_id)
+    async def private_channel_joined_event(self, event_type, event_data):
+        await self.pork_service.load_character_info(event_data.char_id)
         self.db.exec("INSERT INTO online (char_id, afk_dt, afk_reason, channel, dt) VALUES (?, ?, ?, ?, ?)",
                      [event_data.char_id, 0, "", self.PRIVATE_CHANNEL, int(time.time())])
 
@@ -160,8 +160,8 @@ class OnlineController:
                      [event_data.char_id, self.PRIVATE_CHANNEL])
 
     @event(OrgMemberController.ORG_MEMBER_LOGON_EVENT, "Record in database when org member logs on", is_system=True)
-    def org_member_logon_record_event(self, event_type, event_data):
-        self.pork_service.load_character_info(event_data.char_id)
+    async def org_member_logon_record_event(self, event_type, event_data):
+        await self.pork_service.load_character_info(event_data.char_id)
         self.db.exec("INSERT INTO online (char_id, afk_dt, afk_reason, channel, dt) VALUES (?, ?, ?, ?, ?)",
                      [event_data.char_id, 0, "", self.ORG_CHANNEL, int(time.time())])
 
@@ -241,8 +241,8 @@ class OnlineController:
 
         return ChatBlob("Online (%d)" % count, blob)
 
-    def get_char_info_display(self, char_id, conn: Conn):
-        char_info = self.pork_service.get_character_info(char_id)
+    async def get_char_info_display(self, char_id, conn: Conn):
+        char_info = await self.pork_service.get_character_info(char_id)
         if char_info:
             name = self.text.format_char_info(char_info)
         else:

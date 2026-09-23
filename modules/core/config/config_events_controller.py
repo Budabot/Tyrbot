@@ -38,7 +38,7 @@ class ConfigEventsController:
 
     @command(command="config", params=[Const("event"), Any("event_type"), Any("event_handler"), Const("run")], access_level="admin",
              description="Execute a timed event immediately")
-    def config_event_run_cmd(self, request, _1, event_type, event_handler, _2):
+    async def config_event_run_cmd(self, request, _1, event_type, event_handler, _2):
         action = "run"
         event_type = event_type.lower()
         event_handler = event_handler.lower()
@@ -56,7 +56,7 @@ class ConfigEventsController:
         elif row.event_type != "timer":
             return "Only <highlight>timer</highlight> events can be run manually."
         else:
-            self.event_service.execute_timed_event(row, int(time.time()))
+            await self.event_service.execute_timed_event(row, int(time.time()))
             return f"Event type <highlight>{event_type}</highlight> for handler <highlight>{event_handler}</highlight> has been run successfully."
 
     @command(command="config", params=[Const("event"), NamedParameters(["event_type"])], access_level="admin",

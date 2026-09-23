@@ -12,11 +12,13 @@ class JobScheduler:
         self.jobs = []
         self.job_id_index = 0
 
-    def check_for_scheduled_jobs(self, timestamp):
+    async def check_for_scheduled_jobs(self, timestamp):
         while self.jobs and self.jobs[0]["time"] <= timestamp:
             try:
                 job = self.jobs.pop(0)
-                job["callback"](job["time"], *job["args"], **job["kwargs"])
+                result = job["callback"](job["time"], *job["args"], **job["kwargs"])
+                if inspect.isawaitable(result):
+                    await result
             except Exception as e:
                 self.logger.warning("Error processing scheduled job", e)
 

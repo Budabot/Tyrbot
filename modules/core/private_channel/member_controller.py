@@ -118,7 +118,7 @@ class MemberController:
     def ban_added_event(self, event_type, event_data):
         self.remove_member(event_data.char_id)
 
-    def handle_member_logon(self, conn: Conn, packet: BuddyAdded):
+    async def handle_member_logon(self, conn: Conn, packet: BuddyAdded):
         member = self.get_member(packet.char_id)
         if member:
             event_data = DictObject({
@@ -126,9 +126,9 @@ class MemberController:
                 "auto_invite": member.auto_invite
             })
             if packet.online:
-                self.event_service.fire_event(self.MEMBER_LOGON_EVENT, event_data)
+                await self.event_service.fire_event(self.MEMBER_LOGON_EVENT, event_data)
             else:
-                self.event_service.fire_event(self.MEMBER_LOGOFF_EVENT, event_data)
+                await self.event_service.fire_event(self.MEMBER_LOGOFF_EVENT, event_data)
 
     def add_member(self, char_id, auto_invite=1):
         self.buddy_service.add_buddy(char_id, self.MEMBER_BUDDY_TYPE)

@@ -46,8 +46,8 @@ class AdminService:
     def remove(self, char_id):
         return self.db.exec("DELETE FROM admin WHERE char_id = ?", [char_id]) > 0
 
-    def get_all(self):
-        superadmin_char_id = self.character_service.resolve_char_to_id(self.bot.superadmin)
+    async def get_all(self):
+        superadmin_char_id = await self.character_service.resolve_char_to_id(self.bot.superadmin)
         return self.db.query("SELECT p.*, t.char_id, t.access_level, t.sort FROM "
                              "(SELECT ? AS char_id, 'superadmin' AS access_level, 0 AS sort "
                              "UNION "

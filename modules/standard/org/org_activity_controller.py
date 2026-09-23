@@ -90,25 +90,25 @@ class OrgActivityController:
         return ChatBlob(title, blob)
 
     @event(PublicChannelService.ORG_MSG_EVENT, "Record org member activity", is_system=True)
-    def org_msg_event(self, event_type, event_data):
+    async def org_msg_event(self, event_type, event_data):
         ext_msg = event_data.extended_message
         org_id = event_data.conn.org_id
         if [ext_msg.category_id, ext_msg.instance_id] == OrgMemberController.LEFT_ORG:
-            self.save_activity(ext_msg.params[0], ext_msg.params[0], "left", org_id)
+            await self.save_activity(ext_msg.params[0], ext_msg.params[0], "left", org_id)
         elif [ext_msg.category_id, ext_msg.instance_id] == OrgMemberController.KICKED_FROM_ORG:
-            self.save_activity(ext_msg.params[0], ext_msg.params[1], "kicked", org_id)
+            await self.save_activity(ext_msg.params[0], ext_msg.params[1], "kicked", org_id)
         elif [ext_msg.category_id, ext_msg.instance_id] == OrgMemberController.INVITED_TO_ORG:
-            self.save_activity(ext_msg.params[0], ext_msg.params[1], "invited", org_id)
+            await self.save_activity(ext_msg.params[0], ext_msg.params[1], "invited", org_id)
         elif [ext_msg.category_id, ext_msg.instance_id] == OrgMemberController.KICKED_INACTIVE_FROM_ORG:
-            self.save_activity(ext_msg.params[0], ext_msg.params[1], "removed", org_id)
+            await self.save_activity(ext_msg.params[0], ext_msg.params[1], "removed", org_id)
         elif [ext_msg.category_id, ext_msg.instance_id] == OrgMemberController.KICKED_ALIGNMENT_CHANGED:
-            self.save_activity(ext_msg.params[0], ext_msg.params[0], "alignment changed", org_id)
+            await self.save_activity(ext_msg.params[0], ext_msg.params[0], "alignment changed", org_id)
         elif [ext_msg.category_id, ext_msg.instance_id] == OrgMemberController.JOINED_ORG:
-            self.save_activity(ext_msg.params[0], ext_msg.params[0], "joined", org_id)
+            await self.save_activity(ext_msg.params[0], ext_msg.params[0], "joined", org_id)
 
-    def save_activity(self, actor, actee, action, org_id):
-        actor_id = self.character_service.resolve_char_to_id(actor)
-        actee_id = self.character_service.resolve_char_to_id(actee) if actee else 0
+    async def save_activity(self, actor, actee, action, org_id):
+        actor_id = await self.character_service.resolve_char_to_id(actor)
+        actee_id = await self.character_service.resolve_char_to_id(actee) if actee else 0
 
         if not actor_id:
             self.logger.error("Could not get char_id for actor '%s'" % actor)

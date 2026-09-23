@@ -47,21 +47,21 @@ class OrgListController:
 
     @command(command="orglist", params=[Int("org_id"), NamedFlagParameters(["show_all_offline"])], access_level="all",
              description="Show online status of characters in an org")
-    def orglist_cmd(self, request, org_id, flag_params):
-        self.start_orglist_lookup(request.reply,
-                                  org_id,
-                                  self.SHOW_ALL_OFFLINE_MEMBERS if flag_params.show_all_offline else self.DEFAULT_OFFLINE_MEMBER_DISPLAY_THRESHOLD)
+    async def orglist_cmd(self, request, org_id, flag_params):
+        await self.start_orglist_lookup(request.reply,
+                                        org_id,
+                                        self.SHOW_ALL_OFFLINE_MEMBERS if flag_params.show_all_offline else self.DEFAULT_OFFLINE_MEMBER_DISPLAY_THRESHOLD)
 
     @command(command="orglist", params=[Any("character|org_name|org_id"), NamedFlagParameters(["show_all_offline"])], access_level="all",
              description="Show online status of characters in an org")
-    def orglist_character_cmd(self, request, search, flag_params):
+    async def orglist_character_cmd(self, request, search, flag_params):
         if search.isdigit():
             org_id = int(search)
         else:
             orgs = self.pork_service.find_orgs(search)
             num_orgs = len(orgs)
             if num_orgs == 0:
-                char_info = self.pork_service.get_character_info(search)
+                char_info = await self.pork_service.get_character_info(search)
                 if char_info:
                     if not char_info.org_id:
                         return "<highlight>%s</highlight> does not appear to belong to an org." % search.capitalize()
@@ -77,11 +77,11 @@ class OrgListController:
                     blob += self.text.make_tellcmd("%s (%d)" % (org.org_name, org.org_id), "orglist %d" % org.org_id) + "\n"
                 return ChatBlob("Org List (%d)" % num_orgs, blob)
 
-        self.start_orglist_lookup(request.reply,
-                                  org_id,
-                                  self.SHOW_ALL_OFFLINE_MEMBERS if flag_params.show_all_offline else self.DEFAULT_OFFLINE_MEMBER_DISPLAY_THRESHOLD)
+        await self.start_orglist_lookup(request.reply,
+                                        org_id,
+                                        self.SHOW_ALL_OFFLINE_MEMBERS if flag_params.show_all_offline else self.DEFAULT_OFFLINE_MEMBER_DISPLAY_THRESHOLD)
 
-    def start_orglist_lookup(self, reply, org_id, offline_member_display_threshold):
+    async def start_orglist_lookup(self, reply, org_id, offline_member_display_threshold):
         if self.orglist:
             elapsed = int(time.time()) - self.orglist.get("started_at")
             if elapsed > 60 * 10:
@@ -115,31 +115,31 @@ class OrgListController:
         # process all name lookups. This drains until the chat server goes quiet for a second,
         # which is how we know every pending response has been handled - do not bound it by the
         # lookup budget, since breaking out early abandons responses that are still arriving.
-        while self.bot.iterate(1):
+        while await self.bot.iterate(1):
             pass
 
-        self.check_for_orglist_end()
+        await self.check_for_orglist_end()
 
     @event(event_type=BuddyService.BUDDY_LOGON_EVENT, description="Detect online buddies for orglist command", is_system=True)
-    def buddy_logon_event(self, event_type, event_data):
+    async def buddy_logon_event(self, event_type, event_data):
         if self.orglist and event_data.char_id in self.orglist.waiting_org_members:
             self.update_online_status(event_data.char_id, True)
-            self.check_for_orglist_end()
+            await self.check_for_orglist_end()
 
     @event(event_type=BuddyService.BUDDY_LOGOFF_EVENT, description="Detect offline buddies for orglist command", is_system=True)
-    def buddy_logoff_event(self, event_type, event_data):
+    async def buddy_logoff_event(self, event_type, event_data):
         if self.orglist and event_data.char_id in self.orglist.waiting_org_members:
             self.update_online_status(event_data.char_id, False)
-            self.check_for_orglist_end()
+            await self.check_for_orglist_end()
 
     def update_online_status(self, char_id, status):
         self.orglist.finished_org_members[char_id] = self.orglist.waiting_org_members[char_id]
         self.orglist.finished_org_members[char_id].online = status
         del self.orglist.waiting_org_members[char_id]
 
-    def check_for_orglist_end(self):
+    async def check_for_orglist_end(self):
         if self.orglist.org_members:
-            self.iterate_org_members()
+            await self.iterate_org_members()
 
         if not self.orglist.waiting_org_members:
             if self.orglist.unresolved_at_deadline:
@@ -208,7 +208,7 @@ class OrgListController:
         # time a buddy event brings us back into iterate_org_members()
         return self.orglist.started_at + self.ORGLIST_LOOKUP_TIMEOUT
 
-    def iterate_org_members(self):
+    async def iterate_org_members(self):
         # add org_members that we don't have online status for as buddies
         deadline = self.get_lookup_deadline()
 
@@ -218,7 +218,7 @@ class OrgListController:
             self.orglist.waiting_org_members[char_id] = org_member
             is_online = self.buddy_service.is_online(char_id)
             if is_online is None:
-                if self.character_service.resolve_char_to_id(org_member.name, deadline=deadline):
+                if await self.character_service.resolve_char_to_id(org_member.name, deadline=deadline):
                     self.buddy_service.add_buddy(char_id, self.ORGLIST_BUDDY_TYPE)
                     self.buddy_service.remove_buddy(char_id, self.ORGLIST_BUDDY_TYPE)
                 else:

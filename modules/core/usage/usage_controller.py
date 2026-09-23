@@ -71,7 +71,7 @@ class UsageController:
 
     @command(command="usage", params=[Const("history"), NamedParameters(["cmd", "char", "page"])], access_level="moderator",
              description="Show command usage history")
-    def usage_history_command(self, request, _, named_params):
+    async def usage_history_command(self, request, _, named_params):
         page_size = 20
         page_number = int(named_params.page or "1")
 
@@ -86,7 +86,7 @@ class UsageController:
             params.append(named_params.cmd)
 
         if named_params.char:
-            char_id = self.character_service.resolve_char_to_id(named_params.char)
+            char_id = await self.character_service.resolve_char_to_id(named_params.char)
             if not char_id:
                 return StandardMessage.char_not_found(named_params.char)
 

@@ -6,7 +6,7 @@ from core.logger import Logger
 from core.aochat.mmdb_parser import MMDBParser
 from core.functions import get_config_from_env
 from upgrade import run_upgrades
-import time
+import asyncio
 import os
 import platform
 import sys
@@ -105,16 +105,23 @@ try:
     # finish initializing bot and modules, and then connect
     bot = Registry.get_instance("bot")
     bot.version = version
-    bot.init(config, Registry, MMDBParser("text.mdb"))
 
-    if not bot.connect(config):
-        bot.disconnect()
-        time.sleep(5)
-        exit(3)
-    else:
-        status = bot.run()
-        bot.disconnect()
-        exit(status.value)
+    async def run_bot():
+        # everything from here runs on the one event loop the bot lives on. init() is inside it
+        # because modules schedule coroutines while starting - the Discord client, the MCP server
+        # and the highway websocket all need a running loop to attach to.
+        bot.init(config, Registry, MMDBParser("text.mdb"))
+
+        if not await bot.connect(config):
+            await bot.disconnect()
+            await asyncio.sleep(5)
+            return 3
+
+        status = await bot.run()
+        await bot.disconnect()
+        return status.value
+
+    exit(asyncio.run(run_bot()))
 except KeyboardInterrupt:
     # TODO set bot.status = BotStatus.SHUTDOWN, then bot.disconnect()
     logger = Logger("core.bootstrap")

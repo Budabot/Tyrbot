@@ -78,8 +78,8 @@ class PorkService:
         return char_info
 
     # standard method to get character pork data when character is on the same server
-    def get_character_info(self, char_name_or_id, max_cache_age=86400):
-        char_id = self.character_service.resolve_char_to_id(char_name_or_id)
+    async def get_character_info(self, char_name_or_id, max_cache_age=86400):
+        char_id = await self.character_service.resolve_char_to_id(char_name_or_id)
         char_name = self.character_service.resolve_char_to_name(char_name_or_id)
 
         t = int(time.time())
@@ -111,10 +111,10 @@ class PorkService:
 
     # forces a skeleton object into the player table in the case that PoRK does not return any data
     # call this method if you don't need the data now but want to ensure there is a record in the database
-    def load_character_info(self, char_id, char_name=None):
-        char_info = self.get_character_info(char_id)
+    async def load_character_info(self, char_id, char_name=None):
+        char_info = await self.get_character_info(char_id)
         if not char_info and char_name:
-            char_info = self.get_character_info(char_name)
+            char_info = await self.get_character_info(char_name)
         if not char_info:
             char_info = DictObject({
                 "name": "Unknown:" + str(char_id),

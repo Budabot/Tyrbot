@@ -7,7 +7,7 @@ from core.private_channel_service import PrivateChannelService
 
 @instance("private_channel_service", override=True)
 class RaidInstancePrivateChannelService(PrivateChannelService):
-    def handle_private_channel_message(self, conn: Conn, packet: server_packets.PrivateChannelMessage):
+    async def handle_private_channel_message(self, conn: Conn, packet: server_packets.PrivateChannelMessage):
         char_name = self.character_service.get_char_name(packet.char_id)
         if packet.private_channel_id != conn.char_id:
             # channel_name = self.character_service.get_char_name(packet.private_channel_id)
@@ -21,10 +21,10 @@ class RaidInstancePrivateChannelService(PrivateChannelService):
 
             if not self.handle_private_channel_command(conn, packet):
                 message = packet.message
-                self.event_service.fire_event(self.PRIVATE_CHANNEL_MESSAGE_EVENT, DictObject({"char_id": packet.char_id,
-                                                                                              "name": char_name,
-                                                                                              "message": message,
-                                                                                              "conn": conn}))
+                await self.event_service.fire_event(self.PRIVATE_CHANNEL_MESSAGE_EVENT, DictObject({"char_id": packet.char_id,
+                                                                                                    "name": char_name,
+                                                                                                    "message": message,
+                                                                                                    "conn": conn}))
 
                 symbol = self.setting_service.get("raid_instance_relay_symbol").get_value()
                 if message.startswith(symbol) and len(message) > len(symbol):

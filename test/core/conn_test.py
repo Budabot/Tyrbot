@@ -4,7 +4,6 @@ import unittest.mock
 
 from core.bot_status import BotStatus
 from core.conn import Conn
-from core.fifo_queue import FifoQueue
 
 
 def run_packet_loop(read_packet):
@@ -14,7 +13,7 @@ def run_packet_loop(read_packet):
     """
 
     failures = []
-    conn = Conn("conn1", lambda: failures.append(True), async_service=None)
+    conn = Conn("conn1", lambda: failures.append(True))
     conn._async_read_packet = read_packet
 
     async def drain():
@@ -23,7 +22,7 @@ def run_packet_loop(read_packet):
     conn.drain_outgoing_packets = drain
 
     with unittest.mock.patch.object(conn, "logger"):
-        asyncio.run(conn._async_packet_loop(FifoQueue(), None, lambda: BotStatus.RUN))
+        asyncio.run(conn._async_packet_loop(asyncio.Queue(), None, lambda: BotStatus.RUN))
 
     return failures
 
@@ -84,7 +83,7 @@ class _StubPacket:
 
 
 def make_conn():
-    conn = Conn("conn1", None, async_service=None)
+    conn = Conn("conn1", None)
     conn.writer = _StubWriter()
     return conn
 

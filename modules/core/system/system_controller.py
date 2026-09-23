@@ -36,27 +36,27 @@ class SystemController:
 
     @command(command="shutdown", params=[Any("reason", is_optional=True)], access_level="superadmin",
              description="Shutdown the bot")
-    def shutdown_cmd(self, request, reason):
+    async def shutdown_cmd(self, request, reason):
         if request.channel not in [PublicChannelService.ORG_CHANNEL_COMMAND, PrivateChannelService.PRIVATE_CHANNEL_COMMAND]:
             request.reply(self._format_message(False, reason))
-        self.shutdown(False, reason)
+        await self.shutdown(False, reason)
 
     @command(command="restart", params=[Any("reason", is_optional=True)], access_level="admin",
              description="Restart the bot")
-    def restart_cmd(self, request, reason):
+    async def restart_cmd(self, request, reason):
         if request.channel not in [PublicChannelService.ORG_CHANNEL_COMMAND, PrivateChannelService.PRIVATE_CHANNEL_COMMAND]:
             request.reply(self._format_message(True, reason))
-        self.shutdown(True, reason)
+        await self.shutdown(True, reason)
 
     @event(event_type="connect", description="Notify superadmin that bot has come online")
-    def connect_event(self, event_type, event_data):
+    async def connect_event(self, event_type, event_data):
         if self.expected_shutdown().get_value():
             msg = "<myname> is now <green>online</green>."
         else:
             self.logger.warning("The bot has recovered from an unexpected shutdown or restart")
             msg = "<myname> is now <green>online</green> but may have shut down or restarted unexpectedly."
 
-        char_id = self.character_service.resolve_char_to_id(self.bot.superadmin)
+        char_id = await self.character_service.resolve_char_to_id(self.bot.superadmin)
         self.bot.send_private_message(char_id, msg, conn=self.bot.get_primary_conn())
         self.bot.send_private_channel_message(msg, conn=self.bot.get_primary_conn())
         for _id, conn in self.bot.get_conns(lambda x: x.is_main):
@@ -64,8 +64,8 @@ class SystemController:
 
         self.expected_shutdown().set_value(False)
 
-    def shutdown(self, should_restart, reason=None):
-        self.event_service.fire_event(self.SHUTDOWN_EVENT, DictObject({"restart": should_restart, "reason": reason}))
+    async def shutdown(self, should_restart, reason=None):
+        await self.event_service.fire_event(self.SHUTDOWN_EVENT, DictObject({"restart": should_restart, "reason": reason}))
         # set expected flag
         self.expected_shutdown().set_value(True)
         self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, self._format_message(should_restart, reason))

@@ -32,7 +32,7 @@ class CharacterService:
     def start(self):
         self.db.exec("CREATE TABLE IF NOT EXISTS name_history (char_id INT NOT NULL, name VARCHAR(20) NOT NULL, created_at INT NOT NULL, PRIMARY KEY (char_id, name))")
 
-    def _wait_for_char_id(self, char_name, deadline=None):
+    async def _wait_for_char_id(self, char_name, deadline=None):
         # char_name must be .capitalize()'ed
 
         # This re-enters the main dispatch loop from inside a command handler, so handlers run
@@ -52,20 +52,20 @@ class CharacterService:
         if time.time() >= deadline:
             return self.name_to_id.get(char_name, None)
 
-        packet = self.bot.iterate(1)
+        packet = await self.bot.iterate(1)
         while packet and char_name not in self.name_to_id:
             if time.time() > deadline:
                 if not caller_owns_deadline:
                     self.logger.warning("gave up waiting for char id of '%s' after %ds"
                                         % (char_name, self.CHAR_LOOKUP_TIMEOUT))
                 break
-            packet = self.bot.iterate(1)
+            packet = await self.bot.iterate(1)
 
         # None here is not new: the pre-existing exit (no packet arrived) returns it too, and
         # callers already treat it as "the character is inactive"
         return self.name_to_id.get(char_name, None)
 
-    def resolve_char_to_id(self, char_name_or_id, deadline=None):
+    async def resolve_char_to_id(self, char_name_or_id, deadline=None):
         """
         Args:
             char_name_or_id: name or char id
@@ -86,7 +86,7 @@ class CharacterService:
                 # at its own steady rate, so a name sent now may well have been resolved by the
                 # time it is asked for again
                 self._send_lookup_if_needed(char_name)
-                return self._wait_for_char_id(char_name, deadline)
+                return await self._wait_for_char_id(char_name, deadline)
 
     def resolve_char_to_name(self, char_name_or_id, default=None):
         if isinstance(char_name_or_id, int) or char_name_or_id.isdigit():

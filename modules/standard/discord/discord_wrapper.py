@@ -32,11 +32,11 @@ class DiscordWrapper(discord.Client):
 
     async def on_ready(self):
         self.set_channel_id(self.channel_id)
-        self.fire_event("discord_connected", None)
+        await self.fire_event("discord_connected", None)
 
     async def on_message(self, message):
         if not message.author.bot and (self.default_channel and message.channel.id == self.default_channel.id or message.channel.type == ChannelType.private):
-            self.fire_event("discord_message", message)
+            await self.fire_event("discord_message", message)
 
     async def relay_message(self):
         await self.wait_until_ready()
@@ -50,7 +50,7 @@ class DiscordWrapper(discord.Client):
                     name, server_id = message
                     guild = self.get_guild(server_id)
                     invites = await guild.invites() if guild else []
-                    self.fire_event("discord_invites", (name, invites))
+                    await self.fire_event("discord_invites", (name, invites))
 
                 else:
                     content = message.get_message()

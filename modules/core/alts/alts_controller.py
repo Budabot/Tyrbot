@@ -39,8 +39,8 @@ class AltsController:
     @command(command="alts", params=[Const("setmain")], access_level="all",
              description="Set a new main",
              extended_description="You must run this from the character you want to be your new main")
-    def alts_setmain_cmd(self, request, _):
-        msg, result = self.alts_service.set_as_main(request.sender.char_id)
+    async def alts_setmain_cmd(self, request, _):
+        msg, result = await self.alts_service.set_as_main(request.sender.char_id)
 
         if result:
             return f"Character <highlight>{request.sender.name}</highlight> has been set as your main."
@@ -51,7 +51,7 @@ class AltsController:
 
     @command(command="alts", params=[Const("add"), Multiple(Character("character"))], access_level="all",
              description="Add one or more alts")
-    def alts_add_cmd(self, request, _, alt_chars):
+    async def alts_add_cmd(self, request, _, alt_chars):
         responses = []
         for alt_char in alt_chars:
             if not alt_char.char_id:
@@ -59,7 +59,7 @@ class AltsController:
             elif alt_char.char_id == request.sender.char_id:
                 responses.append("Error! You cannot register yourself as an alt.")
             else:
-                msg, result = self.alts_service.add_alt(request.sender.char_id, alt_char.char_id)
+                msg, result = await self.alts_service.add_alt(request.sender.char_id, alt_char.char_id)
                 if result:
                     self.bot.send_private_message(alt_char.char_id,
                                                   f"Character <highlight>{request.sender.name}</highlight> has added you as an alt.",
@@ -109,7 +109,7 @@ class AltsController:
     @command(command="altadmin", params=[Const("add"), Character("main"), Character("alt")],
              access_level="moderator",
              description="Add alts to main")
-    def altadmin_add_cmd(self, request, _, main, alt):
+    async def altadmin_add_cmd(self, request, _, main, alt):
         if not main.char_id:
             return StandardMessage.char_not_found(main.name)
         if not alt.char_id:
@@ -118,7 +118,7 @@ class AltsController:
         elif main.char_id == alt.char_id:
             return "Error! Alt and main are identical."
 
-        msg, result = self.alts_service.add_alt(main.char_id, alt.char_id)
+        msg, result = await self.alts_service.add_alt(main.char_id, alt.char_id)
         if result:
             return f"Character <highlight>{alt.name}</highlight> was added as an alt of <highlight>{main.name}</highlight> successfully."
         elif msg == "another_main":

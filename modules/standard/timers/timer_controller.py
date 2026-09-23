@@ -12,7 +12,7 @@ class TimerTime(Time):
         regex = r"(\s+(([0-9]+)([a-z]*))+)"
         return regex + ("?" if self.is_optional else "")
 
-    def process_matches(self, params):
+    async def process_matches(self, params):
         budatime_str = params.pop(0)
         params.pop(0)
         params.pop(0)

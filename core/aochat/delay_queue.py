@@ -6,10 +6,11 @@ class DelayQueue:
     """
     Rate-limited queue of outgoing packets.
 
-    Used from both the bot's main thread (via Conn.add_packets_to_queue) and the AsyncService
-    loop (via the packet loop), so every method that touches `items` or `next_packet` holds the
-    lock. Without it two threads can both pass the `next_packet` check in the same tick and send
-    back to back, which is what the chat server flood-kicks for.
+    Producers (Conn.add_packets_to_queue) and the consumer (the conn's packet loop) all run on
+    the bot's single event loop now, so the lock below is no longer load-bearing - it is kept as
+    cheap insurance for any future caller that runs on a worker thread. What it guards against is
+    two producers both passing the `next_packet` check in the same tick and sending back to back,
+    which is what the chat server flood-kicks for.
 
     The lock is not reentrant, so no method here may call another one.
     """

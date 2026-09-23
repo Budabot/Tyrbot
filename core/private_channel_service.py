@@ -39,7 +39,7 @@ class PrivateChannelService:
 
         self.command_service.register_command_channel("Private Channel", self.PRIVATE_CHANNEL_COMMAND)
 
-    def handle_private_channel_message(self, conn: Conn, packet: server_packets.PrivateChannelMessage):
+    async def handle_private_channel_message(self, conn: Conn, packet: server_packets.PrivateChannelMessage):
         char_name = self.character_service.get_char_name(packet.char_id)
         if packet.private_channel_id != conn.char_id:
             # channel_name = self.character_service.get_char_name(packet.private_channel_id)
@@ -52,12 +52,12 @@ class PrivateChannelService:
                 return
 
             if not self.handle_private_channel_command(conn, packet):
-                self.event_service.fire_event(self.PRIVATE_CHANNEL_MESSAGE_EVENT, DictObject({"char_id": packet.char_id,
-                                                                                              "name": char_name,
-                                                                                              "message": packet.message,
-                                                                                              "conn": conn}))
+                await self.event_service.fire_event(self.PRIVATE_CHANNEL_MESSAGE_EVENT, DictObject({"char_id": packet.char_id,
+                                                                                                    "name": char_name,
+                                                                                                    "message": packet.message,
+                                                                                                    "conn": conn}))
 
-    def handle_private_channel_client_joined(self, conn: Conn, packet: server_packets.PrivateChannelClientJoined):
+    async def handle_private_channel_client_joined(self, conn: Conn, packet: server_packets.PrivateChannelClientJoined):
         char_name = self.character_service.get_char_name(packet.char_id)
         if packet.private_channel_id != conn.char_id:
             # channel_name = self.character_service.get_char_name(packet.private_channel_id)
@@ -68,11 +68,11 @@ class PrivateChannelService:
             conn.private_channel[packet.char_id] = packet
 
             if conn.is_main:
-                self.event_service.fire_event(self.JOINED_PRIVATE_CHANNEL_EVENT, DictObject({"char_id": packet.char_id,
-                                                                                             "name": char_name,
-                                                                                             "conn": conn}))
+                await self.event_service.fire_event(self.JOINED_PRIVATE_CHANNEL_EVENT, DictObject({"char_id": packet.char_id,
+                                                                                                   "name": char_name,
+                                                                                                   "conn": conn}))
 
-    def handle_private_channel_client_left(self, conn: Conn, packet: server_packets.PrivateChannelClientLeft):
+    async def handle_private_channel_client_left(self, conn: Conn, packet: server_packets.PrivateChannelClientLeft):
         char_name = self.character_service.get_char_name(packet.char_id)
         if packet.private_channel_id != conn.char_id:
             # channel_name = self.character_service.get_char_name(packet.private_channel_id)
@@ -83,11 +83,11 @@ class PrivateChannelService:
             del conn.private_channel[packet.char_id]
 
             if conn.is_main:
-                self.event_service.fire_event(self.LEFT_PRIVATE_CHANNEL_EVENT, DictObject({"char_id": packet.char_id,
-                                                                                           "name": char_name,
-                                                                                           "conn": conn}))
+                await self.event_service.fire_event(self.LEFT_PRIVATE_CHANNEL_EVENT, DictObject({"char_id": packet.char_id,
+                                                                                                 "name": char_name,
+                                                                                                 "conn": conn}))
 
-    def handle_private_channel_command(self, conn: Conn, packet: server_packets.PrivateChannelMessage):
+    async def handle_private_channel_command(self, conn: Conn, packet: server_packets.PrivateChannelMessage):
         if not self.setting_service.get("accept_commands_from_slave_bots").get_value() and not conn.is_main:
             return False
 
@@ -102,15 +102,18 @@ class PrivateChannelService:
 
         def reply(msg):
             self.bot.send_private_channel_message(msg, private_channel_id=conn.char_id, conn=conn)
-            self.event_service.fire_event(self.PRIVATE_CHANNEL_COMMAND_EVENT,
-                                          DictObject({"char_id": None, "name": None, "message": msg, "conn": conn}))
+            # reply() is a plain callback invoked from inside command handlers, so it cannot
+            # await. The message is already queued by this point; the notification landing a tick
+            # later changes nothing.
+            self.event_service.fire_event_soon(self.PRIVATE_CHANNEL_COMMAND_EVENT,
+                                               DictObject({"char_id": None, "name": None, "message": msg, "conn": conn}))
 
         if message.startswith(self.setting_service.get("symbol").get_value()) and packet.private_channel_id == conn.get_char_id():
             char_name = self.character_service.get_char_name(packet.char_id)
-            self.event_service.fire_event(self.PRIVATE_CHANNEL_COMMAND_EVENT,
-                                          DictObject({"char_id": packet.char_id, "name": char_name, "message": packet.message, "conn": conn}))
+            await self.event_service.fire_event(self.PRIVATE_CHANNEL_COMMAND_EVENT,
+                                                DictObject({"char_id": packet.char_id, "name": char_name, "message": packet.message, "conn": conn}))
 
-            self.command_service.process_command(
+            await self.command_service.process_command(
                 self.command_service.trim_command_symbol(message),
                 self.PRIVATE_CHANNEL_COMMAND,
                 packet.char_id,

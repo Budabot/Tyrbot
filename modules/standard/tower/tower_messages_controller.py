@@ -181,7 +181,7 @@ class TowerMessagesController:
         if conn.org_id and self.ALL_TOWERS_ID not in conn.channels:
             self.logger.warning("The primary bot is a member of an org but does not have access to 'All Towers' channel and therefore will not be able to record tower attacks")
 
-    def handle_public_channel_message(self, conn: Conn, packet: server_packets.PublicChannelMessage):
+    async def handle_public_channel_message(self, conn: Conn, packet: server_packets.PublicChannelMessage):
         # only listen to tower packets from first bot, to avoid triggering multiple times
         if conn != self.bot.get_primary_conn():
             return
@@ -189,13 +189,13 @@ class TowerMessagesController:
         if packet.channel_id == self.TOWER_BATTLE_OUTCOME_ID:
             victory = self.get_victory_event(packet)
             if victory:
-                self.fire_victory_event(victory)
+                await self.fire_victory_event(victory)
         elif packet.channel_id == self.ALL_TOWERS_ID:
             attack = self.get_attack_event(packet)
             if attack:
-                self.fire_attack_event(attack)
+                await self.fire_attack_event(attack)
 
-    def fire_victory_event(self, obj):
+    async def fire_victory_event(self, obj):
         # lookup playfield
         playfield_name = obj.location.playfield.long_name
         obj.location.playfield = self.playfield_controller.get_playfield_by_name(playfield_name) or DictObject()
@@ -238,9 +238,9 @@ class TowerMessagesController:
         else:
             raise Exception("Unknown victory event type: '%s'" % obj.type)
 
-        self.event_service.fire_event(self.TOWER_VICTORY_EVENT, obj)
+        await self.event_service.fire_event(self.TOWER_VICTORY_EVENT, obj)
 
-    def fire_attack_event(self, obj):
+    async def fire_attack_event(self, obj):
         # lookup playfield
         playfield_name = obj.location.playfield.long_name
         obj.location.playfield = self.playfield_controller.get_playfield_by_name(playfield_name) or DictObject()
@@ -250,7 +250,7 @@ class TowerMessagesController:
         name = obj.attacker.name
         faction = obj.attacker.faction
         org_name = obj.attacker.org_name
-        char_info = self.pork_service.get_character_info(name)
+        char_info = await self.pork_service.get_character_info(name)
         obj.attacker = char_info or DictObject()
         obj.attacker.name = name
         obj.attacker.faction = faction or obj.attacker.get("faction", "Unknown")
@@ -278,7 +278,7 @@ class TowerMessagesController:
                                                    location.playfield.get("short_name", location.playfield.get("long_name")), obj.location.site_number or "?", more_info)
         self.message_hub_service.send_message(self.MESSAGE_SOURCE, None, None, msg)
 
-        self.event_service.fire_event(self.TOWER_ATTACK_EVENT, obj)
+        await self.event_service.fire_event(self.TOWER_ATTACK_EVENT, obj)
 
     def get_attack_event(self, packet: server_packets.PublicChannelMessage):
         t = int(time.time())

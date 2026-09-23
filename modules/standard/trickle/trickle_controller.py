@@ -20,7 +20,7 @@ class TrickleParam(CommandParam):
     def get_name(self):
         return "<highlight>ability</highlight> <highlight>amount</highlight>"
 
-    def process_matches(self, params):
+    async def process_matches(self, params):
         i = params.pop(0)
         matches_amount_first = self.amount_first.findall(i)
         matches_ability_first = self.ability_first.findall(i)

@@ -40,7 +40,7 @@ class CharacterInfoController:
 
     @command(command="whois", params=[Character("character"), Int("server_num", is_optional=True), NamedFlagParameters(["force_update", "skip_online_check"])], access_level="member",
              description="Get whois information for a character", extended_description="Use server_num 6 for RK2019 and server_num 5 for live")
-    def whois_cmd(self, request, char, dimension, flag_params):
+    async def whois_cmd(self, request, char, dimension, flag_params):
         dimension = dimension or self.bot.dimension
         force_update = flag_params.force_update
 
@@ -53,17 +53,17 @@ class CharacterInfoController:
                                                                     "callback": partial(self.show_output, char, dimension, force_update, reply=request.reply, conn=request.conn)})
                 self.buddy_service.add_buddy(char.char_id, self.BUDDY_IS_ONLINE_TYPE)
             else:
-                self.show_output(char, dimension, force_update, online_status, request.reply, request.conn)
+                await self.show_output(char, dimension, force_update, online_status, request.reply, request.conn)
         else:
-            self.show_output(char, dimension, force_update, None, request.reply, request.conn)
+            await self.show_output(char, dimension, force_update, None, request.reply, request.conn)
 
-    def show_output(self, char, dimension, force_update, online_status, reply, conn):
+    async def show_output(self, char, dimension, force_update, online_status, reply, conn):
         max_cache_age = 0 if force_update else 86400
 
         if dimension != self.bot.dimension:
             char_info = self.pork_service.request_char_info(char.name, dimension)
         else:
-            char_info = self.pork_service.get_character_info(char.name, max_cache_age)
+            char_info = await self.pork_service.get_character_info(char.name, max_cache_age)
 
         if char_info and char_info.source != "chat_server":
             alts = self.alts_controller.alts_service.get_alts(char.char_id)

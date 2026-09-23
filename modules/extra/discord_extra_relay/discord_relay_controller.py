@@ -24,17 +24,17 @@ class DiscordExtraRelayController:
                                                               [],
                                                               [])
 
-    def handle_incoming_relay_message(self, ctx):
-        channel = self.get_discord_channel(self.setting_service.get("discord_extra_relay_channel_id").get_value())
+    async def handle_incoming_relay_message(self, ctx):
+        channel = await self.get_discord_channel(self.setting_service.get("discord_extra_relay_channel_id").get_value())
         if channel:
             discord_message = DiscordTextMessage(self.discord_controller.strip_html_tags(ctx.formatted_message), channel)
             self.discord_controller.send_to_discord("msg", discord_message)
 
-    def get_discord_channel(self, channel_id):
+    async def get_discord_channel(self, channel_id):
         if not self.discord_controller.is_connected():
             return None
 
-        for channel in self.discord_controller.client.get_text_channels():
+        for channel in await self.discord_controller.client.get_text_channels():
             if str(channel.id) == channel_id:
                 return channel
         return None

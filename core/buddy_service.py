@@ -27,7 +27,7 @@ class BuddyService:
         self.event_service.register_event_type(self.BUDDY_LOGON_EVENT)
         self.event_service.register_event_type(self.BUDDY_LOGOFF_EVENT)
 
-    def handle_add(self, conn: Conn, packet: server_packets.BuddyAdded):
+    async def handle_add(self, conn: Conn, packet: server_packets.BuddyAdded):
         if packet.char_id == 0:
             self.logger.warning("Buddy added or updated with char_id '0'")
             return
@@ -50,9 +50,9 @@ class BuddyService:
                 other_conn.send_packet(client_packets.BuddyRemove(packet.char_id))
 
         if packet.online == 1:
-            self.event_service.fire_event(self.BUDDY_LOGON_EVENT, packet)
+            await self.event_service.fire_event(self.BUDDY_LOGON_EVENT, packet)
         else:
-            self.event_service.fire_event(self.BUDDY_LOGOFF_EVENT, packet)
+            await self.event_service.fire_event(self.BUDDY_LOGOFF_EVENT, packet)
 
     def handle_remove(self, conn: Conn, packet: server_packets.BuddyRemoved):
         if packet.char_id == 0:

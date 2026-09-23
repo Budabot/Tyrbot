@@ -50,11 +50,16 @@ class _StubClient:
         return True
 
 
-class DiscordStateReadTest(unittest.TestCase):
+class DiscordStateReadTest(unittest.IsolatedAsyncioTestCase):
+    """
+    discord.py's state belongs to the loop its client runs on, which is now the bot's own loop.
+    These reads used to block the main thread on a second loop's future; they are awaited instead,
+    which is what keeps them from deadlocking now that there is only one loop.
+    """
 
-    def setUp(self):
+    async def asyncSetUp(self):
         self.async_service = AsyncService()
-        self.async_service.start_loop()
+        self.async_service.attach(asyncio.get_running_loop())
 
         self.ran_on = []
         self.controller = DiscordController()
@@ -62,53 +67,50 @@ class DiscordStateReadTest(unittest.TestCase):
         self.controller.client = _StubClient(self.ran_on)
         self.controller.dtask = _StubTask()
 
-    def tearDown(self):
-        self.async_service.stop_loop()
-
-    def test_channel_read_happens_on_the_loop_thread(self):
-        channels = self.controller.get_text_channels()
+    async def test_channel_read_returns_data_from_the_loop(self):
+        channels = await self.controller.get_text_channels()
 
         self.assertEqual(["general"], [c.name for c in channels])
         self.assertEqual("Guild", channels[0].guild_name)
+        self.assertEqual([threading.current_thread().name], self.ran_on)
 
-        # the point of the exercise: discord state was read on the loop, not on this thread
-        self.assertEqual(["AsyncServiceThread"], self.ran_on)
-        self.assertNotEqual(threading.current_thread().name, self.ran_on[0])
-
-    def test_server_read_happens_on_the_loop_thread(self):
-        servers = self.controller.get_servers()
+    async def test_server_read_returns_data_from_the_loop(self):
+        servers = await self.controller.get_servers()
 
         self.assertEqual([3], [s.id for s in servers])
         self.assertEqual(2, servers[0].member_count)
-        self.assertEqual(["AsyncServiceThread"], self.ran_on)
 
-    def test_set_channel_happens_on_the_loop_thread(self):
+    async def test_set_channel_runs_on_the_loop(self):
+        # a setting change listener, which cannot await - so it schedules the update
         self.controller.update_discord_channel("discord_channel_id", None, "7")
+        for _ in range(20):
+            if self.controller.client.default_channel_id is not None:
+                break
+            await asyncio.sleep(0.01)
 
         self.assertEqual("7", self.controller.client.default_channel_id)
-        self.assertEqual(["AsyncServiceThread"], self.ran_on)
 
-    def test_reads_return_default_when_not_connected(self):
+    async def test_reads_return_default_when_not_connected(self):
         self.controller.dtask = None  # ie. client not running
 
-        self.assertEqual([], self.controller.get_text_channels())
-        self.assertEqual([], self.controller.get_servers())
-        # nothing was dispatched to the loop
+        self.assertEqual([], await self.controller.get_text_channels())
+        self.assertEqual([], await self.controller.get_servers())
+        # nothing was dispatched to the client
         self.assertEqual([], self.ran_on)
 
-    def test_reads_return_default_when_there_is_no_client(self):
+    async def test_reads_return_default_when_there_is_no_client(self):
         self.controller.client = None
 
-        self.assertEqual([], self.controller.get_text_channels())
-        self.assertEqual([], self.controller.get_servers())
+        self.assertEqual([], await self.controller.get_text_channels())
+        self.assertEqual([], await self.controller.get_servers())
 
 
-class DiscordSendLatencyTest(unittest.TestCase):
+class DiscordSendLatencyTest(unittest.IsolatedAsyncioTestCase):
     """The outbound relay used to poll the queue every 100ms; it is now pushed."""
 
-    def setUp(self):
+    async def asyncSetUp(self):
         self.async_service = AsyncService()
-        self.async_service.start_loop()
+        self.async_service.attach(asyncio.get_running_loop())
 
         self.controller = DiscordController()
         self.controller.async_service = self.async_service
@@ -116,33 +118,25 @@ class DiscordSendLatencyTest(unittest.TestCase):
         self.controller.dtask = _StubTask()
         self.controller.aoqueue = asyncio.Queue()
 
-    def tearDown(self):
-        self.async_service.stop_loop()
-
-    def _consume_one(self):
-        """Await one item on the loop, the way DiscordWrapper.relay_message does."""
-        return self.async_service.run_coroutine(self.controller.aoqueue.get())
-
-    def test_message_reaches_the_loop_without_polling(self):
-        consumer = self._consume_one()
-
+    async def test_message_reaches_the_queue_without_polling(self):
         sent_at = time.time()
         self.controller.send_to_discord("msg", "hello")
-        dtype, message = consumer.result(timeout=5)
+
+        dtype, message = await asyncio.wait_for(self.controller.aoqueue.get(), timeout=5)
         elapsed = time.time() - sent_at
 
         self.assertEqual(("msg", "hello"), (dtype, message))
         # the old poll made this up to 100ms; pushing should be sub-millisecond
         self.assertLess(elapsed, 0.05, f"took {elapsed*1000:.1f}ms - is it still polling?")
 
-    def test_messages_keep_their_order(self):
+    async def test_messages_keep_their_order(self):
         for i in range(10):
             self.controller.send_to_discord("msg", f"m{i}")
 
-        received = [self._consume_one().result(timeout=5)[1] for _ in range(10)]
+        received = [(await asyncio.wait_for(self.controller.aoqueue.get(), timeout=5))[1] for _ in range(10)]
         self.assertEqual([f"m{i}" for i in range(10)], received)
 
-    def test_send_without_a_client_is_reported_not_swallowed(self):
+    async def test_send_without_a_client_is_reported_not_swallowed(self):
         self.controller.aoqueue = None
 
         with self.assertLogs(level="WARNING") as logged:

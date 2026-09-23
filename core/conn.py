@@ -15,7 +15,7 @@ from core.registry import Registry
 
 
 class Conn:
-    def __init__(self, _id, failure_callback, async_service):
+    def __init__(self, _id, failure_callback):
         self.id = _id
         self.logger = Logger(__name__)
         self.failure_callback = failure_callback
@@ -27,7 +27,6 @@ class Conn:
         self.reader: asyncio.StreamReader = None
         self.writer: asyncio.StreamWriter = None
         self.packet_loop_task = None
-        self.async_service = async_service
 
         self.packet_queue = DelayQueue(2, 2.5)
         # packets that bypass the rate limit (chat pages, character lookups). Thread-safe, and
@@ -149,7 +148,7 @@ class Conn:
                 packet = await self._async_read_packet(timeout=1)
                 if packet:
                     self.packet_last_received_timestamp = time.time()
-                    incoming_queue.put((self, packet))
+                    incoming_queue.put_nowait((self, packet))
                 else:
                     time_since = time.time() - self.packet_last_received_timestamp
                     if time_since > 90:
@@ -250,21 +249,24 @@ class Conn:
             # propagate to the packet loop, which fails the conn over.
             self.logger.error(f"[{self.id}] dropped outgoing packet {type(packet).__name__}: {e}")
     
-    def disconnect(self, timeout=5):
-        return self.async_service.run_until_complete(self._async_disconnect(), timeout=timeout)
-    
-    def connect(self, host, port, timeout=10):
-        return self.async_service.run_until_complete(self._async_connect(host, port), timeout=timeout)
+    async def disconnect(self, timeout=5):
+        # these three used to hop to a second event loop and block the caller on the result. The
+        # bot has one loop now and runs on it, so they are awaited directly - blocking the loop on
+        # a coroutine only the loop can run would deadlock.
+        return await asyncio.wait_for(self._async_disconnect(), timeout=timeout)
 
-    def login(self, username, password, character, is_main, wait_for_logged_in=20):
+    async def connect(self, host, port, timeout=10):
+        return await asyncio.wait_for(self._async_connect(host, port), timeout=timeout)
+
+    async def login(self, username, password, character, is_main, wait_for_logged_in=20):
         timeout = 30 + (wait_for_logged_in if wait_for_logged_in else 0)
-        return self.async_service.run_until_complete(
+        return await asyncio.wait_for(
             self._async_login(username, password, character, is_main, wait_for_logged_in),
             timeout=timeout
         )
-        
+
     def start_packet_loop(self, incoming_queue, mass_message_queue, get_bot_status):
-        self.packet_loop_task = self.async_service.run_coroutine(
+        self.packet_loop_task = asyncio.create_task(
             self._async_packet_loop(incoming_queue, mass_message_queue, get_bot_status)
         )
 

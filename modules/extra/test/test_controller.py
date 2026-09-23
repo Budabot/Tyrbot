@@ -41,7 +41,7 @@ class TestController:
 
     @command(command="test", params=[Const("attack"), Character("attack_char", is_optional=True), Any("defend_faction", is_optional=True), Any("defend_org_name", is_optional=True)],
              access_level="superadmin", description="Trigger tower attack")
-    def test_towerattack_cmd(self, request, _, attacker, def_faction, def_org_name):
+    async def test_towerattack_cmd(self, request, _, attacker, def_faction, def_org_name):
         playfield_name = "Perpetual Wastelands"
         x_coords = "123"
         y_coords = "456"
@@ -54,7 +54,7 @@ class TestController:
         if not def_org_name:
             def_org_name = "DefendOrg"
 
-        char_info = self.pork_service.get_character_info(attacker.name)
+        char_info = await self.pork_service.get_character_info(attacker.name)
         if not char_info:
             return f"Could not retrieve character info for <highlight>{attacker.name}</highlight>."
         elif not char_info.org_name:

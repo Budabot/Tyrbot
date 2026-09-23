@@ -23,8 +23,8 @@ class AdminController:
 
     @command(command="admin", params=[], access_level="all",
              description="Show the admin list")
-    def admin_list_cmd(self, request):
-        admins = self.admin_service.get_all()
+    async def admin_list_cmd(self, request):
+        admins = await self.admin_service.get_all()
 
         blob = ""
         current_access_level = ""
@@ -89,6 +89,6 @@ class AdminController:
             return f"Could not remove character <highlight>{char.name}</highlight> as <highlight>{AdminService.MODERATOR}</highlight>."
 
     @event(event_type="connect", description="Add admins as buddies", is_system=True)
-    def connect_event(self, event_type, event_data):
-        for row in self.admin_service.get_all():
+    async def connect_event(self, event_type, event_data):
+        for row in await self.admin_service.get_all():
             self.buddy_service.add_buddy(row.char_id, "admin")

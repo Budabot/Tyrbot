@@ -114,10 +114,10 @@ class OrgChannelController:
         self.message_hub_service.send_message(self.MESSAGE_SOURCE, sender, org_abbreviation, message)
 
     @event(event_type=OrgMemberController.ORG_MEMBER_LOGON_EVENT, description="Notify when org member logs on")
-    def org_member_logon_event(self, event_type, event_data):
+    async def org_member_logon_event(self, event_type, event_data):
         if self.bot.is_ready():
             if self.online_controller:
-                char_info = self.online_controller.get_char_info_display(event_data.char_id, event_data.conn)
+                char_info = await self.online_controller.get_char_info_display(event_data.char_id, event_data.conn)
             else:
                 char_info = self.character_service.resolve_char_to_name(event_data.char_id, f"Unknown({event_data.char_id})")
 
