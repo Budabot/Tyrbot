@@ -19,36 +19,32 @@
 # USA
 
 
-import random
+import secrets
 import struct
 import socket
 
 # This is 'half' Diffie-Hellman key exchange.
-# 'Half' as in we already have the server's key ($dhY)
-# $dhN is a prime and $dhG is generator for it.
+# 'Half' as in we already have the server's public key.
 #
 # http://en.wikipedia.org/wiki/Diffie-Hellman_key_exchange
 
 
-def generate_login_key(server_key, username, password):
-    dhY = 0x9c32cc23d559ca90fc31be72df817d0e124769e809f936bc14360ff4bed758f260a0d596584eacbbc2b88bdd410416163e11dbf62173393fbc0c6fefb2d855f1a03dec8e9f105bbad91b3437d8eb73fe2f44159597aa4053cf788d2f9d7012fb8d7c4ce3876f7d6cd5d0c31754f4cd96166708641958de54a6def5657b9f2e92
-    dhN = 0xeca2e8c85d863dcdc26a429a71a9815ad052f6139669dd659f98ae159d313d13c6bf2838e10a69b6478b64a24bd054ba8248e8fa778703b418408249440b2c1edd28853e240d8a7e49540b76d120d3b1ad2878b1b99490eb4a2a5e84caa8a91cecbdb1aa7c816e8be343246f80c637abc653b893fd91686cf8d32d6cfe5f2a6f
-    dhG = 0x5
-    dhx = random.randrange(0, 2**256)
+def generate_login_key(server_seed, username, password):
+    server_public_key = 0x9c32cc23d559ca90fc31be72df817d0e124769e809f936bc14360ff4bed758f260a0d596584eacbbc2b88bdd410416163e11dbf62173393fbc0c6fefb2d855f1a03dec8e9f105bbad91b3437d8eb73fe2f44159597aa4053cf788d2f9d7012fb8d7c4ce3876f7d6cd5d0c31754f4cd96166708641958de54a6def5657b9f2e92
+    prime = 0xeca2e8c85d863dcdc26a429a71a9815ad052f6139669dd659f98ae159d313d13c6bf2838e10a69b6478b64a24bd054ba8248e8fa778703b418408249440b2c1edd28853e240d8a7e49540b76d120d3b1ad2878b1b99490eb4a2a5e84caa8a91cecbdb1aa7c816e8be343246f80c637abc653b893fd91686cf8d32d6cfe5f2a6f
+    generator = 0x5
+    client_private_key = secrets.randbelow(2**256)
 
-    dhX = pow(dhG, dhx, dhN)
-    dhK = pow(dhY, dhx, dhN)
+    client_public_key = pow(generator, client_private_key, prime)
+    shared_secret = pow(server_public_key, client_private_key, prime)
 
-    dhK = "%x" % dhK
-    if len(dhK) > 32:
-        dhK = dhK[:32]
+    # Encryption key is the first 32 hex digits of the shared secret
+    key = int(("%x" % shared_secret)[:32], 16)
 
-    dhK = int(dhK, 16)
-
-    challenge = "%s|%s|%s" % (username, server_key, password)
+    challenge = "%s|%s|%s" % (username, server_seed, password)
 
     # prefix is an 8 bytes of randomness
-    prefix_bytes = random.randrange(0, 2**64)
+    prefix_bytes = secrets.randbits(64)
     prefix = struct.pack(">Q", prefix_bytes)
 
     length = 8 + 4 + len(challenge)  # prefix, int, ...
@@ -56,12 +52,12 @@ def generate_login_key(server_key, username, password):
     challenge_len = struct.pack(">I", len(challenge))
 
     plain = prefix + challenge_len + challenge.encode('ascii') + pad.encode('ascii')
-    crypted = aochat_crypt(dhK, plain)
+    crypted = aochat_crypt(key, plain)
 
     if not crypted:
         raise Exception("encryption failed")
 
-    return ("%0x" % dhX) + "-" + crypted
+    return ("%0x" % client_public_key) + "-" + crypted
 
 
 def aochat_crypt(key, data):
