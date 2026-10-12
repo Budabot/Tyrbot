@@ -267,7 +267,7 @@ class DiscordController:
         return self.util.time_to_readable(expires_at - t)
 
     async def handle_discord_command_event(self, message):
-        if not self.find_discord_command_handler(message):
+        if not await self.find_discord_command_handler(message):
             reply = partial(self.discord_command_reply, channel=message.channel)
             row = self.db.query_single("SELECT char_id FROM discord_char_link WHERE discord_id = ?", [message.author.id])
             if row:

@@ -93,7 +93,7 @@ class PublicChannelService:
             if conn.char_id == packet.char_id:
                 return
 
-            if not self.handle_public_channel_command(conn, packet):
+            if not await self.handle_public_channel_command(conn, packet):
                 await self.event_service.fire_event(self.ORG_CHANNEL_MESSAGE_EVENT, DictObject({"char_id": packet.char_id,
                                                                                                 "name": char_name,
                                                                                                 "message": message,
