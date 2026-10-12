@@ -378,3 +378,8 @@ def run_upgrades():
         if table_exists("setting"):
             db.exec("UPDATE setting SET value = 'https://history.aobots.org/?server={dimension}&name={name}' WHERE name = 'pork_history_url'")
         version = update_version(version)
+
+    if version == 37:
+        if table_exists("setting"):
+            db.exec("UPDATE setting SET value = 'https://pork.jkbff.com/pork/history.php?server={dimension}&name={name}' WHERE name = 'pork_history_url'")
+        version = update_version(version)
