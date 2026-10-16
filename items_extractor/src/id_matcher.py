@@ -1,13 +1,12 @@
 from dataclasses import dataclass
 import logging
 from pathlib import Path
-import re
 import sqlite3
 from typing import Dict, List, Set, Tuple
 
 from src.constants import (
     Attribute, ItemType, CanFlag, EventType,
-    WEAPON_GROUPS, ARMOR_GROUPS
+    WEAPON_GROUPS, ARMOR_GROUPS, GENERATED_COMMENT
 )
 from src.rdb_extractor import RDBItem
 from src.skills import write_skills_sql
@@ -24,29 +23,6 @@ class Entry:
     item_type: str
 
 
-def get_version(ao_path: str, build_number: int) -> str:
-    version_file = Path(ao_path) / "version.id"
-    with open(version_file, "r", encoding="utf-8", errors="replace") as f:
-        version_str = f.read().strip()
-    m = re.search(r"(\d+)\.(\d+)\.(\d+)", version_str)
-    if m:
-        p0, p1, p2 = int(m.group(1)), int(m.group(2)), int(m.group(3))
-    else:
-        clean_str = re.sub(r"_[^.]*", "", version_str)
-        parts = [int(p) for p in clean_str.split(".")]
-        p0, p1, p2 = parts[0], parts[1], parts[2]
-    return f"{p0:02d}.{p1:02d}.{p2:02d}.{build_number:02d}"
-
-
-def get_new_file_name(ao_path: str, filename_template: str, output_dir: str, build_number: int = 0) -> str:
-    version = get_version(ao_path, build_number)
-    filename = filename_template.replace("{version}", version)
-    full_path = Path(output_dir) / filename
-    if full_path.exists():
-        return get_new_file_name(ao_path, filename_template, output_dir, build_number + 1)
-    return str(full_path)
-
-
 def read_entries_from_file(file_path: str) -> List[str]:
     with open(file_path, "r", encoding="utf-8", errors="replace") as f:
         return [line.strip() for line in f if line.strip()]
@@ -56,7 +32,7 @@ class IdMatcher:
     def __init__(self, config_dir: str):
         self.config_dir = Path(config_dir)
 
-    def write_sql_file(self, rdb_items: List[RDBItem], rdb_nanos: List[RDBItem], ao_path: str, output_dir: str):
+    def write_sql_file(self, rdb_items: List[RDBItem], rdb_nanos: List[RDBItem], ao_path: str, items_dir: Path, specials_dir: Path):
         conn = sqlite3.connect(":memory:")
         cur = conn.cursor()
 
@@ -93,25 +69,20 @@ class IdMatcher:
         self.process_remaining_entries(conn)
 
         # Output aodb SQL file
-        items_db_filename = get_new_file_name(ao_path, "aodb{version}.sql", output_dir)
-        self.output_sql_file(conn, items_db_filename)
+        self.output_sql_file(conn, str(items_dir / "aodb.sql"))
 
         items_map = {item.id: item for item in rdb_items}
         nanos_map = {nano.id: nano for nano in rdb_nanos}
 
         # Output weapon attributes SQL file
-        weapon_attr_filename = get_new_file_name(ao_path, "weapon_attributes{version}.sql", output_dir)
-        self.output_weapon_attributes(items_map, conn, weapon_attr_filename)
+        self.output_weapon_attributes(items_map, conn, str(specials_dir / "weapon_attributes.sql"))
 
         # Output buffs and item types SQL files
-        buffs_filename = get_new_file_name(ao_path, "item_buffs{version}.sql", output_dir)
-        item_types_filename = get_new_file_name(ao_path, "item_types{version}.sql", output_dir)
-        buffed_stats = self.output_buff_info(items_map, nanos_map, conn, buffs_filename, item_types_filename)
+        buffed_stats = self.output_buff_info(items_map, nanos_map, conn, str(items_dir / "item_buffs.sql"), str(items_dir / "item_types.sql"))
 
         # Output skills SQL file
-        skills_filename = get_new_file_name(ao_path, "skills{version}.sql", output_dir)
         text_mdb = Path(ao_path) / "cd_image" / "text" / "text.mdb"
-        write_skills_sql(buffed_stats, text_mdb, self.config_dir / "extractor.cfg", skills_filename)
+        write_skills_sql(buffed_stats, text_mdb, self.config_dir / "extractor.cfg", str(items_dir / "skills.sql"))
 
         conn.close()
 
@@ -340,6 +311,7 @@ class IdMatcher:
         log.debug(f"Writing results to file: '{file_path}'")
         cur = conn.cursor()
         with open(file_path, "w", encoding="utf-8", newline="\n") as f:
+            f.write(GENERATED_COMMENT)
             f.write("DROP TABLE IF EXISTS aodb;\n")
             f.write("CREATE TABLE aodb (lowid INT, highid INT, lowql INT, highql INT, name VARCHAR(150), icon INT);\n")
 
@@ -357,6 +329,7 @@ class IdMatcher:
         ids = [r[0] for r in cur.fetchall()]
 
         with open(file_path, "w", encoding="utf-8", newline="\n") as f:
+            f.write(GENERATED_COMMENT)
             f.write("DROP TABLE IF EXISTS weapon_attributes;\n")
             f.write("CREATE TABLE weapon_attributes (id INT PRIMARY KEY, attack_time INT NOT NULL, recharge_time INT NOT NULL, full_auto INT, burst INT, fling_shot TINYINT NOT NULL, fast_attack TINYINT NOT NULL, aimed_shot TINYINT NOT NULL);\n")
 
@@ -396,9 +369,11 @@ class IdMatcher:
         with open(item_types_file, "w", encoding="utf-8", newline="\n") as types_f, \
              open(buffs_file, "w", encoding="utf-8", newline="\n") as buffs_f:
 
+            types_f.write(GENERATED_COMMENT)
             types_f.write("DROP TABLE IF EXISTS item_types;\n")
             types_f.write("CREATE TABLE item_types (item_id INT, item_type VARCHAR(50));\n")
 
+            buffs_f.write(GENERATED_COMMENT)
             buffs_f.write("DROP TABLE IF EXISTS item_buffs;\n")
             buffs_f.write("CREATE TABLE item_buffs (item_id INT, attribute_id INT, amount INT);\n")
 

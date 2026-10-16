@@ -4,6 +4,8 @@ from pathlib import Path
 import struct
 from typing import Dict, Set
 
+from src.constants import GENERATED_COMMENT
+
 log = logging.getLogger(__name__)
 
 MMDB_MAGIC = b"MMDB"
@@ -62,6 +64,7 @@ def write_skills_sql(buffed_stats: Set[int], text_mdb: Path, common_names_path: 
 
     log.debug(f"Writing skills to file: '{file_path}'")
     with open(file_path, "w", encoding="utf-8", newline="\n") as f:
+        f.write(GENERATED_COMMENT)
         f.write("DROP TABLE IF EXISTS skills;\n")
         f.write("CREATE TABLE skills (id INT NOT NULL PRIMARY KEY, name VARCHAR(50) NOT NULL, common_name VARCHAR(50) NOT NULL);\n")
         for stat in sorted(skill_ids, key=lambda s: (names[s].lower(), s)):

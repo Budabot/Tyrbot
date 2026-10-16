@@ -8,6 +8,7 @@ from pathlib import Path
 import re
 from typing import Dict, Iterable, List, Set, Tuple
 
+from src.constants import GENERATED_COMMENT
 from src.rdb_extractor import RDBItem
 
 log = logging.getLogger(__name__)
@@ -265,6 +266,7 @@ def sql_string(value: str) -> str:
 
 def write_sql(path: Path, header: List[str], table: str, columns: str, rows: Iterable[Tuple], separator: str = ","):
     with open(path, "w", encoding="utf-8", newline="\n") as f:
+        f.write(GENERATED_COMMENT)
         for line in header:
             f.write(line + "\n")
         count = 0

@@ -5,7 +5,7 @@ import re
 import struct
 from typing import Dict, List, Set, Tuple
 
-from src.constants import IndexRecordType
+from src.constants import GENERATED_COMMENT, IndexRecordType
 from src.rdb_extractor import BinaryReader
 from src.rdb_file import MultiChunkReader
 from src.rdb_index import IndexRecord
@@ -266,6 +266,7 @@ def write_tower_site_bounds(reader: MultiChunkReader, records: List[IndexRecord]
 
     out_path = tower_dir / "tower_site_bounds.sql"
     with open(out_path, "w", encoding="utf-8", newline="\n") as f:
+        f.write(GENERATED_COMMENT)
         f.write("DROP TABLE IF EXISTS tower_site_bounds;\n")
         f.write("CREATE TABLE tower_site_bounds (playfield_id INT NOT NULL, site_number SMALLINT NOT NULL, x_coord1 SMALLINT NOT NULL, "
                 "y_coord1 SMALLINT NOT NULL, x_coord2 SMALLINT NOT NULL, y_coord2 SMALLINT NOT NULL);\n")

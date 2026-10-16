@@ -57,12 +57,15 @@ def setup_logging(
 def main():
     parser = argparse.ArgumentParser(description="Anarchy Online ItemsExtractor in Python")
     parser.add_argument("-d", "--dir", dest="ao_path", required=True, help="Path to Anarchy Online directory")
-    parser.add_argument("-o", "--out", dest="output_dir", default=".", help="Output directory for SQL files (default: .)")
+    parser.add_argument("--items-dir", dest="items_dir", default=None,
+                        help="Path to the items module's SQL directory (default: ../modules/standard/items/sql)")
+    parser.add_argument("--specials-dir", dest="specials_dir", default=None,
+                        help="Path to the specials module directory (default: ../modules/standard/specials)")
     parser.add_argument("-c", "--config", dest="config_dir", default=None, help="Path to config directory")
     parser.add_argument("-t", "--tower-dir", dest="tower_dir", default=None, help="Path to the tower module directory (default: ../modules/standard/tower)")
     parser.add_argument("-i", "--implant-dir", dest="implant_dir", default=None,
                         help="Path to the implant module's SQL directory (default: ../modules/standard/implant/sql)")
-    parser.add_argument("-l", "--log-file", dest="log_file", default=None, help="Path to output log file (default: <output_dir>/extractor.log)")
+    parser.add_argument("-l", "--log-file", dest="log_file", default=None, help="Path to output log file (default: ./extractor.log)")
     parser.add_argument("--no-log-file", dest="no_log_file", action="store_true", help="Disable logging to file")
     parser.add_argument(
         "--log-level",
@@ -76,18 +79,13 @@ def main():
     parser.add_argument("-q", "--quiet", action="store_true", help="Suppress debug output (sets log level to INFO)")
     args = parser.parse_args()
 
-    # Normalize output directory
-    output_dir_path = Path(args.output_dir).resolve()
-    output_dir_path.mkdir(parents=True, exist_ok=True)
-    output_dir = str(output_dir_path)
-
     # Determine log file and level
     if args.no_log_file:
         log_file = None
     elif args.log_file:
         log_file = Path(args.log_file).resolve()
     else:
-        log_file = output_dir_path / "extractor.log"
+        log_file = Path("extractor.log").resolve()
 
     if args.quiet:
         log_level = logging.INFO
@@ -121,6 +119,18 @@ def main():
     else:
         implant_dir = Path(__file__).resolve().parent.parent / "modules" / "standard" / "implant" / "sql"
 
+    # Items module SQL directory
+    if args.items_dir:
+        items_dir = Path(args.items_dir).resolve()
+    else:
+        items_dir = Path(__file__).resolve().parent.parent / "modules" / "standard" / "items" / "sql"
+
+    # Specials module directory
+    if args.specials_dir:
+        specials_dir = Path(args.specials_dir).resolve()
+    else:
+        specials_dir = Path(__file__).resolve().parent.parent / "modules" / "standard" / "specials"
+
     if log_file:
         log.info(f"Logging to file: {log_file}")
     log.info(f"Starting ItemsExtractor with AO path: {ao_path}")
@@ -151,6 +161,14 @@ def main():
 
     if not implant_dir.is_dir():
         log.error(f"Implant SQL directory not found: {implant_dir}")
+        sys.exit(1)
+
+    if not items_dir.is_dir():
+        log.error(f"Items SQL directory not found: {items_dir}")
+        sys.exit(1)
+
+    if not specials_dir.is_dir():
+        log.error(f"Specials module directory not found: {specials_dir}")
         sys.exit(1)
 
     text_mdb = Path(ao_path) / "cd_image" / "text" / "text.mdb"
@@ -212,7 +230,7 @@ def main():
         # Match IDs and generate SQL dump files
         log.info("Starting SQL dump generation...")
         matcher = IdMatcher(str(config_dir))
-        matcher.write_sql_file(item_entries, nano_entries, ao_path, output_dir)
+        matcher.write_sql_file(item_entries, nano_entries, ao_path, items_dir, specials_dir)
         log.info("SQL dump completed successfully.")
 
     elapsed = int(time.time() - start_time)
