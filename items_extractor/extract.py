@@ -12,6 +12,7 @@ from src.dyna import write_dyna_sql
 from src.function_sets import FunctionSets
 from src.id_matcher import IdMatcher
 from src.implants import write_implant_sql
+from src.leprocs import write_leprocs_sql
 from src.perks import write_perks_sql
 from src.rdb_extractor import RDBExtractor
 from src.rdb_file import MultiChunkReader, find_database_files
@@ -75,6 +76,8 @@ def main():
                         help="Path to the helpbot module directory (default: ../modules/standard/helpbot)")
     parser.add_argument("--trickle-dir", dest="trickle_dir", default=None,
                         help="Path to the trickle module directory (default: ../modules/standard/trickle)")
+    parser.add_argument("--alien-dir", dest="alien_dir", default=None,
+                        help="Path to the alien module directory (default: ../modules/standard/alien)")
     parser.add_argument("-l", "--log-file", dest="log_file", default=None, help="Path to output log file (default: ./extractor.log)")
     parser.add_argument("--no-log-file", dest="no_log_file", action="store_true", help="Disable logging to file")
     parser.add_argument(
@@ -147,6 +150,12 @@ def main():
     else:
         trickle_dir = Path(__file__).resolve().parent.parent / "modules" / "standard" / "trickle"
 
+    # Alien module directory
+    if args.alien_dir:
+        alien_dir = Path(args.alien_dir).resolve()
+    else:
+        alien_dir = Path(__file__).resolve().parent.parent / "modules" / "standard" / "alien"
+
     # Items module SQL directory
     if args.items_dir:
         items_dir = Path(args.items_dir).resolve()
@@ -201,6 +210,10 @@ def main():
 
     if not trickle_dir.is_dir():
         log.error(f"Trickle module directory not found: {trickle_dir}")
+        sys.exit(1)
+
+    if not alien_dir.is_dir():
+        log.error(f"Alien module directory not found: {alien_dir}")
         sys.exit(1)
 
     if not items_dir.is_dir():
@@ -282,6 +295,10 @@ def main():
                 log.info(f"Extracted {count} / {total_nanos} entries ({count * 100 // total_nanos}%)...")
 
         log.info(f"Extracted {len(nano_entries)} entries for resource type {IndexRecordType.AODB_NANO_TYPE}.")
+
+        # Generate LE research procs
+        log.info("Generating LE procs SQL file...")
+        write_leprocs_sql(db_reader, records, item_entries, nano_entries, text_mdb, extractor_cfg, alien_dir)
 
         # Match IDs and generate SQL dump files
         log.info("Starting SQL dump generation...")
