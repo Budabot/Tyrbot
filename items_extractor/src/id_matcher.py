@@ -3,13 +3,14 @@ import logging
 from pathlib import Path
 import re
 import sqlite3
-from typing import Dict, List, Tuple
+from typing import Dict, List, Set, Tuple
 
 from src.constants import (
     Attribute, ItemType, CanFlag, EventType,
     WEAPON_GROUPS, ARMOR_GROUPS
 )
 from src.rdb_extractor import RDBItem
+from src.skills import write_skills_sql
 
 log = logging.getLogger(__name__)
 
@@ -105,7 +106,12 @@ class IdMatcher:
         # Output buffs and item types SQL files
         buffs_filename = get_new_file_name(ao_path, "item_buffs{version}.sql", output_dir)
         item_types_filename = get_new_file_name(ao_path, "item_types{version}.sql", output_dir)
-        self.output_buff_info(items_map, nanos_map, conn, buffs_filename, item_types_filename)
+        buffed_stats = self.output_buff_info(items_map, nanos_map, conn, buffs_filename, item_types_filename)
+
+        # Output skills SQL file
+        skills_filename = get_new_file_name(ao_path, "skills{version}.sql", output_dir)
+        text_mdb = Path(ao_path) / "cd_image" / "text" / "text.mdb"
+        write_skills_sql(buffed_stats, text_mdb, self.config_dir / "extractor.cfg", skills_filename)
 
         conn.close()
 
@@ -379,12 +385,13 @@ class IdMatcher:
 
                 f.write(f"INSERT INTO weapon_attributes VALUES ({item.id}, {attack_time}, {recharge_time}, {full_auto_val}, {burst_val}, {fling_shot}, {fast_attack}, {aimed_shot});\n")
 
-    def output_buff_info(self, items_map: Dict[int, RDBItem], nanos_map: Dict[int, RDBItem], conn: sqlite3.Connection, buffs_file: str, item_types_file: str):
+    def output_buff_info(self, items_map: Dict[int, RDBItem], nanos_map: Dict[int, RDBItem], conn: sqlite3.Connection, buffs_file: str, item_types_file: str) -> Set[int]:
         log.debug(f"Writing buff attributes to file: '{buffs_file}'")
         log.debug(f"Writing itemTypes to file: '{item_types_file}'")
         cur = conn.cursor()
         cur.execute("SELECT lowid AS itemid FROM aodb WHERE lowid != 206704 UNION SELECT highid AS itemid FROM aodb WHERE highid != 206704 ORDER BY itemid;")
         item_ids = [r[0] for r in cur.fetchall()]
+        buffed_stats: Set[int] = set()
 
         with open(item_types_file, "w", encoding="utf-8", newline="\n") as types_f, \
              open(buffs_file, "w", encoding="utf-8", newline="\n") as buffs_f:
@@ -402,7 +409,7 @@ class IdMatcher:
 
                 item_type = self.get_item_type(rdb_item)
                 if item_type not in ("Spirit", "Implant", "Misc", "Unknown"):
-                    if self.write_buffs(rdb_item, rdb_item.id, EventType.OnWear, buffs_f):
+                    if self.write_buffs(rdb_item, rdb_item.id, EventType.OnWear, buffs_f, buffed_stats):
                         if item_type == "Armor":
                             sub_types = self.get_slots(ARMOR_GROUPS, rdb_item)
                         elif item_type == "Weapon":
@@ -427,7 +434,7 @@ class IdMatcher:
 
                 has_buffs = False
                 for nano_item in nano_buffs:
-                    if self.write_buffs(nano_item, rdb_item.id, EventType.OnUse, buffs_f):
+                    if self.write_buffs(nano_item, rdb_item.id, EventType.OnUse, buffs_f, buffed_stats):
                         log.debug(f"Item {rdb_item.name} uploads nano {nano_item.name}")
                         has_buffs = True
 
@@ -437,9 +444,12 @@ class IdMatcher:
             buffs_f.write("CREATE INDEX idx_item_id ON item_buffs(item_id);\n")
             types_f.write("CREATE INDEX idx_item_type ON item_types(item_type);\n")
 
-    def write_buffs(self, rdb_item: RDBItem, item_id: int, event_type: int, writer) -> bool:
+        return buffed_stats
+
+    def write_buffs(self, rdb_item: RDBItem, item_id: int, event_type: int, writer, buffed_stats: Set[int]) -> bool:
         buffs = self.get_buffs(rdb_item, event_type)
         for attr_id, amount in buffs:
+            buffed_stats.add(attr_id)
             writer.write(f"INSERT INTO item_buffs (item_id, attribute_id, amount) VALUES ({item_id}, {attr_id}, {amount});\n")
         return len(buffs) > 0
 

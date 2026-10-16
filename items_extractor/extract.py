@@ -10,6 +10,7 @@ from typing import List, Optional, Union
 from src.constants import IndexRecordType
 from src.function_sets import FunctionSets
 from src.id_matcher import IdMatcher
+from src.implants import write_implant_sql
 from src.rdb_extractor import RDBExtractor
 from src.rdb_file import MultiChunkReader, find_database_files
 from src.rdb_index import read_index_file
@@ -59,6 +60,8 @@ def main():
     parser.add_argument("-o", "--out", dest="output_dir", default=".", help="Output directory for SQL files (default: .)")
     parser.add_argument("-c", "--config", dest="config_dir", default=None, help="Path to config directory")
     parser.add_argument("-t", "--tower-dir", dest="tower_dir", default=None, help="Path to the tower module directory (default: ../modules/standard/tower)")
+    parser.add_argument("-i", "--implant-dir", dest="implant_dir", default=None,
+                        help="Path to the implant module's SQL directory (default: ../modules/standard/implant/sql)")
     parser.add_argument("-l", "--log-file", dest="log_file", default=None, help="Path to output log file (default: <output_dir>/extractor.log)")
     parser.add_argument("--no-log-file", dest="no_log_file", action="store_true", help="Disable logging to file")
     parser.add_argument(
@@ -112,6 +115,12 @@ def main():
     else:
         tower_dir = Path(__file__).resolve().parent.parent / "modules" / "standard" / "tower"
 
+    # Implant module SQL directory
+    if args.implant_dir:
+        implant_dir = Path(args.implant_dir).resolve()
+    else:
+        implant_dir = Path(__file__).resolve().parent.parent / "modules" / "standard" / "implant" / "sql"
+
     if log_file:
         log.info(f"Logging to file: {log_file}")
     log.info(f"Starting ItemsExtractor with AO path: {ao_path}")
@@ -133,6 +142,20 @@ def main():
 
     if not (tower_dir / "tower_site.sql").is_file():
         log.error(f"tower_site.sql not found in {tower_dir}")
+        sys.exit(1)
+
+    extractor_cfg = config_dir / "extractor.cfg"
+    if not extractor_cfg.is_file():
+        log.error(f"extractor.cfg not found in {config_dir}")
+        sys.exit(1)
+
+    if not implant_dir.is_dir():
+        log.error(f"Implant SQL directory not found: {implant_dir}")
+        sys.exit(1)
+
+    text_mdb = Path(ao_path) / "cd_image" / "text" / "text.mdb"
+    if not text_mdb.is_file():
+        log.error(f"Text database not found: {text_mdb}")
         sys.exit(1)
 
     start_time = time.time()
@@ -164,6 +187,10 @@ def main():
                 log.info(f"Extracted {count} / {total_items} entries ({count * 100 // total_items}%)...")
 
         log.info(f"Extracted {len(item_entries)} entries for resource type {IndexRecordType.AODB_ITEM_TYPE}.")
+
+        # Generate implant and symbiant tables
+        log.info("Generating implant SQL files...")
+        write_implant_sql(item_entries, extractor_cfg, implant_dir)
 
         # Extract nanos
         nano_records = [r for r in records if r.resource_type == IndexRecordType.AODB_NANO_TYPE]
