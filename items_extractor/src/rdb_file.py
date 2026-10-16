@@ -1,12 +1,12 @@
 ﻿import os
 from pathlib import Path
-from typing import List, Tuple
+from typing import BinaryIO, List, Tuple
 
 
 class MultiChunkReader:
     def __init__(self, file_paths: List[str]):
         self.file_paths = file_paths
-        self.files: List[Tuple[any, int]] = []
+        self.files: List[Tuple[BinaryIO, int]] = []
         for path in file_paths:
             f = open(path, "rb")
             f_len = os.path.getsize(path)

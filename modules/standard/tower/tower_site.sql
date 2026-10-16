@@ -40,7 +40,7 @@ INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_co
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (567,1,12,20,1220,1060,14400,'In the Newland Desert',1);
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (567,2,15,25,540,460,14400,'West of Newland Lake',1);
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (570,1,200,300,3220,3020,14400,'North of Cyborg Hideout',1);
-INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (570,2,191,250,3780,2540,14400,'Middle of Liberty',1);
+INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (570,2,191,250,3820,2580,14400,'Middle of Liberty',1);
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (570,3,120,180,980,2060,14400,'South of Sabulum',1);
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (570,4,190,230,3940,2060,14400,'Cyborg Border',1);
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (570,5,200,300,2820,1820,14400,'Middle of Perpetual Wastelands',1);
@@ -94,7 +94,7 @@ INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_co
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (605,5,130,195,1900,1740,72000,'Central Belial Forest',1);
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (605,6,130,190,2500,1660,72000,'River Delta',1);
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (605,7,160,200,2540,1220,72000,'Junction Forest',1);
-INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (605,8,100,150,2340,860,72000,'Borderline',1);
+INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (605,8,100,150,2380,860,72000,'Borderline',1);
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (605,9,120,180,2020,420,72000,'Southern belial Mine',1);
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (605,10,140,200,620,380,72000,'Southwest Belial Mining District',1);
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (610,1,60,90,1380,2780,14400,'Tetlies Land control area',1);
@@ -162,13 +162,13 @@ INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_co
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (650,2,65,75,900,2300,72000,'Crowning Shallows',1);
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (650,3,100,150,1660,2180,72000,'Haven Notum Crematorium',1);
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (650,4,70,140,2020,1740,72000,'Stret Vale Deux Drilling Field',1);
-INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (650,5,120,180,1340,1620,72000,'The Flooded Bottomland',1);
+INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (650,5,120,180,1340,1660,72000,'The Flooded Bottomland',1);
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (650,6,75,90,1820,740,72000,'Stret Woods',1);
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (650,7,60,90,940,420,72000,'Greenslopes',1);
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (655,1,30,45,420,2700,14400,'Skop Notum Mine',1);
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (655,2,30,80,2820,2340,14400,'Klor',1);
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (655,3,60,80,2820,1660,14400,'Harstad',1);
-INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (655,4,40,90,540,1580,14400,'Ubleo',1);
+INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (655,4,40,90,580,1580,14400,'Ubleo',1);
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (655,5,40,60,1420,1580,14400,'Flubu Notum Mine',1);
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (655,6,40,70,4340,900,14400,'Plago',1);
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (655,7,60,80,2260,380,14400,'jucha',1);
@@ -179,7 +179,7 @@ INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_co
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (665,3,75,110,1940,3860,72000,'The Notum Plains',1);
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (665,4,100,150,940,3380,72000,'Near Clan Outpost',1);
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (665,5,45,80,1300,3060,72000,'Central Mountains',1);
-INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (665,6,55,150,380,2300,72000,'Surrounding Evil',1);
+INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (665,6,55,150,420,2300,72000,'Surrounding Evil',1);
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (665,7,45,60,1260,2140,72000,'Notum Mountain',1);
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (665,8,55,100,2020,1980,72000,'Near Omni-Tek Outpost',1);
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (665,9,100,150,420,820,72000,'Shores Notum Vein',1);
@@ -234,7 +234,7 @@ INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_co
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (717,8,14,25,940,460,14400,'Southern Isle',1);
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (760,1,60,90,1580,2380,72000,'Notum Ore in Buttu',1);
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (760,2,35,50,940,2020,72000,'Mountain of Fourtyone',1);
-INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (760,3,35,50,1300,1980,72000,'Mountain in 4Holes',1);
+INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (760,3,35,50,1340,1980,72000,'Mountain in 4Holes',1);
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (760,4,45,60,1660,1740,72000,'South of Ahenus',1);
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (760,5,70,100,1820,1340,72000,'Ibreri Woods North',1);
 INSERT INTO tower_site (playfield_id, site_number, min_ql, max_ql, x_coord, y_coord, close_time, site_name, enabled) VALUES (760,6,35,50,1460,1260,72000,'Mountain of Fourtytwo',1);

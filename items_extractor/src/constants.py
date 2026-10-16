@@ -52,6 +52,9 @@ class EventType:
 class IndexRecordType:
     AODB_ITEM_TYPE = 1000020
     AODB_NANO_TYPE = 1040005
+    PLAYFIELD_TYPE = 1000001
+    LAND_CONTROL_MAP_TYPE = 1000008
+    DISTRICT_INFO_TYPE = 1000014
 
 
 class ArmorSlot:

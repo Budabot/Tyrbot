@@ -5,7 +5,7 @@ from pathlib import Path
 import sys
 import time
 
-from typing import Optional, Union
+from typing import List, Optional, Union
 
 from src.constants import IndexRecordType
 from src.function_sets import FunctionSets
@@ -13,6 +13,7 @@ from src.id_matcher import IdMatcher
 from src.rdb_extractor import RDBExtractor
 from src.rdb_file import MultiChunkReader, find_database_files
 from src.rdb_index import read_index_file
+from src.tower_sites import write_tower_site_bounds
 
 log = logging.getLogger("ItemsExtractor")
 
@@ -22,7 +23,7 @@ def setup_logging(
     level: int = logging.DEBUG,
     console_level: Optional[int] = None,
 ):
-    handlers = []
+    handlers: List[logging.Handler] = []
 
     # Console handler
     console_handler = logging.StreamHandler(sys.stdout)
@@ -57,6 +58,7 @@ def main():
     parser.add_argument("-d", "--dir", dest="ao_path", required=True, help="Path to Anarchy Online directory")
     parser.add_argument("-o", "--out", dest="output_dir", default=".", help="Output directory for SQL files (default: .)")
     parser.add_argument("-c", "--config", dest="config_dir", default=None, help="Path to config directory")
+    parser.add_argument("-t", "--tower-dir", dest="tower_dir", default=None, help="Path to the tower module directory (default: ../modules/standard/tower)")
     parser.add_argument("-l", "--log-file", dest="log_file", default=None, help="Path to output log file (default: <output_dir>/extractor.log)")
     parser.add_argument("--no-log-file", dest="no_log_file", action="store_true", help="Disable logging to file")
     parser.add_argument(
@@ -104,6 +106,12 @@ def main():
     else:
         config_dir = Path(__file__).resolve().parent / "config"
 
+    # Tower module directory
+    if args.tower_dir:
+        tower_dir = Path(args.tower_dir).resolve()
+    else:
+        tower_dir = Path(__file__).resolve().parent.parent / "modules" / "standard" / "tower"
+
     if log_file:
         log.info(f"Logging to file: {log_file}")
     log.info(f"Starting ItemsExtractor with AO path: {ao_path}")
@@ -123,6 +131,10 @@ def main():
         log.error(f"FunctionSets.cfg not found in {config_dir}")
         sys.exit(1)
 
+    if not (tower_dir / "tower_site.sql").is_file():
+        log.error(f"tower_site.sql not found in {tower_dir}")
+        sys.exit(1)
+
     start_time = time.time()
 
     # Load function sets configuration
@@ -131,6 +143,10 @@ def main():
 
     with MultiChunkReader(db_files) as db_reader:
         records = read_index_file(str(idx_path))
+
+        # Generate tower site bounds
+        log.info("Generating tower site bounds...")
+        write_tower_site_bounds(db_reader, records, tower_dir)
 
         # Extract items
         item_records = [r for r in records if r.resource_type == IndexRecordType.AODB_ITEM_TYPE]

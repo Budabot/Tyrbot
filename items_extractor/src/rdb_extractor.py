@@ -98,6 +98,20 @@ class BinaryReader:
         self.pos += 2
         return v
 
+    def read_u8(self) -> int:
+        if self.pos + 1 > self.length:
+            raise EOFError(f"End of data reached: pos {self.pos} + 1 > {self.length}")
+        v = self.data[self.pos]
+        self.pos += 1
+        return v
+
+    def read_f32(self) -> float:
+        if self.pos + 4 > self.length:
+            raise EOFError(f"End of data reached: pos {self.pos} + 4 > {self.length}")
+        v = struct.unpack_from("<f", self.data, self.pos)[0]
+        self.pos += 4
+        return v
+
     def read_bytes(self, n: int) -> bytes:
         if self.pos + n > self.length:
             raise EOFError(f"End of data reached: pos {self.pos} + {n} > {self.length}")
