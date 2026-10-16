@@ -596,7 +596,7 @@ INSERT INTO raid_loot (raid, category, ql, high_id, name, comment, multiloot) VA
 
 INSERT INTO raid_loot (raid, category, ql, high_id, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'Primal Bloodcreeper', 1, 306026, 'Mark of the Bloodless', '', 1);
 
-INSERT INTO raid_loot (raid, category, ql, high_id, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'Vergil Aeneid', 305995, 1, 'Boots of Gridspace Distortion', '', 1);
+INSERT INTO raid_loot (raid, category, ql, high_id, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'Vergil Aeneid', 1, 305995, 'Boots of Gridspace Distortion', '', 1);
 INSERT INTO raid_loot (raid, category, ql, high_id, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'Vergil Aeneid', 300, 305999, 'Illegally Modified Dreadloch Remodulator', '', 1);
 INSERT INTO raid_loot (raid, category, ql, high_id, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'Vergil Aeneid', 300, 305998, 'Illegally Modified Dreadloch Thrasher', '', 1);
 INSERT INTO raid_loot (raid, category, ql, high_id, name, comment, multiloot) VALUES ('Condemned Subway (HL)', 'Vergil Aeneid', 200, 305993, 'Lost Blade of Elder Tsunayoshi', '', 1);
