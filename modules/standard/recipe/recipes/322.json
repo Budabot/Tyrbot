@@ -1,8 +1,139 @@
 {
-    "name": "Long-Axe Hyper 200x",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n  'Long-Axe Hyper 200x'\n The Construction kit. must be between Quality Level  24 and  46.\n All other pieces must be of AT LEAST that level range... \n Add them using shift+right-click.\n  Add in following order:\n \n  1. Two Handed Edged Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  96 ->  184\n \n  2. Notum Enriched Nano Paste - 4x Layer. SkillTo Assemble: Nano Progra:  60 ->  115\n \n  3. Optimized Co-Weapon Interface. SkillTo Assemble: Comp. Liter:  72 ->  138\n \n  4. Medium Handle. SkillTo Assemble: Weapon Smt:  88 ->  169\n \n  5. 4x Layer Carbon-Notum Alloy Blade. SkillTo Assemble: Weapon Smt:  72 ->  138\n \n  6. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  36 ->  69\n \n  7. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  48 ->  92\n \n  8. 8x Layer Carbon-Notum Alloy Blade. SkillTo Assemble: Weapon Smt:  84 ->  161"
+	"name": "Long-Axe Hyper 200x",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 24 and 46. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Two Handed Edged Weapons Construction Kit",
+			"item_id": 137221,
+			"name": "Two Handed Edged Weapons Construction Kit",
+			"icon": 131852,
+			"ql": 24,
+			"comment": "Skill To Assemble: Weapon Smt 96-184"
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 4x Layer",
+			"item_id": 137307,
+			"ql": 24
+		},
+		{
+			"alias": "Optimized Co-Weapon Interface",
+			"item_id": 142930,
+			"ql": 24
+		},
+		{
+			"alias": "Medium Handle",
+			"item_id": 142886,
+			"ql": 24
+		},
+		{
+			"alias": "4x Layer Carbon-Notum Alloy Blade",
+			"item_id": 142918,
+			"ql": 24
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 24
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 24
+		},
+		{
+			"alias": "8x Layer Carbon-Notum Alloy Blade",
+			"item_id": 142920,
+			"ql": 24
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 2)",
+			"item_id": 143124,
+			"name": "2h Edged Construction Kit (Step 2)",
+			"icon": 131853,
+			"ql": 24
+		},
+		{
+			"alias": "Step 3 (unknown)",
+			"name": "???"
+		},
+		{
+			"alias": "Step 4 (unknown)",
+			"name": "???"
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 5)",
+			"item_id": 143176,
+			"name": "2h Edged Construction Kit (Step 5)",
+			"icon": 131855,
+			"ql": 24
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 6)",
+			"item_id": 143178,
+			"name": "2h Edged Construction Kit (Step 6)",
+			"icon": 131856,
+			"ql": 24
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 7)",
+			"item_id": 143180,
+			"name": "2h Edged Construction Kit (Step 7)",
+			"icon": 131857,
+			"ql": 24
+		},
+		{
+			"alias": "Long-Axe Hyper 200x",
+			"item_id": 121650,
+			"ql": 24
+		}
+	],
+	"steps": [
+		{
+			"source": "Notum Enriched Nano Paste - 4x Layer",
+			"target": "Two Handed Edged Weapons Construction Kit",
+			"result": "2h Edged Construction Kit (Step 2)",
+			"skills": "Nano Progra 60-115"
+		},
+		{
+			"source": "Optimized Co-Weapon Interface",
+			"target": "2h Edged Construction Kit (Step 2)",
+			"result": "Step 3 (unknown)",
+			"skills": "Comp. Liter 72-138"
+		},
+		{
+			"source": "Medium Handle",
+			"target": "Step 3 (unknown)",
+			"result": "Step 4 (unknown)",
+			"skills": "Weapon Smt 88-169"
+		},
+		{
+			"source": "4x Layer Carbon-Notum Alloy Blade",
+			"target": "Step 4 (unknown)",
+			"result": "2h Edged Construction Kit (Step 5)",
+			"skills": "Weapon Smt 72-138"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "2h Edged Construction Kit (Step 5)",
+			"result": "2h Edged Construction Kit (Step 6)",
+			"skills": "Nano Progra 36-69"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "2h Edged Construction Kit (Step 6)",
+			"result": "2h Edged Construction Kit (Step 7)",
+			"skills": "Nano Progra 48-92"
+		},
+		{
+			"source": "8x Layer Carbon-Notum Alloy Blade",
+			"target": "2h Edged Construction Kit (Step 7)",
+			"result": "Long-Axe Hyper 200x",
+			"skills": "Weapon Smt 84-161"
+		}
+	]
 }

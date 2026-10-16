@@ -1,8 +1,234 @@
 {
-    "name": "Fine-Tuned Blackened Blaster Rifle",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n 'Fine-Tuned Blackened Blaster Rifle'\nThe Construction kit. must be between Quality Level 141 and 160.\nAll other pieces must be of AT LEAST that level range... \nAdd them using shift+right-click.\nAdd the pieces in the following order:\n\n 1. Rifle Weapons Construction kit.\n\n 2. Energy Conduction Rack. . SkillTo Assemble: Quantum FT: 458-520\n\n 3. Nano Pylon. . SkillTo Assemble: Mech. Engi: 352-400\n\n 4. Primitive Freon Bag Cooling System. . SkillTo Assemble: Weapon Smt: 564-640\n\n 5. Ultra-Long Composite Barrel. . SkillTo Assemble: Weapon Smt: 599-680\n\n 6. Notum Enriched Nano Paste - 4x Layer. . SkillTo Assemble: Nano Progra: 352-400\n\n 7. Jandawit Cleanup Cluster. . SkillTo Assemble: Weapon Smt: 494-560\n\n 8. Rapid-Reload-And-Fire Gyro. . SkillTo Assemble: Weapon Smt: 564-640\n\n 9. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 212-240\n\n 10. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 282-320\n\n 11. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 352-400\n\n 12. Lock and Stock. . SkillTo Assemble: Weapon Smt: 564-640\n\n 13. Auto Targeting Computer -IIR 1. . SkillTo Assemble: Elec. Engi: 317-360"
+	"name": "Fine-Tuned Blackened Blaster Rifle",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 141 and 160. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Rifle Weapons Construction Kit",
+			"item_id": 137203,
+			"name": "Rifle Weapons Construction Kit",
+			"icon": 131744,
+			"ql": 141
+		},
+		{
+			"alias": "Energy Conduction Rack",
+			"item_id": 137243,
+			"ql": 141
+		},
+		{
+			"alias": "Nano Pylon",
+			"item_id": 137277,
+			"ql": 141
+		},
+		{
+			"alias": "Primitive Freon Bag Cooling System",
+			"item_id": 137263,
+			"ql": 141
+		},
+		{
+			"alias": "Ultra-Long Composite Barrel",
+			"item_id": 137239,
+			"ql": 141
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 4x Layer",
+			"item_id": 137307,
+			"ql": 141
+		},
+		{
+			"alias": "Jandawit Cleanup Cluster",
+			"item_id": 137281,
+			"ql": 141
+		},
+		{
+			"alias": "Rapid-Reload-And-Fire Gyro",
+			"item_id": 137313,
+			"ql": 141
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 141
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 141
+		},
+		{
+			"alias": "Notum Alloy Strengthened Ribs",
+			"item_id": 137275,
+			"ql": 141
+		},
+		{
+			"alias": "Lock and Stock",
+			"item_id": 137255,
+			"ql": 141
+		},
+		{
+			"alias": "Auto Targeting Computer -IIR 1",
+			"item_id": 137285,
+			"ql": 141
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 2)",
+			"item_id": 139703,
+			"name": "Rifle Construction Kit (Step 2)",
+			"icon": 131745,
+			"ql": 141
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 3)",
+			"item_id": 161319,
+			"name": "Rifle Construction Kit (Step 3)",
+			"icon": 131745,
+			"ql": 141
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 4)",
+			"item_id": 161321,
+			"name": "Rifle Construction Kit (Step 4)",
+			"icon": 131745,
+			"ql": 141
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 5)",
+			"item_id": 161323,
+			"name": "Rifle Construction Kit (Step 5)",
+			"icon": 131746,
+			"ql": 141
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 6)",
+			"item_id": 161325,
+			"name": "Rifle Construction Kit (Step 6)",
+			"icon": 131746,
+			"ql": 141
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 7)",
+			"item_id": 161327,
+			"name": "Rifle Construction Kit (Step 7)",
+			"icon": 131747,
+			"ql": 141
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 8)",
+			"item_id": 161329,
+			"name": "Rifle Construction Kit (Step 8)",
+			"icon": 131747,
+			"ql": 141
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 9)",
+			"item_id": 161331,
+			"name": "Rifle Construction Kit (Step 9)",
+			"icon": 131748,
+			"ql": 141
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 10)",
+			"item_id": 161333,
+			"name": "Rifle Construction Kit (Step 10)",
+			"icon": 131748,
+			"ql": 141
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 11)",
+			"item_id": 161335,
+			"name": "Rifle Construction Kit (Step 11)",
+			"icon": 131748,
+			"ql": 141
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 12)",
+			"item_id": 161337,
+			"name": "Rifle Construction Kit (Step 12)",
+			"icon": 131749,
+			"ql": 141
+		},
+		{
+			"alias": "Fine-Tuned Blackened Blaster Rifle",
+			"item_id": 122097,
+			"ql": 141
+		}
+	],
+	"steps": [
+		{
+			"source": "Energy Conduction Rack",
+			"target": "Rifle Weapons Construction Kit",
+			"result": "Rifle Construction Kit (Step 2)",
+			"skills": "Quantum FT 458-520"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Rifle Construction Kit (Step 2)",
+			"result": "Rifle Construction Kit (Step 3)",
+			"skills": "Mech. Engi 352-400"
+		},
+		{
+			"source": "Primitive Freon Bag Cooling System",
+			"target": "Rifle Construction Kit (Step 3)",
+			"result": "Rifle Construction Kit (Step 4)",
+			"skills": "Weapon Smt 564-640"
+		},
+		{
+			"source": "Ultra-Long Composite Barrel",
+			"target": "Rifle Construction Kit (Step 4)",
+			"result": "Rifle Construction Kit (Step 5)",
+			"skills": "Weapon Smt 599-680"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 4x Layer",
+			"target": "Rifle Construction Kit (Step 5)",
+			"result": "Rifle Construction Kit (Step 6)",
+			"skills": "Nano Progra 352-400"
+		},
+		{
+			"source": "Jandawit Cleanup Cluster",
+			"target": "Rifle Construction Kit (Step 6)",
+			"result": "Rifle Construction Kit (Step 7)",
+			"skills": "Weapon Smt 494-560"
+		},
+		{
+			"source": "Rapid-Reload-And-Fire Gyro",
+			"target": "Rifle Construction Kit (Step 7)",
+			"result": "Rifle Construction Kit (Step 8)",
+			"skills": "Weapon Smt 564-640"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Rifle Construction Kit (Step 8)",
+			"result": "Rifle Construction Kit (Step 9)",
+			"skills": "Nano Progra 212-240"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "Rifle Construction Kit (Step 9)",
+			"result": "Rifle Construction Kit (Step 10)",
+			"skills": "Nano Progra 282-320"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Rifle Construction Kit (Step 10)",
+			"result": "Rifle Construction Kit (Step 11)",
+			"skills": "Mech. Engi 352-400"
+		},
+		{
+			"source": "Lock and Stock",
+			"target": "Rifle Construction Kit (Step 11)",
+			"result": "Rifle Construction Kit (Step 12)",
+			"skills": "Weapon Smt 564-640"
+		},
+		{
+			"source": "Auto Targeting Computer -IIR 1",
+			"target": "Rifle Construction Kit (Step 12)",
+			"result": "Fine-Tuned Blackened Blaster Rifle",
+			"skills": "Elec. Engi 317-360"
+		}
+	]
 }

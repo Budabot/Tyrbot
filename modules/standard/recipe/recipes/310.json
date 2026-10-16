@@ -1,8 +1,199 @@
 {
-    "name": "Irreparable Blackened Miniblaster",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n  'Irreparable Blackened Miniblaster'\n The Construction kit. must be between Quality Level  1 and  20.\n All other pieces must be of AT LEAST that level range... \n Add them using shift+right-click.\n  Add in following order:\n \n  1. Pistol Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  4 ->  80\n \n  2. Energy Pack Interface. SkillTo Assemble: Elec. Engi:  4 ->  80\n \n  3. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  2 ->  30\n \n  4. Rapid-Reload-And-Fire Gyro. SkillTo Assemble: Weapon Smt:  4 ->  80\n \n  5. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  2 ->  40\n \n  6. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  2 ->  50\n \n  7. Nano Pylon. SkillTo Assemble: Mech. Engi:  2 ->  50\n \n  8. Jandawit Cleanup Cluster. SkillTo Assemble: Weapon Smt:  4 ->  70\n \n  9. Short Composite Barrel. SkillTo Assemble: Weapon Smt:  3 ->  65\n \n  10. Energy Conduction Rack. SkillTo Assemble: Quantum FT:  3 ->  65\n \n  11. Hyper Carbo-Ceramic Cooling System. SkillTo Assemble: Weapon Smt:  4 ->  80"
+	"name": "Irreparable Blackened Miniblaster",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 1 and 20. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Pistol Weapons Construction Kit",
+			"item_id": 137201,
+			"name": "Pistol Weapons Construction Kit",
+			"icon": 131726,
+			"ql": 1,
+			"comment": "Skill To Assemble: Weapon Smt 4-80"
+		},
+		{
+			"alias": "Energy Pack Interface",
+			"item_id": 137257,
+			"ql": 1
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 1
+		},
+		{
+			"alias": "Rapid-Reload-And-Fire Gyro",
+			"item_id": 137313,
+			"ql": 1
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 1
+		},
+		{
+			"alias": "Notum Alloy Strengthened Ribs",
+			"item_id": 137275,
+			"ql": 1
+		},
+		{
+			"alias": "Nano Pylon",
+			"item_id": 137277,
+			"ql": 1
+		},
+		{
+			"alias": "Jandawit Cleanup Cluster",
+			"item_id": 137281,
+			"ql": 1
+		},
+		{
+			"alias": "Short Composite Barrel",
+			"item_id": 137233,
+			"ql": 1
+		},
+		{
+			"alias": "Energy Conduction Rack",
+			"item_id": 137243,
+			"ql": 1
+		},
+		{
+			"alias": "Hyper Carbo-Ceramic Cooling System",
+			"item_id": 137267,
+			"ql": 1
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 2)",
+			"item_id": 139441,
+			"name": "Pistol Construction Kit (Step 2)",
+			"icon": 131727,
+			"ql": 1
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 3)",
+			"item_id": 139443,
+			"name": "Pistol Construction Kit (Step 3)",
+			"icon": 131727,
+			"ql": 1
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 4)",
+			"item_id": 139445,
+			"name": "Pistol Construction Kit (Step 4)",
+			"icon": 131728,
+			"ql": 1
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 5)",
+			"item_id": 139447,
+			"name": "Pistol Construction Kit (Step 5)",
+			"icon": 131728,
+			"ql": 1
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 6)",
+			"item_id": 139449,
+			"name": "Pistol Construction Kit (Step 6)",
+			"icon": 131729,
+			"ql": 1
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 7)",
+			"item_id": 139451,
+			"name": "Pistol Construction Kit (Step 7)",
+			"icon": 131729,
+			"ql": 1
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 8)",
+			"item_id": 139453,
+			"name": "Pistol Construction Kit (Step 8)",
+			"icon": 131730,
+			"ql": 1
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 9)",
+			"item_id": 139455,
+			"name": "Pistol Construction Kit (Step 9)",
+			"icon": 131730,
+			"ql": 1
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 10)",
+			"item_id": 139457,
+			"name": "Pistol Construction Kit (Step 10)",
+			"icon": 131731,
+			"ql": 1
+		},
+		{
+			"alias": "Irreparable Blackened Miniblaster",
+			"item_id": 121988,
+			"ql": 1
+		}
+	],
+	"steps": [
+		{
+			"source": "Energy Pack Interface",
+			"target": "Pistol Weapons Construction Kit",
+			"result": "Pistol Construction Kit (Step 2)",
+			"skills": "Elec. Engi 4-80"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Pistol Construction Kit (Step 2)",
+			"result": "Pistol Construction Kit (Step 3)",
+			"skills": "Nano Progra 2-30"
+		},
+		{
+			"source": "Rapid-Reload-And-Fire Gyro",
+			"target": "Pistol Construction Kit (Step 3)",
+			"result": "Pistol Construction Kit (Step 4)",
+			"skills": "Weapon Smt 4-80"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "Pistol Construction Kit (Step 4)",
+			"result": "Pistol Construction Kit (Step 5)",
+			"skills": "Nano Progra 2-40"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Pistol Construction Kit (Step 5)",
+			"result": "Pistol Construction Kit (Step 6)",
+			"skills": "Mech. Engi 2-50"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Pistol Construction Kit (Step 6)",
+			"result": "Pistol Construction Kit (Step 7)",
+			"skills": "Mech. Engi 2-50"
+		},
+		{
+			"source": "Jandawit Cleanup Cluster",
+			"target": "Pistol Construction Kit (Step 7)",
+			"result": "Pistol Construction Kit (Step 8)",
+			"skills": "Weapon Smt 4-70"
+		},
+		{
+			"source": "Short Composite Barrel",
+			"target": "Pistol Construction Kit (Step 8)",
+			"result": "Pistol Construction Kit (Step 9)",
+			"skills": "Weapon Smt 3-65"
+		},
+		{
+			"source": "Energy Conduction Rack",
+			"target": "Pistol Construction Kit (Step 9)",
+			"result": "Pistol Construction Kit (Step 10)",
+			"skills": "Quantum FT 3-65"
+		},
+		{
+			"source": "Hyper Carbo-Ceramic Cooling System",
+			"target": "Pistol Construction Kit (Step 10)",
+			"result": "Irreparable Blackened Miniblaster",
+			"skills": "Weapon Smt 4-80"
+		}
+	]
 }

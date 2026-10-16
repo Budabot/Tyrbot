@@ -1,8 +1,208 @@
 {
-    "name": "Cheap Fiddle Rifle",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n  'Cheap Fiddle Rifle'\n The Construction kit. must be between Quality Level 1 and 30.\n All other pieces must be of AT LEAST that level range... \n Add them using shift+right-click.\n Add the pieces in the following order:\n \n  1. Rifle Weapons Construction kit.\n \n  2. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 2-75\n \n  3. Hyper Carbo-Ceramic Cooling System. . SkillTo Assemble: Weapon Smt: 4-120\n \n  4. Runtime Critical Area Analyzer. . SkillTo Assemble: Weapon Smt: 4-120\n \n  5. Lock and Stock. . SkillTo Assemble: Weapon Smt: 4-120\n \n  6. Nano Pylon. . SkillTo Assemble: Mech. Engi: 2-75\n \n  7. Ultra-Long Composite Barrel. . SkillTo Assemble: Weapon Smt: 4-128\n \n  8. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 2-45\n \n  9. Nano Pylon. . SkillTo Assemble: Mech. Engi: 2-75\n \n  10. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 2-75\n \n  11. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 2-60\n \n  12. Explosion Propulsion Containment Chamber. . SkillTo Assemble: Mech. Engi: 4-105"
+	"name": "Cheap Fiddle Rifle",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 1 and 30. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Rifle Weapons Construction Kit",
+			"item_id": 137203,
+			"name": "Rifle Weapons Construction Kit",
+			"icon": 131744,
+			"ql": 1
+		},
+		{
+			"alias": "Notum Alloy Strengthened Ribs",
+			"item_id": 137275,
+			"ql": 1,
+			"quantity": 2
+		},
+		{
+			"alias": "Hyper Carbo-Ceramic Cooling System",
+			"item_id": 137267,
+			"ql": 1
+		},
+		{
+			"alias": "Runtime Critical Area Analyzer",
+			"item_id": 137299,
+			"ql": 1
+		},
+		{
+			"alias": "Lock and Stock",
+			"item_id": 137255,
+			"ql": 1
+		},
+		{
+			"alias": "Nano Pylon",
+			"item_id": 137277,
+			"ql": 1,
+			"quantity": 2
+		},
+		{
+			"alias": "Ultra-Long Composite Barrel",
+			"item_id": 137239,
+			"ql": 1
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 1
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 1
+		},
+		{
+			"alias": "Explosion Propulsion Containment Chamber",
+			"item_id": 137241,
+			"ql": 1
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 2)",
+			"item_id": 137946,
+			"name": "Rifle Construction Kit (Step 2)",
+			"icon": 131745,
+			"ql": 1
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 3)",
+			"item_id": 153656,
+			"name": "Rifle Construction Kit (Step 3)",
+			"icon": 131745,
+			"ql": 1
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 4)",
+			"item_id": 153658,
+			"name": "Rifle Construction Kit (Step 4)",
+			"icon": 131746,
+			"ql": 1
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 5)",
+			"item_id": 153660,
+			"name": "Rifle Construction Kit (Step 5)",
+			"icon": 131746,
+			"ql": 1
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 6)",
+			"item_id": 153662,
+			"name": "Rifle Construction Kit (Step 6)",
+			"icon": 131747,
+			"ql": 1
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 7)",
+			"item_id": 153664,
+			"name": "Rifle Construction Kit (Step 7)",
+			"icon": 131747,
+			"ql": 1
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 8)",
+			"item_id": 153666,
+			"name": "Rifle Construction Kit (Step 8)",
+			"icon": 131747,
+			"ql": 1
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 9)",
+			"item_id": 153668,
+			"name": "Rifle Construction Kit (Step 9)",
+			"icon": 131748,
+			"ql": 1
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 10)",
+			"item_id": 153670,
+			"name": "Rifle Construction Kit (Step 10)",
+			"icon": 131748,
+			"ql": 1
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 11)",
+			"item_id": 153672,
+			"name": "Rifle Construction Kit (Step 11)",
+			"icon": 131749,
+			"ql": 1
+		},
+		{
+			"alias": "Cheap Fiddle Rifle",
+			"item_id": 152096,
+			"ql": 1
+		}
+	],
+	"steps": [
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Rifle Weapons Construction Kit",
+			"result": "Rifle Construction Kit (Step 2)",
+			"skills": "Mech. Engi 2-75"
+		},
+		{
+			"source": "Hyper Carbo-Ceramic Cooling System",
+			"target": "Rifle Construction Kit (Step 2)",
+			"result": "Rifle Construction Kit (Step 3)",
+			"skills": "Weapon Smt 4-120"
+		},
+		{
+			"source": "Runtime Critical Area Analyzer",
+			"target": "Rifle Construction Kit (Step 3)",
+			"result": "Rifle Construction Kit (Step 4)",
+			"skills": "Weapon Smt 4-120"
+		},
+		{
+			"source": "Lock and Stock",
+			"target": "Rifle Construction Kit (Step 4)",
+			"result": "Rifle Construction Kit (Step 5)",
+			"skills": "Weapon Smt 4-120"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Rifle Construction Kit (Step 5)",
+			"result": "Rifle Construction Kit (Step 6)",
+			"skills": "Mech. Engi 2-75"
+		},
+		{
+			"source": "Ultra-Long Composite Barrel",
+			"target": "Rifle Construction Kit (Step 6)",
+			"result": "Rifle Construction Kit (Step 7)",
+			"skills": "Weapon Smt 4-128"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Rifle Construction Kit (Step 7)",
+			"result": "Rifle Construction Kit (Step 8)",
+			"skills": "Nano Progra 2-45"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Rifle Construction Kit (Step 8)",
+			"result": "Rifle Construction Kit (Step 9)",
+			"skills": "Mech. Engi 2-75"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Rifle Construction Kit (Step 9)",
+			"result": "Rifle Construction Kit (Step 10)",
+			"skills": "Mech. Engi 2-75"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "Rifle Construction Kit (Step 10)",
+			"result": "Rifle Construction Kit (Step 11)",
+			"skills": "Nano Progra 2-60"
+		},
+		{
+			"source": "Explosion Propulsion Containment Chamber",
+			"target": "Rifle Construction Kit (Step 11)",
+			"result": "Cheap Fiddle Rifle",
+			"skills": "Mech. Engi 4-105"
+		}
+	]
 }

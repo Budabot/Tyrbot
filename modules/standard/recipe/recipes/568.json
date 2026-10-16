@@ -1,21 +1,33 @@
 {
-    "name": "Survival Axe of Genevra",
-    "author": "",
-    "items": [
-        {
-            "alias": "Premium Survival Axe",
-            "item_id": 144081
-        },
-        {
-            "alias": "Viral Weapon Upgrade",
-            "item_id": 248517
-        },
-        {
-            "alias": "Premium Survival Axe of Genevra",
-            "item_id": 249055
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Survival Axe\" \"144081\"\n<img src=rdb://40782>\n\n#L \"Viral Weapon Upgrade\" \"248517\"\n<img src=rdb://100335>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nViral Weapon Upgrade</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nSurvival Axe</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://40782>\n#L \"Premium Survival Axe of Genevra\" \"249055\"</font>\n<font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAnother Viral upgrade."
+	"name": "Survival Axe of Genevra",
+	"author": "",
+	"items": [
+		{
+			"alias": "Survival Axe",
+			"item_id": 144081,
+			"comment": "or any other Survival Axe"
+		},
+		{
+			"alias": "Viral Weapon Upgrade",
+			"item_id": 248517
+		},
+		{
+			"alias": "Premium Survival Axe of Genevra",
+			"item_id": 249055,
+			"comment": "or another Survival Axe of Genevra, depending on the Survival Axe"
+		}
+	],
+	"steps": [
+		{
+			"source": "Viral Weapon Upgrade",
+			"target": "Survival Axe",
+			"result": "Premium Survival Axe of Genevra",
+			"skills": "WS"
+		}
+	],
+	"details": [
+		{
+			"text": "Another Viral upgrade."
+		}
+	]
 }

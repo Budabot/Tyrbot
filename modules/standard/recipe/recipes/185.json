@@ -1,8 +1,209 @@
 {
-    "name": "Cast-Off Heavy Grinner",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n  'Cast-Off Heavy Grinner'\n The Construction kit. must be between Quality Level  21 and  40.\n All other pieces must be of AT LEAST that level range... \n Add them using shift+right-click.\n  Add in following order:\n \n  1. Pistol Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  84 ->  160\n \n  2. Triple Pulse Enabler. SkillTo Assemble: Weapon Smt:  89 ->  170\n \n  3. Lock and Stock. SkillTo Assemble: Weapon Smt:  84 ->  160\n \n  4. Composite Barrel. SkillTo Assemble: Weapon Smt:  79 ->  150\n \n  5. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  42 ->  80\n \n  6. Explosion Propulsion Containment Chamber. SkillTo Assemble: Mech. Engi:  74 ->  140\n \n  7. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  52 ->  100\n \n  8. Nano Pylon. SkillTo Assemble: Mech. Engi:  52 ->  100\n \n  9. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  32 ->  60\n \n  10. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  52 ->  100\n \n  11. Nano Pylon. SkillTo Assemble: Mech. Engi:  52 ->  100\n \n  12. Self-Cleaning KO-CR Device. SkillTo Assemble: Weapon Smt:  74 ->  140"
+	"name": "Cast-Off Heavy Grinner",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 21 and 40. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Pistol Weapons Construction Kit",
+			"item_id": 137201,
+			"name": "Pistol Weapons Construction Kit",
+			"icon": 131726,
+			"ql": 21,
+			"comment": "Skill To Assemble: Weapon Smt 84-160"
+		},
+		{
+			"alias": "Triple Pulse Enabler",
+			"item_id": 137297,
+			"ql": 21
+		},
+		{
+			"alias": "Lock and Stock",
+			"item_id": 137255,
+			"ql": 21
+		},
+		{
+			"alias": "Composite Barrel",
+			"item_id": 137235,
+			"ql": 21
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 21
+		},
+		{
+			"alias": "Explosion Propulsion Containment Chamber",
+			"item_id": 137241,
+			"ql": 21
+		},
+		{
+			"alias": "Notum Alloy Strengthened Ribs",
+			"item_id": 137275,
+			"ql": 21,
+			"quantity": 2
+		},
+		{
+			"alias": "Nano Pylon",
+			"item_id": 137277,
+			"ql": 21,
+			"quantity": 2
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 21
+		},
+		{
+			"alias": "Self-Cleaning KO-CR Device",
+			"item_id": 137279,
+			"ql": 21
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 2)",
+			"item_id": 139060,
+			"name": "Pistol Construction Kit (Step 2)",
+			"icon": 131727,
+			"ql": 21
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 3)",
+			"item_id": 139062,
+			"name": "Pistol Construction Kit (Step 3)",
+			"icon": 131727,
+			"ql": 21
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 4)",
+			"item_id": 139064,
+			"name": "Pistol Construction Kit (Step 4)",
+			"icon": 131728,
+			"ql": 21
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 5)",
+			"item_id": 139066,
+			"name": "Pistol Construction Kit (Step 5)",
+			"icon": 131728,
+			"ql": 21
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 6)",
+			"item_id": 139068,
+			"name": "Pistol Construction Kit (Step 6)",
+			"icon": 131729,
+			"ql": 21
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 7)",
+			"item_id": 139070,
+			"name": "Pistol Construction Kit (Step 7)",
+			"icon": 131729,
+			"ql": 21
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 8)",
+			"item_id": 139072,
+			"name": "Pistol Construction Kit (Step 8)",
+			"icon": 131729,
+			"ql": 21
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 9)",
+			"item_id": 139074,
+			"name": "Pistol Construction Kit (Step 9)",
+			"icon": 131730,
+			"ql": 21
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 10)",
+			"item_id": 139076,
+			"name": "Pistol Construction Kit (Step 10)",
+			"icon": 131730,
+			"ql": 21
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 11)",
+			"item_id": 139078,
+			"name": "Pistol Construction Kit (Step 11)",
+			"icon": 131731,
+			"ql": 21
+		},
+		{
+			"alias": "Cast-Off Heavy Grinner",
+			"item_id": 121895,
+			"ql": 21
+		}
+	],
+	"steps": [
+		{
+			"source": "Triple Pulse Enabler",
+			"target": "Pistol Weapons Construction Kit",
+			"result": "Pistol Construction Kit (Step 2)",
+			"skills": "Weapon Smt 89-170"
+		},
+		{
+			"source": "Lock and Stock",
+			"target": "Pistol Construction Kit (Step 2)",
+			"result": "Pistol Construction Kit (Step 3)",
+			"skills": "Weapon Smt 84-160"
+		},
+		{
+			"source": "Composite Barrel",
+			"target": "Pistol Construction Kit (Step 3)",
+			"result": "Pistol Construction Kit (Step 4)",
+			"skills": "Weapon Smt 79-150"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "Pistol Construction Kit (Step 4)",
+			"result": "Pistol Construction Kit (Step 5)",
+			"skills": "Nano Progra 42-80"
+		},
+		{
+			"source": "Explosion Propulsion Containment Chamber",
+			"target": "Pistol Construction Kit (Step 5)",
+			"result": "Pistol Construction Kit (Step 6)",
+			"skills": "Mech. Engi 74-140"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Pistol Construction Kit (Step 6)",
+			"result": "Pistol Construction Kit (Step 7)",
+			"skills": "Mech. Engi 52-100"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Pistol Construction Kit (Step 7)",
+			"result": "Pistol Construction Kit (Step 8)",
+			"skills": "Mech. Engi 52-100"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Pistol Construction Kit (Step 8)",
+			"result": "Pistol Construction Kit (Step 9)",
+			"skills": "Nano Progra 32-60"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Pistol Construction Kit (Step 9)",
+			"result": "Pistol Construction Kit (Step 10)",
+			"skills": "Mech. Engi 52-100"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Pistol Construction Kit (Step 10)",
+			"result": "Pistol Construction Kit (Step 11)",
+			"skills": "Mech. Engi 52-100"
+		},
+		{
+			"source": "Self-Cleaning KO-CR Device",
+			"target": "Pistol Construction Kit (Step 11)",
+			"result": "Cast-Off Heavy Grinner",
+			"skills": "Weapon Smt 74-140"
+		}
+	]
 }

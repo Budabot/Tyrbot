@@ -1,0 +1,59 @@
+{
+	"name": "Bioremediation Stim",
+	"author": "",
+	"intro": [
+		{
+			"text": "AC Buff Stim:"
+		},
+		{
+			"text": "#L \"1. Polymerizing Stim\" \"/tell <myname> recipe 579\""
+		},
+		{
+			"text": "<highlight>2. Bioremediation Stim</highlight> (this recipe)"
+		},
+		{
+			"text": ""
+		}
+	],
+	"items": [
+		{
+			"alias": "Pit Demon Spit",
+			"item_id": 245169
+		},
+		{
+			"alias": "Empty Stim Unit",
+			"item_id": 247235
+		},
+		{
+			"alias": "Mimicking Cellular Oil",
+			"item_id": 154268
+		},
+		{
+			"alias": "Deinococcus Radiodurans",
+			"item_id": 245168
+		},
+		{
+			"alias": "Bioremediation Stim",
+			"item_id": 245156
+		}
+	],
+	"steps": [
+		{
+			"source": "Pit Demon Spit",
+			"target": "Empty Stim Unit",
+			"result": "Deinococcus Radiodurans",
+			"skills": "PH450"
+		},
+		{
+			"source": "Deinococcus Radiodurans",
+			"target": "Mimicking Cellular Oil",
+			"result": "Bioremediation Stim",
+			"skills": "PH450"
+		}
+	],
+	"details": [
+		{
+			"text": "Enhance your ubahness."
+		}
+	]
+}

@@ -1,21 +1,33 @@
 {
-    "name": "Cutting Valuable Stones",
-    "author": "",
-    "items": [
-        {
-            "alias": "Gem",
-            "item_id": 136641
-        },
-        {
-            "alias": "Jensen Gem Cutter",
-            "item_id": 151366
-        },
-        {
-            "alias": "Perfectly Cut Gem",
-            "item_id": 151552
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\na Valuable Stone\n(ie: #L \"Gem\" \"136641\")\n<img src=rdb://136593>\n\n#L \"Jensen Gem Cutter\" \"151366\"\n<img src=rdb://149941>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nJensen Gem Cutter</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\na Valuable Stone</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://136593>\nPerfectly Cut Valuable Stone\n(ie:#L \"Perfectly Cut Gem\" \"151552\")</font>\n<font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nThis process transforms the Valuable Stone into a Perfectly Cut one, thus doubling its value. The result can also be used in the making of #L \"Jewels\" \"/tell <myname> recipe 62\"."
+	"name": "Cutting Valuable Stones",
+	"author": "",
+	"items": [
+		{
+			"alias": "Valuable Stone",
+			"item_id": 136641,
+			"comment": "or any other Valuable Stone"
+		},
+		{
+			"alias": "Jensen Gem Cutter",
+			"item_id": 151366
+		},
+		{
+			"alias": "Perfectly Cut Valuable Stone",
+			"item_id": 151552,
+			"comment": "or another Perfectly Cut Valuable Stone, depending on the Valuable Stone"
+		}
+	],
+	"steps": [
+		{
+			"source": "Jensen Gem Cutter",
+			"target": "Valuable Stone",
+			"result": "Perfectly Cut Valuable Stone",
+			"skills": "ME"
+		}
+	],
+	"details": [
+		{
+			"text": "This process transforms the Valuable Stone into a Perfectly Cut one, thus doubling its value. The result can also be used in the making of #L \"Jewels\" \"/tell <myname> recipe 62\"."
+		}
+	]
 }

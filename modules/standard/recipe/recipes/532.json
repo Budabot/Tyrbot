@@ -1,8 +1,209 @@
 {
-    "name": "Worn Kolt 58 Magnum",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n 'Worn Kolt 58 Magnum'\nThe Construction kit. must be between Quality Level  81 and  100.\nAll other pieces must be of AT LEAST that level range... \nAdd them using shift+right-click.\n Add in following order:\n\n 1. Pistol Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  324 ->  400\n\n 2. Nano Pylon. SkillTo Assemble: Mech. Engi:  202 ->  250\n\n 3. Jandawit Cleanup Cluster. SkillTo Assemble: Weapon Smt:  284 ->  350\n\n 4. Hyper Carbo-Ceramic Cooling System. SkillTo Assemble: Weapon Smt:  324 ->  400\n\n 5. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  202 ->  250\n\n 6. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  202 ->  250\n\n 7. Explosion Propulsion Containment Chamber. SkillTo Assemble: Mech. Engi:  284 ->  350\n\n 8. Lock and Stock. SkillTo Assemble: Weapon Smt:  324 ->  400\n\n 9. Nano Pylon. SkillTo Assemble: Mech. Engi:  202 ->  250\n\n 10. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  122 ->  150\n\n 11. Rapid-Reload-And-Fire Gyro. SkillTo Assemble: Weapon Smt:  324 ->  400\n\n 12. Composite Barrel. SkillTo Assemble: Weapon Smt:  304 ->  375"
+	"name": "Worn Kolt 58 Magnum",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 81 and 100. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Pistol Weapons Construction Kit",
+			"item_id": 137201,
+			"name": "Pistol Weapons Construction Kit",
+			"icon": 131726,
+			"ql": 81,
+			"comment": "Skill To Assemble: Weapon Smt 324-400"
+		},
+		{
+			"alias": "Nano Pylon",
+			"item_id": 137277,
+			"ql": 81,
+			"quantity": 2
+		},
+		{
+			"alias": "Jandawit Cleanup Cluster",
+			"item_id": 137281,
+			"ql": 81
+		},
+		{
+			"alias": "Hyper Carbo-Ceramic Cooling System",
+			"item_id": 137267,
+			"ql": 81
+		},
+		{
+			"alias": "Notum Alloy Strengthened Ribs",
+			"item_id": 137275,
+			"ql": 81,
+			"quantity": 2
+		},
+		{
+			"alias": "Explosion Propulsion Containment Chamber",
+			"item_id": 137241,
+			"ql": 81
+		},
+		{
+			"alias": "Lock and Stock",
+			"item_id": 137255,
+			"ql": 81
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 81
+		},
+		{
+			"alias": "Rapid-Reload-And-Fire Gyro",
+			"item_id": 137313,
+			"ql": 81
+		},
+		{
+			"alias": "Composite Barrel",
+			"item_id": 137235,
+			"ql": 81
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 2)",
+			"item_id": 139081,
+			"name": "Pistol Construction Kit (Step 2)",
+			"icon": 131727,
+			"ql": 81
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 3)",
+			"item_id": 141709,
+			"name": "Pistol Construction Kit (Step 3)",
+			"icon": 131727,
+			"ql": 81
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 4)",
+			"item_id": 141711,
+			"name": "Pistol Construction Kit (Step 4)",
+			"icon": 131728,
+			"ql": 81
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 5)",
+			"item_id": 141713,
+			"name": "Pistol Construction Kit (Step 5)",
+			"icon": 131728,
+			"ql": 81
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 6)",
+			"item_id": 141715,
+			"name": "Pistol Construction Kit (Step 6)",
+			"icon": 131729,
+			"ql": 81
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 7)",
+			"item_id": 141717,
+			"name": "Pistol Construction Kit (Step 7)",
+			"icon": 131729,
+			"ql": 81
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 8)",
+			"item_id": 141719,
+			"name": "Pistol Construction Kit (Step 8)",
+			"icon": 131729,
+			"ql": 81
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 9)",
+			"item_id": 141721,
+			"name": "Pistol Construction Kit (Step 9)",
+			"icon": 131730,
+			"ql": 81
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 10)",
+			"item_id": 141723,
+			"name": "Pistol Construction Kit (Step 10)",
+			"icon": 131730,
+			"ql": 81
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 11)",
+			"item_id": 141725,
+			"name": "Pistol Construction Kit (Step 11)",
+			"icon": 131731,
+			"ql": 81
+		},
+		{
+			"alias": "Worn Kolt 58 Magnum",
+			"item_id": 122989,
+			"ql": 81
+		}
+	],
+	"steps": [
+		{
+			"source": "Nano Pylon",
+			"target": "Pistol Weapons Construction Kit",
+			"result": "Pistol Construction Kit (Step 2)",
+			"skills": "Mech. Engi 202-250"
+		},
+		{
+			"source": "Jandawit Cleanup Cluster",
+			"target": "Pistol Construction Kit (Step 2)",
+			"result": "Pistol Construction Kit (Step 3)",
+			"skills": "Weapon Smt 284-350"
+		},
+		{
+			"source": "Hyper Carbo-Ceramic Cooling System",
+			"target": "Pistol Construction Kit (Step 3)",
+			"result": "Pistol Construction Kit (Step 4)",
+			"skills": "Weapon Smt 324-400"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Pistol Construction Kit (Step 4)",
+			"result": "Pistol Construction Kit (Step 5)",
+			"skills": "Mech. Engi 202-250"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Pistol Construction Kit (Step 5)",
+			"result": "Pistol Construction Kit (Step 6)",
+			"skills": "Mech. Engi 202-250"
+		},
+		{
+			"source": "Explosion Propulsion Containment Chamber",
+			"target": "Pistol Construction Kit (Step 6)",
+			"result": "Pistol Construction Kit (Step 7)",
+			"skills": "Mech. Engi 284-350"
+		},
+		{
+			"source": "Lock and Stock",
+			"target": "Pistol Construction Kit (Step 7)",
+			"result": "Pistol Construction Kit (Step 8)",
+			"skills": "Weapon Smt 324-400"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Pistol Construction Kit (Step 8)",
+			"result": "Pistol Construction Kit (Step 9)",
+			"skills": "Mech. Engi 202-250"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Pistol Construction Kit (Step 9)",
+			"result": "Pistol Construction Kit (Step 10)",
+			"skills": "Nano Progra 122-150"
+		},
+		{
+			"source": "Rapid-Reload-And-Fire Gyro",
+			"target": "Pistol Construction Kit (Step 10)",
+			"result": "Pistol Construction Kit (Step 11)",
+			"skills": "Weapon Smt 324-400"
+		},
+		{
+			"source": "Composite Barrel",
+			"target": "Pistol Construction Kit (Step 11)",
+			"result": "Worn Kolt 58 Magnum",
+			"skills": "Weapon Smt 304-375"
+		}
+	]
 }

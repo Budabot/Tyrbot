@@ -1,8 +1,194 @@
 {
-    "name": "Ramen and Devis - Mathis Multi-Energy Rifle",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n 'Ramen and Devis - Mathis Multi-Energy Rifle'\nThe Construction kit. must be between Quality Level 21 and 40.\nAll other pieces must be of AT LEAST that level range... \nAdd them using shift+right-click.\nAdd the pieces in the following order:\n\n 1. Rifle Weapons Construction kit.\n\n 2. Hyper Carbo-Ceramic Cooling System. . SkillTo Assemble: Weapon Smt: 84-160\n\n 3. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 52-100\n\n 4. Nano Pylon. . SkillTo Assemble: Mech. Engi: 52-100\n\n 5. Ultra-Long Composite Barrel. . SkillTo Assemble: Weapon Smt: 89-170\n\n 6. Energy Conduction Rack. . SkillTo Assemble: Quantum FT: 68-130\n\n 7. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 32-60\n\n 8. Nano Pylon. . SkillTo Assemble: Mech. Engi: 52-100\n\n 9. Energy Pack Interface. . SkillTo Assemble: Elec. Engi: 84-160\n\n 10. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 42-80\n\n 11. Runtime Critical Area Analyzer. . SkillTo Assemble: Weapon Smt: 84-160"
+	"name": "Ramen and Devis - Mathis Multi-Energy Rifle",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 21 and 40. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Rifle Weapons Construction Kit",
+			"item_id": 137203,
+			"name": "Rifle Weapons Construction Kit",
+			"icon": 131744,
+			"ql": 21
+		},
+		{
+			"alias": "Hyper Carbo-Ceramic Cooling System",
+			"item_id": 137267,
+			"ql": 21
+		},
+		{
+			"alias": "Notum Alloy Strengthened Ribs",
+			"item_id": 137275,
+			"ql": 21
+		},
+		{
+			"alias": "Nano Pylon",
+			"item_id": 137277,
+			"ql": 21,
+			"quantity": 2
+		},
+		{
+			"alias": "Ultra-Long Composite Barrel",
+			"item_id": 137239,
+			"ql": 21
+		},
+		{
+			"alias": "Energy Conduction Rack",
+			"item_id": 137243,
+			"ql": 21
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 21
+		},
+		{
+			"alias": "Energy Pack Interface",
+			"item_id": 137257,
+			"ql": 21
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 21
+		},
+		{
+			"alias": "Runtime Critical Area Analyzer",
+			"item_id": 137299,
+			"ql": 21
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 2)",
+			"item_id": 139680,
+			"name": "Rifle Construction Kit (Step 2)",
+			"icon": 131745,
+			"ql": 21
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 3)",
+			"item_id": 139682,
+			"name": "Rifle Construction Kit (Step 3)",
+			"icon": 131745,
+			"ql": 21
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 4)",
+			"item_id": 153379,
+			"name": "Rifle Construction Kit (Step 4)",
+			"icon": 131746,
+			"ql": 21
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 5)",
+			"item_id": 153381,
+			"name": "Rifle Construction Kit (Step 5)",
+			"icon": 131746,
+			"ql": 21
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 6)",
+			"item_id": 153383,
+			"name": "Rifle Construction Kit (Step 6)",
+			"icon": 131747,
+			"ql": 21
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 7)",
+			"item_id": 153385,
+			"name": "Rifle Construction Kit (Step 7)",
+			"icon": 131747,
+			"ql": 21
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 8)",
+			"item_id": 153387,
+			"name": "Rifle Construction Kit (Step 8)",
+			"icon": 131748,
+			"ql": 21
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 9)",
+			"item_id": 153389,
+			"name": "Rifle Construction Kit (Step 9)",
+			"icon": 131748,
+			"ql": 21
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 10)",
+			"item_id": 153391,
+			"name": "Rifle Construction Kit (Step 10)",
+			"icon": 131749,
+			"ql": 21
+		},
+		{
+			"alias": "Ramen and Devis - Mathis Multi-Energy Rifle",
+			"item_id": 152066,
+			"ql": 21
+		}
+	],
+	"steps": [
+		{
+			"source": "Hyper Carbo-Ceramic Cooling System",
+			"target": "Rifle Weapons Construction Kit",
+			"result": "Rifle Construction Kit (Step 2)",
+			"skills": "Weapon Smt 84-160"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Rifle Construction Kit (Step 2)",
+			"result": "Rifle Construction Kit (Step 3)",
+			"skills": "Mech. Engi 52-100"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Rifle Construction Kit (Step 3)",
+			"result": "Rifle Construction Kit (Step 4)",
+			"skills": "Mech. Engi 52-100"
+		},
+		{
+			"source": "Ultra-Long Composite Barrel",
+			"target": "Rifle Construction Kit (Step 4)",
+			"result": "Rifle Construction Kit (Step 5)",
+			"skills": "Weapon Smt 89-170"
+		},
+		{
+			"source": "Energy Conduction Rack",
+			"target": "Rifle Construction Kit (Step 5)",
+			"result": "Rifle Construction Kit (Step 6)",
+			"skills": "Quantum FT 68-130"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Rifle Construction Kit (Step 6)",
+			"result": "Rifle Construction Kit (Step 7)",
+			"skills": "Nano Progra 32-60"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Rifle Construction Kit (Step 7)",
+			"result": "Rifle Construction Kit (Step 8)",
+			"skills": "Mech. Engi 52-100"
+		},
+		{
+			"source": "Energy Pack Interface",
+			"target": "Rifle Construction Kit (Step 8)",
+			"result": "Rifle Construction Kit (Step 9)",
+			"skills": "Elec. Engi 84-160"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "Rifle Construction Kit (Step 9)",
+			"result": "Rifle Construction Kit (Step 10)",
+			"skills": "Nano Progra 42-80"
+		},
+		{
+			"source": "Runtime Critical Area Analyzer",
+			"target": "Rifle Construction Kit (Step 10)",
+			"result": "Ramen and Devis - Mathis Multi-Energy Rifle",
+			"skills": "Weapon Smt 84-160"
+		}
+	]
 }

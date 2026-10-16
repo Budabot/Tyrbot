@@ -1,8 +1,245 @@
 {
-    "name": "Fine-Tuned E-Beamer",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n  'Fine-Tuned E-Beamer'\n The Construction kit. must be between Quality Level  141 and  160.\n All other pieces must be of AT LEAST that level range... \n Add them using shift+right-click.\n  Add in following order:\n \n  1. Energy Weapons Construction kit. SkillTo Assemble: Weapon Smt:  564 ->  640\n \n  2. Short Composite Barrel. SkillTo Assemble: Weapon Smt:  458 ->  520\n \n  3. Nano Pylon. SkillTo Assemble: Mech. Engi:  352 ->  400\n \n  4. Nano Pylon. SkillTo Assemble: Mech. Engi:  352 ->  400\n \n  5. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  212 ->  240\n \n  6. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  282 ->  320\n \n  7. Notum Enriched Nano Paste - 4x Layer. SkillTo Assemble: Nano Progra:  352 ->  400\n \n  8. Energy Pack Interface. SkillTo Assemble: Elec. Engi:  564 ->  640\n \n  9. Energy Conduction Rack. SkillTo Assemble: Quantum FT:  458 ->  520\n \n  10. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  352 ->  400\n \n  11. Self-Cleaning KO-CR Device. SkillTo Assemble: Weapon Smt:  494 ->  560\n \n  12. Rapid-Reload-And-Fire Gyro. SkillTo Assemble: Weapon Smt:  564 ->  640\n \n  13. Flake Tubing Base Cooling System. SkillTo Assemble: Weapon Smt:  564 ->  640\n \n  14. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  352 ->  400"
+	"name": "Fine-Tuned E-Beamer",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 141 and 160. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Energy Weapons Construction Kit",
+			"item_id": 137209,
+			"name": "Energy Weapons Construction Kit",
+			"icon": 131708,
+			"ql": 141,
+			"comment": "Skill To Assemble: Weapon Smt 564-640"
+		},
+		{
+			"alias": "Short Composite Barrel",
+			"item_id": 137233,
+			"ql": 141
+		},
+		{
+			"alias": "Nano Pylon",
+			"item_id": 137277,
+			"ql": 141,
+			"quantity": 2
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 141
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 141
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 4x Layer",
+			"item_id": 137307,
+			"ql": 141
+		},
+		{
+			"alias": "Energy Pack Interface",
+			"item_id": 137257,
+			"ql": 141
+		},
+		{
+			"alias": "Energy Conduction Rack",
+			"item_id": 137243,
+			"ql": 141
+		},
+		{
+			"alias": "Notum Alloy Strengthened Ribs",
+			"item_id": 137275,
+			"ql": 141,
+			"quantity": 2
+		},
+		{
+			"alias": "Self-Cleaning KO-CR Device",
+			"item_id": 137279,
+			"ql": 141
+		},
+		{
+			"alias": "Rapid-Reload-And-Fire Gyro",
+			"item_id": 137313,
+			"ql": 141
+		},
+		{
+			"alias": "Flake Tubing Base Cooling System",
+			"item_id": 137265,
+			"ql": 141
+		},
+		{
+			"alias": "Ranged Ener Construction Kit (Step 2)",
+			"item_id": 138243,
+			"name": "Ranged Ener Construction Kit (Step 2)",
+			"icon": 131709,
+			"ql": 141
+		},
+		{
+			"alias": "Ranged Ener Construction Kit (Step 3)",
+			"item_id": 138427,
+			"name": "Ranged Ener Construction Kit (Step 3)",
+			"icon": 131709,
+			"ql": 141
+		},
+		{
+			"alias": "Ranged Ener Construction Kit (Step 4)",
+			"item_id": 138429,
+			"name": "Ranged Ener Construction Kit (Step 4)",
+			"icon": 131709,
+			"ql": 141
+		},
+		{
+			"alias": "Ranged Ener Construction Kit (Step 5)",
+			"item_id": 138431,
+			"name": "Ranged Ener Construction Kit (Step 5)",
+			"icon": 131710,
+			"ql": 141
+		},
+		{
+			"alias": "Ranged Ener Construction Kit (Step 6)",
+			"item_id": 138433,
+			"name": "Ranged Ener Construction Kit (Step 6)",
+			"icon": 131710,
+			"ql": 141
+		},
+		{
+			"alias": "Ranged Ener Construction Kit (Step 7)",
+			"item_id": 138435,
+			"name": "Ranged Ener Construction Kit (Step 7)",
+			"icon": 131711,
+			"ql": 141
+		},
+		{
+			"alias": "Ranged Ener Construction Kit (Step 8)",
+			"item_id": 138437,
+			"name": "Ranged Ener Construction Kit (Step 8)",
+			"icon": 131711,
+			"ql": 141
+		},
+		{
+			"alias": "Ranged Ener Construction Kit (Step 9)",
+			"item_id": 138439,
+			"name": "Ranged Ener Construction Kit (Step 9)",
+			"icon": 131711,
+			"ql": 141
+		},
+		{
+			"alias": "Ranged Ener Construction Kit (Step 10)",
+			"item_id": 138441,
+			"name": "Ranged Ener Construction Kit (Step 10)",
+			"icon": 131712,
+			"ql": 141
+		},
+		{
+			"alias": "Ranged Ener Construction Kit (Step 11)",
+			"item_id": 138443,
+			"name": "Ranged Ener Construction Kit (Step 11)",
+			"icon": 131712,
+			"ql": 141
+		},
+		{
+			"alias": "Ranged Ener Construction Kit (Step 12)",
+			"item_id": 138445,
+			"name": "Ranged Ener Construction Kit (Step 12)",
+			"icon": 131712,
+			"ql": 141
+		},
+		{
+			"alias": "Ranged Ener Construction Kit (Step 13)",
+			"item_id": 138447,
+			"name": "Ranged Ener Construction Kit (Step 13)",
+			"icon": 131713,
+			"ql": 141
+		},
+		{
+			"alias": "Fine-Tuned E-Beamer",
+			"item_id": 122135,
+			"ql": 141
+		}
+	],
+	"steps": [
+		{
+			"source": "Short Composite Barrel",
+			"target": "Energy Weapons Construction Kit",
+			"result": "Ranged Ener Construction Kit (Step 2)",
+			"skills": "Weapon Smt 458-520"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Ranged Ener Construction Kit (Step 2)",
+			"result": "Ranged Ener Construction Kit (Step 3)",
+			"skills": "Mech. Engi 352-400"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Ranged Ener Construction Kit (Step 3)",
+			"result": "Ranged Ener Construction Kit (Step 4)",
+			"skills": "Mech. Engi 352-400"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Ranged Ener Construction Kit (Step 4)",
+			"result": "Ranged Ener Construction Kit (Step 5)",
+			"skills": "Nano Progra 212-240"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "Ranged Ener Construction Kit (Step 5)",
+			"result": "Ranged Ener Construction Kit (Step 6)",
+			"skills": "Nano Progra 282-320"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 4x Layer",
+			"target": "Ranged Ener Construction Kit (Step 6)",
+			"result": "Ranged Ener Construction Kit (Step 7)",
+			"skills": "Nano Progra 352-400"
+		},
+		{
+			"source": "Energy Pack Interface",
+			"target": "Ranged Ener Construction Kit (Step 7)",
+			"result": "Ranged Ener Construction Kit (Step 8)",
+			"skills": "Elec. Engi 564-640"
+		},
+		{
+			"source": "Energy Conduction Rack",
+			"target": "Ranged Ener Construction Kit (Step 8)",
+			"result": "Ranged Ener Construction Kit (Step 9)",
+			"skills": "Quantum FT 458-520"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Ranged Ener Construction Kit (Step 9)",
+			"result": "Ranged Ener Construction Kit (Step 10)",
+			"skills": "Mech. Engi 352-400"
+		},
+		{
+			"source": "Self-Cleaning KO-CR Device",
+			"target": "Ranged Ener Construction Kit (Step 10)",
+			"result": "Ranged Ener Construction Kit (Step 11)",
+			"skills": "Weapon Smt 494-560"
+		},
+		{
+			"source": "Rapid-Reload-And-Fire Gyro",
+			"target": "Ranged Ener Construction Kit (Step 11)",
+			"result": "Ranged Ener Construction Kit (Step 12)",
+			"skills": "Weapon Smt 564-640"
+		},
+		{
+			"source": "Flake Tubing Base Cooling System",
+			"target": "Ranged Ener Construction Kit (Step 12)",
+			"result": "Ranged Ener Construction Kit (Step 13)",
+			"skills": "Weapon Smt 564-640"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Ranged Ener Construction Kit (Step 13)",
+			"result": "Fine-Tuned E-Beamer",
+			"skills": "Mech. Engi 352-400"
+		}
+	]
 }

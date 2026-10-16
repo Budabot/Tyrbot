@@ -1,8 +1,213 @@
 {
-    "name": "Flamethrower",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n  'Flamethrower'\n The Construction kit. must be between Quality Level  81 and  100.\n All other pieces must be of AT LEAST that level range... \n Add them using shift+right-click.\n  Add in following order:\n \n  1. AssaultRifle Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  324 ->  400\n \n  2. Self-Cleaning KO-CR Device. SkillTo Assemble: Weapon Smt:  284 ->  350\n \n  3. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  202 ->  250\n \n  4. Short Composite Barrel. SkillTo Assemble: Weapon Smt:  263 ->  325\n \n  5. Nano Pylon. SkillTo Assemble: Mech. Engi:  202 ->  250\n \n  6. Nano Pylon. SkillTo Assemble: Mech. Engi:  202 ->  250\n \n  7. Primitive Freon Bag Cooling System. SkillTo Assemble: Weapon Smt:  324 ->  400\n \n  8. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  122 ->  150\n \n  9. Compression Chamber for Chemicals. SkillTo Assemble: Weapon Smt:  344 ->  425\n \n  10. Auto Targeting Computer -IIR 1. SkillTo Assemble: Elec. Engi:  182 ->  225\n \n  11. Plasma Streamer Interface Nozzle. SkillTo Assemble: Chemistry:  324 ->  400\n \n  12. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  162 ->  200"
+	"name": "Flamethrower",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 81 and 100. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "AssaultRifle Weapons Construction Kit",
+			"item_id": 137205,
+			"name": "AssaultRifle Weapons Construction Kit",
+			"icon": 131797,
+			"ql": 81,
+			"comment": "Skill To Assemble: Weapon Smt 324-400"
+		},
+		{
+			"alias": "Self-Cleaning KO-CR Device",
+			"item_id": 137279,
+			"ql": 81
+		},
+		{
+			"alias": "Notum Alloy Strengthened Ribs",
+			"item_id": 137275,
+			"ql": 81
+		},
+		{
+			"alias": "Short Composite Barrel",
+			"item_id": 137233,
+			"ql": 81
+		},
+		{
+			"alias": "Nano Pylon",
+			"item_id": 137277,
+			"ql": 81,
+			"quantity": 2
+		},
+		{
+			"alias": "Primitive Freon Bag Cooling System",
+			"item_id": 137263,
+			"ql": 81
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 81
+		},
+		{
+			"alias": "Compression Chamber for Chemicals",
+			"item_id": 137247,
+			"ql": 81
+		},
+		{
+			"alias": "Auto Targeting Computer -IIR 1",
+			"item_id": 137285,
+			"ql": 81
+		},
+		{
+			"alias": "Plasma Streamer Interface Nozzle",
+			"item_id": 137261,
+			"ql": 81
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 81
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 2)",
+			"item_id": 139323,
+			"name": "Assault Rif Construction Kit (Step 2)",
+			"icon": 131673,
+			"ql": 81
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 3)",
+			"item_id": 139325,
+			"name": "Assault Rif Construction Kit (Step 3)",
+			"icon": 131673,
+			"ql": 81
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 4)",
+			"item_id": 139327,
+			"name": "Assault Rif Construction Kit (Step 4)",
+			"icon": 131674,
+			"ql": 81
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 5)",
+			"item_id": 139329,
+			"name": "Assault Rif Construction Kit (Step 5)",
+			"icon": 131674,
+			"ql": 81
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 6)",
+			"item_id": 139331,
+			"name": "Assault Rif Construction Kit (Step 6)",
+			"icon": 131675,
+			"ql": 81
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 7)",
+			"item_id": 139333,
+			"name": "Assault Rif Construction Kit (Step 7)",
+			"icon": 131675,
+			"ql": 81
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 8)",
+			"item_id": 139335,
+			"name": "Assault Rif Construction Kit (Step 8)",
+			"icon": 131675,
+			"ql": 81
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 9)",
+			"item_id": 139337,
+			"name": "Assault Rif Construction Kit (Step 9)",
+			"icon": 131676,
+			"ql": 81
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 10)",
+			"item_id": 139339,
+			"name": "Assault Rif Construction Kit (Step 10)",
+			"icon": 131676,
+			"ql": 81
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 11)",
+			"item_id": 139341,
+			"name": "Assault Rif Construction Kit (Step 11)",
+			"icon": 131677,
+			"ql": 81
+		},
+		{
+			"alias": "Flamethrower",
+			"item_id": 121920,
+			"ql": 81
+		}
+	],
+	"steps": [
+		{
+			"source": "Self-Cleaning KO-CR Device",
+			"target": "AssaultRifle Weapons Construction Kit",
+			"result": "Assault Rif Construction Kit (Step 2)",
+			"skills": "Weapon Smt 284-350"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Assault Rif Construction Kit (Step 2)",
+			"result": "Assault Rif Construction Kit (Step 3)",
+			"skills": "Mech. Engi 202-250"
+		},
+		{
+			"source": "Short Composite Barrel",
+			"target": "Assault Rif Construction Kit (Step 3)",
+			"result": "Assault Rif Construction Kit (Step 4)",
+			"skills": "Weapon Smt 263-325"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Assault Rif Construction Kit (Step 4)",
+			"result": "Assault Rif Construction Kit (Step 5)",
+			"skills": "Mech. Engi 202-250"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Assault Rif Construction Kit (Step 5)",
+			"result": "Assault Rif Construction Kit (Step 6)",
+			"skills": "Mech. Engi 202-250"
+		},
+		{
+			"source": "Primitive Freon Bag Cooling System",
+			"target": "Assault Rif Construction Kit (Step 6)",
+			"result": "Assault Rif Construction Kit (Step 7)",
+			"skills": "Weapon Smt 324-400"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Assault Rif Construction Kit (Step 7)",
+			"result": "Assault Rif Construction Kit (Step 8)",
+			"skills": "Nano Progra 122-150"
+		},
+		{
+			"source": "Compression Chamber for Chemicals",
+			"target": "Assault Rif Construction Kit (Step 8)",
+			"result": "Assault Rif Construction Kit (Step 9)",
+			"skills": "Weapon Smt 344-425"
+		},
+		{
+			"source": "Auto Targeting Computer -IIR 1",
+			"target": "Assault Rif Construction Kit (Step 9)",
+			"result": "Assault Rif Construction Kit (Step 10)",
+			"skills": "Elec. Engi 182-225"
+		},
+		{
+			"source": "Plasma Streamer Interface Nozzle",
+			"target": "Assault Rif Construction Kit (Step 10)",
+			"result": "Assault Rif Construction Kit (Step 11)",
+			"skills": "Chemistry 324-400"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "Assault Rif Construction Kit (Step 11)",
+			"result": "Flamethrower",
+			"skills": "Nano Progra 162-200"
+		}
+	]
 }

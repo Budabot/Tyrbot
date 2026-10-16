@@ -1,6 +1,7 @@
 from core.chat_blob import ChatBlob
 from core.decorators import instance, command
 from core.command_param_types import Any, Int, NamedParameters, Item
+from core.dict_object import DictObject
 import os
 import re
 import json
@@ -149,20 +150,25 @@ class RecipeController:
     def format_json_recipe(self, recipe_id, recipe):
         items = {}
         for i in recipe["items"]:
-            item = self.items_controller.get_by_item_id(i["item_id"], i.get("ql"))
-            if not item:
-                raise Exception("Could not find recipe item '%d' for recipe id %s" % (i["item_id"], recipe_id))
+            if "item_id" in i:
+                item = self.get_recipe_item(recipe_id, i)
+            else:
+                # Placeholder for an unknown item; displayed by name only, without a link
+                item = DictObject({"name": i["name"], "icon": i.get("icon")})
 
-            item.ql = i.get("ql") or (item.highql if i["item_id"] == item.highid else item.lowql)
+            item.quantity = i.get("quantity")
+            item.comment = i.get("comment")
             items[i["alias"]] = item
 
         content = ""
 
-        ingredients = items.copy()
-        for step in recipe["steps"]:
-            del ingredients[step["result"]]
+        if "intro" in recipe:
+            content += self.format_detail_entries(recipe["intro"]) + "\n"
 
-        content += self.format_ingredients(ingredients.items())
+        results = set(step["result"] for step in recipe["steps"] if "text" not in step)
+        ingredients = [(alias, item) for alias, item in items.items() if alias not in results]
+
+        content += self.format_ingredients(ingredients)
         content += "\n"
         content += self.format_steps(items, recipe["steps"])
 
@@ -171,15 +177,47 @@ class RecipeController:
 
         return content
 
+    def get_recipe_item(self, recipe_id, i):
+        item = self.items_controller.get_by_item_id(i["item_id"], i.get("ql"))
+        if item:
+            item.ql = i.get("ql") or (item.highql if i["item_id"] == item.highid else item.lowql)
+        elif "name" in i and "icon" in i and "ql" in i:
+            # Item missing from the items db; displayed from the recipe's own name, icon and ql
+            item = DictObject({"lowid": i["item_id"], "highid": i["item_id"], "ql": i["ql"], "name": i["name"], "icon": i["icon"]})
+        else:
+            raise Exception("Could not find recipe item '%d' for recipe id %s" % (i["item_id"], recipe_id))
+        return item
+
     def format_ingredients(self, ingredients):
         content = "<font color=#FFFF00>------------------------------</font>\n"
         content += "<font color=#FF0000>Ingredients</font>\n"
         content += "<font color=#FFFF00>------------------------------</font>\n\n"
 
         for _, ingredient in ingredients:
-            content += self.text.make_image(ingredient["icon"]) + "<tab>"
-            content += self.text.make_item(ingredient["lowid"], ingredient["highid"], ingredient["ql"], ingredient["name"]) + "\n"
+            if ingredient.icon is not None:
+                content += self.text.make_image(ingredient.icon)
+            content += "<tab>" + self.format_item_name(ingredient)
+            content += self.format_item_notes(ingredient) + "\n"
 
+        return content
+
+    def format_item_name(self, item):
+        if "lowid" not in item:
+            return item.name
+        return self.text.make_item(item.lowid, item.highid, item.ql, item.name)
+
+    def format_item_icon(self, item):
+        image = item.name if item.icon is None else self.text.make_image(item.icon)
+        if "lowid" not in item:
+            return image
+        return "<a href='itemref://%d/%d/%d'>%s</a>" % (item.lowid, item.highid, item.ql, image)
+
+    def format_item_notes(self, item):
+        content = ""
+        if item.quantity:
+            content += " x %s" % item.quantity
+        if item.comment:
+            content += " - " + item.comment
         return content
 
     def format_steps(self, items, steps):
@@ -189,23 +227,22 @@ class RecipeController:
         content += "<font color=#FFFF00>------------------------------</font>\n\n"
 
         for step in steps:
+            if "text" in step:
+                content += "<font color=#FFFFFF>%s</font>\n\n" % step["text"]
+                continue
+
             source = items[step["source"]]
             target = items[step["target"]]
             result = items[step["result"]]
-            content += "<a href='itemref://%d/%d/%d'>%s</a>" % \
-                       (source["lowid"], source["highid"], source["ql"],
-                        self.text.make_image(source["icon"])) + ""
+            content += self.format_item_icon(source)
             content += "<font color=#FFFFFF><tab>+<tab></font> "
-            content += "<a href='itemref://%d/%d/%d'>%s</a>" % \
-                       (target["lowid"], target["highid"], target["ql"],
-                        self.text.make_image(target["icon"])) + ""
+            content += self.format_item_icon(target)
             content += "<font color=#FFFFFF><tab>=<tab></font> "
-            content += "<a href='itemref://%d/%d/%d'>%s</a>" % \
-                       (result["lowid"], result["highid"], result["ql"],
-                        self.text.make_image(result["icon"]))
-            content += "\n<tab><tab>" + self.text.make_item(source["lowid"], source["highid"], source["ql"], source["name"])
-            content += "\n + <tab>" + self.text.make_item(target["lowid"], target["highid"], target["ql"], target["name"])
-            content += "\n = <tab>" + self.text.make_item(result["lowid"], result["highid"], result["ql"], result["name"]) + "\n"
+            content += self.format_item_icon(result)
+            content += "\n<tab><tab>" + self.format_item_name(source)
+            content += "\n + <tab>" + self.format_item_name(target)
+            content += "\n = <tab>" + self.format_item_name(result)
+            content += self.format_item_notes(result) + "\n"
 
             if "skills" in step:
                 content += "<font color=#FFFF00>Skills: | %s |</font>\n" % step["skills"]
@@ -218,7 +255,12 @@ class RecipeController:
         content += "<font color=#FFFF00>------------------------------</font>\n"
         content += "<font color=#FF0000>Details</font>\n"
         content += "<font color=#FFFF00>------------------------------</font>\n\n"
+        content += self.format_detail_entries(details)
 
+        return content
+
+    def format_detail_entries(self, details):
+        content = ""
         last_type = ""
         for detail in details:
             if "item" in detail:

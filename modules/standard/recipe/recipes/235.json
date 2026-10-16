@@ -1,8 +1,163 @@
 {
-    "name": "Deluxe Grenade-Thrower",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n  'Deluxe Grenade-Thrower'\n The Construction kit. must be between Quality Level  161 and  199.\n All other pieces must be of AT LEAST that level range... \n Add them using shift+right-click.\n  Add in following order:\n \n  1. Grenades Construction kit. SkillTo Assemble: Weapon Smt:  644 ->  796\n \n  2. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  402 ->  498\n \n  3. Nano Pylon. SkillTo Assemble: Mech. Engi:  402 ->  498\n \n  4. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  322 ->  398\n \n  5. Poison Chemical Combination Chamber. SkillTo Assemble: Chemistry:  644 ->  796\n \n  6. Ultra Short Composite Barrel. SkillTo Assemble: Weapon Smt:  483 ->  597\n \n  7. Notum Enriched Nano Paste - 4x Layer. SkillTo Assemble: Nano Progra:  402 ->  498\n \n  8. Flake Tubing Base Cooling System. SkillTo Assemble: Weapon Smt:  644 ->  796\n \n  9. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  242 ->  298"
+	"name": "Deluxe Grenade-Thrower",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 161 and 199. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Grenades Construction Kit",
+			"item_id": 137215,
+			"name": "Grenades Construction Kit",
+			"icon": 131690,
+			"ql": 161,
+			"comment": "Skill To Assemble: Weapon Smt 644-796"
+		},
+		{
+			"alias": "Notum Alloy Strengthened Ribs",
+			"item_id": 137275,
+			"ql": 161
+		},
+		{
+			"alias": "Nano Pylon",
+			"item_id": 137277,
+			"ql": 161
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 161
+		},
+		{
+			"alias": "Poison Chemical Combination Chamber",
+			"item_id": 137253,
+			"ql": 161
+		},
+		{
+			"alias": "Ultra Short Composite Barrel",
+			"item_id": 137231,
+			"ql": 161
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 4x Layer",
+			"item_id": 137307,
+			"ql": 161
+		},
+		{
+			"alias": "Flake Tubing Base Cooling System",
+			"item_id": 137265,
+			"ql": 161
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 161
+		},
+		{
+			"alias": "Grenade Construction Kit (Step 2)",
+			"item_id": 141519,
+			"name": "Grenade Construction Kit (Step 2)",
+			"icon": 131691,
+			"ql": 161
+		},
+		{
+			"alias": "Grenade Construction Kit (Step 3)",
+			"item_id": 141618,
+			"name": "Grenade Construction Kit (Step 3)",
+			"icon": 131692,
+			"ql": 161
+		},
+		{
+			"alias": "Grenade Construction Kit (Step 4)",
+			"item_id": 141620,
+			"name": "Grenade Construction Kit (Step 4)",
+			"icon": 131692,
+			"ql": 161
+		},
+		{
+			"alias": "Grenade Construction Kit (Step 5)",
+			"item_id": 141622,
+			"name": "Grenade Construction Kit (Step 5)",
+			"icon": 131693,
+			"ql": 161
+		},
+		{
+			"alias": "Grenade Construction Kit (Step 6)",
+			"item_id": 141624,
+			"name": "Grenade Construction Kit (Step 6)",
+			"icon": 131693,
+			"ql": 161
+		},
+		{
+			"alias": "Grenade Construction Kit (Step 7)",
+			"item_id": 141626,
+			"name": "Grenade Construction Kit (Step 7)",
+			"icon": 131694,
+			"ql": 161
+		},
+		{
+			"alias": "Grenade Construction Kit (Step 8)",
+			"item_id": 141628,
+			"name": "Grenade Construction Kit (Step 8)",
+			"icon": 131695,
+			"ql": 161
+		},
+		{
+			"alias": "Deluxe Grenade-Thrower",
+			"item_id": 122883,
+			"ql": 161
+		}
+	],
+	"steps": [
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Grenades Construction Kit",
+			"result": "Grenade Construction Kit (Step 2)",
+			"skills": "Mech. Engi 402-498"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Grenade Construction Kit (Step 2)",
+			"result": "Grenade Construction Kit (Step 3)",
+			"skills": "Mech. Engi 402-498"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "Grenade Construction Kit (Step 3)",
+			"result": "Grenade Construction Kit (Step 4)",
+			"skills": "Nano Progra 322-398"
+		},
+		{
+			"source": "Poison Chemical Combination Chamber",
+			"target": "Grenade Construction Kit (Step 4)",
+			"result": "Grenade Construction Kit (Step 5)",
+			"skills": "Chemistry 644-796"
+		},
+		{
+			"source": "Ultra Short Composite Barrel",
+			"target": "Grenade Construction Kit (Step 5)",
+			"result": "Grenade Construction Kit (Step 6)",
+			"skills": "Weapon Smt 483-597"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 4x Layer",
+			"target": "Grenade Construction Kit (Step 6)",
+			"result": "Grenade Construction Kit (Step 7)",
+			"skills": "Nano Progra 402-498"
+		},
+		{
+			"source": "Flake Tubing Base Cooling System",
+			"target": "Grenade Construction Kit (Step 7)",
+			"result": "Grenade Construction Kit (Step 8)",
+			"skills": "Weapon Smt 644-796"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Grenade Construction Kit (Step 8)",
+			"result": "Deluxe Grenade-Thrower",
+			"skills": "Nano Progra 242-298"
+		}
+	]
 }

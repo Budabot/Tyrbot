@@ -1,53 +1,63 @@
 {
-    "name": "Personal Service Tower",
-    "author": "",
-    "items": [
-        {
-            "alias": "Multi-Purpose Tuner",
-            "item_id": 202575
-        },
-        {
-            "alias": "Android Service Tower Library",
-            "item_id": 202532
-        },
-        {
-            "alias": "Service Tower Shell",
-            "item_id": 202581
-        },
-        {
-            "alias": "Android Service Tower Brain",
-            "item_id": 202526
-        },
-        {
-            "alias": "Inactive Android Service Tower",
-            "item_id": 203108
-        },
-        {
-            "alias": "Cyborg Service Tower Library",
-            "item_id": 202570
-        },
-        {
-            "alias": "Inactive Cyborg Service Tower",
-            "item_id": 203110
-        },
-        {
-            "alias": "Nano-Supervised Service Tower Library",
-            "item_id": 202577
-        },
-        {
-            "alias": "Inactive Nano Service Tower",
-            "item_id": 203111
-        },
-        {
-            "alias": "Semi-Sentient Service Tower Library",
-            "item_id": 202579
-        },
-        {
-            "alias": "Inactive Semi-Sentient Service Tower",
-            "item_id": 203109
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Multi-Purpose Tuner\" \"202575\"\n<img src=rdb://203583>\n\na Service Tower Library\n( ie : #L \"Android Service Tower Library\" \"202532\" )\n<img src=rdb://83296>\n\n#L \"Service Tower Shell\" \"202581\"\n<img src=rdb://203582>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nMulti-Purpose Tuner</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nService Tower Library</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://203577>\nService Tower Brain\n( ie #L \"Android Service Tower Brain\" \"202526\" )</font>\n<font color=#FFFF00>Skills: | ME,EE |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nService Tower Shell</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nService Tower Brain</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://208131>\nInactive Service Tower\n( ie #L \"Inactive Android Service Tower\" \"203108\" )</font>\n<font color=#FFFF00>Skills: | ME,EE |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Details</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Android Service Tower Library\" \"202532\"</font>\n<font color=#FFFFFF>-></font><font color=#009B00>\n#L \"Inactive Android Service Tower\" \"203108\"</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n#L \"Cyborg Service Tower Library\" \"202570\"</font>\n<font color=#FFFFFF>-></font><font color=#009B00>\n#L \"Inactive Cyborg Service Tower\" \"203110\"</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n#L \"Nano-Supervised Service Tower Library\" \"202577\"</font>\n<font color=#FFFFFF>-></font><font color=#009B00>\n#L \"Inactive Nano Service Tower\" \"203111\"</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n#L \"Semi-Sentient Service Tower Library\" \"202579\"</font>\n<font color=#FFFFFF>-></font><font color=#009B00>\n#L \"Inactive Semi-Sentient Service Tower\" \"203109\"\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nNice AC buffs for you.  Great for use in tower battles."
+	"name": "Personal Service Tower",
+	"author": "",
+	"items": [
+		{
+			"alias": "Multi-Purpose Tuner",
+			"item_id": 202575
+		},
+		{
+			"alias": "Service Tower Library",
+			"item_id": 202532,
+			"comment": "or any other Service Tower Library"
+		},
+		{
+			"alias": "Service Tower Shell",
+			"item_id": 202581
+		},
+		{
+			"alias": "Service Tower Brain",
+			"item_id": 202526,
+			"comment": "or another variant, depending on the Service Tower Library"
+		},
+		{
+			"alias": "Inactive Service Tower",
+			"item_id": 203108,
+			"comment": "or another variant, depending on the Service Tower Library"
+		}
+	],
+	"steps": [
+		{
+			"source": "Multi-Purpose Tuner",
+			"target": "Service Tower Library",
+			"result": "Service Tower Brain",
+			"skills": "ME,EE"
+		},
+		{
+			"source": "Service Tower Shell",
+			"target": "Service Tower Brain",
+			"result": "Inactive Service Tower",
+			"skills": "ME,EE"
+		}
+	],
+	"details": [
+		{
+			"text": "#L \"Android Service Tower Library\" \"202532\" -> #L \"Inactive Android Service Tower\" \"203108\""
+		},
+		{
+			"text": "#L \"Cyborg Service Tower Library\" \"202570\" -> #L \"Inactive Cyborg Service Tower\" \"203110\""
+		},
+		{
+			"text": "#L \"Nano-Supervised Service Tower Library\" \"202577\" -> #L \"Inactive Nano Service Tower\" \"203111\""
+		},
+		{
+			"text": "#L \"Semi-Sentient Service Tower Library\" \"202579\" -> #L \"Inactive Semi-Sentient Service Tower\" \"203109\""
+		},
+		{
+			"text": ""
+		},
+		{
+			"text": "Nice AC buffs for you. Great for use in tower battles."
+		}
+	]
 }

@@ -1,0 +1,94 @@
+{
+	"name": "Double Charged Liquid Bomb",
+	"author": "",
+	"intro": [
+		{
+			"text": "Charged Liquid Bombs:"
+		},
+		{
+			"text": "#L \"Single Charged Liquid Bomb\" \"/tell <myname> recipe 786\""
+		},
+		{
+			"text": "<highlight>Double Charged Liquid Bomb</highlight> (this recipe)"
+		},
+		{
+			"text": "#L \"Complete Liquid Explosive\" \"/tell <myname> recipe 32\""
+		},
+		{
+			"text": ""
+		}
+	],
+	"items": [
+		{
+			"alias": "Flamethrower Ammunition",
+			"item_id": 21601,
+			"quantity": 2
+		},
+		{
+			"alias": "Active Tube",
+			"item_id": 156029,
+			"comment": "or any other Active Tube"
+		},
+		{
+			"alias": "Key Detonator",
+			"item_id": 156033
+		},
+		{
+			"alias": "Screwdriver",
+			"item_id": 150922
+		},
+		{
+			"alias": "Container of Liquid Ammo",
+			"item_id": 156074
+		},
+		{
+			"alias": "Liquid Explosive Charge",
+			"item_id": 156031
+		},
+		{
+			"alias": "Liquid Explosive Double Charge",
+			"item_id": 156303
+		},
+		{
+			"alias": "Twice Charged Liquid Bomb",
+			"item_id": 156047
+		}
+	],
+	"steps": [
+		{
+			"source": "Screwdriver",
+			"target": "Flamethrower Ammunition",
+			"result": "Container of Liquid Ammo",
+			"skills": "??"
+		},
+		{
+			"source": "Container of Liquid Ammo",
+			"target": "Active Tube",
+			"result": "Liquid Explosive Charge",
+			"skills": "??"
+		},
+		{
+			"source": "Screwdriver",
+			"target": "Flamethrower Ammunition",
+			"result": "Container of Liquid Ammo",
+			"skills": "??"
+		},
+		{
+			"source": "Container of Liquid Ammo",
+			"target": "Liquid Explosive Charge",
+			"result": "Liquid Explosive Double Charge",
+			"skills": "??"
+		},
+		{
+			"source": "Key Detonator",
+			"target": "Liquid Explosive Double Charge",
+			"result": "Twice Charged Liquid Bomb",
+			"skills": "??"
+		}
+	],
+	"details": [
+		{
+			"text": "Snippet from auno.org: \"Due to the QL of certain KEY COMPONENTS... the best you could ever do is making single charged liquid explosives at whatever QL or you could make a fantastic TRIPLE CHARGED LIQUID EXPLOSIVE at an astounding... quality level of three.\""
+		}
+	]
+}

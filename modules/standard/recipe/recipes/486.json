@@ -1,8 +1,208 @@
 {
-    "name": "Second-Hand Supernova Mk VI",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n 'Second-Hand Supernova Mk VI'\nThe Construction kit. must be between Quality Level 61 and 80.\nAll other pieces must be of AT LEAST that level range... \nAdd them using shift+right-click.\nAdd the pieces in the following order:\n\n 1. Energy Weapons Construction kit.\n\n 2. Runtime Critical Area Analyzer. . SkillTo Assemble: Weapon Smt: 244-320\n\n 3. Auto Targeting C. -IIR 5 -Powermolder-. . SkillTo Assemble: Elec. Engi: 198-260\n\n 4. Energy Pack Interface. . SkillTo Assemble: Elec. Engi: 244-320\n\n 5. Energy Conduction Rack. . SkillTo Assemble: Quantum FT: 198-260\n\n 6. Ultra-Long Composite Barrel. . SkillTo Assemble: Weapon Smt: 259-340\n\n 7. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 92-120\n\n 8. Nano Pylon. . SkillTo Assemble: Mech. Engi: 152-200\n\n 9. Auto Targeting Computer -IIR 4 -Ultra-. . SkillTo Assemble: Elec. Engi: 183-240\n\n 10. Nano Pylon. . SkillTo Assemble: Mech. Engi: 152-200\n\n 11. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 152-200\n\n 12. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 152-200"
+	"name": "Second-Hand Supernova Mk VI",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 61 and 80. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Energy Weapons Construction Kit",
+			"item_id": 137209,
+			"name": "Energy Weapons Construction Kit",
+			"icon": 131708,
+			"ql": 61
+		},
+		{
+			"alias": "Runtime Critical Area Analyzer",
+			"item_id": 137299,
+			"ql": 61
+		},
+		{
+			"alias": "Auto Targeting C. -IIR 5 -Powermolder-",
+			"item_id": 137293,
+			"ql": 61
+		},
+		{
+			"alias": "Energy Pack Interface",
+			"item_id": 137257,
+			"ql": 61
+		},
+		{
+			"alias": "Energy Conduction Rack",
+			"item_id": 137243,
+			"ql": 61
+		},
+		{
+			"alias": "Ultra-Long Composite Barrel",
+			"item_id": 137239,
+			"ql": 61
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 61
+		},
+		{
+			"alias": "Nano Pylon",
+			"item_id": 137277,
+			"ql": 61,
+			"quantity": 2
+		},
+		{
+			"alias": "Auto Targeting Computer -IIR 4 -Ultra-",
+			"item_id": 137291,
+			"ql": 61
+		},
+		{
+			"alias": "Notum Alloy Strengthened Ribs",
+			"item_id": 137275,
+			"ql": 61,
+			"quantity": 2
+		},
+		{
+			"alias": "Ranged Ener Construction Kit (Step 2)",
+			"item_id": 141024,
+			"name": "Ranged Ener Construction Kit (Step 2)",
+			"icon": 131709,
+			"ql": 61
+		},
+		{
+			"alias": "Ranged Ener Construction Kit (Step 3)",
+			"item_id": 141026,
+			"name": "Ranged Ener Construction Kit (Step 3)",
+			"icon": 131709,
+			"ql": 61
+		},
+		{
+			"alias": "Ranged Ener Construction Kit (Step 4)",
+			"item_id": 141028,
+			"name": "Ranged Ener Construction Kit (Step 4)",
+			"icon": 131710,
+			"ql": 61
+		},
+		{
+			"alias": "Ranged Ener Construction Kit (Step 5)",
+			"item_id": 141030,
+			"name": "Ranged Ener Construction Kit (Step 5)",
+			"icon": 131710,
+			"ql": 61
+		},
+		{
+			"alias": "Ranged Ener Construction Kit (Step 6)",
+			"item_id": 141032,
+			"name": "Ranged Ener Construction Kit (Step 6)",
+			"icon": 131711,
+			"ql": 61
+		},
+		{
+			"alias": "Ranged Ener Construction Kit (Step 7)",
+			"item_id": 141034,
+			"name": "Ranged Ener Construction Kit (Step 7)",
+			"icon": 131711,
+			"ql": 61
+		},
+		{
+			"alias": "Ranged Ener Construction Kit (Step 8)",
+			"item_id": 141036,
+			"name": "Ranged Ener Construction Kit (Step 8)",
+			"icon": 131711,
+			"ql": 61
+		},
+		{
+			"alias": "Ranged Ener Construction Kit (Step 9)",
+			"item_id": 141038,
+			"name": "Ranged Ener Construction Kit (Step 9)",
+			"icon": 131712,
+			"ql": 61
+		},
+		{
+			"alias": "Ranged Ener Construction Kit (Step 10)",
+			"item_id": 141040,
+			"name": "Ranged Ener Construction Kit (Step 10)",
+			"icon": 131712,
+			"ql": 61
+		},
+		{
+			"alias": "Ranged Ener Construction Kit (Step 11)",
+			"item_id": 141042,
+			"name": "Ranged Ener Construction Kit (Step 11)",
+			"icon": 131713,
+			"ql": 61
+		},
+		{
+			"alias": "Second-Hand Supernova Mk VI",
+			"item_id": 122583,
+			"ql": 61
+		}
+	],
+	"steps": [
+		{
+			"source": "Runtime Critical Area Analyzer",
+			"target": "Energy Weapons Construction Kit",
+			"result": "Ranged Ener Construction Kit (Step 2)",
+			"skills": "Weapon Smt 244-320"
+		},
+		{
+			"source": "Auto Targeting C. -IIR 5 -Powermolder-",
+			"target": "Ranged Ener Construction Kit (Step 2)",
+			"result": "Ranged Ener Construction Kit (Step 3)",
+			"skills": "Elec. Engi 198-260"
+		},
+		{
+			"source": "Energy Pack Interface",
+			"target": "Ranged Ener Construction Kit (Step 3)",
+			"result": "Ranged Ener Construction Kit (Step 4)",
+			"skills": "Elec. Engi 244-320"
+		},
+		{
+			"source": "Energy Conduction Rack",
+			"target": "Ranged Ener Construction Kit (Step 4)",
+			"result": "Ranged Ener Construction Kit (Step 5)",
+			"skills": "Quantum FT 198-260"
+		},
+		{
+			"source": "Ultra-Long Composite Barrel",
+			"target": "Ranged Ener Construction Kit (Step 5)",
+			"result": "Ranged Ener Construction Kit (Step 6)",
+			"skills": "Weapon Smt 259-340"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Ranged Ener Construction Kit (Step 6)",
+			"result": "Ranged Ener Construction Kit (Step 7)",
+			"skills": "Nano Progra 92-120"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Ranged Ener Construction Kit (Step 7)",
+			"result": "Ranged Ener Construction Kit (Step 8)",
+			"skills": "Mech. Engi 152-200"
+		},
+		{
+			"source": "Auto Targeting Computer -IIR 4 -Ultra-",
+			"target": "Ranged Ener Construction Kit (Step 8)",
+			"result": "Ranged Ener Construction Kit (Step 9)",
+			"skills": "Elec. Engi 183-240"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Ranged Ener Construction Kit (Step 9)",
+			"result": "Ranged Ener Construction Kit (Step 10)",
+			"skills": "Mech. Engi 152-200"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Ranged Ener Construction Kit (Step 10)",
+			"result": "Ranged Ener Construction Kit (Step 11)",
+			"skills": "Mech. Engi 152-200"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Ranged Ener Construction Kit (Step 11)",
+			"result": "Second-Hand Supernova Mk VI",
+			"skills": "Mech. Engi 152-200"
+		}
+	]
 }

@@ -1,49 +1,82 @@
 {
-    "name": "Prowler Armor",
-    "author": "",
-    "items": [
-        {
-            "alias": "Damaged Proliferation Unit",
-            "item_id": 245215
-        },
-        {
-            "alias": "Screwdriver",
-            "item_id": 150922
-        },
-        {
-            "alias": "Proliferation Unit",
-            "item_id": 245216
-        },
-        {
-            "alias": "Prowler Armor Sleeves",
-            "item_id": 245176
-        },
-        {
-            "alias": "Prowler Body Armor",
-            "item_id": 245178
-        },
-        {
-            "alias": "Prowler Armor Gloves",
-            "item_id": 245180
-        },
-        {
-            "alias": "Prowler Armor Pants",
-            "item_id": 245182
-        },
-        {
-            "alias": "Prowler Armor Boots",
-            "item_id": 245184
-        },
-        {
-            "alias": "Prowler Armor Shoulder Pad",
-            "item_id": 245186
-        },
-        {
-            "alias": "Prowler Armor Hood",
-            "item_id": 245188
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\na piece of Crawler Armor ( #L \"see here\" \"/tell <myname> recipe 37\" )\n<img src=rdb://13259>\n\n#L \"Damaged Proliferation Unit\" \"245215\"\n<img src=rdb://205534>\n\n#L \"Screwdriver\" \"150922\"\n<img src=rdb://151011>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nScrewdriver</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nDamaged Proliferation Unit</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://205533>\n#L \"Proliferation Unit\" \"245216\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nProliferation Unit</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\na piece of Crawler Armor</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://13259>\na piece of Prowler Armor</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Details</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Prowler Armor Sleeves\" \"245176\"\n#L \"Prowler Body Armor\" \"245178\"\n#L \"Prowler Armor Gloves\" \"245180\"\n#L \"Prowler Armor Pants\" \"245182\"\n#L \"Prowler Armor Boots\" \"245184\"\n#L \"Prowler Armor Shoulder Pad\" \"245186\"\n#L \"Prowler Armor Hood\" \"245188\"\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nGreat armor if you can get 7 DPUs.. this can often prove a difficult task though, as they are well camped."
+	"name": "Prowler Armor",
+	"author": "",
+	"items": [
+		{
+			"alias": "Crawler Armor",
+			"item_id": 245123,
+			"comment": "or any other piece of Crawler Armor (#L \"see here\" \"/tell <myname> recipe 37\")"
+		},
+		{
+			"alias": "Damaged Proliferation Unit",
+			"item_id": 245215
+		},
+		{
+			"alias": "Screwdriver",
+			"item_id": 150922
+		},
+		{
+			"alias": "Proliferation Unit",
+			"item_id": 245216
+		},
+		{
+			"alias": "Prowler Armor",
+			"item_id": 245178,
+			"comment": "or any other piece of Prowler Armor, see the details"
+		}
+	],
+	"steps": [
+		{
+			"source": "Screwdriver",
+			"target": "Damaged Proliferation Unit",
+			"result": "Proliferation Unit",
+			"skills": "??"
+		},
+		{
+			"source": "Proliferation Unit",
+			"target": "Crawler Armor",
+			"result": "Prowler Armor",
+			"skills": "??"
+		}
+	],
+	"details": [
+		{
+			"item": {
+				"id": 245176
+			}
+		},
+		{
+			"item": {
+				"id": 245178
+			}
+		},
+		{
+			"item": {
+				"id": 245180
+			}
+		},
+		{
+			"item": {
+				"id": 245182
+			}
+		},
+		{
+			"item": {
+				"id": 245184
+			}
+		},
+		{
+			"item": {
+				"id": 245186
+			}
+		},
+		{
+			"item": {
+				"id": 245188
+			}
+		},
+		{
+			"text": "Great armor if you can get 7 DPUs.. this can often prove a difficult task though, as they are well camped."
+		}
+	]
 }

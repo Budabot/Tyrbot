@@ -147,8 +147,8 @@ INSERT INTO ofab_armor (profession, name, slot, lowid, highid, upgrade) VALUES (
 INSERT INTO ofab_armor (profession, name, slot, lowid, highid, upgrade) VALUES ('Keeper', 'Improved Ofab Keeper Gloves', 'gloves', 264618, 264619, 1);
 INSERT INTO ofab_armor (profession, name, slot, lowid, highid, upgrade) VALUES ('Keeper', 'Improved Ofab Keeper Helmet', 'helmet', 264612, 264613, 1);
 INSERT INTO ofab_armor (profession, name, slot, lowid, highid, upgrade) VALUES ('Martial Artist', 'Improved Ofab Martial Artist Body Armor', 'body', 264339, 264340, 1);
-INSERT INTO ofab_armor (profession, name, slot, lowid, highid, upgrade) VALUES ('Martial Artist', 'Improved Ofab Martial Artist Boots', 'boots', 264345, 264346,1);
-INSERT INTO ofab_armor (profession, name, slot, lowid, highid, upgrade) VALUES ('Martial Artist', 'Improved Ofab Martial Artist Pants', 'pants', 264351, 264352,1);
+INSERT INTO ofab_armor (profession, name, slot, lowid, highid, upgrade) VALUES ('Martial Artist', 'Improved Ofab Martial Artist Boots', 'boots', 264345, 264346, 1);
+INSERT INTO ofab_armor (profession, name, slot, lowid, highid, upgrade) VALUES ('Martial Artist', 'Improved Ofab Martial Artist Pants', 'pants', 264351, 264352, 1);
 INSERT INTO ofab_armor (profession, name, slot, lowid, highid, upgrade) VALUES ('Martial Artist', 'Improved Ofab Martial Artist Sleeves', 'sleeves', 264333, 264334, 1);
 INSERT INTO ofab_armor (profession, name, slot, lowid, highid, upgrade) VALUES ('Martial Artist', 'Improved Ofab Martial Artist Gloves', 'gloves', 264327, 264328, 1);
 INSERT INTO ofab_armor (profession, name, slot, lowid, highid, upgrade) VALUES ('Martial Artist', 'Improved Ofab Martial Artist Helmet', 'helmet', 264321, 264322, 1);
@@ -156,8 +156,8 @@ INSERT INTO ofab_armor (profession, name, slot, lowid, highid, upgrade) VALUES (
 INSERT INTO ofab_armor (profession, name, slot, lowid, highid, upgrade) VALUES ('Meta-Physicist', 'Improved Ofab Metaphysicist Boots', 'boots', 264381, 264382, 1);
 INSERT INTO ofab_armor (profession, name, slot, lowid, highid, upgrade) VALUES ('Meta-Physicist', 'Improved Ofab Metaphysicist Pants', 'pants', 264387, 264388, 1);
 INSERT INTO ofab_armor (profession, name, slot, lowid, highid, upgrade) VALUES ('Meta-Physicist', 'Improved Ofab Metaphysicist Sleeves', 'sleeves', 264369, 264370, 1);
-INSERT INTO ofab_armor (profession, name, slot, lowid, highid, upgrade) VALUES ('Meta-Physicist', 'Improved Ofab Metaphysicist Gloves', 'gloves', 264363, 264364,1);
-INSERT INTO ofab_armor (profession, name, slot, lowid, highid, upgrade) VALUES ('Meta-Physicist', 'Improved Ofab Metaphysicist Headgear', 'helmet', 264357, 264358,1);
+INSERT INTO ofab_armor (profession, name, slot, lowid, highid, upgrade) VALUES ('Meta-Physicist', 'Improved Ofab Metaphysicist Gloves', 'gloves', 264363, 264364, 1);
+INSERT INTO ofab_armor (profession, name, slot, lowid, highid, upgrade) VALUES ('Meta-Physicist', 'Improved Ofab Metaphysicist Headgear', 'helmet', 264357, 264358, 1);
 INSERT INTO ofab_armor (profession, name, slot, lowid, highid, upgrade) VALUES ('Nano-Technician', 'Improved Ofab Nano Technician Body Armor', 'body', 264411, 264412, 1);
 INSERT INTO ofab_armor (profession, name, slot, lowid, highid, upgrade) VALUES ('Nano-Technician', 'Improved Ofab Nano Technician Boots', 'boots', 264417, 264418, 1);
 INSERT INTO ofab_armor (profession, name, slot, lowid, highid, upgrade) VALUES ('Nano-Technician', 'Improved Ofab Nano Technician Pants', 'pants', 264423, 264424, 1);
@@ -313,7 +313,7 @@ INSERT INTO ofab_armor (profession, name, slot, lowid, highid, upgrade) VALUES (
 INSERT INTO ofab_armor (profession, name, slot, lowid, highid, upgrade) VALUES ('Shade', 'OFAB Shade Shoulder Wear', 'shoulder', 268005, 268005, 3);
 
 DROP TABLE IF EXISTS ofab_armor_cost;
-CREATE TABLE ofab_armor_cost (slot varchar(30) NOT NULL, ql INT NOT NULL, vp INT NOT NULL);
+CREATE TABLE ofab_armor_cost (slot VARCHAR(30) NOT NULL, ql INT NOT NULL, vp INT NOT NULL);
 INSERT INTO ofab_armor_cost (slot, ql, vp) VALUES ('ring', 1, 100);
 
 INSERT INTO ofab_armor_cost (slot, ql, vp) VALUES ('body', 25, 78);

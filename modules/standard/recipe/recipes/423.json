@@ -1,8 +1,209 @@
 {
-    "name": "Quality Blackhole Mk IX",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n 'Quality Blackhole Mk IX'\nThe Construction kit. must be between Quality Level  101 and  120.\nAll other pieces must be of AT LEAST that level range... \nAdd them using shift+right-click.\n Add in following order:\n\n 1. Shotgun Weapons Construction kit. SkillTo Assemble: Weapon Smt:  404 ->  480\n\n 2. Energy Conduction Rack. SkillTo Assemble: Quantum FT:  328 ->  390\n\n 3. Energy Pack Interface. SkillTo Assemble: Elec. Engi:  404 ->  480\n\n 4. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  252 ->  300\n\n 5. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  252 ->  300\n\n 6. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  202 ->  240\n\n 7. Nano Pylon. SkillTo Assemble: Mech. Engi:  252 ->  300\n\n 8. Notum Enriched Nano Paste - 4x Layer. SkillTo Assemble: Nano Progra:  252 ->  300\n\n 9. Ultra-Long Composite Barrel. SkillTo Assemble: Weapon Smt:  429 ->  510\n\n 10. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  152 ->  180\n\n 11. Nano Pylon. SkillTo Assemble: Mech. Engi:  252 ->  300\n\n 12. Rapid-Reload-And-Fire Gyro. SkillTo Assemble: Weapon Smt:  404 ->  480"
+	"name": "Quality Blackhole Mk IX",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 101 and 120. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Shotgun Weapons Construction Kit",
+			"item_id": 137211,
+			"name": "Shotgun Weapons Construction Kit",
+			"icon": 131762,
+			"ql": 101,
+			"comment": "Skill To Assemble: Weapon Smt 404-480"
+		},
+		{
+			"alias": "Energy Conduction Rack",
+			"item_id": 137243,
+			"ql": 101
+		},
+		{
+			"alias": "Energy Pack Interface",
+			"item_id": 137257,
+			"ql": 101
+		},
+		{
+			"alias": "Notum Alloy Strengthened Ribs",
+			"item_id": 137275,
+			"ql": 101,
+			"quantity": 2
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 101
+		},
+		{
+			"alias": "Nano Pylon",
+			"item_id": 137277,
+			"ql": 101,
+			"quantity": 2
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 4x Layer",
+			"item_id": 137307,
+			"ql": 101
+		},
+		{
+			"alias": "Ultra-Long Composite Barrel",
+			"item_id": 137239,
+			"ql": 101
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 101
+		},
+		{
+			"alias": "Rapid-Reload-And-Fire Gyro",
+			"item_id": 137313,
+			"ql": 101
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 2)",
+			"item_id": 139886,
+			"name": "Shotgun Construction Kit (Step 2)",
+			"icon": 131763,
+			"ql": 101
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 3)",
+			"item_id": 141260,
+			"name": "Shotgun Construction Kit (Step 3)",
+			"icon": 131763,
+			"ql": 101
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 4)",
+			"item_id": 141262,
+			"name": "Shotgun Construction Kit (Step 4)",
+			"icon": 131764,
+			"ql": 101
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 5)",
+			"item_id": 141264,
+			"name": "Shotgun Construction Kit (Step 5)",
+			"icon": 131764,
+			"ql": 101
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 6)",
+			"item_id": 141266,
+			"name": "Shotgun Construction Kit (Step 6)",
+			"icon": 131765,
+			"ql": 101
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 7)",
+			"item_id": 141268,
+			"name": "Shotgun Construction Kit (Step 7)",
+			"icon": 131765,
+			"ql": 101
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 8)",
+			"item_id": 141270,
+			"name": "Shotgun Construction Kit (Step 8)",
+			"icon": 131765,
+			"ql": 101
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 9)",
+			"item_id": 141272,
+			"name": "Shotgun Construction Kit (Step 9)",
+			"icon": 131766,
+			"ql": 101
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 10)",
+			"item_id": 141274,
+			"name": "Shotgun Construction Kit (Step 10)",
+			"icon": 131766,
+			"ql": 101
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 11)",
+			"item_id": 141276,
+			"name": "Shotgun Construction Kit (Step 11)",
+			"icon": 131767,
+			"ql": 101
+		},
+		{
+			"alias": "Quality Blackhole Mk IX",
+			"item_id": 122606,
+			"ql": 101
+		}
+	],
+	"steps": [
+		{
+			"source": "Energy Conduction Rack",
+			"target": "Shotgun Weapons Construction Kit",
+			"result": "Shotgun Construction Kit (Step 2)",
+			"skills": "Quantum FT 328-390"
+		},
+		{
+			"source": "Energy Pack Interface",
+			"target": "Shotgun Construction Kit (Step 2)",
+			"result": "Shotgun Construction Kit (Step 3)",
+			"skills": "Elec. Engi 404-480"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Shotgun Construction Kit (Step 3)",
+			"result": "Shotgun Construction Kit (Step 4)",
+			"skills": "Mech. Engi 252-300"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Shotgun Construction Kit (Step 4)",
+			"result": "Shotgun Construction Kit (Step 5)",
+			"skills": "Mech. Engi 252-300"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "Shotgun Construction Kit (Step 5)",
+			"result": "Shotgun Construction Kit (Step 6)",
+			"skills": "Nano Progra 202-240"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Shotgun Construction Kit (Step 6)",
+			"result": "Shotgun Construction Kit (Step 7)",
+			"skills": "Mech. Engi 252-300"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 4x Layer",
+			"target": "Shotgun Construction Kit (Step 7)",
+			"result": "Shotgun Construction Kit (Step 8)",
+			"skills": "Nano Progra 252-300"
+		},
+		{
+			"source": "Ultra-Long Composite Barrel",
+			"target": "Shotgun Construction Kit (Step 8)",
+			"result": "Shotgun Construction Kit (Step 9)",
+			"skills": "Weapon Smt 429-510"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Shotgun Construction Kit (Step 9)",
+			"result": "Shotgun Construction Kit (Step 10)",
+			"skills": "Nano Progra 152-180"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Shotgun Construction Kit (Step 10)",
+			"result": "Shotgun Construction Kit (Step 11)",
+			"skills": "Mech. Engi 252-300"
+		},
+		{
+			"source": "Rapid-Reload-And-Fire Gyro",
+			"target": "Shotgun Construction Kit (Step 11)",
+			"result": "Quality Blackhole Mk IX",
+			"skills": "Weapon Smt 404-480"
+		}
+	]
 }

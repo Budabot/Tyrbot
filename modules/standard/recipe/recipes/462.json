@@ -1,8 +1,72 @@
 {
-    "name": "Rusty Tripler",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n 'Rusty Tripler'\nThe Construction kit. must be between Quality Level 24 and 46.\nAll other pieces must be of AT LEAST that level range... \nAdd them using shift+right-click.\nAdd the pieces in the following order:\n\n 1. One Handed Edged Weapons Construction kit.\n\n 2. Short Handle. . SkillTo Assemble: Weapon Smt: 84-161\n\n 3. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 36-69\n\n 4. Optimized Co-Weapon Interface. . SkillTo Assemble: Comp. Liter: 72-138"
+	"name": "Rusty Tripler",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 24 and 46. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "One Handed Edged Weapons Construction Kit",
+			"item_id": 137219,
+			"name": "One Handed Edged Weapons Construction Kit",
+			"icon": 131816,
+			"ql": 24
+		},
+		{
+			"alias": "Short Handle",
+			"item_id": 142884,
+			"ql": 24
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 24
+		},
+		{
+			"alias": "Optimized Co-Weapon Interface",
+			"item_id": 142930,
+			"ql": 24
+		},
+		{
+			"alias": "1h Edged Construction Kit (Step 2)",
+			"item_id": 142938,
+			"name": "1h Edged Construction Kit (Step 2)",
+			"icon": 131817,
+			"ql": 24
+		},
+		{
+			"alias": "1h Edged Construction Kit (Step 3)",
+			"item_id": 142945,
+			"name": "1h Edged Construction Kit (Step 3)",
+			"icon": 131819,
+			"ql": 24
+		},
+		{
+			"alias": "Rusty Tripler",
+			"item_id": 121574,
+			"ql": 24
+		}
+	],
+	"steps": [
+		{
+			"source": "Short Handle",
+			"target": "One Handed Edged Weapons Construction Kit",
+			"result": "1h Edged Construction Kit (Step 2)",
+			"skills": "Weapon Smt 84-161"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "1h Edged Construction Kit (Step 2)",
+			"result": "1h Edged Construction Kit (Step 3)",
+			"skills": "Nano Progra 36-69"
+		},
+		{
+			"source": "Optimized Co-Weapon Interface",
+			"target": "1h Edged Construction Kit (Step 3)",
+			"result": "Rusty Tripler",
+			"skills": "Comp. Liter 72-138"
+		}
+	]
 }

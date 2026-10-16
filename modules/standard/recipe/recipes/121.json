@@ -1,41 +1,63 @@
 {
-    "name": "Unhallowed Carapace of the Infernal Tyrant",
-    "author": "",
-    "items": [
-        {
-            "alias": "Carapace of the Infernal Tyrant (Body)",
-            "item_id": 205957
-        },
-        {
-            "alias": "Bloodseal of the Infernal Tyrant",
-            "item_id": 206196
-        },
-        {
-            "alias": "Unhallowed Carapace of the Infernal Tyrant (Sleeves)",
-            "item_id": 205962
-        },
-        {
-            "alias": "Unhallowed Carapace of the Infernal Tyrant (Body)",
-            "item_id": 205963
-        },
-        {
-            "alias": "Unhallowed Carapace of the Infernal Tyrant (Pants)",
-            "item_id": 205964
-        },
-        {
-            "alias": "Unhallowed Carapace of the Infernal Tyrant (Gloves)",
-            "item_id": 205965
-        },
-        {
-            "alias": "Unhallowed Carapace of the Infernal Tyrant (Boots)",
-            "item_id": 205966
-        },
-        {
-            "alias": "Unhallowed Carapace of the Infernal Tyrant (Helmet)",
-            "item_id": 205967
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\na piece of Carapace of the Infernal Tyrant\n( ie : #L \"Carapace of the Infernal Tyrant (Body)\" \"205957\" )\n<img src=rdb://21977>\n\n#L \"Bloodseal of the Infernal Tyrant\" \"206196\"\n<img src=rdb://25801>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nBloodseal of the Infernal Tyrant</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\na piece of Carapace of the Infernal Tyrant</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://21977>\na piece of Unhallowed Carapace of the Infernal Tyrant</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Details</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Unhallowed Carapace of the Infernal Tyrant (Sleeves)\" \"205962\"\n#L \"Unhallowed Carapace of the Infernal Tyrant (Body)\" \"205963\"\n#L \"Unhallowed Carapace of the Infernal Tyrant (Pants)\" \"205964\"\n#L \"Unhallowed Carapace of the Infernal Tyrant (Gloves)\" \"205965\"\n#L \"Unhallowed Carapace of the Infernal Tyrant (Boots)\" \"205966\"\n#L \"Unhallowed Carapace of the Infernal Tyrant (Helmet)\" \"205967\"\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nItems drop inside Inner Sanctum I believe."
+	"name": "Unhallowed Carapace of the Infernal Tyrant",
+	"author": "",
+	"items": [
+		{
+			"alias": "Carapace of the Infernal Tyrant",
+			"item_id": 205957,
+			"comment": "or any other piece of Carapace of the Infernal Tyrant"
+		},
+		{
+			"alias": "Bloodseal of the Infernal Tyrant",
+			"item_id": 206196
+		},
+		{
+			"alias": "Unhallowed Carapace of the Infernal Tyrant",
+			"item_id": 205963,
+			"comment": "or another piece, depending on the Carapace, see the details"
+		}
+	],
+	"steps": [
+		{
+			"source": "Bloodseal of the Infernal Tyrant",
+			"target": "Carapace of the Infernal Tyrant",
+			"result": "Unhallowed Carapace of the Infernal Tyrant",
+			"skills": "??"
+		}
+	],
+	"details": [
+		{
+			"item": {
+				"id": 205962
+			}
+		},
+		{
+			"item": {
+				"id": 205963
+			}
+		},
+		{
+			"item": {
+				"id": 205964
+			}
+		},
+		{
+			"item": {
+				"id": 205965
+			}
+		},
+		{
+			"item": {
+				"id": 205966
+			}
+		},
+		{
+			"item": {
+				"id": 205967
+			}
+		},
+		{
+			"text": "Items drop inside Inner Sanctum I believe."
+		}
+	]
 }

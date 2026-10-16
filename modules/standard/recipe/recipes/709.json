@@ -1,21 +1,25 @@
 {
-    "name": "Kyr'Ozch Nano Protection ring",
-    "author": "",
-    "items": [
-        {
-            "alias": "Screwdriver",
-            "item_id": 150922
-        },
-        {
-            "alias": "Kyr'Ozch Storage Container",
-            "item_id": 288138
-        },
-        {
-            "alias": "Kyr'Ozch Nano Protection Ring",
-            "item_id": 288204
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Screwdriver\" \"150922\"\n<img src=rdb://151011>\n\n#L \"Kyr'Ozch Storage Container\" \"288138\"\n<img src=rdb://288095>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nScrewdriver</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nKyr'Ozch Storage Container</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://288105>\n#L \"Kyr'Ozch Nano Protection Ring\" \"288204\""
+	"name": "Kyr'Ozch Nano Protection Ring",
+	"author": "",
+	"items": [
+		{
+			"alias": "Screwdriver",
+			"item_id": 150922
+		},
+		{
+			"alias": "Kyr'Ozch Storage Container",
+			"item_id": 288138
+		},
+		{
+			"alias": "Kyr'Ozch Nano Protection Ring",
+			"item_id": 288204
+		}
+	],
+	"steps": [
+		{
+			"source": "Screwdriver",
+			"target": "Kyr'Ozch Storage Container",
+			"result": "Kyr'Ozch Nano Protection Ring"
+		}
+	]
 }

@@ -1,8 +1,90 @@
 {
-    "name": "Composite Right Slice",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n  'Composite Right Slice'\n The Construction kit. must be between Quality Level 161 and 199.\n All other pieces must be of AT LEAST that level range... \n Add them using shift+right-click.\n Add the pieces in the following order:\n \n  1. One Handed Edged Weapons Construction kit.\n \n  2. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 322-398\n \n  3. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 242-298\n \n  4. Short Handle. . SkillTo Assemble: Weapon Smt: 564-696\n \n  5. Optimized Co-Weapon Interface. . SkillTo Assemble: Comp. Liter: 483-597"
+	"name": "Composite Right Slice",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 161 and 199. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "One Handed Edged Weapons Construction Kit",
+			"item_id": 137219,
+			"name": "One Handed Edged Weapons Construction Kit",
+			"icon": 131816,
+			"ql": 161
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 161
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 161
+		},
+		{
+			"alias": "Short Handle",
+			"item_id": 142884,
+			"ql": 161
+		},
+		{
+			"alias": "Optimized Co-Weapon Interface",
+			"item_id": 142930,
+			"ql": 161
+		},
+		{
+			"alias": "1h Edged Construction Kit (Step 2)",
+			"item_id": 142950,
+			"name": "1h Edged Construction Kit (Step 2)",
+			"icon": 131818,
+			"ql": 161
+		},
+		{
+			"alias": "1h Edged Construction Kit (Step 3)",
+			"item_id": 143514,
+			"name": "1h Edged Construction Kit (Step 3)",
+			"icon": 131819,
+			"ql": 161
+		},
+		{
+			"alias": "1h Edged Construction Kit (Step 4)",
+			"item_id": 143530,
+			"name": "1h Edged Construction Kit (Step 4)",
+			"icon": 131820,
+			"ql": 161
+		},
+		{
+			"alias": "Composite Right Slice",
+			"item_id": 121757,
+			"ql": 161
+		}
+	],
+	"steps": [
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "One Handed Edged Weapons Construction Kit",
+			"result": "1h Edged Construction Kit (Step 2)",
+			"skills": "Nano Progra 322-398"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "1h Edged Construction Kit (Step 2)",
+			"result": "1h Edged Construction Kit (Step 3)",
+			"skills": "Nano Progra 242-298"
+		},
+		{
+			"source": "Short Handle",
+			"target": "1h Edged Construction Kit (Step 3)",
+			"result": "1h Edged Construction Kit (Step 4)",
+			"skills": "Weapon Smt 564-696"
+		},
+		{
+			"source": "Optimized Co-Weapon Interface",
+			"target": "1h Edged Construction Kit (Step 4)",
+			"result": "Composite Right Slice",
+			"skills": "Comp. Liter 483-597"
+		}
+	]
 }

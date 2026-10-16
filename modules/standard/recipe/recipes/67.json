@@ -1,29 +1,45 @@
 {
-    "name": "Mechanical Analyzer",
-    "author": "",
-    "items": [
-        {
-            "alias": "Technoscavenger Brain",
-            "item_id": 164538
-        },
-        {
-            "alias": "Bio Analyzing Computer",
-            "item_id": 156021
-        },
-        {
-            "alias": "Screwdriver",
-            "item_id": 150922
-        },
-        {
-            "alias": "Technoscavenger Mechanics Library",
-            "item_id": 164541
-        },
-        {
-            "alias": "Mechanical Analyzer",
-            "item_id": 164548
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Technoscavenger Brain\" \"164538\"\n<img src=rdb://130562>\n\n#L \"Bio Analysing Computer\" \"156021\"\n<img src=rdb://156084>\n\n#L \"Screwdriver\" \"150922\"\n<img src=rdb://151011>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nScrewdriver</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nTechnoscavenger Brain</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://100321>\n#L \"Technoscavenger Mechanics Library\" \"164541\"</font>\n<font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nTechnoscavenger Mechanics Library</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nBio Analysing Computer</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://156512>\n#L \"Mechanical Analyzer\" \"164548\"</font>\n<font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nHandy little buffer. But you can only have one."
+	"name": "Mechanical Analyzer",
+	"author": "",
+	"items": [
+		{
+			"alias": "Technoscavenger Brain",
+			"item_id": 164538
+		},
+		{
+			"alias": "Bio Analyzing Computer",
+			"item_id": 156021
+		},
+		{
+			"alias": "Screwdriver",
+			"item_id": 150922
+		},
+		{
+			"alias": "Technoscavenger Mechanics Library",
+			"item_id": 164541
+		},
+		{
+			"alias": "Mechanical Analyzer",
+			"item_id": 164548
+		}
+	],
+	"steps": [
+		{
+			"source": "Screwdriver",
+			"target": "Technoscavenger Brain",
+			"result": "Technoscavenger Mechanics Library",
+			"skills": "WS"
+		},
+		{
+			"source": "Technoscavenger Mechanics Library",
+			"target": "Bio Analyzing Computer",
+			"result": "Mechanical Analyzer",
+			"skills": "WS"
+		}
+	],
+	"details": [
+		{
+			"text": "Handy little buffer. But you can only have one."
+		}
+	]
 }

@@ -1,8 +1,199 @@
 {
-    "name": "Worn Kolt PDW-37",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n 'Worn Kolt PDW-37'\nThe Construction kit. must be between Quality Level  81 and  100.\nAll other pieces must be of AT LEAST that level range... \nAdd them using shift+right-click.\n Add in following order:\n\n 1. Pistol Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  324 ->  400\n\n 2. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  122 ->  150\n\n 3. Rapid-Reload-And-Fire Gyro. SkillTo Assemble: Weapon Smt:  324 ->  400\n\n 4. Triple Pulse Enabler. SkillTo Assemble: Weapon Smt:  344 ->  425\n\n 5. Nano Pylon. SkillTo Assemble: Mech. Engi:  202 ->  250\n\n 6. Energy Pack Interface. SkillTo Assemble: Elec. Engi:  324 ->  400\n\n 7. Energy Conduction Rack. SkillTo Assemble: Quantum FT:  263 ->  325\n\n 8. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  162 ->  200\n\n 9. Hyper Carbo-Ceramic Cooling System. SkillTo Assemble: Weapon Smt:  324 ->  400\n\n 10. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  202 ->  250\n\n 11. Short Composite Barrel. SkillTo Assemble: Weapon Smt:  263 ->  325"
+	"name": "Worn Kolt PDW-37",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 81 and 100. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Pistol Weapons Construction Kit",
+			"item_id": 137201,
+			"name": "Pistol Weapons Construction Kit",
+			"icon": 131726,
+			"ql": 81,
+			"comment": "Skill To Assemble: Weapon Smt 324-400"
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 81
+		},
+		{
+			"alias": "Rapid-Reload-And-Fire Gyro",
+			"item_id": 137313,
+			"ql": 81
+		},
+		{
+			"alias": "Triple Pulse Enabler",
+			"item_id": 137297,
+			"ql": 81
+		},
+		{
+			"alias": "Nano Pylon",
+			"item_id": 137277,
+			"ql": 81
+		},
+		{
+			"alias": "Energy Pack Interface",
+			"item_id": 137257,
+			"ql": 81
+		},
+		{
+			"alias": "Energy Conduction Rack",
+			"item_id": 137243,
+			"ql": 81
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 81
+		},
+		{
+			"alias": "Hyper Carbo-Ceramic Cooling System",
+			"item_id": 137267,
+			"ql": 81
+		},
+		{
+			"alias": "Notum Alloy Strengthened Ribs",
+			"item_id": 137275,
+			"ql": 81
+		},
+		{
+			"alias": "Short Composite Barrel",
+			"item_id": 137233,
+			"ql": 81
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 2)",
+			"item_id": 139121,
+			"name": "Pistol Construction Kit (Step 2)",
+			"icon": 131727,
+			"ql": 81
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 3)",
+			"item_id": 140489,
+			"name": "Pistol Construction Kit (Step 3)",
+			"icon": 131727,
+			"ql": 81
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 4)",
+			"item_id": 140491,
+			"name": "Pistol Construction Kit (Step 4)",
+			"icon": 131728,
+			"ql": 81
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 5)",
+			"item_id": 140493,
+			"name": "Pistol Construction Kit (Step 5)",
+			"icon": 131728,
+			"ql": 81
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 6)",
+			"item_id": 140495,
+			"name": "Pistol Construction Kit (Step 6)",
+			"icon": 131729,
+			"ql": 81
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 7)",
+			"item_id": 140497,
+			"name": "Pistol Construction Kit (Step 7)",
+			"icon": 131729,
+			"ql": 81
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 8)",
+			"item_id": 140499,
+			"name": "Pistol Construction Kit (Step 8)",
+			"icon": 131730,
+			"ql": 81
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 9)",
+			"item_id": 140501,
+			"name": "Pistol Construction Kit (Step 9)",
+			"icon": 131730,
+			"ql": 81
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 10)",
+			"item_id": 140503,
+			"name": "Pistol Construction Kit (Step 10)",
+			"icon": 131731,
+			"ql": 81
+		},
+		{
+			"alias": "Worn Kolt PDW-37",
+			"item_id": 122281,
+			"ql": 81
+		}
+	],
+	"steps": [
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Pistol Weapons Construction Kit",
+			"result": "Pistol Construction Kit (Step 2)",
+			"skills": "Nano Progra 122-150"
+		},
+		{
+			"source": "Rapid-Reload-And-Fire Gyro",
+			"target": "Pistol Construction Kit (Step 2)",
+			"result": "Pistol Construction Kit (Step 3)",
+			"skills": "Weapon Smt 324-400"
+		},
+		{
+			"source": "Triple Pulse Enabler",
+			"target": "Pistol Construction Kit (Step 3)",
+			"result": "Pistol Construction Kit (Step 4)",
+			"skills": "Weapon Smt 344-425"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Pistol Construction Kit (Step 4)",
+			"result": "Pistol Construction Kit (Step 5)",
+			"skills": "Mech. Engi 202-250"
+		},
+		{
+			"source": "Energy Pack Interface",
+			"target": "Pistol Construction Kit (Step 5)",
+			"result": "Pistol Construction Kit (Step 6)",
+			"skills": "Elec. Engi 324-400"
+		},
+		{
+			"source": "Energy Conduction Rack",
+			"target": "Pistol Construction Kit (Step 6)",
+			"result": "Pistol Construction Kit (Step 7)",
+			"skills": "Quantum FT 263-325"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "Pistol Construction Kit (Step 7)",
+			"result": "Pistol Construction Kit (Step 8)",
+			"skills": "Nano Progra 162-200"
+		},
+		{
+			"source": "Hyper Carbo-Ceramic Cooling System",
+			"target": "Pistol Construction Kit (Step 8)",
+			"result": "Pistol Construction Kit (Step 9)",
+			"skills": "Weapon Smt 324-400"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Pistol Construction Kit (Step 9)",
+			"result": "Pistol Construction Kit (Step 10)",
+			"skills": "Mech. Engi 202-250"
+		},
+		{
+			"source": "Short Composite Barrel",
+			"target": "Pistol Construction Kit (Step 10)",
+			"result": "Worn Kolt PDW-37",
+			"skills": "Weapon Smt 263-325"
+		}
+	]
 }

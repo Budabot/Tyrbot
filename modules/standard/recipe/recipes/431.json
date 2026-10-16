@@ -1,8 +1,199 @@
 {
-    "name": "Quality Heavy Lead Sprayer",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n 'Quality Heavy Lead Sprayer'\nThe Construction kit. must be between Quality Level  101 and  120.\nAll other pieces must be of AT LEAST that level range... \nAdd them using shift+right-click.\n Add in following order:\n\n 1. AssaultRifle Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  404 ->  480\n\n 2. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  202 ->  240\n\n 3. Lock and Stock. SkillTo Assemble: Weapon Smt:  404 ->  480\n\n 4. Jandawit Cleanup Cluster. SkillTo Assemble: Weapon Smt:  354 ->  420\n\n 5. Explosion Propulsion Containment Chamber. SkillTo Assemble: Mech. Engi:  354 ->  420\n\n 6. Gyro Stabilizing Unit. SkillTo Assemble: Weapon Smt:  454 ->  540\n\n 7. Triple Pulse Enabler. SkillTo Assemble: Weapon Smt:  429 ->  510\n\n 8. Nano Pylon. SkillTo Assemble: Mech. Engi:  252 ->  300\n\n 9. Composite Barrel. SkillTo Assemble: Weapon Smt:  379 ->  450\n\n 10. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  252 ->  300\n\n 11. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  152 ->  180"
+	"name": "Quality Heavy Lead Sprayer",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 101 and 120. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "AssaultRifle Weapons Construction Kit",
+			"item_id": 137205,
+			"name": "AssaultRifle Weapons Construction Kit",
+			"icon": 131797,
+			"ql": 101,
+			"comment": "Skill To Assemble: Weapon Smt 404-480"
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 101
+		},
+		{
+			"alias": "Lock and Stock",
+			"item_id": 137255,
+			"ql": 101
+		},
+		{
+			"alias": "Jandawit Cleanup Cluster",
+			"item_id": 137281,
+			"ql": 101
+		},
+		{
+			"alias": "Explosion Propulsion Containment Chamber",
+			"item_id": 137241,
+			"ql": 101
+		},
+		{
+			"alias": "Gyro Stabilizing Unit",
+			"item_id": 137295,
+			"ql": 101
+		},
+		{
+			"alias": "Triple Pulse Enabler",
+			"item_id": 137297,
+			"ql": 101
+		},
+		{
+			"alias": "Nano Pylon",
+			"item_id": 137277,
+			"ql": 101
+		},
+		{
+			"alias": "Composite Barrel",
+			"item_id": 137235,
+			"ql": 101
+		},
+		{
+			"alias": "Notum Alloy Strengthened Ribs",
+			"item_id": 137275,
+			"ql": 101
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 101
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 2)",
+			"item_id": 137518,
+			"name": "Assault Rif Construction Kit (Step 2)",
+			"icon": 131673,
+			"ql": 101
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 3)",
+			"item_id": 141434,
+			"name": "Assault Rif Construction Kit (Step 3)",
+			"icon": 131673,
+			"ql": 101
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 4)",
+			"item_id": 141436,
+			"name": "Assault Rif Construction Kit (Step 4)",
+			"icon": 131674,
+			"ql": 101
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 5)",
+			"item_id": 141438,
+			"name": "Assault Rif Construction Kit (Step 5)",
+			"icon": 131674,
+			"ql": 101
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 6)",
+			"item_id": 141440,
+			"name": "Assault Rif Construction Kit (Step 6)",
+			"icon": 131675,
+			"ql": 101
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 7)",
+			"item_id": 141442,
+			"name": "Assault Rif Construction Kit (Step 7)",
+			"icon": 131675,
+			"ql": 101
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 8)",
+			"item_id": 141444,
+			"name": "Assault Rif Construction Kit (Step 8)",
+			"icon": 131676,
+			"ql": 101
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 9)",
+			"item_id": 141446,
+			"name": "Assault Rif Construction Kit (Step 9)",
+			"icon": 131676,
+			"ql": 101
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 10)",
+			"item_id": 141448,
+			"name": "Assault Rif Construction Kit (Step 10)",
+			"icon": 131677,
+			"ql": 101
+		},
+		{
+			"alias": "Quality Heavy Lead Sprayer",
+			"item_id": 122682,
+			"ql": 101
+		}
+	],
+	"steps": [
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "AssaultRifle Weapons Construction Kit",
+			"result": "Assault Rif Construction Kit (Step 2)",
+			"skills": "Nano Progra 202-240"
+		},
+		{
+			"source": "Lock and Stock",
+			"target": "Assault Rif Construction Kit (Step 2)",
+			"result": "Assault Rif Construction Kit (Step 3)",
+			"skills": "Weapon Smt 404-480"
+		},
+		{
+			"source": "Jandawit Cleanup Cluster",
+			"target": "Assault Rif Construction Kit (Step 3)",
+			"result": "Assault Rif Construction Kit (Step 4)",
+			"skills": "Weapon Smt 354-420"
+		},
+		{
+			"source": "Explosion Propulsion Containment Chamber",
+			"target": "Assault Rif Construction Kit (Step 4)",
+			"result": "Assault Rif Construction Kit (Step 5)",
+			"skills": "Mech. Engi 354-420"
+		},
+		{
+			"source": "Gyro Stabilizing Unit",
+			"target": "Assault Rif Construction Kit (Step 5)",
+			"result": "Assault Rif Construction Kit (Step 6)",
+			"skills": "Weapon Smt 454-540"
+		},
+		{
+			"source": "Triple Pulse Enabler",
+			"target": "Assault Rif Construction Kit (Step 6)",
+			"result": "Assault Rif Construction Kit (Step 7)",
+			"skills": "Weapon Smt 429-510"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Assault Rif Construction Kit (Step 7)",
+			"result": "Assault Rif Construction Kit (Step 8)",
+			"skills": "Mech. Engi 252-300"
+		},
+		{
+			"source": "Composite Barrel",
+			"target": "Assault Rif Construction Kit (Step 8)",
+			"result": "Assault Rif Construction Kit (Step 9)",
+			"skills": "Weapon Smt 379-450"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Assault Rif Construction Kit (Step 9)",
+			"result": "Assault Rif Construction Kit (Step 10)",
+			"skills": "Mech. Engi 252-300"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Assault Rif Construction Kit (Step 10)",
+			"result": "Quality Heavy Lead Sprayer",
+			"skills": "Nano Progra 152-180"
+		}
+	]
 }

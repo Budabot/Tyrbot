@@ -1,8 +1,198 @@
 {
-    "name": "Simple Abigail",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n 'Simple Abigail'\nThe Construction kit. must be between Quality Level 31 and 60.\nAll other pieces must be of AT LEAST that level range... \nAdd them using shift+right-click.\nAdd the pieces in the following order:\n\n 1. Rifle Weapons Construction kit.\n\n 2. Explosion Propulsion Containment Chamber. . SkillTo Assemble: Mech. Engi: 108-210\n\n 3. Runtime Critical Area Analyzer. . SkillTo Assemble: Weapon Smt: 124-240\n\n 4. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 62-120\n\n 5. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 78-150\n\n 6. Self-Repairing Ultra-X. . SkillTo Assemble: Weapon Smt: 108-210\n\n 7. Short Composite Barrel. . SkillTo Assemble: Weapon Smt: 101-195\n\n 8. Nano-Interfaced Cooling System. . SkillTo Assemble: Weapon Smt: 124-240\n\n 9. Nano Pylon. . SkillTo Assemble: Mech. Engi: 78-150\n\n 10. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 46-90\n\n 11. Lock and Stock. . SkillTo Assemble: Weapon Smt: 124-240"
+	"name": "Simple Abigail",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 31 and 60. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Rifle Weapons Construction Kit",
+			"item_id": 137203,
+			"name": "Rifle Weapons Construction Kit",
+			"icon": 131744,
+			"ql": 31
+		},
+		{
+			"alias": "Explosion Propulsion Containment Chamber",
+			"item_id": 137241,
+			"ql": 31
+		},
+		{
+			"alias": "Runtime Critical Area Analyzer",
+			"item_id": 137299,
+			"ql": 31
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 31
+		},
+		{
+			"alias": "Notum Alloy Strengthened Ribs",
+			"item_id": 137275,
+			"ql": 31
+		},
+		{
+			"alias": "Self-Repairing Ultra-X",
+			"item_id": 137283,
+			"ql": 31
+		},
+		{
+			"alias": "Short Composite Barrel",
+			"item_id": 137233,
+			"ql": 31
+		},
+		{
+			"alias": "Nano-Interfaced Cooling System",
+			"item_id": 137269,
+			"ql": 31
+		},
+		{
+			"alias": "Nano Pylon",
+			"item_id": 137277,
+			"ql": 31
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 31
+		},
+		{
+			"alias": "Lock and Stock",
+			"item_id": 137255,
+			"ql": 31
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 2)",
+			"item_id": 137921,
+			"name": "Rifle Construction Kit (Step 2)",
+			"icon": 131745,
+			"ql": 31
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 3)",
+			"item_id": 153547,
+			"name": "Rifle Construction Kit (Step 3)",
+			"icon": 131745,
+			"ql": 31
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 4)",
+			"item_id": 153549,
+			"name": "Rifle Construction Kit (Step 4)",
+			"icon": 131746,
+			"ql": 31
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 5)",
+			"item_id": 153551,
+			"name": "Rifle Construction Kit (Step 5)",
+			"icon": 131746,
+			"ql": 31
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 6)",
+			"item_id": 153553,
+			"name": "Rifle Construction Kit (Step 6)",
+			"icon": 131747,
+			"ql": 31
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 7)",
+			"item_id": 153555,
+			"name": "Rifle Construction Kit (Step 7)",
+			"icon": 131747,
+			"ql": 31
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 8)",
+			"item_id": 153557,
+			"name": "Rifle Construction Kit (Step 8)",
+			"icon": 131748,
+			"ql": 31
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 9)",
+			"item_id": 153559,
+			"name": "Rifle Construction Kit (Step 9)",
+			"icon": 131748,
+			"ql": 31
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 10)",
+			"item_id": 153561,
+			"name": "Rifle Construction Kit (Step 10)",
+			"icon": 131749,
+			"ql": 31
+		},
+		{
+			"alias": "Simple Abigail",
+			"item_id": 152085,
+			"ql": 31
+		}
+	],
+	"steps": [
+		{
+			"source": "Explosion Propulsion Containment Chamber",
+			"target": "Rifle Weapons Construction Kit",
+			"result": "Rifle Construction Kit (Step 2)",
+			"skills": "Mech. Engi 108-210"
+		},
+		{
+			"source": "Runtime Critical Area Analyzer",
+			"target": "Rifle Construction Kit (Step 2)",
+			"result": "Rifle Construction Kit (Step 3)",
+			"skills": "Weapon Smt 124-240"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "Rifle Construction Kit (Step 3)",
+			"result": "Rifle Construction Kit (Step 4)",
+			"skills": "Nano Progra 62-120"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Rifle Construction Kit (Step 4)",
+			"result": "Rifle Construction Kit (Step 5)",
+			"skills": "Mech. Engi 78-150"
+		},
+		{
+			"source": "Self-Repairing Ultra-X",
+			"target": "Rifle Construction Kit (Step 5)",
+			"result": "Rifle Construction Kit (Step 6)",
+			"skills": "Weapon Smt 108-210"
+		},
+		{
+			"source": "Short Composite Barrel",
+			"target": "Rifle Construction Kit (Step 6)",
+			"result": "Rifle Construction Kit (Step 7)",
+			"skills": "Weapon Smt 101-195"
+		},
+		{
+			"source": "Nano-Interfaced Cooling System",
+			"target": "Rifle Construction Kit (Step 7)",
+			"result": "Rifle Construction Kit (Step 8)",
+			"skills": "Weapon Smt 124-240"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Rifle Construction Kit (Step 8)",
+			"result": "Rifle Construction Kit (Step 9)",
+			"skills": "Mech. Engi 78-150"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Rifle Construction Kit (Step 9)",
+			"result": "Rifle Construction Kit (Step 10)",
+			"skills": "Nano Progra 46-90"
+		},
+		{
+			"source": "Lock and Stock",
+			"target": "Rifle Construction Kit (Step 10)",
+			"result": "Simple Abigail",
+			"skills": "Weapon Smt 124-240"
+		}
+	]
 }

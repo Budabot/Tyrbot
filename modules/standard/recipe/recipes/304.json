@@ -1,8 +1,181 @@
 {
-    "name": "Ill-Treated Plasmaprojector",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n  'Ill-Treated Plasmaprojector'\n The Construction kit. must be between Quality Level  1 and  20.\n All other pieces must be of AT LEAST that level range... \n Add them using shift+right-click.\n  Add in following order:\n \n  1. AssaultRifle Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  4 ->  80\n \n  2. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  2 ->  40\n \n  3. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  2 ->  30\n \n  4. Energy Conduction Rack. SkillTo Assemble: Quantum FT:  3 ->  65\n \n  5. Runtime Critical Area Analyzer. SkillTo Assemble: Weapon Smt:  4 ->  80\n \n  6. Hyper Carbo-Ceramic Cooling System. SkillTo Assemble: Weapon Smt:  4 ->  80\n \n  7. Long Composite Barrel. SkillTo Assemble: Weapon Smt:  4 ->  80\n \n  8. Nano Pylon. SkillTo Assemble: Mech. Engi:  2 ->  50\n \n  9. Energy Pack Interface. SkillTo Assemble: Elec. Engi:  4 ->  80\n \n  10. Notum Enriched Nano Paste - 4x Layer. SkillTo Assemble: Nano Progra:  2 ->  50"
+	"name": "Ill-Treated Plasmaprojector",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 1 and 20. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "AssaultRifle Weapons Construction Kit",
+			"item_id": 137205,
+			"name": "AssaultRifle Weapons Construction Kit",
+			"icon": 131797,
+			"ql": 1,
+			"comment": "Skill To Assemble: Weapon Smt 4-80"
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 1
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 1
+		},
+		{
+			"alias": "Energy Conduction Rack",
+			"item_id": 137243,
+			"ql": 1
+		},
+		{
+			"alias": "Runtime Critical Area Analyzer",
+			"item_id": 137299,
+			"ql": 1
+		},
+		{
+			"alias": "Hyper Carbo-Ceramic Cooling System",
+			"item_id": 137267,
+			"ql": 1
+		},
+		{
+			"alias": "Long Composite Barrel",
+			"item_id": 137237,
+			"ql": 1
+		},
+		{
+			"alias": "Nano Pylon",
+			"item_id": 137277,
+			"ql": 1
+		},
+		{
+			"alias": "Energy Pack Interface",
+			"item_id": 137257,
+			"ql": 1
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 4x Layer",
+			"item_id": 137307,
+			"ql": 1
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 2)",
+			"item_id": 137518,
+			"name": "Assault Rif Construction Kit (Step 2)",
+			"icon": 131673,
+			"ql": 1
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 3)",
+			"item_id": 138913,
+			"name": "Assault Rif Construction Kit (Step 3)",
+			"icon": 131673,
+			"ql": 1
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 4)",
+			"item_id": 138915,
+			"name": "Assault Rif Construction Kit (Step 4)",
+			"icon": 131674,
+			"ql": 1
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 5)",
+			"item_id": 138917,
+			"name": "Assault Rif Construction Kit (Step 5)",
+			"icon": 131675,
+			"ql": 1
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 6)",
+			"item_id": 138919,
+			"name": "Assault Rif Construction Kit (Step 6)",
+			"icon": 131675,
+			"ql": 1
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 7)",
+			"item_id": 138921,
+			"name": "Assault Rif Construction Kit (Step 7)",
+			"icon": 131676,
+			"ql": 1
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 8)",
+			"item_id": 138923,
+			"name": "Assault Rif Construction Kit (Step 8)",
+			"icon": 131676,
+			"ql": 1
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 9)",
+			"item_id": 138925,
+			"name": "Assault Rif Construction Kit (Step 9)",
+			"icon": 131677,
+			"ql": 1
+		},
+		{
+			"alias": "Ill-Treated Plasmaprojector",
+			"item_id": 121874,
+			"ql": 1
+		}
+	],
+	"steps": [
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "AssaultRifle Weapons Construction Kit",
+			"result": "Assault Rif Construction Kit (Step 2)",
+			"skills": "Nano Progra 2-40"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Assault Rif Construction Kit (Step 2)",
+			"result": "Assault Rif Construction Kit (Step 3)",
+			"skills": "Nano Progra 2-30"
+		},
+		{
+			"source": "Energy Conduction Rack",
+			"target": "Assault Rif Construction Kit (Step 3)",
+			"result": "Assault Rif Construction Kit (Step 4)",
+			"skills": "Quantum FT 3-65"
+		},
+		{
+			"source": "Runtime Critical Area Analyzer",
+			"target": "Assault Rif Construction Kit (Step 4)",
+			"result": "Assault Rif Construction Kit (Step 5)",
+			"skills": "Weapon Smt 4-80"
+		},
+		{
+			"source": "Hyper Carbo-Ceramic Cooling System",
+			"target": "Assault Rif Construction Kit (Step 5)",
+			"result": "Assault Rif Construction Kit (Step 6)",
+			"skills": "Weapon Smt 4-80"
+		},
+		{
+			"source": "Long Composite Barrel",
+			"target": "Assault Rif Construction Kit (Step 6)",
+			"result": "Assault Rif Construction Kit (Step 7)",
+			"skills": "Weapon Smt 4-80"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Assault Rif Construction Kit (Step 7)",
+			"result": "Assault Rif Construction Kit (Step 8)",
+			"skills": "Mech. Engi 2-50"
+		},
+		{
+			"source": "Energy Pack Interface",
+			"target": "Assault Rif Construction Kit (Step 8)",
+			"result": "Assault Rif Construction Kit (Step 9)",
+			"skills": "Elec. Engi 4-80"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 4x Layer",
+			"target": "Assault Rif Construction Kit (Step 9)",
+			"result": "Ill-Treated Plasmaprojector",
+			"skills": "Nano Progra 2-50"
+		}
+	]
 }

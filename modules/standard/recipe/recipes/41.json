@@ -1,21 +1,31 @@
 {
-    "name": "Enhanced Queen Blade",
-    "author": "",
-    "items": [
-        {
-            "alias": "Queen Blade",
-            "item_id": 157761
-        },
-        {
-            "alias": "Diamond-Matrix Mesh",
-            "item_id": 202266
-        },
-        {
-            "alias": "Enhanced Queen Blade",
-            "item_id": 202264
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Queen Blade\" \"157761\"\n<img src=rdb://158239>\n\n#L \"Diamond-Matrix Mesh\" \"202266\"\n<img src=rdb://11615>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nDiamond-Matrix Mesh</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nQueen Blade</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://158239>\n#L \"Enhanced Queen Blade\" \"202264\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nNice weapon if you can get the parts."
+	"name": "Enhanced Queen Blade",
+	"author": "",
+	"items": [
+		{
+			"alias": "Queen Blade",
+			"item_id": 157761
+		},
+		{
+			"alias": "Diamond-Matrix Mesh",
+			"item_id": 202266
+		},
+		{
+			"alias": "Enhanced Queen Blade",
+			"item_id": 202264
+		}
+	],
+	"steps": [
+		{
+			"source": "Diamond-Matrix Mesh",
+			"target": "Queen Blade",
+			"result": "Enhanced Queen Blade",
+			"skills": "??"
+		}
+	],
+	"details": [
+		{
+			"text": "Nice weapon if you can get the parts."
+		}
+	]
 }

@@ -1,0 +1,74 @@
+{
+	"name": "Alien Invasion Houses: Regular Building Structure",
+	"author": "",
+	"intro": [
+		{
+			"text": "Building Alien Invasion Houses:"
+		},
+		{
+			"text": "<highlight>1) Regular Building Structure</highlight> (this recipe)"
+		},
+		{
+			"text": "#L \"2) Build a Simple Structure\" \"/tell <myname> recipe 784\""
+		},
+		{
+			"text": "#L \"3) Build a HQ Structure\" \"/tell <myname> recipe 785\""
+		},
+		{
+			"text": "#L \"4) Build High QL HQ Structure\" \"/tell <myname> recipe 28\""
+		},
+		{
+			"text": ""
+		}
+	],
+	"items": [
+		{
+			"alias": "Generic Volatile Nanobots",
+			"item_id": 247760
+		},
+		{
+			"alias": "HSR Compressed Regenerating Bioplate",
+			"item_id": 202540
+		},
+		{
+			"alias": "Generic Organic Immunity System",
+			"item_id": 254822
+		},
+		{
+			"alias": "Blueprint - Regular Building Structure",
+			"item_id": 247768
+		},
+		{
+			"alias": "Strong Regenerating Bioplate",
+			"item_id": 247757
+		},
+		{
+			"alias": "Superior Bioplate",
+			"item_id": 254806
+		},
+		{
+			"alias": "Regular Building Structure",
+			"item_id": 254807
+		}
+	],
+	"steps": [
+		{
+			"source": "Generic Volatile Nanobots",
+			"target": "HSR Compressed Regenerating Bioplate",
+			"result": "Strong Regenerating Bioplate",
+			"skills": "CH"
+		},
+		{
+			"source": "Generic Organic Immunity System",
+			"target": "Strong Regenerating Bioplate",
+			"result": "Superior Bioplate",
+			"skills": "??"
+		},
+		{
+			"source": "Blueprint - Regular Building Structure",
+			"target": "Superior Bioplate",
+			"result": "Regular Building Structure",
+			"skills": "??"
+		}
+	]
+}

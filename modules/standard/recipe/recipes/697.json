@@ -1,81 +1,118 @@
 {
-    "name": "Signet of the Apocalypse",
-    "author": "",
-    "items": [
-        {
-            "alias": "Jensen Gem Cutter",
-            "item_id": 151366
-        },
-        {
-            "alias": "De'Valos Protection Ring",
-            "item_id": 281267
-        },
-        {
-            "alias": "Sniper's Gem",
-            "item_id": 281209
-        },
-        {
-            "alias": "Explorer's Gem",
-            "item_id": 281210
-        },
-        {
-            "alias": "Dictator's Gem",
-            "item_id": 281211
-        },
-        {
-            "alias": "Healer's Gem",
-            "item_id": 281212
-        },
-        {
-            "alias": "Brute's Gem",
-            "item_id": 281213
-        },
-        {
-            "alias": "Builder's Gem",
-            "item_id": 281214
-        },
-        {
-            "alias": "Hacker's Gem",
-            "item_id": 281215
-        },
-        {
-            "alias": "Protecter's Gem",
-            "item_id": 281216
-        },
-        {
-            "alias": "Master's Gem",
-            "item_id": 281217
-        },
-        {
-            "alias": "Worshipper's Gem",
-            "item_id": 281218
-        },
-        {
-            "alias": "Techno Wizard's Gem",
-            "item_id": 281219
-        },
-        {
-            "alias": "Spirit's Gem",
-            "item_id": 281220
-        },
-        {
-            "alias": "Warrior's Gem",
-            "item_id": 281221
-        },
-        {
-            "alias": "Merchant's Gem",
-            "item_id": 281222
-        },
-        {
-            "alias": "Sniper's Cut Gem",
-            "item_id": 281225
-        },
-        {
-            "alias": "Sniper's Signet of The Apocalypse",
-            "item_id": 281194
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n</font>\n<font color=#FFFF00> So, you have a nice De'Valos Protection Ring and now you want to upgrade it further? No problem! \nThis easy tradeskill (which doesn't have any skill requirements) process will make your ring a little bit more useful in certain situations: </font><font color=#009B00>\n\n#L \"Jensen Gem Cutter\" \"151366\"\n<img src=rdb://149941>\n\n#L \"De'Valos Protection Ring\" \"281267\"\n<img src=rdb://281266>\n\n<img src=rdb://281224>\n#L \"Sniper's Gem\" \"281209\"</font>\n<font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Explorer's Gem\" \"281210\"</font>\n<font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Dictator's Gem\" \"281211\"</font>\n<font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Healer's Gem\" \"281212\"</font>\n<font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Brute's Gem\" \"281213\"</font>\n<font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Builder's Gem\" \"281214\"</font>\n<font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Hacker's Gem\" \"281215\"</font>\n<font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Protector's Gem\" \"281216\"</font>\n<font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Master's Gem\" \"281217\"</font>\n<font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Worshipper's Gem\" \"281218\"</font>\n<font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Techno Wizard's Gem\" \"281219\"</font>\n<font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Spirit's Gem\" \"281220\"</font>\n<font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Warrior's Gem\" \"281221\"</font>\n<font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Merchant's Gem\" \"281222\"\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nJensen Gem Cutter</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nSniper's Gem</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://281223>\n#L \"Sniper's Cut Gem\" \"281225\"\n\nSniper's Cut Gem</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nDe'Valos Protection Ring</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://281195>\n#L \"Sniper's Signet of The Apocalypse\" \"281194\"\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\nEach ring gives you a profession specific buff when activated."
+	"name": "Signet of the Apocalypse",
+	"author": "",
+	"intro": [
+		{
+			"text": "So, you have a nice De'Valos Protection Ring and now you want to upgrade it further? No problem!"
+		},
+		{
+			"text": "This easy tradeskill (which doesn't have any skill requirements) process will make your ring a little bit more useful in certain situations:"
+		}
+	],
+	"items": [
+		{
+			"alias": "Jensen Gem Cutter",
+			"item_id": 151366
+		},
+		{
+			"alias": "De'Valos Protection Ring",
+			"item_id": 281267
+		},
+		{
+			"alias": "Sniper's Gem",
+			"item_id": 281209
+		},
+		{
+			"alias": "Explorer's Gem",
+			"item_id": 281210,
+			"comment": "alternative to Sniper's Gem"
+		},
+		{
+			"alias": "Dictator's Gem",
+			"item_id": 281211,
+			"comment": "alternative to Sniper's Gem"
+		},
+		{
+			"alias": "Healer's Gem",
+			"item_id": 281212,
+			"comment": "alternative to Sniper's Gem"
+		},
+		{
+			"alias": "Brute's Gem",
+			"item_id": 281213,
+			"comment": "alternative to Sniper's Gem"
+		},
+		{
+			"alias": "Builder's Gem",
+			"item_id": 281214,
+			"comment": "alternative to Sniper's Gem"
+		},
+		{
+			"alias": "Hacker's Gem",
+			"item_id": 281215,
+			"comment": "alternative to Sniper's Gem"
+		},
+		{
+			"alias": "Protector's Gem",
+			"item_id": 281216,
+			"comment": "alternative to Sniper's Gem"
+		},
+		{
+			"alias": "Master's Gem",
+			"item_id": 281217,
+			"comment": "alternative to Sniper's Gem"
+		},
+		{
+			"alias": "Worshipper's Gem",
+			"item_id": 281218,
+			"comment": "alternative to Sniper's Gem"
+		},
+		{
+			"alias": "Techno Wizard's Gem",
+			"item_id": 281219,
+			"comment": "alternative to Sniper's Gem"
+		},
+		{
+			"alias": "Spirit's Gem",
+			"item_id": 281220,
+			"comment": "alternative to Sniper's Gem"
+		},
+		{
+			"alias": "Warrior's Gem",
+			"item_id": 281221,
+			"comment": "alternative to Sniper's Gem"
+		},
+		{
+			"alias": "Merchant's Gem",
+			"item_id": 281222,
+			"comment": "alternative to Sniper's Gem"
+		},
+		{
+			"alias": "Sniper's Cut Gem",
+			"item_id": 281225,
+			"comment": "or another Cut Gem, depending on the gem"
+		},
+		{
+			"alias": "Sniper's Signet of The Apocalypse",
+			"item_id": 281194,
+			"comment": "or another Signet of the Apocalypse, depending on the gem"
+		}
+	],
+	"steps": [
+		{
+			"source": "Jensen Gem Cutter",
+			"target": "Sniper's Gem",
+			"result": "Sniper's Cut Gem"
+		},
+		{
+			"source": "Sniper's Cut Gem",
+			"target": "De'Valos Protection Ring",
+			"result": "Sniper's Signet of The Apocalypse"
+		}
+	],
+	"details": [
+		{
+			"text": "Each ring gives you a profession specific buff when activated."
+		}
+	]
 }

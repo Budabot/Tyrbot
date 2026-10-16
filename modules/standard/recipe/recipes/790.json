@@ -1,0 +1,92 @@
+{
+	"name": "Solar-Powered Pistol",
+	"author": "",
+	"intro": [
+		{
+			"text": "Solar-Powered Engineer Pistol:"
+		},
+		{
+			"text": "<highlight>Step 1: Solar-Powered Pistol</highlight> (this recipe)"
+		},
+		{
+			"text": "#L \"Step 2: Solar-Powered Tinker Pistol\" \"/tell <myname> recipe 791\""
+		},
+		{
+			"text": "#L \"Step 3: Solar-Powered Mender Pistol\" \"/tell <myname> recipe 792\""
+		},
+		{
+			"text": "#L \"Step 4: Solar-Powered Mechanic Pistol\" \"/tell <myname> recipe 793\""
+		},
+		{
+			"text": "#L \"Step 5: Solar-Powered Machinist Pistol\" \"/tell <myname> recipe 794\""
+		},
+		{
+			"text": "#L \"Step 6: Solar-Powered Engineer Pistol\" \"/tell <myname> recipe 795\""
+		},
+		{
+			"text": "#L \"Step 7: Solar-Powered Master Engineer Pistol\" \"/tell <myname> recipe 796\""
+		},
+		{
+			"text": "#L \"Step 8: Infused Solar-Powered Master Engineer Pistol\" \"/tell <myname> recipe 797\""
+		},
+		{
+			"text": "#L \"Step 9: Augmented Master Engineer Pistol\" \"/tell <myname> recipe 112\""
+		},
+		{
+			"text": ""
+		},
+		{
+			"text": "Jump to step 2 if you already have a Start Up Pistol."
+		}
+	],
+	"items": [
+		{
+			"alias": "Basic Calculator",
+			"item_id": 156058
+		},
+		{
+			"alias": "Auto Targeting Computer -IIR 4 -Ultra-",
+			"item_id": 137291
+		},
+		{
+			"alias": "Jandawit Cleanup Cluster",
+			"item_id": 137281
+		},
+		{
+			"alias": "Irreparable River MV",
+			"item_id": 123667
+		},
+		{
+			"alias": "Solar-Powered Weapon Supervisor",
+			"item_id": 164523
+		},
+		{
+			"alias": "Solar-Powered Weapon Device",
+			"item_id": 164525
+		},
+		{
+			"alias": "Solar-Powered Pistol",
+			"item_id": 121567
+		}
+	],
+	"steps": [
+		{
+			"source": "Auto Targeting Computer -IIR 4 -Ultra-",
+			"target": "Basic Calculator",
+			"result": "Solar-Powered Weapon Supervisor",
+			"skills": "WS"
+		},
+		{
+			"source": "Jandawit Cleanup Cluster",
+			"target": "Solar-Powered Weapon Supervisor",
+			"result": "Solar-Powered Weapon Device",
+			"skills": "WS"
+		},
+		{
+			"source": "Solar-Powered Weapon Device",
+			"target": "Irreparable River MV",
+			"result": "Solar-Powered Pistol",
+			"skills": "WS"
+		}
+	]
+}

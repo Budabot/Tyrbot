@@ -1,33 +1,57 @@
 {
-    "name": "Notum Threaded Backpack",
-    "author": "",
-    "items": [
-        {
-            "alias": "Notum Threaded Zodiacal Blanket",
-            "item_id": 164563
-        },
-        {
-            "alias": "Field Quantum Physics All-Purpose Tool",
-            "item_id": 164558
-        },
-        {
-            "alias": "Advanced Hacker Tool",
-            "item_id": 87814
-        },
-        {
-            "alias": "Hacked Field Quantum Physics Tool",
-            "item_id": 164560
-        },
-        {
-            "alias": "Unstable Space Reduction Chamber",
-            "item_id": 164562
-        },
-        {
-            "alias": "Notum Threaded Backpack",
-            "item_id": 164564
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Notum Threaded Zodiacal Blanket\" \"164563\"\n<img src=rdb://161084>\n\n#L \"Field Quantum Physics All-Purpose Tool\" \"164558\" x 2\n<img src=rdb://20410>\n\n#L \"Hacker Tool\" \"87814\"\n<img src=rdb://99282>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nHacker Tool</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nField Quantum Physics All-Purpose Tool</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://20406>\n#L \"Hacked Field Quantum Physics Tool\" \"164560\"</font>\n<font color=#FFFF00>Skills: |  BE  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nField Quantum Physics All-Purpose Tool</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nHacked Field Quantum Physics Tool</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://20412>\n#L \"Unstable Space Reduction Chamber\" \"164562\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nNotum Threaded Zodiacal Blanket</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nUnstable Space Reduction Chamber</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://99660>\n#L \"Notum Threaded Backpack\" \"164564\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nNice back-pack for players level 75 and higher.  Blankets drop from medusas."
+	"name": "Notum Threaded Backpack",
+	"author": "",
+	"items": [
+		{
+			"alias": "Notum Threaded Zodiacal Blanket",
+			"item_id": 164563
+		},
+		{
+			"alias": "Field Quantum Physics All-Purpose Tool",
+			"item_id": 164558,
+			"quantity": 2
+		},
+		{
+			"alias": "Hacker Tool",
+			"item_id": 87814,
+			"comment": "or any other Hacker Tool"
+		},
+		{
+			"alias": "Hacked Field Quantum Physics Tool",
+			"item_id": 164560
+		},
+		{
+			"alias": "Unstable Space Reduction Chamber",
+			"item_id": 164562
+		},
+		{
+			"alias": "Notum Threaded Backpack",
+			"item_id": 164564
+		}
+	],
+	"steps": [
+		{
+			"source": "Hacker Tool",
+			"target": "Field Quantum Physics All-Purpose Tool",
+			"result": "Hacked Field Quantum Physics Tool",
+			"skills": "BE"
+		},
+		{
+			"source": "Field Quantum Physics All-Purpose Tool",
+			"target": "Hacked Field Quantum Physics Tool",
+			"result": "Unstable Space Reduction Chamber",
+			"skills": "??"
+		},
+		{
+			"source": "Notum Threaded Zodiacal Blanket",
+			"target": "Unstable Space Reduction Chamber",
+			"result": "Notum Threaded Backpack",
+			"skills": "??"
+		}
+	],
+	"details": [
+		{
+			"text": "Nice back-pack for players level 75 and higher. Blankets drop from medusas."
+		}
+	]
 }

@@ -1,21 +1,26 @@
 {
-    "name": "Infused Ancient Speed Preservation Unit",
-    "author": "",
-    "items": [
-        {
-            "alias": "Dust Brigade Notum Infuser",
-            "item_id": 274552
-        },
-        {
-            "alias": "Ancient Speed Preservation Unit",
-            "item_id": 267625
-        },
-        {
-            "alias": "Infused Ancient Speed Preservation Unit",
-            "item_id": 274555
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Dust Brigade Notum Infuser\" \"274552\"\n<img src=rdb://218768>\n\n#L \"Ancient Speed Preservation Unit\" \"267625\"\n<img src=rdb://218753>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nDust Brigade Notum Infuser</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nAncient Speed Preservation Unit</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://218753>\n#L \"Infused Ancient Speed Preservation Unit\" \"274555\"</font>\n<font color=#FFFF00>Skills: | CL 1500 |</font><font color=#009B00>"
+	"name": "Infused Ancient Speed Preservation Unit",
+	"author": "",
+	"items": [
+		{
+			"alias": "Dust Brigade Notum Infuser",
+			"item_id": 274552
+		},
+		{
+			"alias": "Ancient Speed Preservation Unit",
+			"item_id": 267625
+		},
+		{
+			"alias": "Infused Ancient Speed Preservation Unit",
+			"item_id": 274555
+		}
+	],
+	"steps": [
+		{
+			"source": "Dust Brigade Notum Infuser",
+			"target": "Ancient Speed Preservation Unit",
+			"result": "Infused Ancient Speed Preservation Unit",
+			"skills": "CL 1500"
+		}
+	]
 }

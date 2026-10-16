@@ -1,8 +1,227 @@
 {
-    "name": "Luxembourg Inferno Rifle",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n  'Luxembourg Inferno Rifle'\n The Construction kit. must be between Quality Level  61 and  90.\n All other pieces must be of AT LEAST that level range... \n Add them using shift+right-click.\n  Add in following order:\n \n  1. Rifle Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  244 ->  360\n \n  2. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  92 ->  135\n \n  3. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  152 ->  225\n \n  4. Jandawit Cleanup Cluster. SkillTo Assemble: Weapon Smt:  214 ->  315\n \n  5. Hyper Carbo-Ceramic Cooling System. SkillTo Assemble: Weapon Smt:  244 ->  360\n \n  6. Nano Pylon. SkillTo Assemble: Mech. Engi:  152 ->  225\n \n  7. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  152 ->  225\n \n  8. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  122 ->  180\n \n  9. Rapid-Reload-And-Fire Gyro. SkillTo Assemble: Weapon Smt:  244 ->  360\n \n  10. Long Composite Barrel. SkillTo Assemble: Weapon Smt:  244 ->  360\n \n  11. Plasma Streamer Interface Nozzle. SkillTo Assemble: Chemistry:  244 ->  360\n \n  12. Compression Chamber for Chemicals. SkillTo Assemble: Weapon Smt:  259 ->  382\n \n  13. Nano Pylon. SkillTo Assemble: Mech. Engi:  152 ->  225"
+	"name": "Luxembourg Inferno Rifle",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 61 and 90. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Rifle Weapons Construction Kit",
+			"item_id": 137203,
+			"name": "Rifle Weapons Construction Kit",
+			"icon": 131744,
+			"ql": 61,
+			"comment": "Skill To Assemble: Weapon Smt 244-360"
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 61
+		},
+		{
+			"alias": "Notum Alloy Strengthened Ribs",
+			"item_id": 137275,
+			"ql": 61,
+			"quantity": 2
+		},
+		{
+			"alias": "Jandawit Cleanup Cluster",
+			"item_id": 137281,
+			"ql": 61
+		},
+		{
+			"alias": "Hyper Carbo-Ceramic Cooling System",
+			"item_id": 137267,
+			"ql": 61
+		},
+		{
+			"alias": "Nano Pylon",
+			"item_id": 137277,
+			"ql": 61,
+			"quantity": 2
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 61
+		},
+		{
+			"alias": "Rapid-Reload-And-Fire Gyro",
+			"item_id": 137313,
+			"ql": 61
+		},
+		{
+			"alias": "Long Composite Barrel",
+			"item_id": 137237,
+			"ql": 61
+		},
+		{
+			"alias": "Plasma Streamer Interface Nozzle",
+			"item_id": 137261,
+			"ql": 61
+		},
+		{
+			"alias": "Compression Chamber for Chemicals",
+			"item_id": 137247,
+			"ql": 61
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 2)",
+			"item_id": 138021,
+			"name": "Rifle Construction Kit (Step 2)",
+			"icon": 131745,
+			"ql": 61
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 3)",
+			"item_id": 138023,
+			"name": "Rifle Construction Kit (Step 3)",
+			"icon": 131745,
+			"ql": 61
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 4)",
+			"item_id": 152582,
+			"name": "Rifle Construction Kit (Step 4)",
+			"icon": 131745,
+			"ql": 61
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 5)",
+			"item_id": 152584,
+			"name": "Rifle Construction Kit (Step 5)",
+			"icon": 131746,
+			"ql": 61
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 6)",
+			"item_id": 152586,
+			"name": "Rifle Construction Kit (Step 6)",
+			"icon": 131746,
+			"ql": 61
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 7)",
+			"item_id": 152588,
+			"name": "Rifle Construction Kit (Step 7)",
+			"icon": 131747,
+			"ql": 61
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 8)",
+			"item_id": 152590,
+			"name": "Rifle Construction Kit (Step 8)",
+			"icon": 131747,
+			"ql": 61
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 9)",
+			"item_id": 152592,
+			"name": "Rifle Construction Kit (Step 9)",
+			"icon": 131748,
+			"ql": 61
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 10)",
+			"item_id": 152594,
+			"name": "Rifle Construction Kit (Step 10)",
+			"icon": 131748,
+			"ql": 61
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 11)",
+			"item_id": 152596,
+			"name": "Rifle Construction Kit (Step 11)",
+			"icon": 131748,
+			"ql": 61
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 12)",
+			"item_id": 152598,
+			"name": "Rifle Construction Kit (Step 12)",
+			"icon": 131749,
+			"ql": 61
+		},
+		{
+			"alias": "Luxembourg Inferno Rifle",
+			"item_id": 152302,
+			"ql": 61
+		}
+	],
+	"steps": [
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Rifle Weapons Construction Kit",
+			"result": "Rifle Construction Kit (Step 2)",
+			"skills": "Nano Progra 92-135"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Rifle Construction Kit (Step 2)",
+			"result": "Rifle Construction Kit (Step 3)",
+			"skills": "Mech. Engi 152-225"
+		},
+		{
+			"source": "Jandawit Cleanup Cluster",
+			"target": "Rifle Construction Kit (Step 3)",
+			"result": "Rifle Construction Kit (Step 4)",
+			"skills": "Weapon Smt 214-315"
+		},
+		{
+			"source": "Hyper Carbo-Ceramic Cooling System",
+			"target": "Rifle Construction Kit (Step 4)",
+			"result": "Rifle Construction Kit (Step 5)",
+			"skills": "Weapon Smt 244-360"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Rifle Construction Kit (Step 5)",
+			"result": "Rifle Construction Kit (Step 6)",
+			"skills": "Mech. Engi 152-225"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Rifle Construction Kit (Step 6)",
+			"result": "Rifle Construction Kit (Step 7)",
+			"skills": "Mech. Engi 152-225"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "Rifle Construction Kit (Step 7)",
+			"result": "Rifle Construction Kit (Step 8)",
+			"skills": "Nano Progra 122-180"
+		},
+		{
+			"source": "Rapid-Reload-And-Fire Gyro",
+			"target": "Rifle Construction Kit (Step 8)",
+			"result": "Rifle Construction Kit (Step 9)",
+			"skills": "Weapon Smt 244-360"
+		},
+		{
+			"source": "Long Composite Barrel",
+			"target": "Rifle Construction Kit (Step 9)",
+			"result": "Rifle Construction Kit (Step 10)",
+			"skills": "Weapon Smt 244-360"
+		},
+		{
+			"source": "Plasma Streamer Interface Nozzle",
+			"target": "Rifle Construction Kit (Step 10)",
+			"result": "Rifle Construction Kit (Step 11)",
+			"skills": "Chemistry 244-360"
+		},
+		{
+			"source": "Compression Chamber for Chemicals",
+			"target": "Rifle Construction Kit (Step 11)",
+			"result": "Rifle Construction Kit (Step 12)",
+			"skills": "Weapon Smt 259-382"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Rifle Construction Kit (Step 12)",
+			"result": "Luxembourg Inferno Rifle",
+			"skills": "Mech. Engi 152-225"
+		}
+	]
 }

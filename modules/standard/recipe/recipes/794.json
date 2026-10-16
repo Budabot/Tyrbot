@@ -1,0 +1,65 @@
+{
+	"name": "Solar-Powered Machinist Pistol",
+	"author": "",
+	"intro": [
+		{
+			"text": "Solar-Powered Engineer Pistol:"
+		},
+		{
+			"text": "#L \"Step 1: Solar-Powered Pistol\" \"/tell <myname> recipe 790\""
+		},
+		{
+			"text": "#L \"Step 2: Solar-Powered Tinker Pistol\" \"/tell <myname> recipe 791\""
+		},
+		{
+			"text": "#L \"Step 3: Solar-Powered Mender Pistol\" \"/tell <myname> recipe 792\""
+		},
+		{
+			"text": "#L \"Step 4: Solar-Powered Mechanic Pistol\" \"/tell <myname> recipe 793\""
+		},
+		{
+			"text": "<highlight>Step 5: Solar-Powered Machinist Pistol</highlight> (this recipe)"
+		},
+		{
+			"text": "#L \"Step 6: Solar-Powered Engineer Pistol\" \"/tell <myname> recipe 795\""
+		},
+		{
+			"text": "#L \"Step 7: Solar-Powered Master Engineer Pistol\" \"/tell <myname> recipe 796\""
+		},
+		{
+			"text": "#L \"Step 8: Infused Solar-Powered Master Engineer Pistol\" \"/tell <myname> recipe 797\""
+		},
+		{
+			"text": "#L \"Step 9: Augmented Master Engineer Pistol\" \"/tell <myname> recipe 112\""
+		},
+		{
+			"text": ""
+		},
+		{
+			"text": "Increase the QL of your pistol to 139 by right-clicking on it."
+		}
+	],
+	"items": [
+		{
+			"alias": "Notum Threaded Backpack",
+			"item_id": 164564,
+			"comment": "#L \"recipe\" \"/tell <myname> recipe 78\""
+		},
+		{
+			"alias": "Solar-Powered Mechanic Pistol",
+			"item_id": 164501
+		},
+		{
+			"alias": "Solar-Powered Machinist Pistol",
+			"item_id": 164511
+		}
+	],
+	"steps": [
+		{
+			"source": "Notum Threaded Backpack",
+			"target": "Solar-Powered Mechanic Pistol",
+			"result": "Solar-Powered Machinist Pistol",
+			"skills": "WS"
+		}
+	]
+}

@@ -1,8 +1,90 @@
 {
-    "name": "Chipped Mini Axe",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n  'Chipped Mini Axe'\n The Construction kit. must be between Quality Level 81 and 100.\n All other pieces must be of AT LEAST that level range... \n Add them using shift+right-click.\n Add the pieces in the following order:\n \n  1. One Handed Edged Weapons Construction kit.\n \n  2. Optimized Co-Weapon Interface. . SkillTo Assemble: Comp. Liter: 243-300\n \n  3. Short Handle. . SkillTo Assemble: Weapon Smt: 284-350\n \n  4. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 122-150\n \n  5. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 162-200"
+	"name": "Chipped Mini Axe",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 81 and 100. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "One Handed Edged Weapons Construction Kit",
+			"item_id": 137219,
+			"name": "One Handed Edged Weapons Construction Kit",
+			"icon": 131816,
+			"ql": 81
+		},
+		{
+			"alias": "Optimized Co-Weapon Interface",
+			"item_id": 142930,
+			"ql": 81
+		},
+		{
+			"alias": "Short Handle",
+			"item_id": 142884,
+			"ql": 81
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 81
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 81
+		},
+		{
+			"alias": "1h Edged Construction Kit (Step 2)",
+			"item_id": 142976,
+			"name": "1h Edged Construction Kit (Step 2)",
+			"icon": 131817,
+			"ql": 81
+		},
+		{
+			"alias": "1h Edged Construction Kit (Step 3)",
+			"item_id": 143552,
+			"name": "1h Edged Construction Kit (Step 3)",
+			"icon": 131819,
+			"ql": 81
+		},
+		{
+			"alias": "1h Edged Construction Kit (Step 4)",
+			"item_id": 143554,
+			"name": "1h Edged Construction Kit (Step 4)",
+			"icon": 131820,
+			"ql": 81
+		},
+		{
+			"alias": "Chipped Mini Axe",
+			"item_id": 121768,
+			"ql": 81
+		}
+	],
+	"steps": [
+		{
+			"source": "Optimized Co-Weapon Interface",
+			"target": "One Handed Edged Weapons Construction Kit",
+			"result": "1h Edged Construction Kit (Step 2)",
+			"skills": "Comp. Liter 243-300"
+		},
+		{
+			"source": "Short Handle",
+			"target": "1h Edged Construction Kit (Step 2)",
+			"result": "1h Edged Construction Kit (Step 3)",
+			"skills": "Weapon Smt 284-350"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "1h Edged Construction Kit (Step 3)",
+			"result": "1h Edged Construction Kit (Step 4)",
+			"skills": "Nano Progra 122-150"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "1h Edged Construction Kit (Step 4)",
+			"result": "Chipped Mini Axe",
+			"skills": "Nano Progra 162-200"
+		}
+	]
 }

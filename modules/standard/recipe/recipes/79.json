@@ -1,49 +1,78 @@
 {
-    "name": "Omni-Tek Steel-Ribbed Armor",
-    "author": "",
-    "items": [
-        {
-            "alias": "High-Quality Steel-Ribbed Armor Boots",
-            "item_id": 22158
-        },
-        {
-            "alias": "Advanced Hacker Tool",
-            "item_id": 87814
-        },
-        {
-            "alias": "Omnifier",
-            "item_id": 208312
-        },
-        {
-            "alias": "Hacked Steel-Ribbed Armor Boots",
-            "item_id": 245948
-        },
-        {
-            "alias": "Omni-Tek Steel-Ribbed Armor Boots",
-            "item_id": 245936
-        },
-        {
-            "alias": "Omni-Tek Steel-Ribbed Armor Gloves",
-            "item_id": 245940
-        },
-        {
-            "alias": "Omni-Tek Steel-Ribbed Armor Helmet",
-            "item_id": 245934
-        },
-        {
-            "alias": "Omni-Tek Steel-Ribbed Armor Pants",
-            "item_id": 245938
-        },
-        {
-            "alias": "Omni-Tek Steel-Ribbed Armor Sleeves",
-            "item_id": 245932
-        },
-        {
-            "alias": "Omni-Tek Steel-Ribbed Body Armor",
-            "item_id": 245930
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\na part of Steel-Ribbed Armor\n( ie #L \"High-Quality Steel-Ribbed Armor Boots\" \"22158\" )\n<img src=rdb://13274>\n\n#L \"Hacker Tool\" \"87814\"\n<img src=rdb://99282>\n\n#L \"Omnifier\" \"208312\"\n<img src=rdb://156479>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nHacker Tool</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\na part of Steel-Ribbed Armor</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://245925>\na part of Hacked Steel-Ribbed Armor\n( ie : #L \"Hacked Steel-Ribbed Armor Boots\" \"245948\" )</font>\n<font color=#FFFF00>Skills: |  BE  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nOmnifier</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\na part of Hacked Steel-Ribbed Armor</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://245925>\na part of Omni-Tek Steel-Ribbed Armor</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Omni-Tek Steel-Ribbed Armor Boots\" \"245936\"\n#L \"Omni-Tek Steel-Ribbed Armor Gloves\" \"245940\"\n#L \"Omni-Tek Steel-Ribbed Armor Helmet\" \"245934\"\n#L \"Omni-Tek Steel-Ribbed Armor Pants\" \"245938\"\n#L \"Omni-Tek Steel-Ribbed Armor Sleeves\" \"245932\"\n#L \"Omni-Tek Steel-Ribbed Body Armor\" \"245930\"\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nGreat sided armor."
+	"name": "Omni-Tek Steel-Ribbed Armor",
+	"author": "",
+	"items": [
+		{
+			"alias": "Part of Steel-Ribbed Armor",
+			"item_id": 22158,
+			"comment": "or any other part of Steel-Ribbed Armor"
+		},
+		{
+			"alias": "Advanced Hacker Tool",
+			"item_id": 87814
+		},
+		{
+			"alias": "Omnifier",
+			"item_id": 208312
+		},
+		{
+			"alias": "Part of Hacked Steel-Ribbed Armor",
+			"item_id": 245948,
+			"comment": "or another part, depending on the armor part used"
+		},
+		{
+			"alias": "Part of Omni-Tek Steel-Ribbed Armor",
+			"item_id": 245936,
+			"comment": "or another part, depending on the armor part used"
+		}
+	],
+	"steps": [
+		{
+			"source": "Advanced Hacker Tool",
+			"target": "Part of Steel-Ribbed Armor",
+			"result": "Part of Hacked Steel-Ribbed Armor",
+			"skills": "BE"
+		},
+		{
+			"source": "Omnifier",
+			"target": "Part of Hacked Steel-Ribbed Armor",
+			"result": "Part of Omni-Tek Steel-Ribbed Armor",
+			"skills": "??"
+		}
+	],
+	"details": [
+		{
+			"item": {
+				"id": 245936
+			}
+		},
+		{
+			"item": {
+				"id": 245940
+			}
+		},
+		{
+			"item": {
+				"id": 245934
+			}
+		},
+		{
+			"item": {
+				"id": 245938
+			}
+		},
+		{
+			"item": {
+				"id": 245932
+			}
+		},
+		{
+			"item": {
+				"id": 245930
+			}
+		},
+		{
+			"text": "Great sided armor."
+		}
+	]
 }

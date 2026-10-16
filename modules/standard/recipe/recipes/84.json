@@ -1,85 +1,96 @@
 {
-    "name": "Perennium Weapons",
-    "author": "",
-    "items": [
-        {
-            "alias": "Premium Nano-Charged Assault Rifle",
-            "item_id": 123228
-        },
-        {
-            "alias": "Sheet of Perennium",
-            "item_id": 226019
-        },
-        {
-            "alias": "Perennium Bolts",
-            "item_id": 226021
-        },
-        {
-            "alias": "Advanced Hacker Tool",
-            "item_id": 87814
-        },
-        {
-            "alias": "Spirit Tech Apparatus: Short Muzzle",
-            "item_id": 246388
-        },
-        {
-            "alias": "Hacked Nano-Charged Assault Rifle",
-            "item_id": 246399
-        },
-        {
-            "alias": "Short Perennium Muzzle",
-            "item_id": 246395
-        },
-        {
-            "alias": "Half-Finished Perennium Beamer",
-            "item_id": 246401
-        },
-        {
-            "alias": "Superior Perennium Beamer",
-            "item_id": 246421
-        },
-        {
-            "alias": "Spirit Tech Apparatus: Double Barrel",
-            "item_id": 246405
-        },
-        {
-            "alias": "Double Perennium Barrel",
-            "item_id": 246407
-        },
-        {
-            "alias": "Half-Finished Perennium Blaster",
-            "item_id": 246430
-        },
-        {
-            "alias": "Superior Perennium Blaster",
-            "item_id": 246428
-        },
-        {
-            "alias": "Premium Nano-Charged Rifle",
-            "item_id": 123247
-        },
-        {
-            "alias": "Spirit Tech Apparatus: Long Muzzle",
-            "item_id": 246390
-        },
-        {
-            "alias": "Hacked Nano-Charged Rifle",
-            "item_id": 246397
-        },
-        {
-            "alias": "Long Perennium Muzzle",
-            "item_id": 246393
-        },
-        {
-            "alias": "Half-Finished Perennium Sniper",
-            "item_id": 246403
-        },
-        {
-            "alias": "Superior Perennium Sniper",
-            "item_id": 246414
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<highlight>Perennium Beamer</highlight>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Nano-Charged Assault Rifle\" \"123228\" > QL50\n<img src=rdb://45783>\n\n#L \"Sheet of Perennium\" \"226019\" > QL50\n<img src=rdb://226011>\n\n#L \"Perennium Bolt\" \"226021\" > QL50\n<img src=rdb://205538>\n\n#L \"Hacker Tool\" \"87814\"\n<img src=rdb://99282>\n\n#L \"Spirit Tech Apparatus: Short Muzzle\" \"246388\" > QL50\n<img src=rdb://246391>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nHacker Tool</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nNano-Charged Assault Rifle</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://45783>\n#L \"Hacked Nano-Charged Assault Rifle\" \"246399\"</font>\n<font color=#FFFF00>Skills: |  7BE  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nSheet of Perennium</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nSpirit Tech Apparatus: Short Muzzle</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://130714>\n#L \"Short Perennium Muzzle\" \"246395\"</font>\n<font color=#FFFF00>Skills: | 7WS,5ME |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nShort Perennium Muzzle</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nHacked Nano-Charged Assault Rifle</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://45783>\n#L \"Half-Finished Perennium Beamer\" \"246401\"</font>\n<font color=#FFFF00>Skills: | 7WS,5ME |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nPerennium Bolt</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nHalf-Finished Perennium Beamer</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://45783>\n#L \"Perennium Beamer\" \"246421\"</font>\n<font color=#FFFF00>Skills: | 7WS,5ME |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n<highlight>Perennium Blaster</highlight>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Nano-Charged Assault Rifle\" \"123228\" > QL50\n<img src=rdb://45783>\n\n#L \"Sheet of Perennium\" \"226019\" > QL50\n<img src=rdb://226011>\n\n#L \"Perennium Bolt\" \"226021\" > QL50\n<img src=rdb://205538>\n\n#L \"Hacker Tool\" \"87814\"\n<img src=rdb://99282>\n\n#L \"Spirit Tech Apparatus: Double Barrel\" \"246405\" > QL50\n<img src=rdb://246391>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nHacker Tool</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nNano-Charged Assault Rifle</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://45783>\n#L \"Hacked Nano-Charged Assault Rifle\" \"246399\"</font>\n<font color=#FFFF00>Skills: |  7BE  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nSheet of Perennium</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nSpirit Tech Apparatus: Double Barrel</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://130654>\n#L \"Double Perennium Barrel\" \"246407\"</font>\n<font color=#FFFF00>Skills: | 7WS,5ME |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nDouble Perennium Barrel</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nHacked Nano-Charged Assault Rifle</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://45783>\n#L \"Half-Finished Perennium Blaster\" \"246430\"</font>\n<font color=#FFFF00>Skills: | 7WS,5ME |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nPerennium Bolt</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nHalf-Finished Perennium Blaster</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://45783>\n#L \"Perennium Blaster\" \"246428\"</font>\n<font color=#FFFF00>Skills: | 7WS,5ME |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n<highlight>Perennium Sniper</highlight>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Nano-Charged Rifle\" \"123247\" > QL50\n<img src=rdb://45782>\n\n#L \"Sheet of Perennium\" \"226019\" > QL50\n<img src=rdb://226011>\n\n#L \"Perennium Bolt\" \"226021\" > QL50\n<img src=rdb://205538>\n\n#L \"Hacker Tool\" \"87814\"\n<img src=rdb://99282>\n\n#L \"Spirit Tech Apparatus: Long Muzzle\" \"246390\" > QL50\n<img src=rdb://246391>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nHacker Tool</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nNano-Charged Rifle</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://45782>\n#L \"Hacked Nano-Charged Rifle\" \"246397\"</font>\n<font color=#FFFF00>Skills: |  7BE  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nSheet of Perennium</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nSpirit Tech Apparatus: Long Muzzle</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://130701>\n#L \"Long Perennium Muzzle\" \"246393\"</font>\n<font color=#FFFF00>Skills: | 7WS,5ME |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nLong Perennium Muzzle</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nHacked Nano-Charged Rifle</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://45782>\n#L \"Half-Finished Perennium Sniper\" \"246403\"</font>\n<font color=#FFFF00>Skills: | 7WS,5ME |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nPerennium Bolt</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nHalf-Finished Perennium Sniper</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://45782>\n#L \"Perennium Sniper\" \"246414\"</font>\n<font color=#FFFF00>Skills: | 7WS,5ME |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nSpirit Techs drop from Mortiigs, Perennium drops from Hecklers and the rifles can be rolled in missions."
+	"name": "Perennium Beamer",
+	"author": "",
+	"intro": [
+		{
+			"text": "Perennium Weapons:"
+		},
+		{
+			"text": "<highlight>Perennium Beamer</highlight> (this recipe)"
+		},
+		{
+			"text": "#L \"Perennium Blaster\" \"/tell <myname> recipe 788\""
+		},
+		{
+			"text": "#L \"Perennium Sniper\" \"/tell <myname> recipe 789\""
+		},
+		{
+			"text": ""
+		}
+	],
+	"items": [
+		{
+			"alias": "Nano-Charged Assault Rifle",
+			"item_id": 123228,
+			"comment": "> QL50; or any other Nano-Charged Assault Rifle"
+		},
+		{
+			"alias": "Sheet of Perennium",
+			"item_id": 226019,
+			"comment": "> QL50"
+		},
+		{
+			"alias": "Perennium Bolt",
+			"item_id": 226021,
+			"comment": "> QL50"
+		},
+		{
+			"alias": "Hacker Tool",
+			"item_id": 87814,
+			"comment": "or any other Hacker Tool"
+		},
+		{
+			"alias": "Spirit Tech Apparatus: Short Muzzle",
+			"item_id": 246388,
+			"comment": "> QL50"
+		},
+		{
+			"alias": "Hacked Nano-Charged Assault Rifle",
+			"item_id": 246399
+		},
+		{
+			"alias": "Short Perennium Muzzle",
+			"item_id": 246395
+		},
+		{
+			"alias": "Half-Finished Perennium Beamer",
+			"item_id": 246401
+		},
+		{
+			"alias": "Perennium Beamer",
+			"item_id": 246421,
+			"comment": "or another Perennium Beamer, depending on the QL"
+		}
+	],
+	"steps": [
+		{
+			"source": "Hacker Tool",
+			"target": "Nano-Charged Assault Rifle",
+			"result": "Hacked Nano-Charged Assault Rifle",
+			"skills": "7BE"
+		},
+		{
+			"source": "Sheet of Perennium",
+			"target": "Spirit Tech Apparatus: Short Muzzle",
+			"result": "Short Perennium Muzzle",
+			"skills": "7WS,5ME"
+		},
+		{
+			"source": "Short Perennium Muzzle",
+			"target": "Hacked Nano-Charged Assault Rifle",
+			"result": "Half-Finished Perennium Beamer",
+			"skills": "7WS,5ME"
+		},
+		{
+			"source": "Perennium Bolt",
+			"target": "Half-Finished Perennium Beamer",
+			"result": "Perennium Beamer",
+			"skills": "7WS,5ME"
+		}
+	],
+	"details": [
+		{
+			"text": "Spirit Techs drop from Mortiigs, Perennium drops from Hecklers and the rifles can be rolled in missions."
+		}
+	]
 }

@@ -1,0 +1,118 @@
+{
+	"name": "Alien Invasion Houses: HQ Structure",
+	"author": "",
+	"intro": [
+		{
+			"text": "Building Alien Invasion Houses:"
+		},
+		{
+			"text": "#L \"1) Regular Building Structure\" \"/tell <myname> recipe 783\""
+		},
+		{
+			"text": "#L \"2) Build a Simple Structure\" \"/tell <myname> recipe 784\""
+		},
+		{
+			"text": "<highlight>3) Build a HQ Structure</highlight> (this recipe)"
+		},
+		{
+			"text": "#L \"4) Build High QL HQ Structure\" \"/tell <myname> recipe 28\""
+		},
+		{
+			"text": ""
+		}
+	],
+	"items": [
+		{
+			"alias": "Regular Building Structure",
+			"item_id": 254807
+		},
+		{
+			"alias": "HQ Floorplan",
+			"item_id": 254790,
+			"comment": "or any other HQ Floorplan"
+		},
+		{
+			"alias": "Fertilized Giant Chirop Egg",
+			"item_id": 247788
+		},
+		{
+			"alias": "Unrefined Notum Salt",
+			"item_id": 247786
+		},
+		{
+			"alias": "Slow-Killing Poison",
+			"item_id": 247791
+		},
+		{
+			"alias": "Uncle Bazzit's Bio-Mechanical AI",
+			"item_id": 247794
+		},
+		{
+			"alias": "Advanced Bio-Comminutor",
+			"item_id": 154332
+		},
+		{
+			"alias": "Mutating Giant Chirop Egg",
+			"item_id": 247789
+		},
+		{
+			"alias": "Poisoned Giant Chirop Egg",
+			"item_id": 247790
+		},
+		{
+			"alias": "Mutating Bio-Pulp",
+			"item_id": 247792
+		},
+		{
+			"alias": "Bio-Mechanical Computer",
+			"item_id": 247795
+		},
+		{
+			"alias": "Superior Building Structure",
+			"item_id": 254829
+		},
+		{
+			"alias": "HQ Structure",
+			"item_id": 254210,
+			"comment": "or another HQ Structure, depending on the HQ Floorplan"
+		}
+	],
+	"steps": [
+		{
+			"source": "Unrefined Notum Salt",
+			"target": "Fertilized Giant Chirop Egg",
+			"result": "Mutating Giant Chirop Egg",
+			"skills": "??"
+		},
+		{
+			"source": "Slow-Killing Poison",
+			"target": "Mutating Giant Chirop Egg",
+			"result": "Poisoned Giant Chirop Egg",
+			"skills": "??"
+		},
+		{
+			"source": "Advanced Bio-Comminutor",
+			"target": "Poisoned Giant Chirop Egg",
+			"result": "Mutating Bio-Pulp",
+			"skills": "??"
+		},
+		{
+			"source": "Mutating Bio-Pulp",
+			"target": "Uncle Bazzit's Bio-Mechanical AI",
+			"result": "Bio-Mechanical Computer",
+			"skills": "??"
+		},
+		{
+			"source": "Bio-Mechanical Computer",
+			"target": "Regular Building Structure",
+			"result": "Superior Building Structure",
+			"skills": "??"
+		},
+		{
+			"source": "HQ Floorplan",
+			"target": "Superior Building Structure",
+			"result": "HQ Structure",
+			"skills": "??"
+		}
+	]
+}

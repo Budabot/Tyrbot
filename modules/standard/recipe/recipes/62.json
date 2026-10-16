@@ -1,53 +1,166 @@
 {
-    "name": "Jewels",
-    "author": "",
-    "items": [
-        {
-            "alias": "Engagement Ring",
-            "item_id": 136603
-        },
-        {
-            "alias": "Generic Ring Template",
-            "item_id": 151365
-        },
-        {
-            "alias": "Personal Furnace",
-            "item_id": 150930
-        },
-        {
-            "alias": "Precious Metal Reclaimer",
-            "item_id": 150929
-        },
-        {
-            "alias": "Wire Drawing Machine",
-            "item_id": 150917
-        },
-        {
-            "alias": "Perfectly Cut Gem",
-            "item_id": 151552
-        },
-        {
-            "alias": "Small Gold Ingot",
-            "item_id": 151369
-        },
-        {
-            "alias": "Liquid Gold",
-            "item_id": 151372
-        },
-        {
-            "alias": "Gold Filigree Wire",
-            "item_id": 151368
-        },
-        {
-            "alias": "Gold Filigree Ring",
-            "item_id": 151375
-        },
-        {
-            "alias": "Gold Filigree Ring set with a Perfectly Cut Gem",
-            "item_id": 151541
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\na Ring or Bracer\n(ie:#L \"Engagement Ring\" \"136603\")\n<img src=rdb://84061>\n\n#L \"Generic Ring Template\" \"151365\"\n<img src=rdb://84063>\n\n#L \"Personal Furnace\" \"150930\"\n<img src=rdb://149949>\n\n#L \"Precious Metal Reclaimer\" \"150929\"\n<img src=rdb://149942>\n\n#L \"Wire Drawing Machine\" \"150917\"\n<img src=rdb://149952>\n\nAnd, if you want to crimp it :\n#L \"Perfectly Cut Gem\" \"151552\" #L \"Recipe\" \"/tell <myname> recipe 117\"\n<img src=rdb://136593>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nPrecious Metal Reclaimer</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\na Ring or Bracer</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://151012>\nan Ingot\n(ie:#L \"Small Gold Ingot\" \"151369\")</font>\n<font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>\n</font>\n<font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nPersonal Furnace</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nan Ingot</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://149950>\nLiquid Metal\n(ie:#L \"Liquid Gold\" \"151372\")</font>\n<font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>\n</font>\n<font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nWire Drawing Machine</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nLiquid Metal</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://151015>\nMetal Wire\n(ie:#L \"Gold Filigree Wire\" \"151368\")</font>\n<font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>\n</font>\n<font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nGeneric Ring Template</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nMetal Wire</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://151923>\nPrecious Metal Filigree Ring\n(ie:#L \"Gold Filigree Ring\" \"151375\")</font>\n<font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>\n</font>\n<font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nFrom this point, two paths are possible... either sell this ring or crimp it with a Valuable Stone to make it even more valuable. to crimp it, follow this recipe:\n</font>\n<font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nPerfectly Cut Stone</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nPrecious Metal Filigree Ring</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://84061>\nCrimped Ring\n(ie:#L \"Gold Filigree Ring set with a Perfectly Cut Gem\" \"151541\")</font>\n<font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nConsidering the time involved in the matching of QLs and the actual crafting, it's not really worth it for me. But if you have some Mechanical Engineering Skill, it may still be interesting...\n\nMaking Jewels with SL stones will give you some little buff according to this :\n    \n<highlight>Almandine</highlight> - Strength / Agility  \n<highlight>Amber</highlight> - Melee init / Psychic Init / Ranged Init  \n<highlight>Aquamarine</highlight> - SensoryImp. / Psycho Mod / MaxHealth  \n<highlight>Balas Ruby</highlight> - AddAllOff  \n<highlight>Black Opal</highlight> - AddAllDef  \n<highlight>Chrysoberyl</highlight> - Max Health / Heal Delta  \n<highlight>Coral</highlight> - Nano Delta / Heal Delta / Max health  \n<highlight>Demantoid</highlight> - MeleeDamageMod / ProjectileDamageM / EnergyDamageMod  \n<highlight>Diamond</highlight> - SpaceTime / PshychoMod  \n<highlight>Emerald</highlight> - BiologicalMet. / SensoryImprov.  \n<highlight>Fire Opal</highlight> - FireAc / MaxHealth  \n<highlight>Jet</highlight> - MaterialMet. / NanoC.Init  \n<highlight>Pearl</highlight> - ChemicalAC / ColdDamageMod.  \n<highlight>Red Beryl</highlight> - Stamina / Intelligence  \n<highlight>Ruby Pearl</highlight> - Sense / Intelligence  \n<highlight>Sapphire</highlight> - MaterialMet. / BiologicalMet / MaxNcu  \n<highlight>Star Ruby</highlight> - MaterialCreation / SpaceTime / MaxNanoEnergy  \n<highlight>Topaz</highlight> - EnergyAC / ProjectileAC  \n<highlight>Water Opal</highlight> - NanoDelta / MaxNanoEnergy  \n<highlight>White Opal</highlight> - ColdAC / PoisonAC"
+	"name": "Jewels",
+	"author": "",
+	"items": [
+		{
+			"alias": "Ring or Bracer",
+			"item_id": 136603,
+			"comment": "or any other ring or bracer"
+		},
+		{
+			"alias": "Generic Ring Template",
+			"item_id": 151365
+		},
+		{
+			"alias": "Personal Furnace",
+			"item_id": 150930
+		},
+		{
+			"alias": "Precious Metal Reclaimer",
+			"item_id": 150929
+		},
+		{
+			"alias": "Wire Drawing Machine",
+			"item_id": 150917
+		},
+		{
+			"alias": "Perfectly Cut Gem",
+			"item_id": 151552,
+			"comment": "if you want to crimp it; #L \"Recipe\" \"/tell <myname> recipe 117\""
+		},
+		{
+			"alias": "Ingot",
+			"item_id": 151369,
+			"comment": "or another ingot, depending on the metal"
+		},
+		{
+			"alias": "Liquid Metal",
+			"item_id": 151372,
+			"comment": "or another liquid metal, depending on the metal"
+		},
+		{
+			"alias": "Metal Wire",
+			"item_id": 151368,
+			"comment": "or another metal wire, depending on the metal"
+		},
+		{
+			"alias": "Precious Metal Filigree Ring",
+			"item_id": 151375,
+			"comment": "or another filigree ring, depending on the metal"
+		},
+		{
+			"alias": "Crimped Ring",
+			"item_id": 151541,
+			"comment": "or another crimped ring, depending on the metal and the gem"
+		}
+	],
+	"steps": [
+		{
+			"source": "Precious Metal Reclaimer",
+			"target": "Ring or Bracer",
+			"result": "Ingot",
+			"skills": "ME"
+		},
+		{
+			"source": "Personal Furnace",
+			"target": "Ingot",
+			"result": "Liquid Metal",
+			"skills": "ME"
+		},
+		{
+			"source": "Wire Drawing Machine",
+			"target": "Liquid Metal",
+			"result": "Metal Wire",
+			"skills": "ME"
+		},
+		{
+			"source": "Generic Ring Template",
+			"target": "Metal Wire",
+			"result": "Precious Metal Filigree Ring",
+			"skills": "ME"
+		},
+		{
+			"text": "From this point, two paths are possible... either sell this ring or crimp it with a Valuable Stone to make it even more valuable. To crimp it, follow this recipe:"
+		},
+		{
+			"source": "Perfectly Cut Gem",
+			"target": "Precious Metal Filigree Ring",
+			"result": "Crimped Ring",
+			"skills": "ME"
+		}
+	],
+	"details": [
+		{
+			"text": "Considering the time involved in the matching of QLs and the actual crafting, it's not really worth it for me. But if you have some Mechanical Engineering Skill, it may still be interesting..."
+		},
+		{
+			"text": ""
+		},
+		{
+			"text": "Making Jewels with SL stones will give you some little buff according to this:"
+		},
+		{
+			"text": ""
+		},
+		{
+			"text": "<highlight>Almandine</highlight> - Strength / Agility"
+		},
+		{
+			"text": "<highlight>Amber</highlight> - Melee Init / Psychic Init / Ranged Init"
+		},
+		{
+			"text": "<highlight>Aquamarine</highlight> - SensoryImp. / Psycho Mod / MaxHealth"
+		},
+		{
+			"text": "<highlight>Balas Ruby</highlight> - AddAllOff"
+		},
+		{
+			"text": "<highlight>Black Opal</highlight> - AddAllDef"
+		},
+		{
+			"text": "<highlight>Chrysoberyl</highlight> - Max Health / Heal Delta"
+		},
+		{
+			"text": "<highlight>Coral</highlight> - Nano Delta / Heal Delta / Max Health"
+		},
+		{
+			"text": "<highlight>Demantoid</highlight> - MeleeDamageMod / ProjectileDamageM / EnergyDamageMod"
+		},
+		{
+			"text": "<highlight>Diamond</highlight> - SpaceTime / PsychoMod"
+		},
+		{
+			"text": "<highlight>Emerald</highlight> - BiologicalMet. / SensoryImprov."
+		},
+		{
+			"text": "<highlight>Fire Opal</highlight> - FireAc / MaxHealth"
+		},
+		{
+			"text": "<highlight>Jet</highlight> - MaterialMet. / NanoC.Init"
+		},
+		{
+			"text": "<highlight>Pearl</highlight> - ChemicalAC / ColdDamageMod."
+		},
+		{
+			"text": "<highlight>Red Beryl</highlight> - Stamina / Intelligence"
+		},
+		{
+			"text": "<highlight>Ruby Pearl</highlight> - Sense / Intelligence"
+		},
+		{
+			"text": "<highlight>Sapphire</highlight> - MaterialMet. / BiologicalMet / MaxNcu"
+		},
+		{
+			"text": "<highlight>Star Ruby</highlight> - MaterialCreation / SpaceTime / MaxNanoEnergy"
+		},
+		{
+			"text": "<highlight>Topaz</highlight> - EnergyAC / ProjectileAC"
+		},
+		{
+			"text": "<highlight>Water Opal</highlight> - NanoDelta / MaxNanoEnergy"
+		},
+		{
+			"text": "<highlight>White Opal</highlight> - ColdAC / PoisonAC"
+		}
+	]
 }

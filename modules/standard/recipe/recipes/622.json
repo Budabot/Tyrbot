@@ -1,61 +1,116 @@
 {
-    "name": "Ancient Medical Bracer",
-    "author": "",
-    "items": [
-        {
-            "alias": "Crystalised Memories of a Doctor",
-            "item_id": 267726
-        },
-        {
-            "alias": "Crystalised Memories of a Surgeon",
-            "item_id": 267728
-        },
-        {
-            "alias": "Ancient Scrap of Spirit Knowledge",
-            "item_id": 267677
-        },
-        {
-            "alias": "Ancient Scrap of Saturated Spirit Knowledge",
-            "item_id": 267679
-        },
-        {
-            "alias": "Inactive Ancient Bracer",
-            "item_id": 267746
-        },
-        {
-            "alias": "Inert Knowledge Crystal",
-            "item_id": 267737
-        },
-        {
-            "alias": "Ancient Engineering Device",
-            "item_id": 267751
-        },
-        {
-            "alias": "Combined Crystalised Medical Memories",
-            "item_id": 267729
-        },
-        {
-            "alias": "Ancient Scrap of Condensed Spirit Knowledge",
-            "item_id": 267680
-        },
-        {
-            "alias": "Ancient Scrap of Spirit Medical Knowledge",
-            "item_id": 267727
-        },
-        {
-            "alias": "Medical Knowledge Crystal",
-            "item_id": 267738
-        },
-        {
-            "alias": "Active Ancient Bracer",
-            "item_id": 267747
-        },
-        {
-            "alias": "Ancient Medical Bracer",
-            "item_id": 267752
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n</font>\n<font color=#FFFF00> All parts required for this process can be found in Albtraum. \nYou will need to build an Ancient Engineering Device as well if you do not have one already. \nA link to this tradeskill process is included</font><font color=#009B00>\n\n#L \"Crystalised Memories of a Doctor\" \"267726\"\n<img src=rdb://72771>\n\n#L \"Crystalised Memories of a Surgeon\" \"267728\"\n<img src=rdb://72771>\n\n#L \"Ancient Scrap of Spirit Knowledge\" \"267677\"\n<img src=rdb://163575>\n\n#L \"Ancient Scrap of Saturated Spirit Knowledge\" \"267679\"\n<img src=rdb://163575>\n\n#L \"Inactive Ancient Bracer\" \"267746\"\n<img src=rdb://290853>\n\n#L \"Inert Knowledge Crystal\" \"267737\"\n<img src=rdb://151030>\n\n#L \"Ancient Engineering Device\" \"267751\"\n<img src=rdb://156095></font>\n<font color=#FFFF00>Note:To build your Ancient Engineering Device, go here:\n#L \"Ancient Engineering Device\" \"/tell <myname> recipe 594\"</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nCrystalised Memories of a Doctor</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nCrystalised Memories of a Surgeon</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://72769>\n#L \"Combined Crystalised Medical Memories\" \"267729\"</font>\n<font color=#FFFF00>Skills: | 1750 CH |</font><font color=#009B00>\n\nAncient Scrap of Spirit Knowledge</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nAncient Scrap of Saturated Spirit Knowledge</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://163575>\n#L \"Ancient Scrap of Condensed Spirit Knowledge\" \"267680\"</font>\n<font color=#FFFF00>Skills: | 1750 PT |</font><font color=#009B00>\n\nAncient Scrap of Condensed Spirit Knowledge</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nCombined Crystalised Medical Memories</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://163575>\n#L \"Ancient Scrap of Spirit Medical Knowledge\" \"267727\"</font>\n<font color=#FFFF00>Skills: | 1750 CH |</font><font color=#009B00>\n\nAncient Scrap of Spirit Medical Knowledge</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nInert Knowledge Crystal</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://151030>\n#L \"Medical Knowledge Crystal\" \"267738\"</font>\n<font color=#FFFF00>Skills: | 1750 CH |</font><font color=#009B00>\n\nAncient Engineering Device</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nInactive Ancient Bracer</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://290847>\n#L \"Active Ancient Bracer\" \"267747\"</font>\n<font color=#FFFF00>Skills: | 1500 ME |</font><font color=#009B00>\n\nActive Ancient Bracer</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nMedical Knowledge Crystal</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://290851>\n#L \"Ancient Medical Bracer\" \"267752\"</font>\n<font color=#FFFF00>Skills: | 1250 ME |</font><font color=#009B00>"
+	"name": "Ancient Medical Bracer",
+	"author": "",
+	"intro": [
+		{
+			"text": "All parts required for this process can be found in Albtraum."
+		},
+		{
+			"text": "You will need to build an Ancient Engineering Device as well if you do not have one already."
+		},
+		{
+			"text": "A link to this tradeskill process is included"
+		},
+		{
+			"text": ""
+		},
+		{
+			"text": "Note: To build your Ancient Engineering Device, go here:"
+		},
+		{
+			"text": "#L \"Ancient Engineering Device\" \"/tell <myname> recipe 594\""
+		}
+	],
+	"items": [
+		{
+			"alias": "Crystalised Memories of a Doctor",
+			"item_id": 267726
+		},
+		{
+			"alias": "Crystalised Memories of a Surgeon",
+			"item_id": 267728
+		},
+		{
+			"alias": "Ancient Scrap of Spirit Knowledge",
+			"item_id": 267677
+		},
+		{
+			"alias": "Ancient Scrap of Saturated Spirit Knowledge",
+			"item_id": 267679
+		},
+		{
+			"alias": "Inactive Ancient Bracer",
+			"item_id": 267746
+		},
+		{
+			"alias": "Inert Knowledge Crystal",
+			"item_id": 267737
+		},
+		{
+			"alias": "Ancient Engineering Device",
+			"item_id": 267751
+		},
+		{
+			"alias": "Combined Crystalised Medical Memories",
+			"item_id": 267729
+		},
+		{
+			"alias": "Ancient Scrap of Condensed Spirit Knowledge",
+			"item_id": 267680
+		},
+		{
+			"alias": "Ancient Scrap of Spirit Medical Knowledge",
+			"item_id": 267727
+		},
+		{
+			"alias": "Medical Knowledge Crystal",
+			"item_id": 267738
+		},
+		{
+			"alias": "Active Ancient Bracer",
+			"item_id": 267747
+		},
+		{
+			"alias": "Ancient Medical Bracer",
+			"item_id": 267752
+		}
+	],
+	"steps": [
+		{
+			"source": "Crystalised Memories of a Doctor",
+			"target": "Crystalised Memories of a Surgeon",
+			"result": "Combined Crystalised Medical Memories",
+			"skills": "1750 CH"
+		},
+		{
+			"source": "Ancient Scrap of Spirit Knowledge",
+			"target": "Ancient Scrap of Saturated Spirit Knowledge",
+			"result": "Ancient Scrap of Condensed Spirit Knowledge",
+			"skills": "1750 PT"
+		},
+		{
+			"source": "Ancient Scrap of Condensed Spirit Knowledge",
+			"target": "Combined Crystalised Medical Memories",
+			"result": "Ancient Scrap of Spirit Medical Knowledge",
+			"skills": "1750 CH"
+		},
+		{
+			"source": "Ancient Scrap of Spirit Medical Knowledge",
+			"target": "Inert Knowledge Crystal",
+			"result": "Medical Knowledge Crystal",
+			"skills": "1750 CH"
+		},
+		{
+			"source": "Ancient Engineering Device",
+			"target": "Inactive Ancient Bracer",
+			"result": "Active Ancient Bracer",
+			"skills": "1500 ME"
+		},
+		{
+			"source": "Active Ancient Bracer",
+			"target": "Medical Knowledge Crystal",
+			"result": "Ancient Medical Bracer",
+			"skills": "1250 ME"
+		}
+	]
 }

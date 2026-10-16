@@ -1,8 +1,126 @@
 {
-    "name": "Hand-Made Thri-Blade",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n  'Hand-Made Thri-Blade'\n The Construction kit. must be between Quality Level 185 and 199.\n All other pieces must be of AT LEAST that level range... \n Add them using shift+right-click.\n Add the pieces in the following order:\n \n  1. One Handed Edged Weapons Construction kit.\n \n  2. Short Handle. . SkillTo Assemble: Weapon Smt: 648-696\n \n  3. Piercing Cluster - Bright (Left-Arm). . SkillTo Assemble: Nano Progra: 370-398\n \n  4. Max Health Cluster - Shiny (Chest). . SkillTo Assemble: Nano Progra: 555-597\n \n  5. Optimized Co-Weapon Interface. . SkillTo Assemble: Comp. Liter: 555-597\n \n  6. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 278-298\n \n  7. 1h Edged Weapon Cluster - Shiny (Right-Arm). . SkillTo Assemble: Nano Progra: 555-597"
+	"name": "Hand-Made Thri-Blade",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 185 and 199. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "One Handed Edged Weapons Construction Kit",
+			"item_id": 137219,
+			"name": "One Handed Edged Weapons Construction Kit",
+			"icon": 131816,
+			"ql": 185
+		},
+		{
+			"alias": "Short Handle",
+			"item_id": 142884,
+			"ql": 185
+		},
+		{
+			"alias": "Piercing Cluster - Bright (Left-Arm)",
+			"item_id": 101359,
+			"ql": 185
+		},
+		{
+			"alias": "Max Health Cluster - Shiny (Chest)",
+			"item_id": 101811,
+			"ql": 185
+		},
+		{
+			"alias": "Optimized Co-Weapon Interface",
+			"item_id": 142930,
+			"ql": 185
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 185
+		},
+		{
+			"alias": "1h Edged Weapon Cluster - Shiny (Right-Arm)",
+			"item_id": 101343,
+			"ql": 185
+		},
+		{
+			"alias": "1h Edged Construction Kit (Step 2)",
+			"item_id": 142938,
+			"name": "1h Edged Construction Kit (Step 2)",
+			"icon": 131817,
+			"ql": 185
+		},
+		{
+			"alias": "1h Edged Construction Kit (Step 3)",
+			"item_id": 165093,
+			"name": "1h Edged Construction Kit (Step 3)",
+			"icon": 131818,
+			"ql": 185
+		},
+		{
+			"alias": "1h Edged Construction Kit (Step 4)",
+			"item_id": 165095,
+			"name": "1h Edged Construction Kit (Step 4)",
+			"icon": 131819,
+			"ql": 185
+		},
+		{
+			"alias": "1h Edged Construction Kit (Step 5)",
+			"item_id": 165097,
+			"name": "1h Edged Construction Kit (Step 5)",
+			"icon": 131820,
+			"ql": 185
+		},
+		{
+			"alias": "1h Edged Construction Kit (Step 6)",
+			"item_id": 165099,
+			"name": "1h Edged Construction Kit (Step 6)",
+			"icon": 131821,
+			"ql": 185
+		},
+		{
+			"alias": "Hand-Made Thri-Blade",
+			"item_id": 121588,
+			"ql": 185
+		}
+	],
+	"steps": [
+		{
+			"source": "Short Handle",
+			"target": "One Handed Edged Weapons Construction Kit",
+			"result": "1h Edged Construction Kit (Step 2)",
+			"skills": "Weapon Smt 648-696"
+		},
+		{
+			"source": "Piercing Cluster - Bright (Left-Arm)",
+			"target": "1h Edged Construction Kit (Step 2)",
+			"result": "1h Edged Construction Kit (Step 3)",
+			"skills": "Nano Progra 370-398"
+		},
+		{
+			"source": "Max Health Cluster - Shiny (Chest)",
+			"target": "1h Edged Construction Kit (Step 3)",
+			"result": "1h Edged Construction Kit (Step 4)",
+			"skills": "Nano Progra 555-597"
+		},
+		{
+			"source": "Optimized Co-Weapon Interface",
+			"target": "1h Edged Construction Kit (Step 4)",
+			"result": "1h Edged Construction Kit (Step 5)",
+			"skills": "Comp. Liter 555-597"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "1h Edged Construction Kit (Step 5)",
+			"result": "1h Edged Construction Kit (Step 6)",
+			"skills": "Nano Progra 278-298"
+		},
+		{
+			"source": "1h Edged Weapon Cluster - Shiny (Right-Arm)",
+			"target": "1h Edged Construction Kit (Step 6)",
+			"result": "Hand-Made Thri-Blade",
+			"skills": "Nano Progra 555-597"
+		}
+	]
 }

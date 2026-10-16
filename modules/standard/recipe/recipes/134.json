@@ -1,8 +1,194 @@
 {
-    "name": "ANEX - Red Mathis M-E",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n 'ANEX - Red Mathis M-E'\nThe Construction kit. must be between Quality Level 200 and 200.\nAll other pieces must be of AT LEAST that level range... \nAdd them using shift+right-click.\nAdd the pieces in the following order:\n\n 1. Rifle Weapons Construction kit.\n\n 2. Nano Pylon. . SkillTo Assemble: Mech. Engi: 500-500\n\n 3. Energy Pack Interface. . SkillTo Assemble: Elec. Engi: 800-800\n\n 4. Ultra-Long Composite Barrel. . SkillTo Assemble: Weapon Smt: 850-850\n\n 5. Hyper Carbo-Ceramic Cooling System. . SkillTo Assemble: Weapon Smt: 800-800\n\n 6. Runtime Critical Area Analyzer. . SkillTo Assemble: Weapon Smt: 800-800\n\n 7. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 400-400\n\n 8. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 500-500\n\n 9. Energy Conduction Rack. . SkillTo Assemble: Quantum FT: 650-650\n\n 10. Nano Pylon. . SkillTo Assemble: Mech. Engi: 500-500\n\n 11. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 300-300"
+	"name": "ANEX - Red Mathis M-E",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be QL 200. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Rifle Weapons Construction Kit",
+			"item_id": 137203,
+			"name": "Rifle Weapons Construction Kit",
+			"icon": 131744,
+			"ql": 200
+		},
+		{
+			"alias": "Nano Pylon",
+			"item_id": 137277,
+			"ql": 200,
+			"quantity": 2
+		},
+		{
+			"alias": "Energy Pack Interface",
+			"item_id": 137257,
+			"ql": 200
+		},
+		{
+			"alias": "Ultra-Long Composite Barrel",
+			"item_id": 137239,
+			"ql": 200
+		},
+		{
+			"alias": "Hyper Carbo-Ceramic Cooling System",
+			"item_id": 137267,
+			"ql": 200
+		},
+		{
+			"alias": "Runtime Critical Area Analyzer",
+			"item_id": 137299,
+			"ql": 200
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 200
+		},
+		{
+			"alias": "Notum Alloy Strengthened Ribs",
+			"item_id": 137275,
+			"ql": 200
+		},
+		{
+			"alias": "Energy Conduction Rack",
+			"item_id": 137243,
+			"ql": 200
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 200
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 2)",
+			"item_id": 137566,
+			"name": "Rifle Construction Kit (Step 2)",
+			"icon": 131745,
+			"ql": 200
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 3)",
+			"item_id": 153513,
+			"name": "Rifle Construction Kit (Step 3)",
+			"icon": 131745,
+			"ql": 200
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 4)",
+			"item_id": 153515,
+			"name": "Rifle Construction Kit (Step 4)",
+			"icon": 131746,
+			"ql": 200
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 5)",
+			"item_id": 153517,
+			"name": "Rifle Construction Kit (Step 5)",
+			"icon": 131746,
+			"ql": 200
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 6)",
+			"item_id": 153519,
+			"name": "Rifle Construction Kit (Step 6)",
+			"icon": 131747,
+			"ql": 200
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 7)",
+			"item_id": 153521,
+			"name": "Rifle Construction Kit (Step 7)",
+			"icon": 131747,
+			"ql": 200
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 8)",
+			"item_id": 153523,
+			"name": "Rifle Construction Kit (Step 8)",
+			"icon": 131748,
+			"ql": 200
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 9)",
+			"item_id": 153525,
+			"name": "Rifle Construction Kit (Step 9)",
+			"icon": 131748,
+			"ql": 200
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 10)",
+			"item_id": 153527,
+			"name": "Rifle Construction Kit (Step 10)",
+			"icon": 131749,
+			"ql": 200
+		},
+		{
+			"alias": "ANEX - Red Mathis M-E",
+			"item_id": 152082,
+			"ql": 200
+		}
+	],
+	"steps": [
+		{
+			"source": "Nano Pylon",
+			"target": "Rifle Weapons Construction Kit",
+			"result": "Rifle Construction Kit (Step 2)",
+			"skills": "Mech. Engi 500-500"
+		},
+		{
+			"source": "Energy Pack Interface",
+			"target": "Rifle Construction Kit (Step 2)",
+			"result": "Rifle Construction Kit (Step 3)",
+			"skills": "Elec. Engi 800-800"
+		},
+		{
+			"source": "Ultra-Long Composite Barrel",
+			"target": "Rifle Construction Kit (Step 3)",
+			"result": "Rifle Construction Kit (Step 4)",
+			"skills": "Weapon Smt 850-850"
+		},
+		{
+			"source": "Hyper Carbo-Ceramic Cooling System",
+			"target": "Rifle Construction Kit (Step 4)",
+			"result": "Rifle Construction Kit (Step 5)",
+			"skills": "Weapon Smt 800-800"
+		},
+		{
+			"source": "Runtime Critical Area Analyzer",
+			"target": "Rifle Construction Kit (Step 5)",
+			"result": "Rifle Construction Kit (Step 6)",
+			"skills": "Weapon Smt 800-800"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "Rifle Construction Kit (Step 6)",
+			"result": "Rifle Construction Kit (Step 7)",
+			"skills": "Nano Progra 400-400"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Rifle Construction Kit (Step 7)",
+			"result": "Rifle Construction Kit (Step 8)",
+			"skills": "Mech. Engi 500-500"
+		},
+		{
+			"source": "Energy Conduction Rack",
+			"target": "Rifle Construction Kit (Step 8)",
+			"result": "Rifle Construction Kit (Step 9)",
+			"skills": "Quantum FT 650-650"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Rifle Construction Kit (Step 9)",
+			"result": "Rifle Construction Kit (Step 10)",
+			"skills": "Mech. Engi 500-500"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Rifle Construction Kit (Step 10)",
+			"result": "ANEX - Red Mathis M-E",
+			"skills": "Nano Progra 300-300"
+		}
+	]
 }

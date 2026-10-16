@@ -1,8 +1,244 @@
 {
-    "name": "Bolter Cannon XX 42mm",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n 'Bolter Cannon XX 42mm'\nThe Construction kit. must be between Quality Level 185 and 199.\nAll other pieces must be of AT LEAST that level range... \nAdd them using shift+right-click.\nAdd the pieces in the following order:\n\n 1. AssaultRifle Weapons Construction kit.\n\n 2. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 370-398\n\n 3. Auto Targeting Computer -IIR 1. . SkillTo Assemble: Elec. Engi: 416-448\n\n 4. Nano Pylon. . SkillTo Assemble: Mech. Engi: 462-498\n\n 5. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 462-498\n\n 6. Short Composite Barrel. . SkillTo Assemble: Weapon Smt: 601-647\n\n 7. Gyro Stabilizing Unit. . SkillTo Assemble: Weapon Smt: 832-896\n\n 8. Explosion Propulsion Containment Chamber. . SkillTo Assemble: Mech. Engi: 648-696\n\n 9. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 278-298\n\n 10. Primitive Freon Bag Cooling System. . SkillTo Assemble: Weapon Smt: 740-796\n\n 11. Nano Pylon. . SkillTo Assemble: Mech. Engi: 462-498\n\n 12. Triple Pulse Enabler. . SkillTo Assemble: Weapon Smt: 786-846\n\n 13. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 462-498\n\n 14. Lock and Stock. . SkillTo Assemble: Weapon Smt: 740-796"
+	"name": "Bolter Cannon XX 42mm",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 185 and 199. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "AssaultRifle Weapons Construction Kit",
+			"item_id": 137205,
+			"name": "AssaultRifle Weapons Construction Kit",
+			"icon": 131797,
+			"ql": 185
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 185
+		},
+		{
+			"alias": "Auto Targeting Computer -IIR 1",
+			"item_id": 137285,
+			"ql": 185
+		},
+		{
+			"alias": "Nano Pylon",
+			"item_id": 137277,
+			"ql": 185,
+			"quantity": 2
+		},
+		{
+			"alias": "Notum Alloy Strengthened Ribs",
+			"item_id": 137275,
+			"ql": 185,
+			"quantity": 2
+		},
+		{
+			"alias": "Short Composite Barrel",
+			"item_id": 137233,
+			"ql": 185
+		},
+		{
+			"alias": "Gyro Stabilizing Unit",
+			"item_id": 137295,
+			"ql": 185
+		},
+		{
+			"alias": "Explosion Propulsion Containment Chamber",
+			"item_id": 137241,
+			"ql": 185
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 185
+		},
+		{
+			"alias": "Primitive Freon Bag Cooling System",
+			"item_id": 137263,
+			"ql": 185
+		},
+		{
+			"alias": "Triple Pulse Enabler",
+			"item_id": 137297,
+			"ql": 185
+		},
+		{
+			"alias": "Lock and Stock",
+			"item_id": 137255,
+			"ql": 185
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 2)",
+			"item_id": 137518,
+			"name": "Assault Rif Construction Kit (Step 2)",
+			"icon": 131673,
+			"ql": 185
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 3)",
+			"item_id": 137520,
+			"name": "Assault Rif Construction Kit (Step 3)",
+			"icon": 131673,
+			"ql": 185
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 4)",
+			"item_id": 137522,
+			"name": "Assault Rif Construction Kit (Step 4)",
+			"icon": 131673,
+			"ql": 185
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 5)",
+			"item_id": 137524,
+			"name": "Assault Rif Construction Kit (Step 5)",
+			"icon": 131674,
+			"ql": 185
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 6)",
+			"item_id": 137526,
+			"name": "Assault Rif Construction Kit (Step 6)",
+			"icon": 131674,
+			"ql": 185
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 7)",
+			"item_id": 137528,
+			"name": "Assault Rif Construction Kit (Step 7)",
+			"icon": 131675,
+			"ql": 185
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 8)",
+			"item_id": 137530,
+			"name": "Assault Rif Construction Kit (Step 8)",
+			"icon": 131675,
+			"ql": 185
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 9)",
+			"item_id": 137532,
+			"name": "Assault Rif Construction Kit (Step 9)",
+			"icon": 131675,
+			"ql": 185
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 10)",
+			"item_id": 137534,
+			"name": "Assault Rif Construction Kit (Step 10)",
+			"icon": 131676,
+			"ql": 185
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 11)",
+			"item_id": 137536,
+			"name": "Assault Rif Construction Kit (Step 11)",
+			"icon": 131676,
+			"ql": 185
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 12)",
+			"item_id": 137538,
+			"name": "Assault Rif Construction Kit (Step 12)",
+			"icon": 131676,
+			"ql": 185
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 13)",
+			"item_id": 137540,
+			"name": "Assault Rif Construction Kit (Step 13)",
+			"icon": 131677,
+			"ql": 185
+		},
+		{
+			"alias": "Bolter Cannon XX 42mm",
+			"item_id": 121700,
+			"ql": 185
+		}
+	],
+	"steps": [
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "AssaultRifle Weapons Construction Kit",
+			"result": "Assault Rif Construction Kit (Step 2)",
+			"skills": "Nano Progra 370-398"
+		},
+		{
+			"source": "Auto Targeting Computer -IIR 1",
+			"target": "Assault Rif Construction Kit (Step 2)",
+			"result": "Assault Rif Construction Kit (Step 3)",
+			"skills": "Elec. Engi 416-448"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Assault Rif Construction Kit (Step 3)",
+			"result": "Assault Rif Construction Kit (Step 4)",
+			"skills": "Mech. Engi 462-498"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Assault Rif Construction Kit (Step 4)",
+			"result": "Assault Rif Construction Kit (Step 5)",
+			"skills": "Mech. Engi 462-498"
+		},
+		{
+			"source": "Short Composite Barrel",
+			"target": "Assault Rif Construction Kit (Step 5)",
+			"result": "Assault Rif Construction Kit (Step 6)",
+			"skills": "Weapon Smt 601-647"
+		},
+		{
+			"source": "Gyro Stabilizing Unit",
+			"target": "Assault Rif Construction Kit (Step 6)",
+			"result": "Assault Rif Construction Kit (Step 7)",
+			"skills": "Weapon Smt 832-896"
+		},
+		{
+			"source": "Explosion Propulsion Containment Chamber",
+			"target": "Assault Rif Construction Kit (Step 7)",
+			"result": "Assault Rif Construction Kit (Step 8)",
+			"skills": "Mech. Engi 648-696"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Assault Rif Construction Kit (Step 8)",
+			"result": "Assault Rif Construction Kit (Step 9)",
+			"skills": "Nano Progra 278-298"
+		},
+		{
+			"source": "Primitive Freon Bag Cooling System",
+			"target": "Assault Rif Construction Kit (Step 9)",
+			"result": "Assault Rif Construction Kit (Step 10)",
+			"skills": "Weapon Smt 740-796"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Assault Rif Construction Kit (Step 10)",
+			"result": "Assault Rif Construction Kit (Step 11)",
+			"skills": "Mech. Engi 462-498"
+		},
+		{
+			"source": "Triple Pulse Enabler",
+			"target": "Assault Rif Construction Kit (Step 11)",
+			"result": "Assault Rif Construction Kit (Step 12)",
+			"skills": "Weapon Smt 786-846"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Assault Rif Construction Kit (Step 12)",
+			"result": "Assault Rif Construction Kit (Step 13)",
+			"skills": "Mech. Engi 462-498"
+		},
+		{
+			"source": "Lock and Stock",
+			"target": "Assault Rif Construction Kit (Step 13)",
+			"result": "Bolter Cannon XX 42mm",
+			"skills": "Weapon Smt 740-796"
+		}
+	]
 }

@@ -1,0 +1,93 @@
+{
+	"name": "Solar-Powered Mechanic Pistol",
+	"author": "",
+	"intro": [
+		{
+			"text": "Solar-Powered Engineer Pistol:"
+		},
+		{
+			"text": "#L \"Step 1: Solar-Powered Pistol\" \"/tell <myname> recipe 790\""
+		},
+		{
+			"text": "#L \"Step 2: Solar-Powered Tinker Pistol\" \"/tell <myname> recipe 791\""
+		},
+		{
+			"text": "#L \"Step 3: Solar-Powered Mender Pistol\" \"/tell <myname> recipe 792\""
+		},
+		{
+			"text": "<highlight>Step 4: Solar-Powered Mechanic Pistol</highlight> (this recipe)"
+		},
+		{
+			"text": "#L \"Step 5: Solar-Powered Machinist Pistol\" \"/tell <myname> recipe 794\""
+		},
+		{
+			"text": "#L \"Step 6: Solar-Powered Engineer Pistol\" \"/tell <myname> recipe 795\""
+		},
+		{
+			"text": "#L \"Step 7: Solar-Powered Master Engineer Pistol\" \"/tell <myname> recipe 796\""
+		},
+		{
+			"text": "#L \"Step 8: Infused Solar-Powered Master Engineer Pistol\" \"/tell <myname> recipe 797\""
+		},
+		{
+			"text": "#L \"Step 9: Augmented Master Engineer Pistol\" \"/tell <myname> recipe 112\""
+		},
+		{
+			"text": ""
+		},
+		{
+			"text": "Increase the QL of your pistol to 99 by right-clicking on it."
+		}
+	],
+	"items": [
+		{
+			"alias": "Electrical Engineering Tutoring Device",
+			"item_id": 55693
+		},
+		{
+			"alias": "Hacker Tool",
+			"item_id": 87814,
+			"comment": "or any other Hacker Tool"
+		},
+		{
+			"alias": "Disposal Unit Electrical Toolset",
+			"item_id": 164552
+		},
+		{
+			"alias": "Solar-Powered Mender Pistol",
+			"item_id": 164498
+		},
+		{
+			"alias": "Hacked Electrical Engineering Tutoring Device",
+			"item_id": 164550
+		},
+		{
+			"alias": "Modified Electrical Toolset",
+			"item_id": 164553
+		},
+		{
+			"alias": "Solar-Powered Mechanic Pistol",
+			"item_id": 164501
+		}
+	],
+	"steps": [
+		{
+			"source": "Hacker Tool",
+			"target": "Electrical Engineering Tutoring Device",
+			"result": "Hacked Electrical Engineering Tutoring Device",
+			"skills": "WS"
+		},
+		{
+			"source": "Hacked Electrical Engineering Tutoring Device",
+			"target": "Disposal Unit Electrical Toolset",
+			"result": "Modified Electrical Toolset",
+			"skills": "WS"
+		},
+		{
+			"source": "Modified Electrical Toolset",
+			"target": "Solar-Powered Mender Pistol",
+			"result": "Solar-Powered Mechanic Pistol",
+			"skills": "WS"
+		}
+	]
+}

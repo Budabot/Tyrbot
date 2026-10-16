@@ -1,8 +1,194 @@
 {
-    "name": "1244 Co - Senior Mathis Multi-Energy Rifle",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n  '1244 Co - Senior Mathis Multi-Energy Rifle'\n The Construction kit. must be between Quality Level 121 and 140.\n All other pieces must be of AT LEAST that level range... \n Add them using shift+right-click.\n Add the pieces in the following order:\n \n  1. Rifle Weapons Construction kit.\n \n  2. Notum Enriched Nano Paste - 2x Layer. Skill To Assemble: Nano Progra: 242-280\n \n  3. Notum Alloy Strengthened Ribs. Skill To Assemble: Mech. Engi: 302-350\n \n  4. Hyper Carbo-Ceramic Cooling System. Skill To Assemble: Weapon Smt: 484-560\n \n  5. Nano Pylon. Skill To Assemble: Mech. Engi: 302-350\n \n  6. Ultra-Long Composite Barrel. Skill To Assemble: Weapon Smt: 514-595\n \n  7. Nano Pylon. Skill To Assemble: Mech. Engi: 302-350\n \n  8. Energy Pack Interface. Skill To Assemble: Elec. Engi: 484-560\n \n  9. Notum Enriched Nano Paste - 1x Layer. Skill To Assemble: Nano Progra: 182-210\n \n  10. Energy Conduction Rack. Skill To Assemble: Quantum FT: 393-455\n \n  11. Runtime Critical Area Analyzer. Skill To Assemble: Weapon Smt: 484-560"
+	"name": "1244 Co - Senior Mathis Multi-Energy Rifle",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 121 and 140. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Rifle Weapons Construction Kit",
+			"item_id": 137203,
+			"name": "Rifle Weapons Construction Kit",
+			"icon": 131744,
+			"ql": 121
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 121
+		},
+		{
+			"alias": "Notum Alloy Strengthened Ribs",
+			"item_id": 137275,
+			"ql": 121
+		},
+		{
+			"alias": "Hyper Carbo-Ceramic Cooling System",
+			"item_id": 137267,
+			"ql": 121
+		},
+		{
+			"alias": "Nano Pylon",
+			"item_id": 137277,
+			"ql": 121,
+			"quantity": 2
+		},
+		{
+			"alias": "Ultra-Long Composite Barrel",
+			"item_id": 137239,
+			"ql": 121
+		},
+		{
+			"alias": "Energy Pack Interface",
+			"item_id": 137257,
+			"ql": 121
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 121
+		},
+		{
+			"alias": "Energy Conduction Rack",
+			"item_id": 137243,
+			"ql": 121
+		},
+		{
+			"alias": "Runtime Critical Area Analyzer",
+			"item_id": 137299,
+			"ql": 121
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 2)",
+			"item_id": 137996,
+			"name": "Rifle Construction Kit (Step 2)",
+			"icon": 131745,
+			"ql": 121
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 3)",
+			"item_id": 153460,
+			"name": "Rifle Construction Kit (Step 3)",
+			"icon": 131745,
+			"ql": 121
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 4)",
+			"item_id": 153462,
+			"name": "Rifle Construction Kit (Step 4)",
+			"icon": 131746,
+			"ql": 121
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 5)",
+			"item_id": 153464,
+			"name": "Rifle Construction Kit (Step 5)",
+			"icon": 131746,
+			"ql": 121
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 6)",
+			"item_id": 153466,
+			"name": "Rifle Construction Kit (Step 6)",
+			"icon": 131747,
+			"ql": 121
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 7)",
+			"item_id": 153468,
+			"name": "Rifle Construction Kit (Step 7)",
+			"icon": 131747,
+			"ql": 121
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 8)",
+			"item_id": 153470,
+			"name": "Rifle Construction Kit (Step 8)",
+			"icon": 131748,
+			"ql": 121
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 9)",
+			"item_id": 153472,
+			"name": "Rifle Construction Kit (Step 9)",
+			"icon": 131748,
+			"ql": 121
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 10)",
+			"item_id": 153474,
+			"name": "Rifle Construction Kit (Step 10)",
+			"icon": 131749,
+			"ql": 121
+		},
+		{
+			"alias": "1244 Co - Senior Mathis Multi-Energy Rifle",
+			"item_id": 152076,
+			"ql": 121
+		}
+	],
+	"steps": [
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "Rifle Weapons Construction Kit",
+			"result": "Rifle Construction Kit (Step 2)",
+			"skills": "Nano Progra 242-280"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Rifle Construction Kit (Step 2)",
+			"result": "Rifle Construction Kit (Step 3)",
+			"skills": "Mech. Engi 302-350"
+		},
+		{
+			"source": "Hyper Carbo-Ceramic Cooling System",
+			"target": "Rifle Construction Kit (Step 3)",
+			"result": "Rifle Construction Kit (Step 4)",
+			"skills": "Weapon Smt 484-560"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Rifle Construction Kit (Step 4)",
+			"result": "Rifle Construction Kit (Step 5)",
+			"skills": "Mech. Engi 302-350"
+		},
+		{
+			"source": "Ultra-Long Composite Barrel",
+			"target": "Rifle Construction Kit (Step 5)",
+			"result": "Rifle Construction Kit (Step 6)",
+			"skills": "Weapon Smt 514-595"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Rifle Construction Kit (Step 6)",
+			"result": "Rifle Construction Kit (Step 7)",
+			"skills": "Mech. Engi 302-350"
+		},
+		{
+			"source": "Energy Pack Interface",
+			"target": "Rifle Construction Kit (Step 7)",
+			"result": "Rifle Construction Kit (Step 8)",
+			"skills": "Elec. Engi 484-560"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Rifle Construction Kit (Step 8)",
+			"result": "Rifle Construction Kit (Step 9)",
+			"skills": "Nano Progra 182-210"
+		},
+		{
+			"source": "Energy Conduction Rack",
+			"target": "Rifle Construction Kit (Step 9)",
+			"result": "Rifle Construction Kit (Step 10)",
+			"skills": "Quantum FT 393-455"
+		},
+		{
+			"source": "Runtime Critical Area Analyzer",
+			"target": "Rifle Construction Kit (Step 10)",
+			"result": "1244 Co - Senior Mathis Multi-Energy Rifle",
+			"skills": "Weapon Smt 484-560"
+		}
+	]
 }

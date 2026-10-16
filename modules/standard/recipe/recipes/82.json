@@ -1,29 +1,45 @@
 {
-    "name": "Personal Lock Pick",
-    "author": "",
-    "items": [
-        {
-            "alias": "Lock Pick",
-            "item_id": 95577
-        },
-        {
-            "alias": "ID-extractor",
-            "item_id": 156339
-        },
-        {
-            "alias": "Expendable Hologram Camera",
-            "item_id": 156054
-        },
-        {
-            "alias": "ID-data",
-            "item_id": 156340
-        },
-        {
-            "alias": "Personal Lock Pick",
-            "item_id": 156639
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Lock Pick\" \"95577\"\n<img src=rdb://12709>\n\n#L \"ID-extractor\" \"156339\"\n<img src=rdb://156324>\n\n#L \"Expendable Hologram Camera\" \"156054\"\n<img src=rdb://156092>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nID-extractor</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nExpendable Hologram Camera</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://156323>\n#L \"ID-data\" \"156340\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nID-data</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nLock Pick</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://12709>\n#L \"Personal Lock Pick\" \"156639\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nThis recipe is simplest to make, even a lvl 1 can make it. In fact i don't know which skill is used... It transforms your Standard Lockpick in a NODROP one and nothing else. By this way, you can make a bag NODROP too by putting your lockpick inside."
+	"name": "Personal Lock Pick",
+	"author": "",
+	"items": [
+		{
+			"alias": "Lock Pick",
+			"item_id": 95577
+		},
+		{
+			"alias": "ID-extractor",
+			"item_id": 156339
+		},
+		{
+			"alias": "Expendable Hologram Camera",
+			"item_id": 156054
+		},
+		{
+			"alias": "ID-data",
+			"item_id": 156340
+		},
+		{
+			"alias": "Personal Lock Pick",
+			"item_id": 156639
+		}
+	],
+	"steps": [
+		{
+			"source": "ID-extractor",
+			"target": "Expendable Hologram Camera",
+			"result": "ID-data",
+			"skills": "??"
+		},
+		{
+			"source": "ID-data",
+			"target": "Lock Pick",
+			"result": "Personal Lock Pick",
+			"skills": "??"
+		}
+	],
+	"details": [
+		{
+			"text": "This recipe is simplest to make, even a lvl 1 can make it. In fact I don't know which skill is used... It transforms your Standard Lockpick in a NODROP one and nothing else. By this way, you can make a bag NODROP too by putting your lockpick inside."
+		}
+	]
 }

@@ -1,0 +1,65 @@
+{
+	"name": "Solar-Powered Mender Pistol",
+	"author": "",
+	"intro": [
+		{
+			"text": "Solar-Powered Engineer Pistol:"
+		},
+		{
+			"text": "#L \"Step 1: Solar-Powered Pistol\" \"/tell <myname> recipe 790\""
+		},
+		{
+			"text": "#L \"Step 2: Solar-Powered Tinker Pistol\" \"/tell <myname> recipe 791\""
+		},
+		{
+			"text": "<highlight>Step 3: Solar-Powered Mender Pistol</highlight> (this recipe)"
+		},
+		{
+			"text": "#L \"Step 4: Solar-Powered Mechanic Pistol\" \"/tell <myname> recipe 793\""
+		},
+		{
+			"text": "#L \"Step 5: Solar-Powered Machinist Pistol\" \"/tell <myname> recipe 794\""
+		},
+		{
+			"text": "#L \"Step 6: Solar-Powered Engineer Pistol\" \"/tell <myname> recipe 795\""
+		},
+		{
+			"text": "#L \"Step 7: Solar-Powered Master Engineer Pistol\" \"/tell <myname> recipe 796\""
+		},
+		{
+			"text": "#L \"Step 8: Infused Solar-Powered Master Engineer Pistol\" \"/tell <myname> recipe 797\""
+		},
+		{
+			"text": "#L \"Step 9: Augmented Master Engineer Pistol\" \"/tell <myname> recipe 112\""
+		},
+		{
+			"text": ""
+		},
+		{
+			"text": "Increase the QL of your pistol to 39 by right-clicking on it."
+		}
+	],
+	"items": [
+		{
+			"alias": "Mechanical Analyzer",
+			"item_id": 164548,
+			"comment": "#L \"recipe\" \"/tell <myname> recipe 67\""
+		},
+		{
+			"alias": "Solar-Powered Tinker Pistol",
+			"item_id": 164490
+		},
+		{
+			"alias": "Solar-Powered Mender Pistol",
+			"item_id": 164498
+		}
+	],
+	"steps": [
+		{
+			"source": "Mechanical Analyzer",
+			"target": "Solar-Powered Tinker Pistol",
+			"result": "Solar-Powered Mender Pistol",
+			"skills": "WS"
+		}
+	]
+}

@@ -1,57 +1,128 @@
 {
-    "name": "Living Dragon Armor",
-    "author": "",
-    "items": [
-        {
-            "alias": "Piece of Living Dragon Wing",
-            "item_id": 158894
-        },
-        {
-            "alias": "Ultimate Mass Relocating Robot",
-            "item_id": 155592
-        },
-        {
-            "alias": "Mass Relocating Robot (Shape Hard Armor)",
-            "item_id": 162218
-        },
-        {
-            "alias": "Living Dragonflesh Body Armor",
-            "item_id": 158791
-        },
-        {
-            "alias": "Chunk of Living Dragon Flesh",
-            "item_id": 158892
-        },
-        {
-            "alias": "Lump of Living Dragon Marrow",
-            "item_id": 158895
-        },
-        {
-            "alias": "Living Dragonmarrow Feet Armor",
-            "item_id": 158794
-        },
-        {
-            "alias": "Patch of Living Dragon Skin",
-            "item_id": 158893
-        },
-        {
-            "alias": "Living Dragonskin Legs Armor",
-            "item_id": 158793
-        },
-        {
-            "alias": "Living Dragonskull Circlet",
-            "item_id": 158799
-        },
-        {
-            "alias": "Shard of Living Dragon Skull",
-            "item_id": 158896
-        },
-        {
-            "alias": "Living Dragonwing Arms Armor",
-            "item_id": 158792
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nA piece of Tarasque\n( ie : #L \"Piece of Living Dragon Wing\" \"158894\" )\n<img src=rdb://144707>\n\n#L \"Programmed Photon Particle Emitter (Shape Soft Armor)\" \"162222\"\n<img src=rdb://144476>\n\n#L \"Mass Relocating Robot\" \"155592\"\n<img src=rdb://155928>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nProgrammed Photon Particle Emitter (Shape Soft Armor)</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nMass Relocating Robot</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://163856>\n#L \"Mass Relocating Robot (Shape Soft Armor)\" \"162218\"</font>\n<font color=#FFFF00>Skills: | 2.5EE,2.5ME,2.5NP |</font><font color=#009B00>\n</font>\n<font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nA piece of Tarasque</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nMass Relocating Robot (Shape Soft Armor)</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://37545>\nA piece of Living Dragon Armor\n( ie : #L \"Living Dragonflesh Body Armor\" \"158791\" )</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Details</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Chunk of Living Dragon Flesh\" \"158892\"</font>\n<font color=#FFFFFF>-></font><font color=#009B00>\n#L \"Living Dragonflesh Body Armor\" \"158791\"</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n#L \"Lump of Living Dragon Marrow\" \"158895\"</font>\n<font color=#FFFFFF>-></font><font color=#009B00>\n#L \"Living Dragonmarrow Feet Armor\" \"158794\"</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n#L \"Patch of Living Dragon Skin\" \"158893\"</font>\n<font color=#FFFFFF>-></font><font color=#009B00>\n#L \"Living Dragonskin Legs Armor\" \"158793\"</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n#L \"Piece of Living Dragon Wing\" \"158894\"</font>\n<font color=#FFFFFF>-></font><font color=#009B00>\n#L \"Living Dragonskull Circlet\" \"158799\"</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n#L \"Shard of Living Dragon Skull\" \"158896\"</font>\n<font color=#FFFFFF>-></font><font color=#009B00>\n#L \"Living Dragonwing Arms Armor\" \"158792\"\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nThe biggest armor of this game(??)... Nothing more to add except that the spawn is 9h, extremely camped and in PVP zone. Sugar on the top, the PPPE is extremely rare..."
+	"name": "Living Dragon Armor",
+	"author": "",
+	"items": [
+		{
+			"alias": "Piece of Tarasque",
+			"item_id": 158894,
+			"comment": "or any other piece of Tarasque, see the details"
+		},
+		{
+			"alias": "Programmed Photon Particle Emitter (Shape Soft Armor)",
+			"item_id": 162222,
+			"name": "Programmed Photon Particle Emitter (Shape Soft Armor)",
+			"icon": 144476,
+			"ql": 60
+		},
+		{
+			"alias": "Mass Relocating Robot",
+			"item_id": 155592,
+			"comment": "or any other Mass Relocating Robot"
+		},
+		{
+			"alias": "Mass Relocating Robot (Shape Soft Armor)",
+			"item_id": 162220
+		},
+		{
+			"alias": "Piece of Living Dragon Armor",
+			"item_id": 158791,
+			"comment": "or another piece, depending on the piece of Tarasque, see the details"
+		}
+	],
+	"steps": [
+		{
+			"source": "Programmed Photon Particle Emitter (Shape Soft Armor)",
+			"target": "Mass Relocating Robot",
+			"result": "Mass Relocating Robot (Shape Soft Armor)",
+			"skills": "2.5EE,2.5ME,2.5NP"
+		},
+		{
+			"source": "Piece of Tarasque",
+			"target": "Mass Relocating Robot (Shape Soft Armor)",
+			"result": "Piece of Living Dragon Armor",
+			"skills": "??"
+		}
+	],
+	"details": [
+		{
+			"item": {
+				"id": 158892
+			}
+		},
+		{
+			"text": "->"
+		},
+		{
+			"item": {
+				"id": 158791
+			}
+		},
+		{
+			"text": ""
+		},
+		{
+			"item": {
+				"id": 158895
+			}
+		},
+		{
+			"text": "->"
+		},
+		{
+			"item": {
+				"id": 158794
+			}
+		},
+		{
+			"text": ""
+		},
+		{
+			"item": {
+				"id": 158893
+			}
+		},
+		{
+			"text": "->"
+		},
+		{
+			"item": {
+				"id": 158793
+			}
+		},
+		{
+			"text": ""
+		},
+		{
+			"item": {
+				"id": 158894
+			}
+		},
+		{
+			"text": "->"
+		},
+		{
+			"item": {
+				"id": 158799
+			}
+		},
+		{
+			"text": ""
+		},
+		{
+			"item": {
+				"id": 158896
+			}
+		},
+		{
+			"text": "->"
+		},
+		{
+			"item": {
+				"id": 158792
+			}
+		},
+		{
+			"text": "The biggest armor of this game (??)... Nothing more to add except that the spawn is 9h, extremely camped and in PVP zone. Sugar on the top, the PPPE is extremely rare..."
+		}
+	]
 }

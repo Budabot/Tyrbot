@@ -1,109 +1,226 @@
 {
-    "name": "Yalmaha 29500 - The Stiletto",
-    "author": "",
-    "items": [
-        {
-            "alias": "Cold Stone",
-            "item_id": 136649
-        },
-        {
-            "alias": "Reinforced NotuComm Wire",
-            "item_id": 203646
-        },
-        {
-            "alias": "Nano Programming Interface",
-            "item_id": 161699
-        },
-        {
-            "alias": "Yalmaha 29500 - Stiletto Building Kit",
-            "item_id": 203828
-        },
-        {
-            "alias": "Ganimedes Flux - Multi-Surface Engine",
-            "item_id": 203638
-        },
-        {
-            "alias": "Klang Orbiter MK",
-            "item_id": 203636
-        },
-        {
-            "alias": "BSEC",
-            "item_id": 203480
-        },
-        {
-            "alias": "Steiner Flexipus Chassis",
-            "item_id": 203472
-        },
-        {
-            "alias": "Stiletto Registar",
-            "item_id": 203817
-        },
-        {
-            "alias": "Sentient Cold Stone",
-            "item_id": 203648
-        },
-        {
-            "alias": "NotuComm Circuitry with One Sensor",
-            "item_id": 203630
-        },
-        {
-            "alias": "NotuComm Circuitry with Two Sensors",
-            "item_id": 203626
-        },
-        {
-            "alias": "NotuComm Circuitry with Three Sensors",
-            "item_id": 203628
-        },
-        {
-            "alias": "NotuComm Circuitry with Four Sensors",
-            "item_id": 203632
-        },
-        {
-            "alias": "NotuComm Circuitry with Five Sensors",
-            "item_id": 203634
-        },
-        {
-            "alias": "Complete NotuComm Circuitry",
-            "item_id": 203642
-        },
-        {
-            "alias": "Double NotuComm Circuitry",
-            "item_id": 203640
-        },
-        {
-            "alias": "Quadruple NotuComm Circuitry",
-            "item_id": 203644
-        },
-        {
-            "alias": "NotuComm Mesh",
-            "item_id": 203624
-        },
-        {
-            "alias": "Yalmaha 29500 - Stiletto Building Kit - Step 1",
-            "item_id": 203827
-        },
-        {
-            "alias": "Yalmaha 29500 - Stiletto Building Kit - Step 2",
-            "item_id": 203825
-        },
-        {
-            "alias": "Yalmaha 29500 - Stiletto Building Kit - Step 3",
-            "item_id": 203823
-        },
-        {
-            "alias": "Yalmaha 29500 - Stiletto Building Kit - Step 4",
-            "item_id": 203821
-        },
-        {
-            "alias": "Unmarked Yalmaha 29500 - The Stiletto",
-            "item_id": 203819
-        },
-        {
-            "alias": "Yalmaha - 29500 - The Stiletto",
-            "item_id": 203556
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Cold Stone\" \"136649\" x 36\n<img src=rdb://25800>\n\n#L \"Reinforced NotuComm Wire\" \"203646\" x 6\n<img src=rdb://151017>\n\n#L \"Nano Programming Interface\" \"161699\"\n<img src=rdb://99279>\n\n#L \"Yalmaha 29500 - Stiletto Building Kit\" \"203828\"\n<img src=rdb://203520>\n\n#L \"Ganimedes Flux - Multi-Surface Engine\" \"203638\"\n<img src=rdb://203511>\n\n#L \"Klang Orbiter MK\" \"203636\"\n<img src=rdb://203515>\n\n#L \"BSEC\" \"203480\"\n<img src=rdb://203507>\n\n#L \"Steiner Flexipus Chassis\" \"203472\"\n<img src=rdb://203519>\n\n#L \"Stiletto Registar\" \"203817\"\n<img src=rdb://163069>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n<highlight>Repeat for the 36 Cold Stones:</highlight>\n\nNano Programming Interface</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nCold Stone</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://25800>\n#L \"Sentient Cold Stone\" \"203648\"</font>\n<font color=#FFFF00>Skills: |  NP  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n<highlight>Repeat for the 6 Reinforced NotuComm Wires:</highlight>\n\nSentient Cold Stone</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nReinforced NotuComm Wire</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://130729>\n#L \"NotuComm Circuitry with One Sensor\" \"203630\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nSentient Cold Stone</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nNotuComm Circuitry with One Sensor</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://130726>\n#L \"NotuComm Circuitry with Two Sensors\" \"203626\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nSentient Cold Stone</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nNotuComm Circuitry with Two Sensors</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://130730>\n#L \"NotuComm Circuitry with Three Sensors\" \"203628\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nSentient Cold Stone</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nNotuComm Circuitry with Three Sensors</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://130733>\n#L \"NotuComm Circuitry with Four Sensors\" \"203632\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nSentient Cold Stone</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nNotuComm Circuitry with Four Sensors</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://130732>\n#L \"NotuComm Circuitry with Five Sensors\" \"203634\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nSentient Cold Stone</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nNotuComm Circuitry with Five Sensors</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://130728>\n#L \"Complete NotuComm Circuitry\" \"203642\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n<highlight>Repeat for the 6 Complete NotuComm Circuitries:</highlight>\n\nComplete NotuComm Circuitry</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nComplete NotuComm Circuitry</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://130727>\n#L \"Double NotuComm Circuitry\" \"203640\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nDouble NotumComm Circuitry</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nDouble NotumComm Circuitry</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://130731>\n#L \"Quadruple NotuComm Circuitry\" \"203644\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nQuadruple NotuComm Circuitry</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nDouble NotumComm Circuitry</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://130790>\n#L \"NotuComm Mesh\" \"203624\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nSteiner Flexipus Chassis</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nYalmaha 29500 - Stiletto Building Kit</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://203520>\n#L \"Yalmaha 29500 - Stiletto Building Kit - Step 1\" \"203827\"</font>\n<font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nGanimedes Flux -Multi-Surface Engine</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nYalmaha 29500 - Stiletto Building Kit - Step 1</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://203520>\n#L \"Yalmaha 29500 - Stiletto Building Kit - Step 2\" \"203825\"</font>\n<font color=#FFFF00>Skills: |  QT  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nKlang Orbiter MK</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nYalmaha 29500 - Stiletto Building Kit - Step 2</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://203520>\n#L \"Yalmaha 29500 - Stiletto Building Kit - Step 3\" \"203823\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nBSEC</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nYalmaha 29500 - Stiletto Building Kit - Step 3</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://203520>\n#L \"Yalmaha 29500 - Stiletto Building Kit - Step 4\" \"203821\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nNotuComm Mesh</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nYalmaha 29500 - Stiletto Building Kit - Step 4</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://203498>\n#L \"Unmarked Yalmaha 29500 - The Stiletto\" \"203819\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nStiletto Registar</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nUnmarked Yalmaha 29500 - The Stiletto</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://203498>\n#L \"Yalmaha - 29500 - The Stiletto\" \"203556\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nYou didnt think it would be easy (or cheap) did you?\n\nDont forget that the last step makes it NODROP, so if you are planning to sell it dont add the registrar.. sell that with it."
+	"name": "Yalmaha 29500 - The Stiletto",
+	"author": "",
+	"items": [
+		{
+			"alias": "Cold Stone",
+			"item_id": 136649,
+			"quantity": 36
+		},
+		{
+			"alias": "Reinforced NotuComm Wire",
+			"item_id": 203646,
+			"quantity": 6
+		},
+		{
+			"alias": "Nano Programming Interface",
+			"item_id": 161699
+		},
+		{
+			"alias": "Yalmaha 29500 - Stiletto Building Kit",
+			"item_id": 203828
+		},
+		{
+			"alias": "Ganimedes Flux - Multi-Surface Engine",
+			"item_id": 203638
+		},
+		{
+			"alias": "Klang Orbiter MK",
+			"item_id": 203636
+		},
+		{
+			"alias": "BSEC",
+			"item_id": 203480
+		},
+		{
+			"alias": "Steiner Flexipus Chassis",
+			"item_id": 203472
+		},
+		{
+			"alias": "Stiletto Registar",
+			"item_id": 203817
+		},
+		{
+			"alias": "Sentient Cold Stone",
+			"item_id": 203648
+		},
+		{
+			"alias": "NotuComm Circuitry with One Sensor",
+			"item_id": 203630
+		},
+		{
+			"alias": "NotuComm Circuitry with Two Sensors",
+			"item_id": 203626
+		},
+		{
+			"alias": "NotuComm Circuitry with Three Sensors",
+			"item_id": 203628
+		},
+		{
+			"alias": "NotuComm Circuitry with Four Sensors",
+			"item_id": 203632
+		},
+		{
+			"alias": "NotuComm Circuitry with Five Sensors",
+			"item_id": 203634
+		},
+		{
+			"alias": "Complete NotuComm Circuitry",
+			"item_id": 203642
+		},
+		{
+			"alias": "Double NotuComm Circuitry",
+			"item_id": 203640
+		},
+		{
+			"alias": "Quadruple NotuComm Circuitry",
+			"item_id": 203644
+		},
+		{
+			"alias": "NotuComm Mesh",
+			"item_id": 203624
+		},
+		{
+			"alias": "Yalmaha 29500 - Stiletto Building Kit - Step 1",
+			"item_id": 203827
+		},
+		{
+			"alias": "Yalmaha 29500 - Stiletto Building Kit - Step 2",
+			"item_id": 203825
+		},
+		{
+			"alias": "Yalmaha 29500 - Stiletto Building Kit - Step 3",
+			"item_id": 203823
+		},
+		{
+			"alias": "Yalmaha 29500 - Stiletto Building Kit - Step 4",
+			"item_id": 203821
+		},
+		{
+			"alias": "Unmarked Yalmaha 29500 - The Stiletto",
+			"item_id": 203819
+		},
+		{
+			"alias": "Yalmaha - 29500 - The Stiletto",
+			"item_id": 203556
+		}
+	],
+	"steps": [
+		{
+			"text": "<highlight>Repeat for the 36 Cold Stones:</highlight>"
+		},
+		{
+			"source": "Nano Programming Interface",
+			"target": "Cold Stone",
+			"result": "Sentient Cold Stone",
+			"skills": "NP"
+		},
+		{
+			"text": "<highlight>Repeat for the 6 Reinforced NotuComm Wires:</highlight>"
+		},
+		{
+			"source": "Sentient Cold Stone",
+			"target": "Reinforced NotuComm Wire",
+			"result": "NotuComm Circuitry with One Sensor",
+			"skills": "??"
+		},
+		{
+			"source": "Sentient Cold Stone",
+			"target": "NotuComm Circuitry with One Sensor",
+			"result": "NotuComm Circuitry with Two Sensors",
+			"skills": "??"
+		},
+		{
+			"source": "Sentient Cold Stone",
+			"target": "NotuComm Circuitry with Two Sensors",
+			"result": "NotuComm Circuitry with Three Sensors",
+			"skills": "??"
+		},
+		{
+			"source": "Sentient Cold Stone",
+			"target": "NotuComm Circuitry with Three Sensors",
+			"result": "NotuComm Circuitry with Four Sensors",
+			"skills": "??"
+		},
+		{
+			"source": "Sentient Cold Stone",
+			"target": "NotuComm Circuitry with Four Sensors",
+			"result": "NotuComm Circuitry with Five Sensors",
+			"skills": "??"
+		},
+		{
+			"source": "Sentient Cold Stone",
+			"target": "NotuComm Circuitry with Five Sensors",
+			"result": "Complete NotuComm Circuitry",
+			"skills": "??"
+		},
+		{
+			"text": "<highlight>Repeat for the 6 Complete NotuComm Circuitries:</highlight>"
+		},
+		{
+			"source": "Complete NotuComm Circuitry",
+			"target": "Complete NotuComm Circuitry",
+			"result": "Double NotuComm Circuitry",
+			"skills": "??"
+		},
+		{
+			"source": "Double NotuComm Circuitry",
+			"target": "Double NotuComm Circuitry",
+			"result": "Quadruple NotuComm Circuitry",
+			"skills": "??"
+		},
+		{
+			"source": "Quadruple NotuComm Circuitry",
+			"target": "Double NotuComm Circuitry",
+			"result": "NotuComm Mesh",
+			"skills": "??"
+		},
+		{
+			"source": "Steiner Flexipus Chassis",
+			"target": "Yalmaha 29500 - Stiletto Building Kit",
+			"result": "Yalmaha 29500 - Stiletto Building Kit - Step 1",
+			"skills": "ME"
+		},
+		{
+			"source": "Ganimedes Flux - Multi-Surface Engine",
+			"target": "Yalmaha 29500 - Stiletto Building Kit - Step 1",
+			"result": "Yalmaha 29500 - Stiletto Building Kit - Step 2",
+			"skills": "QT"
+		},
+		{
+			"source": "Klang Orbiter MK",
+			"target": "Yalmaha 29500 - Stiletto Building Kit - Step 2",
+			"result": "Yalmaha 29500 - Stiletto Building Kit - Step 3",
+			"skills": "??"
+		},
+		{
+			"source": "BSEC",
+			"target": "Yalmaha 29500 - Stiletto Building Kit - Step 3",
+			"result": "Yalmaha 29500 - Stiletto Building Kit - Step 4",
+			"skills": "??"
+		},
+		{
+			"source": "NotuComm Mesh",
+			"target": "Yalmaha 29500 - Stiletto Building Kit - Step 4",
+			"result": "Unmarked Yalmaha 29500 - The Stiletto",
+			"skills": "??"
+		},
+		{
+			"source": "Stiletto Registar",
+			"target": "Unmarked Yalmaha 29500 - The Stiletto",
+			"result": "Yalmaha - 29500 - The Stiletto",
+			"skills": "??"
+		}
+	],
+	"details": [
+		{
+			"text": "You didn't think it would be easy (or cheap) did you?"
+		},
+		{
+			"text": ""
+		},
+		{
+			"text": "Don't forget that the last step makes it NODROP, so if you are planning to sell it don't add the registrar.. sell that with it."
+		}
+	]
 }

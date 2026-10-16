@@ -1,81 +1,151 @@
 {
-    "name": "Coffee Machines",
-    "author": "",
-    "items": [
-        {
-            "alias": "Advanced Hacker Tool",
-            "item_id": 87814
-        },
-        {
-            "alias": "Sealing Cell Kit",
-            "item_id": 157275
-        },
-        {
-            "alias": "White Wine",
-            "item_id": 130589
-        },
-        {
-            "alias": "Expendable Hologram Camera",
-            "item_id": 156054
-        },
-        {
-            "alias": "ID-extractor",
-            "item_id": 156339
-        },
-        {
-            "alias": "Omni-Tek Multi-Form",
-            "item_id": 156344
-        },
-        {
-            "alias": "Small Titan Message Container",
-            "item_id": 157222
-        },
-        {
-            "alias": "Fink Fragrant Morning Enhanced Coffee Block",
-            "item_id": 157281
-        },
-        {
-            "alias": "Carioso Menthol Pseudo-Coffee Block",
-            "item_id": 157277
-        },
-        {
-            "alias": "ID-data",
-            "item_id": 156340
-        },
-        {
-            "alias": "Sealed Bioplast Folder",
-            "item_id": 157341
-        },
-        {
-            "alias": "Open Bioplast Folder with a Folded Note",
-            "item_id": 157272
-        },
-        {
-            "alias": "Folded Note",
-            "item_id": 157273
-        },
-        {
-            "alias": "Personal Folded Note",
-            "item_id": 157274
-        },
-        {
-            "alias": "Sealed Personal Note",
-            "item_id": 157278
-        },
-        {
-            "alias": "New Miyashiro Superior Coffee Machine",
-            "item_id": 157276
-        },
-        {
-            "alias": "Miyashiro Superior Enhanced Coffee Machine",
-            "item_id": 157340
-        },
-        {
-            "alias": "Miyashiro Superior Menthol Coffee Machine",
-            "item_id": 157339
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Hacker Tool\" \"87814\" x 2\n<img src=rdb://99282>\n\n#L \"Sealing Cell Kit\" \"157275\"\n<img src=rdb://157282>\n\n#L \"White Wine\" \"130589\"\n<img src=rdb://37937>\n\n#L \"Expendable Hologram Camera\" \"156054\"\n<img src=rdb://156092>\n\n#L \"ID-extractor\" \"156339\"\n<img src=rdb://156324>\n\n#L \"Omni-Tek Multi-Form\" \"156344\"\n<img src=rdb://156343>\n\n#L \"Small Titan Message Container\" \"157222\"\n<img src=rdb://131266>\n\n#L \"Fink Fragrant Morning Enhanced Coffee Block\" \"157281\"\n<img src=rdb://156506></font>\n<font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Carioso Menthol Pseudo-Coffee Block\" \"157277\"\n<img src=rdb://156510>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nID-extractor</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nExpendable Hologram Camera</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://156323>\n#L \"ID-data\" \"156340\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nHacker Tool</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nSmall Titan Message Container</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://157369>\n#L \"Sealed Bioplast Folder\" \"157341\"</font>\n<font color=#FFFF00>Skills: |  BE  |</font><font color=#009B00>\n</font>\n<font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nHacker Tool</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nSealed Bioplast Folder</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://157283>\n#L \"Open Bioplast Folder with a Folded Note\" \"157272\"</font>\n<font color=#FFFF00>Skills: |  BE  |</font><font color=#009B00>\n</font>\n<font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nWhite Wine</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nOpen Bioplast Folder with a Folded Note</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://154678>\n#L \"Folded Note\" \"157273\"</font>\n<font color=#FFFF00>Skills: | PS120 |</font><font color=#009B00>\n</font>\n<font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nID-data</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nFolded Note</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://156325>\n#L \"Personal Folded Note\" \"157274\"</font>\n<font color=#FFFF00>Skills: | PS300 |</font><font color=#009B00>\n</font>\n<font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nPersonal Folded Note</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nSealing Cell Kit</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://156325>\n#L \"Sealed Personal Note\" \"157278\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nSealed Personal Note</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nOmni-Tek Multi-Form</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://155965>\n#L \"New Miyashiro Superior Coffee Machine\" \"157276\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nNow you must decide what kind of coffee your machine will produce:\n\n<highlight>For normal coffee:</highlight>\n\nFink Fragrant Morning Enhanced Coffee Block</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nNew Miyashiro Superior Coffee Machine</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://155965>\n#L \"Miyashiro Superior Enhanced Coffee Machine\" \"157340\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\n<highlight>Or mentholed one:</highlight>\n\nCarioso Menthol Pseudo-Coffee Block</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nNew Miyashiro Superior Coffee Machine</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://155965>\n#L \"Miyashiro Superior Menthol Coffee Machine\" \"157339\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nThis machine is used to produce ... Coffee ..."
+	"name": "Coffee Machines",
+	"author": "",
+	"items": [
+		{
+			"alias": "Hacker Tool",
+			"item_id": 87814,
+			"quantity": 2,
+			"comment": "or any other Hacker Tool"
+		},
+		{
+			"alias": "Sealing Cell Kit",
+			"item_id": 157275
+		},
+		{
+			"alias": "White Wine",
+			"item_id": 130589
+		},
+		{
+			"alias": "Expendable Hologram Camera",
+			"item_id": 156054
+		},
+		{
+			"alias": "ID-extractor",
+			"item_id": 156339
+		},
+		{
+			"alias": "Omni-Tek Multi-Form",
+			"item_id": 156344
+		},
+		{
+			"alias": "Small Titan Message Container",
+			"item_id": 157222
+		},
+		{
+			"alias": "Fink Fragrant Morning Enhanced Coffee Block",
+			"item_id": 157281
+		},
+		{
+			"alias": "Carioso Menthol Pseudo-Coffee Block",
+			"item_id": 157277,
+			"comment": "alternative to Fink Fragrant Morning Enhanced Coffee Block"
+		},
+		{
+			"alias": "ID-data",
+			"item_id": 156340
+		},
+		{
+			"alias": "Sealed Bioplast Folder",
+			"item_id": 157341
+		},
+		{
+			"alias": "Open Bioplast Folder with a Folded Note",
+			"item_id": 157272
+		},
+		{
+			"alias": "Folded Note",
+			"item_id": 157273
+		},
+		{
+			"alias": "Personal Folded Note",
+			"item_id": 157274
+		},
+		{
+			"alias": "Sealed Personal Note",
+			"item_id": 157278
+		},
+		{
+			"alias": "New Miyashiro Superior Coffee Machine",
+			"item_id": 157276
+		},
+		{
+			"alias": "Miyashiro Superior Enhanced Coffee Machine",
+			"item_id": 157340
+		},
+		{
+			"alias": "Miyashiro Superior Menthol Coffee Machine",
+			"item_id": 157339
+		}
+	],
+	"steps": [
+		{
+			"source": "ID-extractor",
+			"target": "Expendable Hologram Camera",
+			"result": "ID-data",
+			"skills": "??"
+		},
+		{
+			"source": "Hacker Tool",
+			"target": "Small Titan Message Container",
+			"result": "Sealed Bioplast Folder",
+			"skills": "BE"
+		},
+		{
+			"source": "Hacker Tool",
+			"target": "Sealed Bioplast Folder",
+			"result": "Open Bioplast Folder with a Folded Note",
+			"skills": "BE"
+		},
+		{
+			"source": "White Wine",
+			"target": "Open Bioplast Folder with a Folded Note",
+			"result": "Folded Note",
+			"skills": "PS120"
+		},
+		{
+			"source": "ID-data",
+			"target": "Folded Note",
+			"result": "Personal Folded Note",
+			"skills": "PS300"
+		},
+		{
+			"source": "Personal Folded Note",
+			"target": "Sealing Cell Kit",
+			"result": "Sealed Personal Note",
+			"skills": "??"
+		},
+		{
+			"source": "Sealed Personal Note",
+			"target": "Omni-Tek Multi-Form",
+			"result": "New Miyashiro Superior Coffee Machine",
+			"skills": "??"
+		},
+		{
+			"text": "Now you must decide what kind of coffee your machine will produce:"
+		},
+		{
+			"text": "<highlight>For normal coffee:</highlight>"
+		},
+		{
+			"source": "Fink Fragrant Morning Enhanced Coffee Block",
+			"target": "New Miyashiro Superior Coffee Machine",
+			"result": "Miyashiro Superior Enhanced Coffee Machine",
+			"skills": "??"
+		},
+		{
+			"text": "<highlight>Or mentholed one:</highlight>"
+		},
+		{
+			"source": "Carioso Menthol Pseudo-Coffee Block",
+			"target": "New Miyashiro Superior Coffee Machine",
+			"result": "Miyashiro Superior Menthol Coffee Machine",
+			"skills": "??"
+		}
+	],
+	"details": [
+		{
+			"text": "This machine is used to produce ... Coffee ..."
+		}
+	]
 }

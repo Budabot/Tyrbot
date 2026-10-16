@@ -1,8 +1,263 @@
 {
-    "name": "Over-Tuned Subturbine",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n 'Over-Tuned Subturbine'\nThe Construction kit. must be between Quality Level  41 and  60.\nAll other pieces must be of AT LEAST that level range... \nAdd them using shift+right-click.\n Add in following order:\n\n 1. AssaultRifle Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  164 ->  240\n\n 2. Explosion Propulsion Containment Chamber. SkillTo Assemble: Mech. Engi:  144 ->  210\n\n 3. Nano Pylon. SkillTo Assemble: Mech. Engi:  102 ->  150\n\n 4. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  102 ->  150\n\n 5. Self-Cleaning KO-CR Device. SkillTo Assemble: Weapon Smt:  144 ->  210\n\n 6. Triple Pulse Enabler. SkillTo Assemble: Weapon Smt:  174 ->  255\n\n 7. Lock and Stock. SkillTo Assemble: Weapon Smt:  164 ->  240\n\n 8. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  82 ->  120\n\n 9. Hyper Carbo-Ceramic Cooling System. SkillTo Assemble: Weapon Smt:  164 ->  240\n\n 10. Short Composite Barrel. SkillTo Assemble: Weapon Smt:  133 ->  195\n\n 11. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  62 ->  90\n\n 12. Nano Pylon. SkillTo Assemble: Mech. Engi:  102 ->  150\n\n 13. Notum Enriched Nano Paste - 4x Layer. SkillTo Assemble: Nano Progra:  102 ->  150\n\n 14. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  102 ->  150\n\n 15. Gyro Stabilizing Unit. SkillTo Assemble: Weapon Smt:  184 ->  270"
+	"name": "Over-Tuned Subturbine",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 41 and 60. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "AssaultRifle Weapons Construction Kit",
+			"item_id": 137205,
+			"name": "AssaultRifle Weapons Construction Kit",
+			"icon": 131797,
+			"ql": 41,
+			"comment": "Skill To Assemble: Weapon Smt 164-240"
+		},
+		{
+			"alias": "Explosion Propulsion Containment Chamber",
+			"item_id": 137241,
+			"ql": 41
+		},
+		{
+			"alias": "Nano Pylon",
+			"item_id": 137277,
+			"ql": 41,
+			"quantity": 2
+		},
+		{
+			"alias": "Notum Alloy Strengthened Ribs",
+			"item_id": 137275,
+			"ql": 41,
+			"quantity": 2
+		},
+		{
+			"alias": "Self-Cleaning KO-CR Device",
+			"item_id": 137279,
+			"ql": 41
+		},
+		{
+			"alias": "Triple Pulse Enabler",
+			"item_id": 137297,
+			"ql": 41
+		},
+		{
+			"alias": "Lock and Stock",
+			"item_id": 137255,
+			"ql": 41
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 41
+		},
+		{
+			"alias": "Hyper Carbo-Ceramic Cooling System",
+			"item_id": 137267,
+			"ql": 41
+		},
+		{
+			"alias": "Short Composite Barrel",
+			"item_id": 137233,
+			"ql": 41
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 41
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 4x Layer",
+			"item_id": 137307,
+			"ql": 41
+		},
+		{
+			"alias": "Gyro Stabilizing Unit",
+			"item_id": 137295,
+			"ql": 41
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 2)",
+			"item_id": 137391,
+			"name": "Assault Rif Construction Kit (Step 2)",
+			"icon": 131673,
+			"ql": 41
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 3)",
+			"item_id": 137696,
+			"name": "Assault Rif Construction Kit (Step 3)",
+			"icon": 131673,
+			"ql": 41
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 4)",
+			"item_id": 137698,
+			"name": "Assault Rif Construction Kit (Step 4)",
+			"icon": 131673,
+			"ql": 41
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 5)",
+			"item_id": 137700,
+			"name": "Assault Rif Construction Kit (Step 5)",
+			"icon": 131674,
+			"ql": 41
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 6)",
+			"item_id": 137702,
+			"name": "Assault Rif Construction Kit (Step 6)",
+			"icon": 131674,
+			"ql": 41
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 7)",
+			"item_id": 137704,
+			"name": "Assault Rif Construction Kit (Step 7)",
+			"icon": 131674,
+			"ql": 41
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 8)",
+			"item_id": 137706,
+			"name": "Assault Rif Construction Kit (Step 8)",
+			"icon": 131675,
+			"ql": 41
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 9)",
+			"item_id": 137708,
+			"name": "Assault Rif Construction Kit (Step 9)",
+			"icon": 131675,
+			"ql": 41
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 10)",
+			"item_id": 137710,
+			"name": "Assault Rif Construction Kit (Step 10)",
+			"icon": 131675,
+			"ql": 41
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 11)",
+			"item_id": 137712,
+			"name": "Assault Rif Construction Kit (Step 11)",
+			"icon": 131676,
+			"ql": 41
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 12)",
+			"item_id": 137714,
+			"name": "Assault Rif Construction Kit (Step 12)",
+			"icon": 131676,
+			"ql": 41
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 13)",
+			"item_id": 137716,
+			"name": "Assault Rif Construction Kit (Step 13)",
+			"icon": 131676,
+			"ql": 41
+		},
+		{
+			"alias": "Assault Rif Construction Kit (Step 14)",
+			"item_id": 137718,
+			"name": "Assault Rif Construction Kit (Step 14)",
+			"icon": 131677,
+			"ql": 41
+		},
+		{
+			"alias": "Over-Tuned Subturbine",
+			"item_id": 121783,
+			"ql": 41
+		}
+	],
+	"steps": [
+		{
+			"source": "Explosion Propulsion Containment Chamber",
+			"target": "AssaultRifle Weapons Construction Kit",
+			"result": "Assault Rif Construction Kit (Step 2)",
+			"skills": "Mech. Engi 144-210"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Assault Rif Construction Kit (Step 2)",
+			"result": "Assault Rif Construction Kit (Step 3)",
+			"skills": "Mech. Engi 102-150"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Assault Rif Construction Kit (Step 3)",
+			"result": "Assault Rif Construction Kit (Step 4)",
+			"skills": "Mech. Engi 102-150"
+		},
+		{
+			"source": "Self-Cleaning KO-CR Device",
+			"target": "Assault Rif Construction Kit (Step 4)",
+			"result": "Assault Rif Construction Kit (Step 5)",
+			"skills": "Weapon Smt 144-210"
+		},
+		{
+			"source": "Triple Pulse Enabler",
+			"target": "Assault Rif Construction Kit (Step 5)",
+			"result": "Assault Rif Construction Kit (Step 6)",
+			"skills": "Weapon Smt 174-255"
+		},
+		{
+			"source": "Lock and Stock",
+			"target": "Assault Rif Construction Kit (Step 6)",
+			"result": "Assault Rif Construction Kit (Step 7)",
+			"skills": "Weapon Smt 164-240"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "Assault Rif Construction Kit (Step 7)",
+			"result": "Assault Rif Construction Kit (Step 8)",
+			"skills": "Nano Progra 82-120"
+		},
+		{
+			"source": "Hyper Carbo-Ceramic Cooling System",
+			"target": "Assault Rif Construction Kit (Step 8)",
+			"result": "Assault Rif Construction Kit (Step 9)",
+			"skills": "Weapon Smt 164-240"
+		},
+		{
+			"source": "Short Composite Barrel",
+			"target": "Assault Rif Construction Kit (Step 9)",
+			"result": "Assault Rif Construction Kit (Step 10)",
+			"skills": "Weapon Smt 133-195"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Assault Rif Construction Kit (Step 10)",
+			"result": "Assault Rif Construction Kit (Step 11)",
+			"skills": "Nano Progra 62-90"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Assault Rif Construction Kit (Step 11)",
+			"result": "Assault Rif Construction Kit (Step 12)",
+			"skills": "Mech. Engi 102-150"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 4x Layer",
+			"target": "Assault Rif Construction Kit (Step 12)",
+			"result": "Assault Rif Construction Kit (Step 13)",
+			"skills": "Nano Progra 102-150"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Assault Rif Construction Kit (Step 13)",
+			"result": "Assault Rif Construction Kit (Step 14)",
+			"skills": "Mech. Engi 102-150"
+		},
+		{
+			"source": "Gyro Stabilizing Unit",
+			"target": "Assault Rif Construction Kit (Step 14)",
+			"result": "Over-Tuned Subturbine",
+			"skills": "Weapon Smt 184-270"
+		}
+	]
 }

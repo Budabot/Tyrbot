@@ -1,21 +1,30 @@
 {
-    "name": "Amplified Sleek Cannon",
-    "author": "",
-    "items": [
-        {
-            "alias": "Dynamic Gas Redistribution Valves",
-            "item_id": 257962
-        },
-        {
-            "alias": "Excellent Sleek Cannon",
-            "item_id": 160162
-        },
-        {
-            "alias": "Amplified Sleek Cannon",
-            "item_id": 257126
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n</font>\n<font color=#FFFF00> The Dynamic Gas Redistribution Valves drops in Alien Playfields and can be used for various tradeskill processes.</font><font color=#009B00>\n\n#L \"Dynamic Gas Redistribution Valves\" \"257962\"\n<img src=rdb://205508>\n\n#L \"Excellent Sleek Cannon\" \"160162\"\n<img src=rdb://13342>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nDynamic Gas Redistribution Valves</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nExcellent Sleek Cannon</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://255470>\n#L \"Amplified Sleek Cannon\" \"257126\""
+	"name": "Amplified Sleek Cannon",
+	"author": "",
+	"intro": [
+		{
+			"text": "The Dynamic Gas Redistribution Valves drops in Alien Playfields and can be used for various tradeskill processes."
+		}
+	],
+	"items": [
+		{
+			"alias": "Dynamic Gas Redistribution Valves",
+			"item_id": 257962
+		},
+		{
+			"alias": "Excellent Sleek Cannon",
+			"item_id": 160162
+		},
+		{
+			"alias": "Amplified Sleek Cannon",
+			"item_id": 257126
+		}
+	],
+	"steps": [
+		{
+			"source": "Dynamic Gas Redistribution Valves",
+			"target": "Excellent Sleek Cannon",
+			"result": "Amplified Sleek Cannon"
+		}
+	]
 }

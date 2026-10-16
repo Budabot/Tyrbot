@@ -1,77 +1,165 @@
 {
-    "name": "Sector 10 Signal Relay",
-    "author": "",
-    "items": [
-        {
-            "alias": "Broken and Powerless Signal Amplifier",
-            "item_id": 284280
-        },
-        {
-            "alias": "Kyr'ozch Fuel Gland",
-            "item_id": 284284
-        },
-        {
-            "alias": "Inert Kyr'ozch Teleportation Relay",
-            "item_id": 284285
-        },
-        {
-            "alias": "Alpha Compiler Unit",
-            "item_id": 284298
-        },
-        {
-            "alias": "Alpha Crystal - Left Fragment",
-            "item_id": 284295
-        },
-        {
-            "alias": "Alpha Crystal - Right Fragment",
-            "item_id": 284296
-        },
-        {
-            "alias": "Broken and Powerless Signal Amplifier",
-            "item_id": 284281
-        },
-        {
-            "alias": "Broken and Powerless Signal Amplifier",
-            "item_id": 284282
-        },
-        {
-            "alias": "Powerless Kyr'ozch Signal Amplifier",
-            "item_id": 284283
-        },
-        {
-            "alias": "Inert Kyr'ozch Teleportation Relay",
-            "item_id": 284286
-        },
-        {
-            "alias": "Inert Kyr'ozch Teleportation Relay",
-            "item_id": 284287
-        },
-        {
-            "alias": "Inert Kyr'ozch Teleportation Relay",
-            "item_id": 284288
-        },
-        {
-            "alias": "Powered Kyr'ozch Teleportation Relay",
-            "item_id": 284289
-        },
-        {
-            "alias": "Untuned Kyr'ozch Signal Relay",
-            "item_id": 284290
-        },
-        {
-            "alias": "Alpha Tuning Crystal",
-            "item_id": 284297
-        },
-        {
-            "alias": "Alpha Tuning Unit - Inactive",
-            "item_id": 284433
-        },
-        {
-            "alias": "Alpha Signal Relay",
-            "item_id": 284291
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n</font>\n<font color=#FFFF00> Within Sector10, you need to collect items to spawn the bosses of the zone.\nThis is what you need to gather: </font><font color=#009B00>\n\n#L \"Broken and Powerless Signal Amplifier\" \"284280\" x 4\n<img src=rdb://284331>\n\n#L \"Kyr'ozch Fuel Gland\" \"284284\" x 4\n<img src=rdb://284345>\n\n#L \"Inert Kyr'ozch Teleportation Relay\" \"284285\"\n<img src=rdb://284346>\n\n#L \"XXX Compiler Unit\" \"284298\"\n<img src=rdb://284332></font>\n<font color=#FFFF00>Note: There are 4 different Compilers to be found (Alpha, Kappa, Rho and Sigma) \nand you will only ever need 1 of each.</font><font color=#009B00> \n\n#L \"XXX Crystal - Left Fragment\" \"284295\"\n<img src=rdb://284334></font>\n<font color=#FFFF00>Note: There are 4 different Left Fragments,\nyou will need 1 for each boss (Alpha, Kappa, Rho and Sigma)</font><font color=#009B00>\n\n#L \"XXX Crystal - Right Fragment\" \"284296\"\n<img src=rdb://284335>\n#</font><font color=#FFFF00>Note: There are 4 different Right Fragments,\nyou will need 1 for each boss (Alpha, Kappa, Rho and Sigma)</font><font color=#009B00>\n\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nBroken and Powerless Signal Amplifier</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nBroken and Powerless Signal Amplifier</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://284331>\n#L \"Broken and Powerless Signal Amplifier\" \"284281\"</font>\n<font color=#FFFF00>Skill: | 625 ME | </font><font color=#009B00>\n\nBroken and Powerless Signal Amplifier</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nBroken and Powerless Signal Amplifier</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://284331>\n#L \"Broken and Powerless Signal Amplifier\" \"284282\"</font>\n<font color=#FFFF00>Skill: | 625 ME | </font><font color=#009B00>\n\nBroken and Powerless Signal Amplifier</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nBroken and Powerless Signal Amplifier</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://284331>\n#L \"Powerless Signal Amplifier\" \"284283\"</font>\n<font color=#FFFF00>Skill: | 625 ME | </font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nKyr'ozch Fuel Gland</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nInert Kyr'ozch Teleportation Relay</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://284347>\n#L \"Inert Kyr'ozch Teleportation Relay\" \"284286\"</font>\n<font color=#FFFF00>Skill: | 625 EE | </font><font color=#009B00>\n\nKyr'ozch Fuel Gland</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nInert Kyr'ozch Teleportation Relay</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://284348>\n#L \"Inert Kyr'ozch Teleportation Relay\" \"284287\"</font>\n<font color=#FFFF00>Skill: | 625 EE | </font><font color=#009B00>\n\nKyr'ozch Fuel Gland</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nInert Kyr'ozch Teleportation Relay</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://284349>\n#L \"Inert Kyr'ozch Teleportation Relay\" \"284288\"</font>\n<font color=#FFFF00>Skill: | 625 EE | </font><font color=#009B00>\n\nKyr'ozch Fuel Gland</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nInert Kyr'ozch Teleportation Relay</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://284350>\n#L \"Powered Kyr'ozch Teleportation Relay\" \"284289\"</font>\n<font color=#FFFF00>Skill: | 625 EE | </font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nPowerless Signal Amplifier</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nPowered Kyr'ozch Teleportation Relay</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://284325>\n#L \"Untuned Kyr'ozch Teleportation Relay\" \"284290\"</font>\n<font color=#FFFF00>Skill: | 625 EE | </font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nXXX Crystal - Left Fragment</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nXXX Crystal - Right Fragment</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://284333>\n#L \"XXX Tuning Crystal\" \"284297\"</font>\n<font color=#FFFF00>Skill: | 625 NP | </font><font color=#009B00>\n\nXXX Tuning Crystal</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nXXX Compiler Unit</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://284326>\n#L \"XXX Tuning Unit - Inactive\" \"284433\"</font>\n<font color=#FFFF00>Skill: | 687 NP | </font>\n<font color=#FFFF00>Note: right clicking activates the Tuning Unit but also makes it NODROP </font><font color=#009B00>\n\nUntuned Kyr'ozch Teleportation Relay</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nXXX Tuning Unit</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://284321>\n#L \"XXX Signal Relay\" \"284291\""
+	"name": "Sector 10 Signal Relay",
+	"author": "",
+	"intro": [
+		{
+			"text": "Within Sector 10, you need to collect items to spawn the bosses of the zone."
+		},
+		{
+			"text": "This is what you need to gather:"
+		}
+	],
+	"items": [
+		{
+			"alias": "Broken and Powerless Signal Amplifier",
+			"item_id": 284280,
+			"quantity": 4
+		},
+		{
+			"alias": "Kyr'ozch Fuel Gland",
+			"item_id": 284284,
+			"quantity": 4
+		},
+		{
+			"alias": "Inert Kyr'ozch Teleportation Relay",
+			"item_id": 284285
+		},
+		{
+			"alias": "Compiler Unit",
+			"item_id": 284298,
+			"comment": "There are 4 different Compilers to be found (Alpha, Kappa, Rho and Sigma) and you will only ever need 1 of each."
+		},
+		{
+			"alias": "Crystal - Left Fragment",
+			"item_id": 284295,
+			"comment": "There are 4 different Left Fragments, you will need 1 for each boss (Alpha, Kappa, Rho and Sigma)"
+		},
+		{
+			"alias": "Crystal - Right Fragment",
+			"item_id": 284296,
+			"comment": "There are 4 different Right Fragments, you will need 1 for each boss (Alpha, Kappa, Rho and Sigma)"
+		},
+		{
+			"alias": "Tuning Unit",
+			"item_id": 284299,
+			"comment": "or the Kappa, Rho or Sigma version; from right-clicking the Tuning Unit - Inactive"
+		},
+		{
+			"alias": "Broken and Powerless Signal Amplifier (2 combined)",
+			"item_id": 284281
+		},
+		{
+			"alias": "Broken and Powerless Signal Amplifier (3 combined)",
+			"item_id": 284282
+		},
+		{
+			"alias": "Powerless Kyr'ozch Signal Amplifier",
+			"item_id": 284283
+		},
+		{
+			"alias": "Inert Kyr'ozch Teleportation Relay (1 gland)",
+			"item_id": 284286
+		},
+		{
+			"alias": "Inert Kyr'ozch Teleportation Relay (2 glands)",
+			"item_id": 284287
+		},
+		{
+			"alias": "Inert Kyr'ozch Teleportation Relay (3 glands)",
+			"item_id": 284288
+		},
+		{
+			"alias": "Powered Kyr'ozch Teleportation Relay",
+			"item_id": 284289
+		},
+		{
+			"alias": "Untuned Kyr'ozch Signal Relay",
+			"item_id": 284290
+		},
+		{
+			"alias": "Tuning Crystal",
+			"item_id": 284297,
+			"comment": "or the Kappa, Rho or Sigma version"
+		},
+		{
+			"alias": "Tuning Unit - Inactive",
+			"item_id": 284433,
+			"comment": "or the Kappa, Rho or Sigma version"
+		},
+		{
+			"alias": "Signal Relay",
+			"item_id": 284291,
+			"comment": "or the Kappa, Rho or Sigma version"
+		}
+	],
+	"steps": [
+		{
+			"source": "Broken and Powerless Signal Amplifier",
+			"target": "Broken and Powerless Signal Amplifier",
+			"result": "Broken and Powerless Signal Amplifier (2 combined)",
+			"skills": "625 ME"
+		},
+		{
+			"source": "Broken and Powerless Signal Amplifier",
+			"target": "Broken and Powerless Signal Amplifier (2 combined)",
+			"result": "Broken and Powerless Signal Amplifier (3 combined)",
+			"skills": "625 ME"
+		},
+		{
+			"source": "Broken and Powerless Signal Amplifier",
+			"target": "Broken and Powerless Signal Amplifier (3 combined)",
+			"result": "Powerless Kyr'ozch Signal Amplifier",
+			"skills": "625 ME"
+		},
+		{
+			"source": "Kyr'ozch Fuel Gland",
+			"target": "Inert Kyr'ozch Teleportation Relay",
+			"result": "Inert Kyr'ozch Teleportation Relay (1 gland)",
+			"skills": "625 EE"
+		},
+		{
+			"source": "Kyr'ozch Fuel Gland",
+			"target": "Inert Kyr'ozch Teleportation Relay (1 gland)",
+			"result": "Inert Kyr'ozch Teleportation Relay (2 glands)",
+			"skills": "625 EE"
+		},
+		{
+			"source": "Kyr'ozch Fuel Gland",
+			"target": "Inert Kyr'ozch Teleportation Relay (2 glands)",
+			"result": "Inert Kyr'ozch Teleportation Relay (3 glands)",
+			"skills": "625 EE"
+		},
+		{
+			"source": "Kyr'ozch Fuel Gland",
+			"target": "Inert Kyr'ozch Teleportation Relay (3 glands)",
+			"result": "Powered Kyr'ozch Teleportation Relay",
+			"skills": "625 EE"
+		},
+		{
+			"source": "Powerless Kyr'ozch Signal Amplifier",
+			"target": "Powered Kyr'ozch Teleportation Relay",
+			"result": "Untuned Kyr'ozch Signal Relay",
+			"skills": "625 EE"
+		},
+		{
+			"source": "Crystal - Left Fragment",
+			"target": "Crystal - Right Fragment",
+			"result": "Tuning Crystal",
+			"skills": "625 NP"
+		},
+		{
+			"source": "Tuning Crystal",
+			"target": "Compiler Unit",
+			"result": "Tuning Unit - Inactive",
+			"skills": "687 NP"
+		},
+		{
+			"text": "Note: right clicking activates the Tuning Unit but also makes it NODROP"
+		},
+		{
+			"source": "Untuned Kyr'ozch Signal Relay",
+			"target": "Tuning Unit",
+			"result": "Signal Relay"
+		}
+	]
 }

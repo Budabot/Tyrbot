@@ -1,8 +1,181 @@
 {
-    "name": "Premium Electron-Charged Pistol",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n 'Premium Electron-Charged Pistol'\nThe Construction kit. must be between Quality Level  200 and  200.\nAll other pieces must be of AT LEAST that level range... \nAdd them using shift+right-click.\n Add in following order:\n\n 1. Pistol Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  800 ->  800\n\n 2. Short Composite Barrel. SkillTo Assemble: Weapon Smt:  650 ->  650\n\n 3. Plasma Streamer Interface Nozzle. SkillTo Assemble: Chemistry:  800 ->  800\n\n 4. Rapid-Reload-And-Fire Gyro. SkillTo Assemble: Weapon Smt:  800 ->  800\n\n 5. Nano Pylon. SkillTo Assemble: Mech. Engi:  500 ->  500\n\n 6. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  400 ->  400\n\n 7. Jandawit Cleanup Cluster. SkillTo Assemble: Weapon Smt:  700 ->  700\n\n 8. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  300 ->  300\n\n 9. Energy Conduction Rack. SkillTo Assemble: Quantum FT:  650 ->  650\n\n 10. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  500 ->  500"
+	"name": "Premium Electron-Charged Pistol",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be QL 200. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Pistol Weapons Construction Kit",
+			"item_id": 137201,
+			"name": "Pistol Weapons Construction Kit",
+			"icon": 131726,
+			"ql": 200,
+			"comment": "Skill To Assemble: Weapon Smt 800-800"
+		},
+		{
+			"alias": "Short Composite Barrel",
+			"item_id": 137233,
+			"ql": 200
+		},
+		{
+			"alias": "Plasma Streamer Interface Nozzle",
+			"item_id": 137261,
+			"ql": 200
+		},
+		{
+			"alias": "Rapid-Reload-And-Fire Gyro",
+			"item_id": 137313,
+			"ql": 200
+		},
+		{
+			"alias": "Nano Pylon",
+			"item_id": 137277,
+			"ql": 200
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 200
+		},
+		{
+			"alias": "Jandawit Cleanup Cluster",
+			"item_id": 137281,
+			"ql": 200
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 200
+		},
+		{
+			"alias": "Energy Conduction Rack",
+			"item_id": 137243,
+			"ql": 200
+		},
+		{
+			"alias": "Notum Alloy Strengthened Ribs",
+			"item_id": 137275,
+			"ql": 200
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 2)",
+			"item_id": 140415,
+			"name": "Pistol Construction Kit (Step 2)",
+			"icon": 131727,
+			"ql": 200
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 3)",
+			"item_id": 141832,
+			"name": "Pistol Construction Kit (Step 3)",
+			"icon": 131727,
+			"ql": 200
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 4)",
+			"item_id": 141834,
+			"name": "Pistol Construction Kit (Step 4)",
+			"icon": 131728,
+			"ql": 200
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 5)",
+			"item_id": 141836,
+			"name": "Pistol Construction Kit (Step 5)",
+			"icon": 131729,
+			"ql": 200
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 6)",
+			"item_id": 141838,
+			"name": "Pistol Construction Kit (Step 6)",
+			"icon": 131729,
+			"ql": 200
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 7)",
+			"item_id": 141840,
+			"name": "Pistol Construction Kit (Step 7)",
+			"icon": 131730,
+			"ql": 200
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 8)",
+			"item_id": 141842,
+			"name": "Pistol Construction Kit (Step 8)",
+			"icon": 131730,
+			"ql": 200
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 9)",
+			"item_id": 141844,
+			"name": "Pistol Construction Kit (Step 9)",
+			"icon": 131731,
+			"ql": 200
+		},
+		{
+			"alias": "Premium Electron-Charged Pistol",
+			"item_id": 123189,
+			"ql": 200
+		}
+	],
+	"steps": [
+		{
+			"source": "Short Composite Barrel",
+			"target": "Pistol Weapons Construction Kit",
+			"result": "Pistol Construction Kit (Step 2)",
+			"skills": "Weapon Smt 650-650"
+		},
+		{
+			"source": "Plasma Streamer Interface Nozzle",
+			"target": "Pistol Construction Kit (Step 2)",
+			"result": "Pistol Construction Kit (Step 3)",
+			"skills": "Chemistry 800-800"
+		},
+		{
+			"source": "Rapid-Reload-And-Fire Gyro",
+			"target": "Pistol Construction Kit (Step 3)",
+			"result": "Pistol Construction Kit (Step 4)",
+			"skills": "Weapon Smt 800-800"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Pistol Construction Kit (Step 4)",
+			"result": "Pistol Construction Kit (Step 5)",
+			"skills": "Mech. Engi 500-500"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "Pistol Construction Kit (Step 5)",
+			"result": "Pistol Construction Kit (Step 6)",
+			"skills": "Nano Progra 400-400"
+		},
+		{
+			"source": "Jandawit Cleanup Cluster",
+			"target": "Pistol Construction Kit (Step 6)",
+			"result": "Pistol Construction Kit (Step 7)",
+			"skills": "Weapon Smt 700-700"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Pistol Construction Kit (Step 7)",
+			"result": "Pistol Construction Kit (Step 8)",
+			"skills": "Nano Progra 300-300"
+		},
+		{
+			"source": "Energy Conduction Rack",
+			"target": "Pistol Construction Kit (Step 8)",
+			"result": "Pistol Construction Kit (Step 9)",
+			"skills": "Quantum FT 650-650"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Pistol Construction Kit (Step 9)",
+			"result": "Premium Electron-Charged Pistol",
+			"skills": "Mech. Engi 500-500"
+		}
+	]
 }

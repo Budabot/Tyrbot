@@ -1,8 +1,160 @@
 {
-    "name": "Choppa-Whoppa Polearm",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n  'Choppa-Whoppa Polearm'\n The Construction kit. must be between Quality Level  70 and  92.\n All other pieces must be of AT LEAST that level range... \n Add them using shift+right-click.\n  Add in following order:\n \n  1. Two Handed Edged Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  280 ->  368\n \n  2. Run Speed Cluster - Faded (Leg). SkillTo Assemble: Nano Progra:  70 ->  92\n \n  3. 8x Layer Carbon-Notum Alloy Blade. SkillTo Assemble: Weapon Smt:  245 ->  322\n \n  4. 4x Layer Carbon-Notum Alloy Blade. SkillTo Assemble: Weapon Smt:  210 ->  276\n \n  5. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  105 ->  138\n \n  6. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  140 ->  184\n \n  7. Notum Enriched Nano Paste - 4x Layer. SkillTo Assemble: Nano Progra:  175 ->  230\n \n  8. Optimized Co-Weapon Interface. SkillTo Assemble: Comp. Liter:  210 ->  276\n \n  9. Medium Handle. SkillTo Assemble: Weapon Smt:  257 ->  338"
+	"name": "Choppa-Whoppa Polearm",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 70 and 92. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Two Handed Edged Weapons Construction Kit",
+			"item_id": 137221,
+			"name": "Two Handed Edged Weapons Construction Kit",
+			"icon": 131852,
+			"ql": 70,
+			"comment": "Skill To Assemble: Weapon Smt 280-368"
+		},
+		{
+			"alias": "Run Speed Cluster - Faded (Leg)",
+			"item_id": 130003,
+			"ql": 70
+		},
+		{
+			"alias": "8x Layer Carbon-Notum Alloy Blade",
+			"item_id": 142920,
+			"ql": 70
+		},
+		{
+			"alias": "4x Layer Carbon-Notum Alloy Blade",
+			"item_id": 142918,
+			"ql": 70
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 70
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 70
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 4x Layer",
+			"item_id": 137307,
+			"ql": 70
+		},
+		{
+			"alias": "Optimized Co-Weapon Interface",
+			"item_id": 142930,
+			"ql": 70
+		},
+		{
+			"alias": "Medium Handle",
+			"item_id": 142886,
+			"ql": 70
+		},
+		{
+			"alias": "Step 2 (unknown)",
+			"name": "???"
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 3)",
+			"item_id": 143196,
+			"name": "2h Edged Construction Kit (Step 3)",
+			"icon": 131854,
+			"ql": 70
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 4)",
+			"item_id": 143198,
+			"name": "2h Edged Construction Kit (Step 4)",
+			"icon": 131854,
+			"ql": 70
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 5)",
+			"item_id": 143200,
+			"name": "2h Edged Construction Kit (Step 5)",
+			"icon": 131855,
+			"ql": 70
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 6)",
+			"item_id": 143202,
+			"name": "2h Edged Construction Kit (Step 6)",
+			"icon": 131855,
+			"ql": 70
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 7)",
+			"item_id": 143204,
+			"name": "2h Edged Construction Kit (Step 7)",
+			"icon": 131856,
+			"ql": 70
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 8)",
+			"item_id": 143206,
+			"name": "2h Edged Construction Kit (Step 8)",
+			"icon": 131857,
+			"ql": 70
+		},
+		{
+			"alias": "Choppa-Whoppa Polearm",
+			"item_id": 121654,
+			"ql": 70
+		}
+	],
+	"steps": [
+		{
+			"source": "Run Speed Cluster - Faded (Leg)",
+			"target": "Two Handed Edged Weapons Construction Kit",
+			"result": "Step 2 (unknown)",
+			"skills": "Nano Progra 70-92"
+		},
+		{
+			"source": "8x Layer Carbon-Notum Alloy Blade",
+			"target": "Step 2 (unknown)",
+			"result": "2h Edged Construction Kit (Step 3)",
+			"skills": "Weapon Smt 245-322"
+		},
+		{
+			"source": "4x Layer Carbon-Notum Alloy Blade",
+			"target": "2h Edged Construction Kit (Step 3)",
+			"result": "2h Edged Construction Kit (Step 4)",
+			"skills": "Weapon Smt 210-276"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "2h Edged Construction Kit (Step 4)",
+			"result": "2h Edged Construction Kit (Step 5)",
+			"skills": "Nano Progra 105-138"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "2h Edged Construction Kit (Step 5)",
+			"result": "2h Edged Construction Kit (Step 6)",
+			"skills": "Nano Progra 140-184"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 4x Layer",
+			"target": "2h Edged Construction Kit (Step 6)",
+			"result": "2h Edged Construction Kit (Step 7)",
+			"skills": "Nano Progra 175-230"
+		},
+		{
+			"source": "Optimized Co-Weapon Interface",
+			"target": "2h Edged Construction Kit (Step 7)",
+			"result": "2h Edged Construction Kit (Step 8)",
+			"skills": "Comp. Liter 210-276"
+		},
+		{
+			"source": "Medium Handle",
+			"target": "2h Edged Construction Kit (Step 8)",
+			"result": "Choppa-Whoppa Polearm",
+			"skills": "Weapon Smt 257-338"
+		}
+	]
 }

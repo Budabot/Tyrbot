@@ -1,8 +1,244 @@
 {
-    "name": "Second-Hand Disaffiliation Sniper",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n 'Second-Hand Disaffiliation Sniper'\nThe Construction kit. must be between Quality Level 61 and 80.\nAll other pieces must be of AT LEAST that level range... \nAdd them using shift+right-click.\nAdd the pieces in the following order:\n\n 1. Rifle Weapons Construction kit.\n\n 2. Primitive Freon Bag Cooling System. . SkillTo Assemble: Weapon Smt: 244-320\n\n 3. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 92-120\n\n 4. Runtime Critical Area Analyzer. . SkillTo Assemble: Weapon Smt: 244-320\n\n 5. Nano Pylon. . SkillTo Assemble: Mech. Engi: 152-200\n\n 6. Nano Pylon. . SkillTo Assemble: Mech. Engi: 152-200\n\n 7. Explosion Propulsion Containment Chamber. . SkillTo Assemble: Mech. Engi: 214-280\n\n 8. Auto Targeting Computer -IIR 2-Groper-. . SkillTo Assemble: Elec. Engi: 152-200\n\n 9. Ultra-Long Composite Barrel. . SkillTo Assemble: Weapon Smt: 259-340\n\n 10. Lock and Stock. . SkillTo Assemble: Weapon Smt: 244-320\n\n 11. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 152-200\n\n 12. Notum Enriched Nano Paste - 4x Layer. . SkillTo Assemble: Nano Progra: 152-200\n\n 13. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 152-200\n\n 14. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 122-160"
+	"name": "Second-Hand Disaffiliation Sniper",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 61 and 80. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Rifle Weapons Construction Kit",
+			"item_id": 137203,
+			"name": "Rifle Weapons Construction Kit",
+			"icon": 131744,
+			"ql": 61
+		},
+		{
+			"alias": "Primitive Freon Bag Cooling System",
+			"item_id": 137263,
+			"ql": 61
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 61
+		},
+		{
+			"alias": "Runtime Critical Area Analyzer",
+			"item_id": 137299,
+			"ql": 61
+		},
+		{
+			"alias": "Nano Pylon",
+			"item_id": 137277,
+			"ql": 61,
+			"quantity": 2
+		},
+		{
+			"alias": "Explosion Propulsion Containment Chamber",
+			"item_id": 137241,
+			"ql": 61
+		},
+		{
+			"alias": "Auto Targeting Computer -IIR 2-Groper-",
+			"item_id": 137287,
+			"ql": 61
+		},
+		{
+			"alias": "Ultra-Long Composite Barrel",
+			"item_id": 137239,
+			"ql": 61
+		},
+		{
+			"alias": "Lock and Stock",
+			"item_id": 137255,
+			"ql": 61
+		},
+		{
+			"alias": "Notum Alloy Strengthened Ribs",
+			"item_id": 137275,
+			"ql": 61,
+			"quantity": 2
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 4x Layer",
+			"item_id": 137307,
+			"ql": 61
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 61
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 2)",
+			"item_id": 137971,
+			"name": "Rifle Construction Kit (Step 2)",
+			"icon": 131745,
+			"ql": 61
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 3)",
+			"item_id": 137973,
+			"name": "Rifle Construction Kit (Step 3)",
+			"icon": 131745,
+			"ql": 61
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 4)",
+			"item_id": 137975,
+			"name": "Rifle Construction Kit (Step 4)",
+			"icon": 131745,
+			"ql": 61
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 5)",
+			"item_id": 137977,
+			"name": "Rifle Construction Kit (Step 5)",
+			"icon": 131746,
+			"ql": 61
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 6)",
+			"item_id": 137979,
+			"name": "Rifle Construction Kit (Step 6)",
+			"icon": 131746,
+			"ql": 61
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 7)",
+			"item_id": 137981,
+			"name": "Rifle Construction Kit (Step 7)",
+			"icon": 131747,
+			"ql": 61
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 8)",
+			"item_id": 137983,
+			"name": "Rifle Construction Kit (Step 8)",
+			"icon": 131747,
+			"ql": 61
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 9)",
+			"item_id": 137985,
+			"name": "Rifle Construction Kit (Step 9)",
+			"icon": 131747,
+			"ql": 61
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 10)",
+			"item_id": 137987,
+			"name": "Rifle Construction Kit (Step 10)",
+			"icon": 131748,
+			"ql": 61
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 11)",
+			"item_id": 137989,
+			"name": "Rifle Construction Kit (Step 11)",
+			"icon": 131748,
+			"ql": 61
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 12)",
+			"item_id": 137991,
+			"name": "Rifle Construction Kit (Step 12)",
+			"icon": 131748,
+			"ql": 61
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 13)",
+			"item_id": 137993,
+			"name": "Rifle Construction Kit (Step 13)",
+			"icon": 131749,
+			"ql": 61
+		},
+		{
+			"alias": "Second-Hand Disaffiliation Sniper",
+			"item_id": 121804,
+			"ql": 61
+		}
+	],
+	"steps": [
+		{
+			"source": "Primitive Freon Bag Cooling System",
+			"target": "Rifle Weapons Construction Kit",
+			"result": "Rifle Construction Kit (Step 2)",
+			"skills": "Weapon Smt 244-320"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Rifle Construction Kit (Step 2)",
+			"result": "Rifle Construction Kit (Step 3)",
+			"skills": "Nano Progra 92-120"
+		},
+		{
+			"source": "Runtime Critical Area Analyzer",
+			"target": "Rifle Construction Kit (Step 3)",
+			"result": "Rifle Construction Kit (Step 4)",
+			"skills": "Weapon Smt 244-320"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Rifle Construction Kit (Step 4)",
+			"result": "Rifle Construction Kit (Step 5)",
+			"skills": "Mech. Engi 152-200"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Rifle Construction Kit (Step 5)",
+			"result": "Rifle Construction Kit (Step 6)",
+			"skills": "Mech. Engi 152-200"
+		},
+		{
+			"source": "Explosion Propulsion Containment Chamber",
+			"target": "Rifle Construction Kit (Step 6)",
+			"result": "Rifle Construction Kit (Step 7)",
+			"skills": "Mech. Engi 214-280"
+		},
+		{
+			"source": "Auto Targeting Computer -IIR 2-Groper-",
+			"target": "Rifle Construction Kit (Step 7)",
+			"result": "Rifle Construction Kit (Step 8)",
+			"skills": "Elec. Engi 152-200"
+		},
+		{
+			"source": "Ultra-Long Composite Barrel",
+			"target": "Rifle Construction Kit (Step 8)",
+			"result": "Rifle Construction Kit (Step 9)",
+			"skills": "Weapon Smt 259-340"
+		},
+		{
+			"source": "Lock and Stock",
+			"target": "Rifle Construction Kit (Step 9)",
+			"result": "Rifle Construction Kit (Step 10)",
+			"skills": "Weapon Smt 244-320"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Rifle Construction Kit (Step 10)",
+			"result": "Rifle Construction Kit (Step 11)",
+			"skills": "Mech. Engi 152-200"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 4x Layer",
+			"target": "Rifle Construction Kit (Step 11)",
+			"result": "Rifle Construction Kit (Step 12)",
+			"skills": "Nano Progra 152-200"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Rifle Construction Kit (Step 12)",
+			"result": "Rifle Construction Kit (Step 13)",
+			"skills": "Mech. Engi 152-200"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "Rifle Construction Kit (Step 13)",
+			"result": "Second-Hand Disaffiliation Sniper",
+			"skills": "Nano Progra 122-160"
+		}
+	]
 }

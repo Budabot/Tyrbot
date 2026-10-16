@@ -1,0 +1,62 @@
+{
+	"name": "Leather Vest",
+	"author": "",
+	"intro": [
+		{
+			"text": "ICC Shuttle Port Tools:"
+		},
+		{
+			"text": "#L \"Poison Injector Bracelet\" \"/tell <myname> recipe 586\""
+		},
+		{
+			"text": "#L \"Range Meter\" \"/tell <myname> recipe 576\""
+		},
+		{
+			"text": "<highlight>Leather Vest</highlight> (this recipe)"
+		},
+		{
+			"text": ""
+		}
+	],
+	"items": [
+		{
+			"alias": "Antonio's Adaptation Factory",
+			"item_id": 248306
+		},
+		{
+			"alias": "Rollerrat Intestines",
+			"item_id": 248333
+		},
+		{
+			"alias": "Leather Hide",
+			"item_id": 248325
+		},
+		{
+			"alias": "Gut Bowstring",
+			"item_id": 248332
+		},
+		{
+			"alias": "Leather Vest",
+			"item_id": 248373
+		}
+	],
+	"steps": [
+		{
+			"source": "Antonio's Adaptation Factory",
+			"target": "Rollerrat Intestines",
+			"result": "Gut Bowstring",
+			"skills": "??"
+		},
+		{
+			"source": "Gut Bowstring",
+			"target": "Leather Hide",
+			"result": "Leather Vest",
+			"skills": "??"
+		}
+	],
+	"details": [
+		{
+			"text": "More things to run around and do on noob island..."
+		}
+	]
+}

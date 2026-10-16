@@ -1,8 +1,144 @@
 {
-    "name": "Chipped Notum Staff",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n  'Chipped Notum Staff'\n The Construction kit. must be between Quality Level 81 and 100.\n All other pieces must be of AT LEAST that level range... \n Add them using shift+right-click.\n Add the pieces in the following order:\n \n  1. Two Handed Blunt Weapons Construction kit.\n \n  2. Notum Enriched Nano Paste - 4x Layer. . SkillTo Assemble: Nano Progra: 202-250\n \n  3. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 162-200\n \n  4. Short Handle. . SkillTo Assemble: Weapon Smt: 284-350\n \n  5. 8x Layer Carbon-Notum Alloy Rod. . SkillTo Assemble: Weapon Smt: 385-475\n \n  6. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 122-150\n \n  7. 4x Layer Carbon-Notum Alloy Rod. . SkillTo Assemble: Weapon Smt: 364-450\n \n  8. Basic Co-Weapon Interface. . SkillTo Assemble: Comp. Liter: 182-225"
+	"name": "Chipped Notum Staff",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 81 and 100. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Two Handed Blunt Weapons Construction Kit",
+			"item_id": 137225,
+			"name": "Two Handed Blunt Weapons Construction Kit",
+			"icon": 131834,
+			"ql": 81
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 4x Layer",
+			"item_id": 137307,
+			"ql": 81
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 81
+		},
+		{
+			"alias": "Short Handle",
+			"item_id": 142884,
+			"ql": 81
+		},
+		{
+			"alias": "8x Layer Carbon-Notum Alloy Rod",
+			"item_id": 142926,
+			"ql": 81
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 81
+		},
+		{
+			"alias": "4x Layer Carbon-Notum Alloy Rod",
+			"item_id": 142924,
+			"ql": 81
+		},
+		{
+			"alias": "Basic Co-Weapon Interface",
+			"item_id": 142928,
+			"ql": 81
+		},
+		{
+			"alias": "2h Blunt Construction Kit (Step 2)",
+			"item_id": 143678,
+			"name": "2h Blunt Construction Kit (Step 2)",
+			"icon": 131835,
+			"ql": 81
+		},
+		{
+			"alias": "2h Blunt Construction Kit (Step 3)",
+			"item_id": 143680,
+			"name": "2h Blunt Construction Kit (Step 3)",
+			"icon": 131836,
+			"ql": 81
+		},
+		{
+			"alias": "2h Blunt Construction Kit (Step 4)",
+			"item_id": 143682,
+			"name": "2h Blunt Construction Kit (Step 4)",
+			"icon": 131837,
+			"ql": 81
+		},
+		{
+			"alias": "2h Blunt Construction Kit (Step 5)",
+			"item_id": 143684,
+			"name": "2h Blunt Construction Kit (Step 5)",
+			"icon": 131837,
+			"ql": 81
+		},
+		{
+			"alias": "2h Blunt Construction Kit (Step 6)",
+			"item_id": 143686,
+			"name": "2h Blunt Construction Kit (Step 6)",
+			"icon": 131838,
+			"ql": 81
+		},
+		{
+			"alias": "2h Blunt Construction Kit (Step 7)",
+			"item_id": 143688,
+			"name": "2h Blunt Construction Kit (Step 7)",
+			"icon": 131839,
+			"ql": 81
+		},
+		{
+			"alias": "Chipped Notum Staff",
+			"item_id": 122970,
+			"ql": 81
+		}
+	],
+	"steps": [
+		{
+			"source": "Notum Enriched Nano Paste - 4x Layer",
+			"target": "Two Handed Blunt Weapons Construction Kit",
+			"result": "2h Blunt Construction Kit (Step 2)",
+			"skills": "Nano Progra 202-250"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "2h Blunt Construction Kit (Step 2)",
+			"result": "2h Blunt Construction Kit (Step 3)",
+			"skills": "Nano Progra 162-200"
+		},
+		{
+			"source": "Short Handle",
+			"target": "2h Blunt Construction Kit (Step 3)",
+			"result": "2h Blunt Construction Kit (Step 4)",
+			"skills": "Weapon Smt 284-350"
+		},
+		{
+			"source": "8x Layer Carbon-Notum Alloy Rod",
+			"target": "2h Blunt Construction Kit (Step 4)",
+			"result": "2h Blunt Construction Kit (Step 5)",
+			"skills": "Weapon Smt 385-475"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "2h Blunt Construction Kit (Step 5)",
+			"result": "2h Blunt Construction Kit (Step 6)",
+			"skills": "Nano Progra 122-150"
+		},
+		{
+			"source": "4x Layer Carbon-Notum Alloy Rod",
+			"target": "2h Blunt Construction Kit (Step 6)",
+			"result": "2h Blunt Construction Kit (Step 7)",
+			"skills": "Weapon Smt 364-450"
+		},
+		{
+			"source": "Basic Co-Weapon Interface",
+			"target": "2h Blunt Construction Kit (Step 7)",
+			"result": "Chipped Notum Staff",
+			"skills": "Comp. Liter 182-225"
+		}
+	]
 }

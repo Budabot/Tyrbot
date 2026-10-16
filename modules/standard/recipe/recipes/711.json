@@ -1,37 +1,56 @@
 {
-    "name": "Alien Utilities",
-    "author": "",
-    "items": [
-        {
-            "alias": "Alien Activation Crystal",
-            "item_id": 268478
-        },
-        {
-            "alias": "Inactive Alien Battery",
-            "item_id": 268496
-        },
-        {
-            "alias": "Inactive Alien Reflex Modifier",
-            "item_id": 268499
-        },
-        {
-            "alias": "Inactive Alien Beacon",
-            "item_id": 268494
-        },
-        {
-            "alias": "Alien Battery",
-            "item_id": 268497
-        },
-        {
-            "alias": "Alien Reflex Modifier",
-            "item_id": 268498
-        },
-        {
-            "alias": "Alien Beacon",
-            "item_id": 268495
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n</font>\n<font color=#FFFF00> All parts required for this process can be found Sector 10.</font><font color=#009B00>\n\n#L \"Alien Activation Crystal\" \"268478\"\n<img src=rdb://12252>\n\n#L \"Inactive Alien Battery\" \"268496\"\n<img src=rdb://220416>\n\n#L \"Inactive Alien Reflex Modifier\" \"268499\"\n<img src=rdb://220416>\n\n#L \"Inactive Alien Beacon\" \"268494\"\n<img src=rdb://220416>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAlien Activation Crystal</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nInactive Alien Battery</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://220419>\n#L \"Alien Battery\" \"268497\"\n\nAlien Activation Crystal</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nInactive Alien Reflex Modifier</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://220417>\n#L \"Alien Reflex Modifier\" \"268498\"\n\nAlien Activation Crystal</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nInactive Alien Beacon</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://220420>\n#L \"Alien Beacon\" \"268495\""
+	"name": "Alien Utilities",
+	"author": "",
+	"intro": [
+		{
+			"text": "All parts required for this process can be found Sector 10."
+		}
+	],
+	"items": [
+		{
+			"alias": "Alien Activation Crystal",
+			"item_id": 268478
+		},
+		{
+			"alias": "Inactive Alien Battery",
+			"item_id": 268496
+		},
+		{
+			"alias": "Inactive Alien Reflex Modifier",
+			"item_id": 268499
+		},
+		{
+			"alias": "Inactive Alien Beacon",
+			"item_id": 268494
+		},
+		{
+			"alias": "Alien Battery",
+			"item_id": 268497
+		},
+		{
+			"alias": "Alien Reflex Modifier",
+			"item_id": 268498
+		},
+		{
+			"alias": "Alien Beacon",
+			"item_id": 268495
+		}
+	],
+	"steps": [
+		{
+			"source": "Alien Activation Crystal",
+			"target": "Inactive Alien Battery",
+			"result": "Alien Battery"
+		},
+		{
+			"source": "Alien Activation Crystal",
+			"target": "Inactive Alien Reflex Modifier",
+			"result": "Alien Reflex Modifier"
+		},
+		{
+			"source": "Alien Activation Crystal",
+			"target": "Inactive Alien Beacon",
+			"result": "Alien Beacon"
+		}
+	]
 }

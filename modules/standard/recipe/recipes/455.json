@@ -1,8 +1,145 @@
 {
-    "name": "Quality Whings",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n 'Quality Whings'\nThe Construction kit. must be between Quality Level  101 and  120.\nAll other pieces must be of AT LEAST that level range... \nAdd them using shift+right-click.\n Add in following order:\n\n 1. Two Handed Edged Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  404 ->  480\n\n 2. 8x Layer Carbon-Notum Alloy Blade. SkillTo Assemble: Weapon Smt:  354 ->  420\n\n 3. Long Handle. SkillTo Assemble: Weapon Smt:  379 ->  450\n\n 4. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  202 ->  240\n\n 5. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  152 ->  180\n\n 6. Optimized Co-Weapon Interface. SkillTo Assemble: Comp. Liter:  303 ->  360\n\n 7. Notum Enriched Nano Paste - 4x Layer. SkillTo Assemble: Nano Progra:  252 ->  300\n\n 8. 4x Layer Carbon-Notum Alloy Blade. SkillTo Assemble: Weapon Smt:  303 ->  360"
+	"name": "Quality Whings",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 101 and 120. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Two Handed Edged Weapons Construction Kit",
+			"item_id": 137221,
+			"name": "Two Handed Edged Weapons Construction Kit",
+			"icon": 131852,
+			"ql": 101,
+			"comment": "Skill To Assemble: Weapon Smt 404-480"
+		},
+		{
+			"alias": "8x Layer Carbon-Notum Alloy Blade",
+			"item_id": 142920,
+			"ql": 101
+		},
+		{
+			"alias": "Long Handle",
+			"item_id": 142888,
+			"ql": 101
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 101
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 101
+		},
+		{
+			"alias": "Optimized Co-Weapon Interface",
+			"item_id": 142930,
+			"ql": 101
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 4x Layer",
+			"item_id": 137307,
+			"ql": 101
+		},
+		{
+			"alias": "4x Layer Carbon-Notum Alloy Blade",
+			"item_id": 142918,
+			"ql": 101
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 2)",
+			"item_id": 143109,
+			"name": "2h Edged Construction Kit (Step 2)",
+			"icon": 131853,
+			"ql": 101
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 3)",
+			"item_id": 143462,
+			"name": "2h Edged Construction Kit (Step 3)",
+			"icon": 131854,
+			"ql": 101
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 4)",
+			"item_id": 143464,
+			"name": "2h Edged Construction Kit (Step 4)",
+			"icon": 131855,
+			"ql": 101
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 5)",
+			"item_id": 143466,
+			"name": "2h Edged Construction Kit (Step 5)",
+			"icon": 131855,
+			"ql": 101
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 6)",
+			"item_id": 143468,
+			"name": "2h Edged Construction Kit (Step 6)",
+			"icon": 131856,
+			"ql": 101
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 7)",
+			"item_id": 143470,
+			"name": "2h Edged Construction Kit (Step 7)",
+			"icon": 131857,
+			"ql": 101
+		},
+		{
+			"alias": "Quality Whings",
+			"item_id": 121713,
+			"ql": 101
+		}
+	],
+	"steps": [
+		{
+			"source": "8x Layer Carbon-Notum Alloy Blade",
+			"target": "Two Handed Edged Weapons Construction Kit",
+			"result": "2h Edged Construction Kit (Step 2)",
+			"skills": "Weapon Smt 354-420"
+		},
+		{
+			"source": "Long Handle",
+			"target": "2h Edged Construction Kit (Step 2)",
+			"result": "2h Edged Construction Kit (Step 3)",
+			"skills": "Weapon Smt 379-450"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "2h Edged Construction Kit (Step 3)",
+			"result": "2h Edged Construction Kit (Step 4)",
+			"skills": "Nano Progra 202-240"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "2h Edged Construction Kit (Step 4)",
+			"result": "2h Edged Construction Kit (Step 5)",
+			"skills": "Nano Progra 152-180"
+		},
+		{
+			"source": "Optimized Co-Weapon Interface",
+			"target": "2h Edged Construction Kit (Step 5)",
+			"result": "2h Edged Construction Kit (Step 6)",
+			"skills": "Comp. Liter 303-360"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 4x Layer",
+			"target": "2h Edged Construction Kit (Step 6)",
+			"result": "2h Edged Construction Kit (Step 7)",
+			"skills": "Nano Progra 252-300"
+		},
+		{
+			"source": "4x Layer Carbon-Notum Alloy Blade",
+			"target": "2h Edged Construction Kit (Step 7)",
+			"result": "Quality Whings",
+			"skills": "Weapon Smt 303-360"
+		}
+	]
 }

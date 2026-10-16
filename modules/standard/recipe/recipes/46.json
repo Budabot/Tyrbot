@@ -1,25 +1,50 @@
 {
-    "name": "Thick Flesh Hood",
-    "author": "",
-    "items": [
-        {
-            "alias": "Monster Parts",
-            "item_id": 42641
-        },
-        {
-            "alias": "Superior Mass Relocating Robot",
-            "item_id": 155591
-        },
-        {
-            "alias": "Mass Relocating Robot (Shape Soft Armor)",
-            "item_id": 162220
-        },
-        {
-            "alias": "Soft Flesh Hood",
-            "item_id": 163217
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients </font>\n<font color=#FFFF00>------------------------------\n\n#L \"Monster Parts\" \"42640\"\n<img src=rdb://144704>\n\n#L \"Programmed Photon Particle Emitter (Shape Soft Armor)\" \"162222\"\n<img src=rdb://144476>\n\n#L \"Mass Relocating Robot\" \"155591\"\n<img src=rdb://155928>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nProgrammed Photon Particle Emitter (Shape Soft Armor)</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nMass Relocating Robot</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://163857>\n#L \"Mass Relocating Robot (Shape Soft Armor)\" \"162220\"</font>\n<font color=#FFFF00>Skills: | 2.5EE,2.5ME,2.5NP |</font><font color=#009B00>\n</font>\n<font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nMass Relocating Robot (Shape Soft Armor)</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nMonster Parts</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://23001>\n#L \"Thick Flesh Hood\" \"163217\"</font>\n<font color=#FFFF00>Skills: | ME,INT |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nNo AC holes :)"
+	"name": "Thick Flesh Hood",
+	"author": "",
+	"items": [
+		{
+			"alias": "Monster Parts",
+			"item_id": 42640
+		},
+		{
+			"alias": "Programmed Photon Particle Emitter (Shape Soft Armor)",
+			"item_id": 162222,
+			"name": "Programmed Photon Particle Emitter (Shape Soft Armor)",
+			"icon": 144476,
+			"ql": 60
+		},
+		{
+			"alias": "Mass Relocating Robot",
+			"item_id": 155591,
+			"comment": "or any other Mass Relocating Robot"
+		},
+		{
+			"alias": "Mass Relocating Robot (Shape Soft Armor)",
+			"item_id": 162220
+		},
+		{
+			"alias": "Thick Flesh Hood",
+			"item_id": 163217,
+			"ql": 200
+		}
+	],
+	"steps": [
+		{
+			"source": "Programmed Photon Particle Emitter (Shape Soft Armor)",
+			"target": "Mass Relocating Robot",
+			"result": "Mass Relocating Robot (Shape Soft Armor)",
+			"skills": "2.5EE,2.5ME,2.5NP"
+		},
+		{
+			"source": "Mass Relocating Robot (Shape Soft Armor)",
+			"target": "Monster Parts",
+			"result": "Thick Flesh Hood",
+			"skills": "ME,INT"
+		}
+	],
+	"details": [
+		{
+			"text": "No AC holes :)"
+		}
+	]
 }

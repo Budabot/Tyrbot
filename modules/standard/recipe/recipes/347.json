@@ -1,8 +1,163 @@
 {
-    "name": "Omni-Tek Crowd Unit XI-Autotarget",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n 'Omni-Tek Crowd Unit XI-Autotarget'\nThe Construction kit. must be between Quality Level  116 and  138.\nAll other pieces must be of AT LEAST that level range... \nAdd them using shift+right-click.\n Add in following order:\n\n 1. Two Handed Edged Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  464 ->  552\n\n 2. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  232 ->  276\n\n 3. Medium Handle. SkillTo Assemble: Weapon Smt:  426 ->  507\n\n 4. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  174 ->  207\n\n 5. 4x Layer Carbon-Notum Alloy Blade. SkillTo Assemble: Weapon Smt:  348 ->  414\n\n 6. Optimized Co-Weapon Interface. SkillTo Assemble: Comp. Liter:  348 ->  414\n\n 7. 2h Edged Cluster - Bright (Left-Arm). SkillTo Assemble: Nano Progra:  232 ->  276\n\n 8. 8x Layer Carbon-Notum Alloy Blade. SkillTo Assemble: Weapon Smt:  406 ->  483\n\n 9. Notum Enriched Nano Paste - 4x Layer. SkillTo Assemble: Nano Progra:  290 ->  345"
+	"name": "Omni-Tek Crowd Unit XI-Autotarget",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 116 and 138. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Two Handed Edged Weapons Construction Kit",
+			"item_id": 137221,
+			"name": "Two Handed Edged Weapons Construction Kit",
+			"icon": 131852,
+			"ql": 116,
+			"comment": "Skill To Assemble: Weapon Smt 464-552"
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 116
+		},
+		{
+			"alias": "Medium Handle",
+			"item_id": 142886,
+			"ql": 116
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 116
+		},
+		{
+			"alias": "4x Layer Carbon-Notum Alloy Blade",
+			"item_id": 142918,
+			"ql": 116
+		},
+		{
+			"alias": "Optimized Co-Weapon Interface",
+			"item_id": 142930,
+			"ql": 116
+		},
+		{
+			"alias": "2h Edged Cluster - Bright (Left-Arm)",
+			"item_id": 101353,
+			"ql": 116
+		},
+		{
+			"alias": "8x Layer Carbon-Notum Alloy Blade",
+			"item_id": 142920,
+			"ql": 116
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 4x Layer",
+			"item_id": 137307,
+			"ql": 116
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 2)",
+			"item_id": 143053,
+			"name": "2h Edged Construction Kit (Step 2)",
+			"icon": 131853,
+			"ql": 116
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 3)",
+			"item_id": 143096,
+			"name": "2h Edged Construction Kit (Step 3)",
+			"icon": 131854,
+			"ql": 116
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 4)",
+			"item_id": 143098,
+			"name": "2h Edged Construction Kit (Step 4)",
+			"icon": 131854,
+			"ql": 116
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 5)",
+			"item_id": 143100,
+			"name": "2h Edged Construction Kit (Step 5)",
+			"icon": 131855,
+			"ql": 116
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 6)",
+			"item_id": 143102,
+			"name": "2h Edged Construction Kit (Step 6)",
+			"icon": 131855,
+			"ql": 116
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 7)",
+			"item_id": 143104,
+			"name": "2h Edged Construction Kit (Step 7)",
+			"icon": 131856,
+			"ql": 116
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 8)",
+			"item_id": 143106,
+			"name": "2h Edged Construction Kit (Step 8)",
+			"icon": 131857,
+			"ql": 116
+		},
+		{
+			"alias": "Omni-Tek Crowd Unit XI-Autotarget",
+			"item_id": 121620,
+			"ql": 116
+		}
+	],
+	"steps": [
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "Two Handed Edged Weapons Construction Kit",
+			"result": "2h Edged Construction Kit (Step 2)",
+			"skills": "Nano Progra 232-276"
+		},
+		{
+			"source": "Medium Handle",
+			"target": "2h Edged Construction Kit (Step 2)",
+			"result": "2h Edged Construction Kit (Step 3)",
+			"skills": "Weapon Smt 426-507"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "2h Edged Construction Kit (Step 3)",
+			"result": "2h Edged Construction Kit (Step 4)",
+			"skills": "Nano Progra 174-207"
+		},
+		{
+			"source": "4x Layer Carbon-Notum Alloy Blade",
+			"target": "2h Edged Construction Kit (Step 4)",
+			"result": "2h Edged Construction Kit (Step 5)",
+			"skills": "Weapon Smt 348-414"
+		},
+		{
+			"source": "Optimized Co-Weapon Interface",
+			"target": "2h Edged Construction Kit (Step 5)",
+			"result": "2h Edged Construction Kit (Step 6)",
+			"skills": "Comp. Liter 348-414"
+		},
+		{
+			"source": "2h Edged Cluster - Bright (Left-Arm)",
+			"target": "2h Edged Construction Kit (Step 6)",
+			"result": "2h Edged Construction Kit (Step 7)",
+			"skills": "Nano Progra 232-276"
+		},
+		{
+			"source": "8x Layer Carbon-Notum Alloy Blade",
+			"target": "2h Edged Construction Kit (Step 7)",
+			"result": "2h Edged Construction Kit (Step 8)",
+			"skills": "Weapon Smt 406-483"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 4x Layer",
+			"target": "2h Edged Construction Kit (Step 8)",
+			"result": "Omni-Tek Crowd Unit XI-Autotarget",
+			"skills": "Nano Progra 290-345"
+		}
+	]
 }

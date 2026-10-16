@@ -1,8 +1,209 @@
 {
-    "name": "Chunkprojector",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n  'Chunkprojector'\n The Construction kit. must be between Quality Level  81 and  100.\n All other pieces must be of AT LEAST that level range... \n Add them using shift+right-click.\n  Add in following order:\n \n  1. Shotgun Weapons Construction kit. SkillTo Assemble: Weapon Smt:  324 ->  400\n \n  2. Short Composite Barrel. SkillTo Assemble: Weapon Smt:  263 ->  325\n \n  3. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  202 ->  250\n \n  4. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  122 ->  150\n \n  5. Explosion Propulsion Containment Chamber. SkillTo Assemble: Quantum FT:  304 ->  375\n \n  6. Nano Pylon. SkillTo Assemble: Mech. Engi:  202 ->  250\n \n  7. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  202 ->  250\n \n  8. Flake Tubing Base Cooling System. SkillTo Assemble: Weapon Smt:  324 ->  400\n \n  9. Lock and Stock. SkillTo Assemble: Weapon Smt:  324 ->  400\n \n  10. Self-Cleaning KO-CR Device. SkillTo Assemble: Weapon Smt:  284 ->  350\n \n  11. Nano Pylon. SkillTo Assemble: Mech. Engi:  202 ->  250\n \n  12. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  162 ->  200"
+	"name": "Chunkprojector",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 81 and 100. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Shotgun Weapons Construction Kit",
+			"item_id": 137211,
+			"name": "Shotgun Weapons Construction Kit",
+			"icon": 131762,
+			"ql": 81,
+			"comment": "Skill To Assemble: Weapon Smt 324-400"
+		},
+		{
+			"alias": "Short Composite Barrel",
+			"item_id": 137233,
+			"ql": 81
+		},
+		{
+			"alias": "Notum Alloy Strengthened Ribs",
+			"item_id": 137275,
+			"ql": 81,
+			"quantity": 2
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 81
+		},
+		{
+			"alias": "Explosion Propulsion Containment Chamber",
+			"item_id": 137241,
+			"ql": 81
+		},
+		{
+			"alias": "Nano Pylon",
+			"item_id": 137277,
+			"ql": 81,
+			"quantity": 2
+		},
+		{
+			"alias": "Flake Tubing Base Cooling System",
+			"item_id": 137265,
+			"ql": 81
+		},
+		{
+			"alias": "Lock and Stock",
+			"item_id": 137255,
+			"ql": 81
+		},
+		{
+			"alias": "Self-Cleaning KO-CR Device",
+			"item_id": 137279,
+			"ql": 81
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 81
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 2)",
+			"item_id": 138816,
+			"name": "Shotgun Construction Kit (Step 2)",
+			"icon": 131763,
+			"ql": 81
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 3)",
+			"item_id": 138818,
+			"name": "Shotgun Construction Kit (Step 3)",
+			"icon": 131763,
+			"ql": 81
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 4)",
+			"item_id": 138820,
+			"name": "Shotgun Construction Kit (Step 4)",
+			"icon": 131764,
+			"ql": 81
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 5)",
+			"item_id": 138822,
+			"name": "Shotgun Construction Kit (Step 5)",
+			"icon": 131764,
+			"ql": 81
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 6)",
+			"item_id": 138824,
+			"name": "Shotgun Construction Kit (Step 6)",
+			"icon": 131765,
+			"ql": 81
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 7)",
+			"item_id": 138826,
+			"name": "Shotgun Construction Kit (Step 7)",
+			"icon": 131765,
+			"ql": 81
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 8)",
+			"item_id": 138828,
+			"name": "Shotgun Construction Kit (Step 8)",
+			"icon": 131765,
+			"ql": 81
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 9)",
+			"item_id": 138830,
+			"name": "Shotgun Construction Kit (Step 9)",
+			"icon": 131766,
+			"ql": 81
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 10)",
+			"item_id": 138832,
+			"name": "Shotgun Construction Kit (Step 10)",
+			"icon": 131766,
+			"ql": 81
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 11)",
+			"item_id": 138834,
+			"name": "Shotgun Construction Kit (Step 11)",
+			"icon": 131767,
+			"ql": 81
+		},
+		{
+			"alias": "Chunkprojector",
+			"item_id": 121863,
+			"ql": 81
+		}
+	],
+	"steps": [
+		{
+			"source": "Short Composite Barrel",
+			"target": "Shotgun Weapons Construction Kit",
+			"result": "Shotgun Construction Kit (Step 2)",
+			"skills": "Weapon Smt 263-325"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Shotgun Construction Kit (Step 2)",
+			"result": "Shotgun Construction Kit (Step 3)",
+			"skills": "Mech. Engi 202-250"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Shotgun Construction Kit (Step 3)",
+			"result": "Shotgun Construction Kit (Step 4)",
+			"skills": "Nano Progra 122-150"
+		},
+		{
+			"source": "Explosion Propulsion Containment Chamber",
+			"target": "Shotgun Construction Kit (Step 4)",
+			"result": "Shotgun Construction Kit (Step 5)",
+			"skills": "Quantum FT 304-375"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Shotgun Construction Kit (Step 5)",
+			"result": "Shotgun Construction Kit (Step 6)",
+			"skills": "Mech. Engi 202-250"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Shotgun Construction Kit (Step 6)",
+			"result": "Shotgun Construction Kit (Step 7)",
+			"skills": "Mech. Engi 202-250"
+		},
+		{
+			"source": "Flake Tubing Base Cooling System",
+			"target": "Shotgun Construction Kit (Step 7)",
+			"result": "Shotgun Construction Kit (Step 8)",
+			"skills": "Weapon Smt 324-400"
+		},
+		{
+			"source": "Lock and Stock",
+			"target": "Shotgun Construction Kit (Step 8)",
+			"result": "Shotgun Construction Kit (Step 9)",
+			"skills": "Weapon Smt 324-400"
+		},
+		{
+			"source": "Self-Cleaning KO-CR Device",
+			"target": "Shotgun Construction Kit (Step 9)",
+			"result": "Shotgun Construction Kit (Step 10)",
+			"skills": "Weapon Smt 284-350"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Shotgun Construction Kit (Step 10)",
+			"result": "Shotgun Construction Kit (Step 11)",
+			"skills": "Mech. Engi 202-250"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "Shotgun Construction Kit (Step 11)",
+			"result": "Chunkprojector",
+			"skills": "Nano Progra 162-200"
+		}
+	]
 }

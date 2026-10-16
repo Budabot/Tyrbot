@@ -1,65 +1,112 @@
 {
-    "name": "Eyemutant Sinew Armor",
-    "author": "",
-    "items": [
-        {
-            "alias": "Short Eyemutant Sinews",
-            "item_id": 204767
-        },
-        {
-            "alias": "Long Eyemutant Sinews",
-            "item_id": 204769
-        },
-        {
-            "alias": "Eyemutant Sinews",
-            "item_id": 204768
-        },
-        {
-            "alias": "B.B.I. - Nano Enhanced B-12 Tanning Acid",
-            "item_id": 162247
-        },
-        {
-            "alias": "XXX-Plumbo Beer Can",
-            "item_id": 130607
-        },
-        {
-            "alias": "Small Patch of Soft Bronto Hide",
-            "item_id": 162234
-        },
-        {
-            "alias": "Patch of Soft Bronto Hide",
-            "item_id": 162230
-        },
-        {
-            "alias": "Patch of Hard Bronto Hide",
-            "item_id": 162228
-        },
-        {
-            "alias": "Patch of Soft Bronto Hide - Tanned",
-            "item_id": 162242
-        },
-        {
-            "alias": "Long Eyemutant Sinews - Preserved",
-            "item_id": 204772
-        },
-        {
-            "alias": "Eyemutant Sinew Sleeves - 1 Bundle",
-            "item_id": 204791
-        },
-        {
-            "alias": "Eyemutant Sinew Sleeves - 12 Bundles",
-            "item_id": 204802
-        },
-        {
-            "alias": "Eyemutant Sinew Boots - 12 Bundles",
-            "item_id": 204814
-        },
-        {
-            "alias": "Eyemutant Sinew Gloves - 12 Bundles",
-            "item_id": 204826
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Short\" \"204767\", #L \"Long\" \"204769\" or #L \"Eyemutant Sinews\" \"204768\"\n<img src=rdb://156557>\n\n#L \"B.B.I. - Nano Enhanced B-12 Tanning Acid\" \"162247\"\n<img src=rdb://156490>\n\n#L \"XXX-Plumbo Beer Can\" \"130607\"\n<img src=rdb://37953>\n\n#L \"Small patch of soft bronto hide\" \"162234\", #L \"Patch of soft bronto hide\" \"162230\"\nor #L \"Patch of hard bronto hide\" \"162228\"\n<img src=rdb://161086>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n<highlight>Example: making of a sleeve</highlight>\n\nB.B.I. - Nano Enhanced B-12 Tanning Acid</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nPatch of soft bronto hide</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://161081>\n#L \"Patch of Soft Bronto Hide - Tanned\" \"162242\"</font>\n<font color=#FFFF00>Skills: | CH,AG |</font><font color=#009B00>\n</font>\n<font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nXXX-Plumbo Beer Can</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nLong Eyemutant Sinews</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://156557>\n#L \"Long Eyemutant Sinews - Preserved\" \"204772\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nLong Eyemutant Sinews - Preserved</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nPatch of Hard Bronto Hide - Tanned</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://37423>\n#L \"Eyemutant Sinew Sleeves - 1 Bundle\" \"204791\"</font>\n<font color=#FFFF00>Skills: |  CH  |</font><font color=#009B00>\n\nYou can apply 11 other \"Long Eyemutant Sinews - Preserved\" on the piece of armor you made to increase its QL.\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Details</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Patch of Soft Bronto Hide\" \"162230\", #L \"Long Eyemutant Sinews\" \"204769\"</font>\n<font color=#FFFFFF>-></font><font color=#009B00>\nEyemutant Sinew Sleeves\n( ie : #L \"Eyemutant Sinew Sleeves - 12 Bundles\" \"204802\" )\n\n#L \"Patch of Hard Bronto Hide\" \"162228\", #L \"Eyemutant Sinews\" \"204768\"</font>\n<font color=#FFFFFF>-></font><font color=#009B00>\nEyemutant Sinew Boots\n( ie : #L \"Eyemutant Sinew Boots - 12 Bundles\" \"204814\" )\n\n#L \"Small Patch of Soft Bronto Hide\" \"162234\", #L \"Short Eyemutant Sinews\" \"204767\"</font>\n<font color=#FFFFFF>-></font><font color=#009B00>\nEyemutant Sinew Gloves\n( ie : #L \"Eyemutant Sinew Gloves - 12 Bundles\" \"204826\" )\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nEnforcer only. Interesting Cold and Fire damage bonuses !"
+	"name": "Eyemutant Sinew Armor",
+	"author": "",
+	"items": [
+		{
+			"alias": "Short Eyemutant Sinews",
+			"item_id": 204767
+		},
+		{
+			"alias": "Long Eyemutant Sinews",
+			"item_id": 204769,
+			"comment": "alternative to Short Eyemutant Sinews"
+		},
+		{
+			"alias": "Eyemutant Sinews",
+			"item_id": 204768,
+			"comment": "alternative to Short Eyemutant Sinews"
+		},
+		{
+			"alias": "B.B.I. - Nano Enhanced B-12 Tanning Acid",
+			"item_id": 162247
+		},
+		{
+			"alias": "XXX-Plumbo Beer Can",
+			"item_id": 130607
+		},
+		{
+			"alias": "Small Patch of Soft Bronto Hide",
+			"item_id": 162234
+		},
+		{
+			"alias": "Patch of Soft Bronto Hide",
+			"item_id": 162230,
+			"comment": "alternative to Small Patch of Soft Bronto Hide"
+		},
+		{
+			"alias": "Patch of Hard Bronto Hide",
+			"item_id": 162228,
+			"comment": "alternative to Small Patch of Soft Bronto Hide"
+		},
+		{
+			"alias": "Patch of Soft Bronto Hide - Tanned",
+			"item_id": 162242
+		},
+		{
+			"alias": "Long Eyemutant Sinews - Preserved",
+			"item_id": 204772
+		},
+		{
+			"alias": "Eyemutant Sinew Sleeves - 1 Bundle",
+			"item_id": 204791
+		}
+	],
+	"steps": [
+		{
+			"text": "<highlight>Example: making of a sleeve</highlight>"
+		},
+		{
+			"source": "B.B.I. - Nano Enhanced B-12 Tanning Acid",
+			"target": "Patch of Soft Bronto Hide",
+			"result": "Patch of Soft Bronto Hide - Tanned",
+			"skills": "CH,AG"
+		},
+		{
+			"source": "XXX-Plumbo Beer Can",
+			"target": "Long Eyemutant Sinews",
+			"result": "Long Eyemutant Sinews - Preserved",
+			"skills": "??"
+		},
+		{
+			"source": "Long Eyemutant Sinews - Preserved",
+			"target": "Patch of Soft Bronto Hide - Tanned",
+			"result": "Eyemutant Sinew Sleeves - 1 Bundle",
+			"skills": "CH"
+		},
+		{
+			"text": "You can apply 11 other \"Long Eyemutant Sinews - Preserved\" on the piece of armor you made to increase its QL."
+		}
+	],
+	"details": [
+		{
+			"text": "#L \"Patch of Soft Bronto Hide\" \"162230\", #L \"Long Eyemutant Sinews\" \"204769\" -> Eyemutant Sinew Sleeves"
+		},
+		{
+			"text": "(ie: #L \"Eyemutant Sinew Sleeves - 12 Bundles\" \"204802\")"
+		},
+		{
+			"text": ""
+		},
+		{
+			"text": "#L \"Patch of Hard Bronto Hide\" \"162228\", #L \"Eyemutant Sinews\" \"204768\" -> Eyemutant Sinew Boots"
+		},
+		{
+			"text": "(ie: #L \"Eyemutant Sinew Boots - 12 Bundles\" \"204814\")"
+		},
+		{
+			"text": ""
+		},
+		{
+			"text": "#L \"Small Patch of Soft Bronto Hide\" \"162234\", #L \"Short Eyemutant Sinews\" \"204767\" -> Eyemutant Sinew Gloves"
+		},
+		{
+			"text": "(ie: #L \"Eyemutant Sinew Gloves - 12 Bundles\" \"204826\")"
+		},
+		{
+			"text": ""
+		},
+		{
+			"text": "Enforcer only. Interesting Cold and Fire damage bonuses!"
+		}
+	]
 }

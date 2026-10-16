@@ -1,21 +1,31 @@
 {
-    "name": "Stalker Helmet",
-    "author": "",
-    "items": [
-        {
-            "alias": "Stalker Carapace",
-            "item_id": 247817
-        },
-        {
-            "alias": "MasterComm - Personalization Device",
-            "item_id": 156025
-        },
-        {
-            "alias": "Stalker Helmet",
-            "item_id": 247803
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Stalker Carapace\" \"247817\"\n<img src=rdb://247816>\n\n#L \"MasterComm - Personalization Device\" \"156025\"\n<img src=rdb://11618>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nMasterComm - Personalization Device</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nStalker Carapace</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://247804>\n#L \"Stalker Helmet\" \"247803\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nTurn a stalker into a helmet as a trophie of your kill :D"
+	"name": "Stalker Helmet",
+	"author": "",
+	"items": [
+		{
+			"alias": "Stalker Carapace",
+			"item_id": 247817
+		},
+		{
+			"alias": "MasterComm - Personalization Device",
+			"item_id": 156025
+		},
+		{
+			"alias": "Stalker Helmet",
+			"item_id": 247803
+		}
+	],
+	"steps": [
+		{
+			"source": "MasterComm - Personalization Device",
+			"target": "Stalker Carapace",
+			"result": "Stalker Helmet",
+			"skills": "??"
+		}
+	],
+	"details": [
+		{
+			"text": "Turn a stalker into a helmet as a trophy of your kill :D"
+		}
+	]
 }

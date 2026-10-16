@@ -1,8 +1,144 @@
 {
-    "name": "Nightspear Initiate",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n 'Nightspear Initiate'\nThe Construction kit. must be between Quality Level 116 and 138.\nAll other pieces must be of AT LEAST that level range... \nAdd them using shift+right-click.\nAdd the pieces in the following order:\n\n 1. Piercing Weapons Construction kit.\n\n 2. Notum Enriched Nano Paste - 4x Layer. . SkillTo Assemble: Nano Progra: 290-345\n\n 3. Medium Handle. . SkillTo Assemble: Weapon Smt: 426-507\n\n 4. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 174-207\n\n 5. Optimized Co-Weapon Interface. . SkillTo Assemble: Comp. Liter: 348-414\n\n 6. Max Health Cluster - Shiny (Chest). . SkillTo Assemble: Nano Progra: 348-414\n\n 7. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 232-276\n\n 8. Sneak Atck Cluster - Faded (Eye). . SkillTo Assemble: Nano Progra: 116-138"
+	"name": "Nightspear Initiate",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 116 and 138. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Piercing Weapons Construction Kit",
+			"item_id": 137227,
+			"name": "Piercing Weapons Construction Kit",
+			"icon": 131888,
+			"ql": 116
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 4x Layer",
+			"item_id": 137307,
+			"ql": 116
+		},
+		{
+			"alias": "Medium Handle",
+			"item_id": 142886,
+			"ql": 116
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 116
+		},
+		{
+			"alias": "Optimized Co-Weapon Interface",
+			"item_id": 142930,
+			"ql": 116
+		},
+		{
+			"alias": "Max Health Cluster - Shiny (Chest)",
+			"item_id": 101811,
+			"ql": 116
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 116
+		},
+		{
+			"alias": "Sneak Atck Cluster - Faded (Eye)",
+			"item_id": 101633,
+			"ql": 116
+		},
+		{
+			"alias": "Piercing Construction Kit (Step 2)",
+			"item_id": 143295,
+			"name": "Piercing Construction Kit (Step 2)",
+			"icon": 131889,
+			"ql": 116
+		},
+		{
+			"alias": "Piercing Construction Kit (Step 3)",
+			"item_id": 143354,
+			"name": "Piercing Construction Kit (Step 3)",
+			"icon": 131890,
+			"ql": 116
+		},
+		{
+			"alias": "Piercing Construction Kit (Step 4)",
+			"item_id": 143356,
+			"name": "Piercing Construction Kit (Step 4)",
+			"icon": 131891,
+			"ql": 116
+		},
+		{
+			"alias": "Piercing Construction Kit (Step 5)",
+			"item_id": 143358,
+			"name": "Piercing Construction Kit (Step 5)",
+			"icon": 131891,
+			"ql": 116
+		},
+		{
+			"alias": "Piercing Construction Kit (Step 6)",
+			"item_id": 143360,
+			"name": "Piercing Construction Kit (Step 6)",
+			"icon": 131892,
+			"ql": 116
+		},
+		{
+			"alias": "Piercing Construction Kit (Step 7)",
+			"item_id": 143362,
+			"name": "Piercing Construction Kit (Step 7)",
+			"icon": 131893,
+			"ql": 116
+		},
+		{
+			"alias": "Nightspear Initiate",
+			"item_id": 121675,
+			"ql": 116
+		}
+	],
+	"steps": [
+		{
+			"source": "Notum Enriched Nano Paste - 4x Layer",
+			"target": "Piercing Weapons Construction Kit",
+			"result": "Piercing Construction Kit (Step 2)",
+			"skills": "Nano Progra 290-345"
+		},
+		{
+			"source": "Medium Handle",
+			"target": "Piercing Construction Kit (Step 2)",
+			"result": "Piercing Construction Kit (Step 3)",
+			"skills": "Weapon Smt 426-507"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Piercing Construction Kit (Step 3)",
+			"result": "Piercing Construction Kit (Step 4)",
+			"skills": "Nano Progra 174-207"
+		},
+		{
+			"source": "Optimized Co-Weapon Interface",
+			"target": "Piercing Construction Kit (Step 4)",
+			"result": "Piercing Construction Kit (Step 5)",
+			"skills": "Comp. Liter 348-414"
+		},
+		{
+			"source": "Max Health Cluster - Shiny (Chest)",
+			"target": "Piercing Construction Kit (Step 5)",
+			"result": "Piercing Construction Kit (Step 6)",
+			"skills": "Nano Progra 348-414"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "Piercing Construction Kit (Step 6)",
+			"result": "Piercing Construction Kit (Step 7)",
+			"skills": "Nano Progra 232-276"
+		},
+		{
+			"source": "Sneak Atck Cluster - Faded (Eye)",
+			"target": "Piercing Construction Kit (Step 7)",
+			"result": "Nightspear Initiate",
+			"skills": "Nano Progra 116-138"
+		}
+	]
 }

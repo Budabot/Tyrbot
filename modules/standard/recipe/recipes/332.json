@@ -1,8 +1,208 @@
 {
-    "name": "Mausser Particle Streamer",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n  'Mausser Particle Streamer'\n The Construction kit. must be between Quality Level 81 and 100.\n All other pieces must be of AT LEAST that level range... \n Add them using shift+right-click.\n Add the pieces in the following order:\n \n  1. Submachinegun Weapons Construction kit.\n \n  2. Nano Pylon. . SkillTo Assemble: Mech. Engi: 202-250\n \n  3. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 202-250\n \n  4. Ultra-Long Composite Barrel. . SkillTo Assemble: Weapon Smt: 344-425\n \n  5. Explosion Propulsion Containment Chamber. . SkillTo Assemble: Mech. Engi: 284-350\n \n  6. Triple Pulse Enabler. . SkillTo Assemble: Weapon Smt: 344-425\n \n  7. Nano Pylon. . SkillTo Assemble: Mech. Engi: 202-250\n \n  8. Lock and Stock. . SkillTo Assemble: Weapon Smt: 324-400\n \n  9. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 202-250\n \n  10. Auto Targeting Computer -IIR 1. . SkillTo Assemble: Elec. Engi: 182-225\n \n  11. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 162-200\n \n  12. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 122-150"
+	"name": "Mausser Particle Streamer",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 81 and 100. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Submachinegun Weapons Construction Kit",
+			"item_id": 137207,
+			"name": "Submachinegun Weapons Construction Kit",
+			"icon": 131780,
+			"ql": 81
+		},
+		{
+			"alias": "Nano Pylon",
+			"item_id": 137277,
+			"ql": 81,
+			"quantity": 2
+		},
+		{
+			"alias": "Notum Alloy Strengthened Ribs",
+			"item_id": 137275,
+			"ql": 81,
+			"quantity": 2
+		},
+		{
+			"alias": "Ultra-Long Composite Barrel",
+			"item_id": 137239,
+			"ql": 81
+		},
+		{
+			"alias": "Explosion Propulsion Containment Chamber",
+			"item_id": 137241,
+			"ql": 81
+		},
+		{
+			"alias": "Triple Pulse Enabler",
+			"item_id": 137297,
+			"ql": 81
+		},
+		{
+			"alias": "Lock and Stock",
+			"item_id": 137255,
+			"ql": 81
+		},
+		{
+			"alias": "Auto Targeting Computer -IIR 1",
+			"item_id": 137285,
+			"ql": 81
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 81
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 81
+		},
+		{
+			"alias": "MG / SMG Construction Kit (Step 2)",
+			"item_id": 140790,
+			"name": "MG / SMG Construction Kit (Step 2)",
+			"icon": 131781,
+			"ql": 81
+		},
+		{
+			"alias": "MG / SMG Construction Kit (Step 3)",
+			"item_id": 140851,
+			"name": "MG / SMG Construction Kit (Step 3)",
+			"icon": 131781,
+			"ql": 81
+		},
+		{
+			"alias": "MG / SMG Construction Kit (Step 4)",
+			"item_id": 140853,
+			"name": "MG / SMG Construction Kit (Step 4)",
+			"icon": 131782,
+			"ql": 81
+		},
+		{
+			"alias": "MG / SMG Construction Kit (Step 5)",
+			"item_id": 140855,
+			"name": "MG / SMG Construction Kit (Step 5)",
+			"icon": 131782,
+			"ql": 81
+		},
+		{
+			"alias": "MG / SMG Construction Kit (Step 6)",
+			"item_id": 140857,
+			"name": "MG / SMG Construction Kit (Step 6)",
+			"icon": 131783,
+			"ql": 81
+		},
+		{
+			"alias": "MG / SMG Construction Kit (Step 7)",
+			"item_id": 140859,
+			"name": "MG / SMG Construction Kit (Step 7)",
+			"icon": 131783,
+			"ql": 81
+		},
+		{
+			"alias": "MG / SMG Construction Kit (Step 8)",
+			"item_id": 140861,
+			"name": "MG / SMG Construction Kit (Step 8)",
+			"icon": 131783,
+			"ql": 81
+		},
+		{
+			"alias": "MG / SMG Construction Kit (Step 9)",
+			"item_id": 140863,
+			"name": "MG / SMG Construction Kit (Step 9)",
+			"icon": 131784,
+			"ql": 81
+		},
+		{
+			"alias": "MG / SMG Construction Kit (Step 10)",
+			"item_id": 140865,
+			"name": "MG / SMG Construction Kit (Step 10)",
+			"icon": 131784,
+			"ql": 81
+		},
+		{
+			"alias": "MG / SMG Construction Kit (Step 11)",
+			"item_id": 140867,
+			"name": "MG / SMG Construction Kit (Step 11)",
+			"icon": 131785,
+			"ql": 81
+		},
+		{
+			"alias": "Mausser Particle Streamer",
+			"item_id": 122433,
+			"ql": 81
+		}
+	],
+	"steps": [
+		{
+			"source": "Nano Pylon",
+			"target": "Submachinegun Weapons Construction Kit",
+			"result": "MG / SMG Construction Kit (Step 2)",
+			"skills": "Mech. Engi 202-250"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "MG / SMG Construction Kit (Step 2)",
+			"result": "MG / SMG Construction Kit (Step 3)",
+			"skills": "Mech. Engi 202-250"
+		},
+		{
+			"source": "Ultra-Long Composite Barrel",
+			"target": "MG / SMG Construction Kit (Step 3)",
+			"result": "MG / SMG Construction Kit (Step 4)",
+			"skills": "Weapon Smt 344-425"
+		},
+		{
+			"source": "Explosion Propulsion Containment Chamber",
+			"target": "MG / SMG Construction Kit (Step 4)",
+			"result": "MG / SMG Construction Kit (Step 5)",
+			"skills": "Mech. Engi 284-350"
+		},
+		{
+			"source": "Triple Pulse Enabler",
+			"target": "MG / SMG Construction Kit (Step 5)",
+			"result": "MG / SMG Construction Kit (Step 6)",
+			"skills": "Weapon Smt 344-425"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "MG / SMG Construction Kit (Step 6)",
+			"result": "MG / SMG Construction Kit (Step 7)",
+			"skills": "Mech. Engi 202-250"
+		},
+		{
+			"source": "Lock and Stock",
+			"target": "MG / SMG Construction Kit (Step 7)",
+			"result": "MG / SMG Construction Kit (Step 8)",
+			"skills": "Weapon Smt 324-400"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "MG / SMG Construction Kit (Step 8)",
+			"result": "MG / SMG Construction Kit (Step 9)",
+			"skills": "Mech. Engi 202-250"
+		},
+		{
+			"source": "Auto Targeting Computer -IIR 1",
+			"target": "MG / SMG Construction Kit (Step 9)",
+			"result": "MG / SMG Construction Kit (Step 10)",
+			"skills": "Elec. Engi 182-225"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "MG / SMG Construction Kit (Step 10)",
+			"result": "MG / SMG Construction Kit (Step 11)",
+			"skills": "Nano Progra 162-200"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "MG / SMG Construction Kit (Step 11)",
+			"result": "Mausser Particle Streamer",
+			"skills": "Nano Progra 122-150"
+		}
+	]
 }

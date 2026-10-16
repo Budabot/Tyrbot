@@ -1,41 +1,130 @@
 {
-    "name": "Improving Weapons",
-    "author": "",
-    "items": [
-        {
-            "alias": "Robot Instruction Disc (Improve Slashing Weapons)",
-            "item_id": 155533
-        },
-        {
-            "alias": "Ultimate Mass Relocating Robot",
-            "item_id": 155592
-        },
-        {
-            "alias": "Symbol Library - Space",
-            "item_id": 144790
-        },
-        {
-            "alias": "Photon Particle Emitter",
-            "item_id": 144812
-        },
-        {
-            "alias": "Robot Compiled Algorithm (Improve Slashing Weapons)",
-            "item_id": 155534
-        },
-        {
-            "alias": "Mass Relocating Robot (Improve Slashing Weapons)",
-            "item_id": 155594
-        },
-        {
-            "alias": "Grandmaster Click Stabber",
-            "item_id": 152776
-        },
-        {
-            "alias": "Much Improved Click Stabber",
-            "item_id": 157820
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nRobot Instruction Disc (Improve Weapons)\n( ie #L \"Robot Instruction Disc (Improve Slashing Weapons)\" \"155533\" )\n<img src=rdb://83446>\n\n#L \"Mass Relocating Robot\" \"155592\"\n<img src=rdb://155928>\n\n#L \"Symbol Library - Space\" \"144790\"\n<img src=rdb://72782>\n\n#L \"Photon Particle Emitter\" \"144812\"\n<img src=rdb://83869>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nRobot Instruction Disc (Improve Weapons)</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nSymbol Library - Space</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://83151>\nRobot Compiled Algorithm (Improve Weapons)\n( ie : #L \"Robot Compiled Algorithm (Improve Slashing Weapons)\" \"155534\" )</font>\n<font color=#FFFF00>Skills: | NP,CL |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nPhoton Particle Emitter</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nRobot Compiled Algorithm (Improve Weapons)</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://83739>\nProgrammed Photon Particle Emitter (Improve Weapons)\n( ie : #L \"Programmed Photon Particle Emitter (Improve Slashing Weapons)\" \"155544\" )</font>\n<font color=#FFFF00>Skills: |  NP  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nMass Relocating Robot</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nProgrammed Photon Particle Emitter (Improve Weapons)</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://155929>\nMass Relocating Robot (Improve Weapons)\n( ie : #L \"Mass Relocating Robot (Improve Slashing Weapons)\" \"155594\" )</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Uses</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nOnce you have your Mass Relocating Robot (Improve Weapons), you can now use it to improve some weapons, of which you'll find the list, depending of the the type of your Mass Relocating Robot.\n\n<highlight>Improve Crushing Weapons</highlight>\nAdvanced Baseballbat\nClub\nStun-Baton\n   \n<highlight>Improve Slashing Weapons</highlight>\nTripler\nWhings\nCutlass\nMeatcleaver\nZenith Taichi\nBurning Crescent\n\n<highlight>Improve Thrusting Weapons</highlight>\nSlank Chop\nGofleprod\nClick Stabber\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nThe best thing to do is compare, before the process : #L \"Grandmaster Click Stabber\" \"152776\", and afterward :#L \"Much Improved Click Stabber\" \"157820\"."
+	"name": "Improving Weapons",
+	"author": "",
+	"items": [
+		{
+			"alias": "Robot Instruction Disc (Improve Slashing Weapons)",
+			"item_id": 155533,
+			"comment": "or any other Robot Instruction Disc (Improve Weapons)"
+		},
+		{
+			"alias": "Mass Relocating Robot",
+			"item_id": 155592,
+			"comment": "or any other Mass Relocating Robot"
+		},
+		{
+			"alias": "Symbol Library - Space",
+			"item_id": 144790
+		},
+		{
+			"alias": "Photon Particle Emitter",
+			"item_id": 144812
+		},
+		{
+			"alias": "Robot Compiled Algorithm (Improve Slashing Weapons)",
+			"item_id": 155534,
+			"comment": "or another Robot Compiled Algorithm (Improve Weapons), depending on the disc"
+		},
+		{
+			"alias": "Programmed Photon Particle Emitter (Improve Slashing Weapons)",
+			"item_id": 155544,
+			"name": "Programmed Photon Particle Emitter (Improve Slashing Weapons)",
+			"icon": 83739,
+			"ql": 30,
+			"comment": "or another Programmed Photon Particle Emitter (Improve Weapons), depending on the disc"
+		},
+		{
+			"alias": "Mass Relocating Robot (Improve Slashing Weapons)",
+			"item_id": 155594,
+			"comment": "or another Mass Relocating Robot (Improve Weapons), depending on the disc"
+		}
+	],
+	"steps": [
+		{
+			"source": "Robot Instruction Disc (Improve Slashing Weapons)",
+			"target": "Symbol Library - Space",
+			"result": "Robot Compiled Algorithm (Improve Slashing Weapons)",
+			"skills": "NP,CL"
+		},
+		{
+			"source": "Photon Particle Emitter",
+			"target": "Robot Compiled Algorithm (Improve Slashing Weapons)",
+			"result": "Programmed Photon Particle Emitter (Improve Slashing Weapons)",
+			"skills": "NP"
+		},
+		{
+			"source": "Mass Relocating Robot",
+			"target": "Programmed Photon Particle Emitter (Improve Slashing Weapons)",
+			"result": "Mass Relocating Robot (Improve Slashing Weapons)",
+			"skills": "??"
+		}
+	],
+	"details": [
+		{
+			"text": "<highlight>Uses</highlight>"
+		},
+		{
+			"text": "Once you have your Mass Relocating Robot (Improve Weapons), you can now use it to improve some weapons, of which you'll find the list, depending of the type of your Mass Relocating Robot."
+		},
+		{
+			"text": ""
+		},
+		{
+			"text": "<highlight>Improve Crushing Weapons</highlight>"
+		},
+		{
+			"text": "Advanced Baseballbat"
+		},
+		{
+			"text": "Club"
+		},
+		{
+			"text": "Stun-Baton"
+		},
+		{
+			"text": ""
+		},
+		{
+			"text": "<highlight>Improve Slashing Weapons</highlight>"
+		},
+		{
+			"text": "Tripler"
+		},
+		{
+			"text": "Whings"
+		},
+		{
+			"text": "Cutlass"
+		},
+		{
+			"text": "Meatcleaver"
+		},
+		{
+			"text": "Zenith Taichi"
+		},
+		{
+			"text": "Burning Crescent"
+		},
+		{
+			"text": ""
+		},
+		{
+			"text": "<highlight>Improve Thrusting Weapons</highlight>"
+		},
+		{
+			"text": "Slank Chop"
+		},
+		{
+			"text": "Gofleprod"
+		},
+		{
+			"text": "Click Stabber"
+		},
+		{
+			"text": ""
+		},
+		{
+			"text": "The best thing to do is compare, before the process: #L \"Grandmaster Click Stabber\" \"152776\", and afterward: #L \"Much Improved Click Stabber\" \"157820\"."
+		}
+	]
 }

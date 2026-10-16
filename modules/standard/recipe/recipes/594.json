@@ -1,29 +1,45 @@
 {
-    "name": "Ancient Engineering Device",
-    "author": "",
-    "items": [
-        {
-            "alias": "Energy Infused Crystal",
-            "item_id": 267749
-        },
-        {
-            "alias": "Inactive Ancient Engineering Device",
-            "item_id": 267748
-        },
-        {
-            "alias": "Crystalised Memories of a Engineer",
-            "item_id": 267714
-        },
-        {
-            "alias": "Activated Ancient Engineering Device",
-            "item_id": 267750
-        },
-        {
-            "alias": "Ancient Engineering Device",
-            "item_id": 267751
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Energy Infused Crystal\" \"267749\"\n<img src=rdb://156567>\n\n#L \"Inactive Ancient Engineering Device\" \"267748\"\n<img src=rdb://156094>\n\n#L \"Crystalised Memories of a Engineer\" \"267714\"\n<img src=rdb://72771>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nEnergy Infused Crystal</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nInactive Ancient Engineering Device</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://156094>\n#L \"Activated Ancient Engineering Device\" \"267750\"</font>\n<font color=#FFFF00>Skills: | ME1125 |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nActivated Ancient Engineering Device</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nCrystalised Memories of a Engineer</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://156095>\n#L \"Ancient Engineering Device\" \"267751\"</font>\n<font color=#FFFF00>Skills: | ME1500 |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nReusable tool handy for tradeskillers."
+	"name": "Ancient Engineering Device",
+	"author": "",
+	"items": [
+		{
+			"alias": "Energy Infused Crystal",
+			"item_id": 267749
+		},
+		{
+			"alias": "Inactive Ancient Engineering Device",
+			"item_id": 267748
+		},
+		{
+			"alias": "Crystalised Memories of a Engineer",
+			"item_id": 267714
+		},
+		{
+			"alias": "Activated Ancient Engineering Device",
+			"item_id": 267750
+		},
+		{
+			"alias": "Ancient Engineering Device",
+			"item_id": 267751
+		}
+	],
+	"steps": [
+		{
+			"source": "Energy Infused Crystal",
+			"target": "Inactive Ancient Engineering Device",
+			"result": "Activated Ancient Engineering Device",
+			"skills": "ME1125"
+		},
+		{
+			"source": "Activated Ancient Engineering Device",
+			"target": "Crystalised Memories of a Engineer",
+			"result": "Ancient Engineering Device",
+			"skills": "ME1500"
+		}
+	],
+	"details": [
+		{
+			"text": "Reusable tool handy for tradeskillers."
+		}
+	]
 }

@@ -1,69 +1,73 @@
 {
-    "name": "ICC Shuttle Port Tools",
-    "author": "",
-    "items": [
-        {
-            "alias": "Antonio's Adaptation Factory",
-            "item_id": 248306
-        },
-        {
-            "alias": "Compression Chamber",
-            "item_id": 248334
-        },
-        {
-            "alias": "Venom Sample",
-            "item_id": 248322
-        },
-        {
-            "alias": "Pneumatic Compression Chamber",
-            "item_id": 248335
-        },
-        {
-            "alias": "Venom Cartridge",
-            "item_id": 248321
-        },
-        {
-            "alias": "Poison Injector Bracelet",
-            "item_id": 248375
-        },
-        {
-            "alias": "Optical Enhancer",
-            "item_id": 248318
-        },
-        {
-            "alias": "Power Supply",
-            "item_id": 248307
-        },
-        {
-            "alias": "Recalibrated Scope Unit",
-            "item_id": 248317
-        },
-        {
-            "alias": "Adapted Power Supply",
-            "item_id": 248308
-        },
-        {
-            "alias": "Range Meter",
-            "item_id": 248374
-        },
-        {
-            "alias": "Rollerrat Intestines",
-            "item_id": 248333
-        },
-        {
-            "alias": "Leather Hide",
-            "item_id": 248325
-        },
-        {
-            "alias": "Gut Bowstring",
-            "item_id": 248332
-        },
-        {
-            "alias": "Leather Vest",
-            "item_id": 248373
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<highlight>Poison Injector Bracelet</highlight>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Antonio's Adaptation Factory\" \"248306\" x 2\n<img src=rdb://205493>\n\n#L \"Compression Chamber\" \"248334\"\n<img src=rdb://100304>\n\n#L \"Venom Sample\" \"248322\"\n<img src=rdb://100307>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAntonio's Adaptation Factory</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nCompression Chamber</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://100311>\n#L \"Pneumatic Compression Chamber\" \"248335\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAntonio's Adaptation Factory</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nVenom Sample</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://130825>\n#L \"Venom Cartridge\" \"248321\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nPneumatic Compression Chamber</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nVenom Cartridge</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://84053>\n#L \"Poison Injector Bracelet\" \"248375\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n<highlight>Range Meter</highlight>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Antonio's Adaptation Factory\" \"248306\" x 2\n<img src=rdb://205493>\n\n#L \"Optical Enhancer\" \"248318\"\n<img src=rdb://130837>\n\n#L \"Power Supply\" \"248307\"\n<img src=rdb://20412>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAntonio's Adaptation Factory</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nOptical Enhancer</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://130777>\n#L \"Recalibrated Scope Unit\" \"248317\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAntonio's Adaptation Factory</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nPower Supply</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://20402>\n#L \"Adapted Power Supply\" \"248308\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nRecalibrated Scope Unit</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nAdapted Power Supply</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://99262>\n#L \"Range Meter\" \"248374\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n<highlight>Salamander Vest</highlight>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Antonio's Adaptation Factory\" \"248306\"\n<img src=rdb://205493>\n\n#L \"Rollerrat Intestines\" \"248333\"\n<img src=rdb://144703>\n\n#L \"Swatch of Salamander Skin\" \"248325\"\n<img src=rdb://161070>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAntonio's Adaptation Factory</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nRollerrat Intestines</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://130728>\n#L \"Gut Bowstring\" \"248332\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nGut Bowstring</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nSwatch of Salamander Skin</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://19812>\n#L \"Salamander Vest\" \"248373\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nMore things to run around and do on noob island..."
+	"name": "Poison Injector Bracelet",
+	"author": "",
+	"intro": [
+		{
+			"text": "ICC Shuttle Port Tools:"
+		},
+		{
+			"text": "<highlight>Poison Injector Bracelet</highlight> (this recipe)"
+		},
+		{
+			"text": "#L \"Range Meter\" \"/tell <myname> recipe 576\""
+		},
+		{
+			"text": "#L \"Leather Vest\" \"/tell <myname> recipe 802\""
+		},
+		{
+			"text": ""
+		}
+	],
+	"items": [
+		{
+			"alias": "Antonio's Adaptation Factory",
+			"item_id": 248306,
+			"quantity": 2
+		},
+		{
+			"alias": "Compression Chamber",
+			"item_id": 248334
+		},
+		{
+			"alias": "Venom Sample",
+			"item_id": 248322
+		},
+		{
+			"alias": "Pneumatic Compression Chamber",
+			"item_id": 248335
+		},
+		{
+			"alias": "Venom Cartridge",
+			"item_id": 248321
+		},
+		{
+			"alias": "Poison Injector Bracelet",
+			"item_id": 248375
+		}
+	],
+	"steps": [
+		{
+			"source": "Antonio's Adaptation Factory",
+			"target": "Compression Chamber",
+			"result": "Pneumatic Compression Chamber",
+			"skills": "??"
+		},
+		{
+			"source": "Antonio's Adaptation Factory",
+			"target": "Venom Sample",
+			"result": "Venom Cartridge",
+			"skills": "??"
+		},
+		{
+			"source": "Pneumatic Compression Chamber",
+			"target": "Venom Cartridge",
+			"result": "Poison Injector Bracelet",
+			"skills": "??"
+		}
+	],
+	"details": [
+		{
+			"text": "More things to run around and do on noob island..."
+		}
+	]
 }

@@ -1,105 +1,267 @@
 {
-    "name": "Sealed Weapon Receptacles",
-    "author": "",
-    "items": [
-        {
-            "alias": "Sealed Weapon Receptacle  - Alsaqri Chemical Rifle",
-            "item_id": 157670
-        },
-        {
-            "alias": "Advanced Hacker Tool",
-            "item_id": 87814
-        },
-        {
-            "alias": "Self-Repairing Ultra-X",
-            "item_id": 137284
-        },
-        {
-            "alias": "Advanced Alsaqri Chemical Rifle",
-            "item_id": 157661
-        },
-        {
-            "alias": "Generic Magnetic Propulsion System",
-            "item_id": 137246
-        },
-        {
-            "alias": "Excellent HSR Explorer 661",
-            "item_id": 157666
-        },
-        {
-            "alias": "Flake Tubing Super-Coolant System",
-            "item_id": 137250
-        },
-        {
-            "alias": "Superior IMI Tellus TT",
-            "item_id": 157628
-        },
-        {
-            "alias": "Nano-Interfaced Cooling System",
-            "item_id": 137270
-        },
-        {
-            "alias": "Ithaca Ki12 Vulture Custom Super A",
-            "item_id": 162902
-        },
-        {
-            "alias": "Ultra Short Composite Barrel",
-            "item_id": 137232
-        },
-        {
-            "alias": "River Seasons XP Special",
-            "item_id": 162933
-        },
-        {
-            "alias": "Nano Pylon",
-            "item_id": 137278
-        },
-        {
-            "alias": "Majestic Soft Pepper Pistol",
-            "item_id": 157644
-        },
-        {
-            "alias": "Energy Pack Interface",
-            "item_id": 137258
-        },
-        {
-            "alias": "Sol Chironis Systems Professional",
-            "item_id": 157635
-        },
-        {
-            "alias": "Triple Pulse Enabler",
-            "item_id": 137298
-        },
-        {
-            "alias": "Perfect Summer Burst SMP",
-            "item_id": 157286
-        },
-        {
-            "alias": "Gyro Stabilizing Unit",
-            "item_id": 137296
-        },
-        {
-            "alias": "Perfect Summer FA SMP",
-            "item_id": 157292
-        },
-        {
-            "alias": "Rapid-Reload-And-Fire Gyro",
-            "item_id": 137314
-        },
-        {
-            "alias": "Perfect Summer Fling SMP",
-            "item_id": 157289
-        },
-        {
-            "alias": "Shells Magazine",
-            "item_id": 137260
-        },
-        {
-            "alias": "Perfect Summer Shells SMP",
-            "item_id": 157295
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nA Sealed Weapon Receptacle\n(ie : #L \"Sealed Weapon Receptacle - Alsaqri Chemical Rifle\" \"157670\"\n<img src=rdb://157448>\n\n#L \"Hacker Tool\" \"87814\"\n<img src=rdb://99282>\n\n<highlight>The Missing Part...</highlight>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nThe first thing to do is to pry open the Sealed receptacle to get the unfinished weapon.\n\nHacker Tool</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nSealed Weapon Receptacle</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\nUnfinished Weapon</font>\n<font color=#FFFF00>Skills: |  BE  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nNext, you must apply to the Unfinished Weapon the required missing Part. Here is the list of all theses parts:\n\n<img src=rdb://13312>\n#L \"Unfinished Alsaqri Chemical Rifle\" \"157668\"</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\n<img src=rdb://130741>\n#L \"Self-Repairing Ultra-X\" \"137284\"</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://13312>\n#L \"Alsaqri Chemical Rifle\" \"157661\"</font>\n<font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n<img src=rdb://29116>\n#L \"Unfinished HSR Explorer 661\" \"157674\"</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\n<img src=rdb://130693>\n#L \"Generic Magnetic Propulsion System\" \"137246\"</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://29116>\n#L \"HSR Explorer 661\" \"157666\"</font>\n<font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n<img src=rdb://13313>\n#L \"Unfinished IMI Tellus TT\" \"157646\"</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\n<img src=rdb://130787>\n#L \"Flake Tubing Super-Coolant System\" \"137250\"</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://13313>\n#L \"IMI Tellus TT\" \"157628\"</font>\n<font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n<img src=rdb://113989>\n#L \"Unfinished Ithaca Ki12 Vulture\" \"162907\"</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\n<img src=rdb://130746>\n#L \"Nano-Interfaced Cooling System\" \"137270\"</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://113989>\n#L \"Ithaca Ki12 Vulture\" \"162902\"</font>\n<font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n<img src=rdb://29116>\n#L \"Unfinished River Seasons XP\" \"162937\"</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\n<img src=rdb://130713>\n#L \"Ultra Short Composite Barrel\" \"137232\"</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://29116>\n#L \"River Seasons XP\" \"162933\"</font>\n<font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n<img src=rdb://113995>\n#L \"Unfinished Soft Pepper Pistol\" \"157656\"</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\n<img src=rdb://130748>\n#L \"Nano Pylon\" \"137278\"</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://113995>\n#L \"Soft Pepper Pistol\" \"157644\"</font>\n<font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n<img src=rdb://33154>\n#L \"Unfinished Sol Chironis Systems\" \"157652\"</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\n<img src=rdb://130685>\n#L \"Energy Pack Interface\" \"137258\"</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://33154>\n#L \"Sol Chironis Systems\" \"157635\"</font>\n<font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nFor the Last one, it's a bit more subtle since you have four possibilities\n\n<img src=rdb://33156>\n#L \"Unfinished Summer SMP\" \"157452\"</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\n<img src=rdb://130699>\n#L \"Triple Pulse Enabler\" \"137298\"</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://33156>\n#L \"Summer Burst SMP\" \"157286\"</font>\n<font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nUnfinished Summer SMP</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\n<img src=rdb://130697>\n#L \"Gyro Stabilizing Unit\" \"137296\"</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n#L \"Summer FA SMP\" \"157292\"</font>\n<font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nUnfinished Summer SMP</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\n<img src=rdb://130700>\n#L \"Rapid-Reload-And-Fire Gyro\" \"137314\"</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n#L \"Summer Fling SMP\" \"157289\"</font>\n<font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nUnfinished Summer SMP</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\n<img src=rdb://130694>\n#L \"Shells Magazine\" \"137260\"</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n#L \"Summer Shells SMP\" \"157295\"</font>\n<font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nI'm not aware of the effiency of theses weapons. But if you want to try them, it's the only way to get one...\n\nAll the parts needed in theses recipes (except the Sealed Receptacles, of course) are available in the Ranged Weapons Components Shop."
+	"name": "Sealed Weapon Receptacles",
+	"author": "",
+	"intro": [
+		{
+			"text": "<highlight>The Missing Part...</highlight>"
+		}
+	],
+	"items": [
+		{
+			"alias": "Sealed Weapon Receptacle",
+			"item_id": 157670,
+			"comment": "or any other Sealed Weapon Receptacle"
+		},
+		{
+			"alias": "Hacker Tool",
+			"item_id": 87814,
+			"comment": "or any other Hacker Tool"
+		},
+		{
+			"alias": "Unfinished Alsaqri Chemical Rifle",
+			"item_id": 157668,
+			"name": "Unfinished Alsaqri Chemical Rifle",
+			"icon": 13312,
+			"ql": 200,
+			"comment": "or another unfinished weapon, depending on the Sealed Weapon Receptacle"
+		},
+		{
+			"alias": "Self-Repairing Ultra-X",
+			"item_id": 137284
+		},
+		{
+			"alias": "Alsaqri Chemical Rifle",
+			"item_id": 157661
+		},
+		{
+			"alias": "Unfinished HSR Explorer 661",
+			"item_id": 157674,
+			"name": "Unfinished HSR Explorer 661",
+			"icon": 29116,
+			"ql": 200,
+			"comment": "from its Sealed Weapon Receptacle"
+		},
+		{
+			"alias": "Generic Magnetic Propulsion System",
+			"item_id": 137246
+		},
+		{
+			"alias": "HSR Explorer 661",
+			"item_id": 157666
+		},
+		{
+			"alias": "Unfinished IMI Tellus TT",
+			"item_id": 157646,
+			"name": "Unfinished IMI Tellus TT",
+			"icon": 13313,
+			"ql": 200,
+			"comment": "from its Sealed Weapon Receptacle"
+		},
+		{
+			"alias": "Flake Tubing Super-Coolant System",
+			"item_id": 137250
+		},
+		{
+			"alias": "IMI Tellus TT",
+			"item_id": 157628
+		},
+		{
+			"alias": "Unfinished Ithaca Ki12 Vulture",
+			"item_id": 162907,
+			"name": "Unfinished Ithaca Ki12 Vulture",
+			"icon": 113989,
+			"ql": 200,
+			"comment": "from its Sealed Weapon Receptacle"
+		},
+		{
+			"alias": "Nano-Interfaced Cooling System",
+			"item_id": 137270
+		},
+		{
+			"alias": "Ithaca Ki12 Vulture",
+			"item_id": 162902
+		},
+		{
+			"alias": "Unfinished River Seasons XP",
+			"item_id": 162937,
+			"name": "Unfinished River Seasons XP",
+			"icon": 29116,
+			"ql": 200,
+			"comment": "from its Sealed Weapon Receptacle"
+		},
+		{
+			"alias": "Ultra Short Composite Barrel",
+			"item_id": 137232
+		},
+		{
+			"alias": "River Seasons XP",
+			"item_id": 162933
+		},
+		{
+			"alias": "Unfinished Soft Pepper Pistol",
+			"item_id": 157656,
+			"name": "Unfinished Soft Pepper Pistol",
+			"icon": 113995,
+			"ql": 200,
+			"comment": "from its Sealed Weapon Receptacle"
+		},
+		{
+			"alias": "Nano Pylon",
+			"item_id": 137278
+		},
+		{
+			"alias": "Soft Pepper Pistol",
+			"item_id": 157644
+		},
+		{
+			"alias": "Unfinished Sol Chironis Systems",
+			"item_id": 157652,
+			"name": "Unfinished Sol Chironis Systems",
+			"icon": 33154,
+			"ql": 200,
+			"comment": "from its Sealed Weapon Receptacle"
+		},
+		{
+			"alias": "Energy Pack Interface",
+			"item_id": 137258
+		},
+		{
+			"alias": "Sol Chironis Systems",
+			"item_id": 157635
+		},
+		{
+			"alias": "Unfinished Summer SMP",
+			"item_id": 157452,
+			"name": "Unfinished Summer SMP",
+			"icon": 33156,
+			"ql": 200,
+			"comment": "from its Sealed Weapon Receptacle"
+		},
+		{
+			"alias": "Triple Pulse Enabler",
+			"item_id": 137298
+		},
+		{
+			"alias": "Summer Burst SMP",
+			"item_id": 157286
+		},
+		{
+			"alias": "Gyro Stabilizing Unit",
+			"item_id": 137296
+		},
+		{
+			"alias": "Summer FA SMP",
+			"item_id": 157292
+		},
+		{
+			"alias": "Rapid-Reload-And-Fire Gyro",
+			"item_id": 137314
+		},
+		{
+			"alias": "Summer Fling SMP",
+			"item_id": 157289
+		},
+		{
+			"alias": "Shells Magazine",
+			"item_id": 137260
+		},
+		{
+			"alias": "Summer Shells SMP",
+			"item_id": 157295
+		}
+	],
+	"steps": [
+		{
+			"text": "The first thing to do is to pry open the Sealed receptacle to get the unfinished weapon."
+		},
+		{
+			"source": "Hacker Tool",
+			"target": "Sealed Weapon Receptacle",
+			"result": "Unfinished Alsaqri Chemical Rifle",
+			"skills": "BE"
+		},
+		{
+			"text": "Next, you must apply to the Unfinished Weapon the required missing part. Here is the list of all these parts:"
+		},
+		{
+			"source": "Unfinished Alsaqri Chemical Rifle",
+			"target": "Self-Repairing Ultra-X",
+			"result": "Alsaqri Chemical Rifle",
+			"skills": "WS"
+		},
+		{
+			"source": "Unfinished HSR Explorer 661",
+			"target": "Generic Magnetic Propulsion System",
+			"result": "HSR Explorer 661",
+			"skills": "WS"
+		},
+		{
+			"source": "Unfinished IMI Tellus TT",
+			"target": "Flake Tubing Super-Coolant System",
+			"result": "IMI Tellus TT",
+			"skills": "WS"
+		},
+		{
+			"source": "Unfinished Ithaca Ki12 Vulture",
+			"target": "Nano-Interfaced Cooling System",
+			"result": "Ithaca Ki12 Vulture",
+			"skills": "WS"
+		},
+		{
+			"source": "Unfinished River Seasons XP",
+			"target": "Ultra Short Composite Barrel",
+			"result": "River Seasons XP",
+			"skills": "WS"
+		},
+		{
+			"source": "Unfinished Soft Pepper Pistol",
+			"target": "Nano Pylon",
+			"result": "Soft Pepper Pistol",
+			"skills": "WS"
+		},
+		{
+			"source": "Unfinished Sol Chironis Systems",
+			"target": "Energy Pack Interface",
+			"result": "Sol Chironis Systems",
+			"skills": "WS"
+		},
+		{
+			"text": "For the last one, it's a bit more subtle since you have four possibilities"
+		},
+		{
+			"source": "Unfinished Summer SMP",
+			"target": "Triple Pulse Enabler",
+			"result": "Summer Burst SMP",
+			"skills": "WS"
+		},
+		{
+			"source": "Unfinished Summer SMP",
+			"target": "Gyro Stabilizing Unit",
+			"result": "Summer FA SMP",
+			"skills": "WS"
+		},
+		{
+			"source": "Unfinished Summer SMP",
+			"target": "Rapid-Reload-And-Fire Gyro",
+			"result": "Summer Fling SMP",
+			"skills": "WS"
+		},
+		{
+			"source": "Unfinished Summer SMP",
+			"target": "Shells Magazine",
+			"result": "Summer Shells SMP",
+			"skills": "WS"
+		}
+	],
+	"details": [
+		{
+			"text": "I'm not aware of the efficiency of these weapons. But if you want to try them, it's the only way to get one..."
+		},
+		{
+			"text": ""
+		},
+		{
+			"text": "All the parts needed in these recipes (except the Sealed Receptacles, of course) are available in the Ranged Weapons Components Shop."
+		}
+	]
 }

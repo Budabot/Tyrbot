@@ -1,8 +1,126 @@
 {
-    "name": "Blunt Notum Spear",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n 'Blunt Notum Spear'\nThe Construction kit. must be between Quality Level 61 and 80.\nAll other pieces must be of AT LEAST that level range... \nAdd them using shift+right-click.\nAdd the pieces in the following order:\n\n 1. Piercing Weapons Construction kit.\n\n 2. Optimized Co-Weapon Interface. . SkillTo Assemble: Comp. Liter: 183-240\n\n 3. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 92-120\n\n 4. Medium Handle. . SkillTo Assemble: Weapon Smt: 224-294\n\n 5. Energy Impact Super Conductor. . SkillTo Assemble: Elec. Engi: 244-320\n\n 6. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 122-160\n\n 7. Notum Enriched Nano Paste - 4x Layer. . SkillTo Assemble: Nano Progra: 152-200"
+	"name": "Blunt Notum Spear",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 61 and 80. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Piercing Weapons Construction Kit",
+			"item_id": 137227,
+			"name": "Piercing Weapons Construction Kit",
+			"icon": 131888,
+			"ql": 61
+		},
+		{
+			"alias": "Optimized Co-Weapon Interface",
+			"item_id": 142930,
+			"ql": 61
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 61
+		},
+		{
+			"alias": "Medium Handle",
+			"item_id": 142886,
+			"ql": 61
+		},
+		{
+			"alias": "Energy Impact Super Conductor",
+			"item_id": 142906,
+			"ql": 61
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 61
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 4x Layer",
+			"item_id": 137307,
+			"ql": 61
+		},
+		{
+			"alias": "Piercing Construction Kit (Step 2)",
+			"item_id": 143315,
+			"name": "Piercing Construction Kit (Step 2)",
+			"icon": 131889,
+			"ql": 61
+		},
+		{
+			"alias": "Piercing Construction Kit (Step 3)",
+			"item_id": 143317,
+			"name": "Piercing Construction Kit (Step 3)",
+			"icon": 131890,
+			"ql": 61
+		},
+		{
+			"alias": "Piercing Construction Kit (Step 4)",
+			"item_id": 143773,
+			"name": "Piercing Construction Kit (Step 4)",
+			"icon": 131891,
+			"ql": 61
+		},
+		{
+			"alias": "Piercing Construction Kit (Step 5)",
+			"item_id": 143775,
+			"name": "Piercing Construction Kit (Step 5)",
+			"icon": 131892,
+			"ql": 61
+		},
+		{
+			"alias": "Piercing Construction Kit (Step 6)",
+			"item_id": 143777,
+			"name": "Piercing Construction Kit (Step 6)",
+			"icon": 131893,
+			"ql": 61
+		},
+		{
+			"alias": "Blunt Notum Spear",
+			"item_id": 123006,
+			"ql": 61
+		}
+	],
+	"steps": [
+		{
+			"source": "Optimized Co-Weapon Interface",
+			"target": "Piercing Weapons Construction Kit",
+			"result": "Piercing Construction Kit (Step 2)",
+			"skills": "Comp. Liter 183-240"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Piercing Construction Kit (Step 2)",
+			"result": "Piercing Construction Kit (Step 3)",
+			"skills": "Nano Progra 92-120"
+		},
+		{
+			"source": "Medium Handle",
+			"target": "Piercing Construction Kit (Step 3)",
+			"result": "Piercing Construction Kit (Step 4)",
+			"skills": "Weapon Smt 224-294"
+		},
+		{
+			"source": "Energy Impact Super Conductor",
+			"target": "Piercing Construction Kit (Step 4)",
+			"result": "Piercing Construction Kit (Step 5)",
+			"skills": "Elec. Engi 244-320"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "Piercing Construction Kit (Step 5)",
+			"result": "Piercing Construction Kit (Step 6)",
+			"skills": "Nano Progra 122-160"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 4x Layer",
+			"target": "Piercing Construction Kit (Step 6)",
+			"result": "Blunt Notum Spear",
+			"skills": "Nano Progra 152-200"
+		}
+	]
 }

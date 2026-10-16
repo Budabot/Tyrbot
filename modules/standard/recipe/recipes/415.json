@@ -1,8 +1,126 @@
 {
-    "name": "Professional Notum Spear",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n 'Professional Notum Spear'\nThe Construction kit. must be between Quality Level 161 and 199.\nAll other pieces must be of AT LEAST that level range... \nAdd them using shift+right-click.\nAdd the pieces in the following order:\n\n 1. Piercing Weapons Construction kit.\n\n 2. Energy Impact Super Conductor. . SkillTo Assemble: Elec. Engi: 644-796\n\n 3. Medium Handle. . SkillTo Assemble: Weapon Smt: 592-731\n\n 4. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 322-398\n\n 5. Notum Enriched Nano Paste - 4x Layer. . SkillTo Assemble: Nano Progra: 402-498\n\n 6. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 242-298\n\n 7. Optimized Co-Weapon Interface. . SkillTo Assemble: Comp. Liter: 483-597"
+	"name": "Professional Notum Spear",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 161 and 199. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Piercing Weapons Construction Kit",
+			"item_id": 137227,
+			"name": "Piercing Weapons Construction Kit",
+			"icon": 131888,
+			"ql": 161
+		},
+		{
+			"alias": "Energy Impact Super Conductor",
+			"item_id": 142906,
+			"ql": 161
+		},
+		{
+			"alias": "Medium Handle",
+			"item_id": 142886,
+			"ql": 161
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 161
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 4x Layer",
+			"item_id": 137307,
+			"ql": 161
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 161
+		},
+		{
+			"alias": "Optimized Co-Weapon Interface",
+			"item_id": 142930,
+			"ql": 161
+		},
+		{
+			"alias": "Piercing Construction Kit (Step 2)",
+			"item_id": 143812,
+			"name": "Piercing Construction Kit (Step 2)",
+			"icon": 131889,
+			"ql": 161
+		},
+		{
+			"alias": "Piercing Construction Kit (Step 3)",
+			"item_id": 143814,
+			"name": "Piercing Construction Kit (Step 3)",
+			"icon": 131890,
+			"ql": 161
+		},
+		{
+			"alias": "Piercing Construction Kit (Step 4)",
+			"item_id": 143816,
+			"name": "Piercing Construction Kit (Step 4)",
+			"icon": 131891,
+			"ql": 161
+		},
+		{
+			"alias": "Piercing Construction Kit (Step 5)",
+			"item_id": 143818,
+			"name": "Piercing Construction Kit (Step 5)",
+			"icon": 131892,
+			"ql": 161
+		},
+		{
+			"alias": "Piercing Construction Kit (Step 6)",
+			"item_id": 143820,
+			"name": "Piercing Construction Kit (Step 6)",
+			"icon": 131893,
+			"ql": 161
+		},
+		{
+			"alias": "Professional Notum Spear",
+			"item_id": 123016,
+			"ql": 161
+		}
+	],
+	"steps": [
+		{
+			"source": "Energy Impact Super Conductor",
+			"target": "Piercing Weapons Construction Kit",
+			"result": "Piercing Construction Kit (Step 2)",
+			"skills": "Elec. Engi 644-796"
+		},
+		{
+			"source": "Medium Handle",
+			"target": "Piercing Construction Kit (Step 2)",
+			"result": "Piercing Construction Kit (Step 3)",
+			"skills": "Weapon Smt 592-731"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "Piercing Construction Kit (Step 3)",
+			"result": "Piercing Construction Kit (Step 4)",
+			"skills": "Nano Progra 322-398"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 4x Layer",
+			"target": "Piercing Construction Kit (Step 4)",
+			"result": "Piercing Construction Kit (Step 5)",
+			"skills": "Nano Progra 402-498"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Piercing Construction Kit (Step 5)",
+			"result": "Piercing Construction Kit (Step 6)",
+			"skills": "Nano Progra 242-298"
+		},
+		{
+			"source": "Optimized Co-Weapon Interface",
+			"target": "Piercing Construction Kit (Step 6)",
+			"result": "Professional Notum Spear",
+			"skills": "Comp. Liter 483-597"
+		}
+	]
 }

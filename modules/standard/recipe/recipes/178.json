@@ -1,8 +1,199 @@
 {
-    "name": "Cast-Off Blackened Miniblaster",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n  'Cast-Off Blackened Miniblaster'\n The Construction kit. must be between Quality Level  21 and  40.\n All other pieces must be of AT LEAST that level range... \n Add them using shift+right-click.\n  Add in following order:\n \n  1. Pistol Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  84 ->  160\n \n  2. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  52 ->  100\n \n  3. Jandawit Cleanup Cluster. SkillTo Assemble: Weapon Smt:  74 ->  140\n \n  4. Energy Pack Interface. SkillTo Assemble: Elec. Engi:  84 ->  160\n \n  5. Rapid-Reload-And-Fire Gyro. SkillTo Assemble: Weapon Smt:  84 ->  160\n \n  6. Hyper Carbo-Ceramic Cooling System. SkillTo Assemble: Weapon Smt:  84 ->  160\n \n  7. Short Composite Barrel. SkillTo Assemble: Weapon Smt:  68 ->  130\n \n  8. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  42 ->  80\n \n  9. Nano Pylon. SkillTo Assemble: Mech. Engi:  52 ->  100\n \n  10. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  32 ->  60\n \n  11. Energy Conduction Rack. SkillTo Assemble: Quantum FT:  68 ->  130"
+	"name": "Cast-Off Blackened Miniblaster",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 21 and 40. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Pistol Weapons Construction Kit",
+			"item_id": 137201,
+			"name": "Pistol Weapons Construction Kit",
+			"icon": 131726,
+			"ql": 21,
+			"comment": "Skill To Assemble: Weapon Smt 84-160"
+		},
+		{
+			"alias": "Notum Alloy Strengthened Ribs",
+			"item_id": 137275,
+			"ql": 21
+		},
+		{
+			"alias": "Jandawit Cleanup Cluster",
+			"item_id": 137281,
+			"ql": 21
+		},
+		{
+			"alias": "Energy Pack Interface",
+			"item_id": 137257,
+			"ql": 21
+		},
+		{
+			"alias": "Rapid-Reload-And-Fire Gyro",
+			"item_id": 137313,
+			"ql": 21
+		},
+		{
+			"alias": "Hyper Carbo-Ceramic Cooling System",
+			"item_id": 137267,
+			"ql": 21
+		},
+		{
+			"alias": "Short Composite Barrel",
+			"item_id": 137233,
+			"ql": 21
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 21
+		},
+		{
+			"alias": "Nano Pylon",
+			"item_id": 137277,
+			"ql": 21
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 21
+		},
+		{
+			"alias": "Energy Conduction Rack",
+			"item_id": 137243,
+			"ql": 21
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 2)",
+			"item_id": 139039,
+			"name": "Pistol Construction Kit (Step 2)",
+			"icon": 131727,
+			"ql": 21
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 3)",
+			"item_id": 139460,
+			"name": "Pistol Construction Kit (Step 3)",
+			"icon": 131727,
+			"ql": 21
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 4)",
+			"item_id": 139462,
+			"name": "Pistol Construction Kit (Step 4)",
+			"icon": 131728,
+			"ql": 21
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 5)",
+			"item_id": 139464,
+			"name": "Pistol Construction Kit (Step 5)",
+			"icon": 131728,
+			"ql": 21
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 6)",
+			"item_id": 139466,
+			"name": "Pistol Construction Kit (Step 6)",
+			"icon": 131729,
+			"ql": 21
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 7)",
+			"item_id": 139468,
+			"name": "Pistol Construction Kit (Step 7)",
+			"icon": 131729,
+			"ql": 21
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 8)",
+			"item_id": 139470,
+			"name": "Pistol Construction Kit (Step 8)",
+			"icon": 131730,
+			"ql": 21
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 9)",
+			"item_id": 139472,
+			"name": "Pistol Construction Kit (Step 9)",
+			"icon": 131730,
+			"ql": 21
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 10)",
+			"item_id": 139474,
+			"name": "Pistol Construction Kit (Step 10)",
+			"icon": 131731,
+			"ql": 21
+		},
+		{
+			"alias": "Cast-Off Blackened Miniblaster",
+			"item_id": 121990,
+			"ql": 21
+		}
+	],
+	"steps": [
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Pistol Weapons Construction Kit",
+			"result": "Pistol Construction Kit (Step 2)",
+			"skills": "Mech. Engi 52-100"
+		},
+		{
+			"source": "Jandawit Cleanup Cluster",
+			"target": "Pistol Construction Kit (Step 2)",
+			"result": "Pistol Construction Kit (Step 3)",
+			"skills": "Weapon Smt 74-140"
+		},
+		{
+			"source": "Energy Pack Interface",
+			"target": "Pistol Construction Kit (Step 3)",
+			"result": "Pistol Construction Kit (Step 4)",
+			"skills": "Elec. Engi 84-160"
+		},
+		{
+			"source": "Rapid-Reload-And-Fire Gyro",
+			"target": "Pistol Construction Kit (Step 4)",
+			"result": "Pistol Construction Kit (Step 5)",
+			"skills": "Weapon Smt 84-160"
+		},
+		{
+			"source": "Hyper Carbo-Ceramic Cooling System",
+			"target": "Pistol Construction Kit (Step 5)",
+			"result": "Pistol Construction Kit (Step 6)",
+			"skills": "Weapon Smt 84-160"
+		},
+		{
+			"source": "Short Composite Barrel",
+			"target": "Pistol Construction Kit (Step 6)",
+			"result": "Pistol Construction Kit (Step 7)",
+			"skills": "Weapon Smt 68-130"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "Pistol Construction Kit (Step 7)",
+			"result": "Pistol Construction Kit (Step 8)",
+			"skills": "Nano Progra 42-80"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Pistol Construction Kit (Step 8)",
+			"result": "Pistol Construction Kit (Step 9)",
+			"skills": "Mech. Engi 52-100"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Pistol Construction Kit (Step 9)",
+			"result": "Pistol Construction Kit (Step 10)",
+			"skills": "Nano Progra 32-60"
+		},
+		{
+			"source": "Energy Conduction Rack",
+			"target": "Pistol Construction Kit (Step 10)",
+			"result": "Cast-Off Blackened Miniblaster",
+			"skills": "Quantum FT 68-130"
+		}
+	]
 }

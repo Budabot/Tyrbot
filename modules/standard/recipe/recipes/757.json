@@ -1,25 +1,46 @@
 {
-    "name": "Sloth of the Xan",
-    "author": "",
-    "items": [
-        {
-            "alias": "Xan Weapon Upgrade Device",
-            "item_id": 280786
-        },
-        {
-            "alias": "Lord of Sloth",
-            "item_id": 244912
-        },
-        {
-            "alias": "Lady of Sloth",
-            "item_id": 244911
-        },
-        {
-            "alias": "Sloth of the Xan",
-            "item_id": 280727
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n</font>\n<font color=#FFFF00> The Xan Weapon Upgrade Device which drops from the Mitaar Hero, Ground Chief Vortexx and 12-Man instances can be tradeskilled with 30 different Shadowlands weapons/</font><font color=#009B00>\n\n#L \"Xan Weapon Upgrade Device\" \"280786\"\n<img src=rdb://246391>\n\n#L \"Lord of Sloth\" \"244912\"\n<img src=rdb://233214></font>\n<font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Lady of Sloth\" \"244911\"\n<img src=rdb://233214>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nXan Weapon Upgrade Device</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nLord of Sloth</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://280911>\n#L \"Sloth of the Xan\" \"280727\"\n</font>\n<font color=#FFFFFF>or</font><font color=#009B00>\n\nXan Weapon Upgrade Device</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nLady of Sloth</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://280911>\n#L \"Sloth of the Xan\" \"280727\""
+	"name": "Sloth of the Xan",
+	"author": "",
+	"intro": [
+		{
+			"text": "The Xan Weapon Upgrade Device which drops from the Mitaar Hero, Ground Chief Vortexx and 12-Man instances can be tradeskilled with 30 different Shadowlands weapons."
+		}
+	],
+	"items": [
+		{
+			"alias": "Xan Weapon Upgrade Device",
+			"item_id": 280786
+		},
+		{
+			"alias": "Lord of Sloth",
+			"item_id": 244912
+		},
+		{
+			"alias": "Lady of Sloth",
+			"item_id": 244911,
+			"comment": "alternative to Lord of Sloth"
+		},
+		{
+			"alias": "Sloth of the Xan",
+			"item_id": 280727
+		}
+	],
+	"steps": [
+		{
+			"text": "Either:"
+		},
+		{
+			"source": "Xan Weapon Upgrade Device",
+			"target": "Lord of Sloth",
+			"result": "Sloth of the Xan"
+		},
+		{
+			"text": "or:"
+		},
+		{
+			"source": "Xan Weapon Upgrade Device",
+			"target": "Lady of Sloth",
+			"result": "Sloth of the Xan"
+		}
+	]
 }

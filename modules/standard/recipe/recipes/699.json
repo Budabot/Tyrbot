@@ -1,45 +1,68 @@
 {
-    "name": "Subspace Storage Device",
-    "author": "",
-    "items": [
-        {
-            "alias": "Two-Dimensional Hole",
-            "item_id": 245718
-        },
-        {
-            "alias": "Subspace Mesh",
-            "item_id": 245720
-        },
-        {
-            "alias": "Meta-Cerebellum Ring",
-            "item_id": 245722
-        },
-        {
-            "alias": "Short Circuited Spiritech Circlet",
-            "item_id": 245728
-        },
-        {
-            "alias": "Short Circuited Spiritech Circlet",
-            "item_id": 245729
-        },
-        {
-            "alias": "Subspace Pocket",
-            "item_id": 245719
-        },
-        {
-            "alias": "Subspace Meta-Cerebellum Pocket",
-            "item_id": 245721
-        },
-        {
-            "alias": "Stabilized Spiritech Circlet",
-            "item_id": 245730
-        },
-        {
-            "alias": "Subspace Storage Device",
-            "item_id": 245723
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Two-Dimensional Hole\" \"245718\"\n<img src=rdb://203551>\n\n#L \"Subspace Mesh\" \"245720\"\n<img src=rdb://205520>\n\n#L \"Meta-Cerebellum Ring\" \"245722\"\n<img src=rdb://151933>\n\n#L \"Short Circuited Spiritech Circlet\" \"245728\"\n<img src=rdb://245726>\n\n#L \"Short Circuited Spiritech Circlet\" \"245729\"\n<img src=rdb://245727>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nTwo-Dimensional Hole</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nSubspace Mesh</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://203551>\n#L \"Subspace Pocket\" \"245719\"</font>\n<font color=#FFFF00>Skills: | 1125 Psychology |</font><font color=#009B00>\n\nSubspace Pocket</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nMeta-Cerebellum Ring</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://203551>\n#L \"Subspace Meta-Cerebellum Pocket\" \"245721\"</font>\n<font color=#FFFF00>Skills: | 1125 QFP |</font><font color=#009B00>\n\nShort Circuited Spiritech Circlet</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nShort Circuited Spiritech Circlet</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://151922>\n#L \"Stabilized Spiritech Circlet\" \"245730\"</font>\n<font color=#FFFF00>Skills: | 1125 EE |</font><font color=#009B00>\n\nSubspace Meta-Cerebellum Pocket</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nStabilized Spiritech Circlet</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://203551>\n#L \"Subspace Storage Device\" \"245723\"</font>\n<font color=#FFFF00>Skills: | 1125 QFP |</font><font color=#009B00>"
+	"name": "Subspace Storage Device",
+	"author": "",
+	"items": [
+		{
+			"alias": "Two-Dimensional Hole",
+			"item_id": 245718
+		},
+		{
+			"alias": "Subspace Mesh",
+			"item_id": 245720
+		},
+		{
+			"alias": "Meta-Cerebellum Ring",
+			"item_id": 245722
+		},
+		{
+			"alias": "Short Circuited Spiritech Circlet",
+			"item_id": 245728
+		},
+		{
+			"alias": "Short Circuited Spiritech Circlet (second)",
+			"item_id": 245729
+		},
+		{
+			"alias": "Subspace Pocket",
+			"item_id": 245719
+		},
+		{
+			"alias": "Subspace Meta-Cerebellum Pocket",
+			"item_id": 245721
+		},
+		{
+			"alias": "Stabilized Spiritech Circlet",
+			"item_id": 245730
+		},
+		{
+			"alias": "Subspace Storage Device",
+			"item_id": 245723
+		}
+	],
+	"steps": [
+		{
+			"source": "Two-Dimensional Hole",
+			"target": "Subspace Mesh",
+			"result": "Subspace Pocket",
+			"skills": "1125 Psychology"
+		},
+		{
+			"source": "Subspace Pocket",
+			"target": "Meta-Cerebellum Ring",
+			"result": "Subspace Meta-Cerebellum Pocket",
+			"skills": "1125 QFP"
+		},
+		{
+			"source": "Short Circuited Spiritech Circlet",
+			"target": "Short Circuited Spiritech Circlet (second)",
+			"result": "Stabilized Spiritech Circlet",
+			"skills": "1125 EE"
+		},
+		{
+			"source": "Subspace Meta-Cerebellum Pocket",
+			"target": "Stabilized Spiritech Circlet",
+			"result": "Subspace Storage Device",
+			"skills": "1125 QFP"
+		}
+	]
 }

@@ -1,109 +1,228 @@
 {
-    "name": "Masterpiece Ancient Bracer",
-    "author": "",
-    "items": [
-        {
-            "alias": "Ancient Scrap of Spirit Knowledge",
-            "item_id": 267677
-        },
-        {
-            "alias": "Ancient Scrap of Saturated Spirit Knowledge",
-            "item_id": 267679
-        },
-        {
-            "alias": "Inert Knowledge Crystal",
-            "item_id": 267737
-        },
-        {
-            "alias": "Inactive Ancient Bracer",
-            "item_id": 267746
-        },
-        {
-            "alias": "Ancient Engineering Device",
-            "item_id": 267751
-        },
-        {
-            "alias": "Crystalised Memories of a Sniper",
-            "item_id": 267704
-        },
-        {
-            "alias": "Crystalised Memories of a Warrior",
-            "item_id": 267697
-        },
-        {
-            "alias": "Crystalised Memories of a Doctor",
-            "item_id": 267726
-        },
-        {
-            "alias": "Crystalised Memories of a Surgeon",
-            "item_id": 267728
-        },
-        {
-            "alias": "Crystalised Memories of a Technician",
-            "item_id": 267698
-        },
-        {
-            "alias": "Crystalised Memories of a Mechanic",
-            "item_id": 267701
-        },
-        {
-            "alias": "Combined Crystalised Combat Memories",
-            "item_id": 267705
-        },
-        {
-            "alias": "Ancient Scrap of Condensed Spirit Knowledge",
-            "item_id": 267680
-        },
-        {
-            "alias": "Ancient Scrap of Spirit Combat Knowledge",
-            "item_id": 267681
-        },
-        {
-            "alias": "Combat Knowledge Crystal",
-            "item_id": 267739
-        },
-        {
-            "alias": "Combined Crystalised Medical Memories",
-            "item_id": 267729
-        },
-        {
-            "alias": "Ancient Scrap of Spirit Medical Knowledge",
-            "item_id": 267727
-        },
-        {
-            "alias": "Medical Knowledge Crystal",
-            "item_id": 267738
-        },
-        {
-            "alias": "Combined Crystalised Technical Memories",
-            "item_id": 267702
-        },
-        {
-            "alias": "Ancient Scrap of Spirit Technical Knowledge",
-            "item_id": 267703
-        },
-        {
-            "alias": "Technical Knowledge Crystal",
-            "item_id": 267740
-        },
-        {
-            "alias": "Incomplete Crystalised Memories",
-            "item_id": 267781
-        },
-        {
-            "alias": "Complete Crystalised Memories",
-            "item_id": 267778
-        },
-        {
-            "alias": "Active Ancient Bracer",
-            "item_id": 267747
-        },
-        {
-            "alias": "Masterpiece Ancient Bracer",
-            "item_id": 267780
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Ancient Scrap of Spirit Knowledge\" \"267677\" x 3\n<img src=rdb://163575>\n\n#L \"Ancient Scrap of Saturated Spirit Knowledge\" \"267679\" x 3\n<img src=rdb://163575>\n\n#L \"Inert Knowledge Crystal\" \"267737\" x 3\n<img src=rdb://151030>\n\n#L \"Inactive Bracer\" \"267746\"\n<img src=rdb://84048>\n\n#L \"Ancient Engineering Device\" \"267751\" #L \"Recipe\" \"/tell <myname> recipe 594\"\n<img src=rdb://156095>\n\n#L \"Crystalised Memories of a Sniper\" \"267704\"\n<img src=rdb://72771>\n\n#L \"Crystalised Memories of a Warrior\" \"267697\"\n<img src=rdb://72771>\n\n#L \"Crystalised Memories of a Doctor\" \"267726\"\n<img src=rdb://72771>\n\n#L \"Crystalised Memories of a Surgeon\" \"267728\"\n<img src=rdb://72771>\n\n#L \"Crystalised Memories of a Technician\" \"267698\"\n<img src=rdb://72771>\n\n#L \"Crystalised Memories of a Mechanic\" \"267701\"\n<img src=rdb://72771>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n<highlight>Part 1:</highlight>\n\nCrystalised Memories of a Sniper</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nCrystalised Memories of a Warrior</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://72769>\n#L \"Combined Crystalised Combat Memories\" \"267705\"</font>\n<font color=#FFFF00>Skills: | NP1250 |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAncient Scrap of Spirit Knowledge</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nAncient Scrap of Saturated Spirit Knowledge</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://163575>\n#L \"Ancient Scrap of Condensed Spirit Knowledge\" \"267680\"</font>\n<font color=#FFFF00>Skills: | PT1750 |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nCombined Crystalised Combat Memories</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nAncient Scrap of Condensed Spirit Knowledge</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://163575>\n#L \"Ancient Scrap of Spirit Combat Knowledge\" \"267681\"</font>\n<font color=#FFFF00>Skills: | CL1250 |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAncient Scrap of Spirit Combat Knowledge</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nInert Knowledge Crystal</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://151030>\n#L \"Combat Knowledge Crystal\" \"267739\"</font>\n<font color=#FFFF00>Skills: | CL1250 |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n<highlight>Part 2:</highlight>\n\nCrystalised Memories of a Doctor</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nCrystalised Memories of a Surgeon</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://72769>\n#L \"Combined Crystalised Medical Memories\" \"267729\"</font>\n<font color=#FFFF00>Skills: | CH1750 |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAncient Scrap of Spirit Knowledge</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nAncient Scrap of Saturated Spirit Knowledge</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://163575>\n#L \"Ancient Scrap of Condensed Spirit Knowledge\" \"267680\"</font>\n<font color=#FFFF00>Skills: | PT1750 |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nCombined Crystalised Medical Memories</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nAncient Scrap of Condensed Spirit Knowledge</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://163575>\n#L \"Ancient Scrap of Spirit Medical Knowledge\" \"267727\"</font>\n<font color=#FFFF00>Skills: | CH1750 |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAncient Scrap of Spirit Medical Knowledge</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nInert Knowledge Crystal</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://151030>\n#L \"Medical Knowledge Crystal\" \"267738\"</font>\n<font color=#FFFF00>Skills: | CH1750 |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n<highlight>Part 3:</highlight>\n\nCrystalised Memories of a Technician</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nCrystalised Memories of a Mechanic</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://72769>\n#L \"Combined Crystalised Technical Memories\" \"267702\"</font>\n<font color=#FFFF00>Skills: | NP1875 |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAncient Scrap of Spirit Knowledge</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nAncient Scrap of Saturated Spirit Knowledge</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://163575>\n#L \"Ancient Scrap of Condensed Spirit Knowledge\" \"267680\"</font>\n<font color=#FFFF00>Skills: | PT1750 |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nCombined Crystalised Technical Memories</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nAncient Scrap of Condensed Spirit Knowledge</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://163575>\n#L \"Ancient Scrap of Spirit Technical Knowledge\" \"267703\"</font>\n<font color=#FFFF00>Skills: | NP1875 |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAncient Scrap of Spirit Technical Knowledge</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nInert Knowledge Crystal</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://151030>\n#L \"Technical Knowledge Crystal\" \"267740\"</font>\n<font color=#FFFF00>Skills: | CH1750 |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n<highlight>Next we combine the Knowledge Crystals:</highlight>\n\nCombat Knowledge Crystal</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nMedical Knowledge Crystal</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://156511>\n#L \"Incomplete Crystalised Memories\" \"267781\"</font>\n<font color=#FFFF00>Skills: | QT1562 |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nIncomplete Crystalised Memories</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nTechnical Knowledge Crystal</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://156511>\n#L \"Complete Crystalised Memories\" \"267778\"</font>\n<font color=#FFFF00>Skills: | QT1562 |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n<highlight>Activate the Bracer and combine with Completed Memories:</highlight>\n\nInactive Bracer</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nAncient Engineering Device</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://84048>\n#L \"Active Ancient Bracer\" \"267747\"</font>\n<font color=#FFFF00>Skills: | ME1500 |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nActive Ancient Bracer</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nComplete Crystalised Memories</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://84062>\n#L \"Masterpiece Ancient Bracer\" \"267780\"</font>\n<font color=#FFFF00>Skills: | CL1250 |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nI know what you are thinking.. and yes.. that IS a lot of steps :P"
+	"name": "Masterpiece Ancient Bracer",
+	"author": "",
+	"items": [
+		{
+			"alias": "Ancient Scrap of Spirit Knowledge",
+			"item_id": 267677,
+			"quantity": 3
+		},
+		{
+			"alias": "Ancient Scrap of Saturated Spirit Knowledge",
+			"item_id": 267679,
+			"quantity": 3
+		},
+		{
+			"alias": "Inert Knowledge Crystal",
+			"item_id": 267737,
+			"quantity": 3
+		},
+		{
+			"alias": "Inactive Ancient Bracer",
+			"item_id": 267746
+		},
+		{
+			"alias": "Ancient Engineering Device",
+			"item_id": 267751,
+			"comment": "#L \"Recipe\" \"/tell <myname> recipe 594\""
+		},
+		{
+			"alias": "Crystalised Memories of a Sniper",
+			"item_id": 267704
+		},
+		{
+			"alias": "Crystalised Memories of a Warrior",
+			"item_id": 267697
+		},
+		{
+			"alias": "Crystalised Memories of a Doctor",
+			"item_id": 267726
+		},
+		{
+			"alias": "Crystalised Memories of a Surgeon",
+			"item_id": 267728
+		},
+		{
+			"alias": "Crystalised Memories of a Technician",
+			"item_id": 267698
+		},
+		{
+			"alias": "Crystalised Memories of a Mechanic",
+			"item_id": 267701
+		},
+		{
+			"alias": "Combined Crystalised Combat Memories",
+			"item_id": 267705
+		},
+		{
+			"alias": "Ancient Scrap of Condensed Spirit Knowledge",
+			"item_id": 267680
+		},
+		{
+			"alias": "Ancient Scrap of Spirit Combat Knowledge",
+			"item_id": 267681
+		},
+		{
+			"alias": "Combat Knowledge Crystal",
+			"item_id": 267739
+		},
+		{
+			"alias": "Combined Crystalised Medical Memories",
+			"item_id": 267729
+		},
+		{
+			"alias": "Ancient Scrap of Spirit Medical Knowledge",
+			"item_id": 267727
+		},
+		{
+			"alias": "Medical Knowledge Crystal",
+			"item_id": 267738
+		},
+		{
+			"alias": "Combined Crystalised Technical Memories",
+			"item_id": 267702
+		},
+		{
+			"alias": "Ancient Scrap of Spirit Technical Knowledge",
+			"item_id": 267703
+		},
+		{
+			"alias": "Technical Knowledge Crystal",
+			"item_id": 267740
+		},
+		{
+			"alias": "Incomplete Crystalised Memories",
+			"item_id": 267781
+		},
+		{
+			"alias": "Complete Crystalised Memories",
+			"item_id": 267778
+		},
+		{
+			"alias": "Active Ancient Bracer",
+			"item_id": 267747
+		},
+		{
+			"alias": "Masterpiece Ancient Bracer",
+			"item_id": 267780
+		}
+	],
+	"steps": [
+		{
+			"text": "<highlight>Part 1:</highlight>"
+		},
+		{
+			"source": "Crystalised Memories of a Sniper",
+			"target": "Crystalised Memories of a Warrior",
+			"result": "Combined Crystalised Combat Memories",
+			"skills": "NP1250"
+		},
+		{
+			"source": "Ancient Scrap of Spirit Knowledge",
+			"target": "Ancient Scrap of Saturated Spirit Knowledge",
+			"result": "Ancient Scrap of Condensed Spirit Knowledge",
+			"skills": "PT1750"
+		},
+		{
+			"source": "Combined Crystalised Combat Memories",
+			"target": "Ancient Scrap of Condensed Spirit Knowledge",
+			"result": "Ancient Scrap of Spirit Combat Knowledge",
+			"skills": "CL1250"
+		},
+		{
+			"source": "Ancient Scrap of Spirit Combat Knowledge",
+			"target": "Inert Knowledge Crystal",
+			"result": "Combat Knowledge Crystal",
+			"skills": "CL1250"
+		},
+		{
+			"text": "<highlight>Part 2:</highlight>"
+		},
+		{
+			"source": "Crystalised Memories of a Doctor",
+			"target": "Crystalised Memories of a Surgeon",
+			"result": "Combined Crystalised Medical Memories",
+			"skills": "CH1750"
+		},
+		{
+			"source": "Ancient Scrap of Spirit Knowledge",
+			"target": "Ancient Scrap of Saturated Spirit Knowledge",
+			"result": "Ancient Scrap of Condensed Spirit Knowledge",
+			"skills": "PT1750"
+		},
+		{
+			"source": "Combined Crystalised Medical Memories",
+			"target": "Ancient Scrap of Condensed Spirit Knowledge",
+			"result": "Ancient Scrap of Spirit Medical Knowledge",
+			"skills": "CH1750"
+		},
+		{
+			"source": "Ancient Scrap of Spirit Medical Knowledge",
+			"target": "Inert Knowledge Crystal",
+			"result": "Medical Knowledge Crystal",
+			"skills": "CH1750"
+		},
+		{
+			"text": "<highlight>Part 3:</highlight>"
+		},
+		{
+			"source": "Crystalised Memories of a Technician",
+			"target": "Crystalised Memories of a Mechanic",
+			"result": "Combined Crystalised Technical Memories",
+			"skills": "NP1875"
+		},
+		{
+			"source": "Ancient Scrap of Spirit Knowledge",
+			"target": "Ancient Scrap of Saturated Spirit Knowledge",
+			"result": "Ancient Scrap of Condensed Spirit Knowledge",
+			"skills": "PT1750"
+		},
+		{
+			"source": "Combined Crystalised Technical Memories",
+			"target": "Ancient Scrap of Condensed Spirit Knowledge",
+			"result": "Ancient Scrap of Spirit Technical Knowledge",
+			"skills": "NP1875"
+		},
+		{
+			"source": "Ancient Scrap of Spirit Technical Knowledge",
+			"target": "Inert Knowledge Crystal",
+			"result": "Technical Knowledge Crystal",
+			"skills": "CH1750"
+		},
+		{
+			"text": "<highlight>Next we combine the Knowledge Crystals:</highlight>"
+		},
+		{
+			"source": "Combat Knowledge Crystal",
+			"target": "Medical Knowledge Crystal",
+			"result": "Incomplete Crystalised Memories",
+			"skills": "QT1562"
+		},
+		{
+			"source": "Incomplete Crystalised Memories",
+			"target": "Technical Knowledge Crystal",
+			"result": "Complete Crystalised Memories",
+			"skills": "QT1562"
+		},
+		{
+			"text": "<highlight>Activate the Bracer and combine with Completed Memories:</highlight>"
+		},
+		{
+			"source": "Inactive Ancient Bracer",
+			"target": "Ancient Engineering Device",
+			"result": "Active Ancient Bracer",
+			"skills": "ME1500"
+		},
+		{
+			"source": "Active Ancient Bracer",
+			"target": "Complete Crystalised Memories",
+			"result": "Masterpiece Ancient Bracer",
+			"skills": "CL1250"
+		}
+	],
+	"details": [
+		{
+			"text": "I know what you are thinking.. and yes.. that IS a lot of steps :P"
+		}
+	]
 }

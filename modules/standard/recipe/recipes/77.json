@@ -1,37 +1,80 @@
 {
-    "name": "Notum Saturated Metaplast Armor",
-    "author": "",
-    "items": [
-        {
-            "alias": "Notum Saturated Metaplast Shell",
-            "item_id": 163355
-        },
-        {
-            "alias": "Screwdriver",
-            "item_id": 150922
-        },
-        {
-            "alias": "HSR - Sketch and Etch - Chestpiece",
-            "item_id": 162290
-        },
-        {
-            "alias": "Ultimate Mass Relocating Robot",
-            "item_id": 155592
-        },
-        {
-            "alias": "Mass Relocating Robot (Shape Hard Armor)",
-            "item_id": 162218
-        },
-        {
-            "alias": "Etched Pattern for Notum Saturated Metaplast Breastplate",
-            "item_id": 163361
-        },
-        {
-            "alias": "Notum Saturated Metaplast Breastplate",
-            "item_id": 163343
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Notum Saturated Metaplast Shell\" \"163355\"\n<img src=rdb://163352>\n\n#L \"Programmed Photon Particle Emitter (Shape Hard Armor)\" \"162221\"\n<img src=rdb://144466></font>\n<font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Screwdriver\" \"150922\"\n<img src=rdb://151011>\n\nHSR - Sketch and Etch\n(ex:#L \"HSR - Sketch and Etch - Chestpiece\" \"162290\")\n<img src=rdb://162275>\n\n#L \"Mass Relocating Robot\" \"155592\"\n<img src=rdb://155928>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nProgrammed Photon Particle Emitter (Shape Hard Armor)</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nMass Relocating Robot</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://163856>\n#L \"Mass Relocating Robot (Shape Hard Armor)\" \"162218\"</font>\n<font color=#FFFF00>Skills: | 2.5EE,2.5ME,2.5NP |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nNotum Saturated Metaplast Shell</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nHSR - Sketch and Etch - Chestpiece</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://163353>\n#L \"Etched Pattern for Notum Saturated Metaplast Breastplate\" \"163361\"</font>\n<font color=#FFFF00>Skills: |  CH  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nMass Relocating Robot (Shape Hard Armor)</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nEtched Pattern for Notum Saturated Metaplast Breastplate</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://13251>\n#L \"Notum Saturated Metaplast Breastplate\" \"163343\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nNano Technician wear only. Notum Saturated Metaplast Shells can be seldom found on Digglets, Moles, Scooplets or Shovelets, underground low level mobs. It's an interesting armor to make. Unfortunately the PPPE is incredibly expensive. You can use a Screwdriver instead of a Mass Relocating Robot (Shape Hard Armor) but the skills required for the process will be much higher !!"
+	"name": "Notum Saturated Metaplast Armor",
+	"author": "",
+	"items": [
+		{
+			"alias": "Notum Saturated Metaplast Shell",
+			"item_id": 163355
+		},
+		{
+			"alias": "Programmed Photon Particle Emitter (Shape Hard Armor)",
+			"item_id": 162221,
+			"name": "Programmed Photon Particle Emitter (Shape Hard Armor)",
+			"icon": 144466,
+			"ql": 60
+		},
+		{
+			"alias": "Screwdriver",
+			"item_id": 150922,
+			"comment": "alternative to Programmed Photon Particle Emitter (Shape Hard Armor)"
+		},
+		{
+			"alias": "HSR - Sketch and Etch - Chestpiece",
+			"item_id": 162290,
+			"comment": "or the HSR - Sketch and Etch for another armor piece"
+		},
+		{
+			"alias": "Mass Relocating Robot",
+			"item_id": 155592,
+			"comment": "or any other Mass Relocating Robot"
+		},
+		{
+			"alias": "Mass Relocating Robot (Shape Hard Armor)",
+			"item_id": 162218
+		},
+		{
+			"alias": "Etched Pattern for Notum Saturated Metaplast Breastplate",
+			"item_id": 163361
+		},
+		{
+			"alias": "Notum Saturated Metaplast Breastplate",
+			"item_id": 163343
+		}
+	],
+	"steps": [
+		{
+			"source": "Programmed Photon Particle Emitter (Shape Hard Armor)",
+			"target": "Mass Relocating Robot",
+			"result": "Mass Relocating Robot (Shape Hard Armor)",
+			"skills": "2.5EE,2.5ME,2.5NP"
+		},
+		{
+			"source": "Notum Saturated Metaplast Shell",
+			"target": "HSR - Sketch and Etch - Chestpiece",
+			"result": "Etched Pattern for Notum Saturated Metaplast Breastplate",
+			"skills": "CH"
+		},
+		{
+			"text": "Either:"
+		},
+		{
+			"source": "Mass Relocating Robot (Shape Hard Armor)",
+			"target": "Etched Pattern for Notum Saturated Metaplast Breastplate",
+			"result": "Notum Saturated Metaplast Breastplate",
+			"skills": "??"
+		},
+		{
+			"text": "or, with much higher skill requirements:"
+		},
+		{
+			"source": "Screwdriver",
+			"target": "Etched Pattern for Notum Saturated Metaplast Breastplate",
+			"result": "Notum Saturated Metaplast Breastplate"
+		}
+	],
+	"details": [
+		{
+			"text": "Nano Technician wear only. Notum Saturated Metaplast Shells can be seldom found on Digglets, Moles, Scooplets or Shovelets, underground low level mobs. It's an interesting armor to make. Unfortunately the PPPE is incredibly expensive. You can use a Screwdriver instead of a Mass Relocating Robot (Shape Hard Armor) but the skills required for the process will be much higher!!"
+		}
+	]
 }

@@ -1,8 +1,144 @@
 {
-    "name": "Punk-Slicer X79 Nightspear Initiate",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n 'Punk-Slicer X79 Nightspear Initiate'\nThe Construction kit. must be between Quality Level 70 and 92.\nAll other pieces must be of AT LEAST that level range... \nAdd them using shift+right-click.\nAdd the pieces in the following order:\n\n 1. Piercing Weapons Construction kit.\n\n 2. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 140-184\n\n 3. Sneak Atck Cluster - Faded (Eye). . SkillTo Assemble: Nano Progra: 70-92\n\n 4. Medium Handle. . SkillTo Assemble: Weapon Smt: 257-338\n\n 5. Max Health Cluster - Shiny (Chest). . SkillTo Assemble: Nano Progra: 210-276\n\n 6. Optimized Co-Weapon Interface. . SkillTo Assemble: Comp. Liter: 210-276\n\n 7. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 105-138\n\n 8. Notum Enriched Nano Paste - 4x Layer. . SkillTo Assemble: Nano Progra: 175-230"
+	"name": "Punk-Slicer X79 Nightspear Initiate",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 70 and 92. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Piercing Weapons Construction Kit",
+			"item_id": 137227,
+			"name": "Piercing Weapons Construction Kit",
+			"icon": 131888,
+			"ql": 70
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 70
+		},
+		{
+			"alias": "Sneak Atck Cluster - Faded (Eye)",
+			"item_id": 101633,
+			"ql": 70
+		},
+		{
+			"alias": "Medium Handle",
+			"item_id": 142886,
+			"ql": 70
+		},
+		{
+			"alias": "Max Health Cluster - Shiny (Chest)",
+			"item_id": 101811,
+			"ql": 70
+		},
+		{
+			"alias": "Optimized Co-Weapon Interface",
+			"item_id": 142930,
+			"ql": 70
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 70
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 4x Layer",
+			"item_id": 137307,
+			"ql": 70
+		},
+		{
+			"alias": "Piercing Construction Kit (Step 2)",
+			"item_id": 143328,
+			"name": "Piercing Construction Kit (Step 2)",
+			"icon": 131890,
+			"ql": 70
+		},
+		{
+			"alias": "Piercing Construction Kit (Step 3)",
+			"item_id": 143330,
+			"name": "Piercing Construction Kit (Step 3)",
+			"icon": 131890,
+			"ql": 70
+		},
+		{
+			"alias": "Piercing Construction Kit (Step 4)",
+			"item_id": 143332,
+			"name": "Piercing Construction Kit (Step 4)",
+			"icon": 131891,
+			"ql": 70
+		},
+		{
+			"alias": "Piercing Construction Kit (Step 5)",
+			"item_id": 143334,
+			"name": "Piercing Construction Kit (Step 5)",
+			"icon": 131891,
+			"ql": 70
+		},
+		{
+			"alias": "Piercing Construction Kit (Step 6)",
+			"item_id": 143336,
+			"name": "Piercing Construction Kit (Step 6)",
+			"icon": 131892,
+			"ql": 70
+		},
+		{
+			"alias": "Piercing Construction Kit (Step 7)",
+			"item_id": 143338,
+			"name": "Piercing Construction Kit (Step 7)",
+			"icon": 131893,
+			"ql": 70
+		},
+		{
+			"alias": "Punk-Slicer X79 Nightspear Initiate",
+			"item_id": 121671,
+			"ql": 70
+		}
+	],
+	"steps": [
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "Piercing Weapons Construction Kit",
+			"result": "Piercing Construction Kit (Step 2)",
+			"skills": "Nano Progra 140-184"
+		},
+		{
+			"source": "Sneak Atck Cluster - Faded (Eye)",
+			"target": "Piercing Construction Kit (Step 2)",
+			"result": "Piercing Construction Kit (Step 3)",
+			"skills": "Nano Progra 70-92"
+		},
+		{
+			"source": "Medium Handle",
+			"target": "Piercing Construction Kit (Step 3)",
+			"result": "Piercing Construction Kit (Step 4)",
+			"skills": "Weapon Smt 257-338"
+		},
+		{
+			"source": "Max Health Cluster - Shiny (Chest)",
+			"target": "Piercing Construction Kit (Step 4)",
+			"result": "Piercing Construction Kit (Step 5)",
+			"skills": "Nano Progra 210-276"
+		},
+		{
+			"source": "Optimized Co-Weapon Interface",
+			"target": "Piercing Construction Kit (Step 5)",
+			"result": "Piercing Construction Kit (Step 6)",
+			"skills": "Comp. Liter 210-276"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Piercing Construction Kit (Step 6)",
+			"result": "Piercing Construction Kit (Step 7)",
+			"skills": "Nano Progra 105-138"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 4x Layer",
+			"target": "Piercing Construction Kit (Step 7)",
+			"result": "Punk-Slicer X79 Nightspear Initiate",
+			"skills": "Nano Progra 175-230"
+		}
+	]
 }

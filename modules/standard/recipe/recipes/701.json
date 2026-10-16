@@ -1,25 +1,53 @@
 {
-    "name": "The Dantian Belt of Life",
-    "author": "",
-    "items": [
-        {
-            "alias": "Pit Demon Heart",
-            "item_id": 245171
-        },
-        {
-            "alias": "Belt Component Platform 4IX",
-            "item_id": 36784
-        },
-        {
-            "alias": "Belt Component Platform 5000",
-            "item_id": 36787
-        },
-        {
-            "alias": "The Dantian Belt of Life",
-            "item_id": 245429
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n</font>\n<font color=#FFFF00> This little belt can be built with help of an item found inside The Crypt in Broken Shores.\nThis belt is nice, because there aren't many belts that add to basic abilities</font><font color=#009B00>\n\n#L \"Pit Demon Heart\" \"245171\"\n<img src=rdb://231393>\n\n#L \"Belt Component Platform 5000\" \"36784\"\n<img src=rdb://119144></font>\n<font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Belt Component Platform 6K-X\" \"36787\"\n<img src=rdb://119144>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nPit Demon Heart</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nBelt Component Platform 5000</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://119143>\n#L \"The Dantian Belt of Life\" \"245429\"</font>\n<font color=#FFFF00>Skills: | 450 CL |</font><font color=#009B00>"
+	"name": "The Dantian Belt of Life",
+	"author": "",
+	"intro": [
+		{
+			"text": "This little belt can be built with help of an item found inside The Crypt in Broken Shores."
+		},
+		{
+			"text": "This belt is nice, because there aren't many belts that add to basic abilities"
+		}
+	],
+	"items": [
+		{
+			"alias": "Pit Demon Heart",
+			"item_id": 245171
+		},
+		{
+			"alias": "Belt Component Platform 5000",
+			"item_id": 36784,
+			"ql": 120
+		},
+		{
+			"alias": "Belt Component Platform 6K-X",
+			"item_id": 36787,
+			"ql": 200,
+			"comment": "alternative to Belt Component Platform 5000"
+		},
+		{
+			"alias": "The Dantian Belt of Life",
+			"item_id": 245429
+		}
+	],
+	"steps": [
+		{
+			"text": "Either:"
+		},
+		{
+			"source": "Pit Demon Heart",
+			"target": "Belt Component Platform 5000",
+			"result": "The Dantian Belt of Life",
+			"skills": "450 CL"
+		},
+		{
+			"text": "or:"
+		},
+		{
+			"source": "Pit Demon Heart",
+			"target": "Belt Component Platform 6K-X",
+			"result": "The Dantian Belt of Life",
+			"skills": "450 CL"
+		}
+	]
 }

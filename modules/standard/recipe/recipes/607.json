@@ -1,25 +1,48 @@
 {
-    "name": "Photon Embedded Cloak",
-    "author": "",
-    "items": [
-        {
-            "alias": "Light Bar",
-            "item_id": 252157
-        },
-        {
-            "alias": "A Never-ending Being of Light",
-            "item_id": 262604
-        },
-        {
-            "alias": "White Trenchcoat",
-            "item_id": 81969
-        },
-        {
-            "alias": "Photon Embedded Cloak",
-            "item_id": 281777
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n</font>\n<font color=#FF0000> *** </font><font color=#FFFF00> Your shining light in the darkness!</font>\n<font color=#FF0000> *** </font><font color=#009B00>\n\n#L \"Light Bar\" \"252157\"\n<img src=rdb://37996></font>\n<font color=#FFFFFF>or</font><font color=#009B00>\n#L \"A Never-ending Being of Light\" \"262604\"\n<img src=rdb://262646>\n\n#L \"White Trenchcoat\" \"81969\"\n<img src=rdb://82001>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nLight Bar</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nWhite Trenchcoat</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://281785>\n#L \"Photon Embedded Cloak\" \"281777\"</font>\n<font color=#FFFF00>Skills: | None | </font>\n<font color=#FFFFFF>or</font><font color=#009B00>\nA Never-ending Being of Light</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nWhite Trenchcoat</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://281785>\n#L \"Photon Embedded Cloak\" \"281777\"</font>\n<font color=#FFFF00>Skills: | None | </font><font color=#009B00>"
+	"name": "Photon Embedded Cloak",
+	"author": "",
+	"intro": [
+		{
+			"text": "Your shining light in the darkness!"
+		}
+	],
+	"items": [
+		{
+			"alias": "Light Bar",
+			"item_id": 252157
+		},
+		{
+			"alias": "A Never-ending Being of Light",
+			"item_id": 262604,
+			"comment": "alternative to Light Bar"
+		},
+		{
+			"alias": "White Trenchcoat",
+			"item_id": 81969
+		},
+		{
+			"alias": "Photon Embedded Cloak",
+			"item_id": 281777
+		}
+	],
+	"steps": [
+		{
+			"text": "Either:"
+		},
+		{
+			"source": "Light Bar",
+			"target": "White Trenchcoat",
+			"result": "Photon Embedded Cloak",
+			"skills": "None"
+		},
+		{
+			"text": "or:"
+		},
+		{
+			"source": "A Never-ending Being of Light",
+			"target": "White Trenchcoat",
+			"result": "Photon Embedded Cloak",
+			"skills": "None"
+		}
+	]
 }

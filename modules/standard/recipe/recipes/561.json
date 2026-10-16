@@ -1,21 +1,33 @@
 {
-    "name": "Merren Flamethrower",
-    "author": "",
-    "items": [
-        {
-            "alias": "Viral Weapon Upgrade",
-            "item_id": 248517
-        },
-        {
-            "alias": "Premium Flamethrower",
-            "item_id": 121930
-        },
-        {
-            "alias": "Premium Merren Flamethrower",
-            "item_id": 248607
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Viral Weapon Upgrade\" \"248517\"\n<img src=rdb://100335>\n\n#L \"Flamethrower\" \"121930\"\n<img src=rdb://19800>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nViral Weapon Upgrade</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nFlamethrower</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://19800>\n#L \"Merren Flamethrower\" \"248607\"</font>\n<font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nMore Viral Weapon upgrades."
+	"name": "Merren Flamethrower",
+	"author": "",
+	"items": [
+		{
+			"alias": "Viral Weapon Upgrade",
+			"item_id": 248517
+		},
+		{
+			"alias": "Flamethrower",
+			"item_id": 121930,
+			"comment": "or any other Flamethrower"
+		},
+		{
+			"alias": "Merren Flamethrower",
+			"item_id": 248607,
+			"comment": "or another Merren Flamethrower, depending on the Flamethrower"
+		}
+	],
+	"steps": [
+		{
+			"source": "Viral Weapon Upgrade",
+			"target": "Flamethrower",
+			"result": "Merren Flamethrower",
+			"skills": "WS"
+		}
+	],
+	"details": [
+		{
+			"text": "More Viral Weapon upgrades."
+		}
+	]
 }

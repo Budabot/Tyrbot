@@ -1,49 +1,125 @@
 {
-    "name": "Jobe Armor Tier 3 ( Chosen / Faithfull )",
-    "author": "",
-    "items": [
-        {
-            "alias": "Blue Glyph of Enel",
-            "item_id": 218349
-        },
-        {
-            "alias": "Finely Refined Notum",
-            "item_id": 227643
-        },
-        {
-            "alias": "Insignia of the Faithful",
-            "item_id": 229043
-        },
-        {
-            "alias": "Insignia of the Chosen",
-            "item_id": 229047
-        },
-        {
-            "alias": "Glyph of the Arcana",
-            "item_id": 227911
-        },
-        {
-            "alias": "Advanced Jobe Suit Support System",
-            "item_id": 227906
-        },
-        {
-            "alias": "Excellent Jobe Suit Support System",
-            "item_id": 227909
-        },
-        {
-            "alias": "Blue Glyph of Aban - Revived",
-            "item_id": 227702
-        },
-        {
-            "alias": "Water Glyph of Judgement",
-            "item_id": 229049
-        },
-        {
-            "alias": "Chosen Nano Technician Boots",
-            "item_id": 214795
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\na part of Jobe Armor QL 220\n( #L \"see here\" \"/tell <myname> recipe 58\" and #L \"here\" \"/tell <myname> recipe 56\" )\n<img src=rdb://213586>\n\na Blue Glyph\n( ie : #L \"Blue Glyph of Enel\" \"218349\" )\n<img src=rdb://227544>\n\n#L \"Finely Refined Notum\" \"227643\"\n<img src=rdb://151030>\n\na sided Insigna\n#L \"Insignia of the Faithful\" \"229043\"\n<img src=rdb://227629></font>\n<font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Insignia of the Chosen\" \"229047\" )\n<img src=rdb://227628>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>First</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nUpgrade your Jobe Armor to QL220. If it's Tier 2 part, right-click on it. If it's a Tier 1 part, you have to find a #L \"Glyph of the Arcana\" \"227911\" and use it on Advanced Jobe Suit part.\n\nExample:\n\n<img src=rdb://214741>\n#L \"Advanced Jobe Suit Support System\" \"227906\"</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\n<img src=rdb://227586>\n#L \"Glyph of the Arcana\" \"227911\"</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://214741>\n#L \"Excellent Jobe Suit Support System\" \"227909\"\n</font>\n<font color=#FF0000> WARNING </font><font color=#FFFF00> : Back Part for MetaPhysistis, Doctor, Soldier and Adventurer are the same. Once you apply the Glyph of the Arcana on it, you have to right-click the Excellent Jobe Suit Support System to turn it into your profession before continuing.\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nBlue Glyph</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nFinely Refined Notum</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://227530>\nBlue Glyph - Revived\n( ie #L \"Blue Glyph of Aban - Revived\" \"227702\" )</font>\n<font color=#FFFF00>Skills: | QP1210,CL1210  |</font><font color=#009B00>\n</font>\n<font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nBlue Glyph - Revived</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nSided Insigna</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://227584>\nSided Glyph ( ie #L \"Water Glyph of Judgement\" \"229049\" )</font>\n<font color=#FFFF00>Skills: | QFT1375,EE1375 |</font><font color=#009B00>\n</font>\n<font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nSided Glyph</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nJobe Armor QL220</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://213567>\nSided Tier 3 Armor\n( ie #L \"Chosen Nano Technician Boots\" \"214795\" )</font>\n<font color=#FFFF00>Skills: | PS?? |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Details</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nOmni: #L \"Insignia of the Chosen\" \"229047\"\nClan: #L \"Insignia of the Faithful\" \"229043\"\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nYou have now fully ugraded your Jobe armor... congratulations!"
+	"name": "Jobe Armor Tier 3 (Chosen / Faithful)",
+	"author": "",
+	"items": [
+		{
+			"alias": "Jobe Armor QL220",
+			"item_id": 214756,
+			"ql": 220,
+			"comment": "or any other part of Jobe Armor (#L \"see here\" \"/tell <myname> recipe 58\" and #L \"here\" \"/tell <myname> recipe 56\")"
+		},
+		{
+			"alias": "Blue Glyph",
+			"item_id": 218349,
+			"comment": "or any other Blue Glyph"
+		},
+		{
+			"alias": "Finely Refined Notum",
+			"item_id": 227643
+		},
+		{
+			"alias": "Insignia of the Faithful",
+			"item_id": 229043
+		},
+		{
+			"alias": "Insignia of the Chosen",
+			"item_id": 229047,
+			"comment": "alternative to Insignia of the Faithful"
+		},
+		{
+			"alias": "Advanced Jobe Suit Support System",
+			"item_id": 227906,
+			"comment": "example of a Tier 1 part"
+		},
+		{
+			"alias": "Glyph of the Arcana",
+			"item_id": 227911,
+			"comment": "only for a Tier 1 part"
+		},
+		{
+			"alias": "Excellent Jobe Suit Support System",
+			"item_id": 227909
+		},
+		{
+			"alias": "Blue Glyph - Revived",
+			"item_id": 227702,
+			"comment": "or any other Blue Glyph - Revived"
+		},
+		{
+			"alias": "Sided Glyph",
+			"item_id": 229049,
+			"comment": "or any other Sided Glyph"
+		},
+		{
+			"alias": "Sided Tier 3 Armor",
+			"item_id": 214795,
+			"comment": "or any other Sided Tier 3 Armor part"
+		}
+	],
+	"steps": [
+		{
+			"text": "<highlight>First</highlight>"
+		},
+		{
+			"text": "Upgrade your Jobe Armor to QL220. If it's Tier 2 part, right-click on it. If it's a Tier 1 part, you have to find a #L \"Glyph of the Arcana\" \"227911\" and use it on Advanced Jobe Suit part."
+		},
+		{
+			"text": "Example:"
+		},
+		{
+			"source": "Advanced Jobe Suit Support System",
+			"target": "Glyph of the Arcana",
+			"result": "Excellent Jobe Suit Support System"
+		},
+		{
+			"text": "<red>WARNING</red>: Back Part for Meta-Physicists, Doctor, Soldier and Adventurer are the same. Once you apply the Glyph of the Arcana on it, you have to right-click the Excellent Jobe Suit Support System to turn it into your profession before continuing."
+		},
+		{
+			"source": "Blue Glyph",
+			"target": "Finely Refined Notum",
+			"result": "Blue Glyph - Revived",
+			"skills": "QP1210,CL1210"
+		},
+		{
+			"text": "Either:"
+		},
+		{
+			"source": "Blue Glyph - Revived",
+			"target": "Insignia of the Faithful",
+			"result": "Sided Glyph",
+			"skills": "QFT1375,EE1375"
+		},
+		{
+			"text": "or:"
+		},
+		{
+			"source": "Blue Glyph - Revived",
+			"target": "Insignia of the Chosen",
+			"result": "Sided Glyph",
+			"skills": "QFT1375,EE1375"
+		},
+		{
+			"source": "Sided Glyph",
+			"target": "Jobe Armor QL220",
+			"result": "Sided Tier 3 Armor",
+			"skills": "PS??"
+		}
+	],
+	"details": [
+		{
+			"item": {
+				"id": 229047,
+				"comment": "Omni"
+			}
+		},
+		{
+			"item": {
+				"id": 229043,
+				"comment": "Clan"
+			}
+		},
+		{
+			"text": "You have now fully upgraded your Jobe armor... congratulations!"
+		}
+	]
 }

@@ -1,8 +1,226 @@
 {
-    "name": "Ill-Treated Blackened Blaster",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n  'Ill-Treated Blackened Blaster'\n The Construction kit. must be between Quality Level 1 and 20.\n All other pieces must be of AT LEAST that level range... \n Add them using shift+right-click.\n Add the pieces in the following order:\n \n  1. Rifle Weapons Construction kit.\n \n  2. Nano Pylon. . SkillTo Assemble: Mech. Engi: 2-50\n \n  3. Self-Cleaning KO-CR Device. . SkillTo Assemble: Weapon Smt: 4-70\n \n  4. Energy Pack Interface. . SkillTo Assemble: Elec. Engi: 4-80\n \n  5. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 2-30\n \n  6. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 2-40\n \n  7. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 2-50\n \n  8. Ultra-Long Composite Barrel. . SkillTo Assemble: Weapon Smt: 4-85\n \n  9. Energy Conduction Rack. . SkillTo Assemble: Quantum FT: 3-65\n \n  10. Rapid-Reload-And-Fire Gyro. . SkillTo Assemble: Weapon Smt: 4-80\n \n  11. Nano Pylon. . SkillTo Assemble: Mech. Engi: 2-50\n \n  12. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 2-50\n \n  13. Hyper Carbo-Ceramic Cooling System. . SkillTo Assemble: Weapon Smt: 4-80"
+	"name": "Ill-Treated Blackened Blaster",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 1 and 20. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Rifle Weapons Construction Kit",
+			"item_id": 137203,
+			"name": "Rifle Weapons Construction Kit",
+			"icon": 131744,
+			"ql": 1
+		},
+		{
+			"alias": "Nano Pylon",
+			"item_id": 137277,
+			"ql": 1,
+			"quantity": 2
+		},
+		{
+			"alias": "Self-Cleaning KO-CR Device",
+			"item_id": 137279,
+			"ql": 1
+		},
+		{
+			"alias": "Energy Pack Interface",
+			"item_id": 137257,
+			"ql": 1
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 1
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 1
+		},
+		{
+			"alias": "Notum Alloy Strengthened Ribs",
+			"item_id": 137275,
+			"ql": 1,
+			"quantity": 2
+		},
+		{
+			"alias": "Ultra-Long Composite Barrel",
+			"item_id": 137239,
+			"ql": 1
+		},
+		{
+			"alias": "Energy Conduction Rack",
+			"item_id": 137243,
+			"ql": 1
+		},
+		{
+			"alias": "Rapid-Reload-And-Fire Gyro",
+			"item_id": 137313,
+			"ql": 1
+		},
+		{
+			"alias": "Hyper Carbo-Ceramic Cooling System",
+			"item_id": 137267,
+			"ql": 1
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 2)",
+			"item_id": 137566,
+			"name": "Rifle Construction Kit (Step 2)",
+			"icon": 131745,
+			"ql": 1
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 3)",
+			"item_id": 139615,
+			"name": "Rifle Construction Kit (Step 3)",
+			"icon": 131745,
+			"ql": 1
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 4)",
+			"item_id": 139617,
+			"name": "Rifle Construction Kit (Step 4)",
+			"icon": 131745,
+			"ql": 1
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 5)",
+			"item_id": 139619,
+			"name": "Rifle Construction Kit (Step 5)",
+			"icon": 131746,
+			"ql": 1
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 6)",
+			"item_id": 139621,
+			"name": "Rifle Construction Kit (Step 6)",
+			"icon": 131746,
+			"ql": 1
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 7)",
+			"item_id": 139623,
+			"name": "Rifle Construction Kit (Step 7)",
+			"icon": 131747,
+			"ql": 1
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 8)",
+			"item_id": 139625,
+			"name": "Rifle Construction Kit (Step 8)",
+			"icon": 131747,
+			"ql": 1
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 9)",
+			"item_id": 139627,
+			"name": "Rifle Construction Kit (Step 9)",
+			"icon": 131748,
+			"ql": 1
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 10)",
+			"item_id": 139629,
+			"name": "Rifle Construction Kit (Step 10)",
+			"icon": 131748,
+			"ql": 1
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 11)",
+			"item_id": 139631,
+			"name": "Rifle Construction Kit (Step 11)",
+			"icon": 131748,
+			"ql": 1
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 12)",
+			"item_id": 139633,
+			"name": "Rifle Construction Kit (Step 12)",
+			"icon": 131749,
+			"ql": 1
+		},
+		{
+			"alias": "Ill-Treated Blackened Blaster",
+			"item_id": 122007,
+			"ql": 1
+		}
+	],
+	"steps": [
+		{
+			"source": "Nano Pylon",
+			"target": "Rifle Weapons Construction Kit",
+			"result": "Rifle Construction Kit (Step 2)",
+			"skills": "Mech. Engi 2-50"
+		},
+		{
+			"source": "Self-Cleaning KO-CR Device",
+			"target": "Rifle Construction Kit (Step 2)",
+			"result": "Rifle Construction Kit (Step 3)",
+			"skills": "Weapon Smt 4-70"
+		},
+		{
+			"source": "Energy Pack Interface",
+			"target": "Rifle Construction Kit (Step 3)",
+			"result": "Rifle Construction Kit (Step 4)",
+			"skills": "Elec. Engi 4-80"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Rifle Construction Kit (Step 4)",
+			"result": "Rifle Construction Kit (Step 5)",
+			"skills": "Nano Progra 2-30"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "Rifle Construction Kit (Step 5)",
+			"result": "Rifle Construction Kit (Step 6)",
+			"skills": "Nano Progra 2-40"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Rifle Construction Kit (Step 6)",
+			"result": "Rifle Construction Kit (Step 7)",
+			"skills": "Mech. Engi 2-50"
+		},
+		{
+			"source": "Ultra-Long Composite Barrel",
+			"target": "Rifle Construction Kit (Step 7)",
+			"result": "Rifle Construction Kit (Step 8)",
+			"skills": "Weapon Smt 4-85"
+		},
+		{
+			"source": "Energy Conduction Rack",
+			"target": "Rifle Construction Kit (Step 8)",
+			"result": "Rifle Construction Kit (Step 9)",
+			"skills": "Quantum FT 3-65"
+		},
+		{
+			"source": "Rapid-Reload-And-Fire Gyro",
+			"target": "Rifle Construction Kit (Step 9)",
+			"result": "Rifle Construction Kit (Step 10)",
+			"skills": "Weapon Smt 4-80"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Rifle Construction Kit (Step 10)",
+			"result": "Rifle Construction Kit (Step 11)",
+			"skills": "Mech. Engi 2-50"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Rifle Construction Kit (Step 11)",
+			"result": "Rifle Construction Kit (Step 12)",
+			"skills": "Mech. Engi 2-50"
+		},
+		{
+			"source": "Hyper Carbo-Ceramic Cooling System",
+			"target": "Rifle Construction Kit (Step 12)",
+			"result": "Ill-Treated Blackened Blaster",
+			"skills": "Weapon Smt 4-80"
+		}
+	]
 }

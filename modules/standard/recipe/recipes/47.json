@@ -1,37 +1,72 @@
 {
-    "name": "Focus-Funneling Helper",
-    "author": "",
-    "items": [
-        {
-            "alias": "Focus-Funneling Device",
-            "item_id": 246206
-        },
-        {
-            "alias": "Focus-Funneling Spirit",
-            "item_id": 246207
-        },
-        {
-            "alias": "Spirit Training Program",
-            "item_id": 246209
-        },
-        {
-            "alias": "Spirit Training Program",
-            "item_id": 246211
-        },
-        {
-            "alias": "Primitive Focus-Funneling Helper",
-            "item_id": 246208
-        },
-        {
-            "alias": "Loving Focus-Funneling Helper",
-            "item_id": 246210
-        },
-        {
-            "alias": "Rancorous Focus-Funneling Helper",
-            "item_id": 246212
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients </font>\n<font color=#FFFF00>------------------------------\n\n#L \"Focus-Funneling Device\" \"246206\"\n<img src=rdb://205507>\n\n#L \"Focus-Funneling Spirit\" \"246207\"\n<img src=rdb://205507>\n\nAnd to upgrade it:\n\n#L \"Spirit Training Program\" \"246209\"\n<img src=rdb://205512>\n\n#L \"Spirit Training Program\" \"246211\"\n<img src=rdb://205512>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nFocus-Funneling Device</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nFocus-Funneling Spirit</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://205510>\n#L \"Primitive Focus-Funneling Helper\" \"246208\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\n<highlight>Then you can update it to fit in a different Hud (in order to wear 3 of them !!)</highlight>\n\nSpirit Training Program (Love)</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nPrimitive Focus-Funneling Helper</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://205511>\n#L \"Loving Focus-Funneling Helper\" \"246210\" ( for HUD 3 )</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFFFF>OR</font><font color=#009B00>\n\nSpirit Training Program (Hate)</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nPrimitive Focus-Funneling Helper</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://205511>\n#L \"Rancorous Focus-Funneling Helper\" \"246212\" ( for HUD 1 )</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAwesome item for twinking."
+	"name": "Focus-Funneling Helper",
+	"author": "",
+	"items": [
+		{
+			"alias": "Focus-Funneling Device",
+			"item_id": 246206
+		},
+		{
+			"alias": "Focus-Funneling Spirit",
+			"item_id": 246207
+		},
+		{
+			"alias": "Spirit Training Program (Love)",
+			"item_id": 246209,
+			"comment": "to upgrade it; Love"
+		},
+		{
+			"alias": "Spirit Training Program (Hate)",
+			"item_id": 246211,
+			"comment": "to upgrade it; Hate"
+		},
+		{
+			"alias": "Primitive Focus-Funneling Helper",
+			"item_id": 246208
+		},
+		{
+			"alias": "Loving Focus-Funneling Helper",
+			"item_id": 246210,
+			"comment": "for HUD 3"
+		},
+		{
+			"alias": "Rancorous Focus-Funneling Helper",
+			"item_id": 246212,
+			"comment": "for HUD 1"
+		}
+	],
+	"steps": [
+		{
+			"source": "Focus-Funneling Device",
+			"target": "Focus-Funneling Spirit",
+			"result": "Primitive Focus-Funneling Helper",
+			"skills": "??"
+		},
+		{
+			"text": "<highlight>Then you can update it to fit in a different HUD (in order to wear 3 of them!!)</highlight>"
+		},
+		{
+			"text": "Either:"
+		},
+		{
+			"source": "Spirit Training Program (Love)",
+			"target": "Primitive Focus-Funneling Helper",
+			"result": "Loving Focus-Funneling Helper",
+			"skills": "??"
+		},
+		{
+			"text": "or:"
+		},
+		{
+			"source": "Spirit Training Program (Hate)",
+			"target": "Primitive Focus-Funneling Helper",
+			"result": "Rancorous Focus-Funneling Helper",
+			"skills": "??"
+		}
+	],
+	"details": [
+		{
+			"text": "Awesome item for twinking."
+		}
+	]
 }

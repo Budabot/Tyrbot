@@ -1,21 +1,34 @@
 {
-    "name": "Trimmer - Improved Actuators",
-    "author": "",
-    "items": [
-        {
-            "alias": "Trimmer Casing",
-            "item_id": 263824
-        },
-        {
-            "alias": "Smelly Liquid",
-            "item_id": 253173
-        },
-        {
-            "alias": "Trimmer - Improve Actuators",
-            "item_id": 253189
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n</font>\n<font color=#FFFF00>This Trimmer will heal your pet for up to 6k of HP and will give an additional boost to damage for 600 secs.\nIt will lock your Mechanical Engineering skill for 60 minutes.</font><font color=#009B00>\n\n#L \"Trimmer Casing\" \"263824\"\n<img src=rdb://154935>\n\n#L \"Smelly Liquid\" \"253173\"\n<img src=rdb://20412>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nSmelly Liquid</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nTrimmer Casing</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://292754>\n#L \"Trimmer - Improve Actuators\" \"253189\"</font>\n<font color=#FFFF00>Skills: | trimmer casing needs to be 90% of the Smelly Liquid |</font><font color=#009B00>"
+	"name": "Trimmer - Improved Actuators",
+	"author": "",
+	"intro": [
+		{
+			"text": "This Trimmer will heal your pet for up to 6k of HP and will give an additional boost to damage for 600 secs."
+		},
+		{
+			"text": "It will lock your Mechanical Engineering skill for 60 minutes."
+		}
+	],
+	"items": [
+		{
+			"alias": "Trimmer Casing",
+			"item_id": 263824
+		},
+		{
+			"alias": "Smelly Liquid",
+			"item_id": 253173
+		},
+		{
+			"alias": "Trimmer - Improve Actuators",
+			"item_id": 253189
+		}
+	],
+	"steps": [
+		{
+			"source": "Smelly Liquid",
+			"target": "Trimmer Casing",
+			"result": "Trimmer - Improve Actuators",
+			"skills": "trimmer casing needs to be 90% of the Smelly Liquid"
+		}
+	]
 }

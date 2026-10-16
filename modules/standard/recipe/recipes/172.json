@@ -1,8 +1,108 @@
 {
-    "name": "Blunt Slank Chop",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n 'Blunt Slank Chop'\nThe Construction kit. must be between Quality Level 61 and 80.\nAll other pieces must be of AT LEAST that level range... \nAdd them using shift+right-click.\nAdd the pieces in the following order:\n\n 1. Piercing Weapons Construction kit.\n\n 2. Hyper-Optimized Co-Weapon Interface. . SkillTo Assemble: Comp. Liter: 244-320\n\n 3. Short Handle. . SkillTo Assemble: Weapon Smt: 214-280\n\n 4. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 122-160\n\n 5. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 92-120\n\n 6. 4x Layer Carbon-Notum Alloy Blade. . SkillTo Assemble: Weapon Smt: 183-240"
+	"name": "Blunt Slank Chop",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 61 and 80. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Piercing Weapons Construction Kit",
+			"item_id": 137227,
+			"name": "Piercing Weapons Construction Kit",
+			"icon": 131888,
+			"ql": 61
+		},
+		{
+			"alias": "Hyper-Optimized Co-Weapon Interface",
+			"item_id": 142932,
+			"ql": 61
+		},
+		{
+			"alias": "Short Handle",
+			"item_id": 142884,
+			"ql": 61
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 61
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 61
+		},
+		{
+			"alias": "4x Layer Carbon-Notum Alloy Blade",
+			"item_id": 142918,
+			"ql": 61
+		},
+		{
+			"alias": "Piercing Construction Kit (Step 2)",
+			"item_id": 143585,
+			"name": "Piercing Construction Kit (Step 2)",
+			"icon": 131890,
+			"ql": 61
+		},
+		{
+			"alias": "Piercing Construction Kit (Step 3)",
+			"item_id": 143587,
+			"name": "Piercing Construction Kit (Step 3)",
+			"icon": 131891,
+			"ql": 61
+		},
+		{
+			"alias": "Piercing Construction Kit (Step 4)",
+			"item_id": 143589,
+			"name": "Piercing Construction Kit (Step 4)",
+			"icon": 131892,
+			"ql": 61
+		},
+		{
+			"alias": "Piercing Construction Kit (Step 5)",
+			"item_id": 143591,
+			"name": "Piercing Construction Kit (Step 5)",
+			"icon": 131893,
+			"ql": 61
+		},
+		{
+			"alias": "Blunt Slank Chop",
+			"item_id": 121956,
+			"ql": 61
+		}
+	],
+	"steps": [
+		{
+			"source": "Hyper-Optimized Co-Weapon Interface",
+			"target": "Piercing Weapons Construction Kit",
+			"result": "Piercing Construction Kit (Step 2)",
+			"skills": "Comp. Liter 244-320"
+		},
+		{
+			"source": "Short Handle",
+			"target": "Piercing Construction Kit (Step 2)",
+			"result": "Piercing Construction Kit (Step 3)",
+			"skills": "Weapon Smt 214-280"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "Piercing Construction Kit (Step 3)",
+			"result": "Piercing Construction Kit (Step 4)",
+			"skills": "Nano Progra 122-160"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Piercing Construction Kit (Step 4)",
+			"result": "Piercing Construction Kit (Step 5)",
+			"skills": "Nano Progra 92-120"
+		},
+		{
+			"source": "4x Layer Carbon-Notum Alloy Blade",
+			"target": "Piercing Construction Kit (Step 5)",
+			"result": "Blunt Slank Chop",
+			"skills": "Weapon Smt 183-240"
+		}
+	]
 }

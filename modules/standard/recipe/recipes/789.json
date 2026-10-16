@@ -1,0 +1,96 @@
+{
+	"name": "Perennium Sniper",
+	"author": "",
+	"intro": [
+		{
+			"text": "Perennium Weapons:"
+		},
+		{
+			"text": "#L \"Perennium Beamer\" \"/tell <myname> recipe 84\""
+		},
+		{
+			"text": "#L \"Perennium Blaster\" \"/tell <myname> recipe 788\""
+		},
+		{
+			"text": "<highlight>Perennium Sniper</highlight> (this recipe)"
+		},
+		{
+			"text": ""
+		}
+	],
+	"items": [
+		{
+			"alias": "Nano-Charged Rifle",
+			"item_id": 123247,
+			"comment": "> QL50; or any other Nano-Charged Rifle"
+		},
+		{
+			"alias": "Sheet of Perennium",
+			"item_id": 226019,
+			"comment": "> QL50"
+		},
+		{
+			"alias": "Perennium Bolt",
+			"item_id": 226021,
+			"comment": "> QL50"
+		},
+		{
+			"alias": "Hacker Tool",
+			"item_id": 87814,
+			"comment": "or any other Hacker Tool"
+		},
+		{
+			"alias": "Spirit Tech Apparatus: Long Muzzle",
+			"item_id": 246390,
+			"comment": "> QL50"
+		},
+		{
+			"alias": "Hacked Nano-Charged Rifle",
+			"item_id": 246397
+		},
+		{
+			"alias": "Long Perennium Muzzle",
+			"item_id": 246393
+		},
+		{
+			"alias": "Half-Finished Perennium Sniper",
+			"item_id": 246403
+		},
+		{
+			"alias": "Perennium Sniper",
+			"item_id": 246414,
+			"comment": "or another Perennium Sniper, depending on the QL"
+		}
+	],
+	"steps": [
+		{
+			"source": "Hacker Tool",
+			"target": "Nano-Charged Rifle",
+			"result": "Hacked Nano-Charged Rifle",
+			"skills": "7BE"
+		},
+		{
+			"source": "Sheet of Perennium",
+			"target": "Spirit Tech Apparatus: Long Muzzle",
+			"result": "Long Perennium Muzzle",
+			"skills": "7WS,5ME"
+		},
+		{
+			"source": "Long Perennium Muzzle",
+			"target": "Hacked Nano-Charged Rifle",
+			"result": "Half-Finished Perennium Sniper",
+			"skills": "7WS,5ME"
+		},
+		{
+			"source": "Perennium Bolt",
+			"target": "Half-Finished Perennium Sniper",
+			"result": "Perennium Sniper",
+			"skills": "7WS,5ME"
+		}
+	],
+	"details": [
+		{
+			"text": "Spirit Techs drop from Mortiigs, Perennium drops from Hecklers and the rifles can be rolled in missions."
+		}
+	]
+}

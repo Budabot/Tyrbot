@@ -1,25 +1,56 @@
 {
-    "name": "Silenced Kyr'Ozch Rifle",
-    "author": "",
-    "items": [
-        {
-            "alias": "Dynamic Gas Redistribution Valves",
-            "item_id": 257962
-        },
-        {
-            "alias": "Kyr'Ozch Rifle - Type 2",
-            "item_id": 254478
-        },
-        {
-            "alias": "Silenced Kyr'Ozch Rifle - Type 2",
-            "item_id": 257967
-        },
-        {
-            "alias": "Silenced Kyr'Ozch Rifle - Type 3",
-            "item_id": 257131
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n</font>\n<font color=#FFFF00> The Dynamic Gas Redistribution Valves drops in Alien Playfields and can be used for various tradeskill processes.</font><font color=#009B00>\n\n#L \"Dynamic Gas Redistribution Valves\" \"257962\"\n<img src=rdb://205508>\n\n#L \"Kyr'Ozch Rifle - Type 2\" \"254478\"\n<img src=rdb://255470></font>\n<font color=#FFFF00>or</font><font color=#009B00>\n#L \"Kyr'Ozch Rifle - Type 3\" \"254485\"\n<img src=rdb://13312>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nDynamic Gas Redistribution Valves</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nKyr'Ozch Rifle - Type 2</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://255470>\n#L \"Silenced Kyr'Ozch Rifle - Type 2\" \"257967\"</font>\n<font color=#FFFF00>Note: The Kyr'Ozch Rifle - Type 2 needs to be QL250+</font><font color=#009B00>\n</font>\n<font color=#FFFF00>or</font><font color=#009B00>\n\n\nDynamic Gas Redistribution Valves</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nKyr'Ozch Rifle - Type 3</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://255470>\n#L \"Silenced Kyr'Ozch Rifle - Type 3\" \"257131\"</font>\n<font color=#FFFF00>Note: The Kyr'Ozch Rifle - Type 3 needs to be QL250+</font><font color=#009B00>"
+	"name": "Silenced Kyr'Ozch Rifle",
+	"author": "",
+	"intro": [
+		{
+			"text": "The Dynamic Gas Redistribution Valves drops in Alien Playfields and can be used for various tradeskill processes."
+		}
+	],
+	"items": [
+		{
+			"alias": "Dynamic Gas Redistribution Valves",
+			"item_id": 257962
+		},
+		{
+			"alias": "Kyr'Ozch Rifle - Type 2",
+			"item_id": 254478
+		},
+		{
+			"alias": "Kyr'Ozch Rifle - Type 3",
+			"item_id": 254485,
+			"comment": "alternative to Kyr'Ozch Rifle - Type 2"
+		},
+		{
+			"alias": "Silenced Kyr'Ozch Rifle - Type 2",
+			"item_id": 257967
+		},
+		{
+			"alias": "Silenced Kyr'Ozch Rifle - Type 3",
+			"item_id": 257131
+		}
+	],
+	"steps": [
+		{
+			"text": "Either:"
+		},
+		{
+			"source": "Dynamic Gas Redistribution Valves",
+			"target": "Kyr'Ozch Rifle - Type 2",
+			"result": "Silenced Kyr'Ozch Rifle - Type 2"
+		},
+		{
+			"text": "Note: The Kyr'Ozch Rifle - Type 2 needs to be QL250+"
+		},
+		{
+			"text": "or:"
+		},
+		{
+			"source": "Dynamic Gas Redistribution Valves",
+			"target": "Kyr'Ozch Rifle - Type 3",
+			"result": "Silenced Kyr'Ozch Rifle - Type 3"
+		},
+		{
+			"text": "Note: The Kyr'Ozch Rifle - Type 3 needs to be QL250+"
+		}
+	]
 }

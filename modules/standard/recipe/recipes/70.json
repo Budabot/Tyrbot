@@ -1,45 +1,128 @@
 {
-    "name": "Metallic Mantis Armor",
-    "author": "",
-    "items": [
-        {
-            "alias": "Deformed Mantidae Head",
-            "item_id": 164272
-        },
-        {
-            "alias": "Deformed Mantidae Abdomen",
-            "item_id": 164274
-        },
-        {
-            "alias": "Deformed Mantidae Femur",
-            "item_id": 164276
-        },
-        {
-            "alias": "Deformed Mantidae Tarsus",
-            "item_id": 164278
-        },
-        {
-            "alias": "Deformed Mantidae Tibia",
-            "item_id": 164280
-        },
-        {
-            "alias": "Deformed Mantidae Wing",
-            "item_id": 164282
-        },
-        {
-            "alias": "Superior Mass Relocating Robot",
-            "item_id": 155591
-        },
-        {
-            "alias": "Mass Relocating Robot (Shape Soft Armor)",
-            "item_id": 162220
-        },
-        {
-            "alias": "Metallic Mantis Body Armor",
-            "item_id": 164349
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nA Deformed Mantidae...\n\n#L \"Head\" \"164272\"\n<img src=rdb://144707></font>\n<font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Abdomen\" \"164274\"\n<img src=rdb://144711></font>\n<font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Femur\" \"164276\"\n<img src=rdb://158239></font>\n<font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Tarsus\" \"164278\"\n<img src=rdb://158238></font>\n<font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Tibia\" \"164280\"\n<img src=rdb://158239></font>\n<font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Wing\" \"164282\"\n<img src=rdb://161085>\n\n#L \"Programmed Photon Particle Emitter (Shape Soft Armor)\" \"162222\"\n<img src=rdb://144476>\n\n#L \"Mass Relocating Robot\" \"155591\"\n<img src=rdb://155928>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nProgrammed Photon Particle Emitter (Shape Soft Armor)</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nMass Relocating Robot</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://163857>\n#L \"Mass Relocating Robot (Shape Soft Armor)\" \"162220\"</font>\n<font color=#FFFF00>Skills: | 2.5EE,2.5ME,2.5NP |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nMass Relocating Robot (Shape Soft Armor)</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nDeformed Mantidae</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://13249>\nMetallic Mantis Armor\n( ie : #L \"Metallic Mantis Body Armor\" \"164349\"</font>\n<font color=#FFFF00>Skills: | ME,INT |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nExcellent armor but up to QL130 approximatively."
+	"name": "Metallic Mantis Armor",
+	"author": "",
+	"intro": [
+		{
+			"text": "A Deformed Mantidae..."
+		}
+	],
+	"items": [
+		{
+			"alias": "Deformed Mantidae Head",
+			"item_id": 164272
+		},
+		{
+			"alias": "Deformed Mantidae Abdomen",
+			"item_id": 164274,
+			"comment": "alternative to Deformed Mantidae Head"
+		},
+		{
+			"alias": "Deformed Mantidae Femur",
+			"item_id": 164276,
+			"comment": "alternative to Deformed Mantidae Head"
+		},
+		{
+			"alias": "Deformed Mantidae Tarsus",
+			"item_id": 164278,
+			"comment": "alternative to Deformed Mantidae Head"
+		},
+		{
+			"alias": "Deformed Mantidae Tibia",
+			"item_id": 164280,
+			"comment": "alternative to Deformed Mantidae Head"
+		},
+		{
+			"alias": "Deformed Mantidae Wing",
+			"item_id": 164282,
+			"comment": "alternative to Deformed Mantidae Head"
+		},
+		{
+			"alias": "Programmed Photon Particle Emitter (Shape Soft Armor)",
+			"item_id": 162222,
+			"name": "Programmed Photon Particle Emitter (Shape Soft Armor)",
+			"icon": 144476,
+			"ql": 60
+		},
+		{
+			"alias": "Mass Relocating Robot",
+			"item_id": 155591,
+			"comment": "or any other Mass Relocating Robot"
+		},
+		{
+			"alias": "Mass Relocating Robot (Shape Soft Armor)",
+			"item_id": 162220
+		},
+		{
+			"alias": "Metallic Mantis Armor",
+			"item_id": 164349,
+			"comment": "or another piece, depending on the Deformed Mantidae part"
+		}
+	],
+	"steps": [
+		{
+			"source": "Programmed Photon Particle Emitter (Shape Soft Armor)",
+			"target": "Mass Relocating Robot",
+			"result": "Mass Relocating Robot (Shape Soft Armor)",
+			"skills": "2.5EE,2.5ME,2.5NP"
+		},
+		{
+			"text": "Either:"
+		},
+		{
+			"source": "Mass Relocating Robot (Shape Soft Armor)",
+			"target": "Deformed Mantidae Head",
+			"result": "Metallic Mantis Armor",
+			"skills": "ME,INT"
+		},
+		{
+			"text": "or:"
+		},
+		{
+			"source": "Mass Relocating Robot (Shape Soft Armor)",
+			"target": "Deformed Mantidae Abdomen",
+			"result": "Metallic Mantis Armor",
+			"skills": "ME,INT"
+		},
+		{
+			"text": "or:"
+		},
+		{
+			"source": "Mass Relocating Robot (Shape Soft Armor)",
+			"target": "Deformed Mantidae Femur",
+			"result": "Metallic Mantis Armor",
+			"skills": "ME,INT"
+		},
+		{
+			"text": "or:"
+		},
+		{
+			"source": "Mass Relocating Robot (Shape Soft Armor)",
+			"target": "Deformed Mantidae Tarsus",
+			"result": "Metallic Mantis Armor",
+			"skills": "ME,INT"
+		},
+		{
+			"text": "or:"
+		},
+		{
+			"source": "Mass Relocating Robot (Shape Soft Armor)",
+			"target": "Deformed Mantidae Tibia",
+			"result": "Metallic Mantis Armor",
+			"skills": "ME,INT"
+		},
+		{
+			"text": "or:"
+		},
+		{
+			"source": "Mass Relocating Robot (Shape Soft Armor)",
+			"target": "Deformed Mantidae Wing",
+			"result": "Metallic Mantis Armor",
+			"skills": "ME,INT"
+		}
+	],
+	"details": [
+		{
+			"text": "Excellent armor but up to QL130 approximatively."
+		}
+	]
 }

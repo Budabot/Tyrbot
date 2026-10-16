@@ -1,8 +1,226 @@
 {
-    "name": "Rusty Nomad 21.7 BMG Ranger",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n 'Rusty Nomad 21.7 BMG Ranger'\nThe Construction kit. must be between Quality Level 1 and 20.\nAll other pieces must be of AT LEAST that level range... \nAdd them using shift+right-click.\nAdd the pieces in the following order:\n\n 1. Rifle Weapons Construction kit.\n\n 2. Nano Pylon. . SkillTo Assemble: Mech. Engi: 2-50\n\n 3. Ultra-Long Composite Barrel. . SkillTo Assemble: Weapon Smt: 4-85\n\n 4. Explosion Propulsion Containment Chamber. . SkillTo Assemble: Mech. Engi: 4-70\n\n 5. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 2-40\n\n 6. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 2-30\n\n 7. Notum Enriched Nano Paste - 4x Layer. . SkillTo Assemble: Nano Progra: 2-50\n\n 8. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 2-50\n\n 9. Runtime Critical Area Analyzer. . SkillTo Assemble: Weapon Smt: 4-80\n\n 10. Nano Pylon. . SkillTo Assemble: Mech. Engi: 2-50\n\n 11. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 2-50\n\n 12. Self-Cleaning KO-CR Device. . SkillTo Assemble: Weapon Smt: 4-70\n\n 13. Lock and Stock. . SkillTo Assemble: Weapon Smt: 4-80"
+	"name": "Rusty Nomad 21.7 BMG Ranger",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 1 and 20. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Rifle Weapons Construction Kit",
+			"item_id": 137203,
+			"name": "Rifle Weapons Construction Kit",
+			"icon": 131744,
+			"ql": 1
+		},
+		{
+			"alias": "Nano Pylon",
+			"item_id": 137277,
+			"ql": 1,
+			"quantity": 2
+		},
+		{
+			"alias": "Ultra-Long Composite Barrel",
+			"item_id": 137239,
+			"ql": 1
+		},
+		{
+			"alias": "Explosion Propulsion Containment Chamber",
+			"item_id": 137241,
+			"ql": 1
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 1
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 1
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 4x Layer",
+			"item_id": 137307,
+			"ql": 1
+		},
+		{
+			"alias": "Notum Alloy Strengthened Ribs",
+			"item_id": 137275,
+			"ql": 1,
+			"quantity": 2
+		},
+		{
+			"alias": "Runtime Critical Area Analyzer",
+			"item_id": 137299,
+			"ql": 1
+		},
+		{
+			"alias": "Self-Cleaning KO-CR Device",
+			"item_id": 137279,
+			"ql": 1
+		},
+		{
+			"alias": "Lock and Stock",
+			"item_id": 137255,
+			"ql": 1
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 2)",
+			"item_id": 137566,
+			"name": "Rifle Construction Kit (Step 2)",
+			"icon": 131745,
+			"ql": 1
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 3)",
+			"item_id": 137568,
+			"name": "Rifle Construction Kit (Step 3)",
+			"icon": 131745,
+			"ql": 1
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 4)",
+			"item_id": 137570,
+			"name": "Rifle Construction Kit (Step 4)",
+			"icon": 131745,
+			"ql": 1
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 5)",
+			"item_id": 137572,
+			"name": "Rifle Construction Kit (Step 5)",
+			"icon": 131746,
+			"ql": 1
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 6)",
+			"item_id": 137574,
+			"name": "Rifle Construction Kit (Step 6)",
+			"icon": 131746,
+			"ql": 1
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 7)",
+			"item_id": 137576,
+			"name": "Rifle Construction Kit (Step 7)",
+			"icon": 131747,
+			"ql": 1
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 8)",
+			"item_id": 137578,
+			"name": "Rifle Construction Kit (Step 8)",
+			"icon": 131747,
+			"ql": 1
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 9)",
+			"item_id": 137580,
+			"name": "Rifle Construction Kit (Step 9)",
+			"icon": 131748,
+			"ql": 1
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 10)",
+			"item_id": 137585,
+			"name": "Rifle Construction Kit (Step 10)",
+			"icon": 131748,
+			"ql": 1
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 11)",
+			"item_id": 137587,
+			"name": "Rifle Construction Kit (Step 11)",
+			"icon": 131748,
+			"ql": 1
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 12)",
+			"item_id": 137589,
+			"name": "Rifle Construction Kit (Step 12)",
+			"icon": 131749,
+			"ql": 1
+		},
+		{
+			"alias": "Rusty Nomad 21.7 BMG Ranger",
+			"item_id": 123979,
+			"ql": 1
+		}
+	],
+	"steps": [
+		{
+			"source": "Nano Pylon",
+			"target": "Rifle Weapons Construction Kit",
+			"result": "Rifle Construction Kit (Step 2)",
+			"skills": "Mech. Engi 2-50"
+		},
+		{
+			"source": "Ultra-Long Composite Barrel",
+			"target": "Rifle Construction Kit (Step 2)",
+			"result": "Rifle Construction Kit (Step 3)",
+			"skills": "Weapon Smt 4-85"
+		},
+		{
+			"source": "Explosion Propulsion Containment Chamber",
+			"target": "Rifle Construction Kit (Step 3)",
+			"result": "Rifle Construction Kit (Step 4)",
+			"skills": "Mech. Engi 4-70"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "Rifle Construction Kit (Step 4)",
+			"result": "Rifle Construction Kit (Step 5)",
+			"skills": "Nano Progra 2-40"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Rifle Construction Kit (Step 5)",
+			"result": "Rifle Construction Kit (Step 6)",
+			"skills": "Nano Progra 2-30"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 4x Layer",
+			"target": "Rifle Construction Kit (Step 6)",
+			"result": "Rifle Construction Kit (Step 7)",
+			"skills": "Nano Progra 2-50"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Rifle Construction Kit (Step 7)",
+			"result": "Rifle Construction Kit (Step 8)",
+			"skills": "Mech. Engi 2-50"
+		},
+		{
+			"source": "Runtime Critical Area Analyzer",
+			"target": "Rifle Construction Kit (Step 8)",
+			"result": "Rifle Construction Kit (Step 9)",
+			"skills": "Weapon Smt 4-80"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Rifle Construction Kit (Step 9)",
+			"result": "Rifle Construction Kit (Step 10)",
+			"skills": "Mech. Engi 2-50"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Rifle Construction Kit (Step 10)",
+			"result": "Rifle Construction Kit (Step 11)",
+			"skills": "Mech. Engi 2-50"
+		},
+		{
+			"source": "Self-Cleaning KO-CR Device",
+			"target": "Rifle Construction Kit (Step 11)",
+			"result": "Rifle Construction Kit (Step 12)",
+			"skills": "Weapon Smt 4-70"
+		},
+		{
+			"source": "Lock and Stock",
+			"target": "Rifle Construction Kit (Step 12)",
+			"result": "Rusty Nomad 21.7 BMG Ranger",
+			"skills": "Weapon Smt 4-80"
+		}
+	]
 }

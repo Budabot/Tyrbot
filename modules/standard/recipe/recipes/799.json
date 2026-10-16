@@ -1,0 +1,77 @@
+{
+	"name": "X-11 Ejector Turret",
+	"author": "",
+	"intro": [
+		{
+			"text": "Special Turrets:"
+		},
+		{
+			"text": "#L \"Type 1: Cold Laser Turret\" \"/tell <myname> recipe 113\""
+		},
+		{
+			"text": "#L \"Type 2: Corrosive Turret\" \"/tell <myname> recipe 798\""
+		},
+		{
+			"text": "<highlight>Type 3: X-11 Ejector Turret</highlight> (this recipe)"
+		},
+		{
+			"text": ""
+		}
+	],
+	"items": [
+		{
+			"alias": "Cloud of Infuriated Nanobots",
+			"item_id": 202534
+		},
+		{
+			"alias": "Turret Construction Base",
+			"item_id": 202583,
+			"comment": "or any other Turret Construction Base"
+		},
+		{
+			"alias": "HSR Compressed Regenerating Bioplate",
+			"item_id": 202540
+		},
+		{
+			"alias": "Augias X-11 Ejector",
+			"item_id": 202785
+		},
+		{
+			"alias": "Turret Controller",
+			"item_id": 202584
+		},
+		{
+			"alias": "X-11 Ejector Turret Controller",
+			"item_id": 202592
+		},
+		{
+			"alias": "X-11 Ejector Turret",
+			"item_id": 203089
+		}
+	],
+	"steps": [
+		{
+			"source": "Cloud of Infuriated Nanobots",
+			"target": "Turret Construction Base",
+			"result": "Turret Controller",
+			"skills": "ME,NP"
+		},
+		{
+			"source": "Turret Controller",
+			"target": "Augias X-11 Ejector",
+			"result": "X-11 Ejector Turret Controller",
+			"skills": "ME,WS"
+		},
+		{
+			"source": "HSR Compressed Regenerating Bioplate",
+			"target": "X-11 Ejector Turret Controller",
+			"result": "X-11 Ejector Turret",
+			"skills": "ME"
+		}
+	],
+	"details": [
+		{
+			"text": "The best towers in the game are the ones you build yourself, and these are no exception. The weapons used in the process are difficult to get your hands on though."
+		}
+	]
+}

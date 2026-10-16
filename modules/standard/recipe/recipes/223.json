@@ -1,8 +1,178 @@
 {
-    "name": "Compu-Seeker Long Axe -Y2000",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n  'Compu-Seeker Long Axe -Y2000'\n The Construction kit. must be between Quality Level  139 and  161.\n All other pieces must be of AT LEAST that level range... \n Add them using shift+right-click.\n  Add in following order:\n \n  1. Two Handed Edged Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  556 ->  644\n \n  2. Optimized Co-Weapon Interface. SkillTo Assemble: Comp. Liter:  417 ->  483\n \n  3. Medium Handle. SkillTo Assemble: Weapon Smt:  511 ->  592\n \n  4. Run Speed Cluster - Faded (Leg). SkillTo Assemble: Nano Progra:  139 ->  161\n \n  5. 8x Layer Carbon-Notum Alloy Blade. SkillTo Assemble: Weapon Smt:  486 ->  564\n \n  6. 4x Layer Carbon-Notum Alloy Blade. SkillTo Assemble: Weapon Smt:  417 ->  483\n \n  7. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  208 ->  242\n \n  8. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  278 ->  322\n \n  9. Notum Enriched Nano Paste - 4x Layer. SkillTo Assemble: Nano Progra:  348 ->  402\n \n  10. 2h Edged Cluster - Faded (Waist). SkillTo Assemble: Nano Progra:  139 ->  161"
+	"name": "Compu-Seeker Long Axe -Y2000",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 139 and 161. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Two Handed Edged Weapons Construction Kit",
+			"item_id": 137221,
+			"name": "Two Handed Edged Weapons Construction Kit",
+			"icon": 131852,
+			"ql": 139,
+			"comment": "Skill To Assemble: Weapon Smt 556-644"
+		},
+		{
+			"alias": "Optimized Co-Weapon Interface",
+			"item_id": 142930,
+			"ql": 139
+		},
+		{
+			"alias": "Medium Handle",
+			"item_id": 142886,
+			"ql": 139
+		},
+		{
+			"alias": "Run Speed Cluster - Faded (Leg)",
+			"item_id": 130003,
+			"ql": 139
+		},
+		{
+			"alias": "8x Layer Carbon-Notum Alloy Blade",
+			"item_id": 142920,
+			"ql": 139
+		},
+		{
+			"alias": "4x Layer Carbon-Notum Alloy Blade",
+			"item_id": 142918,
+			"ql": 139
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 139
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 139
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 4x Layer",
+			"item_id": 137307,
+			"ql": 139
+		},
+		{
+			"alias": "2h Edged Cluster - Faded (Waist)",
+			"item_id": 101351,
+			"ql": 139
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 2)",
+			"item_id": 143023,
+			"name": "2h Edged Construction Kit (Step 2)",
+			"icon": 131853,
+			"ql": 139
+		},
+		{
+			"alias": "Step 3 (unknown)",
+			"name": "???"
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 4)",
+			"item_id": 143237,
+			"name": "2h Edged Construction Kit (Step 4)",
+			"icon": 131854,
+			"ql": 139
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 5)",
+			"item_id": 143239,
+			"name": "2h Edged Construction Kit (Step 5)",
+			"icon": 131855,
+			"ql": 139
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 6)",
+			"item_id": 143241,
+			"name": "2h Edged Construction Kit (Step 6)",
+			"icon": 131855,
+			"ql": 139
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 7)",
+			"item_id": 143243,
+			"name": "2h Edged Construction Kit (Step 7)",
+			"icon": 131856,
+			"ql": 139
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 8)",
+			"item_id": 143245,
+			"name": "2h Edged Construction Kit (Step 8)",
+			"icon": 131856,
+			"ql": 139
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 9)",
+			"item_id": 143247,
+			"name": "2h Edged Construction Kit (Step 9)",
+			"icon": 131857,
+			"ql": 139
+		},
+		{
+			"alias": "Compu-Seeker Long Axe -Y2000",
+			"item_id": 121658,
+			"ql": 139
+		}
+	],
+	"steps": [
+		{
+			"source": "Optimized Co-Weapon Interface",
+			"target": "Two Handed Edged Weapons Construction Kit",
+			"result": "2h Edged Construction Kit (Step 2)",
+			"skills": "Comp. Liter 417-483"
+		},
+		{
+			"source": "Medium Handle",
+			"target": "2h Edged Construction Kit (Step 2)",
+			"result": "Step 3 (unknown)",
+			"skills": "Weapon Smt 511-592"
+		},
+		{
+			"source": "Run Speed Cluster - Faded (Leg)",
+			"target": "Step 3 (unknown)",
+			"result": "2h Edged Construction Kit (Step 4)",
+			"skills": "Nano Progra 139-161"
+		},
+		{
+			"source": "8x Layer Carbon-Notum Alloy Blade",
+			"target": "2h Edged Construction Kit (Step 4)",
+			"result": "2h Edged Construction Kit (Step 5)",
+			"skills": "Weapon Smt 486-564"
+		},
+		{
+			"source": "4x Layer Carbon-Notum Alloy Blade",
+			"target": "2h Edged Construction Kit (Step 5)",
+			"result": "2h Edged Construction Kit (Step 6)",
+			"skills": "Weapon Smt 417-483"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "2h Edged Construction Kit (Step 6)",
+			"result": "2h Edged Construction Kit (Step 7)",
+			"skills": "Nano Progra 208-242"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "2h Edged Construction Kit (Step 7)",
+			"result": "2h Edged Construction Kit (Step 8)",
+			"skills": "Nano Progra 278-322"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 4x Layer",
+			"target": "2h Edged Construction Kit (Step 8)",
+			"result": "2h Edged Construction Kit (Step 9)",
+			"skills": "Nano Progra 348-402"
+		},
+		{
+			"source": "2h Edged Cluster - Faded (Waist)",
+			"target": "2h Edged Construction Kit (Step 9)",
+			"result": "Compu-Seeker Long Axe -Y2000",
+			"skills": "Nano Progra 139-161"
+		}
+	]
 }

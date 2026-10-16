@@ -1,0 +1,96 @@
+{
+	"name": "Perennium Blaster",
+	"author": "",
+	"intro": [
+		{
+			"text": "Perennium Weapons:"
+		},
+		{
+			"text": "#L \"Perennium Beamer\" \"/tell <myname> recipe 84\""
+		},
+		{
+			"text": "<highlight>Perennium Blaster</highlight> (this recipe)"
+		},
+		{
+			"text": "#L \"Perennium Sniper\" \"/tell <myname> recipe 789\""
+		},
+		{
+			"text": ""
+		}
+	],
+	"items": [
+		{
+			"alias": "Nano-Charged Assault Rifle",
+			"item_id": 123228,
+			"comment": "> QL50; or any other Nano-Charged Assault Rifle"
+		},
+		{
+			"alias": "Sheet of Perennium",
+			"item_id": 226019,
+			"comment": "> QL50"
+		},
+		{
+			"alias": "Perennium Bolt",
+			"item_id": 226021,
+			"comment": "> QL50"
+		},
+		{
+			"alias": "Hacker Tool",
+			"item_id": 87814,
+			"comment": "or any other Hacker Tool"
+		},
+		{
+			"alias": "Spirit Tech Apparatus: Double Barrel",
+			"item_id": 246405,
+			"comment": "> QL50"
+		},
+		{
+			"alias": "Hacked Nano-Charged Assault Rifle",
+			"item_id": 246399
+		},
+		{
+			"alias": "Double Perennium Barrel",
+			"item_id": 246407
+		},
+		{
+			"alias": "Half-Finished Perennium Blaster",
+			"item_id": 246430
+		},
+		{
+			"alias": "Perennium Blaster",
+			"item_id": 246428,
+			"comment": "or another Perennium Blaster, depending on the QL"
+		}
+	],
+	"steps": [
+		{
+			"source": "Hacker Tool",
+			"target": "Nano-Charged Assault Rifle",
+			"result": "Hacked Nano-Charged Assault Rifle",
+			"skills": "7BE"
+		},
+		{
+			"source": "Sheet of Perennium",
+			"target": "Spirit Tech Apparatus: Double Barrel",
+			"result": "Double Perennium Barrel",
+			"skills": "7WS,5ME"
+		},
+		{
+			"source": "Double Perennium Barrel",
+			"target": "Hacked Nano-Charged Assault Rifle",
+			"result": "Half-Finished Perennium Blaster",
+			"skills": "7WS,5ME"
+		},
+		{
+			"source": "Perennium Bolt",
+			"target": "Half-Finished Perennium Blaster",
+			"result": "Perennium Blaster",
+			"skills": "7WS,5ME"
+		}
+	],
+	"details": [
+		{
+			"text": "Spirit Techs drop from Mortiigs, Perennium drops from Hecklers and the rifles can be rolled in missions."
+		}
+	]
+}

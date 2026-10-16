@@ -1,8 +1,194 @@
 {
-    "name": "Cheap MTI Aleph 99",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n  'Cheap MTI Aleph 99'\n The Construction kit. must be between Quality Level 1 and 20.\n All other pieces must be of AT LEAST that level range... \n Add them using shift+right-click.\n Add the pieces in the following order:\n \n  1. Submachinegun Weapons Construction kit.\n \n  2. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 2-50\n \n  3. Ultra-Long Composite Barrel. . SkillTo Assemble: Weapon Smt: 4-85\n \n  4. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 2-40\n \n  5. Triple Pulse Enabler. . SkillTo Assemble: Weapon Smt: 4-85\n \n  6. Nano Pylon. . SkillTo Assemble: Mech. Engi: 2-50\n \n  7. Nano Pylon. . SkillTo Assemble: Mech. Engi: 2-50\n \n  8. Stamina Cluster - Faded (Waist). . SkillTo Assemble: Nano Progra: 1-20\n \n  9. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 2-30\n \n  10. Explosion Propulsion Containment Chamber. . SkillTo Assemble: Mech. Engi: 4-70\n \n  11. Lock and Stock. . SkillTo Assemble: Weapon Smt: 4-80"
+	"name": "Cheap MTI Aleph 99",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 1 and 20. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Submachinegun Weapons Construction Kit",
+			"item_id": 137207,
+			"name": "Submachinegun Weapons Construction Kit",
+			"icon": 131780,
+			"ql": 1
+		},
+		{
+			"alias": "Notum Alloy Strengthened Ribs",
+			"item_id": 137275,
+			"ql": 1
+		},
+		{
+			"alias": "Ultra-Long Composite Barrel",
+			"item_id": 137239,
+			"ql": 1
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 1
+		},
+		{
+			"alias": "Triple Pulse Enabler",
+			"item_id": 137297,
+			"ql": 1
+		},
+		{
+			"alias": "Nano Pylon",
+			"item_id": 137277,
+			"ql": 1,
+			"quantity": 2
+		},
+		{
+			"alias": "Stamina Cluster - Faded (Waist)",
+			"item_id": 101783,
+			"ql": 1
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 1
+		},
+		{
+			"alias": "Explosion Propulsion Containment Chamber",
+			"item_id": 137241,
+			"ql": 1
+		},
+		{
+			"alias": "Lock and Stock",
+			"item_id": 137255,
+			"ql": 1
+		},
+		{
+			"alias": "MG / SMG Construction Kit (Step 2)",
+			"item_id": 140830,
+			"name": "MG / SMG Construction Kit (Step 2)",
+			"icon": 131781,
+			"ql": 1
+		},
+		{
+			"alias": "MG / SMG Construction Kit (Step 3)",
+			"item_id": 153809,
+			"name": "MG / SMG Construction Kit (Step 3)",
+			"icon": 131781,
+			"ql": 1
+		},
+		{
+			"alias": "MG / SMG Construction Kit (Step 4)",
+			"item_id": 153811,
+			"name": "MG / SMG Construction Kit (Step 4)",
+			"icon": 131782,
+			"ql": 1
+		},
+		{
+			"alias": "MG / SMG Construction Kit (Step 5)",
+			"item_id": 153813,
+			"name": "MG / SMG Construction Kit (Step 5)",
+			"icon": 131782,
+			"ql": 1
+		},
+		{
+			"alias": "MG / SMG Construction Kit (Step 6)",
+			"item_id": 153815,
+			"name": "MG / SMG Construction Kit (Step 6)",
+			"icon": 131783,
+			"ql": 1
+		},
+		{
+			"alias": "MG / SMG Construction Kit (Step 7)",
+			"item_id": 153817,
+			"name": "MG / SMG Construction Kit (Step 7)",
+			"icon": 131783,
+			"ql": 1
+		},
+		{
+			"alias": "MG / SMG Construction Kit (Step 8)",
+			"item_id": 153819,
+			"name": "MG / SMG Construction Kit (Step 8)",
+			"icon": 131784,
+			"ql": 1
+		},
+		{
+			"alias": "MG / SMG Construction Kit (Step 9)",
+			"item_id": 153821,
+			"name": "MG / SMG Construction Kit (Step 9)",
+			"icon": 131784,
+			"ql": 1
+		},
+		{
+			"alias": "MG / SMG Construction Kit (Step 10)",
+			"item_id": 153823,
+			"name": "MG / SMG Construction Kit (Step 10)",
+			"icon": 131785,
+			"ql": 1
+		},
+		{
+			"alias": "Cheap MTI Aleph 99",
+			"item_id": 152326,
+			"ql": 1
+		}
+	],
+	"steps": [
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Submachinegun Weapons Construction Kit",
+			"result": "MG / SMG Construction Kit (Step 2)",
+			"skills": "Mech. Engi 2-50"
+		},
+		{
+			"source": "Ultra-Long Composite Barrel",
+			"target": "MG / SMG Construction Kit (Step 2)",
+			"result": "MG / SMG Construction Kit (Step 3)",
+			"skills": "Weapon Smt 4-85"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "MG / SMG Construction Kit (Step 3)",
+			"result": "MG / SMG Construction Kit (Step 4)",
+			"skills": "Nano Progra 2-40"
+		},
+		{
+			"source": "Triple Pulse Enabler",
+			"target": "MG / SMG Construction Kit (Step 4)",
+			"result": "MG / SMG Construction Kit (Step 5)",
+			"skills": "Weapon Smt 4-85"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "MG / SMG Construction Kit (Step 5)",
+			"result": "MG / SMG Construction Kit (Step 6)",
+			"skills": "Mech. Engi 2-50"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "MG / SMG Construction Kit (Step 6)",
+			"result": "MG / SMG Construction Kit (Step 7)",
+			"skills": "Mech. Engi 2-50"
+		},
+		{
+			"source": "Stamina Cluster - Faded (Waist)",
+			"target": "MG / SMG Construction Kit (Step 7)",
+			"result": "MG / SMG Construction Kit (Step 8)",
+			"skills": "Nano Progra 1-20"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "MG / SMG Construction Kit (Step 8)",
+			"result": "MG / SMG Construction Kit (Step 9)",
+			"skills": "Nano Progra 2-30"
+		},
+		{
+			"source": "Explosion Propulsion Containment Chamber",
+			"target": "MG / SMG Construction Kit (Step 9)",
+			"result": "MG / SMG Construction Kit (Step 10)",
+			"skills": "Mech. Engi 4-70"
+		},
+		{
+			"source": "Lock and Stock",
+			"target": "MG / SMG Construction Kit (Step 10)",
+			"result": "Cheap MTI Aleph 99",
+			"skills": "Weapon Smt 4-80"
+		}
+	]
 }

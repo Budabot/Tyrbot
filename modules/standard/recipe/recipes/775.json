@@ -1,65 +1,175 @@
 {
-    "name": "Rebuilt Perennium Weapons",
-    "author": "",
-    "items": [
-        {
-            "alias": "Superior Perennium Blaster",
-            "item_id": 246428
-        },
-        {
-            "alias": "Superior Perennium Sniper",
-            "item_id": 246414
-        },
-        {
-            "alias": "Superior Perennium Beamer",
-            "item_id": 246421
-        },
-        {
-            "alias": "Perennium Blaster Rebuild Kit",
-            "item_id": 260724
-        },
-        {
-            "alias": "Perennium Sniper Rebuild Kit",
-            "item_id": 260726
-        },
-        {
-            "alias": "Perennium Beamer Rebuild Kit",
-            "item_id": 260725
-        },
-        {
-            "alias": "Lord of Anger",
-            "item_id": 244802
-        },
-        {
-            "alias": "Lord of Angst",
-            "item_id": 244821
-        },
-        {
-            "alias": "Perennium Sniper Rebuild Kit",
-            "item_id": 260727
-        },
-        {
-            "alias": "Superior Rebuilt Perennium Sniper",
-            "item_id": 260720
-        },
-        {
-            "alias": "Perennium Beamer Rebuild Kit",
-            "item_id": 260728
-        },
-        {
-            "alias": "Superior Rebuilt Perennium Beamer",
-            "item_id": 260713
-        },
-        {
-            "alias": "Perennium Blaster Rebuild Kit",
-            "item_id": 260729
-        },
-        {
-            "alias": "Superior Rebuilt Perennium Blaster",
-            "item_id": 260706
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n</font>\n<font color=#FFFF00> Parts from the Beast and the Spirit Quest from Inferno allow you to upgrade your Perennium weapon. Later on it can also be upgraded to a Xan weapon</font><font color=#009B00>\n\n#L \"Superior Perennium Blaster\" \"246428\"\n<img src=rdb://45783></font>\n<font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Superior Perennium Sniper\" \"246414\"\n<img src=rdb://45782></font>\n<font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Superior Perennium Beamer\" \"246421\"\n<img src=rdb://45783>\n\n#L \"Perennium Blaster Rebuild Kit\" \"260724\"\n<img src=rdb://205502></font>\n<font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Perennium Sniper Rebuild Kit\" \"260726\"\n<img src=rdb://205502></font>\n<font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Perennium Beamer Rebuild Kit\" \"260725\"\n<img src=rdb://205502>\n\n#L \"Lord of Anger\" \"244802\"\n<img src=rdb://210184></font>\n<font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Lord of Angst\" \"244821\"\n<img src=rdb://245082></font>\n<font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Lord of Envy\" \"244843\"\n<img src=rdb://245082>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n<highlight>Superior Rebuilt Perennium Sniper</highlight></font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nLord of Angst</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nPerennium Sniper Rebuild Kit</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://205501>\n#L \"Perennium Sniper Rebuild Kit\" \"260727\"\n\nPerennium Sniper Rebuild Kit</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nSuperior Perennium Sniper</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://245082>\n#L \"Superior Rebuilt Perennium Sniper\" \"260720\"\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n<highlight>Superior Rebuilt Perennium Beamer</highlight></font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nLord of Envy</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nPerennium Beamer Rebuild Kit</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://205501>\n#L \"Perennium Beamer Rebuild Kit\" \"260728\"\n\nPerennium Sniper Rebuild Kit</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nSuperior Perennium Beamer</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://244836>\n#L \"Superior Rebuilt Perennium Beamer\" \"260713\"\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n<highlight>Superior Rebuilt Perennium Blaster</highlight></font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nLord of Envy</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nPerennium Blaster Rebuild Kit</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://205501>\n#L \"Perennium Blaster Rebuild Kit\" \"260729\"\n\nPerennium Sniper Rebuild Kit</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nSuperior Perennium Blaster</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://244931>\n#L \"Superior Rebuilt Perennium Blaster\" \"260706\""
+	"name": "Rebuilt Perennium Weapons",
+	"author": "",
+	"intro": [
+		{
+			"text": "Parts from the Beast and the Spirit Quest from Inferno allow you to upgrade your Perennium weapon. Later on it can also be upgraded to a Xan weapon"
+		}
+	],
+	"items": [
+		{
+			"alias": "Superior Perennium Blaster",
+			"item_id": 246428
+		},
+		{
+			"alias": "Superior Perennium Sniper",
+			"item_id": 246414,
+			"comment": "alternative to Superior Perennium Blaster"
+		},
+		{
+			"alias": "Superior Perennium Beamer",
+			"item_id": 246421,
+			"comment": "alternative to Superior Perennium Blaster"
+		},
+		{
+			"alias": "Perennium Blaster Rebuild Kit",
+			"item_id": 260724
+		},
+		{
+			"alias": "Perennium Sniper Rebuild Kit",
+			"item_id": 260726,
+			"comment": "alternative to Perennium Blaster Rebuild Kit"
+		},
+		{
+			"alias": "Perennium Beamer Rebuild Kit",
+			"item_id": 260725,
+			"comment": "alternative to Perennium Blaster Rebuild Kit"
+		},
+		{
+			"alias": "Lord of Anger",
+			"item_id": 244802
+		},
+		{
+			"alias": "Lord of Angst",
+			"item_id": 244821,
+			"comment": "alternative to Lord of Anger"
+		},
+		{
+			"alias": "Lord of Envy",
+			"item_id": 244843,
+			"comment": "alternative to Lord of Anger"
+		},
+		{
+			"alias": "Perennium Sniper Rebuild Kit (combined)",
+			"item_id": 260727
+		},
+		{
+			"alias": "Superior Rebuilt Perennium Sniper",
+			"item_id": 260720
+		},
+		{
+			"alias": "Perennium Beamer Rebuild Kit (combined)",
+			"item_id": 260728
+		},
+		{
+			"alias": "Superior Rebuilt Perennium Beamer",
+			"item_id": 260713
+		},
+		{
+			"alias": "Perennium Blaster Rebuild Kit (combined)",
+			"item_id": 260729
+		},
+		{
+			"alias": "Superior Rebuilt Perennium Blaster",
+			"item_id": 260706
+		}
+	],
+	"steps": [
+		{
+			"text": "<highlight>Superior Rebuilt Perennium Sniper</highlight>"
+		},
+		{
+			"text": "Either:"
+		},
+		{
+			"source": "Lord of Angst",
+			"target": "Perennium Sniper Rebuild Kit",
+			"result": "Perennium Sniper Rebuild Kit (combined)"
+		},
+		{
+			"text": "or:"
+		},
+		{
+			"source": "Lord of Anger",
+			"target": "Perennium Sniper Rebuild Kit",
+			"result": "Perennium Sniper Rebuild Kit (combined)"
+		},
+		{
+			"text": "or:"
+		},
+		{
+			"source": "Lord of Envy",
+			"target": "Perennium Sniper Rebuild Kit",
+			"result": "Perennium Sniper Rebuild Kit (combined)"
+		},
+		{
+			"source": "Perennium Sniper Rebuild Kit (combined)",
+			"target": "Superior Perennium Sniper",
+			"result": "Superior Rebuilt Perennium Sniper"
+		},
+		{
+			"text": "<highlight>Superior Rebuilt Perennium Beamer</highlight>"
+		},
+		{
+			"text": "Either:"
+		},
+		{
+			"source": "Lord of Envy",
+			"target": "Perennium Beamer Rebuild Kit",
+			"result": "Perennium Beamer Rebuild Kit (combined)"
+		},
+		{
+			"text": "or:"
+		},
+		{
+			"source": "Lord of Anger",
+			"target": "Perennium Beamer Rebuild Kit",
+			"result": "Perennium Beamer Rebuild Kit (combined)"
+		},
+		{
+			"text": "or:"
+		},
+		{
+			"source": "Lord of Angst",
+			"target": "Perennium Beamer Rebuild Kit",
+			"result": "Perennium Beamer Rebuild Kit (combined)"
+		},
+		{
+			"source": "Perennium Beamer Rebuild Kit (combined)",
+			"target": "Superior Perennium Beamer",
+			"result": "Superior Rebuilt Perennium Beamer"
+		},
+		{
+			"text": "<highlight>Superior Rebuilt Perennium Blaster</highlight>"
+		},
+		{
+			"text": "Either:"
+		},
+		{
+			"source": "Lord of Envy",
+			"target": "Perennium Blaster Rebuild Kit",
+			"result": "Perennium Blaster Rebuild Kit (combined)"
+		},
+		{
+			"text": "or:"
+		},
+		{
+			"source": "Lord of Anger",
+			"target": "Perennium Blaster Rebuild Kit",
+			"result": "Perennium Blaster Rebuild Kit (combined)"
+		},
+		{
+			"text": "or:"
+		},
+		{
+			"source": "Lord of Angst",
+			"target": "Perennium Blaster Rebuild Kit",
+			"result": "Perennium Blaster Rebuild Kit (combined)"
+		},
+		{
+			"source": "Perennium Blaster Rebuild Kit (combined)",
+			"target": "Superior Perennium Blaster",
+			"result": "Superior Rebuilt Perennium Blaster"
+		}
+	]
 }

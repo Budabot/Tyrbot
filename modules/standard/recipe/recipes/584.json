@@ -1,21 +1,34 @@
 {
-    "name": "Hacked Graft",
-    "author": "",
-    "items": [
-        {
-            "alias": "Symbio-Graft: 1H Blunt Weapon Expertise",
-            "item_id": 127241
-        },
-        {
-            "alias": "Advanced Hacker Tool",
-            "item_id": 87814
-        },
-        {
-            "alias": "Hacked Symbio-Graft: 1H Blunt Weapon Expertise",
-            "item_id": 127242
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\na Boosted-Graft or a Symbio-Graft\n( ie : #L \"Symbio-Graft: 1H Blunt Weapon Expertise\" \"127241\" )\n<img src=rdb://11647>\n\n#L \"Hacker Tool\" \"87814\"\n<img src=rdb://99282>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nHacker Tool</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nGraft</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://11647>\na Hacked Boosted-Graft\n( ie : #L \"Hacked Symbio-Graft: 1H Blunt Weapon Expertise\" \"127242\" )</font>\n<font color=#FFFF00>Skills: |  BE  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nOverride the profession requirement."
+	"name": "Hacked Graft",
+	"author": "",
+	"items": [
+		{
+			"alias": "Graft",
+			"item_id": 127241,
+			"comment": "or any other Boosted-Graft or Symbio-Graft"
+		},
+		{
+			"alias": "Hacker Tool",
+			"item_id": 87814,
+			"comment": "or any other Hacker Tool"
+		},
+		{
+			"alias": "Hacked Graft",
+			"item_id": 127242,
+			"comment": "or another Hacked Boosted-Graft or Symbio-Graft, depending on the graft"
+		}
+	],
+	"steps": [
+		{
+			"source": "Hacker Tool",
+			"target": "Graft",
+			"result": "Hacked Graft",
+			"skills": "BE"
+		}
+	],
+	"details": [
+		{
+			"text": "Override the profession requirement."
+		}
+	]
 }

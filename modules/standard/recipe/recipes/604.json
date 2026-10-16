@@ -1,21 +1,31 @@
 {
-    "name": "De-Hacked Frederickson Micro-kinetic Sleeves",
-    "author": "",
-    "items": [
-        {
-            "alias": "Frederickson Micro-kinetic Sleeves",
-            "item_id": 152710
-        },
-        {
-            "alias": "Advanced Hacker Tool",
-            "item_id": 87814
-        },
-        {
-            "alias": "De-Hacked Frederickson Micro-kinetic Sleeves",
-            "item_id": 286303
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n</font>\n<font color=#FF0000> *** </font><font color=#FFFF00> Hack the sleeves with a hacker tool in order to make the clan\nversion of the omni sleeves. Neutrals can not wear them.\nNo trade skills required and the QL of the hacker tool does not matter.</font>\n<font color=#FF0000> *** </font><font color=#009B00>\n\n#L \"Frederickson Micro-kinetic Sleeves\" \"152710\"\n<img src=rdb://81990>\n\n#L \"Advanced Hacker Tool\" \"87814\"\n<img src=rdb://99282>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nFrederickson Micro-kinetic Sleeves</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nAdvanced Hacker Tool</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://81990>\n#L \"De-Hacked Frederickson Micro-kinetic Sleeves\" \"286303\"</font>\n<font color=#FFFF00>Skills: No skills required.</font><font color=#009B00>"
+	"name": "De-Hacked Frederickson Micro-kinetic Sleeves",
+	"author": "",
+	"intro": [
+		{
+			"text": "Hack the sleeves with a hacker tool in order to make the clan version of the omni sleeves. Neutrals can not wear them. No trade skills required and the QL of the hacker tool does not matter."
+		}
+	],
+	"items": [
+		{
+			"alias": "Frederickson Micro-kinetic Sleeves",
+			"item_id": 152710
+		},
+		{
+			"alias": "Advanced Hacker Tool",
+			"item_id": 87814
+		},
+		{
+			"alias": "De-Hacked Frederickson Micro-kinetic Sleeves",
+			"item_id": 286303
+		}
+	],
+	"steps": [
+		{
+			"source": "Frederickson Micro-kinetic Sleeves",
+			"target": "Advanced Hacker Tool",
+			"result": "De-Hacked Frederickson Micro-kinetic Sleeves",
+			"skills": "No skills required."
+		}
+	]
 }

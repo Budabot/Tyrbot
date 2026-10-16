@@ -1,65 +1,177 @@
 {
-    "name": "Bureaucrat Suits",
-    "author": "",
-    "items": [
-        {
-            "alias": "Advanced Hacker Tool",
-            "item_id": 87814
-        },
-        {
-            "alias": "Sealed Order BLCG-7791",
-            "item_id": 156330
-        },
-        {
-            "alias": "Sealed Order XITL-0127",
-            "item_id": 156328
-        },
-        {
-            "alias": "Expendable Hologram Camera",
-            "item_id": 156054
-        },
-        {
-            "alias": "ID-extractor",
-            "item_id": 156339
-        },
-        {
-            "alias": "Omni-Tek Multi-Form",
-            "item_id": 156344
-        },
-        {
-            "alias": "Hacked Order BLCG-7791",
-            "item_id": 156336
-        },
-        {
-            "alias": "ID-data",
-            "item_id": 156340
-        },
-        {
-            "alias": "Personal Order BLCG-7791",
-            "item_id": 156352
-        },
-        {
-            "alias": "OT Standard Executive Secretary Suit",
-            "item_id": 156528
-        },
-        {
-            "alias": "Clans Multi-Form",
-            "item_id": 156346
-        },
-        {
-            "alias": "Standard Clans Administration Suit",
-            "item_id": 156530
-        },
-        {
-            "alias": "Multi-Form",
-            "item_id": 156345
-        },
-        {
-            "alias": "Universal Office Worker Suit",
-            "item_id": 156538
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Hacker Tool\" \"87814\"\n<img src=rdb://99282>\n\n#L \"Sealed Order BLCG-7791\" \"156330\" (For Clan)</font>\n<font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Sealed Order XITL-0127\" \"156328\" (For OMNI)\n<img src=rdb://156326>\n\n#L \"Expendable Hologram Camera\" \"156054\"\n<img src=rdb://156092>\n\n#L \"ID-extractor\" \"156339\"\n<img src=rdb://156324>\n\nA Multi-Form needed\n( ie #L \"Omni-Tek Multi-Form\" \"156344\" )\n<img src=rdb://156343>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nHacker Tool</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nSealed Order</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://154678>\nHacked Order\n( ie : #L \"Hacked Order BLCG-7791\" \"156336\" )</font>\n<font color=#FFFF00>Skills: |  BE  |</font><font color=#009B00>\n</font>\n<font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nID-extractor</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nExpendable Hologram Camera</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://156323>\n#L \"ID-data\" \"156340\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nID-data</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nHacked Order</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://156325>\nPersonal Order\n( ie : #L \"Personal Order BLCG-7791\" \"156352\" )</font>\n<font color=#FFFF00>Skills: |  PS  |</font><font color=#009B00>\n</font>\n<font color=#FFFFFF>------------------------------</font><font color=#009B00>\n\nMulti-Form</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nPersonal Order</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://156357>\nBureaucrat Suits</font>\n<font color=#FFFF00>Skills: |  PS  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Details</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Sealed Order XITL-0127\" \"156328\"\n#L \"Omni-Tek Multi-Form\" \"156344\"\n->\n#L \"OT Standard Executive Secretary Suit\" \"156528\"\n<img src=rdb://156357>\n\n#L \"Sealed Order BLCG-7791\" \"156330\"\n#L \"Clans Multi-Form\" \"156346\"\n->\n#L \"Standard Clans Administration Suit\" \"156530\"\n<img src=rdb://156356>\n\n#L \"Sealed Order XITL-0127\" \"156328\"\n#L \"Clans Multi-Form\" \"156345\"\n->\n#L \"Universal Office Worker Suit\" \"156538\"\n<img src=rdb://156355>\n\n#L \"Sealed Order BLCG-7791\" \"156330\"\n#L \"Omni-Tek Multi-Form\" \"156344\"\n->\n#L \"Universal Office Worker Suit\" \"156538\"\n<img src=rdb://156355>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nNice buffs and they look great too."
+	"name": "Bureaucrat Suits",
+	"author": "",
+	"items": [
+		{
+			"alias": "Hacker Tool",
+			"item_id": 87814,
+			"comment": "or any other Hacker Tool"
+		},
+		{
+			"alias": "Sealed Order BLCG-7791",
+			"item_id": 156330,
+			"comment": "For Clan"
+		},
+		{
+			"alias": "Sealed Order XITL-0127",
+			"item_id": 156328,
+			"comment": "For OMNI; alternative to Sealed Order BLCG-7791"
+		},
+		{
+			"alias": "Expendable Hologram Camera",
+			"item_id": 156054
+		},
+		{
+			"alias": "ID-extractor",
+			"item_id": 156339
+		},
+		{
+			"alias": "Multi-Form",
+			"item_id": 156344,
+			"comment": "or any other Multi-Form, see the details"
+		},
+		{
+			"alias": "Hacked Order",
+			"item_id": 156336,
+			"comment": "or another Hacked Order, depending on the Sealed Order"
+		},
+		{
+			"alias": "ID-data",
+			"item_id": 156340
+		},
+		{
+			"alias": "Personal Order",
+			"item_id": 156352,
+			"comment": "or another Personal Order, depending on the Sealed Order"
+		},
+		{
+			"alias": "Bureaucrat Suits",
+			"item_id": 156528,
+			"comment": "or another suit, depending on the Sealed Order and the Multi-Form, see the details"
+		}
+	],
+	"steps": [
+		{
+			"text": "Either:"
+		},
+		{
+			"source": "Hacker Tool",
+			"target": "Sealed Order BLCG-7791",
+			"result": "Hacked Order",
+			"skills": "BE"
+		},
+		{
+			"text": "or:"
+		},
+		{
+			"source": "Hacker Tool",
+			"target": "Sealed Order XITL-0127",
+			"result": "Hacked Order",
+			"skills": "BE"
+		},
+		{
+			"source": "ID-extractor",
+			"target": "Expendable Hologram Camera",
+			"result": "ID-data",
+			"skills": "??"
+		},
+		{
+			"source": "ID-data",
+			"target": "Hacked Order",
+			"result": "Personal Order",
+			"skills": "PS"
+		},
+		{
+			"source": "Multi-Form",
+			"target": "Personal Order",
+			"result": "Bureaucrat Suits",
+			"skills": "PS"
+		}
+	],
+	"details": [
+		{
+			"item": {
+				"id": 156328
+			}
+		},
+		{
+			"item": {
+				"id": 156344
+			}
+		},
+		{
+			"text": "->"
+		},
+		{
+			"item": {
+				"id": 156528
+			}
+		},
+		{
+			"text": ""
+		},
+		{
+			"item": {
+				"id": 156330
+			}
+		},
+		{
+			"item": {
+				"id": 156346
+			}
+		},
+		{
+			"text": "->"
+		},
+		{
+			"item": {
+				"id": 156530
+			}
+		},
+		{
+			"text": ""
+		},
+		{
+			"item": {
+				"id": 156328
+			}
+		},
+		{
+			"item": {
+				"id": 156346
+			}
+		},
+		{
+			"text": "->"
+		},
+		{
+			"item": {
+				"id": 156538
+			}
+		},
+		{
+			"text": ""
+		},
+		{
+			"item": {
+				"id": 156330
+			}
+		},
+		{
+			"item": {
+				"id": 156344
+			}
+		},
+		{
+			"text": "->"
+		},
+		{
+			"item": {
+				"id": 156538
+			}
+		},
+		{
+			"text": "Nice buffs and they look great too."
+		}
+	]
 }

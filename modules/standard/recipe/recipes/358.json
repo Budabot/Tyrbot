@@ -1,8 +1,209 @@
 {
-    "name": "Over-Tuned Heavy Grinner",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n 'Over-Tuned Heavy Grinner'\nThe Construction kit. must be between Quality Level  41 and  60.\nAll other pieces must be of AT LEAST that level range... \nAdd them using shift+right-click.\n Add in following order:\n\n 1. Pistol Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  164 ->  240\n\n 2. Nano Pylon. SkillTo Assemble: Mech. Engi:  102 ->  150\n\n 3. Self-Cleaning KO-CR Device. SkillTo Assemble: Weapon Smt:  144 ->  210\n\n 4. Nano Pylon. SkillTo Assemble: Mech. Engi:  102 ->  150\n\n 5. Lock and Stock. SkillTo Assemble: Weapon Smt:  164 ->  240\n\n 6. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  62 ->  90\n\n 7. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  82 ->  120\n\n 8. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  102 ->  150\n\n 9. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  102 ->  150\n\n 10. Triple Pulse Enabler. SkillTo Assemble: Weapon Smt:  174 ->  255\n\n 11. Explosion Propulsion Containment Chamber. SkillTo Assemble: Mech. Engi:  144 ->  210\n\n 12. Composite Barrel. SkillTo Assemble: Weapon Smt:  154 ->  225"
+	"name": "Over-Tuned Heavy Grinner",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 41 and 60. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Pistol Weapons Construction Kit",
+			"item_id": 137201,
+			"name": "Pistol Weapons Construction Kit",
+			"icon": 131726,
+			"ql": 41,
+			"comment": "Skill To Assemble: Weapon Smt 164-240"
+		},
+		{
+			"alias": "Nano Pylon",
+			"item_id": 137277,
+			"ql": 41,
+			"quantity": 2
+		},
+		{
+			"alias": "Self-Cleaning KO-CR Device",
+			"item_id": 137279,
+			"ql": 41
+		},
+		{
+			"alias": "Lock and Stock",
+			"item_id": 137255,
+			"ql": 41
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 41
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 41
+		},
+		{
+			"alias": "Notum Alloy Strengthened Ribs",
+			"item_id": 137275,
+			"ql": 41,
+			"quantity": 2
+		},
+		{
+			"alias": "Triple Pulse Enabler",
+			"item_id": 137297,
+			"ql": 41
+		},
+		{
+			"alias": "Explosion Propulsion Containment Chamber",
+			"item_id": 137241,
+			"ql": 41
+		},
+		{
+			"alias": "Composite Barrel",
+			"item_id": 137235,
+			"ql": 41
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 2)",
+			"item_id": 139081,
+			"name": "Pistol Construction Kit (Step 2)",
+			"icon": 131727,
+			"ql": 41
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 3)",
+			"item_id": 139083,
+			"name": "Pistol Construction Kit (Step 3)",
+			"icon": 131727,
+			"ql": 41
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 4)",
+			"item_id": 139085,
+			"name": "Pistol Construction Kit (Step 4)",
+			"icon": 131728,
+			"ql": 41
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 5)",
+			"item_id": 139087,
+			"name": "Pistol Construction Kit (Step 5)",
+			"icon": 131728,
+			"ql": 41
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 6)",
+			"item_id": 139089,
+			"name": "Pistol Construction Kit (Step 6)",
+			"icon": 131729,
+			"ql": 41
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 7)",
+			"item_id": 139091,
+			"name": "Pistol Construction Kit (Step 7)",
+			"icon": 131729,
+			"ql": 41
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 8)",
+			"item_id": 139093,
+			"name": "Pistol Construction Kit (Step 8)",
+			"icon": 131729,
+			"ql": 41
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 9)",
+			"item_id": 139095,
+			"name": "Pistol Construction Kit (Step 9)",
+			"icon": 131730,
+			"ql": 41
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 10)",
+			"item_id": 139097,
+			"name": "Pistol Construction Kit (Step 10)",
+			"icon": 131730,
+			"ql": 41
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 11)",
+			"item_id": 139099,
+			"name": "Pistol Construction Kit (Step 11)",
+			"icon": 131731,
+			"ql": 41
+		},
+		{
+			"alias": "Over-Tuned Heavy Grinner",
+			"item_id": 121897,
+			"ql": 41
+		}
+	],
+	"steps": [
+		{
+			"source": "Nano Pylon",
+			"target": "Pistol Weapons Construction Kit",
+			"result": "Pistol Construction Kit (Step 2)",
+			"skills": "Mech. Engi 102-150"
+		},
+		{
+			"source": "Self-Cleaning KO-CR Device",
+			"target": "Pistol Construction Kit (Step 2)",
+			"result": "Pistol Construction Kit (Step 3)",
+			"skills": "Weapon Smt 144-210"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Pistol Construction Kit (Step 3)",
+			"result": "Pistol Construction Kit (Step 4)",
+			"skills": "Mech. Engi 102-150"
+		},
+		{
+			"source": "Lock and Stock",
+			"target": "Pistol Construction Kit (Step 4)",
+			"result": "Pistol Construction Kit (Step 5)",
+			"skills": "Weapon Smt 164-240"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Pistol Construction Kit (Step 5)",
+			"result": "Pistol Construction Kit (Step 6)",
+			"skills": "Nano Progra 62-90"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "Pistol Construction Kit (Step 6)",
+			"result": "Pistol Construction Kit (Step 7)",
+			"skills": "Nano Progra 82-120"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Pistol Construction Kit (Step 7)",
+			"result": "Pistol Construction Kit (Step 8)",
+			"skills": "Mech. Engi 102-150"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Pistol Construction Kit (Step 8)",
+			"result": "Pistol Construction Kit (Step 9)",
+			"skills": "Mech. Engi 102-150"
+		},
+		{
+			"source": "Triple Pulse Enabler",
+			"target": "Pistol Construction Kit (Step 9)",
+			"result": "Pistol Construction Kit (Step 10)",
+			"skills": "Weapon Smt 174-255"
+		},
+		{
+			"source": "Explosion Propulsion Containment Chamber",
+			"target": "Pistol Construction Kit (Step 10)",
+			"result": "Pistol Construction Kit (Step 11)",
+			"skills": "Mech. Engi 144-210"
+		},
+		{
+			"source": "Composite Barrel",
+			"target": "Pistol Construction Kit (Step 11)",
+			"result": "Over-Tuned Heavy Grinner",
+			"skills": "Weapon Smt 154-225"
+		}
+	]
 }

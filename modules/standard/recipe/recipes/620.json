@@ -1,41 +1,98 @@
 {
-    "name": "Mass Relocating Robot",
-    "author": "",
-    "items": [
-        {
-            "alias": "Robot Instruction Disc (Improve Crushing Weapons)",
-            "item_id": 155906
-        },
-        {
-            "alias": "Robot Instruction Disc (Improve Thrusting Weapons)",
-            "item_id": 155907
-        },
-        {
-            "alias": "Robot Instruction Disc (Improve Slashing Weapons)",
-            "item_id": 155533
-        },
-        {
-            "alias": "Symbol Library - Space",
-            "item_id": 144790
-        },
-        {
-            "alias": "Photon Particle Emitter",
-            "item_id": 144812
-        },
-        {
-            "alias": "Ultimate Mass Relocating Robot",
-            "item_id": 155592
-        },
-        {
-            "alias": "Robot Compiled Algorithm (Improve Crushing Weapons)",
-            "item_id": 155903
-        },
-        {
-            "alias": "Mass Relocating Robot (Improve Chrushing Weapons)",
-            "item_id": 155924
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n</font>\n<font color=#FFFF00> There are 5 different Mass Relocating Robots. Each one requires a different Instruction Disc or Programmed Photon Particle Emitter.\nThe weapon PPPE's drop from level 10-30 mobs, the Shape Hard/Soft Armor PPPE's are harder to find as they drop from QL 60 dyna and mission bosses.</font><font color=#009B00>\n\n#L \"Robot Instruction Disc (Improve Crushing Weapons)\" \"155906\"\n<img src=rdb://83347>\n\n#L \"Robot Instruction Disc (Improve Thrusting Weapons)\" \"155907\"\n<img src=rdb://83443>\n\n#L \"Robot Instruction Disc (Improve Slashing Weapons)\" \"155533\"\n<img src=rdb://83446>\n\n#L \"Programmed Photon Particle Emitter (Shape Hard Armor)\" \"162221\"\n<img src=rdb://144466>\n\n#L \"Programmed Photon Particle Emitter (Shape Soft Armor)\" \"162222\"\n<img src=rdb://144476>\n\n#L \"Symbol Library - Space\" \"144790\"\n<img src=rdb://72782>\n\n#L \"Photon Particle Emitter\" \"144812\"\n<img src=rdb://83869>\n\n#L \"Ultimate Mass Relocating Robot\" \"155592\"\n<img src=rdb://155928>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n</font>\n<font color=#FFFF00>Note: When making a Weapon MRR, you will need to upgrade the Robot Instruction Disks to Programmed Photon Particle Emitters like this:</font><font color=#009B00>\n\nRobot Instruction Disc (Improve Crushing Weapons)</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nSymbol Library - Space</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://83052>\n#L \"Robot Compiled Algorithm (Improve Crushing Weapons)\" \"155903\"</font>\n<font color=#FFFF00>Skills: | 4 x QL of the Instruction Disk in NP and CL |</font>\n<font color=#FFFF00>Note: QL of the Symbol Library must be at least 25% of the Robot Instruction Disk</font><font color=#009B00>\n\nRobot Compiled Algorithm (Improve Crushing Weapons)</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nPhoton Particle Emitter</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://83640>\n#L \"Programmed Photon Particle Emitter (Improve Crushing Weapons)\" \"155905\"</font>\n<font color=#FFFF00>Skills: | 4.25 x QL of the Instruction Disk in NP |</font>\n<font color=#FFFF00>Note: QL of the Photon Particle Emitter must be at least 50% of the Robot Instruction Disk</font><font color=#009B00>\n</font>\n<font color=#FFFFFF>------------------------------</font><font color=#009B00>\n</font>\n<font color=#FFFF00>Now combine your PPPE (XXX) with an Ultimate Mass Relocating Robot:</font><font color=#009B00>\n\nProgrammed Photon Particle Emitter (Improve Crushing Weapons)</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nUltimate Mass Relocating Robot</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://155927>\n#L \"Mass Relocating Robot (Improve Crushing Weapons)\" \"155924\""
+	"name": "Mass Relocating Robot",
+	"author": "",
+	"intro": [
+		{
+			"text": "There are 5 different Mass Relocating Robots. Each one requires a different Instruction Disc or Programmed Photon Particle Emitter."
+		},
+		{
+			"text": "The weapon PPPE's drop from level 10-30 mobs, the Shape Hard/Soft Armor PPPE's are harder to find as they drop from QL 60 dyna and mission bosses."
+		}
+	],
+	"items": [
+		{
+			"alias": "Robot Instruction Disc (Improve Crushing Weapons)",
+			"item_id": 155906
+		},
+		{
+			"alias": "Robot Instruction Disc (Improve Thrusting Weapons)",
+			"item_id": 155907
+		},
+		{
+			"alias": "Robot Instruction Disc (Improve Slashing Weapons)",
+			"item_id": 155533
+		},
+		{
+			"alias": "Programmed Photon Particle Emitter (Shape Hard Armor)",
+			"item_id": 162221,
+			"name": "Programmed Photon Particle Emitter (Shape Hard Armor)",
+			"icon": 144466,
+			"ql": 60
+		},
+		{
+			"alias": "Programmed Photon Particle Emitter (Shape Soft Armor)",
+			"item_id": 162222,
+			"name": "Programmed Photon Particle Emitter (Shape Soft Armor)",
+			"icon": 144476,
+			"ql": 60
+		},
+		{
+			"alias": "Symbol Library - Space",
+			"item_id": 144790
+		},
+		{
+			"alias": "Photon Particle Emitter",
+			"item_id": 144812
+		},
+		{
+			"alias": "Ultimate Mass Relocating Robot",
+			"item_id": 155592
+		},
+		{
+			"alias": "Robot Compiled Algorithm (Improve Crushing Weapons)",
+			"item_id": 155903
+		},
+		{
+			"alias": "Programmed Photon Particle Emitter (Improve Crushing Weapons)",
+			"item_id": 155905,
+			"name": "Programmed Photon Particle Emitter (Improve Crushing Weapons)",
+			"icon": 83640,
+			"ql": 10
+		},
+		{
+			"alias": "Mass Relocating Robot (Improve Crushing Weapons)",
+			"item_id": 155924
+		}
+	],
+	"steps": [
+		{
+			"text": "Note: When making a Weapon MRR, you will need to upgrade the Robot Instruction Disks to Programmed Photon Particle Emitters like this:"
+		},
+		{
+			"source": "Robot Instruction Disc (Improve Crushing Weapons)",
+			"target": "Symbol Library - Space",
+			"result": "Robot Compiled Algorithm (Improve Crushing Weapons)",
+			"skills": "4 x QL of the Instruction Disk in NP and CL"
+		},
+		{
+			"text": "Note: QL of the Symbol Library must be at least 25% of the Robot Instruction Disk"
+		},
+		{
+			"source": "Robot Compiled Algorithm (Improve Crushing Weapons)",
+			"target": "Photon Particle Emitter",
+			"result": "Programmed Photon Particle Emitter (Improve Crushing Weapons)",
+			"skills": "4.25 x QL of the Instruction Disk in NP"
+		},
+		{
+			"text": "Note: QL of the Photon Particle Emitter must be at least 50% of the Robot Instruction Disk"
+		},
+		{
+			"text": "Now combine your PPPE (XXX) with an Ultimate Mass Relocating Robot:"
+		},
+		{
+			"source": "Programmed Photon Particle Emitter (Improve Crushing Weapons)",
+			"target": "Ultimate Mass Relocating Robot",
+			"result": "Mass Relocating Robot (Improve Crushing Weapons)"
+		}
+	]
 }

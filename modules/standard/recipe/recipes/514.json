@@ -1,8 +1,144 @@
 {
-    "name": "Spear of the Night",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n 'Spear of the Night'\nThe Construction kit. must be between Quality Level 200 and 200.\nAll other pieces must be of AT LEAST that level range... \nAdd them using shift+right-click.\nAdd the pieces in the following order:\n\n 1. Piercing Weapons Construction kit.\n\n 2. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 400-400\n\n 3. Sneak Atck Cluster - Shiny (Feet). . SkillTo Assemble: Nano Progra: 600-600\n\n 4. Max Health Cluster - Shiny (Chest). . SkillTo Assemble: Nano Progra: 600-600\n\n 5. Notum Enriched Nano Paste - 4x Layer. . SkillTo Assemble: Nano Progra: 500-500\n\n 6. Medium Handle. . SkillTo Assemble: Weapon Smt: 735-735\n\n 7. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 300-300\n\n 8. Optimized Co-Weapon Interface. . SkillTo Assemble: Comp. Liter: 600-600"
+	"name": "Spear of the Night",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be QL 200. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Piercing Weapons Construction Kit",
+			"item_id": 137227,
+			"name": "Piercing Weapons Construction Kit",
+			"icon": 131888,
+			"ql": 200
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 200
+		},
+		{
+			"alias": "Sneak Atck Cluster - Shiny (Feet)",
+			"item_id": 101637,
+			"ql": 200
+		},
+		{
+			"alias": "Max Health Cluster - Shiny (Chest)",
+			"item_id": 101811,
+			"ql": 200
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 4x Layer",
+			"item_id": 137307,
+			"ql": 200
+		},
+		{
+			"alias": "Medium Handle",
+			"item_id": 142886,
+			"ql": 200
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 200
+		},
+		{
+			"alias": "Optimized Co-Weapon Interface",
+			"item_id": 142930,
+			"ql": 200
+		},
+		{
+			"alias": "Piercing Construction Kit (Step 2)",
+			"item_id": 143328,
+			"name": "Piercing Construction Kit (Step 2)",
+			"icon": 131890,
+			"ql": 200
+		},
+		{
+			"alias": "Piercing Construction Kit (Step 3)",
+			"item_id": 143402,
+			"name": "Piercing Construction Kit (Step 3)",
+			"icon": 131890,
+			"ql": 200
+		},
+		{
+			"alias": "Piercing Construction Kit (Step 4)",
+			"item_id": 143404,
+			"name": "Piercing Construction Kit (Step 4)",
+			"icon": 131891,
+			"ql": 200
+		},
+		{
+			"alias": "Piercing Construction Kit (Step 5)",
+			"item_id": 143406,
+			"name": "Piercing Construction Kit (Step 5)",
+			"icon": 131891,
+			"ql": 200
+		},
+		{
+			"alias": "Piercing Construction Kit (Step 6)",
+			"item_id": 143408,
+			"name": "Piercing Construction Kit (Step 6)",
+			"icon": 131892,
+			"ql": 200
+		},
+		{
+			"alias": "Piercing Construction Kit (Step 7)",
+			"item_id": 143410,
+			"name": "Piercing Construction Kit (Step 7)",
+			"icon": 131893,
+			"ql": 200
+		},
+		{
+			"alias": "Spear of the Night",
+			"item_id": 121683,
+			"ql": 200
+		}
+	],
+	"steps": [
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "Piercing Weapons Construction Kit",
+			"result": "Piercing Construction Kit (Step 2)",
+			"skills": "Nano Progra 400-400"
+		},
+		{
+			"source": "Sneak Atck Cluster - Shiny (Feet)",
+			"target": "Piercing Construction Kit (Step 2)",
+			"result": "Piercing Construction Kit (Step 3)",
+			"skills": "Nano Progra 600-600"
+		},
+		{
+			"source": "Max Health Cluster - Shiny (Chest)",
+			"target": "Piercing Construction Kit (Step 3)",
+			"result": "Piercing Construction Kit (Step 4)",
+			"skills": "Nano Progra 600-600"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 4x Layer",
+			"target": "Piercing Construction Kit (Step 4)",
+			"result": "Piercing Construction Kit (Step 5)",
+			"skills": "Nano Progra 500-500"
+		},
+		{
+			"source": "Medium Handle",
+			"target": "Piercing Construction Kit (Step 5)",
+			"result": "Piercing Construction Kit (Step 6)",
+			"skills": "Weapon Smt 735-735"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Piercing Construction Kit (Step 6)",
+			"result": "Piercing Construction Kit (Step 7)",
+			"skills": "Nano Progra 300-300"
+		},
+		{
+			"source": "Optimized Co-Weapon Interface",
+			"target": "Piercing Construction Kit (Step 7)",
+			"result": "Spear of the Night",
+			"skills": "Comp. Liter 600-600"
+		}
+	]
 }

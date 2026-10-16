@@ -1,8 +1,162 @@
 {
-    "name": "Long Slank Computer X-II",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n  'Long Slank Computer X-II'\n The Construction kit. must be between Quality Level 70 and 92.\n All other pieces must be of AT LEAST that level range... \n Add them using shift+right-click.\n Add the pieces in the following order:\n \n  1. Two Handed Edged Weapons Construction kit.\n \n  2. 4x Layer Carbon-Notum Alloy Blade. . SkillTo Assemble: Weapon Smt: 210-276\n \n  3. Notum Enriched Nano Paste - 4x Layer. . SkillTo Assemble: Nano Progra: 175-230\n \n  4. Optimized Co-Weapon Interface. . SkillTo Assemble: Comp. Liter: 210-276\n \n  5. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 140-184\n \n  6. 8x Layer Carbon-Notum Alloy Blade. . SkillTo Assemble: Weapon Smt: 245-322\n \n  7. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 105-138\n \n  8. Medium Handle. . SkillTo Assemble: Weapon Smt: 257-338\n \n  9. 2h Edged Cluster - Faded (Waist). . SkillTo Assemble: Nano Progra: 70-92"
+	"name": "Long Slank Computer X-II",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 70 and 92. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Two Handed Edged Weapons Construction Kit",
+			"item_id": 137221,
+			"name": "Two Handed Edged Weapons Construction Kit",
+			"icon": 131852,
+			"ql": 70
+		},
+		{
+			"alias": "4x Layer Carbon-Notum Alloy Blade",
+			"item_id": 142918,
+			"ql": 70
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 4x Layer",
+			"item_id": 137307,
+			"ql": 70
+		},
+		{
+			"alias": "Optimized Co-Weapon Interface",
+			"item_id": 142930,
+			"ql": 70
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 70
+		},
+		{
+			"alias": "8x Layer Carbon-Notum Alloy Blade",
+			"item_id": 142920,
+			"ql": 70
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 70
+		},
+		{
+			"alias": "Medium Handle",
+			"item_id": 142886,
+			"ql": 70
+		},
+		{
+			"alias": "2h Edged Cluster - Faded (Waist)",
+			"item_id": 101351,
+			"ql": 70
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 2)",
+			"item_id": 143068,
+			"name": "2h Edged Construction Kit (Step 2)",
+			"icon": 131853,
+			"ql": 70
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 3)",
+			"item_id": 143070,
+			"name": "2h Edged Construction Kit (Step 3)",
+			"icon": 131854,
+			"ql": 70
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 4)",
+			"item_id": 143072,
+			"name": "2h Edged Construction Kit (Step 4)",
+			"icon": 131854,
+			"ql": 70
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 5)",
+			"item_id": 143074,
+			"name": "2h Edged Construction Kit (Step 5)",
+			"icon": 131855,
+			"ql": 70
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 6)",
+			"item_id": 143076,
+			"name": "2h Edged Construction Kit (Step 6)",
+			"icon": 131855,
+			"ql": 70
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 7)",
+			"item_id": 143078,
+			"name": "2h Edged Construction Kit (Step 7)",
+			"icon": 131856,
+			"ql": 70
+		},
+		{
+			"alias": "2h Edged Construction Kit (Step 8)",
+			"item_id": 143080,
+			"name": "2h Edged Construction Kit (Step 8)",
+			"icon": 131857,
+			"ql": 70
+		},
+		{
+			"alias": "Long Slank Computer X-II",
+			"item_id": 121616,
+			"ql": 70
+		}
+	],
+	"steps": [
+		{
+			"source": "4x Layer Carbon-Notum Alloy Blade",
+			"target": "Two Handed Edged Weapons Construction Kit",
+			"result": "2h Edged Construction Kit (Step 2)",
+			"skills": "Weapon Smt 210-276"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 4x Layer",
+			"target": "2h Edged Construction Kit (Step 2)",
+			"result": "2h Edged Construction Kit (Step 3)",
+			"skills": "Nano Progra 175-230"
+		},
+		{
+			"source": "Optimized Co-Weapon Interface",
+			"target": "2h Edged Construction Kit (Step 3)",
+			"result": "2h Edged Construction Kit (Step 4)",
+			"skills": "Comp. Liter 210-276"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "2h Edged Construction Kit (Step 4)",
+			"result": "2h Edged Construction Kit (Step 5)",
+			"skills": "Nano Progra 140-184"
+		},
+		{
+			"source": "8x Layer Carbon-Notum Alloy Blade",
+			"target": "2h Edged Construction Kit (Step 5)",
+			"result": "2h Edged Construction Kit (Step 6)",
+			"skills": "Weapon Smt 245-322"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "2h Edged Construction Kit (Step 6)",
+			"result": "2h Edged Construction Kit (Step 7)",
+			"skills": "Nano Progra 105-138"
+		},
+		{
+			"source": "Medium Handle",
+			"target": "2h Edged Construction Kit (Step 7)",
+			"result": "2h Edged Construction Kit (Step 8)",
+			"skills": "Weapon Smt 257-338"
+		},
+		{
+			"source": "2h Edged Cluster - Faded (Waist)",
+			"target": "2h Edged Construction Kit (Step 8)",
+			"result": "Long Slank Computer X-II",
+			"skills": "Nano Progra 70-92"
+		}
+	]
 }

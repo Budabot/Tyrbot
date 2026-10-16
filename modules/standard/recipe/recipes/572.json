@@ -1,21 +1,31 @@
 {
-    "name": "Guise of the Hooded Crow",
-    "author": "",
-    "items": [
-        {
-            "alias": "Spirit of the Hooded Crow",
-            "item_id": 245888
-        },
-        {
-            "alias": "Augmented Nano Armor Helmet",
-            "item_id": 21813
-        },
-        {
-            "alias": "Guise of the Hooded Crow",
-            "item_id": 245887
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Spirit of the Hooded Crow\" \"245888\"\n<img src=rdb://236568>\n\n#L \"Augmented Nano Armor Helmet\" \"21813\"\n<img src=rdb://10839>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nSpirit of the Hooded Crow</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nAugmented Nano Armor Helmet</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://10839>\n#L \"Guise of the Hooded Crow\" \"245887\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nVery nice shadowlands helmet."
+	"name": "Guise of the Hooded Crow",
+	"author": "",
+	"items": [
+		{
+			"alias": "Spirit of the Hooded Crow",
+			"item_id": 245888
+		},
+		{
+			"alias": "Augmented Nano Armor Helmet",
+			"item_id": 21813
+		},
+		{
+			"alias": "Guise of the Hooded Crow",
+			"item_id": 245887
+		}
+	],
+	"steps": [
+		{
+			"source": "Spirit of the Hooded Crow",
+			"target": "Augmented Nano Armor Helmet",
+			"result": "Guise of the Hooded Crow",
+			"skills": "??"
+		}
+	],
+	"details": [
+		{
+			"text": "Very nice Shadowlands helmet."
+		}
+	]
 }

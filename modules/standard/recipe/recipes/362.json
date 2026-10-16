@@ -1,8 +1,181 @@
 {
-    "name": "Over-Tuned Light Beamer Pistol",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n 'Over-Tuned Light Beamer Pistol'\nThe Construction kit. must be between Quality Level  67 and  82.\nAll other pieces must be of AT LEAST that level range... \nAdd them using shift+right-click.\n Add in following order:\n\n 1. Pistol Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  268 ->  328\n\n 2. Plasma Streamer Interface Nozzle. SkillTo Assemble: Chemistry:  268 ->  328\n\n 3. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  100 ->  123\n\n 4. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  134 ->  164\n\n 5. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  168 ->  205\n\n 6. Hyper Carbo-Ceramic Cooling System. SkillTo Assemble: Weapon Smt:  268 ->  328\n\n 7. Self-Cleaning KO-CR Device. SkillTo Assemble: Weapon Smt:  234 ->  287\n\n 8. Short Composite Barrel. SkillTo Assemble: Weapon Smt:  218 ->  266\n\n 9. Energy Conduction Rack. SkillTo Assemble: Quantum FT:  218 ->  266\n\n 10. Nano Pylon. SkillTo Assemble: Mech. Engi:  168 ->  205"
+	"name": "Over-Tuned Light Beamer Pistol",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 67 and 82. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Pistol Weapons Construction Kit",
+			"item_id": 137201,
+			"name": "Pistol Weapons Construction Kit",
+			"icon": 131726,
+			"ql": 67,
+			"comment": "Skill To Assemble: Weapon Smt 268-328"
+		},
+		{
+			"alias": "Plasma Streamer Interface Nozzle",
+			"item_id": 137261,
+			"ql": 67
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 67
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 67
+		},
+		{
+			"alias": "Notum Alloy Strengthened Ribs",
+			"item_id": 137275,
+			"ql": 67
+		},
+		{
+			"alias": "Hyper Carbo-Ceramic Cooling System",
+			"item_id": 137267,
+			"ql": 67
+		},
+		{
+			"alias": "Self-Cleaning KO-CR Device",
+			"item_id": 137279,
+			"ql": 67
+		},
+		{
+			"alias": "Short Composite Barrel",
+			"item_id": 137233,
+			"ql": 67
+		},
+		{
+			"alias": "Energy Conduction Rack",
+			"item_id": 137243,
+			"ql": 67
+		},
+		{
+			"alias": "Nano Pylon",
+			"item_id": 137277,
+			"ql": 67
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 2)",
+			"item_id": 142464,
+			"name": "Pistol Construction Kit (Step 2)",
+			"icon": 131727,
+			"ql": 67
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 3)",
+			"item_id": 142466,
+			"name": "Pistol Construction Kit (Step 3)",
+			"icon": 131727,
+			"ql": 67
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 4)",
+			"item_id": 142468,
+			"name": "Pistol Construction Kit (Step 4)",
+			"icon": 131728,
+			"ql": 67
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 5)",
+			"item_id": 142470,
+			"name": "Pistol Construction Kit (Step 5)",
+			"icon": 131729,
+			"ql": 67
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 6)",
+			"item_id": 142472,
+			"name": "Pistol Construction Kit (Step 6)",
+			"icon": 131729,
+			"ql": 67
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 7)",
+			"item_id": 142474,
+			"name": "Pistol Construction Kit (Step 7)",
+			"icon": 131730,
+			"ql": 67
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 8)",
+			"item_id": 142476,
+			"name": "Pistol Construction Kit (Step 8)",
+			"icon": 131730,
+			"ql": 67
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 9)",
+			"item_id": 142478,
+			"name": "Pistol Construction Kit (Step 9)",
+			"icon": 131731,
+			"ql": 67
+		},
+		{
+			"alias": "Over-Tuned Light Beamer Pistol",
+			"item_id": 123156,
+			"ql": 67
+		}
+	],
+	"steps": [
+		{
+			"source": "Plasma Streamer Interface Nozzle",
+			"target": "Pistol Weapons Construction Kit",
+			"result": "Pistol Construction Kit (Step 2)",
+			"skills": "Chemistry 268-328"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Pistol Construction Kit (Step 2)",
+			"result": "Pistol Construction Kit (Step 3)",
+			"skills": "Nano Progra 100-123"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "Pistol Construction Kit (Step 3)",
+			"result": "Pistol Construction Kit (Step 4)",
+			"skills": "Nano Progra 134-164"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Pistol Construction Kit (Step 4)",
+			"result": "Pistol Construction Kit (Step 5)",
+			"skills": "Mech. Engi 168-205"
+		},
+		{
+			"source": "Hyper Carbo-Ceramic Cooling System",
+			"target": "Pistol Construction Kit (Step 5)",
+			"result": "Pistol Construction Kit (Step 6)",
+			"skills": "Weapon Smt 268-328"
+		},
+		{
+			"source": "Self-Cleaning KO-CR Device",
+			"target": "Pistol Construction Kit (Step 6)",
+			"result": "Pistol Construction Kit (Step 7)",
+			"skills": "Weapon Smt 234-287"
+		},
+		{
+			"source": "Short Composite Barrel",
+			"target": "Pistol Construction Kit (Step 7)",
+			"result": "Pistol Construction Kit (Step 8)",
+			"skills": "Weapon Smt 218-266"
+		},
+		{
+			"source": "Energy Conduction Rack",
+			"target": "Pistol Construction Kit (Step 8)",
+			"result": "Pistol Construction Kit (Step 9)",
+			"skills": "Quantum FT 218-266"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Pistol Construction Kit (Step 9)",
+			"result": "Over-Tuned Light Beamer Pistol",
+			"skills": "Mech. Engi 168-205"
+		}
+	]
 }

@@ -1,61 +1,94 @@
 {
-    "name": "Sided Carbonum Armor",
-    "author": "",
-    "items": [
-        {
-            "alias": "Omnifier",
-            "item_id": 208312
-        },
-        {
-            "alias": "Storm Carbonum Plate Helmet",
-            "item_id": 208262
-        },
-        {
-            "alias": "Omni Carbonum Plate Helmet",
-            "item_id": 208293
-        },
-        {
-            "alias": "Omni Carbonum Plate Arms",
-            "item_id": 208285
-        },
-        {
-            "alias": "Storm Carbonum Plate Arms",
-            "item_id": 208254
-        },
-        {
-            "alias": "Omni Carbonum Breastplate",
-            "item_id": 208287
-        },
-        {
-            "alias": "Storm Carbonum Breastplate",
-            "item_id": 208256
-        },
-        {
-            "alias": "Omni Carbonum Plate Legs",
-            "item_id": 208295
-        },
-        {
-            "alias": "Storm Carbonum Plate Legs",
-            "item_id": 208264
-        },
-        {
-            "alias": "Omni Carbonum Plate Boots",
-            "item_id": 208289
-        },
-        {
-            "alias": "Storm Carbonum Plate Boots",
-            "item_id": 208258
-        },
-        {
-            "alias": "Omni Carbonum Plate Gloves",
-            "item_id": 208291
-        },
-        {
-            "alias": "Storm Carbonum Plate Gloves",
-            "item_id": 208260
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nA piece of Carbonum Armor (#L \"recipe\" \"/tell <myname> recipe 30\")\n<img src=rdb://162421>\n\n#L \"Omnifier\" \"208312\"\n<img src=rdb://156479></font>\n<font color=#FFFFFF>or</font><font color=#009B00>\n#L \"Clanalizer\" \"208262\"\n<img src=rdb://156479>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nOmnifier</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nCarbonum Armor</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://13251>\nOmni Carbonum Armor</font>\n<font color=#FFFF00>Skills: |  CH  |</font><font color=#009B00>\n</font>\n<font color=#FFFFFF>OR</font><font color=#009B00>\n\nClanalizer</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nCarbonum Armor</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://162421>\nStorm Carbonum Armor</font>\n<font color=#FFFF00>Skills: |  CH  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Details</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nHelmet: #L \"Omni\" \"208293\", #L \"Storm\" \"208262\"\nSleeves: #L \"Omni\" \"208285\", #L \"Storm\" \"208254\"\nBreastplate: #L \"Omni\" \"208287\", #L \"Storm\" \"208255\"\nPants: #L \"Omni\" \"208295\", #L \"Storm\" \"208264\"\nBoots: #L \"Omni\" \"208289\", #L \"Storm\" \"208258\"\nGloves: #L \"Omni\" \"208291\", #L \"Storm\" \"208260\"\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n<highlight>Omni Carbonum</highlight>\nwear : not clan \nbonus : max health\n\n<highlight>Storm Carbonum</highlight>\nwear : not omni\nbonus : nano resist"
+	"name": "Sided Carbonum Armor",
+	"author": "",
+	"items": [
+		{
+			"alias": "Carbonum Armor",
+			"item_id": 162432,
+			"comment": "or any other piece of Carbonum Armor (#L \"recipe\" \"/tell <myname> recipe 30\")"
+		},
+		{
+			"alias": "Omnifier",
+			"item_id": 208312
+		},
+		{
+			"alias": "Clanalizer",
+			"item_id": 208313,
+			"comment": "alternative to Omnifier"
+		},
+		{
+			"alias": "Omni Carbonum Armor",
+			"item_id": 208287,
+			"comment": "or another piece, depending on the piece of Carbonum Armor, see the details"
+		},
+		{
+			"alias": "Storm Carbonum Armor",
+			"item_id": 208256,
+			"comment": "or another piece, depending on the piece of Carbonum Armor, see the details"
+		}
+	],
+	"steps": [
+		{
+			"text": "Either:"
+		},
+		{
+			"source": "Omnifier",
+			"target": "Carbonum Armor",
+			"result": "Omni Carbonum Armor",
+			"skills": "CH"
+		},
+		{
+			"text": "or:"
+		},
+		{
+			"source": "Clanalizer",
+			"target": "Carbonum Armor",
+			"result": "Storm Carbonum Armor",
+			"skills": "CH"
+		}
+	],
+	"details": [
+		{
+			"text": "Helmet: #L \"Omni\" \"208293\", #L \"Storm\" \"208262\""
+		},
+		{
+			"text": "Sleeves: #L \"Omni\" \"208285\", #L \"Storm\" \"208254\""
+		},
+		{
+			"text": "Breastplate: #L \"Omni\" \"208287\", #L \"Storm\" \"208255\""
+		},
+		{
+			"text": "Pants: #L \"Omni\" \"208295\", #L \"Storm\" \"208264\""
+		},
+		{
+			"text": "Boots: #L \"Omni\" \"208289\", #L \"Storm\" \"208258\""
+		},
+		{
+			"text": "Gloves: #L \"Omni\" \"208291\", #L \"Storm\" \"208260\""
+		},
+		{
+			"text": ""
+		},
+		{
+			"text": "<highlight>Omni Carbonum</highlight>"
+		},
+		{
+			"text": "wear: not clan"
+		},
+		{
+			"text": "bonus: max health"
+		},
+		{
+			"text": ""
+		},
+		{
+			"text": "<highlight>Storm Carbonum</highlight>"
+		},
+		{
+			"text": "wear: not omni"
+		},
+		{
+			"text": "bonus: nano resist"
+		}
+	]
 }

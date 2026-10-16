@@ -1,21 +1,33 @@
 {
-    "name": "Xnemth Plasmaprojector",
-    "author": "",
-    "items": [
-        {
-            "alias": "Viral Weapon Upgrade",
-            "item_id": 248517
-        },
-        {
-            "alias": "Premium Plasmaprojector",
-            "item_id": 121892
-        },
-        {
-            "alias": "Premium Xnemth Plasmaprojector",
-            "item_id": 248626
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Viral Weapon Upgrade\" \"248517\"\n<img src=rdb://100335>\n\n#L \"Plasmaprojector\" \"121892\"\n<img src=rdb://21145>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nViral Weapon Upgrade</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nPlasmaprojector</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://21145>\n#L \"Xnemth Plasmaprojector\" \"248626\"</font>\n<font color=#FFFF00>Skills: |  WS  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nMore Viral weapon upgrades."
+	"name": "Xnemth Plasmaprojector",
+	"author": "",
+	"items": [
+		{
+			"alias": "Viral Weapon Upgrade",
+			"item_id": 248517
+		},
+		{
+			"alias": "Plasmaprojector",
+			"item_id": 121892,
+			"comment": "or any other Plasmaprojector"
+		},
+		{
+			"alias": "Xnemth Plasmaprojector",
+			"item_id": 248626,
+			"comment": "or another Xnemth Plasmaprojector, depending on the Plasmaprojector"
+		}
+	],
+	"steps": [
+		{
+			"source": "Viral Weapon Upgrade",
+			"target": "Plasmaprojector",
+			"result": "Xnemth Plasmaprojector",
+			"skills": "WS"
+		}
+	],
+	"details": [
+		{
+			"text": "More Viral weapon upgrades."
+		}
+	]
 }

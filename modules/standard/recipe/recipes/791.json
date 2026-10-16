@@ -1,0 +1,120 @@
+{
+	"name": "Solar-Powered Tinker Pistol",
+	"author": "",
+	"intro": [
+		{
+			"text": "Solar-Powered Engineer Pistol:"
+		},
+		{
+			"text": "#L \"Step 1: Solar-Powered Pistol\" \"/tell <myname> recipe 790\""
+		},
+		{
+			"text": "<highlight>Step 2: Solar-Powered Tinker Pistol</highlight> (this recipe)"
+		},
+		{
+			"text": "#L \"Step 3: Solar-Powered Mender Pistol\" \"/tell <myname> recipe 792\""
+		},
+		{
+			"text": "#L \"Step 4: Solar-Powered Mechanic Pistol\" \"/tell <myname> recipe 793\""
+		},
+		{
+			"text": "#L \"Step 5: Solar-Powered Machinist Pistol\" \"/tell <myname> recipe 794\""
+		},
+		{
+			"text": "#L \"Step 6: Solar-Powered Engineer Pistol\" \"/tell <myname> recipe 795\""
+		},
+		{
+			"text": "#L \"Step 7: Solar-Powered Master Engineer Pistol\" \"/tell <myname> recipe 796\""
+		},
+		{
+			"text": "#L \"Step 8: Infused Solar-Powered Master Engineer Pistol\" \"/tell <myname> recipe 797\""
+		},
+		{
+			"text": "#L \"Step 9: Augmented Master Engineer Pistol\" \"/tell <myname> recipe 112\""
+		},
+		{
+			"text": ""
+		}
+	],
+	"items": [
+		{
+			"alias": "Jensen Personal Ore Extractor",
+			"item_id": 150281
+		},
+		{
+			"alias": "Screwdriver",
+			"item_id": 150922
+		},
+		{
+			"alias": "Robotic Self-Preservation System",
+			"item_id": 164529
+		},
+		{
+			"alias": "Notum Chip",
+			"item_id": 136623
+		},
+		{
+			"alias": "Notum Fragment",
+			"item_id": 136625,
+			"comment": "alternative to Notum Chip"
+		},
+		{
+			"alias": "Solar-Powered Pistol",
+			"item_id": 121567
+		},
+		{
+			"alias": "Modified Jensen Ore Extractor",
+			"item_id": 164527
+		},
+		{
+			"alias": "Unstable Preservation System",
+			"item_id": 164531
+		},
+		{
+			"alias": "Stable Preservation System",
+			"item_id": 164536
+		},
+		{
+			"alias": "Solar-Powered Tinker Pistol",
+			"item_id": 164490
+		}
+	],
+	"steps": [
+		{
+			"source": "Screwdriver",
+			"target": "Jensen Personal Ore Extractor",
+			"result": "Modified Jensen Ore Extractor",
+			"skills": "WS"
+		},
+		{
+			"source": "Robotic Self-Preservation System",
+			"target": "Modified Jensen Ore Extractor",
+			"result": "Unstable Preservation System",
+			"skills": "WS"
+		},
+		{
+			"text": "Either:"
+		},
+		{
+			"source": "Notum Chip",
+			"target": "Unstable Preservation System",
+			"result": "Stable Preservation System",
+			"skills": "WS"
+		},
+		{
+			"text": "or:"
+		},
+		{
+			"source": "Notum Fragment",
+			"target": "Unstable Preservation System",
+			"result": "Stable Preservation System",
+			"skills": "WS"
+		},
+		{
+			"source": "Stable Preservation System",
+			"target": "Solar-Powered Pistol",
+			"result": "Solar-Powered Tinker Pistol",
+			"skills": "WS"
+		}
+	]
+}

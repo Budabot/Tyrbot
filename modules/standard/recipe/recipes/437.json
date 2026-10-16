@@ -1,8 +1,227 @@
 {
-    "name": "Quality Megajolt",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n\n 'Quality Megajolt'\n\nThe Construction kit. must be between Quality Level  101 and  120.\n\nAll other pieces must be of AT LEAST that level range... \n\nAdd them using shift+right-click.\n\n Add in following order:\n\n\n\n 1. Shotgun Weapons Construction kit. SkillTo Assemble: Weapon Smt:  404 ->  480\n\n\n\n 2. Auto Targeting Computer -IIR 2-Groper-. SkillTo Assemble: Elec. Engi:  252 ->  300\n\n\n\n 3. Composite Barrel. SkillTo Assemble: Weapon Smt:  379 ->  450\n\n\n\n 4. Primitive Freon Bag Cooling System. SkillTo Assemble: Weapon Smt:  404 ->  480\n\n\n\n 5. Energy Conduction Rack. SkillTo Assemble: Quantum FT:  328 ->  390\n\n\n\n 6. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  202 ->  240\n\n\n\n 7. Energy Pack Interface. SkillTo Assemble: Elec. Engi:  404 ->  480\n\n\n\n 8. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  252 ->  300\n\n\n\n 9. Nano Pylon. SkillTo Assemble: Mech. Engi:  252 ->  300\n\n\n\n 10. Nano Pylon. SkillTo Assemble: Mech. Engi:  252 ->  300\n\n\n\n 11. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  252 ->  300\n\n\n\n 12. Notum Enriched Nano Paste - 4x Layer. SkillTo Assemble: Nano Progra:  252 ->  300\n\n\n\n 13. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  152 ->  180"
+	"name": "Quality Megajolt",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 101 and 120. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Shotgun Weapons Construction Kit",
+			"item_id": 137211,
+			"name": "Shotgun Weapons Construction Kit",
+			"icon": 131762,
+			"ql": 101,
+			"comment": "Skill To Assemble: Weapon Smt 404-480"
+		},
+		{
+			"alias": "Auto Targeting Computer -IIR 2-Groper-",
+			"item_id": 137287,
+			"ql": 101
+		},
+		{
+			"alias": "Composite Barrel",
+			"item_id": 137235,
+			"ql": 101
+		},
+		{
+			"alias": "Primitive Freon Bag Cooling System",
+			"item_id": 137263,
+			"ql": 101
+		},
+		{
+			"alias": "Energy Conduction Rack",
+			"item_id": 137243,
+			"ql": 101
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 101
+		},
+		{
+			"alias": "Energy Pack Interface",
+			"item_id": 137257,
+			"ql": 101
+		},
+		{
+			"alias": "Notum Alloy Strengthened Ribs",
+			"item_id": 137275,
+			"ql": 101,
+			"quantity": 2
+		},
+		{
+			"alias": "Nano Pylon",
+			"item_id": 137277,
+			"ql": 101,
+			"quantity": 2
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 4x Layer",
+			"item_id": 137307,
+			"ql": 101
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 101
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 2)",
+			"item_id": 140292,
+			"name": "Shotgun Construction Kit (Step 2)",
+			"icon": 131763,
+			"ql": 101
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 3)",
+			"item_id": 140294,
+			"name": "Shotgun Construction Kit (Step 3)",
+			"icon": 131763,
+			"ql": 101
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 4)",
+			"item_id": 140296,
+			"name": "Shotgun Construction Kit (Step 4)",
+			"icon": 131763,
+			"ql": 101
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 5)",
+			"item_id": 140298,
+			"name": "Shotgun Construction Kit (Step 5)",
+			"icon": 131764,
+			"ql": 101
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 6)",
+			"item_id": 140300,
+			"name": "Shotgun Construction Kit (Step 6)",
+			"icon": 131764,
+			"ql": 101
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 7)",
+			"item_id": 140302,
+			"name": "Shotgun Construction Kit (Step 7)",
+			"icon": 131765,
+			"ql": 101
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 8)",
+			"item_id": 140304,
+			"name": "Shotgun Construction Kit (Step 8)",
+			"icon": 131765,
+			"ql": 101
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 9)",
+			"item_id": 140306,
+			"name": "Shotgun Construction Kit (Step 9)",
+			"icon": 131766,
+			"ql": 101
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 10)",
+			"item_id": 140308,
+			"name": "Shotgun Construction Kit (Step 10)",
+			"icon": 131766,
+			"ql": 101
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 11)",
+			"item_id": 140310,
+			"name": "Shotgun Construction Kit (Step 11)",
+			"icon": 131766,
+			"ql": 101
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 12)",
+			"item_id": 140312,
+			"name": "Shotgun Construction Kit (Step 12)",
+			"icon": 131767,
+			"ql": 101
+		},
+		{
+			"alias": "Quality Megajolt",
+			"item_id": 122188,
+			"ql": 101
+		}
+	],
+	"steps": [
+		{
+			"source": "Auto Targeting Computer -IIR 2-Groper-",
+			"target": "Shotgun Weapons Construction Kit",
+			"result": "Shotgun Construction Kit (Step 2)",
+			"skills": "Elec. Engi 252-300"
+		},
+		{
+			"source": "Composite Barrel",
+			"target": "Shotgun Construction Kit (Step 2)",
+			"result": "Shotgun Construction Kit (Step 3)",
+			"skills": "Weapon Smt 379-450"
+		},
+		{
+			"source": "Primitive Freon Bag Cooling System",
+			"target": "Shotgun Construction Kit (Step 3)",
+			"result": "Shotgun Construction Kit (Step 4)",
+			"skills": "Weapon Smt 404-480"
+		},
+		{
+			"source": "Energy Conduction Rack",
+			"target": "Shotgun Construction Kit (Step 4)",
+			"result": "Shotgun Construction Kit (Step 5)",
+			"skills": "Quantum FT 328-390"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "Shotgun Construction Kit (Step 5)",
+			"result": "Shotgun Construction Kit (Step 6)",
+			"skills": "Nano Progra 202-240"
+		},
+		{
+			"source": "Energy Pack Interface",
+			"target": "Shotgun Construction Kit (Step 6)",
+			"result": "Shotgun Construction Kit (Step 7)",
+			"skills": "Elec. Engi 404-480"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Shotgun Construction Kit (Step 7)",
+			"result": "Shotgun Construction Kit (Step 8)",
+			"skills": "Mech. Engi 252-300"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Shotgun Construction Kit (Step 8)",
+			"result": "Shotgun Construction Kit (Step 9)",
+			"skills": "Mech. Engi 252-300"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Shotgun Construction Kit (Step 9)",
+			"result": "Shotgun Construction Kit (Step 10)",
+			"skills": "Mech. Engi 252-300"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Shotgun Construction Kit (Step 10)",
+			"result": "Shotgun Construction Kit (Step 11)",
+			"skills": "Mech. Engi 252-300"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 4x Layer",
+			"target": "Shotgun Construction Kit (Step 11)",
+			"result": "Shotgun Construction Kit (Step 12)",
+			"skills": "Nano Progra 252-300"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Shotgun Construction Kit (Step 12)",
+			"result": "Quality Megajolt",
+			"skills": "Nano Progra 152-180"
+		}
+	]
 }

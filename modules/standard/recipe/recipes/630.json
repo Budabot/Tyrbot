@@ -1,21 +1,26 @@
 {
-    "name": "Infused Ancient Nano Enhancer",
-    "author": "",
-    "items": [
-        {
-            "alias": "Dust Brigade Notum Infuser",
-            "item_id": 274552
-        },
-        {
-            "alias": "Ancient Nano Enhancer",
-            "item_id": 267712
-        },
-        {
-            "alias": "Infused Ancient Nano Enhancer",
-            "item_id": 274554
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Dust Brigade Notum Infuser\" \"274552\"\n<img src=rdb://218768>\n\n#L \"Ancient Nano Enhancer\" \"267712\"\n<img src=rdb://218768>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nDust Brigade Notum Infuser</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nAncient Nano Enhancer</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://218768>\n#L \"Infused Ancient Nano Enhancer\" \"274554\"</font>\n<font color=#FFFF00>Skills: | CL 1500 |</font><font color=#009B00>"
+	"name": "Infused Ancient Nano Enhancer",
+	"author": "",
+	"items": [
+		{
+			"alias": "Dust Brigade Notum Infuser",
+			"item_id": 274552
+		},
+		{
+			"alias": "Ancient Nano Enhancer",
+			"item_id": 267712
+		},
+		{
+			"alias": "Infused Ancient Nano Enhancer",
+			"item_id": 274554
+		}
+	],
+	"steps": [
+		{
+			"source": "Dust Brigade Notum Infuser",
+			"target": "Ancient Nano Enhancer",
+			"result": "Infused Ancient Nano Enhancer",
+			"skills": "CL 1500"
+		}
+	]
 }

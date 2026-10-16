@@ -1,61 +1,113 @@
 {
-    "name": "S13 Upgraded Combined Headwear",
-    "author": "",
-    "items": [
-        {
-            "alias": "Action Probability Estimator",
-            "item_id": 257960
-        },
-        {
-            "alias": "Combined Commando's Headwear",
-            "item_id": 246658
-        },
-        {
-            "alias": "Combined Mercenary's Headwear",
-            "item_id": 246636
-        },
-        {
-            "alias": "Combined Officer's Headwear",
-            "item_id": 246670
-        },
-        {
-            "alias": "Combined Paramedic's Headwear",
-            "item_id": 246632
-        },
-        {
-            "alias": "Combined Scout's Headwear",
-            "item_id": 246682
-        },
-        {
-            "alias": "Combined Sharpshooter's Headwear",
-            "item_id": 246694
-        },
-        {
-            "alias": "Gannondorf's Combined Commando's Headwear",
-            "item_id": 257381
-        },
-        {
-            "alias": "Sillum's Combined Mercenary's Headwear",
-            "item_id": 257380
-        },
-        {
-            "alias": "Blackmane's Combined Officer's Headwear",
-            "item_id": 257383
-        },
-        {
-            "alias": "Odum's Combined Paramedic's Headwear",
-            "item_id": 257377
-        },
-        {
-            "alias": "Yakomo's Combined Scout's Headwear",
-            "item_id": 257382
-        },
-        {
-            "alias": "Haitte's Combined Sharpshooter's Headwear",
-            "item_id": 257384
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n</font>\n<font color=#FFFF00> The Action Probability Estimator drops in Sector 13 and can be used for various tradeskill processes.</font><font color=#009B00>\n\n#L \"Action Probability Estimator\" \"257960\"\n<img src=rdb://203502>\n\n#L \"Combined Commando's Headwear\" \"246658\"\n<img src=rdb://256311>\n\n#L \"Combined Mercenary's Headwear\" \"246636\"\n<img src=rdb://256359>\n\n#L \"Combined Officer's Headwear\" \"246670\"\n<img src=rdb://256323>\n\n#L \"Combined Paramedic's Headwear\" \"246632\"\n<img src=rdb://256353>\n\n#L \"Combined Scout's Headwear\" \"246682\"\n<img src=rdb://256329>\n\n#L \"Combined Sharpshooter's Headwear\" \"246694\"\n<img src=rdb://256305>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAction Probability Estimator</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nCombined Commando's Headwear</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://256311>\n#L \"Gannondorf's Combined Commando's Headwear\" \"257381\"</font>\n<font color=#FFFF00>Note: Alien Armor headwear needs to be QL250+</font><font color=#009B00>\n\nAction Probability Estimator</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nCombined Mercenary's Headwear</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://256359>\n#L \"Sillum's Combined Mercenary's Headwear\" \"257380\"</font>\n<font color=#FFFF00>Note: Alien Armor headwear needs to be QL250+</font><font color=#009B00>\n\nAction Probability Estimator</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nCombined Officer's Headwear</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://256323>\n#L \"Blackmane's Combined Officer's Headwear\" \"257383\"</font>\n<font color=#FFFF00>Note: Alien Armor headwear needs to be QL250+</font><font color=#009B00>\n\nAction Probability Estimator</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nCombined Paramedic's Headwear</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://256353>\n#L \"Odum's Combined Paramedic's Headwear\" \"257377\"</font>\n<font color=#FFFF00>Note: Alien Armor headwear needs to be QL250+</font><font color=#009B00>\n\nAction Probability Estimator</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nCombined Scout's Headwear</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://256329>\n#L \"Yakomo's Combined Scout's Headwear\" \"257382\"</font>\n<font color=#FFFF00>Note: Alien Armor headwear needs to be QL250+</font><font color=#009B00>\n\nAction Probability Estimator</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nCombined Sharpshooter's Headwear</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://256305>\n#L \"Haitte's Combined Sharpshooter's Headwear\" \"257384\"</font>\n<font color=#FFFF00>Note: Alien Armor headwear needs to be QL250+</font><font color=#009B00>"
+	"name": "S13 Upgraded Combined Headwear",
+	"author": "",
+	"intro": [
+		{
+			"text": "The Action Probability Estimator drops in Sector 13 and can be used for various tradeskill processes."
+		}
+	],
+	"items": [
+		{
+			"alias": "Action Probability Estimator",
+			"item_id": 257960
+		},
+		{
+			"alias": "Combined Commando's Headwear",
+			"item_id": 246658
+		},
+		{
+			"alias": "Combined Mercenary's Headwear",
+			"item_id": 246636
+		},
+		{
+			"alias": "Combined Officer's Headwear",
+			"item_id": 246670
+		},
+		{
+			"alias": "Combined Paramedic's Headwear",
+			"item_id": 246632
+		},
+		{
+			"alias": "Combined Scout's Headwear",
+			"item_id": 246682
+		},
+		{
+			"alias": "Combined Sharpshooter's Headwear",
+			"item_id": 246694
+		},
+		{
+			"alias": "Gannondorf's Combined Commando's Headwear",
+			"item_id": 257381
+		},
+		{
+			"alias": "Sillum's Combined Mercenary's Headwear",
+			"item_id": 257380
+		},
+		{
+			"alias": "Blackmane's Combined Officer's Headwear",
+			"item_id": 257383
+		},
+		{
+			"alias": "Odum's Combined Paramedic's Headwear",
+			"item_id": 257377
+		},
+		{
+			"alias": "Yakomo's Combined Scout's Headwear",
+			"item_id": 257382
+		},
+		{
+			"alias": "Haitte's Combined Sharpshooter's Headwear",
+			"item_id": 257384
+		}
+	],
+	"steps": [
+		{
+			"source": "Action Probability Estimator",
+			"target": "Combined Commando's Headwear",
+			"result": "Gannondorf's Combined Commando's Headwear"
+		},
+		{
+			"text": "Note: Alien Armor headwear needs to be QL250+"
+		},
+		{
+			"source": "Action Probability Estimator",
+			"target": "Combined Mercenary's Headwear",
+			"result": "Sillum's Combined Mercenary's Headwear"
+		},
+		{
+			"text": "Note: Alien Armor headwear needs to be QL250+"
+		},
+		{
+			"source": "Action Probability Estimator",
+			"target": "Combined Officer's Headwear",
+			"result": "Blackmane's Combined Officer's Headwear"
+		},
+		{
+			"text": "Note: Alien Armor headwear needs to be QL250+"
+		},
+		{
+			"source": "Action Probability Estimator",
+			"target": "Combined Paramedic's Headwear",
+			"result": "Odum's Combined Paramedic's Headwear"
+		},
+		{
+			"text": "Note: Alien Armor headwear needs to be QL250+"
+		},
+		{
+			"source": "Action Probability Estimator",
+			"target": "Combined Scout's Headwear",
+			"result": "Yakomo's Combined Scout's Headwear"
+		},
+		{
+			"text": "Note: Alien Armor headwear needs to be QL250+"
+		},
+		{
+			"source": "Action Probability Estimator",
+			"target": "Combined Sharpshooter's Headwear",
+			"result": "Haitte's Combined Sharpshooter's Headwear"
+		},
+		{
+			"text": "Note: Alien Armor headwear needs to be QL250+"
+		}
+	]
 }

@@ -1,77 +1,146 @@
 {
-    "name": "Virral Triumvirate Egg",
-    "author": "",
-    "items": [
-        {
-            "alias": "Gold Filigree Wire",
-            "item_id": 151368
-        },
-        {
-            "alias": "Robot Junk",
-            "item_id": 42619
-        },
-        {
-            "alias": "Screwdriver",
-            "item_id": 150922
-        },
-        {
-            "alias": "Nano Circuitry Wire",
-            "item_id": 150919
-        },
-        {
-            "alias": "Personal Furnace",
-            "item_id": 150930
-        },
-        {
-            "alias": "Perfectly Cut Soul Fragment",
-            "item_id": 151484
-        },
-        {
-            "alias": "Mantis Egg",
-            "item_id": 157947
-        },
-        {
-            "alias": "Petrified Mantis Egg",
-            "item_id": 157950
-        },
-        {
-            "alias": "Partially Wired Mantis Egg",
-            "item_id": 157949
-        },
-        {
-            "alias": "Partially Wired Mantis Egg",
-            "item_id": 157948
-        },
-        {
-            "alias": "Fully Wired Mantis Egg",
-            "item_id": 157951
-        },
-        {
-            "alias": "Nano Sensor",
-            "item_id": 150924
-        },
-        {
-            "alias": "Interfaced Nano Sensor",
-            "item_id": 150925
-        },
-        {
-            "alias": "Incomplete Virral Egg",
-            "item_id": 157952
-        },
-        {
-            "alias": "Virral Egg with Gem",
-            "item_id": 157954
-        },
-        {
-            "alias": "Virral Egg with Dual Gems",
-            "item_id": 157953
-        },
-        {
-            "alias": "Virral Triumvirate Egg",
-            "item_id": 157955
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Gold Filigree Wire\" \"151368\" x 3 ( #L \"Recipe\" \"/tell <myname> recipe 62\")\n<img src=rdb://151015>\n\n#L \"Robot Junk\" \"42619\"\n<img src=rdb://144715>\n\n#L \"Screwdriver\" \"150922\"\n<img src=rdb://151011>\n\n#L \"Nano Circuitry Wire\" \"150919\"\n<img src=rdb://151014>\n\n#L \"Personal Furnace\" \"150930\" x 4\n<img src=rdb://149949>\n\n#L \"Perfectly Cut Soul Fragment\" \"151484\" x 3 ( #L \"Recipe\" \"/tell <myname> recipe 117\")\n<img src=rdb://136594>\n\n#L \"Mantis Egg\" \"157947\"\n<img src=rdb://158274>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nPersonal Furnace</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nMantis Egg</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://158274>\n#L \"Petrified Mantis Egg\" \"157950\"</font>\n<font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nGold Filigree Wire</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nPetrified Mantis Egg</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://158273>\n#L \"Partially Wired Mantis Egg\" \"157949\"</font>\n<font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nGold Filigree Wire</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nPartially Wired Mantis Egg</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://158273>\n#L \"Partially Wired Mantis Egg\" \"157948\"</font>\n<font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nGold Filigree Wire</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nPartially Wired Mantis Egg</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://158273>\n#L \"Fully Wired Mantis Egg\" \"157951\"</font>\n<font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nScrewdriver</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nRobot Junk</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://149940>\n#L \"Nano Sensor\" \"150924\"</font>\n<font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nNano Circuitry Wire</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nNano Sensor</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://149939>\n#L \"Interfaced Nano Sensor\" \"150925\"</font>\n<font color=#FFFF00>Skills: |  EE  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nInterfaced Nano Sensor</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nFully Wired Mantis Egg</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://158273>\n#L \"Incomplete Virral Egg\" \"157952\"</font>\n<font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nPerfectly Cut Soul Fragment</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nIncomplete Virral Egg</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://158272>\n#L \"Virral Egg with Gem\" \"157954\"</font>\n<font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nPerfectly Cut Soul Fragment</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nVirral Egg with Gem</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://158272>\n#L \"Virral Egg with Dual Gems\" \"157953\"</font>\n<font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nPerfectly Cut Soul Fragment</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\n Virral Egg with Dual Gems</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://158272>\n#L \"Virral Triumvirate Egg\" \"157955\"</font>\n<font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nYou just have to to look the stats to understand how useful it is. Sadly the Mantis Queen is more than camped... Don't forget that you need all parts to be of no less than QL190 for the process to be successful."
+	"name": "Virral Triumvirate Egg",
+	"author": "",
+	"items": [
+		{
+			"alias": "Gold Filigree Wire",
+			"item_id": 151368,
+			"quantity": 3,
+			"comment": "#L \"Recipe\" \"/tell <myname> recipe 62\""
+		},
+		{
+			"alias": "Robot Junk",
+			"item_id": 42619
+		},
+		{
+			"alias": "Screwdriver",
+			"item_id": 150922
+		},
+		{
+			"alias": "Nano Circuitry Wire",
+			"item_id": 150919
+		},
+		{
+			"alias": "Personal Furnace",
+			"item_id": 150930,
+			"quantity": 4
+		},
+		{
+			"alias": "Perfectly Cut Soul Fragment",
+			"item_id": 151484,
+			"quantity": 3,
+			"comment": "#L \"Recipe\" \"/tell <myname> recipe 117\""
+		},
+		{
+			"alias": "Mantis Egg",
+			"item_id": 157947
+		},
+		{
+			"alias": "Petrified Mantis Egg",
+			"item_id": 157950
+		},
+		{
+			"alias": "Partially Wired Mantis Egg",
+			"item_id": 157949
+		},
+		{
+			"alias": "Partially Wired Mantis Egg with two wires",
+			"item_id": 157948
+		},
+		{
+			"alias": "Fully Wired Mantis Egg",
+			"item_id": 157951
+		},
+		{
+			"alias": "Nano Sensor",
+			"item_id": 150924
+		},
+		{
+			"alias": "Interfaced Nano Sensor",
+			"item_id": 150925
+		},
+		{
+			"alias": "Incomplete Virral Egg",
+			"item_id": 157952
+		},
+		{
+			"alias": "Virral Egg with Gem",
+			"item_id": 157954
+		},
+		{
+			"alias": "Virral Egg with Dual Gems",
+			"item_id": 157953
+		},
+		{
+			"alias": "Virral Triumvirate Egg",
+			"item_id": 157955
+		}
+	],
+	"steps": [
+		{
+			"source": "Personal Furnace",
+			"target": "Mantis Egg",
+			"result": "Petrified Mantis Egg",
+			"skills": "ME"
+		},
+		{
+			"source": "Gold Filigree Wire",
+			"target": "Petrified Mantis Egg",
+			"result": "Partially Wired Mantis Egg",
+			"skills": "ME"
+		},
+		{
+			"source": "Gold Filigree Wire",
+			"target": "Partially Wired Mantis Egg",
+			"result": "Partially Wired Mantis Egg with two wires",
+			"skills": "ME"
+		},
+		{
+			"source": "Gold Filigree Wire",
+			"target": "Partially Wired Mantis Egg with two wires",
+			"result": "Fully Wired Mantis Egg",
+			"skills": "ME"
+		},
+		{
+			"source": "Screwdriver",
+			"target": "Robot Junk",
+			"result": "Nano Sensor",
+			"skills": "ME"
+		},
+		{
+			"source": "Nano Circuitry Wire",
+			"target": "Nano Sensor",
+			"result": "Interfaced Nano Sensor",
+			"skills": "EE"
+		},
+		{
+			"source": "Interfaced Nano Sensor",
+			"target": "Fully Wired Mantis Egg",
+			"result": "Incomplete Virral Egg",
+			"skills": "ME"
+		},
+		{
+			"source": "Perfectly Cut Soul Fragment",
+			"target": "Incomplete Virral Egg",
+			"result": "Virral Egg with Gem",
+			"skills": "ME"
+		},
+		{
+			"source": "Perfectly Cut Soul Fragment",
+			"target": "Virral Egg with Gem",
+			"result": "Virral Egg with Dual Gems",
+			"skills": "ME"
+		},
+		{
+			"source": "Perfectly Cut Soul Fragment",
+			"target": "Virral Egg with Dual Gems",
+			"result": "Virral Triumvirate Egg",
+			"skills": "ME"
+		}
+	],
+	"details": [
+		{
+			"text": "You just have to look the stats to understand how useful it is. Sadly the Mantis Queen is more than camped... Don't forget that you need all parts to be of no less than QL190 for the process to be successful."
+		}
+	]
 }

@@ -1,29 +1,38 @@
 {
-    "name": "Power Core",
-    "author": "",
-    "items": [
-        {
-            "alias": "Power Core Stabilizer",
-            "item_id": 287976
-        },
-        {
-            "alias": "Power Core Mainboard",
-            "item_id": 287975
-        },
-        {
-            "alias": "Inactive Power Core",
-            "item_id": 287974
-        },
-        {
-            "alias": "Power Core Base Unit",
-            "item_id": 287977
-        },
-        {
-            "alias": "Power Core",
-            "item_id": 287978
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Power Core Stabilizer\" \"287976\"\n<img src=rdb://287971>\n\n#L \"Power Core Mainboard\" \"287975\"\n<img src=rdb://287968>\n\n#L \"Inactive Power Core\" \"287974\"\n<img src=rdb://287970>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe </font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nPower Core Stabilizer</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nPower Core Mainboard</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://287969>\n#L \"Power Core Base Unit\" \"287977\"\n\nInactive Power Core</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nPower Core Base Unit</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://287967>\n#L \"Power Core\" \"287978\""
+	"name": "Power Core",
+	"author": "",
+	"items": [
+		{
+			"alias": "Power Core Stabilizer",
+			"item_id": 287976
+		},
+		{
+			"alias": "Power Core Mainboard",
+			"item_id": 287975
+		},
+		{
+			"alias": "Inactive Power Core",
+			"item_id": 287974
+		},
+		{
+			"alias": "Power Core Base Unit",
+			"item_id": 287977
+		},
+		{
+			"alias": "Power Core",
+			"item_id": 287978
+		}
+	],
+	"steps": [
+		{
+			"source": "Power Core Stabilizer",
+			"target": "Power Core Mainboard",
+			"result": "Power Core Base Unit"
+		},
+		{
+			"source": "Inactive Power Core",
+			"target": "Power Core Base Unit",
+			"result": "Power Core"
+		}
+	]
 }

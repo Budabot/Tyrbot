@@ -1,8 +1,199 @@
 {
-    "name": "Balanced Blackened Miniblaster",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n  'Balanced Blackened Miniblaster'\n The Construction kit. must be between Quality Level  121 and  140.\n All other pieces must be of AT LEAST that level range... \n Add them using shift+right-click.\n  Add in following order:\n \n  1. Pistol Weapons Construction Kit. SkillTo Assemble: Weapon Smt:  484 ->  560\n \n  2. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  302 ->  350\n \n  3. Energy Conduction Rack. SkillTo Assemble: Quantum FT:  393 ->  455\n \n  4. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  242 ->  280\n \n  5. Jandawit Cleanup Cluster. SkillTo Assemble: Weapon Smt:  424 ->  490\n \n  6. Rapid-Reload-And-Fire Gyro. SkillTo Assemble: Weapon Smt:  484 ->  560\n \n  7. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  182 ->  210\n \n  8. Energy Pack Interface. SkillTo Assemble: Elec. Engi:  484 ->  560\n \n  9. Short Composite Barrel. SkillTo Assemble: Weapon Smt:  393 ->  455\n \n  10. Hyper Carbo-Ceramic Cooling System. SkillTo Assemble: Weapon Smt:  484 ->  560\n \n  11. Nano Pylon. SkillTo Assemble: Mech. Engi:  302 ->  350"
+	"name": "Balanced Blackened Miniblaster",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 121 and 140. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Pistol Weapons Construction Kit",
+			"item_id": 137201,
+			"name": "Pistol Weapons Construction Kit",
+			"icon": 131726,
+			"ql": 121,
+			"comment": "Skill To Assemble: Weapon Smt 484-560"
+		},
+		{
+			"alias": "Notum Alloy Strengthened Ribs",
+			"item_id": 137275,
+			"ql": 121
+		},
+		{
+			"alias": "Energy Conduction Rack",
+			"item_id": 137243,
+			"ql": 121
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 121
+		},
+		{
+			"alias": "Jandawit Cleanup Cluster",
+			"item_id": 137281,
+			"ql": 121
+		},
+		{
+			"alias": "Rapid-Reload-And-Fire Gyro",
+			"item_id": 137313,
+			"ql": 121
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 121
+		},
+		{
+			"alias": "Energy Pack Interface",
+			"item_id": 137257,
+			"ql": 121
+		},
+		{
+			"alias": "Short Composite Barrel",
+			"item_id": 137233,
+			"ql": 121
+		},
+		{
+			"alias": "Hyper Carbo-Ceramic Cooling System",
+			"item_id": 137267,
+			"ql": 121
+		},
+		{
+			"alias": "Nano Pylon",
+			"item_id": 137277,
+			"ql": 121
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 2)",
+			"item_id": 139039,
+			"name": "Pistol Construction Kit (Step 2)",
+			"icon": 131727,
+			"ql": 121
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 3)",
+			"item_id": 139547,
+			"name": "Pistol Construction Kit (Step 3)",
+			"icon": 131727,
+			"ql": 121
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 4)",
+			"item_id": 139549,
+			"name": "Pistol Construction Kit (Step 4)",
+			"icon": 131728,
+			"ql": 121
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 5)",
+			"item_id": 139551,
+			"name": "Pistol Construction Kit (Step 5)",
+			"icon": 131728,
+			"ql": 121
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 6)",
+			"item_id": 139553,
+			"name": "Pistol Construction Kit (Step 6)",
+			"icon": 131729,
+			"ql": 121
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 7)",
+			"item_id": 139555,
+			"name": "Pistol Construction Kit (Step 7)",
+			"icon": 131729,
+			"ql": 121
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 8)",
+			"item_id": 139557,
+			"name": "Pistol Construction Kit (Step 8)",
+			"icon": 131730,
+			"ql": 121
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 9)",
+			"item_id": 139559,
+			"name": "Pistol Construction Kit (Step 9)",
+			"icon": 131730,
+			"ql": 121
+		},
+		{
+			"alias": "Pistol Construction Kit (Step 10)",
+			"item_id": 139561,
+			"name": "Pistol Construction Kit (Step 10)",
+			"icon": 131731,
+			"ql": 121
+		},
+		{
+			"alias": "Balanced Blackened Miniblaster",
+			"item_id": 122000,
+			"ql": 121
+		}
+	],
+	"steps": [
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Pistol Weapons Construction Kit",
+			"result": "Pistol Construction Kit (Step 2)",
+			"skills": "Mech. Engi 302-350"
+		},
+		{
+			"source": "Energy Conduction Rack",
+			"target": "Pistol Construction Kit (Step 2)",
+			"result": "Pistol Construction Kit (Step 3)",
+			"skills": "Quantum FT 393-455"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "Pistol Construction Kit (Step 3)",
+			"result": "Pistol Construction Kit (Step 4)",
+			"skills": "Nano Progra 242-280"
+		},
+		{
+			"source": "Jandawit Cleanup Cluster",
+			"target": "Pistol Construction Kit (Step 4)",
+			"result": "Pistol Construction Kit (Step 5)",
+			"skills": "Weapon Smt 424-490"
+		},
+		{
+			"source": "Rapid-Reload-And-Fire Gyro",
+			"target": "Pistol Construction Kit (Step 5)",
+			"result": "Pistol Construction Kit (Step 6)",
+			"skills": "Weapon Smt 484-560"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Pistol Construction Kit (Step 6)",
+			"result": "Pistol Construction Kit (Step 7)",
+			"skills": "Nano Progra 182-210"
+		},
+		{
+			"source": "Energy Pack Interface",
+			"target": "Pistol Construction Kit (Step 7)",
+			"result": "Pistol Construction Kit (Step 8)",
+			"skills": "Elec. Engi 484-560"
+		},
+		{
+			"source": "Short Composite Barrel",
+			"target": "Pistol Construction Kit (Step 8)",
+			"result": "Pistol Construction Kit (Step 9)",
+			"skills": "Weapon Smt 393-455"
+		},
+		{
+			"source": "Hyper Carbo-Ceramic Cooling System",
+			"target": "Pistol Construction Kit (Step 9)",
+			"result": "Pistol Construction Kit (Step 10)",
+			"skills": "Weapon Smt 484-560"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Pistol Construction Kit (Step 10)",
+			"result": "Balanced Blackened Miniblaster",
+			"skills": "Mech. Engi 302-350"
+		}
+	]
 }

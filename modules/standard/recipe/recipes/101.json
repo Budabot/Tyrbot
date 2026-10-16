@@ -1,21 +1,31 @@
 {
-    "name": "Rebuilt NCU Wrist Implant",
-    "author": "",
-    "items": [
-        {
-            "alias": "Outdated NCU Wrist Implant",
-            "item_id": 204979
-        },
-        {
-            "alias": "Field Quantum Physics All-Purpose Tool",
-            "item_id": 164558
-        },
-        {
-            "alias": "Rebuilt NCU Wrist Implant",
-            "item_id": 204981
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Outdated NCU Wrist Implant\" \"204979\"\n<img src=rdb://20412>\n\n#L \"Field Quantum Physics All-Purpose Tool\" \"164558\"\n<img src=rdb://20410>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nField Quantum Physics All-Purpose Tool</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nOutdated NCU Wrist Implant</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://20412>\n#L \"Rebuilt NCU Wrist Implant\" \"204981\"</font>\n<font color=#FFFF00>Skills: |  QT  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nImplant some NCU into character..."
+	"name": "Rebuilt NCU Wrist Implant",
+	"author": "",
+	"items": [
+		{
+			"alias": "Outdated NCU Wrist Implant",
+			"item_id": 204979
+		},
+		{
+			"alias": "Field Quantum Physics All-Purpose Tool",
+			"item_id": 164558
+		},
+		{
+			"alias": "Rebuilt NCU Wrist Implant",
+			"item_id": 204981
+		}
+	],
+	"steps": [
+		{
+			"source": "Field Quantum Physics All-Purpose Tool",
+			"target": "Outdated NCU Wrist Implant",
+			"result": "Rebuilt NCU Wrist Implant",
+			"skills": "QT"
+		}
+	],
+	"details": [
+		{
+			"text": "Implant some NCU into character..."
+		}
+	]
 }

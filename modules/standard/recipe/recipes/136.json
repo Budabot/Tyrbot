@@ -1,8 +1,194 @@
 {
-    "name": "Asia Toys - Mathis Multi-Energy Rifle",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n 'Asia Toys - Mathis Multi-Energy Rifle'\nThe Construction kit. must be between Quality Level 61 and 80.\nAll other pieces must be of AT LEAST that level range... \nAdd them using shift+right-click.\nAdd the pieces in the following order:\n\n 1. Rifle Weapons Construction kit.\n\n 2. Ultra-Long Composite Barrel. . SkillTo Assemble: Weapon Smt: 259-340\n\n 3. Hyper Carbo-Ceramic Cooling System. . SkillTo Assemble: Weapon Smt: 244-320\n\n 4. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 122-160\n\n 5. Energy Conduction Rack. . SkillTo Assemble: Quantum FT: 198-260\n\n 6. Runtime Critical Area Analyzer. . SkillTo Assemble: Weapon Smt: 244-320\n\n 7. Energy Pack Interface. . SkillTo Assemble: Elec. Engi: 244-320\n\n 8. Nano Pylon. . SkillTo Assemble: Mech. Engi: 152-200\n\n 9. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 92-120\n\n 10. Nano Pylon. . SkillTo Assemble: Mech. Engi: 152-200\n\n 11. Notum Alloy Strengthened Ribs. . SkillTo Assemble: Mech. Engi: 152-200"
+	"name": "Asia Toys - Mathis Multi-Energy Rifle",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 61 and 80. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Rifle Weapons Construction Kit",
+			"item_id": 137203,
+			"name": "Rifle Weapons Construction Kit",
+			"icon": 131744,
+			"ql": 61
+		},
+		{
+			"alias": "Ultra-Long Composite Barrel",
+			"item_id": 137239,
+			"ql": 61
+		},
+		{
+			"alias": "Hyper Carbo-Ceramic Cooling System",
+			"item_id": 137267,
+			"ql": 61
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 61
+		},
+		{
+			"alias": "Energy Conduction Rack",
+			"item_id": 137243,
+			"ql": 61
+		},
+		{
+			"alias": "Runtime Critical Area Analyzer",
+			"item_id": 137299,
+			"ql": 61
+		},
+		{
+			"alias": "Energy Pack Interface",
+			"item_id": 137257,
+			"ql": 61
+		},
+		{
+			"alias": "Nano Pylon",
+			"item_id": 137277,
+			"ql": 61,
+			"quantity": 2
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 61
+		},
+		{
+			"alias": "Notum Alloy Strengthened Ribs",
+			"item_id": 137275,
+			"ql": 61
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 2)",
+			"item_id": 138069,
+			"name": "Rifle Construction Kit (Step 2)",
+			"icon": 131745,
+			"ql": 61
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 3)",
+			"item_id": 153411,
+			"name": "Rifle Construction Kit (Step 3)",
+			"icon": 131745,
+			"ql": 61
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 4)",
+			"item_id": 153413,
+			"name": "Rifle Construction Kit (Step 4)",
+			"icon": 131746,
+			"ql": 61
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 5)",
+			"item_id": 153415,
+			"name": "Rifle Construction Kit (Step 5)",
+			"icon": 131746,
+			"ql": 61
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 6)",
+			"item_id": 153417,
+			"name": "Rifle Construction Kit (Step 6)",
+			"icon": 131747,
+			"ql": 61
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 7)",
+			"item_id": 153419,
+			"name": "Rifle Construction Kit (Step 7)",
+			"icon": 131747,
+			"ql": 61
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 8)",
+			"item_id": 153421,
+			"name": "Rifle Construction Kit (Step 8)",
+			"icon": 131748,
+			"ql": 61
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 9)",
+			"item_id": 153423,
+			"name": "Rifle Construction Kit (Step 9)",
+			"icon": 131748,
+			"ql": 61
+		},
+		{
+			"alias": "Rifle Construction Kit (Step 10)",
+			"item_id": 153425,
+			"name": "Rifle Construction Kit (Step 10)",
+			"icon": 131749,
+			"ql": 61
+		},
+		{
+			"alias": "Asia Toys - Mathis Multi-Energy Rifle",
+			"item_id": 152070,
+			"ql": 61
+		}
+	],
+	"steps": [
+		{
+			"source": "Ultra-Long Composite Barrel",
+			"target": "Rifle Weapons Construction Kit",
+			"result": "Rifle Construction Kit (Step 2)",
+			"skills": "Weapon Smt 259-340"
+		},
+		{
+			"source": "Hyper Carbo-Ceramic Cooling System",
+			"target": "Rifle Construction Kit (Step 2)",
+			"result": "Rifle Construction Kit (Step 3)",
+			"skills": "Weapon Smt 244-320"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "Rifle Construction Kit (Step 3)",
+			"result": "Rifle Construction Kit (Step 4)",
+			"skills": "Nano Progra 122-160"
+		},
+		{
+			"source": "Energy Conduction Rack",
+			"target": "Rifle Construction Kit (Step 4)",
+			"result": "Rifle Construction Kit (Step 5)",
+			"skills": "Quantum FT 198-260"
+		},
+		{
+			"source": "Runtime Critical Area Analyzer",
+			"target": "Rifle Construction Kit (Step 5)",
+			"result": "Rifle Construction Kit (Step 6)",
+			"skills": "Weapon Smt 244-320"
+		},
+		{
+			"source": "Energy Pack Interface",
+			"target": "Rifle Construction Kit (Step 6)",
+			"result": "Rifle Construction Kit (Step 7)",
+			"skills": "Elec. Engi 244-320"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Rifle Construction Kit (Step 7)",
+			"result": "Rifle Construction Kit (Step 8)",
+			"skills": "Mech. Engi 152-200"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Rifle Construction Kit (Step 8)",
+			"result": "Rifle Construction Kit (Step 9)",
+			"skills": "Nano Progra 92-120"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Rifle Construction Kit (Step 9)",
+			"result": "Rifle Construction Kit (Step 10)",
+			"skills": "Mech. Engi 152-200"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Rifle Construction Kit (Step 10)",
+			"result": "Asia Toys - Mathis Multi-Energy Rifle",
+			"skills": "Mech. Engi 152-200"
+		}
+	]
 }

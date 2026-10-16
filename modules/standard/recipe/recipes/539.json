@@ -1,8 +1,213 @@
 {
-    "name": "Worn Triplejolt",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n 'Worn Triplejolt'\nThe Construction kit. must be between Quality Level  81 and  100.\nAll other pieces must be of AT LEAST that level range... \nAdd them using shift+right-click.\n Add in following order:\n\n 1. Shotgun Weapons Construction kit. SkillTo Assemble: Weapon Smt:  324 ->  400\n\n 2. Ultra Short Composite Barrel. SkillTo Assemble: Weapon Smt:  243 ->  300\n\n 3. Jandawit Cleanup Cluster. SkillTo Assemble: Weapon Smt:  284 ->  350\n\n 4. Nano Pylon. SkillTo Assemble: Mech. Engi:  202 ->  250\n\n 5. Nano Pylon. SkillTo Assemble: Mech. Engi:  202 ->  250\n\n 6. Notum Alloy Strengthened Ribs. SkillTo Assemble: Mech. Engi:  202 ->  250\n\n 7. Energy Conduction Rack. SkillTo Assemble: Quantum FT:  263 ->  325\n\n 8. Hyper Carbo-Ceramic Cooling System. SkillTo Assemble: Weapon Smt:  324 ->  400\n\n 9. Notum Enriched Nano Paste - 1x Layer. SkillTo Assemble: Nano Progra:  122 ->  150\n\n 10. Radioactive Isotope Fusion System. SkillTo Assemble: Quantum FT:  324 ->  400\n\n 11. Notum Enriched Nano Paste - 2x Layer. SkillTo Assemble: Nano Progra:  162 ->  200\n\n 12. Rapid-Reload-And-Fire Gyro. SkillTo Assemble: Weapon Smt:  324 ->  400"
+	"name": "Worn Triplejolt",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be between QL 81 and 100. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "Shotgun Weapons Construction Kit",
+			"item_id": 137211,
+			"name": "Shotgun Weapons Construction Kit",
+			"icon": 131762,
+			"ql": 81,
+			"comment": "Skill To Assemble: Weapon Smt 324-400"
+		},
+		{
+			"alias": "Ultra Short Composite Barrel",
+			"item_id": 137231,
+			"ql": 81
+		},
+		{
+			"alias": "Jandawit Cleanup Cluster",
+			"item_id": 137281,
+			"ql": 81
+		},
+		{
+			"alias": "Nano Pylon",
+			"item_id": 137277,
+			"ql": 81,
+			"quantity": 2
+		},
+		{
+			"alias": "Notum Alloy Strengthened Ribs",
+			"item_id": 137275,
+			"ql": 81
+		},
+		{
+			"alias": "Energy Conduction Rack",
+			"item_id": 137243,
+			"ql": 81
+		},
+		{
+			"alias": "Hyper Carbo-Ceramic Cooling System",
+			"item_id": 137267,
+			"ql": 81
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 81
+		},
+		{
+			"alias": "Radioactive Isotope Fusion System",
+			"item_id": 137251,
+			"ql": 81
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 81
+		},
+		{
+			"alias": "Rapid-Reload-And-Fire Gyro",
+			"item_id": 137313,
+			"ql": 81
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 2)",
+			"item_id": 139907,
+			"name": "Shotgun Construction Kit (Step 2)",
+			"icon": 131763,
+			"ql": 81
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 3)",
+			"item_id": 139909,
+			"name": "Shotgun Construction Kit (Step 3)",
+			"icon": 131763,
+			"ql": 81
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 4)",
+			"item_id": 139911,
+			"name": "Shotgun Construction Kit (Step 4)",
+			"icon": 131764,
+			"ql": 81
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 5)",
+			"item_id": 139913,
+			"name": "Shotgun Construction Kit (Step 5)",
+			"icon": 131764,
+			"ql": 81
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 6)",
+			"item_id": 139915,
+			"name": "Shotgun Construction Kit (Step 6)",
+			"icon": 131765,
+			"ql": 81
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 7)",
+			"item_id": 139917,
+			"name": "Shotgun Construction Kit (Step 7)",
+			"icon": 131765,
+			"ql": 81
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 8)",
+			"item_id": 139919,
+			"name": "Shotgun Construction Kit (Step 8)",
+			"icon": 131765,
+			"ql": 81
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 9)",
+			"item_id": 139921,
+			"name": "Shotgun Construction Kit (Step 9)",
+			"icon": 131766,
+			"ql": 81
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 10)",
+			"item_id": 139923,
+			"name": "Shotgun Construction Kit (Step 10)",
+			"icon": 131766,
+			"ql": 81
+		},
+		{
+			"alias": "Shotgun Construction Kit (Step 11)",
+			"item_id": 139925,
+			"name": "Shotgun Construction Kit (Step 11)",
+			"icon": 131767,
+			"ql": 81
+		},
+		{
+			"alias": "Worn Triplejolt",
+			"item_id": 122034,
+			"ql": 81
+		}
+	],
+	"steps": [
+		{
+			"source": "Ultra Short Composite Barrel",
+			"target": "Shotgun Weapons Construction Kit",
+			"result": "Shotgun Construction Kit (Step 2)",
+			"skills": "Weapon Smt 243-300"
+		},
+		{
+			"source": "Jandawit Cleanup Cluster",
+			"target": "Shotgun Construction Kit (Step 2)",
+			"result": "Shotgun Construction Kit (Step 3)",
+			"skills": "Weapon Smt 284-350"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Shotgun Construction Kit (Step 3)",
+			"result": "Shotgun Construction Kit (Step 4)",
+			"skills": "Mech. Engi 202-250"
+		},
+		{
+			"source": "Nano Pylon",
+			"target": "Shotgun Construction Kit (Step 4)",
+			"result": "Shotgun Construction Kit (Step 5)",
+			"skills": "Mech. Engi 202-250"
+		},
+		{
+			"source": "Notum Alloy Strengthened Ribs",
+			"target": "Shotgun Construction Kit (Step 5)",
+			"result": "Shotgun Construction Kit (Step 6)",
+			"skills": "Mech. Engi 202-250"
+		},
+		{
+			"source": "Energy Conduction Rack",
+			"target": "Shotgun Construction Kit (Step 6)",
+			"result": "Shotgun Construction Kit (Step 7)",
+			"skills": "Quantum FT 263-325"
+		},
+		{
+			"source": "Hyper Carbo-Ceramic Cooling System",
+			"target": "Shotgun Construction Kit (Step 7)",
+			"result": "Shotgun Construction Kit (Step 8)",
+			"skills": "Weapon Smt 324-400"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "Shotgun Construction Kit (Step 8)",
+			"result": "Shotgun Construction Kit (Step 9)",
+			"skills": "Nano Progra 122-150"
+		},
+		{
+			"source": "Radioactive Isotope Fusion System",
+			"target": "Shotgun Construction Kit (Step 9)",
+			"result": "Shotgun Construction Kit (Step 10)",
+			"skills": "Quantum FT 324-400"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "Shotgun Construction Kit (Step 10)",
+			"result": "Shotgun Construction Kit (Step 11)",
+			"skills": "Nano Progra 162-200"
+		},
+		{
+			"source": "Rapid-Reload-And-Fire Gyro",
+			"target": "Shotgun Construction Kit (Step 11)",
+			"result": "Worn Triplejolt",
+			"skills": "Weapon Smt 324-400"
+		}
+	]
 }

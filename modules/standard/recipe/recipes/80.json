@@ -1,21 +1,33 @@
 {
-    "name": "Overtuned Tank Armor",
-    "author": "",
-    "items": [
-        {
-            "alias": "Neutron Displacer",
-            "item_id": 149818
-        },
-        {
-            "alias": "High-Quality Light Tank Armor",
-            "item_id": 28736
-        },
-        {
-            "alias": "Overtuned High-Quality Light Tank Armor",
-            "item_id": 161849
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Neutron Displacer\" \"144784\"\n<img src=rdb://99235>\n\nA Tank Armor\n(ie: #L \"High-Quality Light Tank Armor\" \"28736\")\n<img src=rdb://22396>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nNeutron Displacer</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nHigh-Quality Light Tank Armor</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://22396>\n#L \"Overtuned High-Quality Light Tank Armor\" \"161849\"</font>\n<font color=#FFFF00>Skills: |  QT  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nThis construction allow you to increase the AC of the armor and remove the debuffs in Dodging and Run Speed. On the other hand, the Tank Armor resulting of this process has a limited lifespan of 48 played hours..."
+	"name": "Overtuned Tank Armor",
+	"author": "",
+	"items": [
+		{
+			"alias": "Neutron Displacer",
+			"item_id": 144784
+		},
+		{
+			"alias": "High-Quality Light Tank Armor",
+			"item_id": 28736,
+			"comment": "or any other Tank Armor"
+		},
+		{
+			"alias": "Overtuned High-Quality Light Tank Armor",
+			"item_id": 161849,
+			"comment": "or another Overtuned Tank Armor, depending on the Tank Armor"
+		}
+	],
+	"steps": [
+		{
+			"source": "Neutron Displacer",
+			"target": "High-Quality Light Tank Armor",
+			"result": "Overtuned High-Quality Light Tank Armor",
+			"skills": "QT"
+		}
+	],
+	"details": [
+		{
+			"text": "This construction allow you to increase the AC of the armor and remove the debuffs in Dodging and Run Speed. On the other hand, the Tank Armor resulting of this process has a limited lifespan of 48 played hours..."
+		}
+	]
 }

@@ -1,25 +1,46 @@
 {
-    "name": "Reanimator's Cloak",
-    "author": "",
-    "items": [
-        {
-            "alias": "Pit Demon Heart",
-            "item_id": 245171
-        },
-        {
-            "alias": "Necromancer Cloak",
-            "item_id": 245170
-        },
-        {
-            "alias": "Advanced Bio-Comminutor",
-            "item_id": 154332
-        },
-        {
-            "alias": "Indigo Carmine",
-            "item_id": 245270
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Pit Demon Heart\" \"245171\"\n<img src=rdb://231393>\n\n#L \"Necromancer Cloak\" \"245170\"\n<img src=rdb://22892>\n\n#L \"Bio-Comminutor\" \"154332\"\n<img src=rdb://149951>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nBio-Comminutor</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nPit Demon Heart</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://100335>\n#L \"Indigo Carmine\" \"245270\"</font>\n<font color=#FFFF00>Skills: | CH525 |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nIndigo Carmine</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nNecromancer Cloak</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://22892>\n#L \"Reanimator's Cloak\" \"258472\"</font>\n<font color=#FFFF00>Skills: | CL450 |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nGreat back item which you can level by right clicking it."
+	"name": "Reanimator's Cloak",
+	"author": "",
+	"items": [
+		{
+			"alias": "Pit Demon Heart",
+			"item_id": 245171
+		},
+		{
+			"alias": "Necromancer Cloak",
+			"item_id": 245170
+		},
+		{
+			"alias": "Bio-Comminutor",
+			"item_id": 154332,
+			"comment": "or any other Bio-Comminutor"
+		},
+		{
+			"alias": "Indigo Carmine",
+			"item_id": 245270
+		},
+		{
+			"alias": "Reanimator's Cloak",
+			"item_id": 258472
+		}
+	],
+	"steps": [
+		{
+			"source": "Bio-Comminutor",
+			"target": "Pit Demon Heart",
+			"result": "Indigo Carmine",
+			"skills": "CH525"
+		},
+		{
+			"source": "Indigo Carmine",
+			"target": "Necromancer Cloak",
+			"result": "Reanimator's Cloak",
+			"skills": "CL450"
+		}
+	],
+	"details": [
+		{
+			"text": "Great back item which you can level by right clicking it."
+		}
+	]
 }

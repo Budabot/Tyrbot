@@ -1,53 +1,109 @@
 {
-    "name": "Alien Tank Armor",
-    "author": "",
-    "items": [
-        {
-            "alias": "Inactive Alien Tank Armor",
-            "item_id": 268507
-        },
-        {
-            "alias": "Alien Activation Crystal",
-            "item_id": 268478
-        },
-        {
-            "alias": "Alien Armor Materials",
-            "item_id": 268508
-        },
-        {
-            "alias": "Inactive Alien Material Conversion kit",
-            "item_id": 268510
-        },
-        {
-            "alias": "Alien Material Conversion kit",
-            "item_id": 268509
-        },
-        {
-            "alias": "Processed Alien Armor Materials",
-            "item_id": 268511
-        },
-        {
-            "alias": "Alien Tank Armor",
-            "item_id": 268503
-        },
-        {
-            "alias": "Improved Alien Tank Armor",
-            "item_id": 268504
-        },
-        {
-            "alias": "Perfected Alien Tank Armor",
-            "item_id": 268505
-        },
-        {
-            "alias": "Specialised Alien Armor Materials",
-            "item_id": 268512
-        },
-        {
-            "alias": "Nanomage Enhanced Alien Tank Armor",
-            "item_id": 268506
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Inactive Alien Tank Armor\" \"268507\"\n<img src=rdb://22401>\n\n#L \"Alien Activation Crystal\" \"268478\"\n<img src=rdb://12252>\n\n#L \"Alien Armor Materials\" \"268508\" x2 or x3\n<img src=rdb://144715>\n\n#L \"Inactive Alien Material Conversion Kit\" \"268510\" \n<img src=rdb://99658>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAlien Activation Crystal</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nInactive Alien Material Conversion kit</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://99667>\n#L \"Alien Material Conversion Kit\" \"268509\" </font>\n<font color=#FFFF00>Skills: | 450ME |</font><font color=#009B00>\n\nAlien Material Conversion Kit</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nAlien Armor Materials</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://99668>\n#L \"Processed Alien Armor Materials\" \"268511\"</font>\n<font color=#FFFF00>Skills: | 450ME |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAlien Activation Crystal</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nInactive Alien Tank Armor</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://22401>\n#L \"Alien Tank Armor\" \"268503\"</font>\n<font color=#FFFF00>Skills: | 450ME |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n</font>\n<font color=#FF0000>Warning! -- The next step makes this item NODROP and UNIQUE! </font><font color=#FFFF00>\n</font>\n<font color=#FF0000>Warning! -- Nanomages DO NOT do the next 2 steps!! </font><font color=#FFFF00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nProcessed Alien Armor Materials</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nAlien Tank Armor</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://22395>\n#L \"Improved Alien Tank Armor\" \"268504\"</font>\n<font color=#FFFF00>Skills: | 450ME |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nProcessed Alien Armor Materials</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nImproved Alien Tank Armor</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://22395>\n#L \"Perfected Alien Tank Armor\" \"268505\"</font>\n<font color=#FFFF00>Skills: | 450ME |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n</font>\n<font color=#FF0000> Warning! -- The next 2 steps are for NANOMAGES ONLY!! </font><font color=#FFFF00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAlien Material Conversion Kit</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nProcessed Alien Armor Materials</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://99669>\n#L \"Specialised Alien Armor Materials\" \"268512\"</font>\n<font color=#FFFF00>Skills: | 450ME |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nSpecialised Alien Armor Materials</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nAlien Tank Armor</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://22389>\n#L \"Nanomage Enhanced Alien Tank Armor\" \"268506\"</font>\n<font color=#FFFF00>Skills: | 450ME |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nJust be extra careful you perform the right steps for your breed.  Nanomages have different steps to take than other breeds."
+	"name": "Alien Tank Armor",
+	"author": "",
+	"items": [
+		{
+			"alias": "Inactive Alien Tank Armor",
+			"item_id": 268507
+		},
+		{
+			"alias": "Alien Activation Crystal",
+			"item_id": 268478
+		},
+		{
+			"alias": "Alien Armor Materials",
+			"item_id": 268508,
+			"quantity": "2 or 3"
+		},
+		{
+			"alias": "Inactive Alien Material Conversion Kit",
+			"item_id": 268510
+		},
+		{
+			"alias": "Alien Material Conversion Kit",
+			"item_id": 268509
+		},
+		{
+			"alias": "Processed Alien Armor Materials",
+			"item_id": 268511
+		},
+		{
+			"alias": "Alien Tank Armor",
+			"item_id": 268503
+		},
+		{
+			"alias": "Improved Alien Tank Armor",
+			"item_id": 268504
+		},
+		{
+			"alias": "Perfected Alien Tank Armor",
+			"item_id": 268505
+		},
+		{
+			"alias": "Specialised Alien Armor Materials",
+			"item_id": 268512
+		},
+		{
+			"alias": "Nanomage Enhanced Alien Tank Armor",
+			"item_id": 268506
+		}
+	],
+	"steps": [
+		{
+			"source": "Alien Activation Crystal",
+			"target": "Inactive Alien Material Conversion Kit",
+			"result": "Alien Material Conversion Kit",
+			"skills": "450ME"
+		},
+		{
+			"source": "Alien Material Conversion Kit",
+			"target": "Alien Armor Materials",
+			"result": "Processed Alien Armor Materials",
+			"skills": "450ME"
+		},
+		{
+			"source": "Alien Activation Crystal",
+			"target": "Inactive Alien Tank Armor",
+			"result": "Alien Tank Armor",
+			"skills": "450ME"
+		},
+		{
+			"text": "<red>Warning! -- The next step makes this item NODROP and UNIQUE!</red>"
+		},
+		{
+			"text": "<red>Warning! -- Nanomages DO NOT do the next 2 steps!!</red>"
+		},
+		{
+			"source": "Processed Alien Armor Materials",
+			"target": "Alien Tank Armor",
+			"result": "Improved Alien Tank Armor",
+			"skills": "450ME"
+		},
+		{
+			"source": "Processed Alien Armor Materials",
+			"target": "Improved Alien Tank Armor",
+			"result": "Perfected Alien Tank Armor",
+			"skills": "450ME"
+		},
+		{
+			"text": "<red>Warning! -- The next 2 steps are for NANOMAGES ONLY!!</red>"
+		},
+		{
+			"source": "Alien Material Conversion Kit",
+			"target": "Processed Alien Armor Materials",
+			"result": "Specialised Alien Armor Materials",
+			"skills": "450ME"
+		},
+		{
+			"source": "Specialised Alien Armor Materials",
+			"target": "Alien Tank Armor",
+			"result": "Nanomage Enhanced Alien Tank Armor",
+			"skills": "450ME"
+		}
+	],
+	"details": [
+		{
+			"text": "Just be extra careful you perform the right steps for your breed. Nanomages have different steps to take than other breeds."
+		}
+	]
 }

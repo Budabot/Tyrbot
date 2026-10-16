@@ -1,25 +1,149 @@
 {
-    "name": "Pocket Boss",
-    "author": "",
-    "items": [
-        {
-            "alias": "Crystal Filled by the Source",
-            "item_id": 229604
-        },
-        {
-            "alias": "Cataclysmic Birth of Novictum",
-            "item_id": 229949
-        },
-        {
-            "alias": "Ancient Novictum Refiner",
-            "item_id": 229870
-        },
-        {
-            "alias": "Subdued Flow of Novictum",
-            "item_id": 229924
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAbhan, Bhotaar, Chi and Dom Patterns of the same Boss\n\nExample:\n\n#L \"Abhan Pattern of 'Screech'\" \"242677\"\n<img src=rdb://229134>\n\n#L \"Bhotaar Pattern of 'Screech'\" \"231433\"\n<img src=rdb://229142>\n\n#L \"Chi Pattern of 'Screech'\" \"231434\"\n<img src=rdb://229137>\n\n#L \"Dom Pattern of 'Screech'\" \"231435\"\n<img src=rdb://229140>\n\n#L \"Crystal Filled by the Source\" \"229604\"\n<img src=rdb://100312>\n\na special Novictum\n( ie : #L \"Cataclysmic Birth of Novictum\" \"229949\" )\n<img src=rdb://233132>\n\n#L \"Ancient Novictum Refiner\" \"229870\"\n<img src=rdb://205503>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAbhan Pattern</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nBhotaar Pattern</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\nAban-Bhotar Assembly</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAban-Bhotar Assembly</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nChi Pattern</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\nAban-Bhotar-Chi Assembly</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAban-Bhotar-Chi Assembly</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nDom Pattern</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://229138>\nComplete Blueprint Pattern\n( ie: #L \"Complete Blueprint Pattern of 'Screech'\" \"231438\")</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nAncient Novictum Refiner</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\na special Novictum</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://235352>\n#L \"Subdued Flow of Novictum\" \"229924\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nCrystal Filled by the Source</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nComplete Blueptrint Pattern</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://229139>\nEtched Notum Crystal\n( ie: #L \"Notum Crystal with Etched 'Screech'\" \"231439\")</font>\n<font color=#FFFF00>Skills: |  NP  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nSubdued Flow of Novictum</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nNotum Crystal with Etched</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://229141>\nNovictalized Notum Crystal\n( ie: #L \"Novictalized Notum Crystal with 'Screech'\" \"231440\")</font>\n<font color=#FFFF00>Skills: |  QP  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nUse the Novictalized Notum Crystal on an Incarnator on SL. take care, the user of the crystal will fall to 1 HP !!"
+	"name": "Pocket Boss",
+	"author": "",
+	"intro": [
+		{
+			"text": "Abhan, Bhotaar, Chi and Dom Patterns of the same Boss"
+		},
+		{
+			"text": ""
+		},
+		{
+			"text": "Example:"
+		}
+	],
+	"items": [
+		{
+			"alias": "Abhan Pattern",
+			"item_id": 242677,
+			"comment": "or any other Abhan Pattern",
+			"name": "Abhan Pattern 'Screech'",
+			"icon": 229134,
+			"ql": 80
+		},
+		{
+			"alias": "Bhotaar Pattern",
+			"item_id": 231433,
+			"comment": "or any other Bhotaar Pattern",
+			"name": "Bhotaar Pattern 'Screech'",
+			"icon": 229142,
+			"ql": 80
+		},
+		{
+			"alias": "Chi Pattern",
+			"item_id": 231434,
+			"comment": "or any other Chi Pattern",
+			"name": "Chi Pattern of 'Screech'",
+			"icon": 229137,
+			"ql": 80
+		},
+		{
+			"alias": "Dom Pattern",
+			"item_id": 231435,
+			"comment": "or any other Dom Pattern",
+			"name": "Dom Pattern of 'Screech'",
+			"icon": 229140,
+			"ql": 80
+		},
+		{
+			"alias": "Crystal Filled by the Source",
+			"item_id": 229604
+		},
+		{
+			"alias": "Special Novictum",
+			"item_id": 229949,
+			"comment": "or any other special Novictum"
+		},
+		{
+			"alias": "Ancient Novictum Refiner",
+			"item_id": 229870
+		},
+		{
+			"alias": "Aban-Bhotar Assembly",
+			"item_id": 231436,
+			"comment": "or another variant, depending on the boss",
+			"name": "Aban-Bhotar Assembly of 'Screech'",
+			"icon": 229135,
+			"ql": 80
+		},
+		{
+			"alias": "Aban-Bhotar-Chi Assembly",
+			"item_id": 231437,
+			"comment": "or another variant, depending on the boss",
+			"name": "Aban-Bhotar-Chi Assembly 'Screech'",
+			"icon": 229136,
+			"ql": 80
+		},
+		{
+			"alias": "Complete Blueprint Pattern",
+			"item_id": 231438,
+			"comment": "or another variant, depending on the boss",
+			"name": "Complete Blueprint Pattern of 'Screech'",
+			"icon": 229138,
+			"ql": 80
+		},
+		{
+			"alias": "Subdued Flow of Novictum",
+			"item_id": 229924
+		},
+		{
+			"alias": "Etched Notum Crystal",
+			"item_id": 231439,
+			"comment": "or another variant, depending on the boss",
+			"name": "Notum Crystal with Etched 'Screech'",
+			"icon": 229139,
+			"ql": 80
+		},
+		{
+			"alias": "Novictalized Notum Crystal",
+			"item_id": 231440,
+			"comment": "or another variant, depending on the boss",
+			"name": "Novictalized Notum Crystal with 'Screech'",
+			"icon": 229141,
+			"ql": 80
+		}
+	],
+	"steps": [
+		{
+			"source": "Abhan Pattern",
+			"target": "Bhotaar Pattern",
+			"result": "Aban-Bhotar Assembly",
+			"skills": "??"
+		},
+		{
+			"source": "Aban-Bhotar Assembly",
+			"target": "Chi Pattern",
+			"result": "Aban-Bhotar-Chi Assembly",
+			"skills": "??"
+		},
+		{
+			"source": "Aban-Bhotar-Chi Assembly",
+			"target": "Dom Pattern",
+			"result": "Complete Blueprint Pattern",
+			"skills": "??"
+		},
+		{
+			"source": "Ancient Novictum Refiner",
+			"target": "Special Novictum",
+			"result": "Subdued Flow of Novictum",
+			"skills": "??"
+		},
+		{
+			"source": "Crystal Filled by the Source",
+			"target": "Complete Blueprint Pattern",
+			"result": "Etched Notum Crystal",
+			"skills": "NP"
+		},
+		{
+			"source": "Subdued Flow of Novictum",
+			"target": "Etched Notum Crystal",
+			"result": "Novictalized Notum Crystal",
+			"skills": "QP"
+		}
+	],
+	"details": [
+		{
+			"text": "Use the Novictalized Notum Crystal on an Incarnator on SL. Take care, the user of the crystal will fall to 1 HP!!"
+		}
+	]
 }

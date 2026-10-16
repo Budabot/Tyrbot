@@ -1,21 +1,31 @@
 {
-    "name": "Lock Pick of Eight",
-    "author": "",
-    "items": [
-        {
-            "alias": "Chip of the Eight",
-            "item_id": 216381
-        },
-        {
-            "alias": "Bomb Disarmament Tools",
-            "item_id": 95576
-        },
-        {
-            "alias": "Lock Pick of Eight",
-            "item_id": 216380
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"Chip of the Eight\" \"216381\"\n<img src=rdb://43118>\n\n#L \"Bomb Disarmament Tools\" \"95576\"\n<img src=rdb://130561>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nChip of the Eight</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nBomb Disarmament Tools</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://216401>\n#L \"Lock Pick of Eight\" \"216380\"</font>\n<font color=#FFFF00>Skills: |  ME  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nChip of the Eight can be found on Hollow Island"
+	"name": "Lock Pick of Eight",
+	"author": "",
+	"items": [
+		{
+			"alias": "Chip of the Eight",
+			"item_id": 216381
+		},
+		{
+			"alias": "Bomb Disarmament Tools",
+			"item_id": 95576
+		},
+		{
+			"alias": "Lock Pick of Eight",
+			"item_id": 216380
+		}
+	],
+	"steps": [
+		{
+			"source": "Chip of the Eight",
+			"target": "Bomb Disarmament Tools",
+			"result": "Lock Pick of Eight",
+			"skills": "ME"
+		}
+	],
+	"details": [
+		{
+			"text": "Chip of the Eight can be found on Hollow Island."
+		}
+	]
 }

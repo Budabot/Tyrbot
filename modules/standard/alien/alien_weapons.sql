@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS alien_weapon_specials;
 CREATE TABLE alien_weapon_specials (type INT NOT NULL PRIMARY KEY, specials varchar(255) NOT NULL);
-INSERT INTO alien_weapon_specials (type, specials) VALUES (1, 'Fling shot');
+INSERT INTO alien_weapon_specials (type, specials) VALUES (1, 'Fling Shot');
 INSERT INTO alien_weapon_specials (type, specials) VALUES (2, 'Aimed Shot');
 INSERT INTO alien_weapon_specials (type, specials) VALUES (4, 'Burst');
 INSERT INTO alien_weapon_specials (type, specials) VALUES (3, 'Fling Shot and Aimed Shot');

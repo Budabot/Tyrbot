@@ -1,8 +1,90 @@
 {
-    "name": "Superior Amytlo Executioner",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#009B00>\n\nThis Instruction Manual will teach you how to assemble a:\n 'Superior Amytlo Executioner'\nThe Construction kit. must be between Quality Level 161 and 161.\nAll other pieces must be of AT LEAST that level range... \nAdd them using shift+right-click.\nAdd the pieces in the following order:\n\n 1. One Handed Edged Weapons Construction kit.\n\n 2. Medium Handle. . SkillTo Assemble: Weapon Smt: 592-592\n\n 3. Notum Enriched Nano Paste - 2x Layer. . SkillTo Assemble: Nano Progra: 322-322\n\n 4. Notum Enriched Nano Paste - 1x Layer. . SkillTo Assemble: Nano Progra: 242-242\n\n 5. Optimized Co-Weapon Interface. . SkillTo Assemble: Comp. Liter: 483-483"
+	"name": "Superior Amytlo Executioner",
+	"author": "",
+	"intro": [
+		{
+			"text": "The construction kit must be QL 161. All other pieces must be at least that QL. Add them in the order below using shift+right-click."
+		}
+	],
+	"items": [
+		{
+			"alias": "One Handed Edged Weapons Construction Kit",
+			"item_id": 137219,
+			"name": "One Handed Edged Weapons Construction Kit",
+			"icon": 131816,
+			"ql": 161
+		},
+		{
+			"alias": "Medium Handle",
+			"item_id": 142886,
+			"ql": 161
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 2x Layer",
+			"item_id": 137305,
+			"ql": 161
+		},
+		{
+			"alias": "Notum Enriched Nano Paste - 1x Layer",
+			"item_id": 137303,
+			"ql": 161
+		},
+		{
+			"alias": "Optimized Co-Weapon Interface",
+			"item_id": 142930,
+			"ql": 161
+		},
+		{
+			"alias": "1h Edged Construction Kit (Step 2)",
+			"item_id": 153314,
+			"name": "1h Edged Construction Kit (Step 2)",
+			"icon": 131818,
+			"ql": 161
+		},
+		{
+			"alias": "1h Edged Construction Kit (Step 3)",
+			"item_id": 153332,
+			"name": "1h Edged Construction Kit (Step 3)",
+			"icon": 131819,
+			"ql": 161
+		},
+		{
+			"alias": "1h Edged Construction Kit (Step 4)",
+			"item_id": 153334,
+			"name": "1h Edged Construction Kit (Step 4)",
+			"icon": 131820,
+			"ql": 161
+		},
+		{
+			"alias": "Superior Amytlo Executioner",
+			"item_id": 150231,
+			"ql": 161
+		}
+	],
+	"steps": [
+		{
+			"source": "Medium Handle",
+			"target": "One Handed Edged Weapons Construction Kit",
+			"result": "1h Edged Construction Kit (Step 2)",
+			"skills": "Weapon Smt 592-592"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 2x Layer",
+			"target": "1h Edged Construction Kit (Step 2)",
+			"result": "1h Edged Construction Kit (Step 3)",
+			"skills": "Nano Progra 322-322"
+		},
+		{
+			"source": "Notum Enriched Nano Paste - 1x Layer",
+			"target": "1h Edged Construction Kit (Step 3)",
+			"result": "1h Edged Construction Kit (Step 4)",
+			"skills": "Nano Progra 242-242"
+		},
+		{
+			"source": "Optimized Co-Weapon Interface",
+			"target": "1h Edged Construction Kit (Step 4)",
+			"result": "Superior Amytlo Executioner",
+			"skills": "Comp. Liter 483-483"
+		}
+	]
 }

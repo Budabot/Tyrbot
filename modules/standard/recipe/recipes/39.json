@@ -1,21 +1,31 @@
 {
-    "name": "De'Valos Sleeves",
-    "author": "",
-    "items": [
-        {
-            "alias": "High-Quality Cyber Armor Sleeves",
-            "item_id": 21917
-        },
-        {
-            "alias": "Powdered Viral-Bots",
-            "item_id": 253149
-        },
-        {
-            "alias": "De'Valos Sleeves",
-            "item_id": 253185
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"High-Quality Cyber Armor Sleeves\" \"21917\"\n<img src=rdb://13223>\n\n#L \"Powdered Viral-Bots\" \"253149\"\n<img src=rdb://99236>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nHigh-Quality Cyber Armor Sleeves</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nPowdered Viral-Bots</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://255237>\n#L \"De'Valos Sleeves\" \"253185\"</font>\n<font color=#FFFF00>Skills: | EE,NP |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nViral-Bots drop from alien Generals."
+	"name": "De'Valos Sleeves",
+	"author": "",
+	"items": [
+		{
+			"alias": "High-Quality Cyber Armor Sleeves",
+			"item_id": 21917
+		},
+		{
+			"alias": "Powdered Viral-Bots",
+			"item_id": 253149
+		},
+		{
+			"alias": "De'Valos Sleeves",
+			"item_id": 253185
+		}
+	],
+	"steps": [
+		{
+			"source": "High-Quality Cyber Armor Sleeves",
+			"target": "Powdered Viral-Bots",
+			"result": "De'Valos Sleeves",
+			"skills": "EE,NP"
+		}
+	],
+	"details": [
+		{
+			"text": "Viral-Bots drop from alien Generals."
+		}
+	]
 }

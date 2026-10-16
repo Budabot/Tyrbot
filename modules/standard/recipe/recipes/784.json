@@ -1,0 +1,48 @@
+{
+	"name": "Alien Invasion Houses: Simple Structure",
+	"author": "",
+	"intro": [
+		{
+			"text": "Building Alien Invasion Houses:"
+		},
+		{
+			"text": "#L \"1) Regular Building Structure\" \"/tell <myname> recipe 783\""
+		},
+		{
+			"text": "<highlight>2) Build a Simple Structure</highlight> (this recipe)"
+		},
+		{
+			"text": "#L \"3) Build a HQ Structure\" \"/tell <myname> recipe 785\""
+		},
+		{
+			"text": "#L \"4) Build High QL HQ Structure\" \"/tell <myname> recipe 28\""
+		},
+		{
+			"text": ""
+		}
+	],
+	"items": [
+		{
+			"alias": "Regular Building Structure",
+			"item_id": 254807
+		},
+		{
+			"alias": "Floorplan",
+			"item_id": 255476,
+			"comment": "or any other Floorplan"
+		},
+		{
+			"alias": "Structure",
+			"item_id": 254144,
+			"comment": "or another Structure, depending on the Floorplan"
+		}
+	],
+	"steps": [
+		{
+			"source": "Floorplan",
+			"target": "Regular Building Structure",
+			"result": "Structure",
+			"skills": "??"
+		}
+	]
+}

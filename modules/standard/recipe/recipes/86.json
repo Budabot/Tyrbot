@@ -1,21 +1,31 @@
 {
-    "name": "The Pioneer Backpack",
-    "author": "",
-    "items": [
-        {
-            "alias": "The Pioneer Backpack",
-            "item_id": 152039
-        },
-        {
-            "alias": "Screwdriver",
-            "item_id": 150922
-        },
-        {
-            "alias": "The Pioneer Backpack (Modified Version)",
-            "item_id": 156831
-        }
-    ],
-    "steps": [],
-    "details": [],
-    "raw": "<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Ingredients</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\n#L \"The Pioneer Backpack\" \"152039\"\n<img src=rdb://151882>\n\n#L \"Screwdriver\" \"150922\"\n<img src=rdb://151011>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Recipe</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nScrewdriver</font>\n<font color=#FFFFFF>+</font><font color=#009B00>\nThe Pioneer Backpack</font>\n<font color=#FFFFFF>=</font><font color=#009B00>\n<img src=rdb://151882>\n#L \"The Pioneer Backpack (Modified Version)\" \"156831\"</font>\n<font color=#FFFF00>Skills: |  ??  |</font><font color=#009B00>\n</font>\n<font color=#FFFF00>------------------------------</font>\n<font color=#FF0000>Comments</font>\n<font color=#FFFF00>------------------------------</font><font color=#009B00>\n\nYou can switch it back to the normal version using the Screwdriver on it again."
+	"name": "The Pioneer Backpack",
+	"author": "",
+	"items": [
+		{
+			"alias": "The Pioneer Backpack",
+			"item_id": 152039
+		},
+		{
+			"alias": "Screwdriver",
+			"item_id": 150922
+		},
+		{
+			"alias": "The Pioneer Backpack (Modified Version)",
+			"item_id": 156831
+		}
+	],
+	"steps": [
+		{
+			"source": "Screwdriver",
+			"target": "The Pioneer Backpack",
+			"result": "The Pioneer Backpack (Modified Version)",
+			"skills": "??"
+		}
+	],
+	"details": [
+		{
+			"text": "You can switch it back to the normal version using the Screwdriver on it again."
+		}
+	]
 }
