@@ -11,6 +11,7 @@ from src.constants import IndexRecordType
 from src.function_sets import FunctionSets
 from src.id_matcher import IdMatcher
 from src.implants import write_implant_sql
+from src.perks import write_perks_sql
 from src.rdb_extractor import RDBExtractor
 from src.rdb_file import MultiChunkReader, find_database_files
 from src.rdb_index import read_index_file
@@ -65,6 +66,8 @@ def main():
     parser.add_argument("-t", "--tower-dir", dest="tower_dir", default=None, help="Path to the tower module directory (default: ../modules/standard/tower)")
     parser.add_argument("-i", "--implant-dir", dest="implant_dir", default=None,
                         help="Path to the implant module's SQL directory (default: ../modules/standard/implant/sql)")
+    parser.add_argument("-p", "--perks-dir", dest="perks_dir", default=None,
+                        help="Path to the perks module directory (default: ../modules/standard/perks)")
     parser.add_argument("-l", "--log-file", dest="log_file", default=None, help="Path to output log file (default: ./extractor.log)")
     parser.add_argument("--no-log-file", dest="no_log_file", action="store_true", help="Disable logging to file")
     parser.add_argument(
@@ -119,6 +122,12 @@ def main():
     else:
         implant_dir = Path(__file__).resolve().parent.parent / "modules" / "standard" / "implant" / "sql"
 
+    # Perks module directory
+    if args.perks_dir:
+        perks_dir = Path(args.perks_dir).resolve()
+    else:
+        perks_dir = Path(__file__).resolve().parent.parent / "modules" / "standard" / "perks"
+
     # Items module SQL directory
     if args.items_dir:
         items_dir = Path(args.items_dir).resolve()
@@ -161,6 +170,10 @@ def main():
 
     if not implant_dir.is_dir():
         log.error(f"Implant SQL directory not found: {implant_dir}")
+        sys.exit(1)
+
+    if not perks_dir.is_dir():
+        log.error(f"Perks module directory not found: {perks_dir}")
         sys.exit(1)
 
     if not items_dir.is_dir():
@@ -209,6 +222,10 @@ def main():
         # Generate implant and symbiant tables
         log.info("Generating implant SQL files...")
         write_implant_sql(item_entries, extractor_cfg, implant_dir)
+
+        # Generate perk tables
+        log.info("Generating perks SQL file...")
+        write_perks_sql(db_reader, records, item_entries, text_mdb, perks_dir)
 
         # Extract nanos
         nano_records = [r for r in records if r.resource_type == IndexRecordType.AODB_NANO_TYPE]

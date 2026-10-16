@@ -55,6 +55,7 @@ class IndexRecordType:
     PLAYFIELD_TYPE = 1000001
     LAND_CONTROL_MAP_TYPE = 1000008
     DISTRICT_INFO_TYPE = 1000014
+    PERK_TYPE = 1000036
 
 
 class ArmorSlot:
