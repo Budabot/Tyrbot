@@ -42,6 +42,8 @@ class District:
     y_coord: float
     min_ql: int
     max_ql: int
+    min_npc_level: int
+    max_npc_level: int
 
 
 @dataclass
@@ -143,11 +145,12 @@ def read_district(r: BinaryReader, version: int) -> District:
     r.read_bytes(18)
     if version < 6:
         # Unused bytes, then a one-byte NPC level range; no land control levels
-        r.read_bytes(6)
+        r.read_bytes(4)
+        min_npc_level, max_npc_level = r.read_u8(), r.read_u8()
         min_ql = max_ql = 0
     else:
         # NPC level range, then land control level range
-        r.read_bytes(4)
+        min_npc_level, max_npc_level = r.read_u16(), r.read_u16()
         min_ql, max_ql = r.read_u16(), r.read_u16()
     # Respawn chance, respawn time and fight mode
     r.read_bytes(6)
@@ -157,7 +160,7 @@ def read_district(r: BinaryReader, version: int) -> District:
     r.read_bytes(6 * (spawn_info_count + old_spawn_info_count) + 4 * wildlife_count + 16 * spawn_point_count)
     for _ in range(hash_spawn_point_count):
         skip_hash_spawn_point(r, version)
-    return District(name.strip(), x_coord, y_coord, min_ql, max_ql)
+    return District(name.strip(), x_coord, y_coord, min_ql, max_ql, min_npc_level, max_npc_level)
 
 
 def read_district_info(data: bytes, playfield_id: int) -> DistrictInfo:

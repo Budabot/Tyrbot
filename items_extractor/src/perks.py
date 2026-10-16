@@ -34,6 +34,8 @@ class PerkRecord:
     item_id: int
     previous_id: int
     category: int
+    profession_mask: int
+    cost: int
 
 
 @dataclass
@@ -53,33 +55,33 @@ class Perk:
 
 
 def read_perk_record(data: bytes, perk_id: int) -> PerkRecord:
-    # Header (type, instance, revision), then item id, previous level's perk id and category
+    # Header (type, instance, revision), then item id, previous level's perk id, category, profession mask and experience cost
     if len(data) != PERK_RECORD_SIZE:
         raise ValueError(f"Perk record {perk_id} has {len(data)} bytes, expected {PERK_RECORD_SIZE}")
-    item_id, previous_id, category = struct.unpack_from("<iii", data, 12)
-    return PerkRecord(perk_id, item_id, previous_id, category)
+    item_id, previous_id, category, profession_mask, _, cost = struct.unpack_from("<iiiiii", data, 12)
+    return PerkRecord(perk_id, item_id, previous_id, category, profession_mask, cost)
 
 
-def read_perk_chains(reader: MultiChunkReader, records: List[IndexRecord]) -> List[List[PerkRecord]]:
-    # SL perks, each as its levels in order, linked by the previous level's perk id
+def read_perk_chains(reader: MultiChunkReader, records: List[IndexRecord], category: int) -> List[List[PerkRecord]]:
+    # Perks of one category, each as its levels in order, linked by the previous level's perk id
     perks = [read_perk_record(read_resource(reader, r), r.resource_id)
              for r in records if r.resource_type == IndexRecordType.PERK_TYPE]
-    sl_perks = {p.perk_id: p for p in perks if p.category == SL_PERK_CATEGORY}
-    if not sl_perks:
-        raise ValueError("No SL perk records found")
+    in_category = {p.perk_id: p for p in perks if p.category == category}
+    if not in_category:
+        raise ValueError(f"No perk records found in category {category}")
 
     next_level: Dict[int, PerkRecord] = {}
-    for p in sl_perks.values():
+    for p in in_category.values():
         if not p.previous_id:
             continue
-        if p.previous_id not in sl_perks:
-            raise ValueError(f"Perk {p.perk_id} follows perk {p.previous_id}, which is not an SL perk")
+        if p.previous_id not in in_category:
+            raise ValueError(f"Perk {p.perk_id} follows perk {p.previous_id}, which is not in category {category}")
         if p.previous_id in next_level:
             raise ValueError(f"Perks {next_level[p.previous_id].perk_id} and {p.perk_id} both follow perk {p.previous_id}")
         next_level[p.previous_id] = p
 
     chains: List[List[PerkRecord]] = []
-    for p in sl_perks.values():
+    for p in in_category.values():
         if p.previous_id:
             continue
         chain = [p]
@@ -87,8 +89,8 @@ def read_perk_chains(reader: MultiChunkReader, records: List[IndexRecord]) -> Li
             chain.append(next_level[chain[-1].perk_id])
         chains.append(chain)
 
-    if sum(len(c) for c in chains) != len(sl_perks):
-        raise ValueError("Some SL perk levels are not linked to a first level")
+    if sum(len(c) for c in chains) != len(in_category):
+        raise ValueError(f"Some perk levels in category {category} are not linked to a first level")
     return chains
 
 
@@ -126,7 +128,7 @@ def read_perk_level(record: PerkRecord, item: RDBItem, number: int, all_professi
 def read_perks(reader: MultiChunkReader, records: List[IndexRecord], items: List[RDBItem], all_professions: Set[int]) -> List[Perk]:
     items_map = {item.id: item for item in items}
     perks: List[Perk] = []
-    for chain in read_perk_chains(reader, records):
+    for chain in read_perk_chains(reader, records, SL_PERK_CATEGORY):
         missing = [p.item_id for p in chain if p.item_id not in items_map]
         if missing:
             raise ValueError(f"Perk {chain[0].perk_id} uses items {missing}, which were not read")

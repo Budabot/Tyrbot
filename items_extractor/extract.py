@@ -8,6 +8,7 @@ import time
 from typing import List, Optional, Union
 
 from src.constants import IndexRecordType
+from src.dyna import write_dyna_sql
 from src.function_sets import FunctionSets
 from src.id_matcher import IdMatcher
 from src.implants import write_implant_sql
@@ -15,6 +16,7 @@ from src.perks import write_perks_sql
 from src.rdb_extractor import RDBExtractor
 from src.rdb_file import MultiChunkReader, find_database_files
 from src.rdb_index import read_index_file
+from src.research import write_research_sql
 from src.tower_sites import write_tower_site_bounds
 
 log = logging.getLogger("ItemsExtractor")
@@ -68,6 +70,8 @@ def main():
                         help="Path to the implant module's SQL directory (default: ../modules/standard/implant/sql)")
     parser.add_argument("-p", "--perks-dir", dest="perks_dir", default=None,
                         help="Path to the perks module directory (default: ../modules/standard/perks)")
+    parser.add_argument("--helpbot-dir", dest="helpbot_dir", default=None,
+                        help="Path to the helpbot module directory (default: ../modules/standard/helpbot)")
     parser.add_argument("-l", "--log-file", dest="log_file", default=None, help="Path to output log file (default: ./extractor.log)")
     parser.add_argument("--no-log-file", dest="no_log_file", action="store_true", help="Disable logging to file")
     parser.add_argument(
@@ -128,6 +132,12 @@ def main():
     else:
         perks_dir = Path(__file__).resolve().parent.parent / "modules" / "standard" / "perks"
 
+    # Helpbot module directory
+    if args.helpbot_dir:
+        helpbot_dir = Path(args.helpbot_dir).resolve()
+    else:
+        helpbot_dir = Path(__file__).resolve().parent.parent / "modules" / "standard" / "helpbot"
+
     # Items module SQL directory
     if args.items_dir:
         items_dir = Path(args.items_dir).resolve()
@@ -176,6 +186,10 @@ def main():
         log.error(f"Perks module directory not found: {perks_dir}")
         sys.exit(1)
 
+    if not helpbot_dir.is_dir():
+        log.error(f"Helpbot module directory not found: {helpbot_dir}")
+        sys.exit(1)
+
     if not items_dir.is_dir():
         log.error(f"Items SQL directory not found: {items_dir}")
         sys.exit(1)
@@ -202,6 +216,10 @@ def main():
         log.info("Generating tower site bounds...")
         write_tower_site_bounds(db_reader, records, tower_dir)
 
+        # Generate dynacamps
+        log.info("Generating dynacamp SQL file...")
+        write_dyna_sql(db_reader, records, extractor_cfg, helpbot_dir)
+
         # Extract items
         item_records = [r for r in records if r.resource_type == IndexRecordType.AODB_ITEM_TYPE]
         total_items = len(item_records)
@@ -226,6 +244,10 @@ def main():
         # Generate perk tables
         log.info("Generating perks SQL file...")
         write_perks_sql(db_reader, records, item_entries, text_mdb, perks_dir)
+
+        # Generate research levels
+        log.info("Generating research SQL file...")
+        write_research_sql(db_reader, records, item_entries, text_mdb, helpbot_dir)
 
         # Extract nanos
         nano_records = [r for r in records if r.resource_type == IndexRecordType.AODB_NANO_TYPE]
