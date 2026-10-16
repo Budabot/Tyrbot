@@ -81,6 +81,9 @@ try:
     if platform.system() == "Windows":
         os.system("title %s.%d" % (config.bots[0].character, config.server.dimension))
 
+    # create the data folder used by the database and modules
+    os.makedirs("./data", exist_ok=True)
+
     # paths to search for instances: core + module_paths
     paths = ["core"]
     paths.extend(config.module_paths)
