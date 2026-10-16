@@ -18,6 +18,7 @@ from src.rdb_file import MultiChunkReader, find_database_files
 from src.rdb_index import read_index_file
 from src.research import write_research_sql
 from src.tower_sites import write_tower_site_bounds
+from src.trickle import write_trickle_sql
 
 log = logging.getLogger("ItemsExtractor")
 
@@ -72,6 +73,8 @@ def main():
                         help="Path to the perks module directory (default: ../modules/standard/perks)")
     parser.add_argument("--helpbot-dir", dest="helpbot_dir", default=None,
                         help="Path to the helpbot module directory (default: ../modules/standard/helpbot)")
+    parser.add_argument("--trickle-dir", dest="trickle_dir", default=None,
+                        help="Path to the trickle module directory (default: ../modules/standard/trickle)")
     parser.add_argument("-l", "--log-file", dest="log_file", default=None, help="Path to output log file (default: ./extractor.log)")
     parser.add_argument("--no-log-file", dest="no_log_file", action="store_true", help="Disable logging to file")
     parser.add_argument(
@@ -138,6 +141,12 @@ def main():
     else:
         helpbot_dir = Path(__file__).resolve().parent.parent / "modules" / "standard" / "helpbot"
 
+    # Trickle module directory
+    if args.trickle_dir:
+        trickle_dir = Path(args.trickle_dir).resolve()
+    else:
+        trickle_dir = Path(__file__).resolve().parent.parent / "modules" / "standard" / "trickle"
+
     # Items module SQL directory
     if args.items_dir:
         items_dir = Path(args.items_dir).resolve()
@@ -190,6 +199,10 @@ def main():
         log.error(f"Helpbot module directory not found: {helpbot_dir}")
         sys.exit(1)
 
+    if not trickle_dir.is_dir():
+        log.error(f"Trickle module directory not found: {trickle_dir}")
+        sys.exit(1)
+
     if not items_dir.is_dir():
         log.error(f"Items SQL directory not found: {items_dir}")
         sys.exit(1)
@@ -219,6 +232,10 @@ def main():
         # Generate dynacamps
         log.info("Generating dynacamp SQL file...")
         write_dyna_sql(db_reader, records, extractor_cfg, helpbot_dir)
+
+        # Generate skill trickle amounts
+        log.info("Generating trickle SQL file...")
+        write_trickle_sql(db_reader, records, text_mdb, extractor_cfg, trickle_dir)
 
         # Extract items
         item_records = [r for r in records if r.resource_type == IndexRecordType.AODB_ITEM_TYPE]
