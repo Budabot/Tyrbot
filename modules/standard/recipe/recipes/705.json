@@ -1,8 +1,0 @@
-{
-    "name": "Alien Armor",
-    "author": "",
-    "items": [],
-    "steps": [],
-    "details": [],
-    "raw": "</center><blue>To show the Recipe for an Alien Armor piece do:</blue>\n<cyan><symbol>aiarmor 'type'</cyan>\n\n<blue>If you want to specify the QL do:</blue>\n<cyan><symbol>aiarmor 'type' 'ql of the armor'</cyan>\n\n\n<blue>Allowed Types:</blue>\ncc - Combined Commando's\ncm - Combined Mercenary's\nco - Combined Officer's\ncp - Combined Paramedic's\ncs - Combined Scout's\nss - Combined Sharpshooter's\nstrong - Strong Armor\nsupple - Supple Armor\nenduring - Enduring Armor\nobservant - Observant Armor\narithmetic - Arithmetic Armor\nspiritual - Spiritual Armor\n\nExample: #L \"!aiarmor cc 150\" \"/tell <myname> aiarmor cc 150\""
-}

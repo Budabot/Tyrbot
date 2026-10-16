@@ -259,9 +259,9 @@ def main():
         for count, rec in enumerate(item_records, 1):
             try:
                 item = extractor.read_item(db_reader, rec, extract_functions=True)
-                item_entries.append(item)
             except Exception as e:
-                log.debug(f"Failed to read item record {rec.resource_id}", exc_info=True)
+                raise ValueError(f"Failed to read item record {rec.resource_id}") from e
+            item_entries.append(item)
             if count % 10000 == 0 or count == total_items:
                 log.info(f"Extracted {count} / {total_items} entries ({count * 100 // total_items}%)...")
 
@@ -288,9 +288,9 @@ def main():
         for count, rec in enumerate(nano_records, 1):
             try:
                 nano = extractor.read_item(db_reader, rec, extract_functions=True)
-                nano_entries.append(nano)
             except Exception as e:
-                log.debug(f"Failed to read nano record {rec.resource_id}", exc_info=True)
+                raise ValueError(f"Failed to read nano record {rec.resource_id}") from e
+            nano_entries.append(nano)
             if count % 10000 == 0 or count == total_nanos:
                 log.info(f"Extracted {count} / {total_nanos} entries ({count * 100 // total_nanos}%)...")
 

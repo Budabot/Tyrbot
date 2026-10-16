@@ -39,7 +39,7 @@ class RecipeController:
             m = self.recipe_name_regex.match(file)
             if m:
                 recipe_id = m.group(1)
-                dt = int(os.path.getmtime(recipe_dir+file))
+                dt = int(os.path.getmtime(recipe_dir + file))
 
                 recipe = self.find_recipe(recipe_id, recipes)
                 if recipe:
@@ -50,6 +50,10 @@ class RecipeController:
                 self.update_recipe(recipe_dir, recipe_id, dt)
             else:
                 raise Exception("Unknown recipe format for '%s'" % file)
+
+        # Remove recipes whose file no longer exists
+        for recipe in recipes:
+            self.db.exec("DELETE FROM recipe WHERE id = ?", [recipe.id])
 
     @command(command="recipe", params=[Int("recipe_id")], access_level="all", description="Show a recipe")
     def recipe_show_cmd(self, request, recipe_id):

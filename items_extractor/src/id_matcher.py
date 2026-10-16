@@ -24,7 +24,7 @@ class Entry:
 
 
 def read_entries_from_file(file_path: str) -> List[str]:
-    with open(file_path, "r", encoding="utf-8", errors="replace") as f:
+    with open(file_path, "r", encoding="utf-8") as f:
         return [line.strip() for line in f if line.strip()]
 
 
@@ -95,14 +95,12 @@ class IdMatcher:
                 continue
             parms = [p.strip() for p in line_str.split(",")]
             if len(parms) < 4:
-                log.warning(f"static_list: '{line_str}' -> invalid format (expected >= 4 comma-separated values)")
-                continue
+                raise ValueError(f"static_list: '{line_str}' -> invalid format (expected >= 4 comma-separated values)")
             try:
                 low_id, high_id = int(parms[0]), int(parms[1])
                 low_ql, high_ql = int(parms[2]), int(parms[3])
             except ValueError as e:
-                log.warning(f"static_list: '{line_str}' -> error parsing integers: {e}")
-                continue
+                raise ValueError(f"static_list: '{line_str}' -> error parsing integers: {e}") from e
             parsed_entries.append((line_str, parms, low_id, high_id, low_ql, high_ql))
 
         for line_str, parms, low_id, high_id, low_ql, high_ql in parsed_entries:
@@ -145,8 +143,8 @@ class IdMatcher:
                     log.debug(f"delete_list: '{clause}' -> total deleted: {deleted}")
                 else:
                     log.debug(f"delete_list: '{clause}' -> deleted 0 entries")
-            except sqlite3.OperationalError as e:
-                log.error(f"delete_list: '{clause}' -> SQL error: {e}")
+            except sqlite3.Error as e:
+                raise ValueError(f"delete_list: '{clause}' -> SQL error: {e}") from e
         log.debug(f"delete_list: total deleted entries = {total_deleted}")
 
     def process_name_separations(self, conn: sqlite3.Connection, name_separation_list: List[str]):
@@ -157,8 +155,7 @@ class IdMatcher:
                 continue
             parms = [p.strip() for p in line_str.split(",")]
             if len(parms) < 3:
-                log.warning(f"nameseparation_list: '{line_str}' -> invalid format (expected 3 comma-separated values)")
-                continue
+                raise ValueError(f"nameseparation_list: '{line_str}' -> invalid format (expected 3 comma-separated values)")
             p0, p1, p2 = parms[0], parms[1], parms[2]
             p0_clean = p0.replace("%", "")
             p1_clean = p1.replace("%", "")
@@ -219,8 +216,6 @@ class IdMatcher:
             if not line_str or line_str.startswith("#"):
                 continue
             parms = [p.strip() for p in line_str.split(",")]
-            if len(parms) < 3:
-                continue
             cur.execute(
                 "DELETE FROM entries WHERE (name LIKE ? OR name LIKE ?) AND itemtype = ?;",
                 (parms[0], parms[1], parms[2])
