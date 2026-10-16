@@ -13,6 +13,7 @@ class NanoController:
 
     def pre_start(self):
         self.db.load_sql_file(self.module_dir + "/" + "nanos.sql")
+        self.db.load_sql_file(self.module_dir + "/" + "nanos_professions.sql")
         self.db.load_sql_file(self.module_dir + "/" + "nanolines.sql")
         self.db.load_sql_file(self.module_dir + "/" + "nanos_nanolines_ref.sql")
 
@@ -27,13 +28,15 @@ class NanoController:
         page_size = 30
         offset = (page_number - 1) * page_size
 
-        sql = "SELECT n1.lowid, n1.lowql, n1.name, n1.location, n1.profession, n3.id AS nanoline_id, n3.name AS nanoline_name " \
+        sql = "SELECT n1.id, n1.lowid, n1.lowql, n1.name, n1.location, p.profession, n3.id AS nanoline_id, n3.name AS nanoline_name " \
               "FROM nanos n1 " \
+              "JOIN nanos_professions p ON n1.id = p.nano_id " \
               "LEFT JOIN nanos_nanolines_ref n2 ON n1.lowid = n2.lowid " \
               "LEFT JOIN nanolines n3 ON n2.nanolines_id = n3.id " \
               "WHERE n1.name <EXTENDED_LIKE=0> ? " \
-              "ORDER BY n1.profession, n3.name, n1.lowql DESC, n1.name ASC"
-        data = self.db.query(sql, [search], extended_like=True)
+              "ORDER BY n1.id, p.profession"
+        data = self.join_professions(self.db.query(sql, [search], extended_like=True))
+        data.sort(key=lambda row: (row.profession, row.nanoline_name is not None, row.nanoline_name or "", -row.lowql, row.name))
         count = len(data)
         paged_data = data[offset:offset + page_size]
 
@@ -48,19 +51,29 @@ class NanoController:
         blob += self.text.get_paging_links(f"nano {search}", page_number, offset + page_size < len(data))
         blob += "\n\n"
 
-        current_nanoline = -1
+        current_group = None
         for row in paged_data:
-            if current_nanoline != row.nanoline_id:
+            if current_group != (row.profession, row.nanoline_id):
                 if row.nanoline_name:
                     blob += "\n<header2>%s</header2> - %s\n" % (row.profession, self.text.make_tellcmd(row.nanoline_name, "nanolines %d" % row.nanoline_id))
                 else:
-                    blob += "\n<header2>Unknown/General</header2>\n"
-                current_nanoline = row.nanoline_id
+                    blob += "\n<header2>%s</header2> - Unknown nanoline\n" % row.profession
+                current_group = (row.profession, row.nanoline_id)
 
             blob += self.format_single_nano(row) + "\n"
         blob += self.get_footer()
 
         return ChatBlob("Nano Search Results for '%s' (%d - %d of %d)" % (search, offset + 1, min(offset + page_size, count), count), blob)
+
+    def join_professions(self, rows):
+        # Rows of one nano, one per profession and ordered by profession, merged into one row listing its professions
+        nanos = {}
+        for row in rows:
+            if row.id in nanos:
+                nanos[row.id].profession += ", " + row.profession
+            else:
+                nanos[row.id] = row
+        return list(nanos.values())
 
     def format_single_nano(self, row):
         return "QL %d %s %s" % (row.lowql, self.text.make_item(row.lowid, row.lowid, row.lowql, row.name), row.location)
@@ -80,18 +93,18 @@ class NanoController:
     @command(command="nanoloc", params=[Any("location")], access_level="guest",
              description="Show nanos by location")
     def nanoloc_show_cmd(self, request, location):
-        sql = "SELECT n1.lowid, n1.lowql, n1.name, n1.location, n3.profession " \
-              "FROM nanos n1 LEFT JOIN nanos_nanolines_ref n2 ON n1.lowid = n2.lowid LEFT JOIN nanolines n3 ON n2.nanolines_id = n3.id " \
+        sql = "SELECT n1.id, n1.lowid, n1.lowql, n1.name, n1.location, p.profession " \
+              "FROM nanos n1 JOIN nanos_professions p ON n1.id = p.nano_id " \
               "WHERE n1.location LIKE ? " \
-              "ORDER BY n1.profession ASC, n1.name ASC"
-        data = self.db.query(sql, [location])
+              "ORDER BY n1.id, p.profession"
+        data = self.join_professions(self.db.query(sql, [location]))
+        data.sort(key=lambda row: (row.profession, row.name))
         cnt = len(data)
 
         blob = ""
         for row in data:
             blob += "QL %d %s" % (row.lowql, self.text.make_item(row.lowid, row.lowid, row.lowql, row.name))
-            if row.profession:
-                blob += " - %s" % row.profession
+            blob += " - %s" % row.profession
             blob += "\n"
 
         return ChatBlob("Nanos for Location '%s' (%d)" % (location, cnt), blob)

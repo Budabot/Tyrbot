@@ -1,7 +1,8 @@
+from collections import defaultdict
 from dataclasses import dataclass
 import logging
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Set, Tuple
 
 from src.check_helpers import Problems, check_duplicates, read_sql_rows
 from src.constants import Attribute, IndexRecordType
@@ -23,44 +24,57 @@ GENERAL_PROFESSION = "General"
 @dataclass
 class Upload:
     nano_id: int
-    profession_id: Optional[int]
+    profession_ids: Set[int]
 
 
-def profession_id(criteria: List[Tuple[int, int, int]]) -> Optional[int]:
-    # The first profession required, if any
-    for stat, value, op in criteria:
-        if stat in PROFESSION_STATS and op == OP_EQUAL:
-            return value
-    return None
+def profession_ids(criteria: List[Tuple[int, int, int]]) -> Set[int]:
+    # Every profession the criteria allow
+    return {value for stat, value, op in criteria if stat in PROFESSION_STATS and op == OP_EQUAL}
 
 
 def read_uploads(crystal: RDBItem) -> List[Upload]:
-    # Nanos the crystal uploads, each with the profession its upload requires, otherwise the crystal's
-    crystal_profession = profession_id([(c.criteria1, c.criteria2, c.criteria3) for c in crystal.criteria_list])
+    # Nanos the crystal uploads, each with the professions its upload allows, otherwise the crystal's
+    crystal_professions = profession_ids([(c.criteria1, c.criteria2, c.criteria3) for c in crystal.criteria_list])
     uploads = []
     for event in crystal.events:
         for function in event.functions:
             if function.function_num == UPLOAD_NANO_FUNCTION and function.params:
                 reqs = [(q.required_attribute_number, q.required_attribute_value, q.required_attribute_operator) for q in function.requirements]
-                required = profession_id(reqs)
-                uploads.append(Upload(int(function.params[0]), crystal_profession if required is None else required))
+                required = profession_ids(reqs)
+                uploads.append(Upload(int(function.params[0]), required or crystal_professions))
     return uploads
 
 
-def profession_name(upload: Upload, profession_names: Dict[int, str], crystal: RDBItem) -> str:
-    if upload.profession_id is None:
-        return GENERAL_PROFESSION
-    if upload.profession_id not in profession_names:
-        raise ValueError(f"Item {crystal.id} '{crystal.name}' requires unknown profession {upload.profession_id}")
-    return profession_names[upload.profession_id]
+def profession_names_of(upload: Upload, profession_names: Dict[int, str], crystal: RDBItem) -> Set[str]:
+    if not upload.profession_ids:
+        return {GENERAL_PROFESSION}
+    unknown = upload.profession_ids - profession_names.keys()
+    if unknown:
+        raise ValueError(f"Item {crystal.id} '{crystal.name}' requires unknown professions {sorted(unknown)}")
+    return {profession_names[p] for p in upload.profession_ids}
+
+
+def read_row_professions(problems: Problems, path: Path, nano_ids: Set[int]) -> Dict[int, Set[str]]:
+    # Each nano's professions; every row must name a nano and every nano needs a profession
+    rows = read_sql_rows(path, "nanos_professions", [])
+    check_duplicates(problems, path, rows, ["nano_id", "profession"])
+    professions: Dict[int, Set[str]] = defaultdict(set)
+    for line_number, r in rows:
+        nano_id = int(r["nano_id"])  # type: ignore[arg-type]
+        if nano_id not in nano_ids:
+            problems.add(f"{path}:{line_number}", f"nano id {nano_id} is not in nanos.sql")
+        professions[nano_id].add(str(r["profession"]))
+    return professions
 
 
 def check_nanos(problems: Problems, reader: MultiChunkReader, records: List[IndexRecord], function_sets: FunctionSets,
                 text_mdb: Path, modules_dir: Path) -> None:
-    # Each row needs a game crystal that uploads a nano, with the row's QL, name and profession
+    # Each row needs a game crystal that uploads a nano, with the row's QL, name and professions
     path = modules_dir / "nano" / "nanos.sql"
     rows = read_sql_rows(path, "nanos", [])
+    check_duplicates(problems, path, rows, ["id"])
     check_duplicates(problems, path, rows, ["lowid", "name"])
+    row_professions = read_row_professions(problems, modules_dir / "nano" / "nanos_professions.sql", {int(r["id"]) for _, r in rows})  # type: ignore[arg-type]
 
     profession_names = read_text_category(text_mdb, PROFESSION_NAME_CATEGORY)
     extractor = RDBExtractor(function_sets)
@@ -69,7 +83,10 @@ def check_nanos(problems: Problems, reader: MultiChunkReader, records: List[Inde
 
     for line_number, r in rows:
         source = f"{path}:{line_number}"
-        low_id, low_ql, name, profession = int(r["lowid"]), r["lowql"], r["name"], r["profession"]  # type: ignore[arg-type]
+        low_id, low_ql, name = int(r["lowid"]), r["lowql"], r["name"]  # type: ignore[arg-type]
+        professions = row_professions.get(int(r["id"]), set())  # type: ignore[arg-type]
+        if not professions:
+            problems.add(source, f"'{name}' has no professions in nanos_professions.sql")
         if low_id not in item_records:
             problems.add(source, f"'{name}' has id {low_id}, which is not an item in the game")
             continue
@@ -102,6 +119,6 @@ def check_nanos(problems: Problems, reader: MultiChunkReader, records: List[Inde
                 continue
             upload = listed[name]  # type: ignore[index]
 
-        required = profession_name(upload, profession_names, crystal)
-        if profession != required:
-            problems.add(source, f"'{name}' has profession {profession}, but item {low_id} requires {required}")
+        required = profession_names_of(upload, profession_names, crystal)
+        if professions and professions != required:
+            problems.add(source, f"'{name}' has professions {', '.join(sorted(professions))}, but item {low_id} allows {', '.join(sorted(required))}")

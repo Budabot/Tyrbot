@@ -21,6 +21,7 @@ PROFESSION_STAT = 60
 IMPLANT_ITEM_CLASS = 3
 OP_EQUAL = 0
 OP_GREATER_THAN = 2
+WEAR_ACTION = 6
 WEAR_EVENT = 14
 MODIFY_FUNCTION = 53045
 SKILL_STATS = range(100, 169)
@@ -123,7 +124,7 @@ def get_requirements(item: RDBItem, stats: Iterable[int]) -> Dict[int, int]:
     wanted = set(stats)
     reqs: Dict[int, int] = {}
     for c in item.criteria_list:
-        if c.criteria3 == OP_GREATER_THAN and c.criteria1 in wanted:
+        if c.action == WEAR_ACTION and c.criteria3 == OP_GREATER_THAN and c.criteria1 in wanted:
             if c.criteria1 in reqs:
                 raise ValueError(f"Item {item.id} '{item.name}' requires stat {c.criteria1} more than once")
             reqs[c.criteria1] = c.criteria2 + 1
@@ -176,7 +177,7 @@ def read_symbiant(item: RDBItem, config: ImplantConfig) -> Symbiant:
 
     professions = sorted(check_id(config.professions, c.criteria2, "profession", item)
                          for c in item.criteria_list
-                         if c.criteria1 == PROFESSION_STAT and c.criteria3 == OP_EQUAL)
+                         if c.action == WEAR_ACTION and c.criteria1 == PROFESSION_STAT and c.criteria3 == OP_EQUAL)
 
     abilities = get_requirements(item, config.abilities)
     _, treatment = get_single_requirement(item, [TREATMENT_STAT], "treatment")

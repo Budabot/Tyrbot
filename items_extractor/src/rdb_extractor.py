@@ -46,6 +46,7 @@ class AttackDefense:
 
 @dataclass
 class Criteria:
+    action: int
     criteria1: int
     criteria2: int
     criteria3: int
@@ -242,7 +243,7 @@ class RDBExtractor:
                 elif p_type == "s":
                     for _ in range(count):
                         s_size = reader.read_u32()
-                        params.append(reader.read_bytes(s_size).decode("latin1", errors="replace").strip())
+                        params.append(reader.read_bytes(s_size).rstrip(b"\0").decode("latin1", errors="replace").strip())
                 elif p_type == "x":
                     reader.skip(count)
 
@@ -262,11 +263,14 @@ class RDBExtractor:
                 out_list.append(AttackDefense(key_type, stat_number, stat_val))
 
     def _parse_criteria(self, reader: BinaryReader, out_list: List[Criteria]):
-        header = reader.read_u32()
-        reader.skip(8)
-        criteria_count = int3f1(reader.read_u32())
-        for _ in range(criteria_count):
-            c1 = reader.read_u32()
-            c2 = reader.read_u32()
-            c3 = reader.read_u32()
-            out_list.append(Criteria(c1, c2, c3))
+        # One block of criteria per action, such as use or wear
+        reader.read_u32()
+        action_count = int3f1(reader.read_u32())
+        for _ in range(action_count):
+            action = reader.read_u32()
+            criteria_count = int3f1(reader.read_u32())
+            for _ in range(criteria_count):
+                c1 = reader.read_u32()
+                c2 = reader.read_u32()
+                c3 = reader.read_u32()
+                out_list.append(Criteria(action, c1, c2, c3))

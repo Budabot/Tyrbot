@@ -99,7 +99,7 @@ python check.py -d "C:\Funcom\Anarchy Online"
 - Recipes: every item a recipe links, lists or details must exist in the game, and every step must use listed items. Text steps, and listed placeholders without an item id, are skipped.
 - `EffectTypeMatrix.sql` must hold the shining cluster values of each effect type's clusters at QL 1, 200, 201 and 300, and each effect in `EffectValue.sql` must match the cluster values of some effect type.
 - `whompah_cities.sql`: the routes in `whompah_cities_rel` must be the routes the game's whompahs make. Cities whose zone names a game playfield are matched to that playfield's whompahs, the rest to whichever whompahs give the fewest differences.
-- `nanos.sql`: each row's id must be a game crystal that uploads a nano, with the row's QL, name and profession (the first profession the crystal requires, otherwise `General`). A box that uploads one nano per profession is listed once per nano as `<box name> [<nano name>]`, with that upload's profession; repeated rows are reported.
+- `nanos.sql`: each row's id must be a game crystal that uploads a nano, with the row's QL and name, and its professions in `nanos_professions.sql` must be every profession the crystal allows (`General` when it allows any). A box that uploads one nano per profession is listed once per nano as `<box name> [<nano name>]`, with that upload's professions; repeated rows and professions of unknown nanos are reported.
 - Each problem is logged with its file and line; the exit code is 1 when any problem is found.
 - `run-check-docker.bat` runs the checks in the tyrbot Docker image.
 - `-c`, `--config <path>`: Config directory (default: `./config`).
