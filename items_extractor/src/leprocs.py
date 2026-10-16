@@ -176,7 +176,7 @@ class ModifierText:
                 text = "%s root" % who if int(p[0]) == RESTRICT_MOVEMENT else "%s restrict action %s" % (who, p[0])
                 parts.append(text + (" for %s" % seconds(duration) if duration else ""))
             elif n == TAUNT_FUNCTION:
-                parts.append("%s taunt %s" % (who, p[0]))
+                parts.append("%s taunt %s" % (who, p[2]))
             elif n == RESIST_STRAIN_FUNCTION:
                 parts.append("%s resist %s %s%%" % (who, self.strain(p[0]), p[1]))
             elif n == REMOVE_STRAIN_FUNCTION:

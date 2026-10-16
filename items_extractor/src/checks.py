@@ -10,6 +10,7 @@ from src.check_helpers import Problems, SqlValue, check_duplicates, read_sql_row
 from src.constants import IndexRecordType
 from src.function_sets import FunctionSets
 from src.implants import group_implants, read_implant_config, read_implants
+from src.nano_check import check_nanos
 from src.rdb_extractor import RDBExtractor
 from src.rdb_file import MultiChunkReader
 from src.rdb_index import IndexRecord
@@ -97,13 +98,16 @@ def check_recipe(problems: Problems, path: Path, lookup: ItemLookup) -> None:
         if int(item_id) not in lookup.game_ids:
             problems.add(str(path), f"links '{name}' to item {item_id}, which is not in the game")
 
-    # Listed items, which are the only items steps may use
+    # Listed items, which are the only items steps may use; placeholders for unknown items have no id
     aliases = set()
     for i in recipe.get("items", []):
         aliases.add(i["alias"])
-        if i["item_id"] not in lookup.game_ids:
+        if "item_id" in i and i["item_id"] not in lookup.game_ids:
             problems.add(str(path), f"lists '{i['alias']}' as item {i['item_id']}, which is not in the game")
     for step in recipe.get("steps", []):
+        # Text steps only label the steps around them
+        if "text" in step:
+            continue
         for part in ("source", "target", "result"):
             if step[part] not in aliases:
                 problems.add(str(path), f"has a step {part} '{step[part]}' that is not in its items")
@@ -199,7 +203,7 @@ def check_implant_effects(problems: Problems, reader: MultiChunkReader, records:
 
 
 def run_checks(reader: MultiChunkReader, records: List[IndexRecord], function_sets: FunctionSets, config_path: Path,
-               modules_dir: Path) -> int:
+               text_mdb: Path, modules_dir: Path) -> int:
     problems = Problems()
     game_ids = {r.resource_id for r in records if r.resource_type == IndexRecordType.AODB_ITEM_TYPE}
     lookup = ItemLookup(read_aodb(modules_dir / "items" / "sql" / "aodb.sql"), game_ids)
@@ -210,4 +214,6 @@ def run_checks(reader: MultiChunkReader, records: List[IndexRecord], function_se
     check_implant_effects(problems, reader, records, function_sets, config_path, modules_dir)
     log.info("Checking whompah routes...")
     check_whompah_routes(problems, reader, records, modules_dir)
+    log.info("Checking nanos...")
+    check_nanos(problems, reader, records, function_sets, text_mdb, modules_dir)
     return problems.count

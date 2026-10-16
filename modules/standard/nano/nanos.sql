@@ -232,7 +232,7 @@ INSERT INTO nanos (lowid, lowql, name, profession, location) VALUES (117243, 99,
 INSERT INTO nanos (lowid, lowql, name, profession, location) VALUES (227675, 185, 'Nano Crystal (Assurance Advocacy)', 'Engineer', 'Inferno Garden');
 INSERT INTO nanos (lowid, lowql, name, profession, location) VALUES (227677, 201, 'Nano Crystal (Assurance Attention)', 'Engineer', 'Inferno Sanctuary');
 INSERT INTO nanos (lowid, lowql, name, profession, location) VALUES (227679, 210, 'Nano Crystal (Assurance Relief)', 'Engineer', 'Inferno Sanctuary');
-INSERT INTO nanos (lowid, lowql, name, profession, location) VALUES (218099, 75, 'Nano Crystal (Astinus''s Stellar Pulse)', 'Nano Technican', 'Scheol Garden');
+INSERT INTO nanos (lowid, lowql, name, profession, location) VALUES (218099, 75, 'Nano Crystal (Astinus''s Stellar Pulse)', 'Nano-Technician', 'Scheol Garden');
 INSERT INTO nanos (lowid, lowql, name, profession, location) VALUES (45388, 159, 'Nano Crystal (Atomic Collapse)', 'Nano-Technician', 'Mission reward');
 INSERT INTO nanos (lowid, lowql, name, profession, location) VALUES (29333, 27, 'Nano Crystal (Attack Booster)', 'Soldier', 'RK Store');
 INSERT INTO nanos (lowid, lowql, name, profession, location) VALUES (226749, 219, 'Nano Crystal (Attenuate Defense)', 'Trader', 'Pandemonium Garden');
@@ -887,7 +887,6 @@ INSERT INTO nanos (lowid, lowql, name, profession, location) VALUES (55775, 24, 
 INSERT INTO nanos (lowid, lowql, name, profession, location) VALUES (55777, 76, 'Nano Crystal (Electrical Discharge Field)', 'Engineer', 'RK Store');
 INSERT INTO nanos (lowid, lowql, name, profession, location) VALUES (26547, 10, 'Nano Crystal (Electrical Engineering Expertise)', 'General', 'No longer drops');
 INSERT INTO nanos (lowid, lowql, name, profession, location) VALUES (227654, 76, 'Nano Crystal (Electrical Engineering Knowledge)', 'Engineer', 'Scheol Garden');
-INSERT INTO nanos (lowid, lowql, name, profession, location) VALUES (227664, 129, 'Nano Crystal (Electrical Engineering Mastery)', 'Engineer', 'Adonis Sanctuary');
 INSERT INTO nanos (lowid, lowql, name, profession, location) VALUES (27708, 4, 'Nano Crystal (Electrical Engineering Proficiency)', 'General', 'No longer drops');
 INSERT INTO nanos (lowid, lowql, name, profession, location) VALUES (28807, 185, 'Nano Crystal (Electrifying Containment)', 'Nano-Technician', 'Mission reward');
 INSERT INTO nanos (lowid, lowql, name, profession, location) VALUES (222916, 194, 'Nano Crystal (Element of Corrosion)', 'Enforcer', 'Inferno Garden');
