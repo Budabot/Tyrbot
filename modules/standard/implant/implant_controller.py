@@ -14,17 +14,18 @@ class ImplantController:
     # Clusters whose bonuses stand for all ability and all skill clusters
     ABILITY_CLUSTER = "Strength"
     SKILL_CLUSTER = "Assault Rifle"
+    # Skill that adds normal clusters, and each grade's share of a cluster's shiny requirement
+    NP_SKILL = "Nano Programming"
+    NP_GRADE_RATIOS = {"shiny": Fraction(1), "bright": Fraction(3, 4), "faded": Fraction(1, 2)}
+    # Skill per implant QL that adds a Jobe cluster of each grade; Nano Delta clusters need less
+    JOBE_SKILL_RATIOS = {"shiny": Fraction(25, 4), "bright": Fraction(19, 4), "faded": Fraction(13, 4)}
+    NANO_DELTA_CLUSTER = "Nano Delta*"
+    NANO_DELTA_SKILL_RATIOS = {"shiny": Fraction(21, 4), "bright": Fraction(4), "faded": Fraction(11, 4)}
+    # Highest QL whose build requirements are known
+    BUILD_REQUIREMENT_MAX_QL = 200
 
     def __init__(self):
         self.grades = ["shiny", "bright", "faded"]
-
-        self.normal_build_shiny = {1: 4, 200: 800, 201: 994, 300: 1575}
-        self.normal_build_bright = {1: 3, 200: 600, 201: 753, 300: 1125}
-        self.normal_build_faded = {1: 2, 200: 400, 201: 552, 300: 825}
-
-        self.jobe_build_shiny = {1: 6, 200: 1250, 201: 1356, 300: 2025}
-        self.jobe_build_bright = {1: 4, 200: 950, 201: 1055, 300: 1575}
-        self.jobe_build_faded = {1: 3, 200: 650, 201: 753, 300: 1125}
 
         self.clean_np = {1: 1, 200: 200}
         self.clean_be = {1: 4, 200: 950}
@@ -107,10 +108,13 @@ class ImplantController:
         else:
             blob += "\nRefined implants cannot be cleaned\n"
 
-        blob += "\n<header2>Max Requirements to Build</header2> (actual requirements may be lower)\n"
-        blob += "<highlight>%d</highlight> NanoProgramming for Shiny\n" % implant.build_shiny
-        blob += "<highlight>%d</highlight> NanoProgramming for Bright\n" % implant.build_bright
-        blob += "<highlight>%d</highlight> NanoProgramming for Faded\n" % implant.build_faded
+        if implant.build_shiny is None:
+            blob += "\nBuild requirements of refined implants are unknown\n"
+        else:
+            blob += "\n<header2>Max Requirements to Build</header2> (actual requirements may be lower)\n"
+            blob += "<highlight>%d</highlight> NanoProgramming for Shiny\n" % implant.build_shiny
+            blob += "<highlight>%d</highlight> NanoProgramming for Bright\n" % implant.build_bright
+            blob += "<highlight>%d</highlight> NanoProgramming for Faded\n" % implant.build_faded
 
         blob += "\n<header2>Min Cluster QL</header2>\n"
         blob += "<highlight>%d</highlight> Shiny\n" % implant.minimum_cluster_shiny
@@ -122,10 +126,15 @@ class ImplantController:
             blob += "<highlight>%d</highlight> Treatment\n" % implant.jobe_treatment
             blob += "<highlight>%d</highlight> Ability\n" % implant.jobe_ability
 
-            blob += "\n<header2>Max Requirements to Build Jobe Implants</header2> (actual requirements may be lower)\n"
-            blob += "<highlight>%d</highlight> NanoProgramming for Shiny\n" % implant.jobe_build_shiny
-            blob += "<highlight>%d</highlight> NanoProgramming for Bright\n" % implant.jobe_build_bright
-            blob += "<highlight>%d</highlight> NanoProgramming for Faded\n" % implant.jobe_build_faded
+            if implant.jobe_build_shiny is None:
+                blob += "\nBuild requirements of refined Jobe implants are unknown\n"
+            else:
+                blob += "\n<header2>Max Requirements to Build Jobe Implants</header2> (actual requirements may be lower)\n"
+                blob += "<highlight>%d</highlight> for Shiny\n" % implant.jobe_build_shiny
+                blob += "<highlight>%d</highlight> for Bright\n" % implant.jobe_build_bright
+                blob += "<highlight>%d</highlight> for Faded\n" % implant.jobe_build_faded
+                skills = implant.jobe_build_skills
+                blob += "in the Jobe cluster's tradeskill: %s\n" % (" or ".join([", ".join(skills[:-1]), skills[-1]]) if len(skills) > 1 else skills[0])
 
             blob += "\nJobe implants cannot be cleaned\n"
 
@@ -158,13 +167,12 @@ class ImplantController:
         implant.clean_break_and_entry = self.util.interpolate_value(ql, self.clean_be)
         implant.clean_nano_programming = self.util.interpolate_value(ql, self.clean_np)
 
-        implant.build_shiny = self.util.interpolate_value(ql, self.normal_build_shiny)
-        implant.build_bright = self.util.interpolate_value(ql, self.normal_build_bright)
-        implant.build_faded = self.util.interpolate_value(ql, self.normal_build_faded)
-
-        implant.jobe_build_shiny = self.util.interpolate_value(ql, self.jobe_build_shiny)
-        implant.jobe_build_bright = self.util.interpolate_value(ql, self.jobe_build_bright)
-        implant.jobe_build_faded = self.util.interpolate_value(ql, self.jobe_build_faded)
+        # Highest Nano Programming that normal clusters need, and highest skill that Jobe clusters need
+        build = self.get_max_build_requirements(ql)
+        for grade in self.grades:
+            implant[f"build_{grade}"] = build[f"normal_{grade}"]
+            implant[f"jobe_build_{grade}"] = build[f"jobe_{grade}"]
+        implant.jobe_build_skills = build.jobe_skills
 
         if ql >= 201:
             implant.minimum_cluster_shiny = max(201, math.floor(ql * 0.86))
@@ -197,6 +205,40 @@ class ImplantController:
 
     def get_cluster_bonus(self, cluster_name, ql, grade):
         return self.cluster_bonus(self.get_cluster_shiny_ql200(cluster_name), ql, grade)
+
+    def get_cluster_build_requirement(self, cluster_name, ql, grade):
+        row = self.db.query_single("SELECT LongName, NPReq, JobeSkill FROM Cluster WHERE LongName = ?", [cluster_name])
+        if not row:
+            raise ValueError(f"Cluster '{cluster_name}' is not in Cluster")
+        return self.build_requirement(row, ql, grade)
+
+    def get_max_build_requirements(self, ql):
+        # Highest amount of each grade that any normal and any Jobe cluster needs for an implant of the given QL, None when
+        # unknown, and the skills Jobe clusters need
+        clusters = self.db.query("SELECT LongName, NPReq, JobeSkill FROM Cluster WHERE ClusterID != 0")
+        maximums = DictObject({"jobe_skills": sorted({c.JobeSkill for c in clusters if c.JobeSkill})})
+        for kind, is_jobe in (("normal", False), ("jobe", True)):
+            for grade in self.grades:
+                amounts = [self.build_requirement(c, ql, grade)[1] for c in clusters if bool(c.JobeSkill) == is_jobe]
+                if not amounts:
+                    raise ValueError(f"Cluster has no {kind} clusters")
+                maximums[f"{kind}_{grade}"] = None if None in amounts else max(amounts)
+        return maximums
+
+    def build_requirement(self, cluster, ql, grade):
+        # Skill needed to add a cluster to an implant of the given QL, and the amount rounded up, or None above the known QLs;
+        # normal clusters scale their shiny Nano Programming requirement at QL 200, Jobe clusters need another skill per QL
+        if grade not in self.NP_GRADE_RATIOS:
+            raise ValueError(f"Unknown cluster grade '{grade}'")
+        if not 1 <= ql <= 300:
+            raise ValueError(f"Implant QL {ql} is not between 1 and 300")
+
+        if cluster.JobeSkill:
+            ratios = self.NANO_DELTA_SKILL_RATIOS if cluster.LongName == self.NANO_DELTA_CLUSTER else self.JOBE_SKILL_RATIOS
+            skill, amount = cluster.JobeSkill, ratios[grade] * ql
+        else:
+            skill, amount = self.NP_SKILL, Fraction(cluster.NPReq) * ql / 200 * self.NP_GRADE_RATIOS[grade]
+        return skill, (math.ceil(amount) if ql <= self.BUILD_REQUIREMENT_MAX_QL else None)
 
     @staticmethod
     def cluster_bonus(shiny_ql200, ql: int, grade: str) -> int:

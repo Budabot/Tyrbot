@@ -102,6 +102,9 @@ class ImplantDesignerController:
             implant = self.get_implant_info(ql, shiny, bright, faded)
             if implant:
                 blob += f" - Treatment: {implant.Treatment} {implant.AbilityName}: {implant.Ability}"
+            build_reqs = self.get_build_requirements(ql, slot_obj) if slot_obj else {}
+            if build_reqs:
+                blob += f"\nBuild - {self.format_build_requirements(build_reqs)}"
             blob += "\n\n"
 
             blob += "<header2>Shiny</header2>\n"
@@ -349,6 +352,10 @@ class ImplantDesignerController:
             msg += f" - Treatment: {implant.Treatment} {implant.AbilityName}: {implant.Ability}"
         msg += "\n"
 
+        build_reqs = self.get_build_requirements(ql, slot_obj)
+        if build_reqs:
+            msg += f"  Build - {self.format_build_requirements(build_reqs)}\n"
+
         for grade in self.GRADES:
             val = slot_obj.get(grade)
             if not val:
@@ -358,6 +365,33 @@ class ImplantDesignerController:
                 msg += f"  <highlight>{val}</highlight> ({mod_amount})\n"
 
         return msg
+
+    def get_build_requirements(self, ql, slot_obj):
+        # Highest amount of each skill needed to add the implant's clusters
+        reqs = {}
+        for grade in self.GRADES:
+            cluster_name = slot_obj.get(grade)
+            if cluster_name:
+                skill, amount = self.implant_controller.get_cluster_build_requirement(cluster_name, ql, grade)
+                self.add_build_requirement(reqs, skill, amount)
+        return reqs
+
+    def add_build_requirement(self, reqs, skill, amount):
+        # Keeps the higher amount of a skill; an unknown amount, None, makes the skill unknown
+        if skill not in reqs:
+            reqs[skill] = amount
+        elif reqs[skill] is not None:
+            reqs[skill] = None if amount is None else max(reqs[skill], amount)
+
+    def sorted_build_skills(self, reqs):
+        # Nano Programming first, then the other skills by name
+        return sorted(reqs, key=lambda skill: (skill != self.implant_controller.NP_SKILL, skill))
+
+    def format_build_amount(self, amount):
+        return "unknown" if amount is None else str(amount)
+
+    def format_build_requirements(self, reqs):
+        return ", ".join(f"{skill}: {self.format_build_amount(reqs[skill])}" for skill in self.sorted_build_skills(reqs))
 
     def get_symbiants_links(self, slot):
         artillery = self.text.make_tellcmd("Artillery", f"symb {slot} artillery")
@@ -386,6 +420,7 @@ class ImplantDesignerController:
 
         mods = {}
         reqs = {"Treatment": 0, "Level": 1}
+        build_reqs = {}
         implants = []
         clusters = []
         symbiants = []
@@ -436,6 +471,9 @@ class ImplantDesignerController:
 
                 implants.append(DictObject({"ql": ql, "slot": slot}))
 
+                for skill, amount in self.get_build_requirements(ql, slot_obj).items():
+                    self.add_build_requirement(build_reqs, skill, amount)
+
                 for grade in self.GRADES:
                     cluster_name = slot_obj.get(grade)
                     if cluster_name:
@@ -455,6 +493,12 @@ class ImplantDesignerController:
         for req_name, req_amount in reqs.items():
             blob += f"{req_name}: <highlight>{req_amount}</highlight>\n"
         blob += "\n"
+
+        if build_reqs:
+            blob += "<header2>Requirements to Build</header2>\n"
+            for skill in self.sorted_build_skills(build_reqs):
+                blob += f"{skill}: <highlight>{self.format_build_amount(build_reqs[skill])}</highlight>\n"
+            blob += "\n"
 
         blob += "<header2>Skills Gained</header2>\n"
         for skill_name, skill_amount in sorted_mods:

@@ -26,6 +26,15 @@ GAME_BONUSES = {
 }
 
 
+# Clusters with the highest normal and Jobe build requirements, and lower ones
+CLUSTERS = [
+    DictObject({"LongName": "Nano Pool", "NPReq": 1200, "JobeSkill": ""}),
+    DictObject({"LongName": "Strength", "NPReq": 900, "JobeSkill": ""}),
+    DictObject({"LongName": "Add XP (%)*", "NPReq": 1, "JobeSkill": "Psychology"}),
+    DictObject({"LongName": "Nano Delta*", "NPReq": 1, "JobeSkill": "Pharma Tech"}),
+]
+
+
 def make_controller(row):
     controller = ImplantController()
     controller.db = unittest.mock.Mock()
@@ -69,11 +78,70 @@ class ClusterBonusTest(unittest.TestCase):
         self.assertEqual([199, 203], controller.get_bonus_range(55, 200, "shiny", 55))
 
 
+class ClusterBuildRequirementTest(unittest.TestCase):
+    def test_normal_cluster_scales_its_shiny_requirement_at_ql_200(self):
+        # 1 Handed Blunt Weapons: 1.8 x QL x 2 / 1.5 / 1
+        controller = make_controller(DictObject({"LongName": "1 Handed Blunt Weapons", "NPReq": 720, "JobeSkill": ""}))
+        self.assertEqual(("Nano Programming", 360), controller.get_cluster_build_requirement("1 Handed Blunt Weapons", 100, "shiny"))
+        self.assertEqual(("Nano Programming", 270), controller.get_cluster_build_requirement("1 Handed Blunt Weapons", 100, "bright"))
+        self.assertEqual(("Nano Programming", 180), controller.get_cluster_build_requirement("1 Handed Blunt Weapons", 100, "faded"))
+        self.assertEqual(["1 Handed Blunt Weapons"], controller.db.query_single.call_args.args[1])
+
+    def test_rounds_up(self):
+        # 860 x 99 / 200 / 2 = 212.85
+        controller = make_controller(DictObject({"LongName": "Treatment", "NPReq": 860, "JobeSkill": ""}))
+        self.assertEqual(("Nano Programming", 213), controller.get_cluster_build_requirement("Treatment", 99, "faded"))
+
+    def test_jobe_cluster_needs_its_skill_per_ql(self):
+        controller = make_controller(DictObject({"LongName": "Add XP (%)*", "NPReq": 1, "JobeSkill": "Psychology"}))
+        self.assertEqual(("Psychology", 1250), controller.get_cluster_build_requirement("Add XP (%)*", 200, "shiny"))
+        self.assertEqual(("Psychology", 950), controller.get_cluster_build_requirement("Add XP (%)*", 200, "bright"))
+        self.assertEqual(("Psychology", 650), controller.get_cluster_build_requirement("Add XP (%)*", 200, "faded"))
+
+    def test_nano_delta_needs_less(self):
+        controller = make_controller(DictObject({"LongName": "Nano Delta*", "NPReq": 1, "JobeSkill": "Pharma Tech"}))
+        self.assertEqual(("Pharma Tech", 1050), controller.get_cluster_build_requirement("Nano Delta*", 200, "shiny"))
+        self.assertEqual(("Pharma Tech", 800), controller.get_cluster_build_requirement("Nano Delta*", 200, "bright"))
+        self.assertEqual(("Pharma Tech", 550), controller.get_cluster_build_requirement("Nano Delta*", 200, "faded"))
+
+    def test_refined_implants_have_unknown_requirements(self):
+        controller = make_controller(DictObject({"LongName": "1 Handed Blunt Weapons", "NPReq": 720, "JobeSkill": ""}))
+        self.assertEqual(("Nano Programming", None), controller.get_cluster_build_requirement("1 Handed Blunt Weapons", 201, "shiny"))
+
+    def test_rejects_an_unknown_cluster_grade_or_ql(self):
+        controller = make_controller(DictObject({"LongName": "1 Handed Blunt Weapons", "NPReq": 720, "JobeSkill": ""}))
+        for args in (("1 Handed Blunt Weapons", 0, "shiny"), ("1 Handed Blunt Weapons", 301, "shiny"), ("1 Handed Blunt Weapons", 100, "shining")):
+            with self.subTest(args=args), self.assertRaises(ValueError):
+                controller.get_cluster_build_requirement(*args)
+        controller.db.query_single.return_value = None
+        with self.assertRaises(ValueError):
+            controller.get_cluster_build_requirement("No Such Cluster", 100, "shiny")
+
+    def test_max_build_requirements_are_the_highest_normal_and_jobe_amounts(self):
+        controller = make_controller(None)
+        controller.db.query.return_value = CLUSTERS
+
+        build = controller.get_max_build_requirements(200)
+
+        self.assertEqual((1200, 900, 600), (build.normal_shiny, build.normal_bright, build.normal_faded))
+        self.assertEqual((1250, 950, 650), (build.jobe_shiny, build.jobe_bright, build.jobe_faded))
+        self.assertEqual(["Pharma Tech", "Psychology"], build.jobe_skills)
+
+    def test_max_build_requirements_of_refined_implants_are_unknown(self):
+        controller = make_controller(None)
+        controller.db.query.return_value = CLUSTERS
+
+        build = controller.get_max_build_requirements(201)
+
+        self.assertEqual((None, None), (build.normal_shiny, build.jobe_faded))
+
+
 class ImplantByQlTest(unittest.TestCase):
     def test_reads_wear_requirements_from_the_table(self):
         requirements = DictObject({"treatment": 951, "ability": 404, "jobe_treatment": 1005, "jobe_ability": 464})
         controller = make_controller(None)
         controller.util = Util()
+        controller.db.query.return_value = CLUSTERS
         controller.db.query_single.side_effect = \
             lambda sql, params: requirements if "implant_requirement" in sql else DictObject({"ShinyQL200": 105})
 
