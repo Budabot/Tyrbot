@@ -1,31 +1,23 @@
-from collections import Counter, defaultdict
+from collections import defaultdict
 from dataclasses import dataclass
 import json
 import logging
 from pathlib import Path
 import re
-from typing import Dict, List, Set, Tuple
+from typing import Dict, List, Set
 
-from src.check_helpers import Problems, SqlValue, check_duplicates, read_sql_rows
+from src.check_helpers import Problems, check_duplicates, read_sql_rows
 from src.constants import IndexRecordType
 from src.function_sets import FunctionSets
-from src.implants import group_implants, read_implant_config, read_implants
 from src.nano_check import check_nanos
-from src.rdb_extractor import RDBExtractor
 from src.rdb_file import MultiChunkReader
 from src.rdb_index import IndexRecord
-from src.tower_sites import read_resource
 from src.whompah_check import check_whompah_routes
 
 log = logging.getLogger(__name__)
 
 RECIPE_ITEM = re.compile(r"#L \"([^\"]+)\" \"([\d+]+)\"")
 RECIPE_FILE = re.compile(r"^\d+\.json$")
-IMPLANT_MARKER = b"NanoCluster"
-SHINING = "Shining"
-EFFECT_TYPE_COLUMNS = {1: "MinValLow", 200: "MaxValLow", 201: "MinValHigh", 300: "MaxValHigh"}
-EFFECT_VALUE_NAME = re.compile(r"^(.+?) (Faded|Bright|Shining)\s*( QL300)?\s*$")
-CLUSTER_GRADES = ("Faded", "Bright", "Shining")
 
 
 @dataclass
@@ -128,90 +120,14 @@ def check_recipes(problems: Problems, modules_dir: Path, lookup: ItemLookup) -> 
         check_recipe(problems, path, lookup)
 
 
-def read_cluster_values(reader: MultiChunkReader, records: List[IndexRecord], function_sets: FunctionSets, config_path: Path,
-                        implant_dir: Path) -> Dict[Tuple[int, str, int], Counter]:
-    # Each cluster stat's bonus by grade and QL, counted over the game's implants
-    extractor = RDBExtractor(function_sets)
-    items = [extractor.read_item(reader, r, extract_functions=True) for r in records
-             if r.resource_type == IndexRecordType.AODB_ITEM_TYPE and IMPLANT_MARKER in read_resource(reader, r)]
-    implants, _ = read_implants(items, read_implant_config(config_path, implant_dir))
-    group_implants(implants)
-
-    values: Dict[Tuple[int, str, int], Counter] = defaultdict(Counter)
-    for implant in implants:
-        for grade, (stat, amount) in implant.modifiers.items():
-            values[(stat, grade, implant.ql)][amount] += 1
-    return values
-
-
-def type_values(values: Dict[Tuple[int, str, int], Counter], cluster_types: Dict[int, int], type_id: SqlValue, grade: str, ql: int) -> Counter:
-    # Bonuses of every cluster of one effect type at one grade and QL
-    found: Counter = Counter()
-    for stat, t in cluster_types.items():
-        if t == type_id and stat:
-            found.update(values.get((stat, grade, ql), Counter()))
-    return found
-
-
-def check_effect_types(problems: Problems, path: Path, effect_types: List[Tuple[int, Dict[str, SqlValue]]],
-                       values: Dict[Tuple[int, str, int], Counter], cluster_types: Dict[int, int]) -> None:
-    # Each effect type's values must be the shining cluster values of its clusters at QL 1, 200, 201 and 300
-    for line_number, r in effect_types:
-        for ql, column in EFFECT_TYPE_COLUMNS.items():
-            found = type_values(values, cluster_types, r["ID"], SHINING, ql)
-            if not found:
-                problems.add(f"{path}:{line_number}", f"{r['Name']} has no shining clusters at QL {ql}")
-            elif set(found) != {r[column]}:
-                problems.add(f"{path}:{line_number}", f"{r['Name']} {column} is {r[column]}, but its shining clusters at QL {ql} give "
-                             f"{dict(found.most_common())} (value: implant count)")
-
-
-def check_effect_values(problems: Problems, path: Path, effect_types: List[Tuple[int, Dict[str, SqlValue]]],
-                        values: Dict[Tuple[int, str, int], Counter], cluster_types: Dict[int, int]) -> None:
-    # Each effect's rows, one per grade at QL 200 and 300, must match the cluster values of some effect type
-    effects: Dict[str, Dict[Tuple[str, int], SqlValue]] = defaultdict(dict)
-    first_lines: Dict[str, int] = {}
-    for line_number, r in read_sql_rows(path, "EffectValue", []):
-        match = EFFECT_VALUE_NAME.match(str(r["Name"]))
-        if not match:
-            problems.add(f"{path}:{line_number}", f"name '{r['Name']}' is not an effect, grade and optional QL300")
-            continue
-        label = match.group(1)
-        first_lines.setdefault(label, line_number)
-        effects[label][(match.group(2), 300 if match.group(3) else 200)] = r["Q200Value"]
-
-    expected_keys = {(g, q) for g in CLUSTER_GRADES for q in (200, 300)}
-    for label, rows in effects.items():
-        if set(rows) != expected_keys:
-            problems.add(f"{path}:{first_lines[label]}", f"'{label}' has rows for {sorted(rows)}, expected each grade at QL 200 and 300")
-            continue
-        if not any(all(set(type_values(values, cluster_types, t["ID"], g, q)) == {v} for (g, q), v in rows.items()) for _, t in effect_types):
-            given = ", ".join(f"{g} QL{q} {rows[(g, q)]}" for g in CLUSTER_GRADES for q in (200, 300))
-            problems.add(f"{path}:{first_lines[label]}", f"'{label}' values ({given}) match no effect type's cluster values")
-
-
-def check_implant_effects(problems: Problems, reader: MultiChunkReader, records: List[IndexRecord], function_sets: FunctionSets,
-                          config_path: Path, modules_dir: Path) -> None:
-    implant_dir = modules_dir / "implant" / "sql"
-    values = read_cluster_values(reader, records, function_sets, config_path, implant_dir)
-    cluster_types = {int(r["ClusterID"]): int(r["EffectTypeID"])  # type: ignore[arg-type]
-                     for _, r in read_sql_rows(implant_dir / "Cluster.sql", "Cluster", [])}
-    path = implant_dir / "EffectTypeMatrix.sql"
-    effect_types = read_sql_rows(path, "EffectTypeMatrix", [])
-    check_effect_types(problems, path, effect_types, values, cluster_types)
-    check_effect_values(problems, implant_dir / "EffectValue.sql", effect_types, values, cluster_types)
-
-
-def run_checks(reader: MultiChunkReader, records: List[IndexRecord], function_sets: FunctionSets, config_path: Path,
-               text_mdb: Path, modules_dir: Path) -> int:
+def run_checks(reader: MultiChunkReader, records: List[IndexRecord], function_sets: FunctionSets, text_mdb: Path,
+               modules_dir: Path) -> int:
     problems = Problems()
     game_ids = {r.resource_id for r in records if r.resource_type == IndexRecordType.AODB_ITEM_TYPE}
     lookup = ItemLookup(read_aodb(modules_dir / "items" / "sql" / "aodb.sql"), game_ids)
     for name, check in (("raid loot", check_raid_loot), ("boss loot", check_boss_loot), ("recipes", check_recipes)):
         log.info(f"Checking {name}...")
         check(problems, modules_dir, lookup)
-    log.info("Checking implant effect values...")
-    check_implant_effects(problems, reader, records, function_sets, config_path, modules_dir)
     log.info("Checking whompah routes...")
     check_whompah_routes(problems, reader, records, modules_dir)
     log.info("Checking nanos...")

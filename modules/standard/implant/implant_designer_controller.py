@@ -354,34 +354,10 @@ class ImplantDesignerController:
             if not val:
                 msg += "  <highlight>-Empty-</highlight>\n"
             else:
-                effect_field = f"{grade.capitalize()}EffectTypeID"
-                effect_id = getattr(implant, effect_field, None) if implant else None
-                mod_amount = self.get_cluster_mod_amount(ql, grade, effect_id) if effect_id else 0
+                mod_amount = self.implant_controller.get_cluster_bonus(val, ql, grade)
                 msg += f"  <highlight>{val}</highlight> ({mod_amount})\n"
 
         return msg
-
-    def get_cluster_mod_amount(self, ql, grade, effect_id):
-        sql = "SELECT ID, Name, MinValLow, MaxValLow, MinValHigh, MaxValHigh FROM EffectTypeMatrix WHERE ID = ?"
-        row = self.db.query_single(sql, [effect_id])
-        if not row:
-            return 0
-
-        if ql < 201:
-            min_val, max_val, min_ql, max_ql = row.MinValLow, row.MaxValLow, 1, 200
-        else:
-            min_val, max_val, min_ql, max_ql = row.MinValHigh, row.MaxValHigh, 201, 300
-
-        mod_amount = self.util.interpolate_value(ql, {min_ql: min_val, max_ql: max_val})
-        if mod_amount is None:
-            mod_amount = 0
-
-        if grade == "bright":
-            mod_amount = round(mod_amount * 0.6)
-        elif grade == "faded":
-            mod_amount = round(mod_amount * 0.4)
-
-        return int(mod_amount)
 
     def get_symbiants_links(self, slot):
         artillery = self.text.make_tellcmd("Artillery", f"symb {slot} artillery")
@@ -463,9 +439,7 @@ class ImplantDesignerController:
                 for grade in self.GRADES:
                     cluster_name = slot_obj.get(grade)
                     if cluster_name:
-                        effect_field = f"{grade.capitalize()}EffectTypeID"
-                        effect_id = getattr(implant, effect_field, None) if implant else None
-                        mod_amount = self.get_cluster_mod_amount(ql, grade, effect_id) if effect_id else 0
+                        mod_amount = self.implant_controller.get_cluster_bonus(cluster_name, ql, grade)
                         mods[cluster_name] = mods.get(cluster_name, 0) + mod_amount
 
                         min_ql = self.get_cluster_min_ql(ql, grade)
@@ -527,9 +501,6 @@ class ImplantDesignerController:
         sql = """SELECT
                     i.AbilityQL1, i.AbilityQL200, i.AbilityQL201, i.AbilityQL300,
                     i.TreatQL1, i.TreatQL200, i.TreatQL201, i.TreatQL300,
-                    c1.EffectTypeID as ShinyEffectTypeID,
-                    c2.EffectTypeID as BrightEffectTypeID,
-                    c3.EffectTypeID as FadedEffectTypeID,
                     a.Name AS AbilityName
                 FROM ImplantMatrix i
                 JOIN Cluster c1 ON i.ShiningID = c1.ClusterID

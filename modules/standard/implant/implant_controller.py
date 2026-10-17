@@ -1,3 +1,4 @@
+from fractions import Fraction
 import math
 
 from core.chat_blob import ChatBlob
@@ -8,22 +9,14 @@ from core.dict_object import DictObject
 
 @instance()
 class ImplantController:
+    # Each cluster grade's share of the shiny bonus
+    GRADE_RATIOS = {"shiny": Fraction(1), "bright": Fraction(3, 5), "faded": Fraction(2, 5)}
+    # Clusters whose bonuses stand for all ability and all skill clusters
+    ABILITY_CLUSTER = "Strength"
+    SKILL_CLUSTER = "Assault Rifle"
+
     def __init__(self):
         self.grades = ["shiny", "bright", "faded"]
-
-        self.normal_ability_req = {1: 6, 200: 404, 201: 426, 300: 1095}
-        self.normal_treatment_req = {1: 11, 200: 951, 201: 1001, 300: 2051}
-
-        self.jobe_ability_req = {1: 6, 200: 464, 201: 476, 300: 1231}
-        self.jobe_treatment_req = {1: 11, 200: 1005, 201: 1001, 300: 2051}
-
-        self.ability_shiny_bonus = {1: 5, 200: 55, 201: 55, 300: 73}
-        self.ability_bright_bonus = {1: 3, 200: 33, 201: 33, 300: 44}
-        self.ability_faded_bonus = {1: 2, 200: 22, 201: 22, 300: 29}
-
-        self.skill_shiny_bonus = {1: 6, 200: 105, 201: 106, 300: 141}
-        self.skill_bright_bonus = {1: 3, 200: 63, 201: 63, 300: 85}
-        self.skill_faded_bonus = {1: 2, 200: 42, 201: 42, 300: 57}
 
         self.normal_build_shiny = {1: 4, 200: 800, 201: 994, 300: 1575}
         self.normal_build_bright = {1: 3, 200: 600, 201: 753, 300: 1125}
@@ -45,10 +38,9 @@ class ImplantController:
     def pre_start(self):
         self.db.load_sql_file(self.module_dir + "/sql/" + "Ability.sql")
         self.db.load_sql_file(self.module_dir + "/sql/" + "Cluster.sql")
+        self.db.load_sql_file(self.module_dir + "/sql/" + "ClusterBonus.sql")
         self.db.load_sql_file(self.module_dir + "/sql/" + "ClusterImplantMap.sql")
         self.db.load_sql_file(self.module_dir + "/sql/" + "ClusterType.sql")
-        self.db.load_sql_file(self.module_dir + "/sql/" + "EffectTypeMatrix.sql")
-        self.db.load_sql_file(self.module_dir + "/sql/" + "EffectValue.sql")
         self.db.load_sql_file(self.module_dir + "/sql/" + "ImplantMatrix.sql")
         self.db.load_sql_file(self.module_dir + "/sql/" + "ImplantType.sql")
         self.db.load_sql_file(self.module_dir + "/sql/" + "Profession.sql")
@@ -126,7 +118,7 @@ class ImplantController:
         blob += "<highlight>%d</highlight> Faded\n" % implant.minimum_cluster_faded
 
         if implant.ql >= 99:
-            blob += "\n<header2>Requirements to Wear Jobe Implants</header2>\n"
+            blob += "\n<header2>Max Requirements to Wear Jobe Implants</header2> (actual requirements may be lower)\n"
             blob += "<highlight>%d</highlight> Treatment\n" % implant.jobe_treatment
             blob += "<highlight>%d</highlight> Ability\n" % implant.jobe_ability
 
@@ -146,25 +138,22 @@ class ImplantController:
 
         implant.ql = ql
 
-        implant.treatment = int(self.util.interpolate_value(ql, self.normal_treatment_req))
-        implant.ability = int(self.util.interpolate_value(ql, self.normal_ability_req))
+        # Wear requirements of normal implants, and the highest of Jobe implants
+        row = self.db.query_single("SELECT treatment, ability, jobe_treatment, jobe_ability FROM implant_requirement WHERE ql = ?", [ql])
+        if not row:
+            raise ValueError(f"Implant QL {ql} has no wear requirements in implant_requirement")
+        implant.treatment = row.treatment
+        implant.ability = row.ability
+        implant.jobe_treatment = row.jobe_treatment
+        implant.jobe_ability = row.jobe_ability
 
-        implant.jobe_treatment = self.util.interpolate_value(ql, self.jobe_treatment_req)
-        implant.jobe_ability = self.util.interpolate_value(ql, self.jobe_ability_req)
-
-        implant.ability_shiny = self.util.interpolate_value(ql, self.ability_shiny_bonus)
-        implant.ability_shiny_min, implant.ability_shiny_max = self.get_range(ql, implant.ability_shiny, self.ability_shiny_bonus)
-        implant.ability_bright = self.util.interpolate_value(ql, self.ability_bright_bonus)
-        implant.ability_bright_min, implant.ability_bright_max = self.get_range(ql, implant.ability_bright, self.ability_bright_bonus)
-        implant.ability_faded = self.util.interpolate_value(ql, self.ability_faded_bonus)
-        implant.ability_faded_min, implant.ability_faded_max = self.get_range(ql, implant.ability_faded, self.ability_faded_bonus)
-
-        implant.skill_shiny = self.util.interpolate_value(ql, self.skill_shiny_bonus)
-        implant.skill_shiny_min, implant.skill_shiny_max = self.get_range(ql, implant.skill_shiny, self.skill_shiny_bonus)
-        implant.skill_bright = self.util.interpolate_value(ql, self.skill_bright_bonus)
-        implant.skill_bright_min, implant.skill_bright_max = self.get_range(ql, implant.skill_bright, self.skill_bright_bonus)
-        implant.skill_faded = self.util.interpolate_value(ql, self.skill_faded_bonus)
-        implant.skill_faded_min, implant.skill_faded_max = self.get_range(ql, implant.skill_faded, self.skill_faded_bonus)
+        # Bonus of each grade, and the QLs that give the same bonus, for ability and skill clusters
+        for kind, cluster_name in (("ability", self.ABILITY_CLUSTER), ("skill", self.SKILL_CLUSTER)):
+            shiny_ql200 = self.get_cluster_shiny_ql200(cluster_name)
+            for grade in self.grades:
+                bonus = self.cluster_bonus(shiny_ql200, ql, grade)
+                implant[f"{kind}_{grade}"] = bonus
+                implant[f"{kind}_{grade}_min"], implant[f"{kind}_{grade}_max"] = self.get_bonus_range(shiny_ql200, ql, grade, bonus)
 
         implant.clean_break_and_entry = self.util.interpolate_value(ql, self.clean_be)
         implant.clean_nano_programming = self.util.interpolate_value(ql, self.clean_np)
@@ -188,14 +177,44 @@ class ImplantController:
 
         return implant
 
-    def get_range(self, ql, value, interpolation):
+    def get_bonus_range(self, shiny_ql200, ql, grade, bonus):
         min_ql = ql
-        max_ql = ql
-
-        while self.util.interpolate_value(min_ql - 1, interpolation) == value:
+        while min_ql > 1 and self.cluster_bonus(shiny_ql200, min_ql - 1, grade) == bonus:
             min_ql -= 1
 
-        while self.util.interpolate_value(max_ql + 1, interpolation) == value:
+        max_ql = ql
+        while max_ql < 300 and self.cluster_bonus(shiny_ql200, max_ql + 1, grade) == bonus:
             max_ql += 1
 
         return [min_ql, max_ql]
+
+    def get_cluster_shiny_ql200(self, cluster_name):
+        row = self.db.query_single("SELECT b.ShinyQL200 FROM ClusterBonus b JOIN Cluster c ON b.ClusterID = c.ClusterID WHERE c.LongName = ?",
+                                   [cluster_name])
+        if not row:
+            raise ValueError(f"Cluster '{cluster_name}' has no bonus in ClusterBonus")
+        return row.ShinyQL200
+
+    def get_cluster_bonus(self, cluster_name, ql, grade):
+        return self.cluster_bonus(self.get_cluster_shiny_ql200(cluster_name), ql, grade)
+
+    @staticmethod
+    def cluster_bonus(shiny_ql200, ql: int, grade: str) -> int:
+        # A cluster's bonus, from its unrounded shiny bonus at QL 200; the bonuses at QL 1, 200, 201 and 300 are interpolated
+        # in between, and every value is rounded half to even
+        if grade not in ImplantController.GRADE_RATIOS:
+            raise ValueError(f"Unknown cluster grade '{grade}'")
+        if not 1 <= ql <= 300:
+            raise ValueError(f"Implant QL {ql} is not between 1 and 300")
+
+        # Unrounded shiny bonus: rises linearly from 5 at QL 0, and at QL 300 by 15/11 of its rise at QL 200
+        rise = Fraction(shiny_ql200) - 5
+        ratio = ImplantController.GRADE_RATIOS[grade]
+
+        def endpoint(endpoint_ql: int) -> int:
+            scale = Fraction(15, 11) if endpoint_ql == 300 else Fraction(endpoint_ql, 200)
+            return round((5 + rise * scale) * ratio)
+
+        low, high = (1, 200) if ql <= 200 else (201, 300)
+        low_value, high_value = endpoint(low), endpoint(high)
+        return round(low_value + Fraction(high_value - low_value) * (ql - low) / (high - low))

@@ -30,7 +30,7 @@ def main():
         sys.exit(1)
     idx_path = Path(args.ao_path) / "cd_image" / "data" / "db" / "ResourceDatabase.idx"
     text_mdb = Path(args.ao_path) / "cd_image" / "text" / "text.mdb"
-    for path in (idx_path, text_mdb, config_dir / "FunctionSets.cfg", config_dir / "extractor.cfg"):
+    for path in (idx_path, text_mdb, config_dir / "FunctionSets.cfg"):
         if not path.is_file():
             log.error(f"File not found: {path}")
             sys.exit(1)
@@ -40,7 +40,7 @@ def main():
 
     with MultiChunkReader(db_files) as db_reader:
         records = read_index_file(str(idx_path))
-        count = run_checks(db_reader, records, FunctionSets(str(config_dir / "FunctionSets.cfg")), config_dir / "extractor.cfg", text_mdb, modules_dir)
+        count = run_checks(db_reader, records, FunctionSets(str(config_dir / "FunctionSets.cfg")), text_mdb, modules_dir)
 
     # A non-zero exit when any check found a problem
     if count:

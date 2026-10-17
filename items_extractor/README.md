@@ -17,11 +17,14 @@ A Python port of the Budabot ItemsExtractor for Anarchy Online resource database
   - Each district is matched to a `tower_site.sql` row by playfield and centre (`x_coord`, `y_coord`); the row supplies the site number.
   - The district's name and QL range must equal the row's, and every `tower_site.sql` row must match a district, otherwise extraction stops.
   - Land control districts with no `tower_site.sql` row are skipped and logged as warnings.
-- Regenerates the implant module's `ImplantMatrix.sql`, `ClusterImplantMap.sql`, `implant_requirements.sql`, `Symbiant.sql`, `SymbiantAbilityMatrix.sql`, `SymbiantClusterMatrix.sql` and `SymbiantProfessionMatrix.sql` from the game's implant and symbiant items.
-  - The tables use the game's ids for slots, abilities, professions and clusters; `ImplantType.sql`, `Ability.sql`, `Profession.sql` and `Cluster.sql` list the valid ones.
+- Regenerates the implant module's `Ability.sql`, `ImplantMatrix.sql`, `ClusterImplantMap.sql`, `ClusterBonus.sql`, `implant_requirements.sql`, `Symbiant.sql`, `SymbiantAbilityMatrix.sql`, `SymbiantClusterMatrix.sql` and `SymbiantProfessionMatrix.sql` from the game's implant and symbiant items.
+  - `Ability.sql` lists the six abilities (stats 16 to 21), named with the game's skill names from `text.mdb` (category 2003).
+  - The tables use the game's ids for slots, abilities, professions and clusters; `ImplantType.sql`, `Profession.sql` and `Cluster.sql` list the valid slots, professions and clusters.
   - The `[implant_excluded_items]` section of `config/extractor.cfg` lists implant items to leave out.
-  - A slot, ability, profession or cluster stat missing from those tables, or an implant that doesn't fit the expected QL 1/200/201/300 set, stops extraction.
+  - A slot, profession or cluster stat missing from those tables, an implant without exactly one ability requirement, or an implant that doesn't fit the expected QL 1/200/201/300 set, stops extraction.
   - `Symbiant.ID` is the symbiant's item id.
+  - `implant_requirement` holds, at each QL, the lowest treatment and ability of normal implants and the highest of Jobe implants. Jobe implants are those with a cluster whose name in `Cluster.sql` ends in `*`; a `Cluster.sql` with no such cluster stops extraction.
+  - `ClusterBonus.ShinyQL200` is each cluster's unrounded shiny bonus at QL 200, from which `ImplantController.cluster_bonus` gives its bonus at any QL and grade. The value is the half point nearest the cluster's shining bonus at QL 200 that gives every bonus its implants have; a cluster with no such value stops extraction.
 - Regenerates the perks module's `perks.sql` from the game's SL perks (record type 1000036), one item per perk level.
   - Each perk's levels follow the record's link to the previous level; a level's minimum character level and professions come from its item's requirements.
   - Buffs are the item's stat modifiers while worn, named with the game's short skill names from `text.mdb` (category 2003).
@@ -97,7 +100,6 @@ python check.py -d "C:\Funcom\Anarchy Online"
 - `raid_loot.sql`: each row's high id, QL and name must match an item in `aodb.sql`; repeated rows are reported.
 - `boss_loot.sql`: each row needs a boss in `boss.sql` and an item named in `aodb.sql`; repeated rows and boss ids are reported.
 - Recipes: every item a recipe links, lists or details must exist in the game, and every step must use listed items. Text steps, and listed placeholders without an item id, are skipped.
-- `EffectTypeMatrix.sql` must hold the shining cluster values of each effect type's clusters at QL 1, 200, 201 and 300, and each effect in `EffectValue.sql` must match the cluster values of some effect type.
 - `whompah_cities.sql`: the routes in `whompah_cities_rel` must be the routes the game's whompahs make. Cities whose zone names a game playfield are matched to that playfield's whompahs, the rest to whichever whompahs give the fewest differences.
 - `nanos.sql`: each row's id must be a game crystal that uploads a nano, with the row's QL and name, and its professions in `nanos_professions.sql` must be every profession the crystal allows (`General` when it allows any). A box that uploads one nano per profession is listed once per nano as `<box name> [<nano name>]`, with that upload's professions; repeated rows and professions of unknown nanos are reported.
 - Each problem is logged with its file and line; the exit code is 1 when any problem is found.

@@ -6,10 +6,16 @@ import logging
 import math
 from pathlib import Path
 import re
+import sys
 from typing import Dict, Iterable, List, Set, Tuple
 
 from src.constants import GENERATED_COMMENT
 from src.rdb_extractor import RDBItem
+from src.skills import SKILL_NAME_CATEGORY, read_text_category
+
+# The bot's root, so cluster bonuses come from the implant module's own formula
+sys.path.append(str(Path(__file__).resolve().parents[2]))
+from modules.standard.implant.implant_controller import ImplantController  # pylint: disable=wrong-import-position,wrong-import-order
 
 log = logging.getLogger(__name__)
 
@@ -24,25 +30,28 @@ OP_GREATER_THAN = 2
 WEAR_ACTION = 6
 WEAR_EVENT = 14
 MODIFY_FUNCTION = 53045
-SKILL_STATS = range(100, 169)
+ABILITY_STATS = range(16, 22)
 IMPLANT_QLS = (1, 200, 201, 300)
 QL_RANGES = ((1, 200), (201, 300))
 
 # Cluster grades in the order an implant's modifiers list them
 GRADE_ORDER = ("Faded", "Bright", "Shining")
 CLUSTER_TYPE_IDS = {"Faded": 1, "Bright": 2, "Shining": 3}
+BONUS_GRADES = {"Faded": "faded", "Bright": "bright", "Shining": "shiny"}
 
 GRADE_LINE = re.compile(r"^(Faded|Bright|Shining) NanoCluster: ([^\r\n]*)", re.MULTILINE)
 SYMBIANT_NAME = re.compile(r"^.+ Symbiant, \w+ Unit Aban$")
 ROW_ID = re.compile(r"^INSERT INTO \w+ \([^)]*\) VALUES \((-?\d+),")
+CLUSTER_ROW = re.compile(r"^INSERT INTO Cluster \([^)]*\) VALUES \((\d+),'((?:[^']|'')*)',")
+JOBE_MARKER = "*"
 
 
 @dataclass
 class ImplantConfig:
     slots: Set[int]
-    abilities: Set[int]
     professions: Set[int]
     clusters: Set[int]
+    jobe_clusters: Set[int]
     excluded_items: Set[int]
 
 
@@ -86,19 +95,49 @@ def read_table_ids(path: Path) -> Set[int]:
     return ids
 
 
+def read_cluster_names(path: Path) -> Dict[int, str]:
+    # Each cluster's name from the implant module's cluster table
+    names: Dict[int, str] = {}
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            if line.startswith("INSERT INTO"):
+                match = CLUSTER_ROW.match(line)
+                if not match:
+                    raise ValueError(f"Cannot read the id and name of a cluster in {path}: {line.strip()}")
+                names[int(match.group(1))] = match.group(2).replace("''", "'")
+    if not names:
+        raise ValueError(f"No rows found in {path}")
+    return names
+
+
 def read_implant_config(path: Path, implant_dir: Path) -> ImplantConfig:
-    # Excluded items from the extractor config; valid game ids from the module's slot, ability, profession and cluster tables
+    # Excluded items from the extractor config; valid game ids from the module's slot, profession and cluster tables,
+    # and the Jobe clusters, whose names end in the Jobe marker
     parser = configparser.ConfigParser(inline_comment_prefixes=(";",), allow_no_value=True)
     with open(path, encoding="utf-8") as f:
         parser.read_file(f)
 
+    cluster_names = read_cluster_names(implant_dir / "Cluster.sql")
+    jobe_clusters = {cluster_id for cluster_id, name in cluster_names.items() if name.endswith(JOBE_MARKER)}
+    if not jobe_clusters:
+        raise ValueError(f"No cluster in {implant_dir / 'Cluster.sql'} has a name ending in '{JOBE_MARKER}'")
+
     return ImplantConfig(
         slots=read_table_ids(implant_dir / "ImplantType.sql"),
-        abilities=read_table_ids(implant_dir / "Ability.sql"),
         professions=read_table_ids(implant_dir / "Profession.sql"),
-        clusters=read_table_ids(implant_dir / "Cluster.sql"),
+        clusters=set(cluster_names),
+        jobe_clusters=jobe_clusters,
         excluded_items={int(key) for key, _ in parser.items("implant_excluded_items")},
     )
+
+
+def read_ability_names(text_mdb: Path) -> Dict[int, str]:
+    # Ability names from the game's skill names
+    names = read_text_category(text_mdb, SKILL_NAME_CATEGORY)
+    missing = [stat for stat in ABILITY_STATS if stat not in names]
+    if missing:
+        raise ValueError(f"Abilities {missing} have no skill name in category {SKILL_NAME_CATEGORY} of {text_mdb}")
+    return {stat: names[stat] for stat in ABILITY_STATS}
 
 
 def check_id(ids: Set[int], value: int, what: str, item: RDBItem) -> int:
@@ -152,7 +191,7 @@ def read_implant(item: RDBItem, config: ImplantConfig) -> Implant:
     for grade, (stat, _) in zip(filled, modifiers):
         cluster_ids[grade] = check_id(config.clusters, stat, "cluster stat", item)
 
-    ability_stat, ability = get_single_requirement(item, config.abilities, "ability")
+    ability_stat, ability = get_single_requirement(item, ABILITY_STATS, "ability")
     _, treatment = get_single_requirement(item, [TREATMENT_STAT], "treatment")
 
     return Implant(
@@ -179,7 +218,7 @@ def read_symbiant(item: RDBItem, config: ImplantConfig) -> Symbiant:
                          for c in item.criteria_list
                          if c.action == WEAR_ACTION and c.criteria1 == PROFESSION_STAT and c.criteria3 == OP_EQUAL)
 
-    abilities = get_requirements(item, config.abilities)
+    abilities = get_requirements(item, ABILITY_STATS)
     _, treatment = get_single_requirement(item, [TREATMENT_STAT], "treatment")
     _, level = get_single_requirement(item, [QL_STAT], "level")
 
@@ -236,29 +275,48 @@ def group_implants(implants: List[Implant]) -> Dict[Tuple[int, int, int], Dict[i
     return combos
 
 
-def build_requirements(implants: List[Implant], config: ImplantConfig) -> List[Tuple[int, ...]]:
-    # Lowest wear requirements and the ability and skill cluster bonuses at each QL
+def build_requirements(implants: List[Implant], jobe_clusters: Set[int]) -> List[Tuple[int, int, int, int, int]]:
+    # Lowest wear requirements of normal implants and highest of Jobe implants at each QL
     treatment: Dict[int, int] = {}
     ability: Dict[int, int] = {}
-    bonuses: Dict[Tuple[str, str], Dict[int, Set[int]]] = defaultdict(lambda: defaultdict(set))
+    jobe_treatment: Dict[int, int] = {}
+    jobe_ability: Dict[int, int] = {}
     for implant in implants:
-        treatment[implant.ql] = min(implant.treatment, treatment.get(implant.ql, implant.treatment))
-        ability[implant.ql] = min(implant.ability, ability.get(implant.ql, implant.ability))
-        for grade, (stat, amount) in implant.modifiers.items():
-            if stat in config.abilities:
-                bonuses[("ability", grade)][implant.ql].add(amount)
-            elif stat in SKILL_STATS:
-                bonuses[("skill", grade)][implant.ql].add(amount)
+        if any(cluster_id in jobe_clusters for cluster_id in implant.cluster_ids.values()):
+            jobe_treatment[implant.ql] = max(implant.treatment, jobe_treatment.get(implant.ql, implant.treatment))
+            jobe_ability[implant.ql] = max(implant.ability, jobe_ability.get(implant.ql, implant.ability))
+        else:
+            treatment[implant.ql] = min(implant.treatment, treatment.get(implant.ql, implant.treatment))
+            ability[implant.ql] = min(implant.ability, ability.get(implant.ql, implant.ability))
 
-    bonus_values: Dict[Tuple[str, str], Dict[int, int]] = {}
-    for key, by_ql in bonuses.items():
-        if sorted(by_ql) != list(IMPLANT_QLS) or any(len(amounts) != 1 for amounts in by_ql.values()):
-            raise ValueError(f"Implant {key[0]} clusters at grade {key[1]} do not have one bonus per QL: {dict(by_ql)}")
-        bonus_values[key] = {ql: next(iter(amounts)) for ql, amounts in by_ql.items()}
+    for what, values in (("normal", treatment), ("Jobe", jobe_treatment)):
+        if sorted(values) != list(IMPLANT_QLS):
+            raise ValueError(f"The {what} implants exist only at QLs {sorted(values)}")
+    return [(ql, interpolate(ql, treatment), interpolate(ql, ability), interpolate(ql, jobe_treatment), interpolate(ql, jobe_ability))
+            for ql in range(1, 301)]
 
-    columns = [treatment, ability] + [bonus_values[(kind, grade)]
-                                      for kind in ("ability", "skill") for grade in ("Shining", "Bright", "Faded")]
-    return [tuple([ql] + [interpolate(ql, values) for values in columns]) for ql in range(1, 301)]
+
+def build_cluster_bonuses(implants: List[Implant]) -> Dict[int, Fraction]:
+    # Each cluster's unrounded shiny bonus at QL 200: the half point nearest its shining bonus there that gives every bonus its implants have
+    bonuses: Dict[int, Dict[Tuple[str, int], Set[int]]] = defaultdict(lambda: defaultdict(set))
+    for implant in implants:
+        for grade, (cluster_id, amount) in implant.modifiers.items():
+            bonuses[cluster_id][(grade, implant.ql)].add(amount)
+
+    shiny_ql200: Dict[int, Fraction] = {}
+    for cluster_id, by_grade_ql in sorted(bonuses.items()):
+        if any(len(amounts) != 1 for amounts in by_grade_ql.values()):
+            raise ValueError(f"Cluster {cluster_id} does not have one bonus per grade and QL: {dict(by_grade_ql)}")
+        amount_of = {key: next(iter(amounts)) for key, amounts in by_grade_ql.items()}
+        if ("Shining", 200) not in amount_of:
+            raise ValueError(f"Cluster {cluster_id} has no shining implant at QL 200")
+        candidates = [amount_of[("Shining", 200)] + Fraction(step, 2) for step in (0, -1, 1)]
+        fits = [c for c in candidates
+                if all(ImplantController.cluster_bonus(c, ql, BONUS_GRADES[grade]) == amount for (grade, ql), amount in amount_of.items())]
+        if not fits:
+            raise ValueError(f"No shiny bonus at QL 200 gives cluster {cluster_id} its implant bonuses {amount_of}")
+        shiny_ql200[cluster_id] = fits[0]
+    return shiny_ql200
 
 
 def sql_string(value: str) -> str:
@@ -278,10 +336,16 @@ def write_sql(path: Path, header: List[str], table: str, columns: str, rows: Ite
     log.info(f"Wrote {count} rows to {path}")
 
 
-def write_implant_sql(items: List[RDBItem], config_path: Path, implant_dir: Path):
+def write_implant_sql(items: List[RDBItem], text_mdb: Path, config_path: Path, implant_dir: Path):
+    ability_names = read_ability_names(text_mdb)
     config = read_implant_config(config_path, implant_dir)
     implants, symbiants = read_implants(items, config)
     log.info(f"Read {len(implants)} implants and {len(symbiants)} symbiants")
+
+    write_sql(implant_dir / "Ability.sql", [
+        "DROP TABLE IF EXISTS Ability;",
+        "CREATE TABLE Ability (AbilityID INT NOT NULL PRIMARY KEY, Name VARCHAR(20) NOT NULL);",
+    ], "Ability", "AbilityID, Name", ability_names.items())
 
     combos = group_implants(implants)
     matrix_rows = []
@@ -305,13 +369,19 @@ def write_implant_sql(items: List[RDBItem], config_path: Path, implant_dir: Path
         "CREATE TABLE ClusterImplantMap (ImplantTypeID INT NOT NULL, ClusterID INT NOT NULL, ClusterTypeID INT NOT NULL);",
     ], "ClusterImplantMap", "ImplantTypeID, ClusterID, ClusterTypeID", cluster_slots)
 
+    write_sql(implant_dir / "ClusterBonus.sql", [
+        "DROP TABLE IF EXISTS ClusterBonus;",
+        "CREATE TABLE ClusterBonus (ClusterID INT NOT NULL PRIMARY KEY, ShinyQL200 DECIMAL(10,1) NOT NULL);",
+    ], "ClusterBonus", "ClusterID, ShinyQL200",
+        ((cluster_id, value.numerator if value.denominator == 1 else float(value))
+         for cluster_id, value in build_cluster_bonuses(implants).items()))
+
     write_sql(implant_dir / "implant_requirements.sql", [
         "DROP TABLE IF EXISTS implant_requirement;",
         "CREATE TABLE implant_requirement (ql INTEGER NOT NULL PRIMARY KEY, treatment INTEGER NOT NULL, ability INTEGER NOT NULL, "
-        "ability_shiny INTEGER NOT NULL, ability_bright INTEGER NOT NULL, ability_faded INTEGER NOT NULL, "
-        "skill_shiny INTEGER NOT NULL, skill_bright INTEGER NOT NULL, skill_faded INTEGER NOT NULL);",
-    ], "implant_requirement", "ql, treatment, ability, ability_shiny, ability_bright, ability_faded, skill_shiny, skill_bright, skill_faded",
-        build_requirements(implants, config), separator=", ")
+        "jobe_treatment INTEGER NOT NULL, jobe_ability INTEGER NOT NULL);",
+    ], "implant_requirement", "ql, treatment, ability, jobe_treatment, jobe_ability",
+        build_requirements(implants, config.jobe_clusters), separator=", ")
 
     names: Dict[str, int] = {}
     for s in symbiants:

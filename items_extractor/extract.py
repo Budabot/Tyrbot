@@ -269,7 +269,7 @@ def main():
 
         # Generate implant and symbiant tables
         log.info("Generating implant SQL files...")
-        write_implant_sql(item_entries, extractor_cfg, implant_dir)
+        write_implant_sql(item_entries, text_mdb, extractor_cfg, implant_dir)
 
         # Generate perk tables
         log.info("Generating perks SQL file...")

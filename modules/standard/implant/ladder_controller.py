@@ -8,6 +8,8 @@ from core.dict_object import DictObject
 
 @instance()
 class LadderController:
+    TREATMENT_CLUSTER = "Treatment"
+
     def __init__(self):
         self.grades = ["shiny", "bright", "faded"]
 
@@ -15,6 +17,7 @@ class LadderController:
         self.db = registry.get_instance("db")
         self.util = registry.get_instance("util")
         self.text = registry.get_instance("text")
+        self.implant_controller = registry.get_instance("implant_controller")
 
     @command(command="ladder", params=[Const("treatment"), Int("starting_amount")], access_level="all",
              description="Show sequence of laddering implants for treatment",
@@ -24,10 +27,10 @@ class LadderController:
         if treatment < 11:
             return "Base treatment must be at least <highlight>11</highlight>."
 
-        prefix = "skill_"
-        result = self.optimized_steps(prefix, treatment, self.get_implant_by_max_treatment)
+        shiny_ql200 = self.implant_controller.get_cluster_shiny_ql200(self.TREATMENT_CLUSTER)
+        result = self.optimized_steps(shiny_ql200, treatment, self.get_implant_by_max_treatment)
 
-        blob = self.format_steps("treatment", result.steps, treatment, (treatment + self.calculate_total(result.slots, prefix)))
+        blob = self.format_steps("treatment", result.steps, treatment, (treatment + self.calculate_total(result.slots, shiny_ql200)))
 
         return ChatBlob("Laddering Treatment", blob)
 
@@ -39,10 +42,10 @@ class LadderController:
         if ability < 6:
             return "Base ability must be at least <highlight>6</highlight>."
 
-        prefix = "ability_"
-        result = self.optimized_steps(prefix, ability, self.get_implant_by_max_ability)
+        shiny_ql200 = self.implant_controller.get_cluster_shiny_ql200(self.implant_controller.ABILITY_CLUSTER)
+        result = self.optimized_steps(shiny_ql200, ability, self.get_implant_by_max_ability)
 
-        blob = self.format_steps("ability", result.steps, ability, (ability + self.calculate_total(result.slots, prefix)))
+        blob = self.format_steps("ability", result.steps, ability, (ability + self.calculate_total(result.slots, shiny_ql200)))
 
         return ChatBlob("Laddering Ability", blob)
 
@@ -58,7 +61,7 @@ class LadderController:
 
         return blob
 
-    def optimized_steps(self, prefix, base_value, get_max_implant):
+    def optimized_steps(self, shiny_ql200, base_value, get_max_implant):
         grade_combinations = [self.grades,
                               ["shiny", "faded", "bright"],
                               ["bright", "shiny", "faded"],
@@ -68,12 +71,12 @@ class LadderController:
 
         best = None
         for grade_combo in grade_combinations:
-            result = self.get_steps(prefix, base_value, get_max_implant, lambda current_grade: self.get_next_grade(current_grade, grade_combo))
+            result = self.get_steps(shiny_ql200, base_value, get_max_implant, lambda current_grade: self.get_next_grade(current_grade, grade_combo))
             if not best:
                 best = result
             else:
-                result_value = self.calculate_total(result.slots, prefix)
-                best_value = self.calculate_total(best.slots, prefix)
+                result_value = self.calculate_total(result.slots, shiny_ql200)
+                best_value = self.calculate_total(best.slots, shiny_ql200)
                 if result_value > best_value:
                     # this is here as a sanity check, but it appears that the result is always the same no matter which order you insert the implants
                     best = result
@@ -83,7 +86,7 @@ class LadderController:
 
         return best
 
-    def get_steps(self, prefix, base_value, get_max_implant, get_next_grade):
+    def get_steps(self, shiny_ql200, base_value, get_max_implant, get_next_grade):
         slots = DictObject({"shiny": None,
                             "bright": None,
                             "faded": None})
@@ -96,12 +99,12 @@ class LadderController:
             current_grade = get_next_grade(current_grade)
 
             # find next highest possible implant
-            new_implant = get_max_implant(self.calculate_total(slots, prefix, current_grade) + base_value)
+            new_implant = get_max_implant(self.calculate_total(slots, shiny_ql200, current_grade) + base_value)
 
             if not slots.get(current_grade):
                 steps.append(["add", current_grade, new_implant])
                 slots[current_grade] = new_implant
-            elif new_implant.get(prefix + current_grade) > slots.get(current_grade).get(prefix + current_grade):
+            elif self.get_bonus(shiny_ql200, new_implant, current_grade) > self.get_bonus(shiny_ql200, slots.get(current_grade), current_grade):
                 steps.append(["remove", current_grade, slots.get(current_grade)])
                 steps.append(["add", current_grade, new_implant])
                 slots[current_grade] = new_implant
@@ -142,12 +145,15 @@ class LadderController:
         else:
             return result
 
-    def calculate_total(self, slots, prefix, skip_grade=None):
+    def calculate_total(self, slots, shiny_ql200, skip_grade=None):
         value = 0
         for grade in self.grades:
             if grade != skip_grade:
                 implant = slots.get(grade)
                 if implant:
-                    value += implant.get(prefix + grade)
+                    value += self.get_bonus(shiny_ql200, implant, grade)
 
         return value
+
+    def get_bonus(self, shiny_ql200, implant, grade):
+        return self.implant_controller.cluster_bonus(shiny_ql200, implant.ql, grade)
